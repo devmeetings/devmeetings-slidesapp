@@ -1,6 +1,15 @@
 ---
 title: My First presentation
 slides:
+  - id: entry
+    name: Hello World
+    title: First slide!
+    text: 
+        >
+        <h2><span class="glyphicon glyphicon-heart"></span> Nothing interesting here.</h2>
+        <h3>But something should be!</h3>
+        <p>Hello small text!</p>
+
   - id: slide1
     name: Slide 1
     title: Slides are awesome

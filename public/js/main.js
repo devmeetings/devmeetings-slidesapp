@@ -36,7 +36,7 @@
         // fill out slides list
         var $menu = $('ul.nav').empty();
         presentation.slides.map(function(slide){
-            var $a = $('<a data-toggle="tooltip"/>');
+            var $a = $('<a data-toggle="tooltip" data-placement="bottom"/>');
 
             $a.attr('href', '#'+slide.id);
             $a.attr('title', slide.title);

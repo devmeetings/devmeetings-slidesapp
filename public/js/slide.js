@@ -6,6 +6,11 @@
 
     var output = document.querySelector('#output');
     var errors = document.querySelector('#errors');
+    
+    // When slide contains only text don't do nothing.
+    if (!output) {
+        return;
+    }
     var monitorVariable = output.getAttribute('data-monitor');
 
     var outputAce = ace.edit('output-ace');
