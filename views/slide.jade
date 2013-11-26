@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    
+
+    .container-fluid
+        .row
+            .col-lg-12
+                h1= title
+                #editor= code
+        .row
+            .col-lg-12
+                #errors.alert.alert-danger.errors
+        br
+        #output.row(data-monitor='#{monitor}')
+            .col-sm-6
+                #output-ace
+            .col-sm-6
+                #output-json
+prepend styles
+    link(href="css/inspector-json.css", rel="stylesheet")
+append scripts
+    script(src="js/inspector-json.js")
+    script(src="js/ace-builds/src-noconflict/ace.js")
+    script(src="js/slide.js")

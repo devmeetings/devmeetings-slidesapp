@@ -1,0 +1,46 @@
+iframe {
+    width: 100%;
+    height: 700px;
+    border: none;
+    background: none;
+}
+#output-ace, #editor, #output-json {
+    height: 200px;
+}
+#output-json {
+    overflow: auto;
+}
+.inspector-json, #output-ace, #editor {
+    font-size: 14px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+
+body.projector, 
+body.projector h6, 
+body.projector h5, 
+body.projector #output-ace, 
+body.projector #editor, 
+body.projector .inspector-json {
+    font-size: 22px;
+}
+body.projector h4 {
+    font-size: 1.333em;
+}
+body.projector h3 {
+    font-size: 1.777em;
+}
+body.projector h2 {
+    font-size: 2.369em;
+}
+body.projector h1 {
+    font-size: 3.157em;
+}
+
+#errors:empty {
+    display: none;
+}
+
+body > .container-fluid {
+    padding: 0 15px;
+}

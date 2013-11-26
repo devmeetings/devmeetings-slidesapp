@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  nav.navbar.navbar-default(role='navigation')
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href='#') devmeetings.slider
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-nav-floating
+          li
+            a(href='#slide1') Slide 1
+          li
+            a(href='#slide2') Slide 2
+          li.active
+            a(href='#') Slide 3
+          li
+            a(href='#') Slide 4
+          li
+            a(href='#') Slide 5
+          li
+            a(href='#') Slide 6
+    .container-fluid(role='main')
+      .row
+        .col-lg-10.col-lg-offset-1
+          iframe(src='slides-slide1.html')
+append scripts
+  script(src="js/main.js")
