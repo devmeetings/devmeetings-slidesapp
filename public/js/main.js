@@ -1,23 +1,73 @@
+
+
+// handling
 (function() {
-    var q = function(sel) {
-        return document.querySelector(sel);
+    var Slides = {
+        slides: null,
+        slidesOrder: null,
+
+        getCurrentSlide: function() {
+            var hash = window.location.hash;
+            return this.slides[hash.replace('#', '')];
+        },
+        goToSlide: function(slide) {
+            if (!slide) {
+                return
+            }
+            window.location.hash = '#';
+            window.location.hash = '#'+slide.id;
+        }
     };
-    var onClick = function(el, callback) {
-        return el.addEventListener('click', callback);
-    };
+
+    $.get('/slides/first.yaml').then(function(yaml) {
+        var presentation = jsyaml.load(yaml);
+        Slides.slides = {};
+        Slides.slidesOrder = {};
+        presentation.slides.map(function(slide, i){
+            //add to map by id
+            Slides.slides[slide.id] = slide;
+            slide.order = i;
+            Slides.slidesOrder[i] = slide;
+        });
+
+        // GUI
+        // fix title
+        $('title').text(presentation.title);
+        // fill out slides list
+        var $menu = $('ul.nav').empty();
+        presentation.slides.map(function(slide){
+            var $a = $('<a data-toggle="tooltip"/>');
+
+            $a.attr('href', '#'+slide.id);
+            $a.attr('title', slide.title);
+            $a.text(slide.name);
+
+            $menu.append($('<li />').append($a));
+        });
+        // go to first slide
+        Slides.goToSlide(presentation.slides[0]);
+    });
+
+
 
     var $body = $('body').addClass('loaded');
     var $iframe = $('iframe');
     
-
     window.addEventListener('hashchange', function() {
         var hash = window.location.hash;
         var $link = $('a[href='+hash+']');
         $link.parents('ul').find('li.active').removeClass('active');
         $link.parent().addClass('active');
 
-    	$iframe[0].src = hash.replace('#', 'slides-')+".html";
+        var slide = Slides.getCurrentSlide();
+    	$iframe[0].src = '/slide?slide='+encodeURIComponent(JSON.stringify(slide));
     });
+
+    var changeSlide = function(mod) {
+        var slide = Slides.getCurrentSlide();
+        var newSlide = Slides.slidesOrder[slide.order + mod];
+        Slides.goToSlide(newSlide);
+    };
 
     var changeIframeClass = function() {
         $iframe.contents().find('body').toggleClass('projector', $body.hasClass('projector'))
@@ -26,14 +76,17 @@
 
     // Controls handling
     (function() {
-        var next = q('.ctrl-next'), previous = q('.ctrl-previous');
-        var projector = q('.ctrl-proj');
-        var slowmo = q('.ctrl-slowmo');
 
-        onClick(projector, function() {
+        var next = $('.ctrl-next'), previous = $('.ctrl-prev');
+        var projector = $('.ctrl-proj');
+        var slowmo = $('.ctrl-slowmo');
+
+        projector.on('click', function() {
             $body.toggleClass('projector');
             changeIframeClass();
         });
+        next.on('click', changeSlide.bind(null, 1));
+        previous.on('click', changeSlide.bind(null, -1));
 
         window.addEventListener('message', function(ev) {
             slowmo.href = 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data);

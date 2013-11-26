@@ -11,22 +11,12 @@ block content
         a.navbar-brand(href='#') devmeetings.slider
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav.navbar-nav-floating
-          li
-            a(href='#slide1') Slide 1
-          li
-            a(href='#slide2') Slide 2
           li.active
-            a(href='#') Slide 3
-          li
-            a(href='#') Slide 4
-          li
-            a(href='#') Slide 5
-          li
-            a(href='#') Slide 6
+            a(href='#slide1') Empty
     .container-fluid(role='main')
       .row
         .col-lg-10.col-lg-offset-1
-          iframe(src='slides-slide1.html')
+          iframe(src='slide')
     .slide-controls
       a.btn.btn-success.slide-control.ctrl-slowmo(target="slowmo", data-toggle="tooltip", title="Show code in Slowmo.js")
         span.glyphicon.glyphicon-dashboard
@@ -39,4 +29,5 @@ block content
         span.glyphicon.glyphicon-arrow-right
 
 append scripts
+  script(src="js/js-yaml.min.js")
   script(src="js/main.js")
