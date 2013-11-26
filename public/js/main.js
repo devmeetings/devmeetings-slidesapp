@@ -11,8 +11,12 @@
     
 
     window.addEventListener('hashchange', function() {
-    	console.log("New hash", window.location.hash);
-    	$iframe[0].src = window.location.hash.replace('#', 'slides-')+".html";
+        var hash = window.location.hash;
+        var $link = $('a[href='+hash+']');
+        $link.parents('ul').find('li.active').removeClass('active');
+        $link.parent().addClass('active');
+
+    	$iframe[0].src = hash.replace('#', 'slides-')+".html";
     });
 
     var changeIframeClass = function() {
