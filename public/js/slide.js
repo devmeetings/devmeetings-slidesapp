@@ -1,4 +1,9 @@
 (function(){
+
+    setTimeout(function(){
+        $(document.body).addClass('loaded');
+    }, 200);
+
     var output = document.querySelector('#output');
     var errors = document.querySelector('#errors');
     var monitorVariable = output.getAttribute('data-monitor');
@@ -22,6 +27,9 @@
 
     var runContent = function() {
         var value = editor.getValue();
+        if (window.parent) {
+            window.parent.postMessage(value, window.location);
+        }
         if (monitorVariable) {
             value += ";return "+monitorVariable+";";
         }
@@ -39,6 +47,5 @@
     };
 
     editor.on('change', _.debounce(runContent, 700));
-
     runContent();
 }());
