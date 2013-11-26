@@ -60,16 +60,16 @@ body.projector .inspector-json {
     font-size: 22px;
 }
 body.projector h4 {
-    font-size: 1.333em;
+    font-size: 1.25em;
 }
 body.projector h3 {
-    font-size: 1.777em;
+    font-size: 1.563em;
 }
 body.projector h2 {
-    font-size: 2.369em;
+    font-size: 1.953em;
 }
 body.projector h1 {
-    font-size: 3.157em;
+    font-size: 2.441em;
 }
 
 #errors:empty {

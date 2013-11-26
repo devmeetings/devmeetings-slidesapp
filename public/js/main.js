@@ -89,7 +89,7 @@
         previous.on('click', changeSlide.bind(null, -1));
 
         window.addEventListener('message', function(ev) {
-            slowmo.href = 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data);
+            slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data));
         });
     }());
 
