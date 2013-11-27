@@ -19,7 +19,7 @@
         }
     };
 
-    $.get('/slides/first.yaml').then(function(yaml) {
+    $.get('/slides/'+window.presentation+'.yaml').then(function(yaml) {
         var presentation = jsyaml.load(yaml);
         Slides.slides = {};
         Slides.slidesOrder = {};

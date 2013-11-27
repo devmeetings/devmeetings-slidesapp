@@ -1,34 +1,33 @@
 extends layout
 
 block content
-  nav.navbar.navbar-default(role='navigation')
-      .navbar-header
-        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-          span.sr-only Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        a.navbar-brand.text-muted(href='#')
-          span.glyphicon.glyphicon-th-large
-      #bs-example-navbar-collapse-1.collapse.navbar-collapse
-        ul.nav.navbar-nav.navbar-nav-floating
-          li.active
-            a(href='#slide1') Empty
     .container-fluid(role='main')
       .row
         .col-lg-10.col-lg-offset-1
-          iframe(src='slide')
-    .slide-controls
-      a.btn.btn-success.slide-control.ctrl-slowmo(target="slowmo", data-toggle="tooltip", title="Show code in Slowmo.js")
-        span.glyphicon.glyphicon-dashboard
-      button.btn.btn-danger.slide-control.ctrl-proj(data-toggle="tooltip", title="Toggle projector mode")
-        span.glyphicon.glyphicon-bullhorn
-      br
-      button.btn.btn-info.slide-control.ctrl-prev(data-toggle="tooltip", title="Previous")
-        span.glyphicon.glyphicon-arrow-left
-      button.btn.btn-info.slide-control.ctrl-next(data-toggle="tooltip", title="Next")
-        span.glyphicon.glyphicon-arrow-right
+          .jumbotron
+            h1 
+              span.glyphicon.glyphicon-th-large
+              |  Welcome to Slider!
+            p Please upload your slides or use one of the existsing ones.
+          .row
+            .col-lg-6
+              .panel.panel-default
+                .panel-heading
+                  h3 Slides
+                .panel-body
+                  ul
+                    - each slideset in slidesets
+                      li: a(href="/#{slideset.name}") #{slideset.title} (slides: #{slideset.count})
 
-append scripts
-  script(src="js/js-yaml.min.js")
-  script(src="js/main.js")
+            .col-lg-6
+              .panel.panel-default
+                .panel-heading
+                  h3 Upload new slides
+                .panel-body
+                  form(role="form", method="post", enctype="multipart/form-data", action="/")
+                    .form-group
+                      input.form-control(type="text", name="name", placeholder="Slides short name")
+                    .form-group
+                      input.form-control(type="file", name="yaml", placeholder="Yaml file")
+
+                    button.btn.btn-primary.pull-right(type="submit") Upload slides

@@ -21,6 +21,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+app.use(express.bodyParser());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -30,7 +31,9 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.post('/', routes.uploadSlides);
 app.get('/slide', routes.slide);
+app.get('/:file', routes.slider);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
