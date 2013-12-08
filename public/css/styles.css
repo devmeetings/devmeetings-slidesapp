@@ -10,8 +10,9 @@ body.loaded #output-ace, body.loaded #editor, body.loaded #output-json {
     transition: font-size .5s;
 }
 
-#output-ace, #editor, #output-json {
+.editor {
     height: 200px;
+    background-color: #272822;
 }
 #output-json {
     overflow: auto;

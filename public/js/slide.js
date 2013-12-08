@@ -57,3 +57,8 @@
     editor.on('change', _.debounce(runContent, 700));
     runContent();
 }());
+$(function(){
+    setTimeout(function(){
+        $('.main-content').addClass('in');
+    }, 200);
+});

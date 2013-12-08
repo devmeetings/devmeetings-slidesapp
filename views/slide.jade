@@ -3,13 +3,13 @@ extends layout
 block content
     
 
-    .container-fluid
+    .main-content.fade.container-fluid
         .row
             .col-lg-12
                 h1= title
                 div!= text
                 if code
-                    #editor= code
+                    #editor.editor= code
         .row
             .col-lg-12
                 #errors.alert.alert-danger.errors
@@ -17,7 +17,7 @@ block content
         if code
             #output.row(data-monitor='#{monitor}')
                 .col-sm-6
-                    #output-ace
+                    #output-ace.editor
                 .col-sm-6
                     #output-json
 prepend styles
