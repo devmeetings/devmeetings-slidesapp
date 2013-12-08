@@ -83,3 +83,6 @@ exports.slide = function(req, res) {
         res.render('slide-empty');
     }
 };
+exports.trainer = function(req, res) {
+    res.render('trainers');
+};

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    h3 Notes
+    #editor
+    h3 Next slide
+    iframe(src='slide')
+
+append scripts
+  script(src="js/ace-builds/src-noconflict/ace.js")
+  script(src="js/trainer.js")

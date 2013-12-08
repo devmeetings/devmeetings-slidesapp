@@ -1,11 +1,19 @@
-
+'use strict';
 
 // handling
 (function() {
     var Slides = {
         slides: null,
         slidesOrder: null,
+        trainersWindow: null,
 
+        openTrainersWindow: function() {
+            this.trainersWindow = window.open('/trainer', 'trainersWindow', 'status=0,toolbar=0,location=0,menubar=0');
+            // trigger event for popup
+            setTimeout(function() {
+                this.slideChanged(this.getCurrentSlide());
+            }.bind(this), 2000);
+        },
         getCurrentSlide: function() {
             var hash = window.location.hash;
             return this.slides[hash.replace('#', '')];
@@ -16,6 +24,17 @@
             }
             window.location.hash = '#';
             window.location.hash = '#'+slide.id;
+        },
+        slideChanged: function(slide) {
+            var notes = slide.notes;
+            var nextSlide = this.slidesOrder[slide.order + 1];
+            if (this.trainersWindow) {
+                this.trainersWindow.postMessage({
+                    type: 'slideupdate',
+                    notes: notes,
+                    slide: nextSlide
+                }, window.location);
+            }
         }
     };
 
@@ -34,7 +53,7 @@
         // fix title
         $('title').text(presentation.title);
         // fill out slides list
-        var $menu = $('ul.nav').empty();
+        var $menu = $('ul.nav.nav-slides').empty();
         presentation.slides.map(function(slide){
             var $a = $('<a data-toggle="tooltip" data-placement="bottom"/>');
 
@@ -43,6 +62,25 @@
             $a.text(slide.name);
 
             $menu.append($('<li />').append($a));
+        });
+
+        var $confirmDialog = $('.trainers-mode-confirm');
+        var $input = $('.trainers-mode-password');
+        $('.trainers-mode').on('click', function(ev) { 
+            ev.preventDefault();
+            $confirmDialog.on('shown.bs.modal', function(){
+                $input.focus();
+            }).modal();
+        });
+        $confirmDialog.on('click', '.btn-primary', function(){
+            var pass = $input.val();
+            if (pass === presentation.trainersSecret) {
+                $confirmDialog.modal('hide');
+                // Activate trainers window
+                Slides.openTrainersWindow();
+            } else {
+                $input.parent('.form-group').addClass('has-error');
+            }
         });
         // go to first slide
         Slides.goToSlide(presentation.slides[0]);
@@ -61,6 +99,7 @@
 
         var slide = Slides.getCurrentSlide();
     	$iframe[0].src = '/slide?slide='+encodeURIComponent(JSON.stringify(slide));
+        Slides.slideChanged(slide);
     });
 
     var changeSlide = function(mod) {
@@ -89,7 +128,9 @@
         previous.on('click', changeSlide.bind(null, -1));
 
         window.addEventListener('message', function(ev) {
-            slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data));
+            if (ev.data.type === 'codeupdate') {
+                slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data.code));
+            }
         });
     }());
 

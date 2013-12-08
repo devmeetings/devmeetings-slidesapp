@@ -1,9 +1,13 @@
 ---
 title: My First presentation
+trainersSecret: 123asd
 slides:
   - id: entry
     name: Hello World
     title: First slide!
+    notes:
+        >
+        // These are some notes for fist slide. Just goan with standard 'Hello' for guys.
     text: 
         >
         <h2><span class="glyphicon glyphicon-heart"></span> Nothing interesting here.</h2>
@@ -13,6 +17,10 @@ slides:
   - id: slide1
     name: Slide 1
     title: Slides are awesome
+    notes:
+        >
+        On this slide we show basic code execution with monitoring.
+        If you change the code the output will change accordingly.
     monitor: x
     code:
        >
@@ -27,6 +35,16 @@ slides:
   - id: slide2
     name: Second slide
     title: Second slide is also awesome
+    notes:
+       >
+       On this slide we show capabilities of our JSON inspector. Just dig inside array.
+
+       Some another snippet
+       var y = function() {
+         var x = "123" + 4;
+         return ~x;
+       };
+       console.log(y());
     monitor: array
     code:
        >
@@ -34,6 +52,9 @@ slides:
   - id: slide3
     name: Ending
     title: This is the end...
+    notes:
+        >
+        "Say goodbye nicely";
     monitor: end
     code:
        >

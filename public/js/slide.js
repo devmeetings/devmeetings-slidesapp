@@ -33,7 +33,10 @@
     var runContent = function() {
         var value = editor.getValue();
         if (window.parent) {
-            window.parent.postMessage(value, window.location);
+            window.parent.postMessage({
+                type: 'codeupdate', 
+                code: value
+            }, window.location);
         }
         if (monitorVariable) {
             value += ";return "+monitorVariable+";";
