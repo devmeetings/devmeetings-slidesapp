@@ -13,6 +13,10 @@
             setTimeout(function() {
                 this.slideChanged(this.getCurrentSlide());
             }.bind(this), 2000);
+
+            window.onbeforeunload = function(){
+                this.trainersWindow.close();
+            }.bind(this);
         },
         getCurrentSlide: function() {
             var hash = window.location.hash;
