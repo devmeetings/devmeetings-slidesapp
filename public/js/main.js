@@ -106,10 +106,13 @@
         Slides.slideChanged(slide);
     });
 
-    var changeSlide = function(mod) {
+    var changeSlide = function(mod, ev) {
         var slide = Slides.getCurrentSlide();
         var newSlide = Slides.slidesOrder[slide.order + mod];
         Slides.goToSlide(newSlide);
+        if (ev) {
+            ev.preventDefault();
+        }
     };
 
     var changeIframeClass = function() {
@@ -128,8 +131,21 @@
             $body.toggleClass('projector');
             changeIframeClass();
         });
-        next.on('click', changeSlide.bind(null, 1));
-        previous.on('click', changeSlide.bind(null, -1));
+        var nextSlide = changeSlide.bind(null, 1);
+        var prevSlide = changeSlide.bind(null, -1);
+        next.on('click', nextSlide);
+        previous.on('click', prevSlide);
+
+        var $doc = $(document);
+        $doc.bind('keyup', 'right', nextSlide);
+        $doc.bind('keyup', 'space', nextSlide);
+        $doc.bind('keyup', 'down', nextSlide);
+        $doc.bind('keyup', 'pagedown', nextSlide);
+
+        $doc.bind('keyup', 'up', prevSlide);
+        $doc.bind('keyup', 'pageup', prevSlide);
+        $doc.bind('keyup', 'left', prevSlide);
+
 
         window.addEventListener('message', function(ev) {
             if (ev.data.type === 'codeupdate') {
