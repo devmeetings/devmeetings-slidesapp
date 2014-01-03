@@ -86,8 +86,14 @@
                 $input.parent('.form-group').addClass('has-error');
             }
         });
-        // go to first slide
-        Slides.goToSlide(presentation.slides[0]);
+        // detect if it is refresh
+        var slide = Slides.getCurrentSlide();
+        if (slide === undefined) {
+            // go to first slide
+            Slides.goToSlide(presentation.slides[0]);
+        } else {
+            Slides.goToSlide(slide);
+        }
     });
 
 
