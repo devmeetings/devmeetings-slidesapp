@@ -75,6 +75,13 @@ exports.slider = function(req, res) {
   });
 };
 
+var ensureArray = function(obj) {
+    if (typeof obj !== 'object') {
+        return [obj];
+    }
+    return obj;
+};
+
 var normalizeSlide = function(slide) {
     if (slide.code) {
         if (!slide.code.language) {
@@ -84,6 +91,13 @@ var normalizeSlide = function(slide) {
             };
         }
         slide.code.content = slide.code.content.trim();
+    }
+
+    if (slide.task) {
+        var task = slide.task;
+
+        task.objectives = ensureArray(task.objectives);
+        task.extras = ensureArray(task.extras);
     }
 };
 

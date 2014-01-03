@@ -49,6 +49,18 @@ slides:
     code:
        >
        var array = [1, 2, 3, [4, 5]];
+
+  - id: task
+    name: Task
+    title: This is task!
+    text: something
+    task:
+      duration: 45
+      objectives: Display an array of todos using DOM
+      extras:
+            - Use Bootstrap <code>.list-group</code> component.
+            - Don't use <code>.innerHTML</code>, <code>.textContent</code>, etc.
+
   - id: slide3
     name: Ending
     title: This is the end...

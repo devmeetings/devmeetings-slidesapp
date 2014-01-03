@@ -74,6 +74,74 @@
         runContent();
     }
 }());
+// Task support
+(function(){
+    var $timeLeft = document.querySelector('.task-time-left');
+    var $startTime = document.querySelector('.task-start-time');
+    var $endTime = document.querySelector('.task-end-time');
+    var $button = document.querySelector('.task-start-btn');
+
+    if (!$timeLeft) {
+        return;
+    }
+
+    var date = function(v) {
+        if (v) {
+            return new Date(v).getTime();
+        }
+        return new Date().getTime();
+    };
+    var toTime = function(date) {
+        var t = new Date(date);
+        return t.getHours() + ":" + t.getMinutes();
+    };
+    var toInt = function(t) {
+        return parseInt(t, 10);
+    };
+
+    var taskDuration = toInt($timeLeft.getAttribute('data-duration'));
+
+    var state = {
+        isRunning: false,
+        startTime: 0,
+        endTime: 0,
+        timeLeft: 0,
+
+        update: function updateState() {
+            //update state
+            if (!this.isRunning) {
+                this.startTime = date();
+            }
+            this.endTime = date(this.startTime + taskDuration * 60 * 1000);
+            this.timeLeft = this.endTime - date();
+
+            //display gui
+            setTimeout(updateState.bind(this), 5000);
+        }
+    };
+    state.update();
+
+    // GUI
+    var displayState = function displayState() {
+
+        $timeLeft.innerHTML = toInt(state.timeLeft / 60 / 1000)
+
+        $startTime.innerHTML = toTime(state.startTime);
+        $endTime.innerHTML = toTime(state.endTime);
+
+        var $icon = $($button.querySelector('span'));
+        $icon.toggleClass('glyphicon-play', !state.isRunning);
+        $icon.toggleClass('glyphicon-stop', state.isRunning);
+
+        setTimeout(displayState, 10000);
+    };
+    displayState();
+
+    $button.addEventListener('click', function(){
+        state.isRunning = !state.isRunning;
+        displayState();
+    });
+}());
 $(function(){
     setTimeout(function(){
         $('.main-content').addClass('in');
