@@ -7,6 +7,10 @@
         html: {
             editor: 'html',
             run: false
+        },
+        default: {
+            editor: 'plain_text',
+            run:false
         }
     };
 
@@ -25,7 +29,7 @@
 
     var codeLanguage = document.querySelector('#editor').getAttribute('data-language');
 
-    var mode = MODES[codeLanguage];
+    var mode = MODES[codeLanguage] || MODES.default;
 
     var monitorVariable = output.getAttribute('data-monitor');
     var outputAce = ace.edit('output-ace');
@@ -72,6 +76,9 @@
     if (mode.run) {
         editor.on('change', _.debounce(runContent, 700));
         runContent();
+    } else {
+        //hide output
+        output.className = 'hidden';
     }
 }());
 // Task support
