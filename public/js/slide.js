@@ -1,4 +1,15 @@
-(function(){
+(function() {
+    var MODES = {
+        javascript: {
+            editor: 'javascript',
+            run: true
+        },
+        html: {
+            editor: 'html',
+            run: false
+        }
+    };
+
 
     setTimeout(function(){
         $(document.body).addClass('loaded');
@@ -11,8 +22,12 @@
     if (!output) {
         return;
     }
-    var monitorVariable = output.getAttribute('data-monitor');
 
+    var codeLanguage = document.querySelector('#editor').getAttribute('data-language');
+
+    var mode = MODES[codeLanguage];
+
+    var monitorVariable = output.getAttribute('data-monitor');
     var outputAce = ace.edit('output-ace');
     outputAce.setTheme("ace/theme/twilight");
     outputAce.getSession().setMode("ace/mode/json");
@@ -28,7 +43,7 @@
 
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
+    editor.getSession().setMode("ace/mode/" + mode.editor);
 
     var runContent = function() {
         var value = editor.getValue();
@@ -54,8 +69,10 @@
         }
     };
 
-    editor.on('change', _.debounce(runContent, 700));
-    runContent();
+    if (mode.run) {
+        editor.on('change', _.debounce(runContent, 700));
+        runContent();
+    }
 }());
 $(function(){
     setTimeout(function(){

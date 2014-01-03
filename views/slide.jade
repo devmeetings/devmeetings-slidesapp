@@ -9,7 +9,9 @@ block content
                 h1= title
                 div!= text
                 if code
-                    #editor.editor= code
+                    #editor.editor(
+                        data-language='#{code.language}'
+                        )= code.content
         .row
             .col-lg-12
                 #errors.alert.alert-danger.errors

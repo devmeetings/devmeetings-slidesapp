@@ -63,7 +63,7 @@ exports.uploadSlides = function(req, res) {
 
 exports.slider = function(req, res) {
   var name = req.params.file;
-  fs.exists(slidesDir+name+'.yaml', function(exists){
+  fs.exists(slidesDir + name + '.yaml', function(exists){
     if (exists) {  
       res.render('slider', {
         title: 'Slider',
@@ -75,9 +75,22 @@ exports.slider = function(req, res) {
   });
 };
 
+var normalizeSlide = function(slide) {
+    if (slide.code) {
+        if (!slide.code.language) {
+            slide.code = {
+                language: 'javascript',
+                content: slide.code
+            };
+        }
+        slide.code.content = slide.code.content.trim();
+    }
+};
+
 exports.slide = function(req, res) {
     try {
         var slide = JSON.parse(req.query.slide);
+        normalizeSlide(slide);
         res.render('slide', slide);
     } catch(e) {
         res.render('slide-empty');
