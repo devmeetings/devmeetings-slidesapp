@@ -99,8 +99,11 @@
         return new Date().getTime();
     };
     var toTime = function(date) {
+        var pad = function(val) {
+            return (val < 10) ? "0" + val : val;
+        };
         var t = new Date(date);
-        return t.getHours() + ":" + t.getMinutes();
+        return pad(t.getHours()) + ":" + pad(t.getMinutes());
     };
     var toInt = function(t) {
         return parseInt(t, 10);

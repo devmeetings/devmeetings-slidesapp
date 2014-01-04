@@ -30,13 +30,12 @@
             window.location.hash = '#'+slide.id;
         },
         slideChanged: function(slide) {
-            var notes = slide.notes;
             var nextSlide = this.slidesOrder[slide.order + 1];
             if (this.trainersWindow) {
                 this.trainersWindow.postMessage({
                     type: 'slideupdate',
-                    notes: notes,
-                    slide: nextSlide
+                    currentSlide: slide,
+                    nextSlide: nextSlide
                 }, window.location);
             }
         }
@@ -100,6 +99,10 @@
 
     var $body = $('body').addClass('loaded');
     var $iframe = $('iframe');
+
+    var displaySlide = function(slide) {
+        $iframe[0].src = '/slide?slide='+encodeURIComponent(JSON.stringify(slide));
+    };
     
     window.addEventListener('hashchange', function() {
         var hash = window.location.hash;
@@ -108,7 +111,7 @@
         $link.parent().addClass('active');
 
         var slide = Slides.getCurrentSlide();
-    	$iframe[0].src = '/slide?slide='+encodeURIComponent(JSON.stringify(slide));
+    	displaySlide(slide);
         Slides.slideChanged(slide);
     });
 
@@ -156,6 +159,9 @@
         window.addEventListener('message', function(ev) {
             if (ev.data.type === 'codeupdate') {
                 slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data.code));
+            }
+            if (ev.data.type === 'tasksolution') {
+                displaySlide(ev.data.solution);
             }
         });
     }());
