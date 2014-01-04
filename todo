@@ -1,11 +1,9 @@
-Slidesapp
-1. Wykonywanie kodu.
-2. Monitorowanie outputu.
-3. SlowMo.js
+ ☐ Grouping of slides with same name (with dropdown)
+ ☐ Better display of slides list (Should always be in a single row)
+ ☐ Controlling height of editor (for instance when output is hidden it should be bigger)
+ ☐ Notifications for task end (Desktop, Audio)
 
-App
-1. Todo
 
-Slide
-1. --
-
+ ☐ HTML code output as IFrame
+ ☐ Better integration with Slowmo.js
+ ☐ Better output (without JSON conversion)
