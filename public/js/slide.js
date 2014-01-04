@@ -76,7 +76,8 @@
     if (mode.run) {
         editor.on('change', _.debounce(runContent, 700));
         runContent();
-    } else {
+    }
+    if (!mode.run || output.getAttribute('data-hide') === 'true') {
         //hide output
         output.className = 'hidden';
     }
