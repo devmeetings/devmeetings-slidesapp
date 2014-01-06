@@ -11,7 +11,7 @@ body.loaded #output-ace, body.loaded #editor, body.loaded #output-json {
 }
 
 .editor {
-    height: 200px;
+    height: 250px;
     background-color: #272822;
 }
 #output-json {

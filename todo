@@ -2,6 +2,7 @@
  ☐ Better display of slides list (Should always be in a single row)
  ☐ Controlling height of editor (for instance when output is hidden it should be bigger)
  ☐ Notifications for task end (Desktop, Audio)
+ ☐ Monitoring of console.log
 
 
  ☐ HTML code output as IFrame
