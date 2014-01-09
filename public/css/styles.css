@@ -10,9 +10,15 @@ body.loaded #output-ace, body.loaded #editor, body.loaded #output-json {
     transition: font-size .5s;
 }
 
+#fiddle-output {
+    height: 500px;
+}
 .editor {
-    height: 250px;
+    height: 270px;
     background-color: #272822;
+}
+#output, #output .editor {
+    height: 150px;
 }
 #output-json {
     overflow: auto;
@@ -92,4 +98,15 @@ body > .container-fluid {
 }
 .navbar .slimScrollDiv > ul {
     width: 100% !important;
+}
+
+.nav-fiddle {
+    opacity: 0.4;
+    transition: opacity 1s;
+}
+.nav-fiddle:hover {
+    opacity: 1.0;
+}
+.nav-fiddle.nav-tabs > li.active > a, .nav-fiddle.nav-tabs > li.active > a:hover, .nav-fiddle.nav-tabs > li.active > a:focus {
+    background-color: #272822;
 }

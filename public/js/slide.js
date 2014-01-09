@@ -1,3 +1,59 @@
+// Create fiddle editors
+(function() {
+    var aceStd = function(selector, mode) {
+        var editor = ace.edit(selector);
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode('ace/mode/' + mode);
+        return editor;
+    };
+
+    var iframe = document.querySelector('#fiddle-output');
+
+    var host = window.location.origin;
+
+    var commonCss = [
+        '<link href="' + host + '/css/bootstrap-cyborg.css" rel="stylesheet">',
+        '<link href="' + host + '/css/styles.css" rel="stylesheet">'
+    ].join("\n");
+    var commonJs = [
+        '<script src="https://code.jquery.com/jquery.js"></script>',
+        '<script src="' + host + '/js/underscore-1.5.2.js"></script>',
+        '<script src="' + host + '/js/bootstrap.min.js"></script>',
+    ].join("\n");
+
+    if (!iframe) {
+        return;
+    }
+
+    var jsEditor = aceStd('editor-js', 'javascript');
+    var cssEditor = aceStd('editor-css', 'css');
+    var htmlEditor = aceStd('editor-html', 'html');
+
+    var updateOutput = function() {
+        var jsCode = commonJs + "<script>" + jsEditor.getValue() + "</script>";
+        var cssCode = commonCss + "<style>" + cssEditor.getValue() + "</style>";
+        var htmlCode = htmlEditor.getValue();
+
+        if (htmlCode.search("</body>")) {
+            htmlCode = htmlCode.replace("</body>", jsCode + "</body>");
+        } else {
+            htmlCode += jsCode;
+        }
+        if (htmlCode.search("</head>")) {
+            htmlCode = htmlCode.replace("</head>", cssCode + "</head>");
+        } else {
+            htmlCode = cssCode + htmlCode;
+        }
+        iframe.src = "data:text/html;charset=utf-8," + htmlCode;
+
+    };
+    var updateOutputLater = _.debounce(updateOutput, 700);
+    jsEditor.on('change', updateOutputLater);
+    cssEditor.on('change', updateOutputLater);
+    htmlEditor.on('change', updateOutputLater);
+    updateOutputLater();
+}());
+
 (function() {
     var MODES = {
         javascript: {
@@ -10,18 +66,18 @@
         },
         default: {
             editor: 'plain_text',
-            run:false
+            run: false
         }
     };
 
 
-    setTimeout(function(){
+    setTimeout(function() {
         $(document.body).addClass('loaded');
     }, 200);
 
     var output = document.querySelector('#output');
     var errors = document.querySelector('#errors');
-    
+
     // When slide contains only text don't do nothing.
     if (!output) {
         return;
@@ -29,7 +85,7 @@
 
     var codeLanguage = document.querySelector('#editor').getAttribute('data-language');
 
-    var mode = MODES[codeLanguage] || MODES.default;
+    var mode = MODES[codeLanguage] || MODES['default'];
 
     var monitorVariable = output.getAttribute('data-monitor');
     var outputAce = ace.edit('output-ace');
@@ -53,15 +109,15 @@
         var value = editor.getValue();
         if (window.parent) {
             window.parent.postMessage({
-                type: 'codeupdate', 
+                type: 'codeupdate',
                 code: value
             }, window.location);
         }
         if (monitorVariable) {
-            value += ";return "+monitorVariable+";";
+            value += ";return " + monitorVariable + ";";
         }
         try {
-            var result = eval("(function(){" +value +"}())");
+            var result = eval("(function(){" + value + "}())");
             var json = JSON.stringify(result, null, 2);
             outputAce.setValue(json);
             outputAce.clearSelection();
@@ -83,7 +139,7 @@
     }
 }());
 // Task support
-(function(){
+(function() {
     var $timeLeft = document.querySelector('.task-time-left');
     var $startTime = document.querySelector('.task-start-time');
     var $endTime = document.querySelector('.task-end-time');
@@ -148,13 +204,13 @@
     };
     displayState();
 
-    $button.addEventListener('click', function(){
+    $button.addEventListener('click', function() {
         state.isRunning = !state.isRunning;
         displayState();
     });
 }());
-$(function(){
-    setTimeout(function(){
+$(function() {
+    setTimeout(function() {
         $('.main-content').addClass('in');
     }, 200);
 });

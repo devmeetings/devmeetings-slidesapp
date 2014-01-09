@@ -31,6 +31,25 @@ slides:
        var x = {
          name: foo("something")
        };
+  - id: slide-html
+    name: HTML
+    title: Slide with HTML and CSS
+    fiddle:
+      active: css
+      js: |
+        var x = 5;
+      css: |
+        div {
+          display: block;
+        }
+      html: |
+        <html>
+          <head></head>
+          <body>
+          <h1>Sooo awesome</h1>
+          </body>
+        </html>
+
 
   - id: slide2
     name: Second slide

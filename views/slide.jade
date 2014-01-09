@@ -22,6 +22,30 @@ block content
           #output-ace.editor
         .col-sm-6
           #output-json
+    if fiddle
+      ul.nav.nav-tabs.nav-fiddle
+        if fiddle.js
+          li(class="#{fiddle.active === 'js' ? 'active' : ''}")
+            a(data-toggle='tab', data-target="#tab-js") js
+        if fiddle.css
+          li(class="#{fiddle.active === 'css' ? 'active' : ''}")
+            a(data-toggle='tab', data-target="#tab-css") css
+        if fiddle.html
+          li(class="#{fiddle.active === 'html' ? 'active' : ''}")
+            a(data-toggle='tab', data-target="#tab-html") html
+        li
+            a(data-toggle='tab', data-target="#tab-output")
+              span.glyphicon.glyphicon-eye-open
+      .tab-content
+        #tab-js.tab-pane.fade(class="#{fiddle.active === 'js' ? 'active in' : ''}") 
+          #editor-js.editor!= fiddle.js
+        #tab-css.tab-pane.fade(class="#{fiddle.active === 'css' ? 'active in' : ''}")
+          #editor-css.editor!= fiddle.css
+        #tab-html.tab-pane.fade(class="#{fiddle.active === 'html' ? 'active in' : ''}")
+          #editor-html.editor= fiddle.html
+        #tab-output.tab-pane.fade #{fiddle.output}
+          iframe#fiddle-output
+
     if task
       .row
         .col-md-9
