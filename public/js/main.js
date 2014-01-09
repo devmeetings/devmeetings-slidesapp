@@ -14,7 +14,7 @@
                 this.slideChanged(this.getCurrentSlide());
             }.bind(this), 2000);
 
-            window.onbeforeunload = function(){
+            window.onbeforeunload = function() {
                 this.trainersWindow.close();
             }.bind(this);
         },
@@ -27,7 +27,7 @@
                 return
             }
             window.location.hash = '#';
-            window.location.hash = '#'+slide.id;
+            window.location.hash = '#' + slide.id;
         },
         slideChanged: function(slide) {
             var nextSlide = this.slidesOrder[slide.order + 1];
@@ -41,11 +41,11 @@
         }
     };
 
-    $.get('/slides/'+window.presentation+'.yaml').then(function(yaml) {
+    $.get('/slides/' + window.presentation + '.yaml').then(function(yaml) {
         var presentation = jsyaml.load(yaml);
         Slides.slides = {};
         Slides.slidesOrder = {};
-        presentation.slides.map(function(slide, i){
+        presentation.slides.map(function(slide, i) {
             //add to map by id
             Slides.slides[slide.id] = slide;
             slide.order = i;
@@ -57,25 +57,38 @@
         $('title').text(presentation.title);
         // fill out slides list
         var $menu = $('ul.nav.nav-slides').empty();
-        presentation.slides.map(function(slide){
+        presentation.slides.map(function(slide, idx) {
             var $a = $('<a data-toggle="tooltip" data-placement="bottom"/>');
 
-            $a.attr('href', '#'+slide.id);
+            $a.attr('href', '#' + slide.id);
             $a.attr('title', slide.title);
-            $a.text(slide.name);
+            $a.text((idx + 1) + ". " + slide.name);
 
             $menu.append($('<li />').append($a));
         });
 
+        $menu.css({
+            'white-space': 'nowrap'
+        }).slimScrollHorizontal({
+            color: '#fff',
+            height: '60px',
+            width: 'calc(100% - 70px)',
+            alwaysVisible: false,
+            start: 'left',
+            position: 'top',
+            wheelStep: 10,
+            size: '3px'
+        });
+
         var $confirmDialog = $('.trainers-mode-confirm');
         var $input = $('.trainers-mode-password');
-        $('.trainers-mode').on('click', function(ev) { 
+        $('.trainers-mode').on('click', function(ev) {
             ev.preventDefault();
-            $confirmDialog.on('shown.bs.modal', function(){
+            $confirmDialog.on('shown.bs.modal', function() {
                 $input.focus();
             }).modal();
         });
-        $confirmDialog.on('click', '.btn-primary', function(){
+        $confirmDialog.on('click', '.btn-primary', function() {
             var pass = $input.val();
             if (pass === presentation.trainersSecret) {
                 $confirmDialog.modal('hide');
@@ -101,17 +114,21 @@
     var $iframe = $('iframe');
 
     var displaySlide = function(slide) {
-        $iframe[0].src = '/slide?slide='+encodeURIComponent(JSON.stringify(slide));
+        $iframe[0].src = '/slide?slide=' + encodeURIComponent(JSON.stringify(slide));
     };
-    
+
     window.addEventListener('hashchange', function() {
         var hash = window.location.hash;
-        var $link = $('a[href='+hash+']');
+        var $link = $('a[href=' + hash + ']');
         $link.parents('ul').find('li.active').removeClass('active');
         $link.parent().addClass('active');
+        var $menu = $('ul.nav.nav-slides');
+        $menu.slimScrollHorizontal({
+            scroll: $link.offset().left - $link.width() * 3
+        });
 
         var slide = Slides.getCurrentSlide();
-    	displaySlide(slide);
+        displaySlide(slide);
         Slides.slideChanged(slide);
     });
 
@@ -132,7 +149,8 @@
     // Controls handling
     (function() {
 
-        var next = $('.ctrl-next'), previous = $('.ctrl-prev');
+        var next = $('.ctrl-next'),
+            previous = $('.ctrl-prev');
         var projector = $('.ctrl-proj');
         var slowmo = $('.ctrl-slowmo');
 
@@ -158,7 +176,7 @@
 
         window.addEventListener('message', function(ev) {
             if (ev.data.type === 'codeupdate') {
-                slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code='+encodeURIComponent(ev.data.code));
+                slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code=' + encodeURIComponent(ev.data.code));
             }
             if (ev.data.type === 'tasksolution') {
                 displaySlide(ev.data.solution);

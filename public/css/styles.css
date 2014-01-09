@@ -80,3 +80,16 @@ body.projector h1 {
 body > .container-fluid {
     padding: 0 15px;
 }
+
+.nav-slides > li {
+    float: none;
+    white-space: nowrap;
+    margin: 0;
+    display: inline-block;
+}
+.navbar .slimScrollDiv {
+    float: left;
+}
+.navbar .slimScrollDiv > ul {
+    width: 100% !important;
+}

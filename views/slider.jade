@@ -11,7 +11,7 @@ block content
       a.navbar-brand.text-muted(href='/')
         span.glyphicon.glyphicon-th-large
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-nav-floating.nav-slides
+      ul.nav.navbar-nav.nav-slides
         li.active
           a(href='#slide1') Empty
       ul.nav.navbar-nav.navbar-right
@@ -51,5 +51,8 @@ append scripts
   script.
     window.presentation = "#{presentationFile}";
   script(src="js/js-yaml.min.js")
+  script(src="js/jquery-ui-1.10.3.draggable.js")
   script(src="js/jquery.hotkeys.js")
+  script(src="js/jquery.slimscroll.js")
+  script(src="js/jquery.slimscroll.horizontal.js")
   script(src="js/main.js")
