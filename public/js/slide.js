@@ -71,6 +71,10 @@
             editor: 'html',
             run: false
         },
+        java: {
+            editor: 'java',
+            run: false
+        },
         default: {
             editor: 'plain_text',
             run: false
