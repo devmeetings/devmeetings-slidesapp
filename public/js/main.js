@@ -88,7 +88,8 @@
                 $input.focus();
             }).modal();
         });
-        $confirmDialog.on('click', '.btn-primary', function() {
+        var enterTrainersMode = function(ev) {
+            ev.preventDefault();
             var pass = $input.val();
             if (pass === presentation.trainersSecret) {
                 $confirmDialog.modal('hide');
@@ -97,7 +98,10 @@
             } else {
                 $input.parent('.form-group').addClass('has-error');
             }
-        });
+            return false;
+        };
+        $confirmDialog.on('submit', 'form', enterTrainersMode);
+        $confirmDialog.on('click', '.btn-primary', enterTrainersMode);
         // detect if it is refresh
         var slide = Slides.getCurrentSlide();
         if (slide === undefined) {

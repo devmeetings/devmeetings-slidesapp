@@ -11,6 +11,7 @@ block content
         if code
           #editor.editor(
             data-language='#{code.language}'
+            class="#{code.small ? 'small' : ''} #{code.big ? 'big' : ''}" 
             )= code.content
     .row
       .col-lg-12
@@ -38,13 +39,16 @@ block content
               span.glyphicon.glyphicon-eye-open
       .tab-content
         #tab-js.tab-pane.fade(class="#{fiddle.active === 'js' ? 'active in' : ''}") 
-          #editor-js.editor!= fiddle.js
+          #editor-js.editor(class="#{fiddle.small ? 'small' : ''} #{fiddle.big ? 'big' : ''}" )!= fiddle.js
         #tab-css.tab-pane.fade(class="#{fiddle.active === 'css' ? 'active in' : ''}")
-          #editor-css.editor!= fiddle.css
+          #editor-css.editor(class="#{fiddle.small ? 'small' : ''} #{fiddle.big ? 'big' : ''}" )!= fiddle.css
         #tab-html.tab-pane.fade(class="#{fiddle.active === 'html' ? 'active in' : ''}")
-          #editor-html.editor= fiddle.html
+          if fiddle.html
+            #editor-html.editor(class="#{fiddle.small ? 'small' : ''} #{fiddle.big ? 'big' : ''}" )= fiddle.html
+          else
+            #editor-html.editor(class="#{fiddle.small ? 'small' : ''} #{fiddle.big ? 'big' : ''}" ) #{"<html><head></head><body></body></html>"}
         #tab-output.tab-pane.fade #{fiddle.output}
-          iframe#fiddle-output
+          iframe#fiddle-output(data-pure=fiddle.pure)
 
     if task
       .row

@@ -1,14 +1,14 @@
-(function(){
+(function() {
     'use strict';
 
-    var SolutionButton = (function(){
+    var SolutionButton = (function() {
         var $el = $('.task-solution-btn');
         var taskData = null;
         var parentFrame = null;
 
         var Btn = {
             show: function(show) {
-                $el.toggleClass('hidden', show);
+                $el.toggleClass('hidden', !show);
             },
             reset: function(newTaskData, newParentFrame) {
                 taskData = newTaskData;
@@ -34,7 +34,7 @@
 
     var iframe = $('iframe')[0];
 
-    window.addEventListener('message', function(ev){
+    window.addEventListener('message', function(ev) {
         var data = ev.data;
         if (data.type !== 'slideupdate') {
             return;
@@ -43,8 +43,7 @@
         editor.setValue(data.currentSlide.notes);
         SolutionButton.show(data.currentSlide.task);
         SolutionButton.reset(data.currentSlide.task, ev.source);
-        console.log(ev);
 
-        iframe.src =  '/slide?slide='+encodeURIComponent(JSON.stringify(data.nextSlide));
+        iframe.src = '/slide?slide=' + encodeURIComponent(JSON.stringify(data.nextSlide));
     });
 }());

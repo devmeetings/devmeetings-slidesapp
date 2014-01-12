@@ -7,6 +7,12 @@
         return editor;
     };
 
+    var fixOneLineComments = function(code) {
+        return code.replace(/\/\/(.*)/g, function(match, reg1) {
+            return '/* ' + reg1 + ' */'
+        });
+    };
+
     var iframe = document.querySelector('#fiddle-output');
 
     var host = window.location.origin;
@@ -28,10 +34,11 @@
     var jsEditor = aceStd('editor-js', 'javascript');
     var cssEditor = aceStd('editor-css', 'css');
     var htmlEditor = aceStd('editor-html', 'html');
+    var isPure = iframe.hasAttribute('data-pure');
 
     var updateOutput = function() {
-        var jsCode = commonJs + "<script>" + jsEditor.getValue() + "</script>";
-        var cssCode = commonCss + "<style>" + cssEditor.getValue() + "</style>";
+        var jsCode = (isPure ? '' : commonJs) + "<script>" + fixOneLineComments(jsEditor.getValue()) + "</script>";
+        var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(cssEditor.getValue()) + "</style>";
         var htmlCode = htmlEditor.getValue();
 
         if (htmlCode.search("</body>")) {
@@ -114,7 +121,7 @@
             }, window.location);
         }
         if (monitorVariable) {
-            value += ";return " + monitorVariable + ";";
+            value += "\n\n;return " + monitorVariable + ";";
         }
         try {
             var result = eval("(function(){" + value + "}())");
