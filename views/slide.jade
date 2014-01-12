@@ -18,7 +18,7 @@ block content
         #errors.alert.alert-danger.errors
     br
     if code
-      #output.row(data-monitor='#{monitor}', data-hide="#{code.hideOutput}")
+      #output.row(data-monitor='#{monitor}', data-hide="#{code.hideOutput}", data-async=code.async)
         .col-sm-6
           #output-ace.editor
         .col-sm-6

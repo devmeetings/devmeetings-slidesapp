@@ -99,6 +99,8 @@
     var mode = MODES[codeLanguage] || MODES['default'];
 
     var monitorVariable = output.getAttribute('data-monitor');
+    var isAsync = output.hasAttribute('data-async');
+
     var outputAce = ace.edit('output-ace');
     outputAce.setTheme("ace/theme/twilight");
     outputAce.getSession().setMode("ace/mode/json");
@@ -129,11 +131,24 @@
         }
         try {
             var result = eval("(function(){" + value + "}())");
-            var json = JSON.stringify(result, null, 2);
-            outputAce.setValue(json);
-            outputAce.clearSelection();
-            inspector.view(json);
-            errors.innerHTML = "";
+
+            var displayOutput = function(res) {
+                var json = JSON.stringify(res, null, 2);
+                outputAce.setValue(json);
+                outputAce.clearSelection();
+                inspector.view(json);
+                errors.innerHTML = "";
+            };
+
+            displayOutput(result);
+
+            if (isAsync) {
+                result.done(function(data) {
+                    setTimeout(function() {
+                        displayOutput(data);
+                    }, 1000);
+                });
+            }
         } catch (e) {
             console.error(e);
             errors.innerHTML = e;
