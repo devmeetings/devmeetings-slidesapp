@@ -13,6 +13,11 @@ slides:
         <h2><span class="glyphicon glyphicon-heart"></span> Nothing interesting here.</h2>
         <h3>But something should be!</h3>
         <p>Hello small text!</p>
+  - id: entry2
+    name: Hello World
+    title: First slide - continuation
+    text: |
+      Hello there
 
   - id: slide1
     name: Slide 1

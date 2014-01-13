@@ -57,14 +57,45 @@
         $('title').text(presentation.title);
         // fill out slides list
         var $menu = $('ul.nav.nav-slides').empty();
-        presentation.slides.map(function(slide, idx) {
-            var $a = $('<a data-toggle="tooltip" data-placement="bottom"/>');
 
+        var slideLink = function(slide, inGroup) {
+            var tooltip = inGroup ? '' : 'tooltip';
+            var $a = $('<a data-toggle="' + tooltip + '" data-placement="bottom"/>');
             $a.attr('href', '#' + slide.id);
             $a.attr('title', slide.title);
-            $a.text((idx + 1) + ". " + slide.name);
+            var text = inGroup ? slide.title : slide.name;
+            $a.text((slide.idx + 1) + ". " + text);
+            return $a;
+        };
 
-            $menu.append($('<li />').append($a));
+        presentation.slides.reduce(function(memo, slide, idx) {
+            var last = memo[memo.length - 1];
+            slide.idx = idx;
+
+            if (last && last[0].name === slide.name) {
+                last.push(slide);
+            } else {
+                memo.push([slide]);
+            }
+            return memo;
+        }, []).map(function(grouppedSlides, idx) {
+            var slide = grouppedSlides[0];
+            if (grouppedSlides.length === 1) {
+                var $a = slideLink(slide);
+                $menu.append($('<li />').append($a));
+            } else {
+                var $a = $('<a class="dropdown-toggle" data-toggle="dropdown" />');
+                $a.text(slide.name + " ");
+                $a.append($('<b />').addClass('caret'));
+
+                var $ul = $('<ul />').addClass('dropdown-menu');
+                grouppedSlides.map(function(slide) {
+                    var $a = slideLink(slide, true);
+                    $ul.append($('<li />').append($a));
+                });
+
+                $menu.append($('<li />').addClass('dropdown').append($a).append($ul));
+            }
         });
 
         $menu.css({
@@ -78,6 +109,14 @@
             position: 'top',
             wheelStep: 10,
             size: '3px'
+        })
+
+        // Some hacking to make tooltips and dropdown menus working
+        $menu.css({
+            'height': '300px'
+        }).parent().css({
+            'overflow-x': 'visible',
+            'overflow-y': 'visible',
         });
 
         var $confirmDialog = $('.trainers-mode-confirm');
@@ -126,6 +165,7 @@
         var $link = $('a[href=' + hash + ']');
         $link.parents('ul').find('li.active').removeClass('active');
         $link.parent().addClass('active');
+        $link.parents('li').addClass('active');
         var $menu = $('ul.nav.nav-slides');
         $menu.slimScrollHorizontal({
             scroll: $link.offset().left - $link.width() * 3
