@@ -185,6 +185,9 @@
             if (ev.data.type === 'tasksolution') {
                 displaySlide(ev.data.solution);
             }
+            if (ev.data.type === 'changeslide') {
+                changeSlide(ev.data.mod);
+            }
         });
     }());
 
