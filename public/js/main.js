@@ -166,9 +166,10 @@
         $link.parents('ul').find('li.active').removeClass('active');
         $link.parent().addClass('active');
         $link.parents('li').addClass('active');
+
         var $menu = $('ul.nav.nav-slides');
         $menu.slimScrollHorizontal({
-            scroll: $link.offset().left - $link.width() * 3
+            scroll: $link.parents('li:visible').offset().left - $(document).width() / 3
         });
 
         var slide = Slides.getCurrentSlide();
