@@ -164,6 +164,7 @@
         output.className = 'hidden';
     }
 }());
+
 // Task support
 (function() {
     var $timeLeft = document.querySelector('.task-time-left');
@@ -194,25 +195,58 @@
 
     var taskDuration = toInt($timeLeft.getAttribute('data-duration'));
 
+    var sounds = new Howl({
+        urls: ['sounds/sprite.mp3', 'sounds/sprite.wav'],
+        sprite: {
+            end: [0, 3900],
+            warn: [4000, 6500],
+            notify: [7000, 8250]
+        }
+    });
+
     var state = {
         isRunning: false,
         startTime: 0,
         endTime: 0,
         timeLeft: 0,
+        sentNotifications: {},
 
         update: function updateState() {
             //update state
             if (!this.isRunning) {
                 this.startTime = date();
+                this.sentNotifications = {};
             }
             this.endTime = date(this.startTime + taskDuration * 60 * 1000);
             this.timeLeft = this.endTime - date();
 
             //display gui
             setTimeout(updateState.bind(this), 5000);
+
+            if (!this.isRunning) {
+                return;
+            }
+
+            if (this.timeLeft < 5000) {
+                new Notification("Time's up!");
+                sounds.play('end');
+                this.isRunning = false;
+            } else if (this.timeLeft < 2 * 60 * 1000) {
+                if (!this.sentNotifications['2']) {
+                    this.sentNotifications['2'] = new Notification("Only 2 minutes left!");
+                    sounds.play('warn');
+                }
+            } else if (this.timeLeft < 5 * 60 * 1000) {
+                if (!this.sentNotifications['5']) {
+                    this.sentNotifications['5'] = new Notification("Only 5 minutes left!");
+                    sounds.play('notify');
+                }
+            }
+
         }
     };
     state.update();
+
 
     // GUI
     var displayState = function displayState() {
@@ -231,6 +265,7 @@
     displayState();
 
     $button.addEventListener('click', function() {
+        Notification.requestPermission();
         state.isRunning = !state.isRunning;
         displayState();
     });

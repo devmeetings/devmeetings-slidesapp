@@ -74,7 +74,7 @@ slides:
     title: This is task!
     text: something
     task:
-      duration: 45
+      duration: 5
       objectives: Display an array of todos using DOM
       extras:
             - Use Bootstrap <code>.list-group</code> component.
