@@ -1,11 +1,21 @@
 extends layout
 
 block content
-    button.task-solution-btn.btn.btn-success.hidden
-    h3 Notes
-    #editor.editor
-    h3 Next slide
-    iframe(src='slide')
+    .container
+        .row
+            .col-md-12.notes-space
+                h3 Notes
+                #editor.editor.trainers-notes
+        .row 
+            .col-md-6.nextslide-space
+                h3 Next slide
+                iframe.next-slide(src='slide')
+            .col-md-6.task-solution.hidden
+                button.task-solution-btn.btn.btn-success.pull-right
+                    | Display task solution
+                h3 Task details
+                    
+                iframe.task-solution-frame(src='/slide')
 
 append scripts
   script(src="js/jquery.hotkeys.js")

@@ -8,6 +8,7 @@ block content
       .col-lg-12
         h1!= title
         div!= text
+        br
         if code
           #editor.editor(
             data-language='#{code.language}'
@@ -16,8 +17,8 @@ block content
     .row
       .col-lg-12
         #errors.alert.alert-danger.errors
-    br
     if code
+      br
       #output.row(data-monitor='#{monitor}', data-hide="#{code.hideOutput}", data-async=code.async)
         .col-sm-6
           #output-ace.editor
