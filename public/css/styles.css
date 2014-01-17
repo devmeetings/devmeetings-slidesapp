@@ -1,15 +1,19 @@
 iframe {
     width: 100%;
-    height: 800px;
     border: none;
     background: none;
+    height: 600px;
+}
+iframe.main-slide {
+    min-height: 600px;
 }
 body.loaded h1, body.loaded h2, body.loaded h3, body.loaded h4, body.loaded h5, body.loaded h6, 
-body.loaded #output-ace, body.loaded #editor, body.loaded #output-json {
+body.loaded .output-ace, body.loaded .editor, body.loaded .output-json {
     transition: font-size .5s;
 }
+.container
 
-#fiddle-output {
+.fiddle-output {
     height: 500px;
 }
 .editor {
@@ -20,12 +24,12 @@ body.loaded #output-ace, body.loaded #editor, body.loaded #output-json {
     height: 180px;
 }
 .editor.big {
-    height: 400px;
+    height: 450px;
 }
-#output, #output .editor {
+.output, .output .editor {
     height: 170px;
 }
-#output-json {
+.output-json {
     overflow: auto;
 }
 pre.editor {
@@ -33,7 +37,7 @@ pre.editor {
     color: #eed;
     overflow-x: auto;
 }
-.inspector-json, #output-ace, #editor {
+.inspector-json, .output-ace, .editor {
     font-size: 14px;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
@@ -74,8 +78,7 @@ pre.editor {
 body.projector, 
 body.projector h6, 
 body.projector h5, 
-body.projector #output-ace, 
-body.projector #editor, 
+body.projector .output-ace, 
 body.projector .editor,
 body.projector .inspector-json {
     font-size: 20px;
@@ -93,7 +96,7 @@ body.projector h1 {
     font-size: 2.441em;
 }
 
-#errors:empty {
+.errors:empty {
     display: none;
 }
 
@@ -106,6 +109,12 @@ body > .container-fluid {
     white-space: nowrap;
     margin: 0;
     display: inline-block;
+}
+.navbar {
+    width: 100%;
+}
+.navbar > li {
+    z-index: 10;
 }
 @media (min-width: 768px) {
 .navbar .slimScrollDiv {

@@ -128,6 +128,8 @@ exports.slide = function(req, res) {
     try {
         var slide = JSON.parse(req.query.slide);
         normalizeSlide(slide);
+        if (slide.left) normalizeSlide(slide.left);
+        if (slide.right) normalizeSlide(slide.right);
         res.render('slide', {
             slide: slide
         });

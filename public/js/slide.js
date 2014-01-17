@@ -79,6 +79,10 @@
             editor: 'java',
             run: false
         },
+        'javascript-norun': {
+            editor: 'javascript',
+            run: false
+        },
         default: {
             editor: 'plain_text',
             run: false
@@ -90,83 +94,89 @@
         $(document.body).addClass('loaded');
     }, 2000);
 
-    var output = document.querySelector('#output');
-    var errors = document.querySelector('#errors');
+    var allOutputs = document.querySelectorAll('.output');
 
     // When slide contains only text don't do nothing.
-    if (!output) {
+    if (!allOutputs.length) {
         return;
     }
+    [].slice.call(allOutputs).forEach(function(output, k) {
+        var queryAll = function(query) {
+            return document.querySelectorAll(query)[k];
+        };
 
-    var codeLanguage = document.querySelector('#editor').getAttribute('data-language');
+        var errors = queryAll('.errors');
 
-    var mode = MODES[codeLanguage] || MODES['default'];
+        var codeLanguage = queryAll('.code-editor').getAttribute('data-language');
 
-    var monitorVariable = output.getAttribute('data-monitor');
-    var isAsync = output.hasAttribute('data-async');
+        var mode = MODES[codeLanguage] || MODES['default'];
 
-    var outputAce = ace.edit('output-ace');
-    outputAce.setTheme("ace/theme/twilight");
-    outputAce.getSession().setMode("ace/mode/json");
-    outputAce.setReadOnly(true);
-    outputAce.setHighlightActiveLine(false);
-    outputAce.setShowPrintMargin(false);
-    outputAce.renderer.setShowGutter(false);
+        var monitorVariable = output.getAttribute('data-monitor');
+        var isAsync = output.hasAttribute('data-async');
 
-    var inspector = new InspectorJSON({
-        element: 'output-json'
-    });
+        var outputAce = ace.edit(queryAll('.output-ace'));
+        outputAce.setTheme("ace/theme/twilight");
+        outputAce.getSession().setMode("ace/mode/json");
+        outputAce.setReadOnly(true);
+        outputAce.setHighlightActiveLine(false);
+        outputAce.setShowPrintMargin(false);
+        outputAce.renderer.setShowGutter(false);
+
+        var inspector = new InspectorJSON({
+            element: queryAll('.output-json')
+        });
 
 
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/" + mode.editor);
+        var editor = ace.edit(queryAll(".code-editor"));
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/" + mode.editor);
 
-    var runContent = function() {
-        var value = editor.getValue();
-        if (window.parent) {
-            window.parent.postMessage({
-                type: 'codeupdate',
-                code: value
-            }, window.location);
-        }
-        if (monitorVariable) {
-            value += "\n\n;return " + monitorVariable + ";";
-        }
-        try {
-            var result = eval("(function(){" + value + "}())");
-
-            var displayOutput = function(res) {
-                var json = JSON.stringify(res, null, 2);
-                outputAce.setValue(json);
-                outputAce.clearSelection();
-                inspector.view(json);
-                errors.innerHTML = "";
-            };
-
-            displayOutput(result);
-
-            if (isAsync) {
-                result.done(function(data) {
-                    setTimeout(function() {
-                        displayOutput(data);
-                    }, 1000);
-                });
+        var runContent = function() {
+            var value = editor.getValue();
+            if (window.parent) {
+                window.parent.postMessage({
+                    type: 'codeupdate',
+                    code: value
+                }, window.location);
             }
-        } catch (e) {
-            console.error(e);
-            errors.innerHTML = e;
-        }
-    };
+            if (monitorVariable) {
+                value += "\n\n;return " + monitorVariable + ";";
+            }
+            try {
+                var result = eval("(function(){" + value + "}())");
 
-    if (mode.run) {
-        editor.on('change', _.debounce(runContent, 700));
-        runContent();
-    }
-    if (!mode.run || output.getAttribute('data-hide') === 'true') {
-        //hide output
-        output.className = 'hidden';
-    }
+                var displayOutput = function(res) {
+                    var json = JSON.stringify(res, null, 2);
+                    outputAce.setValue(json);
+                    outputAce.clearSelection();
+                    inspector.view(json);
+                    errors.innerHTML = "";
+                };
+
+                displayOutput(result);
+
+                if (isAsync) {
+                    result.done(function(data) {
+                        setTimeout(function() {
+                            displayOutput(data);
+                        }, 1000);
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+                errors.innerHTML = e;
+            }
+        };
+
+        if (mode.run) {
+            editor.on('change', _.debounce(runContent, 700));
+            runContent();
+        }
+        if (!mode.run || output.getAttribute('data-hide') === 'true') {
+            //hide output
+            output.className = 'hidden';
+        }
+    });
 }());
 
 // Task support

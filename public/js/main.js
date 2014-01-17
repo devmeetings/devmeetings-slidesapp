@@ -189,7 +189,16 @@
     var changeIframeClass = function() {
         $iframe.contents().find('body').toggleClass('projector', $body.hasClass('projector'))
     };
+    var fixIframeSize = function fixIframeSize() {
+        var height = $iframe.contents().find('body').height();
+        $iframe.css({
+            height: height + 100
+        });
+        // And do it once again after soem images might load
+        setTimeout(fixIframeSize, 2000);
+    };
     $iframe.on('load', changeIframeClass);
+    $iframe.on('load', fixIframeSize);
 
     // Controls handling
     (function() {
@@ -202,6 +211,7 @@
         projector.on('click', function() {
             $body.toggleClass('projector');
             changeIframeClass();
+            fixIframeSize();
         });
         var nextSlide = changeSlide.bind(null, 1);
         var prevSlide = changeSlide.bind(null, -1);
@@ -236,5 +246,9 @@
     // Enable tooltips
     $body.tooltip({
         selector: '[data-toggle="tooltip"]'
+    });
+
+    $(window).on('beforeunload', function(ev) {
+        return "Do you really want to exit slider?";
     });
 }());

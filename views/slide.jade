@@ -6,20 +6,20 @@ mixin slideContent(slide)
         div!= slide.text
         br
         if slide.code
-          #editor.editor(
+          .code-editor.editor(
             data-language='#{slide.code.language}'
             class="#{slide.code.small ? 'small' : ''} #{slide.code.big ? 'big' : ''}" 
             )= slide.code.content
     .row
       .col-lg-12
-        #errors.alert.alert-danger.errors
+        .errors.alert.alert-danger.errors
     if slide.code
       br
-      #output.row(data-monitor='#{slide.monitor}', data-hide="#{slide.code.hideOutput}", data-async=slide.code.async)
+      .output.row(data-monitor='#{slide.monitor}', data-hide="#{slide.code.hideOutput}", data-async=slide.code.async)
         .col-sm-6
-          #output-ace.editor
+          .output-ace.editor
         .col-sm-6
-          #output-json
+          .output-json
     if slide.fiddle
       .row
         .col-sm-6
@@ -37,7 +37,7 @@ mixin slideContent(slide)
           .tab-content
             #tab-js.tab-pane.fade(class="#{slide.fiddle.active === 'js' ? 'active in' : ''}") 
               #editor-js.editor(
-                class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )!= slide.fiddle.js
+                class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )= slide.fiddle.js
             #tab-css.tab-pane.fade(
               class="#{slide.fiddle.active === 'css' ? 'active in' : ''}")
               #editor-css.editor(
@@ -105,13 +105,14 @@ block content
       .col-lg-12
         h1!= slide.title
     if slide.left
-      .col-md-6
+      .col-md-7
         mixin slideContent(slide.left)
     if slide.right
-      .col-md-6
+      .col-md-5
         mixin slideContent(slide.right)
     if !slide.left && !slide.right
       mixin slideContent(slide)
+    .clearfix
 
 
             
