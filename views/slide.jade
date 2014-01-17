@@ -53,7 +53,6 @@ mixin slideContent(slide)
         .col-sm-6
           #tab-output.tab-pane #{slide.fiddle.output}
             iframe#fiddle-output(data-pure=slide.fiddle.pure)
-            
 
     if slide.task
       .row
@@ -96,7 +95,9 @@ mixin slideContent(slide)
             span.glyphicon.glyphicon-pause
             | 
             span.task-end-time
-
+    .row
+      .col-lg-12
+        div!= slide.footer
 block content
     
 
@@ -125,3 +126,6 @@ append scripts
   script(src="js/ace-builds/src-noconflict/ace.js")
   script(src="js/howler.js")
   script(src="js/slide.js")
+  if slide.script
+    script!= slide.script
+
