@@ -128,7 +128,9 @@ exports.slide = function(req, res) {
     try {
         var slide = JSON.parse(req.query.slide);
         normalizeSlide(slide);
-        res.render('slide', slide);
+        res.render('slide', {
+            slide: slide
+        });
     } catch (e) {
         res.render('slide-empty');
     }
