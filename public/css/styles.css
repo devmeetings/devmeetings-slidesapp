@@ -23,10 +23,15 @@ body.loaded #output-ace, body.loaded #editor, body.loaded #output-json {
     height: 400px;
 }
 #output, #output .editor {
-    height: 150px;
+    height: 170px;
 }
 #output-json {
     overflow: auto;
+}
+pre.editor {
+    border: none;
+    color: #eed;
+    overflow-x: auto;
 }
 .inspector-json, #output-ace, #editor {
     font-size: 14px;

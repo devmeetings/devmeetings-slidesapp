@@ -8,8 +8,12 @@
     };
 
     var fixOneLineComments = function(code) {
-        return code.replace(/\/\/(.*)/g, function(match, reg1) {
-            return '/* ' + reg1 + ' */'
+        return code.replace(/(.*)\/\/(.*)/g, function(match, reg1, reg2) {
+            // but don't break links! - This is shitty as fuck!
+            if (/.*http[s]?\:$/.test(reg1)) {
+                return match
+            }
+            return '/* ' + reg2 + ' */'
         });
     };
 
@@ -84,7 +88,7 @@
 
     setTimeout(function() {
         $(document.body).addClass('loaded');
-    }, 200);
+    }, 2000);
 
     var output = document.querySelector('#output');
     var errors = document.querySelector('#errors');
@@ -273,5 +277,5 @@
 $(function() {
     setTimeout(function() {
         $('.main-content').addClass('in');
-    }, 200);
+    }, 180);
 });

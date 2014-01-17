@@ -1,12 +1,8 @@
 extends layout
 
-block content
-    
-
-  .main-content.fade.container-fluid
+mixin slideContent(slide)
     .row
       .col-lg-12
-        h1!= slide.title
         div!= slide.text
         br
         if slide.code
@@ -25,31 +21,39 @@ block content
         .col-sm-6
           #output-json
     if slide.fiddle
-      ul.nav.nav-tabs.nav-fiddle
-        if slide.fiddle.js
-          li(class="#{slide.fiddle.active === 'js' ? 'active' : ''}")
-            a(data-toggle='tab', data-target="#tab-js") js
-        if slide.fiddle.css
-          li(class="#{slide.fiddle.active === 'css' ? 'active' : ''}")
-            a(data-toggle='tab', data-target="#tab-css") css
-        if slide.fiddle.html
-          li(class="#{slide.fiddle.active === 'html' ? 'active' : ''}")
-            a(data-toggle='tab', data-target="#tab-html") html
-        li
-            a(data-toggle='tab', data-target="#tab-output")
-              span.glyphicon.glyphicon-eye-open
-      .tab-content
-        #tab-js.tab-pane.fade(class="#{slide.fiddle.active === 'js' ? 'active in' : ''}") 
-          #editor-js.editor(class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )!= slide.fiddle.js
-        #tab-css.tab-pane.fade(class="#{slide.fiddle.active === 'css' ? 'active in' : ''}")
-          #editor-css.editor(class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )!= slide.fiddle.css
-        #tab-html.tab-pane.fade(class="#{slide.fiddle.active === 'html' ? 'active in' : ''}")
-          if fiddle.html
-            #editor-html.editor(class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )= slide.fiddle.html
-          else
-            #editor-html.editor(class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" ) #{"<html><head></head><body></body></html>"}
-        #tab-output.tab-pane.fade #{slide.fiddle.output}
-          iframe#fiddle-output(data-pure=slide.fiddle.pure)
+      .row
+        .col-sm-6
+          ul.nav.nav-tabs.nav-fiddle
+            if slide.fiddle.js
+              li(class="#{slide.fiddle.active === 'js' ? 'active' : ''}")
+                a(data-toggle='tab', data-target="#tab-js") js
+            if slide.fiddle.css
+              li(class="#{slide.fiddle.active === 'css' ? 'active' : ''}")
+                a(data-toggle='tab', data-target="#tab-css") css
+            if slide.fiddle.html
+              li(class="#{slide.fiddle.active === 'html' ? 'active' : ''}")
+                a(data-toggle='tab', data-target="#tab-html") html
+
+          .tab-content
+            #tab-js.tab-pane.fade(class="#{slide.fiddle.active === 'js' ? 'active in' : ''}") 
+              #editor-js.editor(
+                class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )!= slide.fiddle.js
+            #tab-css.tab-pane.fade(
+              class="#{slide.fiddle.active === 'css' ? 'active in' : ''}")
+              #editor-css.editor(
+                class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )!= slide.fiddle.css
+            #tab-html.tab-pane.fade(
+              class="#{slide.fiddle.active === 'html' ? 'active in' : ''}")
+              if slide.fiddle.html
+                #editor-html.editor(
+                  class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )= slide.fiddle.html
+              else
+                #editor-html.editor(
+                  class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" ) #{"<html><head></head><body></body></html>"}
+        .col-sm-6
+          #tab-output.tab-pane #{slide.fiddle.output}
+            iframe#fiddle-output(data-pure=slide.fiddle.pure)
+            
 
     if slide.task
       .row
@@ -92,6 +96,22 @@ block content
             span.glyphicon.glyphicon-pause
             | 
             span.task-end-time
+
+block content
+    
+
+  .main-content.fade.container-fluid
+    .row
+      .col-lg-12
+        h1!= slide.title
+    if slide.left
+      .col-md-6
+        mixin slideContent(slide.left)
+    if slide.right
+      .col-md-6
+        mixin slideContent(slide.right)
+    if !slide.left && !slide.right
+      mixin slideContent(slide)
 
 
             
