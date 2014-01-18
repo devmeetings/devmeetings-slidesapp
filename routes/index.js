@@ -112,12 +112,13 @@ var normalizeSlide = function(slide) {
 
     if (slide.fiddle) {
         var fiddle = slide.fiddle;
+        fiddle.coffee = trimIfExists(fiddle.coffee);
         fiddle.js = trimIfExists(fiddle.js);
         fiddle.css = trimIfExists(fiddle.css);
         fiddle.html = trimIfExists(fiddle.html);
 
         if (!fiddle.active) {
-            fiddle.active = ['js', 'css', 'html'].filter(function(text) {
+            fiddle.active = ['js', 'coffee', 'css', 'html'].filter(function(text) {
                 return fiddle[text];
             })[0];
         }

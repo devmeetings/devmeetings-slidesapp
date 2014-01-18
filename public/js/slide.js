@@ -36,6 +36,7 @@
     }
 
     var jsEditor = aceStd('editor-js', 'javascript');
+    var coffeeEditor = aceStd('editor-coffee', 'coffee');
     var cssEditor = aceStd('editor-css', 'css');
     var htmlEditor = aceStd('editor-html', 'html');
     var isPure = iframe.hasAttribute('data-pure');
@@ -44,6 +45,10 @@
         var jsCode = (isPure ? '' : commonJs) + "<script>" + fixOneLineComments(jsEditor.getValue()) + "</script>";
         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(cssEditor.getValue()) + "</style>";
         var htmlCode = htmlEditor.getValue();
+        var coffee = coffeeEditor.getValue();
+        if (coffee) {
+            jsCode += '<script>' + CoffeeScript.compile(coffee) + '</script>';
+        }
 
         if (htmlCode.search("</body>")) {
             htmlCode = htmlCode.replace("</body>", jsCode + "</body>");
@@ -60,6 +65,7 @@
     };
     var updateOutputLater = _.debounce(updateOutput, 700);
     jsEditor.on('change', updateOutputLater);
+    coffeeEditor.on('change', updateOutputLater);
     cssEditor.on('change', updateOutputLater);
     htmlEditor.on('change', updateOutputLater);
     updateOutputLater();
@@ -78,6 +84,13 @@
         java: {
             editor: 'java',
             run: false
+        },
+        coffee: {
+            editor: 'coffee',
+            process: function(code) {
+                return CoffeeScript.compile(code, {bare: true});
+            },
+            run: true
         },
         'javascript-norun': {
             editor: 'javascript',
@@ -133,6 +146,11 @@
 
         var runContent = function() {
             var value = editor.getValue();
+
+            if (mode.process) {
+                value = mode.process(value);
+            }
+
             if (window.parent) {
                 window.parent.postMessage({
                     type: 'codeupdate',
@@ -143,6 +161,7 @@
                 value += "\n\n;return " + monitorVariable + ";";
             }
             try {
+                console.log(value);
                 var result = eval("(function(){" + value + "}())");
 
                 var displayOutput = function(res) {

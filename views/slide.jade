@@ -27,6 +27,9 @@ mixin slideContent(slide)
             if slide.fiddle.js
               li(class="#{slide.fiddle.active === 'js' ? 'active' : ''}")
                 a(data-toggle='tab', data-target="#tab-js") js
+            if slide.fiddle.coffee
+              li(class="#{slide.fiddle.active === 'coffee' ? 'active' : ''}")
+                a(data-toggle='tab', data-target="#tab-coffee") coffee
             if slide.fiddle.css
               li(class="#{slide.fiddle.active === 'css' ? 'active' : ''}")
                 a(data-toggle='tab', data-target="#tab-css") css
@@ -38,6 +41,9 @@ mixin slideContent(slide)
             #tab-js.tab-pane.fade(class="#{slide.fiddle.active === 'js' ? 'active in' : ''}") 
               #editor-js.editor(
                 class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )= slide.fiddle.js
+            #tab-coffee.tab-pane.fade(class="#{slide.fiddle.active === 'coffee' ? 'active in' : ''}") 
+              #editor-coffee.editor(
+                class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" )= slide.fiddle.coffee
             #tab-css.tab-pane.fade(
               class="#{slide.fiddle.active === 'css' ? 'active in' : ''}")
               #editor-css.editor(
