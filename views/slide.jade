@@ -1,5 +1,11 @@
 extends layout
 
+
+mixin footerContent(slide)
+  .row
+    .col-lg-12
+      div!= slide.footer
+
 mixin slideContent(slide)
     .row
       .col-lg-12
@@ -101,9 +107,7 @@ mixin slideContent(slide)
             span.glyphicon.glyphicon-pause
             | 
             span.task-end-time
-    .row
-      .col-lg-12
-        div!= slide.footer
+    mixin footerContent(slide)
 block content
     
 
@@ -119,7 +123,11 @@ block content
         mixin slideContent(slide.right)
     if !slide.left && !slide.right
       mixin slideContent(slide)
+    else
+      .clearfix
+      mixin footerContent(slide)
     .clearfix
+    
 
 
             
