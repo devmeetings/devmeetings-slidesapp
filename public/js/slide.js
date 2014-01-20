@@ -161,7 +161,6 @@
                 value += "\n\n;return " + monitorVariable + ";";
             }
             try {
-                console.log(value);
                 var result = eval("(function(){" + value + "}())");
 
                 var displayOutput = function(res) {
