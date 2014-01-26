@@ -1,8 +1,11 @@
 // Create fiddle editors
+var EDITOR_THEME = 'todr';
+var OUTPUT_THEME = 'twilight';
+
 (function() {
     var aceStd = function(selector, mode) {
         var editor = ace.edit(selector);
-        editor.setTheme("ace/theme/monokai");
+        editor.setTheme("ace/theme/" + EDITOR_THEME);
         editor.getSession().setMode('ace/mode/' + mode);
         return editor;
     };
@@ -128,7 +131,7 @@
         var isAsync = output.hasAttribute('data-async');
 
         var outputAce = ace.edit(queryAll('.output-ace'));
-        outputAce.setTheme("ace/theme/twilight");
+        outputAce.setTheme("ace/theme/" + OUTPUT_THEME);
         outputAce.getSession().setMode("ace/mode/json");
         outputAce.setReadOnly(true);
         outputAce.setHighlightActiveLine(false);
@@ -141,7 +144,7 @@
 
 
         var editor = ace.edit(queryAll(".code-editor"));
-        editor.setTheme("ace/theme/monokai");
+        editor.setTheme("ace/theme/" + EDITOR_THEME);
         editor.getSession().setMode("ace/mode/" + mode.editor);
 
         var runContent = function() {

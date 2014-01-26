@@ -168,8 +168,12 @@
         $link.parents('li').addClass('active');
 
         var $menu = $('ul.nav.nav-slides');
+        var of = $link.parents('li:visible').offset();
+        if (!of) {
+            of = $link.parents('li').offset();
+        }
         $menu.slimScrollHorizontal({
-            scroll: $link.parents('li:visible').offset().left - $(document).width() / 3
+            scroll: of.left - $(document).width() / 3
         });
 
         var slide = Slides.getCurrentSlide();

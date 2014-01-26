@@ -26,6 +26,13 @@ body.loaded .output-ace, body.loaded .editor, body.loaded .output-json {
 .editor.big {
     height: 450px;
 }
+.editor.full-screen {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+}
 .output, .output .editor {
     height: 170px;
 }
@@ -47,7 +54,7 @@ pre.editor {
 
 .slide-controls {
     position: fixed;
-    right: 50px;
+    right: 15px;
     bottom: 50px;
     opacity: 0.5;
     transition: all 1s;
@@ -66,10 +73,11 @@ pre.editor {
     float: left;
     margin: 3px;
     transition: all .7s;
-    -webkit-filter: blur(1px) grayscale(.9);
+    /*-webkit-filter: blur(1px) grayscale(.9);*/
+    -webkit-filter: grayscale(.95);
 }
 .slide-controls:hover .slide-control {
-    -webkit-filter: grayscale(.9);
+    -webkit-filter: grayscale(.1);
 }
 .slide-controls .slide-control:hover {
     -webkit-filter: none;
