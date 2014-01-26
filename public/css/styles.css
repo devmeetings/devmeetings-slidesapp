@@ -26,12 +26,40 @@ body.loaded .output-ace, body.loaded .editor, body.loaded .output-json {
 .editor.big {
     height: 450px;
 }
-.editor.full-screen {
+.editor-full-screen {
+    position: fixed;
+    top: 70px;
+    bottom: 50px;
+    left: 30px;
+    right: 30px;
+    z-index: 100;
+    box-shadow: 0 0 100px #444;
+    border: 4px groove #444;
+}
+.editor-full-screen .editor {
     position: absolute;
-    top: 20px;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: auto;
+}
+.editor-full-screen .ace_content {
+    width: 100% !important;
+}
+.editor-change-size {
+    position: relative;
+    float: right;
+    top: -15px;
+    z-index: 150;
+    cursor: pointer;
+}
+.editor-full-screen .editor-change-size {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 1.5em;
 }
 .output, .output .editor {
     height: 170px;

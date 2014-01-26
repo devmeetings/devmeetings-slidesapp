@@ -91,7 +91,9 @@ var OUTPUT_THEME = 'twilight';
         coffee: {
             editor: 'coffee',
             process: function(code) {
-                return CoffeeScript.compile(code, {bare: true});
+                return CoffeeScript.compile(code, {
+                    bare: true
+                });
             },
             run: true
         },
@@ -303,6 +305,20 @@ var OUTPUT_THEME = 'twilight';
         Notification.requestPermission();
         state.isRunning = !state.isRunning;
         displayState();
+    });
+}());
+// Full-screen editor
+(function() {
+    $('body').on('click', '.editor-change-size', function() {
+        var $t = $(this);
+        var $x = $t.parent();
+        $x.toggleClass('editor-full-screen');
+        var isFullScreen = $x.hasClass('editor-full-screen');
+        $t.toggleClass('glyphicon-fullscreen', !isFullScreen).toggleClass('glyphicon-remove-circle', isFullScreen);
+    });
+    $(document).bind('keyup', 'esc', function() {
+        console.log(arguments);
+        $('.editor-full-screen').removeClass('editor-full-screen');
     });
 }());
 $(function() {

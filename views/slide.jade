@@ -12,10 +12,12 @@ mixin slideContent(slide)
         div!= slide.text
         br
         if slide.code
-          .code-editor.editor(
-            data-language='#{slide.code.language}'
-            class="#{slide.code.small ? 'small' : ''} #{slide.code.big ? 'big' : ''}" 
-            )= slide.code.content
+          div
+            .code-editor.editor(
+              data-language='#{slide.code.language}'
+              class="#{slide.code.small ? 'small' : ''} #{slide.code.big ? 'big' : ''}" 
+              )= slide.code.content
+            span.editor-change-size.glyphicon.glyphicon-fullscreen
     .row
       .col-lg-12
         .errors.alert.alert-danger.errors
@@ -136,6 +138,7 @@ block content
 prepend styles
   link(href="css/inspector-json.css", rel="stylesheet")
 append scripts
+  script(src="js/jquery.hotkeys.js")
   script(src="js/inspector-json.js")
   script(src="js/ace-builds/src-noconflict/ace.js")
   script(src="js/howler.js")
