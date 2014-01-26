@@ -45,13 +45,22 @@ body.loaded .output-ace, body.loaded .editor, body.loaded .output-json {
     height: auto;
     width: auto;
 }
+.editor-full-screen .tab-content .editor {
+    top: 42px;
+}
+.editor-full-screen .nav {
+    opacity: 1.0;
+    background-color: #000;
+}
 .editor-full-screen .ace_content {
     width: 100% !important;
+    height: 100% !important;
 }
 .editor-change-size {
     position: relative;
     float: right;
-    top: -15px;
+    top: -1em;
+    right: 0.5em;
     z-index: 150;
     cursor: pointer;
 }
