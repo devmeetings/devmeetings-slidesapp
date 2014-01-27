@@ -315,9 +315,11 @@ var OUTPUT_THEME = 'twilight';
         $x.toggleClass('editor-full-screen');
         var isFullScreen = $x.hasClass('editor-full-screen');
         $t.toggleClass('glyphicon-fullscreen', !isFullScreen).toggleClass('glyphicon-remove-circle', isFullScreen);
+        $x.find('.editor').each(function() {
+            ace.edit(this).resize();
+        });
     });
     $(document).bind('keyup', 'esc', function() {
-        console.log(arguments);
         $('.editor-full-screen').removeClass('editor-full-screen');
     });
 }());

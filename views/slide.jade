@@ -13,11 +13,11 @@ mixin slideContent(slide)
         br
         if slide.code
           div
+            span.editor-change-size.glyphicon.glyphicon-fullscreen
             .code-editor.editor(
               data-language='#{slide.code.language}'
               class="#{slide.code.small ? 'small' : ''} #{slide.code.big ? 'big' : ''}" 
               )= slide.code.content
-            span.editor-change-size.glyphicon.glyphicon-fullscreen
     .row
       .col-lg-12
         .errors.alert.alert-danger.errors
@@ -30,7 +30,7 @@ mixin slideContent(slide)
           .output-json
     if slide.fiddle
       .row
-        .col-sm-6
+        div(class="#{ slide.fiddle.hideOutput ? 'col-sm-12' : 'col-sm-6' }")
           div
             ul.nav.nav-tabs.nav-fiddle
               if slide.fiddle.js
@@ -46,6 +46,7 @@ mixin slideContent(slide)
                 li(class="#{slide.fiddle.active === 'html' ? 'active' : ''}")
                   a(data-toggle='tab', data-target="#tab-html") html
 
+            span.editor-change-size.glyphicon.glyphicon-fullscreen
             .tab-content
               #tab-js.tab-pane.fade(class="#{slide.fiddle.active === 'js' ? 'active in' : ''}") 
                 #editor-js.editor(
@@ -65,8 +66,7 @@ mixin slideContent(slide)
                 else
                   #editor-html.editor(
                     class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" ) #{"<html><head></head><body></body></html>"}
-            span.editor-change-size.glyphicon.glyphicon-fullscreen
-        .col-sm-6
+        .col-sm-6(class="#{ slide.fiddle.hideOutput ? 'hidden' : '' }")
           #tab-output.tab-pane #{slide.fiddle.output}
             iframe#fiddle-output(data-pure=slide.fiddle.pure)
 
