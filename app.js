@@ -31,6 +31,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.post('/', routes.uploadSlides);
+app.get('/slide', routes.slideEmpty);
 app.get('/trainer', routes.trainer);
 app.get('/slides-:file\::slide', routes.singleSlide);
 app.get('/slides-:file', routes.slider);

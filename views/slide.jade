@@ -115,7 +115,7 @@ mixin slideContent(slide)
 block content
     
 
-  .main-content.fade.container-fluid(data-slide=slide.id)
+  .main-content.fade.container-fluid(data-slide-id=slide.id)
     .row
       .col-lg-12
         h1!= slide.title
@@ -152,6 +152,7 @@ block content
 prepend styles
   link(href="css/inspector-json.css", rel="stylesheet")
 append scripts
+  script(src='js/coffee-script.js')
   script(src="js/jquery.hotkeys.js")
   script(src="js/inspector-json.js")
   script(src="js/ace-builds/src-noconflict/ace.js")

@@ -2,7 +2,7 @@
 var EDITOR_THEME = 'todr';
 var OUTPUT_THEME = 'twilight';
 
-var SLIDE_ID = $(".main-content").data('slide');
+var SLIDE_ID = $(".main-content").data('slide-id');
 var updateMicroTasks = function() {};
 
 $(document.body).tooltip({
@@ -83,7 +83,7 @@ $(document.body).tooltip({
     };
     $(window).on('beforeunload', function() {
         if (microtasks.filter(notCompletedMicrotasks).length) {
-            return "You haven't finished all tasks. Are you sure you want to go to another slide?";
+            return "You haven't finished all tasks!";
         }
     });
     updateMicroTasks();

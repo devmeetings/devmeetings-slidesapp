@@ -110,6 +110,10 @@ var normalizeSlide = function(slide) {
         task.extras = ensureArray(task.extras);
     }
 
+    if (slide.script) {
+        slide.script = "(function(){" + slide.script + "}());";
+    }
+
     if (slide.fiddle) {
         var fiddle = slide.fiddle;
         fiddle.coffee = trimIfExists(fiddle.coffee);
@@ -148,6 +152,9 @@ exports.singleSlide = function(req, res) {
         }
         res.send(404);
     });
+};
+exports.slideEmpty = function(req, res) {
+    res.render('slide-empty');
 };
 
 exports.trainer = function(req, res) {
