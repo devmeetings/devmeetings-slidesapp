@@ -2,6 +2,73 @@
 var EDITOR_THEME = 'todr';
 var OUTPUT_THEME = 'twilight';
 
+var SLIDE_ID = $(".main-content").data('slide');
+var updateMicoTasks = function() {};
+
+// Microtasks
+(function() {
+    var microtasksElems = document.querySelectorAll('.microtask');
+    var microtasks = [].map.call(microtasksElems, function(e) {
+        var getPattern = function(attr) {
+            attr = "data-" + attr;
+            if (e.hasAttribute(attr)) {
+                var p = e.getAttribute(attr);
+                try {
+                    var data = JSON.parse(p);
+                    return {
+                        test: function(json) {
+                            return _.isEqual(json, data);
+                        }
+                    };
+                } catch (e) {
+                    //it's ok, it must be regexp then
+                }
+                return new RegExp(p, "m");
+            }
+            return new RegExp('.*');
+        };
+        var cssPattern = getPattern("css");
+        var jsPattern = getPattern("js");
+        var htmlPattern = getPattern("html");
+        var outputPattern = getPattern("output");
+
+        return {
+            elem: e,
+            description: $(e).find('.microtask-text').text(),
+            isFinished: function(output, jsCode, htmlCode, cssCode) {
+                return outputPattern.test(output) && jsPattern.test(jsCode) && htmlPattern.test(htmlCode) && cssPattern.test(cssCode);
+            }
+        };
+    });
+    var notCompletedMicrotasks = function(task) {
+        return !task.isCompleted;
+    };
+
+    var savedMicrotasks = localStorage.getItem('microtasks-' + SLIDE_ID);
+    try {
+        savedMicrotasks = JSON.parse(savedMicrotasks) || {};
+    } catch (e) {
+        savedMicrotasks = {};
+    }
+    updateMicroTasks = function(output, jsCode, htmlCode, cssCode) {
+        microtasks.filter(notCompletedMicrotasks).forEach(function(task) {
+            var isFinished = task.isFinished(output, jsCode, htmlCode, cssCode);
+            isFinished = isFinished || savedMicrotasks[task.description];
+            task.isCompleted = isFinished;
+            savedMicrotasks[task.description] = isFinished;
+            $(task.elem).toggleClass("alert-success", isFinished).toggleClass('alert-danger', !isFinished);
+            localStorage.setItem('microtasks-' + SLIDE_ID, JSON.stringify(savedMicrotasks));
+        });
+    };
+    $(window).on('beforeunload', function() {
+        if (microtasks.filter(notCompletedMicrotasks).length) {
+            return "You haven't finished all tasks. Are you sure you want to go to another slide?";
+        }
+    });
+    updateMicroTasks();
+}());
+
+// Fiddle support
 (function() {
     var aceStd = function(selector, mode) {
         var editor = ace.edit(selector);
@@ -49,8 +116,11 @@ var OUTPUT_THEME = 'twilight';
         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(cssEditor.getValue()) + "</style>";
         var htmlCode = htmlEditor.getValue();
         var coffee = coffeeEditor.getValue();
+        var coffeeCompiled = "";
+
         if (coffee) {
-            jsCode += '<script>' + CoffeeScript.compile(coffee) + '</script>';
+            coffeeCompiled = CoffeeScript.compile(coffee);
+            jsCode += '<script>' + coffeeCompiled + '</script>';
         }
 
         if (htmlCode.search("</body>")) {
@@ -63,8 +133,9 @@ var OUTPUT_THEME = 'twilight';
         } else {
             htmlCode = cssCode + htmlCode;
         }
-        iframe.src = "data:text/html;charset=utf-8," + htmlCode;
+        updateMicroTasks(htmlCode, jsEditor.getValue() + coffeeCompiled, htmlEditor.getValue(), cssEditor.getValue());
 
+        iframe.src = "data:text/html;charset=utf-8," + htmlCode;
     };
     var updateOutputLater = _.debounce(updateOutput, 700);
     jsEditor.on('change', updateOutputLater);
@@ -150,24 +221,26 @@ var OUTPUT_THEME = 'twilight';
         editor.getSession().setMode("ace/mode/" + mode.editor);
 
         var runContent = function() {
-            var value = editor.getValue();
+            var code = editor.getValue();
 
             if (mode.process) {
-                value = mode.process(value);
+                code = mode.process(code);
             }
 
             if (window.parent) {
                 window.parent.postMessage({
                     type: 'codeupdate',
-                    code: value
+                    code: code
                 }, window.location);
             }
+            var value = code;
             if (monitorVariable) {
                 value += "\n\n;return " + monitorVariable + ";";
             }
             try {
                 var result = eval("(function(){" + value + "}())");
 
+                updateMicroTasks(result, code);
                 var displayOutput = function(res) {
                     var json = JSON.stringify(res, null, 2);
                     outputAce.setValue(json);

@@ -54,6 +54,9 @@
 
         iframe.src = '/slide?slide=' + encodeURIComponent(JSON.stringify(data.nextSlide));
     });
+    window.onbeforeunload = function() {
+        return "Are you sure you want to exit?";
+    };
 
     var $doc = $(document);
 

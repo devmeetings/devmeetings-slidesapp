@@ -196,3 +196,30 @@ iframe[data-pure] {
     /*display: none;*/
     width: 6px !important;
 }
+
+
+/* Microtasks */
+.microtasks {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.microtask.alert {
+    padding: 3px 5px;
+    margin-bottom: 5px;
+}
+.microtask.alert-success {
+    opacity: 0.3;
+}
+.microtask:hover {
+    opacity: 0.95;
+}
+.microtask-status .microtask-status-ok {
+    display: none;
+}
+.alert-success .microtask-status .microtask-status-ok {
+    display: inline;
+}
+.alert-success .microtask-status .microtask-status-bad {
+    display: none;
+}

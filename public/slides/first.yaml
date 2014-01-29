@@ -27,8 +27,7 @@ slides:
         On this slide we show basic code execution with monitoring.
         If you change the code the output will change accordingly.
     monitor: x
-    code:
-       >
+    code: |
        function foo(items) {
          var x = "All this is syntax highlighted" + items;
          return x;
@@ -36,9 +35,21 @@ slides:
        var x = {
          name: foo("something")
        };
+    microtasks:
+      - description: Change <code>foo</code> to append "x" instead of prepending anything.
+        output:
+          name: somethingx
   - id: slide-html
     name: HTML
     title: Slide with HTML and CSS
+    microtasks:
+      - description: Change <code>div</code> display to <code>inline</code>
+        hint: Try to fiddle with editor on the left
+        css: "div\\s*{\\s*display:\\s*inline;"
+      - description: Change <code>div</code> display to <code>inline-block</code>
+        hint: Go to css tab and change <code>display</code> property.
+        css: "div\\s*{\\s*display:\\s*inline-block;"
+
     fiddle:
       active: css
       js: |

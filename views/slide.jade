@@ -115,7 +115,7 @@ mixin slideContent(slide)
 block content
     
 
-  .main-content.fade.container-fluid
+  .main-content.fade.container-fluid(data-slide=slide.id)
     .row
       .col-lg-12
         h1!= slide.title
@@ -130,6 +130,18 @@ block content
     else
       .clearfix
       mixin footerContent(slide)
+    // Display microtasks
+    if slide.microtasks
+      .microtasks
+        for task in slide.microtasks
+          .microtask.alert.alert-danger(data-toggle="tooltip", data-placement="left", title=task.hint,
+            data-css=task.css, data-js=task.js, data-html=task.html, data-output=task.output)
+            span.microtask-status
+              span.glyphicon.glyphicon-ok.microtask-status-ok
+              span.glyphicon.glyphicon-question-sign.text-warning.microtask-status-bad
+              | &nbsp;
+            span.microtask-text!= task.description
+
     .clearfix
     
 
