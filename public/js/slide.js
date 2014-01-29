@@ -3,7 +3,7 @@ var EDITOR_THEME = 'todr';
 var OUTPUT_THEME = 'twilight';
 
 var SLIDE_ID = $(".main-content").data('slide');
-var updateMicoTasks = function() {};
+var updateMicroTasks = function() {};
 
 // Microtasks
 (function() {
@@ -27,16 +27,37 @@ var updateMicoTasks = function() {};
             }
             return new RegExp('.*');
         };
+        var getJsAssert = function() {
+            var attr = 'data-js-assert';
+            if (!e.hasAttribute(attr)) {
+                return function() {
+                    return true;
+                };
+            }
+            var assertion = $.trim(e.getAttribute(attr));
+
+            return function(jsCode) {
+                jsCode += "; try { return (" + assertion + ") || false; } catch(e) { return false; }";
+                var evalCode = "(function(){" + jsCode + "}());";
+                var result = eval(evalCode);
+                return result;
+            };
+        };
         var cssPattern = getPattern("css");
         var jsPattern = getPattern("js");
         var htmlPattern = getPattern("html");
         var outputPattern = getPattern("output");
+        var jsAssert = getJsAssert();
 
         return {
             elem: e,
             description: $(e).find('.microtask-text').text(),
             isFinished: function(output, jsCode, htmlCode, cssCode) {
-                return outputPattern.test(output) && jsPattern.test(jsCode) && htmlPattern.test(htmlCode) && cssPattern.test(cssCode);
+                return outputPattern.test(output) &&
+                    jsPattern.test(jsCode) &&
+                    htmlPattern.test(htmlCode) &&
+                    cssPattern.test(cssCode) &&
+                    jsAssert(jsCode);
             }
         };
     });
@@ -44,20 +65,15 @@ var updateMicoTasks = function() {};
         return !task.isCompleted;
     };
 
-    var savedMicrotasks = localStorage.getItem('microtasks-' + SLIDE_ID);
-    try {
-        savedMicrotasks = JSON.parse(savedMicrotasks) || {};
-    } catch (e) {
-        savedMicrotasks = {};
-    }
+    var savedMicrotasks = JsonStorage.get('microtasks-' + SLIDE_ID, {});
     updateMicroTasks = function(output, jsCode, htmlCode, cssCode) {
         microtasks.filter(notCompletedMicrotasks).forEach(function(task) {
             var isFinished = task.isFinished(output, jsCode, htmlCode, cssCode);
-            isFinished = isFinished || savedMicrotasks[task.description];
+            isFinished = savedMicrotasks[task.description] || isFinished;
             task.isCompleted = isFinished;
             savedMicrotasks[task.description] = isFinished;
             $(task.elem).toggleClass("alert-success", isFinished).toggleClass('alert-danger', !isFinished);
-            localStorage.setItem('microtasks-' + SLIDE_ID, JSON.stringify(savedMicrotasks));
+            JsonStorage.set('microtasks-' + SLIDE_ID, savedMicrotasks);
         });
     };
     $(window).on('beforeunload', function() {

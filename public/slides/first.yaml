@@ -37,6 +37,9 @@ slides:
        };
     microtasks:
       - description: Change <code>foo</code> to append "x" instead of prepending anything.
+        js_assert: |
+          foo("a") === "ax"
+      - description: Output should be named <code>somethingx</code>
         output:
           name: somethingx
   - id: slide-html

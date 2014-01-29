@@ -135,7 +135,7 @@ block content
       .microtasks
         for task in slide.microtasks
           .microtask.alert.alert-danger(data-toggle="tooltip", data-placement="left", title=task.hint,
-            data-css=task.css, data-js=task.js, data-html=task.html, data-output=task.output)
+            data-css=task.css, data-js=task.js, data-html=task.html, data-output=task.output, data-js-assert="#{task.js_assert ? task.js_assert.trim() : true}")
             span.microtask-status
               span.glyphicon.glyphicon-ok.microtask-status-ok
               span.glyphicon.glyphicon-question-sign.text-warning.microtask-status-bad
@@ -156,6 +156,7 @@ append scripts
   script(src="js/inspector-json.js")
   script(src="js/ace-builds/src-noconflict/ace.js")
   script(src="js/howler.js")
+  script(src="js/utils.js")
   script(src="js/slide.js")
   if slide.script
     script!= slide.script
