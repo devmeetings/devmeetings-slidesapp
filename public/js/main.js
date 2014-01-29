@@ -157,7 +157,7 @@
     var $iframe = $('iframe');
 
     var displaySlide = function(slide) {
-        $iframe[0].src = '/slide?slide=' + encodeURIComponent(JSON.stringify(slide));
+        $iframe[0].src = '/slides-' + window.presentation + ':' + slide.id;
     };
 
     window.addEventListener('hashchange', function() {

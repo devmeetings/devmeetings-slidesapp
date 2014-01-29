@@ -5,6 +5,10 @@ var OUTPUT_THEME = 'twilight';
 var SLIDE_ID = $(".main-content").data('slide');
 var updateMicroTasks = function() {};
 
+$(document.body).tooltip({
+    selector: '[data-toggle=tooltip]',
+    html: true
+});
 // Microtasks
 (function() {
     var microtasksElems = document.querySelectorAll('.microtask');
@@ -23,7 +27,7 @@ var updateMicroTasks = function() {};
                 } catch (e) {
                     //it's ok, it must be regexp then
                 }
-                return new RegExp(p, "m");
+                return new RegExp(p.trim(), "m");
             }
             return new RegExp('.*');
         };
@@ -73,6 +77,7 @@ var updateMicroTasks = function() {};
             task.isCompleted = isFinished;
             savedMicrotasks[task.description] = isFinished;
             $(task.elem).toggleClass("alert-success", isFinished).toggleClass('alert-danger', !isFinished);
+
             JsonStorage.set('microtasks-' + SLIDE_ID, savedMicrotasks);
         });
     };

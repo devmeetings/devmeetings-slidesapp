@@ -125,19 +125,31 @@ var normalizeSlide = function(slide) {
     }
 };
 
-exports.slide = function(req, res) {
-    try {
-        var slide = JSON.parse(req.query.slide);
-        normalizeSlide(slide);
-        if (slide.left) normalizeSlide(slide.left);
-        if (slide.right) normalizeSlide(slide.right);
-        res.render('slide', {
-            slide: slide
-        });
-    } catch (e) {
-        res.render('slide-empty');
-    }
+exports.singleSlide = function(req, res) {
+    var name = req.params.file;
+    var slideId = req.params.slide;
+    fs.exists(slidesDir + name + '.yaml', function(exists) {
+        if (exists) {
+            var presentation = require('../' + slidesDir + name + '.yaml');
+
+            var slide = [].filter.call(presentation.slides, function(s) {
+                return s.id === slideId;
+            })[0];
+
+            if (slide) {
+                normalizeSlide(slide);
+                if (slide.left) normalizeSlide(slide.left);
+                if (slide.right) normalizeSlide(slide.right);
+                res.render('slide', {
+                    slide: slide
+                });
+                return;
+            }
+        }
+        res.send(404);
+    });
 };
+
 exports.trainer = function(req, res) {
     res.render('trainers');
 };

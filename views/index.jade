@@ -17,7 +17,7 @@ block content
                 .panel-body
                   ul
                     - each slideset in slidesets
-                      li: a(href="/#{slideset.name}") #{slideset.title} (slides: #{slideset.count})
+                      li: a(href="/slides-#{slideset.name}") #{slideset.title} (slides: #{slideset.count})
 
             .col-lg-6
               .panel.panel-default
