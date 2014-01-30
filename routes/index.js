@@ -149,7 +149,8 @@ exports.singleSlide = function(req, res) {
                 if (slide.left) normalizeSlide(slide.left);
                 if (slide.right) normalizeSlide(slide.right);
                 res.render('slide', {
-                    slide: slide
+                    slide: slide,
+                    slideset: name
                 });
                 return;
             }

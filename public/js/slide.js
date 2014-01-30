@@ -3,6 +3,7 @@ var EDITOR_THEME = 'todr';
 var OUTPUT_THEME = 'twilight';
 
 var SLIDE_ID = $(".main-content").data('slide-id');
+var SLIDESET = $('.main-content').data('slideset');
 var updateMicroTasks = function() {};
 
 $(document.body).tooltip({
@@ -69,7 +70,8 @@ $(document.body).tooltip({
         return !task.isCompleted;
     };
 
-    var savedMicrotasks = JsonStorage.get('microtasks-' + SLIDE_ID, {});
+    var microTaskId = 'microtasks-' + SLIDESET + SLIDE_ID;
+    var savedMicrotasks = JsonStorage.get(microTaskId, {});
     updateMicroTasks = function(output, jsCode, htmlCode, cssCode) {
         microtasks.filter(notCompletedMicrotasks).forEach(function(task) {
             var isFinished = task.isFinished(output, jsCode, htmlCode, cssCode);
@@ -78,7 +80,7 @@ $(document.body).tooltip({
             savedMicrotasks[task.description] = isFinished;
             $(task.elem).toggleClass("alert-success", isFinished).toggleClass('alert-danger', !isFinished);
 
-            JsonStorage.set('microtasks-' + SLIDE_ID, savedMicrotasks);
+            JsonStorage.set(microTaskId, savedMicrotasks);
         });
     };
     $(window).on('beforeunload', function() {
@@ -140,9 +142,11 @@ $(document.body).tooltip({
     var cssEditor = aceStd('editor-css', 'css');
     var htmlEditor = aceStd('editor-html', 'html');
     var isPure = iframe.hasAttribute('data-pure');
+    var errors = document.querySelector('.errors-fiddle');
 
     var updateOutput = function() {
-        var jsCode = (isPure ? '' : commonJs) + "<script>" + fixOneLineComments(jsEditor.getValue()) + "</script>";
+        var jsCodeRaw = 'try { ' + fixOneLineComments(jsEditor.getValue()) + ';window.parent.postMessage({msg: ""}, "' + host + '");} catch (e) { console.error(e); window.parent.postMessage({msg: e.message}, "' + host + '"); }';
+        var jsCode = (isPure ? '' : commonJs) + "<script>" + jsCodeRaw + "</script>";
         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(cssEditor.getValue()) + "</style>";
         var htmlCode = htmlEditor.getValue();
         var coffee = coffeeEditor.getValue();
@@ -167,12 +171,17 @@ $(document.body).tooltip({
 
         iframe.src = "data:text/html;charset=utf-8," + htmlCode;
     };
+
     var updateOutputLater = _.debounce(updateOutput, 700);
     jsEditor.on('change', updateOutputLater);
     coffeeEditor.on('change', updateOutputLater);
     cssEditor.on('change', updateOutputLater);
     htmlEditor.on('change', updateOutputLater);
     updateOutputLater();
+
+    window.addEventListener('message', function(ev) {
+        errors.innerHTML = ev.data.msg;
+    });
 }());
 
 (function() {
@@ -224,7 +233,7 @@ $(document.body).tooltip({
             return document.querySelectorAll(query)[k];
         };
 
-        var errors = queryAll('.errors');
+        var errors = queryAll('.errors-code');
 
         var codeLanguage = queryAll('.code-editor').getAttribute('data-language');
 

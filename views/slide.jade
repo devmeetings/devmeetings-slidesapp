@@ -20,7 +20,7 @@ mixin slideContent(slide)
               )= slide.code.content
     .row
       .col-lg-12
-        .errors.alert.alert-danger.errors
+        .errors.alert.alert-danger.errors-code
     if slide.code
       br
       .output.row(data-monitor='#{slide.monitor}', data-hide="#{slide.code.hideOutput}", data-async=slide.code.async)
@@ -66,6 +66,7 @@ mixin slideContent(slide)
                 else
                   #editor-html.editor(
                     class="#{slide.fiddle.small ? 'small' : ''} #{slide.fiddle.big ? 'big' : ''}" ) #{"<html><head></head><body></body></html>"}
+            .errors.alert.alert-danger.errors-fiddle
         .col-sm-6(class="#{ slide.fiddle.hideOutput ? 'hidden' : '' }")
           #tab-output.tab-pane #{slide.fiddle.output}
             iframe#fiddle-output(data-pure=slide.fiddle.pure)
@@ -115,7 +116,7 @@ mixin slideContent(slide)
 block content
     
 
-  .main-content.fade.container-fluid(data-slide-id=slide.id)
+  .main-content.fade.container-fluid(data-slide-id=slide.id, slideset=slideset)
     .row
       .col-lg-12
         h1!= slide.title
