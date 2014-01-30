@@ -16,10 +16,10 @@
                 $solutionSpace.toggleClass('hidden', !show);
                 $notesSpace.toggleClass('col-md-6', !! show).toggleClass('col-md-12', !show);
             },
-            reset: function(newTaskData) {
+            reset: function(slideId, newTaskData) {
                 taskData = newTaskData;
                 if (taskData && taskData.solution) {
-                    $solution[0].src = '/slide?slide=' + encodeURIComponent(JSON.stringify(taskData.solution));
+                    $solution[0].src = '/slides-' + parentFrame.presentation + ':' + slideId + '?solution';
                 }
             },
             display: function() {
@@ -50,9 +50,9 @@
 
         editor.setValue(data.currentSlide.notes);
         Solution.showButton(data.currentSlide.task);
-        Solution.reset(data.currentSlide.task);
+        Solution.reset(data.currentSlide.id, data.currentSlide.task);
 
-        iframe.src = '/slide?slide=' + encodeURIComponent(JSON.stringify(data.nextSlide));
+        iframe.src = '/slides-' + parentFrame.presentation + ':' + (data.nextSlide ? data.nextSlide.id : "");
     });
     window.onbeforeunload = function() {
         return "Are you sure you want to exit?";

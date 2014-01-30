@@ -156,11 +156,14 @@
     var $body = $('body').addClass('loaded');
     var $iframe = $('iframe');
 
-    var displaySlide = function(slide) {
-        $iframe[0].src = '/slides-' + window.presentation + ':' + slide.id;
+    var displaySlide = function(slideId) {
+        var newSrc = '/slides-' + window.presentation + ':' + slideId;
+        $iframe[0].src = newSrc;
     };
 
-    window.addEventListener('hashchange', function() {
+    var _ignoreHashChange = false;
+
+    window.addEventListener('hashchange', function(ev) {
         var hash = window.location.hash;
         var $link = $('a[href=' + hash + ']');
         $link.parents('ul').find('li.active').removeClass('active');
@@ -170,14 +173,21 @@
         var $menu = $('ul.nav.nav-slides');
         var of = $link.parents('li:visible').offset();
         if (!of) {
-            of = $link.parents('li').offset();
+            of = $link.parents('li').offset() || {
+                left: 0
+            };
         }
         $menu.slimScrollHorizontal({
             scroll: of.left - $(document).width() / 3
         });
 
+        if (_ignoreHashChange) {
+            _ignoreHashChange = false;
+            return;
+        }
+
         var slide = Slides.getCurrentSlide();
-        displaySlide(slide);
+        displaySlide(slide.id);
         Slides.slideChanged(slide);
     });
 
@@ -237,8 +247,12 @@
             if (ev.data.type === 'codeupdate') {
                 slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code=' + encodeURIComponent(ev.data.code));
             }
+            if (ev.data.type === 'navcanceled') {
+                _ignoreHashChange = true;
+                window.history.go(-2); //skip change to "#"
+            }
             if (ev.data.type === 'tasksolution') {
-                displaySlide(ev.data.solution);
+                displaySlide(ev.data.solutionId);
             }
             if (ev.data.type === 'changeslide') {
                 changeSlide(ev.data.mod);
@@ -250,9 +264,5 @@
     // Enable tooltips
     $body.tooltip({
         selector: '[data-toggle="tooltip"]'
-    });
-
-    $(window).on('beforeunload', function(ev) {
-        return "Do you really want to exit slider?";
     });
 }());

@@ -83,6 +83,15 @@ $(document.body).tooltip({
     };
     $(window).on('beforeunload', function() {
         if (microtasks.filter(notCompletedMicrotasks).length) {
+            setTimeout(function() {
+                setTimeout(function() {
+                    if (window.parent) {
+                        window.parent.postMessage({
+                            type: 'navcanceled'
+                        }, window.location);
+                    }
+                }, 500);
+            }, 1);
             return "You haven't finished all tasks!";
         }
     });

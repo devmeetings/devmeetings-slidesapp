@@ -132,6 +132,7 @@ var normalizeSlide = function(slide) {
 exports.singleSlide = function(req, res) {
     var name = req.params.file;
     var slideId = req.params.slide;
+    var showSolution = 'solution' in req.query;
     fs.exists(slidesDir + name + '.yaml', function(exists) {
         if (exists) {
             var presentation = require('../' + slidesDir + name + '.yaml');
@@ -141,6 +142,9 @@ exports.singleSlide = function(req, res) {
             })[0];
 
             if (slide) {
+                if (showSolution && slide.solution) {
+                    slide = slide.solution;
+                }
                 normalizeSlide(slide);
                 if (slide.left) normalizeSlide(slide.left);
                 if (slide.right) normalizeSlide(slide.right);
@@ -153,8 +157,18 @@ exports.singleSlide = function(req, res) {
         res.send(404);
     });
 };
-exports.slideEmpty = function(req, res) {
-    res.render('slide-empty');
+exports.slide = function(req, res) {
+    try {
+        var slide = JSON.parse(req.query.slide);
+        normalizeSlide(slide);
+        if (slide.left) normalizeSlide(slide.left);
+        if (slide.right) normalizeSlide(slide.right);
+        res.render('slide', {
+            slide: slide
+        });
+    } catch (e) {
+        res.render('slide-empty');
+    }
 };
 
 exports.trainer = function(req, res) {
