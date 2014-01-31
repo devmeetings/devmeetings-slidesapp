@@ -34,12 +34,13 @@ $(document.body).tooltip({
         };
         var getJsAssert = function() {
             var attr = 'data-js-assert';
-            if (!e.hasAttribute(attr)) {
+            var val = e.getAttribute(attr);
+            if (!val || val === "true") {
                 return function() {
                     return true;
                 };
             }
-            var assertion = $.trim(e.getAttribute(attr));
+            var assertion = $.trim(val);
 
             return function(jsCode) {
                 jsCode += "; try { return (" + assertion + ") || false; } catch(e) { return false; }";
@@ -70,7 +71,7 @@ $(document.body).tooltip({
         return !task.isCompleted;
     };
 
-    var microTaskId = 'microtasks-' + SLIDESET + SLIDE_ID;
+    var microTaskId = 'microtasks-' + SLIDESET + '-' + SLIDE_ID;
     var savedMicrotasks = JsonStorage.get(microTaskId, {});
     updateMicroTasks = function(output, jsCode, htmlCode, cssCode) {
         microtasks.filter(notCompletedMicrotasks).forEach(function(task) {
@@ -145,8 +146,11 @@ $(document.body).tooltip({
     var errors = document.querySelector('.errors-fiddle');
 
     var updateOutput = function() {
-        var jsCodeRaw = 'try { ' + fixOneLineComments(jsEditor.getValue()) + ';window.parent.postMessage({msg: ""}, "' + host + '");} catch (e) { console.error(e); window.parent.postMessage({msg: e.message}, "' + host + '"); }';
-        var jsCode = (isPure ? '' : commonJs) + "<script>" + jsCodeRaw + "</script>";
+        var wrapWithForwarder = function(code) {
+            return 'try { ' + code + ';window.parent.postMessage({msg: ""}, "' + host + '");}' +
+                'catch (e) { console.error(e); window.parent.postMessage({msg: e.message}, "' + host + '"); }';
+        };
+        var jsCode = (isPure ? '' : commonJs) + "<script>" + wrapWithForwarder(fixOneLineComments(jsEditor.getValue())) + "</script>";
         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(cssEditor.getValue()) + "</style>";
         var htmlCode = htmlEditor.getValue();
         var coffee = coffeeEditor.getValue();
@@ -154,7 +158,7 @@ $(document.body).tooltip({
 
         if (coffee) {
             coffeeCompiled = CoffeeScript.compile(coffee);
-            jsCode += '<script>' + coffeeCompiled + '</script>';
+            jsCode += '<script>' + wrapWithForwarder(coffeeCompiled) + '</script>';
         }
 
         if (htmlCode.search("</body>")) {

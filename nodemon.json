@@ -1,3 +1,4 @@
 {
-  "watch": "**/*.yaml"
+  "ext": "js,jade,coffee,yaml",
+  "watch": "*"
 }
