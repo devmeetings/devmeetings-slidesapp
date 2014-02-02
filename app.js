@@ -36,6 +36,10 @@ app.get('/trainer', routes.trainer);
 app.get('/slides-:file\::slide', routes.singleSlide);
 app.get('/slides-:file', routes.slider);
 
-http.createServer(app).listen(app.get('port'), function() {
-    console.log('Express server listening on port ' + app.get('port'));
+var server = http.Server(app);
+var io = require('socket.io').listen(server);
+require('./routes/sockets')(io);
+
+server.listen(app.get('port'), function() {
+    console.log('Express and Socket.IO server listening on port ' + app.get('port'));
 });

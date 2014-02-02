@@ -142,8 +142,8 @@ exports.singleSlide = function(req, res) {
             })[0];
 
             if (slide) {
-                if (showSolution && slide.solution) {
-                    slide = slide.solution;
+                if (showSolution && slide.task.solution) {
+                    slide = slide.task.solution;
                 }
                 normalizeSlide(slide);
                 if (slide.left) normalizeSlide(slide.left);

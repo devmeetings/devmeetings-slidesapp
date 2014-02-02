@@ -1,5 +1,23 @@
 'use strict';
 
+var Sockets = {
+    sendEveryChange: false,
+    socket: io.connect(SOCKET_URL),
+};
+// sockets
+(function() {
+    // send name on start
+    (function(){
+        var name = localStorage.getItem('name');
+        Sockets.socket.emit('name', name);
+    }());
+    // enable live sending
+    Sockets.socket.on('send live', function(sendEveryChange) {
+        Sockets.sendEveryChange = sendEveryChange;
+    });
+}());
+
+
 // handling
 (function() {
     var Slides = {
@@ -157,9 +175,15 @@
     var $iframe = $('iframe');
 
     var displaySlide = function(slideId) {
+        Sockets.socket.emit('currentSlide', slideId, window.presentation);
         var newSrc = '/slides-' + window.presentation + ':' + slideId;
         $iframe[0].src = newSrc;
     };
+
+    // display solution to everyone
+    Sockets.socket.on('solution', function(solutionId) {
+        displaySlide(solutionId);
+    });
 
     var _ignoreHashChange = false;
 
@@ -244,6 +268,11 @@
 
 
         window.addEventListener('message', function(ev) {
+            if (ev.data.type === 'editorupdate') {
+                if (Sockets.sendEveryChange) {
+                    Sockets.socket.emit('code change', ev.data.data);
+                }
+            }
             if (ev.data.type === 'codeupdate') {
                 slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code=' + encodeURIComponent(ev.data.code));
             }

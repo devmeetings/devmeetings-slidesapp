@@ -1,3 +1,10 @@
+var socket = io.connect(SOCKET_URL);
+socket.emit('name', localStorage.getItem('name'));
+socket.emit('trainer');
+socket.on('clients', function(clients){
+    console.log(clients);
+});
+
 (function() {
     'use strict';
 
@@ -9,24 +16,28 @@
 
         var $el = $('.task-solution-btn');
         var $solution = $('iframe.task-solution-frame');
-        var taskData = null;
+        var slideData = null;
 
         var Solution = {
             showButton: function(show) {
                 $solutionSpace.toggleClass('hidden', !show);
                 $notesSpace.toggleClass('col-md-6', !! show).toggleClass('col-md-12', !show);
             },
-            reset: function(slideId, newTaskData) {
-                taskData = newTaskData;
+            reset: function(slideData2) {
+                slideData = slideData2;
+                var slideId = slideData.id;
+                var taskData = slideData.task;
                 if (taskData && taskData.solution) {
                     $solution[0].src = '/slides-' + parentFrame.presentation + ':' + slideId + '?solution';
                 }
             },
             display: function() {
+                var solutionId = slideData.id+'?solution'; 
                 parentFrame.postMessage({
                     type: 'tasksolution',
-                    solution: taskData.solution
+                    solutionId: solutionId
                 }, window.location);
+                socket.emit('solution', solutionId);
             }
         };
 
@@ -50,7 +61,7 @@
 
         editor.setValue(data.currentSlide.notes);
         Solution.showButton(data.currentSlide.task);
-        Solution.reset(data.currentSlide.id, data.currentSlide.task);
+        Solution.reset(data.currentSlide);
 
         iframe.src = '/slides-' + parentFrame.presentation + ':' + (data.nextSlide ? data.nextSlide.id : "");
     });

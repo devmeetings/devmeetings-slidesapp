@@ -16,3 +16,5 @@ var JsonStorage = {
         return defaultValue;
     }
 };
+
+var SOCKET_URL = 'http://localhost:3000';

@@ -8,6 +8,8 @@
   "dependencies": {
     "express": "3.4.4",
     "jade": "*",
-    "js-yaml": "~2.1.3"
+    "js-yaml": "~2.1.3",
+    "socket.io": "~0.9.16",
+    "underscore": "~1.5.2"
   }
 }
