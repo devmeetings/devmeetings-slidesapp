@@ -324,6 +324,10 @@ $(document.body).tooltip({
         if (mode.run) {
             editor.on('change', _.debounce(runContent, 700));
             runContent();
+        } else {
+            editor.on('change', _.debounce(function() {
+                updateMicroTasks(editor.getValue());
+            }, 700));
         }
         if (!mode.run || output.getAttribute('data-hide') === 'true') {
             //hide output
