@@ -22,7 +22,9 @@ var sendClientsDataLater = _.debounce(sendClientsDataToTrainers, 1000);
 module.exports = function(io) {
   io.on('connection', function(socket) {
     var id = socket.id;
-    var clientData = clients[id] = {};
+    var clientData = clients[id] = {
+      microtasks: {}
+    };
 
     var l = log(socket);
     l("New client connected");
@@ -37,6 +39,11 @@ module.exports = function(io) {
       l("Changing currentSlide", slide);
       clientData.slide = slide;
       clientData.presentation = presentation;
+      sendClientsDataLater();
+    });
+
+    socket.on('microtasks', function(data){
+      clientData.microtasks[data.slideId] = data.microtasks;
       sendClientsDataLater();
     });
 

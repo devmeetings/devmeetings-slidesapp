@@ -1,14 +1,13 @@
 var socket = io.connect(SOCKET_URL);
 socket.emit('name', localStorage.getItem('name'));
 socket.emit('trainer');
-socket.on('clients', function(clients){
-    console.log(clients);
-});
 
 (function() {
     'use strict';
 
     var parentFrame = null;
+    var slideData = null;
+    var clients = {};
 
     var Solution = (function() {
         var $solutionSpace = $('.task-solution');
@@ -16,15 +15,13 @@ socket.on('clients', function(clients){
 
         var $el = $('.task-solution-btn');
         var $solution = $('iframe.task-solution-frame');
-        var slideData = null;
 
         var Solution = {
             showButton: function(show) {
                 $solutionSpace.toggleClass('hidden', !show);
                 $notesSpace.toggleClass('col-md-6', !! show).toggleClass('col-md-12', !show);
             },
-            reset: function(slideData2) {
-                slideData = slideData2;
+            reset: function() {
                 var slideId = slideData.id;
                 var taskData = slideData.task;
                 if (taskData && taskData.solution) {
@@ -58,35 +55,104 @@ socket.on('clients', function(clients){
             return;
         }
         parentFrame = ev.source;
+        slideData = data.currentSlide;
 
         editor.setValue(data.currentSlide.notes);
         Solution.showButton(data.currentSlide.task);
-        Solution.reset(data.currentSlide);
+        Solution.reset();
+        buildClientsTable();
 
         iframe.src = '/slides-' + parentFrame.presentation + ':' + (data.nextSlide ? data.nextSlide.id : "");
     });
+
+    var buildClientsTable = function() {
+        var $table = $('.participants-table').empty();
+        var $tbody = $('<tbody>').appendTo($table);
+
+        var add = {
+            row: function(tbody) {
+                tbody = tbody || $tbody
+                var $tr = $('<tr>').appendTo(tbody);
+                return {
+                    cell: function(text, clazz) {
+                        return this._cell('td', text, clazz);
+                    }, 
+                    header: function(text, clazz) {
+                        return this._cell('th', text, clazz);
+                    },
+                    _cell: function(type, text, clazz) {
+                        $('<'+type+'>').addClass(clazz).html(text).appendTo($tr);
+                        return this;
+                    }
+                };
+            }
+        };
+        var headers = {};
+        _.each(clients, function(clientData, clientId) {
+            var microtasks = clientData.microtasks[slideData.id];
+            _.each(microtasks, function(t) {
+                headers[t.description] = true;
+            });
+        });
+        var row = add.row($('<thead>').appendTo($table));
+        row.header('Id', true);
+        row.header('Name');
+        row.header('Current slide');
+        _.each(headers, function(v, k) {
+            row.header(k);
+        });
+
+        _.each(clients, function(clientData, clientId) {
+            var row = add.row();
+            row.cell(clientId);
+            row.cell('<strong>' + clientData.name + '</strong>');
+            row.cell(clientData.presentation + ':' +clientData.slide);
+            //microtasks for current task
+            var microtasks = clientData.microtasks[slideData.id];
+            _.each(headers, function(v, k) {
+                var task = _.find(microtasks, function(task) {
+                    return task.description === k;
+                });
+                if (task) {
+                    row.cell(task.isCompleted ? 'completed' : '-');
+                } else {
+                    row.cell('N/A');
+                }
+            });
+        });
+    };
+
+    socket.on('clients', function(newClients) {
+        if (!slideData) {
+            return;
+        }
+        clients = newClients;
+        buildClientsTable();
+    });
+
     window.onbeforeunload = function() {
         return "Are you sure you want to exit?";
     };
 
-    var $doc = $(document);
+    (function(){
+        var $doc = $(document);
 
-    var changeSlide = function() {
-        parentFrame.postMessage({
-            type: 'changeslide',
-            mod: this
-        }, window.location);
-    };
-    var nextSlide = changeSlide.bind(1);
-    var prevSlide = changeSlide.bind(-1);
+        var changeSlide = function() {
+            parentFrame.postMessage({
+                type: 'changeslide',
+                mod: this
+            }, window.location);
+        };
+        var nextSlide = changeSlide.bind(1);
+        var prevSlide = changeSlide.bind(-1);
 
-    $doc.bind('keyup', 'right', nextSlide);
-    $doc.bind('keyup', 'space', nextSlide);
-    $doc.bind('keyup', 'down', nextSlide);
-    $doc.bind('keyup', 'pagedown', nextSlide);
+        $doc.bind('keyup', 'right', nextSlide);
+        $doc.bind('keyup', 'space', nextSlide);
+        $doc.bind('keyup', 'down', nextSlide);
+        $doc.bind('keyup', 'pagedown', nextSlide);
 
-    $doc.bind('keyup', 'up', prevSlide);
-    $doc.bind('keyup', 'pageup', prevSlide);
-    $doc.bind('keyup', 'left', prevSlide);
-
+        $doc.bind('keyup', 'up', prevSlide);
+        $doc.bind('keyup', 'pageup', prevSlide);
+        $doc.bind('keyup', 'left', prevSlide);
+    }());
 }());

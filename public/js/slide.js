@@ -83,6 +83,16 @@ $(document.body).tooltip({
 
             JsonStorage.set(microTaskId, savedMicrotasks);
         });
+        //send update
+        window.parent.postMessage({
+            type:'microtasks',
+            data: microtasks.map(function(task){
+                return {
+                    description: task.description,
+                    isCompleted: task.isCompleted
+                };
+            })
+        }, window.location);
     };
     $(window).on('beforeunload', function() {
         if (microtasks.filter(notCompletedMicrotasks).length) {

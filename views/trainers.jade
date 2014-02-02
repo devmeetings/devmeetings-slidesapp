@@ -2,10 +2,21 @@ extends layout
 
 block content
     .container
-        .row
-            .col-md-12.notes-space
-                h3 Notes
-                #editor.editor.trainers-notes
+      ul.nav.nav-tabs
+        li.active
+          a(data-toggle="tab", data-target="#notes") Notes
+        li
+          a(data-toggle="tab", data-target="#participants") Participants
+      .tab-content
+        #notes.tab-pane.fade.active.in
+          .row
+              .col-md-12.notes-space
+                  h3 Notes
+                  #editor.editor.trainers-notes
+        #participants.tab-pane.fade
+          .row
+            .col-md-12
+              table.table.table-bordered.participants-table
         .row 
             .col-md-6.nextslide-space
                 h3 Next slide

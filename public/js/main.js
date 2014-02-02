@@ -286,6 +286,12 @@ var Sockets = {
             if (ev.data.type === 'changeslide') {
                 changeSlide(ev.data.mod);
             }
+            if (ev.data.type === 'microtasks') {
+                Sockets.socket.emit('microtasks', {
+                    slideId: Slides.getCurrentSlide().id,
+                    microtasks: ev.data.data
+                });
+            }
         });
     }());
 
