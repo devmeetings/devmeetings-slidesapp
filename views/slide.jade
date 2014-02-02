@@ -116,7 +116,7 @@ mixin slideContent(slide)
 block content
     
 
-  .main-content.fade.container-fluid(data-slide-id=slide.id, data-slideset=slideset)
+  .main-content.fade.container-fluid(data-slide-id=slide.id, data-slideset=slideset, data-trainers-mode=isTrainers)
     .row
       .col-lg-12
         h1!= slide.title

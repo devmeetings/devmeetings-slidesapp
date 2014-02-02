@@ -4,6 +4,7 @@ var OUTPUT_THEME = 'twilight';
 
 var SLIDE_ID = $(".main-content").data('slide-id');
 var SLIDESET = $('.main-content').data('slideset');
+var IS_TRAINERS_MODE = $('.main-content')[0].hasAttribute('data-trainers-mode');
 var updateMicroTasks = function() {};
 
 $(document.body).tooltip({
@@ -85,8 +86,8 @@ $(document.body).tooltip({
         });
         //send update
         window.parent.postMessage({
-            type:'microtasks',
-            data: microtasks.map(function(task){
+            type: 'microtasks',
+            data: microtasks.map(function(task) {
                 return {
                     description: task.description,
                     isCompleted: task.isCompleted
@@ -95,6 +96,9 @@ $(document.body).tooltip({
         }, window.location);
     };
     $(window).on('beforeunload', function() {
+        if (IS_TRAINERS_MODE) {
+            return;
+        }
         if (microtasks.filter(notCompletedMicrotasks).length) {
             setTimeout(function() {
                 setTimeout(function() {

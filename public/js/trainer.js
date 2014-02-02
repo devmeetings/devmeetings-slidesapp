@@ -62,7 +62,7 @@ socket.emit('trainer');
         Solution.reset();
         buildClientsTable();
 
-        iframe.src = '/slides-' + parentFrame.presentation + ':' + (data.nextSlide ? data.nextSlide.id : "");
+        iframe.src = '/slides-' + parentFrame.presentation + ':' + (data.nextSlide ? data.nextSlide.id : "") + "?trainers";
     });
 
     var buildClientsTable = function() {

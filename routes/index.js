@@ -133,6 +133,8 @@ exports.singleSlide = function(req, res) {
     var name = req.params.file;
     var slideId = req.params.slide;
     var showSolution = 'solution' in req.query;
+    var isTrainers = 'trainers' in req.query;
+    console.log(isTrainers, "Trainers");
     fs.exists(slidesDir + name + '.yaml', function(exists) {
         if (exists) {
             var presentation = require('../' + slidesDir + name + '.yaml');
@@ -150,7 +152,8 @@ exports.singleSlide = function(req, res) {
                 if (slide.right) normalizeSlide(slide.right);
                 res.render('slide', {
                     slide: slide,
-                    slideset: name
+                    slideset: name,
+                    isTrainers: isTrainers
                 });
                 return;
             }
