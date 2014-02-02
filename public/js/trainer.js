@@ -29,7 +29,7 @@ socket.emit('trainer');
                 }
             },
             display: function() {
-                var solutionId = slideData.id+'?solution'; 
+                var solutionId = slideData.id + '?solution';
                 parentFrame.postMessage({
                     type: 'tasksolution',
                     solutionId: solutionId
@@ -76,12 +76,12 @@ socket.emit('trainer');
                 return {
                     cell: function(text, clazz) {
                         return this._cell('td', text, clazz);
-                    }, 
+                    },
                     header: function(text, clazz) {
                         return this._cell('th', text, clazz);
                     },
                     _cell: function(type, text, clazz) {
-                        $('<'+type+'>').addClass(clazz).html(text).appendTo($tr);
+                        $('<' + type + '>').addClass(clazz).html(text).appendTo($tr);
                         return this;
                     }
                 };
@@ -95,7 +95,6 @@ socket.emit('trainer');
             });
         });
         var row = add.row($('<thead>').appendTo($table));
-        row.header('Id', true);
         row.header('Name');
         row.header('Current slide');
         _.each(headers, function(v, k) {
@@ -104,9 +103,8 @@ socket.emit('trainer');
 
         _.each(clients, function(clientData, clientId) {
             var row = add.row();
-            row.cell(clientId);
-            row.cell('<strong>' + clientData.name + '</strong>');
-            row.cell(clientData.presentation + ':' +clientData.slide);
+            row.cell('<strong>' + clientData.name + '</strong>' + ' <span class="text-muted">' + clientId + '</span>');
+            row.cell(clientData.presentation + ':' + clientData.slide);
             //microtasks for current task
             var microtasks = clientData.microtasks[slideData.id];
             _.each(headers, function(v, k) {
@@ -114,9 +112,9 @@ socket.emit('trainer');
                     return task.description === k;
                 });
                 if (task) {
-                    row.cell(task.isCompleted ? 'completed' : '-');
+                    row.cell('', task.isCompleted ? 'success' : 'danger');
                 } else {
-                    row.cell('N/A');
+                    row.cell('N/A', 'warning');
                 }
             });
         });
@@ -134,7 +132,7 @@ socket.emit('trainer');
         return "Are you sure you want to exit?";
     };
 
-    (function(){
+    (function() {
         var $doc = $(document);
 
         var changeSlide = function() {
