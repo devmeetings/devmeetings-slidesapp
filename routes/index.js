@@ -33,11 +33,6 @@ exports.uploadSlides = function(req, res) {
 
     var path = slidesDir + shortName + '.yaml';
 
-    if (file.type !== 'application/x-yaml') {
-        res.send(400, "Only yaml files are accepted.");
-        return;
-    }
-
     fs.readFile(file.path, function(err, data) {
         if (err) {
             res.send(400, "Cannot read uploaded file.");
@@ -54,7 +49,7 @@ exports.uploadSlides = function(req, res) {
         }
 
         fs.writeFile(path, data, function(err) {
-            res.redirect('/' + shortName);
+            res.redirect('/slides-' + shortName);
         });
     });
 
@@ -135,30 +130,31 @@ exports.singleSlide = function(req, res) {
     var showSolution = 'solution' in req.query;
     var isTrainers = 'trainers' in req.query;
     console.log(isTrainers, "Trainers");
-    fs.exists(slidesDir + name + '.yaml', function(exists) {
-        if (exists) {
-            var presentation = require('../' + slidesDir + name + '.yaml');
-
-            var slide = [].filter.call(presentation.slides, function(s) {
-                return s.id === slideId;
-            })[0];
-
-            if (slide) {
-                if (showSolution && slide.task.solution) {
-                    slide = slide.task.solution;
-                }
-                normalizeSlide(slide);
-                if (slide.left) normalizeSlide(slide.left);
-                if (slide.right) normalizeSlide(slide.right);
-                res.render('slide', {
-                    slide: slide,
-                    slideset: name,
-                    isTrainers: isTrainers
-                });
-                return;
-            }
+    fs.readFile(slidesDir + name + '.yaml', 'utf8', function(err, data) {
+        if (err) {
+            res.send(404);
+            return;
         }
-        res.send(404);
+        var presentation = yaml.safeLoad(data);
+
+        var slide = [].filter.call(presentation.slides, function(s) {
+            return s.id === slideId;
+        })[0];
+
+        if (slide) {
+            if (showSolution && slide.task.solution) {
+                slide = slide.task.solution;
+            }
+            normalizeSlide(slide);
+            if (slide.left) normalizeSlide(slide.left);
+            if (slide.right) normalizeSlide(slide.right);
+            res.render('slide', {
+                slide: slide,
+                slideset: name,
+                isTrainers: isTrainers
+            });
+            return;
+        }
     });
 };
 exports.slide = function(req, res) {
