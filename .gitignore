@@ -1,7 +1,7 @@
 node_modules
-executors/java/bin/
-executors/java/build/
-executors/java/.project
-executors/java/.classpath
-executors/java/.settings
-executors/java/.gradle
+executors/javaExecutor/bin/
+executors/javaExecutor/build/
+executors/javaExecutor/.project
+executors/javaExecutor/.classpath
+executors/javaExecutor/.settings
+executors/javaExecutor/.gradle
