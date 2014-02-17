@@ -1,1 +1,7 @@
 node_modules
+executors/java/bin/
+executors/java/build/
+executors/java/.project
+executors/java/.classpath
+executors/java/.settings
+executors/java/.gradle

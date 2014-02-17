@@ -1,0 +1,70 @@
+extends layout
+
+block content
+    .row
+      .col-lg-12
+        br
+        div
+            span.editor-change-size.glyphicon.glyphicon-fullscreen
+            .code-editor.editor(
+            data-language='java'
+            class="big" 
+            ).
+                import java.util.Random;
+
+                public class TestClass {
+
+                  public static int rand() {
+                    return new Random().nextInt();
+                  }
+
+                  public static String main() {
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("Hello ");
+                    builder.append("world !");
+                    builder.append(rand());
+                    return builder.toString();
+                  }
+
+                }
+    .row
+      .col-lg-12
+        .errors.alert.alert-danger.errors-code
+    br
+    .output.row
+      .col-sm-12
+        .output-ace.editor
+append scripts
+    script(src="js/ace-builds/src-noconflict/ace.js")
+    script.
+        var editor = ace.edit(document.querySelector(".code-editor"));
+        editor.setTheme("ace/theme/todr");
+        editor.getSession().setMode("ace/mode/java");
+
+        var output = ace.edit(document.querySelector('.output-ace'));
+        output.setTheme("ace/theme/twilight");
+        output.setReadOnly(true);
+        output.setHighlightActiveLine(false);
+        output.setShowPrintMargin(false);
+        output.renderer.setShowGutter(false);
+
+        var errors = document.querySelector('.errors');
+
+        var runContent = function() {
+            var code = editor.getValue();
+    
+            $.ajax({
+                url: '/execute', 
+                method: 'post',
+                contentType: 'text/plain',
+                data: code,
+                success: function(data) {
+                    data = JSON.parse(data);
+                    errors.innerHTML = data.errors || "";
+                    output.setValue(data.result);
+                }
+            });
+        };
+
+        editor.on('change', _.debounce(runContent, 10));
+        runContent();

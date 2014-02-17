@@ -174,3 +174,23 @@ exports.slide = function(req, res) {
 exports.trainer = function(req, res) {
     res.render('trainers');
 };
+
+exports.executeGui = function(req, res) {
+    res.render('executeDemo');
+};
+exports.execute = function(req, res) {
+    var code = "";
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) {
+        code += chunk;
+    });
+
+    req.on('end', function() {
+        require('../executors').send({
+            "name": "TestClass",
+            "code": code
+        }, function(data) {
+            res.send(data);
+        });
+    });
+};
