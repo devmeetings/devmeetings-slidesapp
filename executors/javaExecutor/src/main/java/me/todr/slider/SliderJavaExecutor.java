@@ -1,7 +1,8 @@
 package me.todr.slider;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
 
 import me.todr.slider.JavaRunner.CompilerOutput;
@@ -24,9 +25,7 @@ public class SliderJavaExecutor {
 
 	public static void main(String[] args) throws IOException,
 			ShutdownSignalException, ConsumerCancelledException,
-			InterruptedException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException {
+			InterruptedException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		// Connect to queue
 		ConnectionFactory factory = new ConnectionFactory();
@@ -56,9 +55,20 @@ public class SliderJavaExecutor {
 					.asText(), readTree.get("code").asText());
 			Class<?> clazz = compile.getClazz();
 			if (clazz != null) {
-				byte[] bytes = clazz.getMethod("main").invoke(null).toString()
-						.getBytes();
-				map.put("result", new String(bytes));
+				Method method;
+				try {
+					method = clazz.getMethod("main");
+					Object invoke = method.invoke(null);
+					if (invoke != null) {
+						byte[] bytes = invoke.toString().getBytes();
+						map.put("result", new String(bytes));
+					} else {
+						map.put("errors",
+								Arrays.asList("method main returned null"));
+					}
+				} catch (Exception e) {
+					map.put("errors", e.getMessage());
+				}
 			} else {
 				map.put("errors", compile.getErrors());
 			}
