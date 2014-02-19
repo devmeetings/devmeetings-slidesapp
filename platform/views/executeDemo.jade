@@ -53,15 +53,19 @@ append scripts
         var runContent = function() {
             var code = editor.getValue();
     
-            $.ajax({
+            var call = $.ajax({
                 url: '/execute', 
                 method: 'post',
                 contentType: 'text/plain',
                 data: code,
+                timeout: 10000,
                 success: function(data) {
                     data = JSON.parse(data);
                     errors.innerHTML = data.errors || "";
                     output.setValue(data.result);
+                },
+                error: function() {
+                    errors.innerHTML = 'It seems that execution server is not running.';
                 }
             });
         };
