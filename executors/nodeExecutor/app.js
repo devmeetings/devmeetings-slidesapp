@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/local/bin/node
 
 var Queue = 'run_node';
 var ReplyQueue = 'run_replies';
@@ -24,7 +24,7 @@ connection.then(function(conn) {
     conn.createChannel().then(function(ch) {
         var ok = ch.assertQueue(Queue, {
             durable: false,
-            exclusive: true
+            exclusive: false
         }).then(function(qok) {
             // Read queue
             console.log("[*] Waiting for messages.");
