@@ -1,14 +1,21 @@
 package me.todr.slider;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import me.todr.slider.JavaRunner.CompilerOutput;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
@@ -22,11 +29,13 @@ import com.rabbitmq.client.ShutdownSignalException;
 public class SliderJavaExecutor {
 
 	private static final String QUEUE_NAME = "run";
+	private static final int MAXIMAL_EXECUTION_TIME_SECONDS = 7;
 
 	public static void main(String[] args) throws IOException,
 			ShutdownSignalException, ConsumerCancelledException,
-			InterruptedException {
-		ObjectMapper objectMapper = new ObjectMapper();
+			InterruptedException, ExecutionException {
+		ExecutorService exec = Executors.newCachedThreadPool();
+
 		// Connect to queue
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
@@ -39,44 +48,72 @@ public class SliderJavaExecutor {
 		QueueingConsumer consumer = new QueueingConsumer(channel);
 		channel.basicConsume(QUEUE_NAME, consumer);
 
-		JavaRunner javaRunner = new JavaRunner();
-		Map<String, Object> map = Maps.newHashMap();
+		System.out.println("[*] Waiting for messages.");
 		while (true) {
-			map.clear();
-			System.out.println("[*] Waiting for messages.");
 			Delivery delivery = consumer.nextDelivery();
-			BasicProperties props = delivery.getProperties();
-			BasicProperties replyProps = new BasicProperties.Builder()
-					.correlationId(props.getCorrelationId()).build();
-			// Read JSON
-			JsonNode readTree = objectMapper.readTree(delivery.getBody());
-			// Run code
-			CompilerOutput compile = javaRunner.compile(readTree.get("name")
-					.asText(), readTree.get("code").asText());
-			Class<?> clazz = compile.getClazz();
-			if (clazz != null) {
-				Method method;
-				try {
-					method = clazz.getMethod("main");
-					Object invoke = method.invoke(null);
-					if (invoke != null) {
-						byte[] bytes = invoke.toString().getBytes();
-						map.put("result", new String(bytes));
-					} else {
-						map.put("errors",
-								Arrays.asList("method main returned null"));
-					}
-				} catch (Exception e) {
-					map.put("errors", e.getMessage());
-				}
-			} else {
-				map.put("errors", compile.getErrors());
-			}
-
-			channel.basicPublish("", props.getReplyTo(), replyProps,
-					objectMapper.writeValueAsBytes(map));
-			channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+			exec.submit(new ExecuteMessageWithTimeout(exec, delivery, channel));
 		}
 
+	}
+
+	private static void answer(final Channel channel, final Delivery delivery,
+			byte[] map) throws IOException {
+		BasicProperties props = delivery.getProperties();
+		BasicProperties replyProps = new BasicProperties.Builder()
+				.correlationId(props.getCorrelationId()).build();
+		channel.basicPublish("", props.getReplyTo(), replyProps, map);
+		channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+	}
+
+	private static final class ExecuteMessageWithTimeout implements
+			Callable<Void> {
+		private static final Map<String, ImmutableList<String>> TOO_LONG_MAP = ImmutableMap
+				.of("errors", ImmutableList
+						.of("Your code has taken to long to execute."));
+		private static final ObjectMapper objectMapper = new ObjectMapper();
+
+		private final ExecutorService exec;
+		private final Delivery delivery;
+		private final Channel channel;
+
+		private ExecuteMessageWithTimeout(ExecutorService exec,
+				Delivery delivery, Channel channel) {
+			this.exec = exec;
+			this.delivery = delivery;
+			this.channel = channel;
+		}
+
+		@Override
+		public Void call() throws Exception {
+			Stopwatch watch = Stopwatch.createStarted();
+			Future<byte[]> submit = exec.submit(new CompileAndRunMessage(
+					delivery.getBody()));
+			try {
+				byte[] map = submit.get(MAXIMAL_EXECUTION_TIME_SECONDS,
+						TimeUnit.SECONDS);
+				answer(channel, delivery, map);
+			} catch (ExecutionException e) {
+				System.err.println("Execution exception...");
+				answer(channel, delivery,
+						objectMapper.writeValueAsBytes(exceptionMap(e)));
+			} catch (TimeoutException e) {
+				System.err.println("Canceling task...");
+				submit.cancel(true);
+				answer(channel, delivery,
+						objectMapper.writeValueAsBytes(TOO_LONG_MAP));
+			}
+			watch.stop();
+			System.out.println(MessageFormat.format("Total: {0}us",
+					watch.elapsed(TimeUnit.MICROSECONDS)));
+			return null;
+		}
+
+		private Map<String, Object> exceptionMap(ExecutionException e) {
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("errors", Arrays.asList(e.getCause().getMessage()));
+			map.put("stacktrace", e.getCause().getStackTrace());
+			return map;
+
+		}
 	}
 }

@@ -1,10 +1,10 @@
-package me.todr.slider;
+package me.todr.slider.runner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.InvocationTargetException;
 
-import me.todr.slider.JavaRunner.CompilerOutput;
+import me.todr.slider.runner.JavaRunner;
 
 import org.junit.Before;
 import org.junit.Test;

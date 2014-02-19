@@ -5,3 +5,4 @@ executors/javaExecutor/.project
 executors/javaExecutor/.classpath
 executors/javaExecutor/.settings
 executors/javaExecutor/.gradle
+platform/public/slides/*.yaml
