@@ -3,7 +3,6 @@ var when = require('when');
 var defer = when.defer;
 
 
-var Queue = 'run';
 var ReplyQueue = 'run_replies';
 
 console.log("Connecting to RabbitMQ");
@@ -13,7 +12,7 @@ var amqp = require('amqplib');
 var connection = amqp.connect('amqp://localhost');
 
 module.exports = {
-    send: function(msg, callback) {
+    send: function(Queue, msg, callback) {
         return connection.then(function(conn) {
             return conn.createChannel().then(function(ch) {
                 var answer = defer();

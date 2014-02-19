@@ -3,30 +3,42 @@ extends layout
 block content
     .row
       .col-lg-12
+        form.form-inline.pull-right
+            .form-group
+                select.form-control.mode-chooser
+                    option(value="java") Java
+                    option(value="node") Node.js
+    .row
+      .col-lg-12
         br
         div
             span.editor-change-size.glyphicon.glyphicon-fullscreen
             .code-editor.editor(
-            data-language='java'
             class="big" 
-            ).
-                import java.util.Random;
+            )
+        textarea.code-java(style="display:none").
+            import java.util.Random;
 
-                public class TestClass {
+            public class TestClass {
 
-                  public static int rand() {
-                    return new Random().nextInt();
-                  }
+              public static int rand() {
+                return new Random().nextInt();
+              }
 
-                  public static String main() {
-                    StringBuilder builder = new StringBuilder();
-                    builder.append("Hello ");
-                    builder.append("world !");
-                    builder.append(rand());
-                    return builder.toString();
-                  }
+              public static String main() {
+                StringBuilder builder = new StringBuilder();
+                builder.append("Hello ");
+                builder.append("world !");
+                builder.append(rand());
+                return builder.toString();
+              }
 
-                }
+            }
+        textarea.code-node(style="display:none").
+            var fs = require('fs');
+
+            console.log(Object.keys(fs));
+            console.log("Test");
     .row
       .col-lg-12
         .errors.alert.alert-danger.errors-code
@@ -37,9 +49,28 @@ block content
 append scripts
     script(src="js/ace-builds/src-noconflict/ace.js")
     script.
+        var modes = {
+            java: {
+                queue: 'run',
+                ace: 'java'
+            },
+            node: {
+                queue: 'run_node',
+                ace: 'javascript'
+            }
+        };
+        var mode = 'java';
+        var applyMode = function() {
+            var code = document.querySelector('.code-'+mode).value;
+            editor.setValue(code);
+            editor.getSession().setMode('ace/mode/' + modes[mode].ace);
+        };
+        $('.mode-chooser').on('change', function(){
+            mode = $(this).val();
+            applyMode();
+        });
         var editor = ace.edit(document.querySelector(".code-editor"));
         editor.setTheme("ace/theme/todr");
-        editor.getSession().setMode("ace/mode/java");
 
         var output = ace.edit(document.querySelector('.output-ace'));
         output.setTheme("ace/theme/twilight");
@@ -56,8 +87,11 @@ append scripts
             var call = $.ajax({
                 url: '/execute', 
                 method: 'post',
-                contentType: 'text/plain',
-                data: code,
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    queue: modes[mode].queue,
+                    code: code
+                }),
                 timeout: 10000,
                 success: function(data) {
                     data = JSON.parse(data);
@@ -71,4 +105,4 @@ append scripts
         };
 
         editor.on('change', _.debounce(runContent, 10));
-        runContent();
+        applyMode();

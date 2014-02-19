@@ -179,18 +179,12 @@ exports.executeGui = function(req, res) {
     res.render('executeDemo');
 };
 exports.execute = function(req, res) {
-    var code = "";
-    req.setEncoding('utf8');
-    req.on('data', function(chunk) {
-        code += chunk;
-    });
-
-    req.on('end', function() {
-        require('../executors').send({
+    var data = req.body;
+    require('../executors').send(
+        data.queue, {
             "name": "TestClass",
-            "code": code
+            "code": data.code
         }, function(data) {
             res.send(data);
         });
-    });
 };
