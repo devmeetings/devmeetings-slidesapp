@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var Queue = 'run_node';
 var ReplyQueue = 'run_replies';
 
