@@ -178,13 +178,3 @@ exports.trainer = function(req, res) {
 exports.executeGui = function(req, res) {
     res.render('executeDemo');
 };
-exports.execute = function(req, res) {
-    var data = req.body;
-    require('../executors').send(
-        data.queue, {
-            "name": "TestClass",
-            "code": data.code
-        }, function(data) {
-            res.send(data);
-        });
-};

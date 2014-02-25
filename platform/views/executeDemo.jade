@@ -8,6 +8,7 @@ block content
                 select.form-control.mode-chooser
                     option(value="java") Java
                     option(value="node") Node.js
+                    option(value="express") Express.js
     .row
       .col-lg-12
         br
@@ -39,6 +40,47 @@ block content
 
             console.log(Object.keys(fs));
             console.log("Test");
+
+        textarea.code-express(style="display:none").
+            /**
+             * Module dependencies.
+             */
+
+            var express = require('express');
+            var http = require('http');
+            var path = require('path');
+
+            var app = express();
+
+            // all environments
+            app.set('port', process.env.PORT || 3000);
+            app.set('views', path.join(__dirname, 'views'));
+            app.set('view engine', 'jade');
+            app.use(express.favicon());
+            app.use(express.logger('dev'));
+            app.use(express.json());
+            app.use(express.urlencoded());
+            app.use(express.methodOverride());
+            app.use(express.cookieParser('your secret here'));
+            app.use(express.session());
+            app.use(express.bodyParser());
+            app.use(app.router);
+            app.use(express.static(path.join(__dirname, 'public')));
+
+            // development only
+            if ('development' == app.get('env')) {
+                app.use(express.errorHandler());
+            }
+
+            app.get('/', function(req, res) {
+                res.header('Access-Control-Allow-Origin', '*')
+                res.send("Hello world!");
+            });
+
+            http.createServer(app).listen(app.get('port'), function(){
+                console.log('Express server listening on port ' + app.get('port'));
+            });
+
     .row
       .col-lg-12
         .errors.alert.alert-danger.errors-code
@@ -47,8 +89,11 @@ block content
       .col-sm-12
         .output-ace.editor
 append scripts
+    script(src="socket.io/socket.io.js")
     script(src="js/ace-builds/src-noconflict/ace.js")
+    script(src="js/utils.js")        
     script.
+        var socket = io.connect(SOCKET_URL);
         var modes = {
             java: {
                 queue: 'run',
@@ -56,6 +101,10 @@ append scripts
             },
             node: {
                 queue: 'run_node',
+                ace: 'javascript'
+            },
+            express: {
+                queue: 'run_express',
                 ace: 'javascript'
             }
         };
@@ -81,28 +130,31 @@ append scripts
 
         var errors = document.querySelector('.errors');
 
+        socket.on('result', function(data2) {
+            console.timeEnd("request");
+            var data = JSON.parse(data2.data);
+            errors.innerHTML = data.errors || "";
+            output.setValue(data.result);
+            if (data.queue === modes.express.queue) {
+                $.ajax({
+                    url: '//' + window.location.hostname + ':' + data2.port,
+                    success: function(content) {
+                        output.setValue(data.result + "\n\n" + content);
+                    }
+                });
+            }
+        });
+
         var runContent = function() {
+            console.time("request");
             var code = editor.getValue();
     
-            var call = $.ajax({
-                url: '/execute', 
-                method: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    queue: modes[mode].queue,
-                    code: code
-                }),
-                timeout: 10000,
-                success: function(data) {
-                    data = JSON.parse(data);
-                    errors.innerHTML = data.errors || "";
-                    output.setValue(data.result);
-                },
-                error: function() {
-                    errors.innerHTML = 'It seems that execution server is not running.';
-                }
+            socket.emit('execute', {
+                queue: modes[mode].queue,
+                code: code
             });
+            output.setValue("...");
         };
 
-        editor.on('change', _.debounce(runContent, 10));
+        editor.on('change', _.debounce(runContent, 200));
         applyMode();

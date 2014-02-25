@@ -11,6 +11,8 @@ var amqp = require('amqplib');
 
 var connection = amqp.connect('amqp://localhost');
 
+var answers = {};
+
 module.exports = {
     send: function(Queue, msg, callback) {
         return connection.then(function(conn) {
@@ -18,23 +20,25 @@ module.exports = {
                 var answer = defer();
                 var corrId = uuid();
 
-                function maybeAnswer(msg) {
-                    if (msg.properties.correlationId === corrId) {
-                        answer.resolve(msg.content.toString());
+                answers[corrId] = answer;
+
+                var maybeAnswer = function(msg) {
+                    var id = msg.properties.correlationId;
+                    if (answers[id]) {
+                        answers[id].resolve(msg.content.toString());
+                        delete answers[id];
                     }
-                }
+                };
 
                 var ok = ch.assertQueue(ReplyQueue, {
                     durable: false,
-                    exclusive: true
+                    exclusive: false
                 }).then(function(qok) {
                     return qok.queue;
                 });
 
                 ok = ok.then(function(queue) {
-                    return ch.consume(queue, maybeAnswer, {
-                        noAck: true
-                    }).then(function() {
+                    return ch.consume(queue, maybeAnswer).then(function() {
                         return queue;
                     });
                 });
