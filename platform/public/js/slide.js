@@ -159,6 +159,25 @@ $(document.body).tooltip({
     var isPure = iframe.hasAttribute('data-pure');
     var errors = document.querySelector('.errors-fiddle');
 
+    var iframeWidth = document.querySelector('#iframe-width');
+    var iframeScale = document.querySelector('#iframe-scale');
+
+    var updateIframeSize = function() {
+        var width = parseInt(iframeWidth.value, 10);
+        width = isNaN(width) ? 1024 : width;
+        var scale = parseFloat(iframeScale.value);
+        scale = isNaN(scale) ? 1.0 : scale / 100;
+
+        $(iframe).css({
+            width: width,
+            transform: 'scale('+scale+')',
+            transformOrigin: 'top left'
+        });
+    };
+
+    iframeWidth.addEventListener('change', updateIframeSize);
+    iframeScale.addEventListener('change', updateIframeSize);
+
     var updateOutput = function() {
         var wrapWithForwarder = function(code) {
             return 'try { ' + code + ';window.parent.postMessage({msg: ""}, "' + host + '");}' +

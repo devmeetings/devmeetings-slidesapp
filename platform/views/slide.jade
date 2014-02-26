@@ -69,6 +69,11 @@ mixin slideContent(slide)
             .errors.alert.alert-danger.errors-fiddle
         .col-sm-6(class="#{ slide.fiddle.hideOutput ? 'hidden' : '' }")
           #tab-output.tab-pane #{slide.fiddle.output}
+            form.form-inline.fiddle-output-controls(role="form")
+              .form-group
+                input.input-sm.form-control#iframe-width(type="number", placeholder="Width 1024px", step="10")
+              .form-group
+                input.input-sm.form-control#iframe-scale(type="number", placeholder="Scale 100", step="5")
             iframe#fiddle-output(data-pure=slide.fiddle.pure)
 
     if slide.task
