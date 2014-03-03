@@ -1,14 +1,15 @@
 extends layout
 
 block content
-  section.container-fluid(role='main')
+  section.container-fluid.slider-edit(role='main')
     .row
       section.col-lg-7
         iframe(src="/slides-#{presentationFile}", width="100%")
 
       aside.col-lg-5
-        .presentation-edit.editor.big(data-language="yaml")
-
+        .presentation-edit.editor(data-language="yaml")
+append styles
+  link(href="css/styles-edit.css", rel="stylesheet")
 append scripts
   script.
     window.presentation = "#{presentationFile}";
