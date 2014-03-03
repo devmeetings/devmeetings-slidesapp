@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var fs = require('fs');
 
 var trainers = [];
 
@@ -87,6 +88,20 @@ module.exports = function(io) {
                 trainers.splice(i, 1);
             }
             sendClientsDataLater();
+        });
+
+        var slidesDir = './public/slides/';
+        socket.on('getSlidesContent', function(slides) {
+
+            fs.readFile(slidesDir + slides + '.yaml', 'utf8', function(err, data) {
+                if (err) {
+                    return;
+                }
+                socket.emit('slidesContent', data);
+            });
+        });
+        socket.on('saveSlidesContent', function(slides, data) {
+            fs.writeFile(slidesDir + slides + ".yaml", data);
         });
     });
 };

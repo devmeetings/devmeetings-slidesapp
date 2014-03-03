@@ -55,11 +55,10 @@ exports.uploadSlides = function(req, res) {
 
 };
 
-exports.slider = function(req, res) {
-    var name = req.params.file;
+var slider = function(name, template, res) {
     fs.exists(slidesDir + name + '.yaml', function(exists) {
         if (exists) {
-            res.render('slider', {
+            res.render(template, {
                 title: 'Slider',
                 presentationFile: name
             });
@@ -67,6 +66,15 @@ exports.slider = function(req, res) {
             res.send(404);
         }
     });
+};
+exports.slider = function(req, res) {
+    var name = req.params.file;
+    return slider(name, 'slider', res);
+};
+
+exports.sliderEdit = function(req, res) {
+    var name = req.params.file;
+    return slider(name, 'slider-edit', res);
 };
 
 var ensureArray = function(obj) {

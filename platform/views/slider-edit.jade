@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  section.container-fluid(role='main')
+    .row
+      section.col-lg-7
+        iframe(src="/slides-#{presentationFile}", width="100%")
+
+      aside.col-lg-5
+        .presentation-edit.editor.big(data-language="yaml")
+
+append scripts
+  script.
+    window.presentation = "#{presentationFile}";
+  script(src="js/ace-builds/src-noconflict/ace.js")
+  script(src="socket.io/socket.io.js")
+  script(src="js/utils.js")
+  script(src="js/edit.js")

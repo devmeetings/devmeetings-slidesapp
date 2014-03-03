@@ -36,6 +36,7 @@ app.get('/execute', routes.executeGui);
 app.get('/slide', routes.slide);
 app.get('/trainer', routes.trainer);
 app.get('/slides-:file\::slide', routes.singleSlide);
+app.get('/edit\:slides-:file', routes.sliderEdit);
 app.get('/slides-:file', routes.slider);
 
 var server = http.Server(app);
