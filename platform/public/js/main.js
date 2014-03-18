@@ -5,6 +5,7 @@ var Sockets = {
     sendEveryChange: false,
     socket: io.connect(SOCKET_URL),
 };
+window.Sockets = Sockets;
 // sockets
 (function() {
     // send name on start
