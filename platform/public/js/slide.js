@@ -170,7 +170,7 @@ $(document.body).tooltip({
 
         $(iframe).css({
             width: width,
-            transform: 'scale('+scale+')',
+            transform: 'scale(' + scale + ')',
             transformOrigin: 'top left'
         });
     };
@@ -303,18 +303,19 @@ $(document.body).tooltip({
                 code = mode.process(code);
             }
 
-            if (window.parent) {
-                window.parent.postMessage({
-                    type: 'codeupdate',
-                    code: code
-                }, window.location);
-            }
             var value = code;
             if (monitorVariable) {
                 value += "\n\n;return " + monitorVariable + ";";
             }
             try {
                 var result = eval("(function(){" + value + "}())");
+
+                window.parent.postMessage({
+                    type: 'codeupdate',
+                    code: code,
+                    slide: window.location.pathname,
+                    user: window.localStorage.getItem('email')
+                }, window.location);
 
                 updateMicroTasks(result, code);
                 var displayOutput = function(res) {
