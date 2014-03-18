@@ -316,20 +316,12 @@ $(document.body).tooltip({
             try {
                 var result = eval("(function(){" + value + "}())");
 
-<<<<<<< HEAD
                 Sockets.socket.emit('codeupdate', {
-=======
-                window.parent.postMessage({
->>>>>>> 2ecd6ed89b6c2a0be77d9d0846fed64e814073c3
                     type: 'codeupdate',
                     code: code,
                     slide: window.location.pathname,
                     user: window.localStorage.getItem('email')
-<<<<<<< HEAD
                 });
-=======
-                }, window.location);
->>>>>>> 2ecd6ed89b6c2a0be77d9d0846fed64e814073c3
 
                 updateMicroTasks(result, code);
                 var displayOutput = function(res) {
