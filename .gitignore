@@ -1,3 +1,4 @@
+.DS_Store
 node_modules
 executors/javaExecutor/bin/
 executors/javaExecutor/build/
