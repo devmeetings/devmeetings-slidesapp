@@ -7,6 +7,12 @@ var SLIDESET = $('.main-content').data('slideset');
 var IS_TRAINERS_MODE = $('.main-content')[0].hasAttribute('data-trainers-mode');
 var updateMicroTasks = function() {};
 
+
+var Sockets = {
+    sendEveryChange: false,
+    socket: io.connect(SOCKET_URL),
+};
+
 $(document.body).tooltip({
     selector: '[data-toggle=tooltip]',
     html: true
@@ -310,12 +316,12 @@ $(document.body).tooltip({
             try {
                 var result = eval("(function(){" + value + "}())");
 
-                window.parent.postMessage({
+                Sockets.socket.emit('codeupdate', {
                     type: 'codeupdate',
                     code: code,
                     slide: window.location.pathname,
                     user: window.localStorage.getItem('email')
-                }, window.location);
+                });
 
                 updateMicroTasks(result, code);
                 var displayOutput = function(res) {

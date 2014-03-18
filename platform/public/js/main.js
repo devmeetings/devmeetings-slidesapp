@@ -5,7 +5,6 @@ var Sockets = {
     sendEveryChange: false,
     socket: io.connect(SOCKET_URL),
 };
-window.Sockets = Sockets;
 // sockets
 (function() {
     // send name on start
@@ -276,7 +275,7 @@ window.Sockets = Sockets;
                 }
             }
             if (ev.data.type === 'codeupdate') {
-                Sockets.socket.emit('codechange', ev.data.code);
+                Sockets.socket.emit('codeupdate', ev.data);
             }
             if (ev.data.type === 'navcanceled') {
                 _ignoreHashChange = true;

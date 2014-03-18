@@ -67,12 +67,16 @@ module.exports = function(io) {
 
         socket.on('codeupdate', function(data) {
             data.timestamp = new Date();
-            mongo.code.insert(data);
+            mongo.code.insert(data, function(err) {
+                if (err) throw err;
+            });
         });
 
         socket.on('codesubmit', function(data) {
-            data.timestamp = new Data();
-            mongo.submit.insert(data);
+            data.timestamp = new Date();
+            mongo.submit.insert(data, function(err) {
+                socket.emit('done');
+            });
         });
 
         socket.on('execute', function(data) {
