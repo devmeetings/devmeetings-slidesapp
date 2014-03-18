@@ -20,6 +20,8 @@ var sendClientsDataToTrainers = function() {
 };
 var sendClientsDataLater = _.debounce(sendClientsDataToTrainers, 1000);
 
+var mongo = require('../mongo');
+
 module.exports = function(io) {
     io.on('connection', function(socket) {
         var id = socket.id;
@@ -61,6 +63,16 @@ module.exports = function(io) {
             }
             l("Broadcasting solution", solutionId);
             socket.broadcast.emit('solution', solutionId);
+        });
+
+        socket.on('codeupdate', function(data) {
+            data.timestamp = new Date();
+            mongo.code.insert(data);
+        });
+
+        socket.on('codesubmit', function(data) {
+            data.timestamp = new Data();
+            mongo.submit.insert(data);
         });
 
         socket.on('execute', function(data) {

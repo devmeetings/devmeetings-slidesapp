@@ -1,13 +1,15 @@
 'use strict';
 
+
 var Sockets = {
     sendEveryChange: false,
     socket: io.connect(SOCKET_URL),
 };
+window.Sockets = Sockets;
 // sockets
 (function() {
     // send name on start
-    (function(){
+    (function() {
         var name = localStorage.getItem('name');
         Sockets.socket.emit('name', name);
     }());
@@ -274,7 +276,7 @@ var Sockets = {
                 }
             }
             if (ev.data.type === 'codeupdate') {
-                slowmo.attr('href', 'http://toolness.github.io/slowmo-js/?code=' + encodeURIComponent(ev.data.code));
+                Sockets.socket.emit('codechange', ev.data.code);
             }
             if (ev.data.type === 'navcanceled') {
                 _ignoreHashChange = true;
