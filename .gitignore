@@ -6,6 +6,7 @@ executors/javaExecutor/.project
 executors/javaExecutor/.classpath
 executors/javaExecutor/.settings
 executors/javaExecutor/.gradle
+platform/bin
 platform/public/components
 platform/public/slides/*.yaml
 *.sublime-project

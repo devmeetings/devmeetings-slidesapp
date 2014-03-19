@@ -1,9 +1,14 @@
 var express = require('express');
+var lessMiddleware = require('less-middleware');
 
 module.exports = function(app, config) {
     app.configure(function() {
         app.use(express.compress());
-        app.use('/static', express.static(config.root + '/public'));
+        app.use(config.staticsPath, lessMiddleware(config.root + '/public', {
+            dest: config.root + '/bin/css'
+        }));
+        app.use(config.staticsPath + '/css', express.static(config.root + '/bin/css/css'));
+        app.use(config.staticsPath, express.static(config.root + '/public'));
         app.set('port', config.port);
         app.set('views', config.root + '/app/views');
         app.set('view engine', 'jade');

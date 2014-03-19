@@ -1,0 +1,111 @@
+---
+title: My First presentation
+trainersSecret: 123asd
+slides:
+  - id: entry
+    name: Hello World
+    title: First slide!
+    notes:
+        >
+        // These are some notes for fist slide. Just goan with standard 'Hello' for guys.
+    text: 
+        >
+        <h2><span class="glyphicon glyphicon-heart"></span> Nothing interesting here.</h2>
+        <h3>But something should be!</h3>
+        <p>Hello small text!</p>
+  - id: entry2
+    name: Hello World
+    title: First slide - continuation
+    text: |
+      Hello there
+
+  - id: slide1
+    name: Slide 1
+    title: Slides are awesome
+    notes:
+        >
+        On this slide we show basic code execution with monitoring.
+        If you change the code the output will change accordingly.
+    monitor: x
+    code: |
+       function foo(items) {
+         var x = "All this is syntax highlighted" + items;
+         return x;
+       }
+       var x = {
+         name: foo("something")
+       };
+    microtasks:
+      - description: Change <code>foo</code> to append "x" instead of prepending anything.
+        js_assert: |
+          foo("a") === "ax"
+      - description: Output should be named <code>somethingx</code>
+        output:
+          name: somethingx
+  - id: slide-html
+    name: HTML
+    title: Slide with HTML and CSS
+    microtasks:
+      - description: Change <code>div</code> display to <code>inline</code>
+        hint: Try to fiddle with editor on the left
+        css: "div\\s*{\\s*display:\\s*inline;"
+      - description: Change <code>div</code> display to <code>inline-block</code>
+        hint: Go to css tab and change <code>display</code> property.
+        css: "div\\s*{\\s*display:\\s*inline-block;"
+
+    fiddle:
+      active: css
+      js: |
+        var x = 5;
+      css: |
+        div {
+          display: block;
+        }
+      html: |
+        <html>
+          <head></head>
+          <body>
+          <h1>Sooo awesome</h1>
+          </body>
+        </html>
+
+
+  - id: slide2
+    name: Second slide
+    title: Second slide is also awesome
+    notes:
+       >
+       On this slide we show capabilities of our JSON inspector. Just dig inside array.
+
+       Some another snippet
+       var y = function() {
+         var x = "123" + 4;
+         return ~x;
+       };
+       console.log(y());
+    monitor: array
+    code:
+       >
+       var array = [1, 2, 3, [4, 5]];
+
+  - id: task
+    name: Task
+    title: This is task!
+    text: something
+    task:
+      duration: 5
+      objectives: Display an array of todos using DOM
+      extras:
+            - Use Bootstrap <code>.list-group</code> component.
+            - Don't use <code>.innerHTML</code>, <code>.textContent</code>, etc.
+
+  - id: slide3
+    name: Ending
+    title: This is the end...
+    notes:
+        >
+        "Say goodbye nicely";
+    monitor: end
+    code:
+       >
+       end = "Thanks for listening!"

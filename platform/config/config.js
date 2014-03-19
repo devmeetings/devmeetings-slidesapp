@@ -1,34 +1,38 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     env = process.env.NODE_ENV || 'development';
+var staticsPath = '/static';
 
 var config = {
-  development: {
-    root: rootPath,
-    app: {
-      name: 'platform'
+    development: {
+        root: rootPath,
+        staticsPath: staticsPath,
+        app: {
+            name: 'platform'
+        },
+        port: 3000,
+        db: 'mongodb://localhost/platform-development'
     },
-    port: 3000,
-    db: 'mongodb://localhost/platform-development'
-  },
 
-  test: {
-    root: rootPath,
-    app: {
-      name: 'platform'
+    test: {
+        root: rootPath,
+        staticsPath: staticsPath,
+        app: {
+            name: 'platform'
+        },
+        port: 3000,
+        db: 'mongodb://localhost/platform-test'
     },
-    port: 3000,
-    db: 'mongodb://localhost/platform-test'
-  },
 
-  production: {
-    root: rootPath,
-    app: {
-      name: 'platform'
-    },
-    port: 3000,
-    db: 'mongodb://localhost/platform-production'
-  }
+    production: {
+        root: rootPath,
+        staticsPath: staticsPath,
+        app: {
+            name: 'platform'
+        },
+        port: 3000,
+        db: 'mongodb://localhost/platform-production'
+    }
 };
 
 module.exports = config[env];
