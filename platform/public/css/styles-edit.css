@@ -1,9 +1,0 @@
-html, body {
-    overflow: hidden;
-}
-html, body, .slider-edit, .slider-edit > .row, .slider-edit > .row > *, .editor, iframe {
-    height: 100%;
-}
-.ace_scrollbar {
-    width: 12px !important;
-}
