@@ -8,3 +8,5 @@ executors/javaExecutor/.settings
 executors/javaExecutor/.gradle
 platform/public/components
 platform/public/slides/*.yaml
+*.sublime-project
+*.sublime-workspace
