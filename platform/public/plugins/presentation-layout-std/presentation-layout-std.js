@@ -16,7 +16,7 @@ define(['module', 'slider.plugins'], function(module, plugins) {
                         $rootScope.title = $scope.deck.title;
                         $scope.$on('$locationChangeSuccess', function() {
                             $scope.activeSlide = $location.url().substr(1);
-                            $scope.slideSource = $scope.activeSlide;
+                            $scope.slideSource = 'slide-' + $scope.activeSlide;
                         });
                     }
                 ]

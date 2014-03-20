@@ -3,13 +3,16 @@ require.config({
         "plugins": "../plugins",
         "jquery": "../components/jquery/dist/jquery",
         "angular": "../components/angular/angular",
+        "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
-        "ace": "../components/ace-builds/src-noconflict/ace"
+        "ace": "../components/ace-builds/src-noconflict/ace",
+        "lodash": "../components/lodash/dist/lodash"
     },
     "map": {
         "*": {
-            "$": "jquery"
+            "$": "jquery",
+            "_": "lodash"
         }
     },
     "shim": {
@@ -21,6 +24,10 @@ require.config({
             "deps": ["jquery"],
             "exports": "$"
         },
+        "angular-sanitize": {
+            "deps": ["angular"],
+            "exports": "angular"
+        },
         "angular-bootstrap": {
             "deps": ["angular"],
             "exports": "angular"
@@ -31,4 +38,3 @@ require.config({
         }
     }
 });
-require(["main", "bootstrap", "angular-bootstrap", "ace"]);

@@ -1,0 +1,12 @@
+extends ../layout
+
+append scripts
+  script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-deck')
+
+block title
+  title {{ title }} - #{title}
+
+block content
+  div(ng-controller="SliderCtrl")
+    plugins-loader(namespace='slider', )
+    

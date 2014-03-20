@@ -1,4 +1,4 @@
-define(['slider'], function(slider) {
+define(['slider/slider'], function(slider) {
 
     slider.directive('layoutLoader', ['$compile',
         function($compile) {
@@ -6,7 +6,7 @@ define(['slider'], function(slider) {
                 restrict: 'E',
                 scope: {
                     data: '=',
-                    layout: '@'
+                    layout: '='
                 },
                 template: '',
                 link: function($scope, $element) {

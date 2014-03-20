@@ -1,7 +1,8 @@
-module.exports = function(app){
+module.exports = function(app) {
 
-	//home route
-	var home = require('../app/controllers/home');
-	app.get('/', home.index);
+    //home route
+    var slider = require('../app/controllers/slider');
+    app.get('/', slider.index);
+    app.get('/slide-:slide', slider.slide);
 
 };
