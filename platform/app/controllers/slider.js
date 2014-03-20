@@ -6,6 +6,7 @@ exports.index = function(req, res) {
 
 exports.slide = function(req, res) {
     res.render('slider/slide', {
-        title: 'Slide'
+        title: 'Slide',
+        slide: req.params.slide
     });
 };

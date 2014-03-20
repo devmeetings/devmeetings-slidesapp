@@ -4,5 +4,5 @@ append scripts
   script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-slide')
 
 block content
-  div(ng-controller="SlideCtrl")
+  div(ng-controller="SlideCtrl", ng-init="slideId='#{slide}'")
     plugins-loader(namespace="'slide'", context="slide")

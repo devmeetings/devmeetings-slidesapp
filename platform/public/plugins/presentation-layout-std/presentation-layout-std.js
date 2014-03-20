@@ -1,6 +1,6 @@
-define(['module', 'slider.plugins'], function(module, plugins) {
-    var path = plugins.extractPath(module);
+define(['module', 'slider/slider.plugins'], function(module, plugins) {
 
+    var path = plugins.extractPath(module);
 
     plugins.directive('presentationLayoutStd', [
 

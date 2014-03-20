@@ -3,7 +3,6 @@ define([], function() {
 
     return {
         registerPlugin: function(namespace, trigger, directiveName, order) {
-            console.log(plugins);
             plugins[namespace] = plugins[namespace] || [];
             order = order || 999999;
 
