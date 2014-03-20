@@ -1,8 +1,8 @@
-define(["data", "slider", "directives/layout-loader", "plugins/presentation-layout-std/presentation-layout-std"], function(slides, slider) {
+define(["data", "slider", "directives/layout-loader", "plugins/presentation-layout-std/presentation-layout-std"], function(deck, slider) {
 
-    slider.controller('SlidesDisplayCtrl', ['$scope',
+    slider.controller('SliderCtrl', ['$scope',
         function($scope) {
-            $scope.slides = slides.slides;
+            $scope.deck = deck;
         }
     ]);
 

@@ -9,7 +9,7 @@ nav.navbar.navbar-default(role='navigation')
       span.glyphicon.glyphicon-th-large
   #navbar-slides.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-slides
-      li(ng-repeat="slide in data")
+      li(ng-repeat="slide in deck.slides", ng-class="{ 'active' : slide.id === activeSlide}")
         a(href='\#{{slide.id}}') {{ slide.name }}
     ul.nav.navbar-nav.navbar-right
       li
@@ -17,5 +17,6 @@ nav.navbar.navbar-default(role='navigation')
           span.glyphicon.glyphicon-lock
   
 section.container-fluid
-  layout(slide="slides[0]")
-  | {{ data | json }}
+  .row
+    .col-lg-12
+      iframe(ng-src="{{ slideSource }}")

@@ -3,7 +3,8 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
-    title= title
+    block title
+      title= title
     block css
       link(rel='stylesheet', href='/static/css/style.css')
       link(rel='stylesheet', href='/static/css/bootstrap-cyborg.css') 
