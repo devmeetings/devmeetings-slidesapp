@@ -8,13 +8,16 @@ html(lang='en')
       link(rel='stylesheet', href='/static/css/style.css')
       link(rel='stylesheet', href='/static/css/bootstrap-cyborg.css') 
       link(rel='stylesheet', href='/static/components/font-awesome/css/font-awesome.css')
-    block js
+    block js2
       script(src='http://localhost:35729/livereload.js')
-      script(src='/static/components/jquery/dist/jquery.js')
-      script(src='/static/components/slimScroll/jquery.slimscroll.js')
-      script(src='/static/js/3rd/jquery.slimscroll.horizontal.js')
-      script(src='/static/components/bootstrap/dist/js/bootstrap.js')
-      script(src='/static/components/angular/angular.js')
-      script(src='/static/components/angular-bootstrap/ui-bootstrap-tpls.js')
-  body(ng-app="slider")
+      //script(src='/static/components/requirejs/requirejs.js', data-main='/static/js/main')
+        script(src='/static/components/slimScroll/jquery.slimscroll.js')
+        script(src='/static/js/3rd/jquery.slimscroll.horizontal.js')
+        script(src='/static/components/bootstrap/dist/js/bootstrap.js')
+        script(src='/static/components/angular/angular.js')
+        script(src='/static/components/angular-bootstrap/ui-bootstrap-tpls.js')
+  body
     block content
+    block scripts
+      script(src='/static/components/jquery/dist/jquery.js')
+      

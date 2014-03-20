@@ -1,5 +1,8 @@
 extends ../layout
 
+append scripts
+  script(src='/static/components/requirejs/require.js', data-main='/static/js/app')
+
 block content
   div(ng-controller="SlidesDisplayCtrl")
     nav.navbar.navbar-default(role='navigation')
@@ -21,6 +24,5 @@ block content
               span.glyphicon.glyphicon-lock
       
     section.container-fluid
-      h1 I'm using generator-express MVC!
+      layout(slide="slides[0]")
       | {{ slides | json }}
-  script(src="/static/js/main.js")
