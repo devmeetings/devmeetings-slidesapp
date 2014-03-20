@@ -2,11 +2,25 @@ var express = require('express');
 var lessMiddleware = require('less-middleware');
 
 module.exports = function(app, config) {
+    var jadeStatic = require('connect-jade-static')({
+        baseDir: config.root + '/public',
+        baseUrl: '/static',
+        jade: {
+            pretty: true
+        }
+    });
+
     app.configure(function() {
         app.use(express.compress());
         app.use(config.staticsPath, lessMiddleware(config.root + '/public', {
             dest: config.root + '/bin/css'
         }));
+        app.use(config.staticsPath, function(req, res, next) {
+            if (req.originalUrl.indexOf('.html') === req.originalUrl.length - 5) {
+                return jadeStatic(req, res, next);
+            }
+            return next();
+        });
         app.use(config.staticsPath + '/css', express.static(config.root + '/bin/css/css'));
         app.use(config.staticsPath, express.static(config.root + '/public'));
         app.set('port', config.port);

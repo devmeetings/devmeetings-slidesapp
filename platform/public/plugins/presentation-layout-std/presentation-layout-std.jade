@@ -1,0 +1,21 @@
+nav.navbar.navbar-default(role='navigation')
+  .navbar-header
+    button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-slides')
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    a.navbar-brand.text-muted(href='/')
+      span.glyphicon.glyphicon-th-large
+  #navbar-slides.collapse.navbar-collapse
+    ul.nav.navbar-nav.nav-slides
+      li(ng-repeat="slide in data")
+        a(href='\#{{slide.id}}') {{ slide.name }}
+    ul.nav.navbar-nav.navbar-right
+      li
+        a.trainers-mode(href="#", data-toggle="tooltip", data-placement="left", title="Trainer's mode")
+          span.glyphicon.glyphicon-lock
+  
+section.container-fluid
+  layout(slide="slides[0]")
+  | {{ data | json }}

@@ -1,5 +1,6 @@
 require.config({
     "paths": {
+        "plugins": "../plugins",
         "jquery": "../components/jquery/dist/jquery",
         "angular": "../components/angular/angular",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
@@ -30,6 +31,4 @@ require.config({
         }
     }
 });
-require(["main", "bootstrap", "angular-bootstrap", "ace"], function() {
-    console.log("Started", arguments);
-});
+require(["main", "bootstrap", "angular-bootstrap", "ace"]);
