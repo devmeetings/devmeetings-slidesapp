@@ -8,7 +8,8 @@ define(['module', 'slider/slider.plugins'], function(module, plugins) {
             return {
                 restrict: 'E',
                 scope: {
-                    deck: '=data'
+                    deck: '=data',
+                    editMode: '=extra'
                 },
                 templateUrl: path + '/presentation-layout-std.html',
                 controller: ['$rootScope', '$scope', '$location',
@@ -16,7 +17,7 @@ define(['module', 'slider/slider.plugins'], function(module, plugins) {
                         $rootScope.title = $scope.deck.title;
                         $scope.$on('$locationChangeSuccess', function() {
                             $scope.activeSlide = $location.url().substr(1);
-                            $scope.slideSource = 'slide-' + $scope.activeSlide;
+                            $scope.slideSource = ($scope.editMode ? '/edit:' : '/') + 'slide-' + $scope.activeSlide;
                         });
                     }
                 ]

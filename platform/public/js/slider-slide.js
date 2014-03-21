@@ -7,13 +7,19 @@ require(['config'], function() {
         "plugins/slide-task/slide-task"
     ], function(deck, slider, sliderPlugins) {
 
-        slider.controller('SlideCtrl', ['$scope',
-            function($scope) {
-                $scope.$watch('slideId', function() {
-                    $scope.slide = deck.slides.filter(function(s) {
+        slider.controller('SlideCtrl', ['$scope', '$window',
+            function($scope, $window) {
+                $window.parent.addEventListener('message', function(ev) {
+                    deck = ev.data.data;
+                    $scope.$apply(updateSlide);
+                });
+                var updateSlide = function() {
+                    var newSlide = deck.slides.filter(function(s) {
                         return s.id === $scope.slideId;
                     })[0];
-                });
+                    $scope.slide = newSlide;
+                };
+                $scope.$watch('slideId', updateSlide);
             }
         ]);
 

@@ -23,11 +23,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                     outputAce.renderer.setShowGutter(false);
 
 
-                    sliderPlugins.registerPlugin('slide.slide-jsrunner', 'process', {
+                    sliderPlugins.registerScopePlugin(scope, 'slide.slide-jsrunner', 'process', {
                         monitor: scope.monitor,
                         name: 'jsonoutput'
                     });
-                    sliderPlugins.on('slide.slide-jsrunner.jsonoutput', function(output) {
+                    sliderPlugins.listen(scope, 'slide.slide-jsrunner.jsonoutput', function(output) {
                         var res = JSON.stringify(output, null, 2);
                         outputAce.setValue(res);
                         outputAce.clearSelection();

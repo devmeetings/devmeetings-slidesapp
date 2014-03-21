@@ -6,11 +6,12 @@ define(['slider/slider'], function(slider) {
                 restrict: 'E',
                 scope: {
                     data: '=',
-                    layout: '='
+                    layout: '=',
+                    extra: '='
                 },
                 template: '',
                 link: function($scope, $element) {
-                    var el = $compile('<' + $scope.layout + ' data="data"></' + $scope.layout + '>')($scope);
+                    var el = $compile('<' + $scope.layout + ' data="data" extra="extra"></' + $scope.layout + '>')($scope);
                     $element.append(el);
                 }
             }

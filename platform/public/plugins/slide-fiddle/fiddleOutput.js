@@ -33,7 +33,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 scope: {},
                 templateUrl: path + '/fiddleOutput.html',
                 link: function(scope, element) {
-                    sliderPlugins.on('slide.slide-fiddle.change', _.debounce(function(fiddle) {
+                    sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.debounce(function(fiddle) {
                         var isPure = false;
                         var wrapWithForwarder = function(code) {
                             return 'try { ' + code + ';window.parent.postMessage({msg: ""}, "' + host + '");}' +

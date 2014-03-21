@@ -1,0 +1,17 @@
+extends ../layout
+
+append scripts
+  script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-deck-edit')
+
+block title
+  title {{ title }} - #{title}
+
+block content
+  .container-fluid
+    .row
+      .col-md-7(ng-controller="SliderCtrl")
+        layout-loader(layout="'presentation-layout-std'", data="deck", extra="editMode")
+      .col-md-5(ng-controller="SliderEditCtrl")
+        yaml-editor(deck="deck")
+
+    

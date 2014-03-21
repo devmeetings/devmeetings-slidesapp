@@ -8,12 +8,18 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                     context: '='
                 },
                 template: '',
-                controller: ['$scope', '$element',
-                    function($scope, $element) {
+                controller: ['$scope', '$element', '$rootScope',
+                    function($scope, $element, $rootScope) {
                         var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context"></<%= pluginName%>>');
 
+                        var childScope = null;
+
                         $scope.$watch('context', function() {
+                            if (childScope) {
+                                childScope.$destroy();
+                            }
                             $element.empty();
+                            childScope = $scope.$new();
 
                             var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
                                 if ($scope.context[plugin.trigger] === undefined) {
@@ -26,7 +32,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                                 });
 
                             }, '');
-                            var el = $compile(plugins)($scope);
+                            var el = $compile(plugins)(childScope);
                             $element.append(el);
                         });
                     }
