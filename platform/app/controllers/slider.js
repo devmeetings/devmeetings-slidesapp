@@ -21,3 +21,9 @@ exports.slideEdit = function(req, res) {
         slide: req.params.slide
     });
 };
+
+exports.trainer = function(req, res) {
+    res.render('slider/trainer', {
+        title: "Trainer's Screen"
+    });
+};

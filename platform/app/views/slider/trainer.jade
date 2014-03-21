@@ -1,0 +1,8 @@
+extends ../layout
+
+append scripts
+  script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-trainer')
+
+block content
+  div(ng-controller="TrainerCtrl")
+    plugins-loader(namespace="'trainer'", context="slide")
