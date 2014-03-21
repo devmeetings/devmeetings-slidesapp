@@ -1,64 +1,62 @@
-define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
     'use strict';
 
-    var EDITOR_THEME = 'twilight';
-    var EXECUTION_DELAY = 500;
+    var EXECUTION_DELAY = 300;
 
     var path = sliderPlugins.extractPath(module);
 
-    var evalCode = function(monitor, value) {
-        if (monitor) {
-            value += "\n\n;return " + monitor + ";";
-        }
-        try {
-            var result = eval("(function(){ \"use strict\"; " + value + "}())");
-            // TODO: microtasks?
-            // TODO: async?
-            var json = JSON.stringify(result, null, 2);
+    var evalCode = function(value) {
 
-            return {
-                output: json,
-                errors: ''
+        var triggerFunctionName = '________trigger';
+        // We have to process code through the plugins
+        var toObserve = sliderPlugins.getPlugins('slide.slide-jsrunner', 'process').map(function(plugin) {
+            return plugin.plugin;
+        });
+
+        // Now convert to some code that will be injected
+        toObserve = toObserve.map(function(plugin) {
+            var invoke = triggerFunctionName + '("' + plugin.name + '", ' + plugin.monitor + ')';
+            return 'try { ' + invoke + ' } catch (e) { console.warn(e); }';
+        });
+
+        // Actually execute code
+        try {
+            var trigger = function(name, data) {
+                sliderPlugins.trigger('slide.slide-jsrunner.' + name, data);
             };
+
+            var code = ['(function(' + triggerFunctionName + '){',
+                '"use strict"',
+                value
+            ].concat(toObserve).concat([
+                '}(trigger))'
+            ]).join(';\n');
+
+            var result = eval(code);
+
+            return null;
         } catch (e) {
-            return {
-                output: null,
-                errors: e
-            };
+            return e;
         }
     };
 
-    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsrunner', 5000).directive('slideJsrunner', [
+    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [
 
         function() {
             return {
                 restrict: 'E',
                 scope: {
-                    monitor: '=data',
+                    jsrunner: '=data',
                     slide: '=context'
                 },
                 templateUrl: path + '/slide-jsrunner.html',
                 link: function(scope, element) {
-                    var output = ace.edit(element.find('.editor')[0]);
-                    output.setTheme("ace/theme/" + EDITOR_THEME);
-                    output.getSession().setMode('ace/mode/json');
-                    output.setReadOnly(true);
-                    output.setHighlightActiveLine(false);
-                    output.setShowPrintMargin(false);
-                    output.renderer.setShowGutter(false);
-
                     sliderPlugins.on('slide.slide-code.change', _.debounce(function(ev, codeEditor) {
 
                         var code = codeEditor.getValue();
-                        var result = evalCode(scope.monitor, code);
+                        var errors = evalCode(code);
 
-
-                        if (result.output) {
-                            output.setValue(result.output);
-                            output.clearSelection();
-                        }
-                        // TODO errors
-                        element.find('.errors').html(result.errors);
+                        element.find('.errors').html(errors);
 
                     }, EXECUTION_DELAY));
                 }

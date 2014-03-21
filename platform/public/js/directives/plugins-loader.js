@@ -21,7 +21,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                                 }
 
                                 return memo + tpl({
-                                    pluginName: plugin.name,
+                                    pluginName: plugin.plugin,
                                     trigger: plugin.trigger
                                 });
 

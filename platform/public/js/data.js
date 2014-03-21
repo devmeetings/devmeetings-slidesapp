@@ -23,6 +23,7 @@ define({
         }],
         "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
         "monitor": "x",
+        "jsrunner": true,
         "title": "Slides are awesome",
         "notes": "On this slide we show basic code execution with monitoring. If you change the code the output will change accordingly.\n",
         "id": "slide1",
@@ -48,6 +49,7 @@ define({
         "title": "Slide with HTML and CSS"
     }, {
         "code": "var array = [1, 2, 3, [4, 5]];\n",
+        "jsrunner": true,
         "monitor": "array",
         "title": "Second slide is also awesome",
         "notes": "On this slide we show capabilities of our JSON inspector. Just dig inside array.\nSome another snippet var y = function() {\n  var x = \"123\" + 4;\n  return ~x;\n}; console.log(y());\n",
