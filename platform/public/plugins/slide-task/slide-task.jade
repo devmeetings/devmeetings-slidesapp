@@ -1,0 +1,37 @@
+.row
+  .col-md-9
+    h1 
+      span.text-success
+        span.glyphicon.glyphicon-check
+      |  Objectives
+    ol
+      li(ng-repeat="o in task.objectives")
+        h4(ng-bind-html="o")
+    h2
+      span.text-danger
+        span.glyphicon.glyphicon-asterisk
+      |  Extra objectives
+    ol
+      li(ng-repeat="o in task.extras")
+        h4(ng-bind-html="o")
+  .col-md-3
+    h1 
+      span.glyphicon.glyphicon-time
+      | 
+      span.text-warning.task-time-left
+        | {{ task.duration }}
+      span.text-warning
+        |  min
+
+      button.task-start-btn.btn.btn-default.pull-right(
+        tooltip="Start task")
+        span.glyphicon.glyphicon-play
+    hr
+    h2
+      span.glyphicon.glyphicon-play
+      | 
+      span.task-start-time
+    h2
+      span.glyphicon.glyphicon-pause
+      | 
+      span.task-end-time

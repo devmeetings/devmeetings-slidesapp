@@ -3,7 +3,8 @@ require(['config'], function() {
         "directives/layout-loader", "directives/plugins-loader",
         "plugins/slide-text/slide-text", "plugins/slide-title/slide-title", "plugins/slide-code/slide-code",
         "plugins/slide-jsrunner/slide-jsrunner", "plugins/slide-jsonOutput/slide-jsonOutput",
-        "plugins/slide-jsmicrotasks/jsmicrotasks", "plugins/slide-fiddle/fiddle"
+        "plugins/slide-jsmicrotasks/jsmicrotasks", "plugins/slide-fiddle/fiddle",
+        "plugins/slide-task/slide-task"
     ], function(deck, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$scope',

@@ -61,7 +61,7 @@ define({
         "text": "something",
         "task": {
             "duration": 5,
-            "objectives": "Display an array of todos using DOM",
+            "objectives": ["Display an array of todos using DOM"],
             "extras": [
                 "Use Bootstrap <code>.list-group</code> component.",
                 "Don't use <code>.innerHTML</code>, <code>.textContent</code>, etc."
