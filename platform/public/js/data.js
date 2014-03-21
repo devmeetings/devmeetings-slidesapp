@@ -14,6 +14,7 @@ define({
     }, {
         "microtasks": [{
             "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",
+            'hint': 'OMG OMG <strong>So hard!</strong>',
             'monitor': 'foo',
             "js_assert": "console.log(foo('a')); return foo(\"a\") === \"ax\";"
         }, {
@@ -70,8 +71,9 @@ define({
         "name": "Task",
         "title": "This is task!"
     }, {
-        "code": "end = \"Thanks for listening!\"",
+        "code": "var end = \"Thanks for listening!\"",
         "monitor": "end",
+        "jsrunner": true,
         "title": "This is the end...",
         "notes": "\"Say goodbye nicely\";\n",
         "id": "slide3",

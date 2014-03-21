@@ -18,9 +18,8 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
     };
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
-        '$timeout',
 
-        function($timeout) {
+        function() {
 
             var editor = null;
 
@@ -42,9 +41,9 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                     editor.setValue(code.content);
 
                     //TODO some mechanism to run piece of code after all plugins are loaded?
-                    $timeout(function() {
+                    sliderPlugins.onLoad(function() {
                         triggerCodeChange({}, editor);
-                    }, 500);
+                    });
                 },
             };
         }

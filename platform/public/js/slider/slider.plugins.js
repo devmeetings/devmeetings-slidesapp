@@ -10,6 +10,8 @@ define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins'], fu
     _.extend(module, Plugins);
     asEvented.call(module);
 
-
+    module.onLoad = function(cb) {
+        module.on('load', cb);
+    };
     return module;
 });

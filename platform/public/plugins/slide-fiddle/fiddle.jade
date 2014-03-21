@@ -1,0 +1,22 @@
+mixin tabHeader(name)
+  li(ng-class="{'active': active === '#{name}' }", ng-show="fiddle.#{name}")
+    a(ng-click="active = '#{name}'") #{name}
+
+mixin tabContent(name, mode)
+  .tab-pane.fade(ng-class="{'active in': active === '#{name}' }")
+    .editor(class="editor-#{name}", data-mode="#{mode}", data-content="#{name}")
+.row
+  div(ng-class="{'col-sm-12': fiddle.hideOutput, 'col-sm-6': !fiddle.hideOutput }")
+    ul.nav.nav-tabs(ng-init="active = fiddle.active")
+      mixin tabHeader('js')
+      mixin tabHeader('coffee')
+      mixin tabHeader('css')
+      mixin tabHeader('html')  
+    .tab-content
+      mixin tabContent('js', 'javascript')
+      mixin tabContent('coffee', 'coffee')
+      mixin tabContent('css', 'css')
+      mixin tabContent('html', 'html')
+    .errors.alert.alert-danger.errors-fiddle
+  .col-sm-6(ng-class="{ 'hidden': fiddle.hideOutput }")
+    slide-fiddle-output(data="fiddle")

@@ -24,7 +24,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         });
 
                         sliderPlugins.on('slide.slide-jsrunner.' + task.id, function(x) {
-                            console.log(x);
                             var toEval = [
                                 '(function(' + task.monitor + '){',
                                 task.js_assert,
