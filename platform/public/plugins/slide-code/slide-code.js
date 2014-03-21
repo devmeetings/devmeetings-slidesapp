@@ -13,9 +13,17 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         return code;
     };
 
-    sliderPlugins.registerPlugin('slide', 'code', 'slide-code').directive('slideCode', [
+    var triggerCodeChange = function(ev, editor) {
+        sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
+    };
 
-        function() {
+    sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
+        '$timeout',
+
+        function($timeout) {
+
+            var editor = null;
+
             return {
                 restrict: 'E',
                 scope: {
@@ -26,11 +34,18 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                 link: function(scope, element) {
                     var code = getCodeData(scope.code);
 
-                    var editor = ace.edit(element[0].childNodes[0]);
+                    editor = ace.edit(element[0].childNodes[0]);
                     editor.setTheme("ace/theme/" + EDITOR_THEME);
                     editor.getSession().setMode('ace/mode/' + code.mode);
+
+                    editor.on('change', triggerCodeChange);
                     editor.setValue(code.content);
-                }
+
+                    //TODO some mechanism to run piece of code after all plugins are loaded?
+                    $timeout(function() {
+                        triggerCodeChange({}, editor);
+                    }, 500);
+                },
             };
         }
     ]);

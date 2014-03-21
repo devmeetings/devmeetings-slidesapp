@@ -7,7 +7,8 @@ require.config({
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
-        "lodash": "../components/lodash/dist/lodash"
+        "lodash": "../components/lodash/dist/lodash",
+        "asEvented": "../components/asEvented/asevented"
     },
     "map": {
         "*": {
