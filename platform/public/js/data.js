@@ -7,10 +7,15 @@ define({
         "name": "Hello World",
         "title": "First slide!"
     }, {
-        "text": "Hello there\n",
         "id": "entry2",
-        "name": "Hello World",
-        "title": "First slide - continuation"
+        "name": "Hello Left & Right",
+        "title": "First slide - continuation",
+        "left": {
+            "text": "Hello there Left\n",
+        },
+        "right": {
+            "text": "Hello there Right\n",
+        }
     }, {
         "microtasks": [{
             "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",
