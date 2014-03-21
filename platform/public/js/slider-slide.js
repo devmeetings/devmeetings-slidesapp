@@ -2,7 +2,8 @@ require(['config'], function() {
     require(["data", "slider/slider",
         "directives/layout-loader", "directives/plugins-loader",
         "plugins/slide-text/slide-text", "plugins/slide-title/slide-title", "plugins/slide-code/slide-code",
-        "plugins/slide-jsrunner/slide-jsrunner", "plugins/slide-jsonOutput/slide-jsonOutput"
+        "plugins/slide-jsrunner/slide-jsrunner", "plugins/slide-jsonOutput/slide-jsonOutput",
+        "plugins/slide-jsmicrotasks/jsmicrotasks"
     ], function(deck, slider) {
 
         slider.controller('SlideCtrl', ['$scope',

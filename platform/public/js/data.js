@@ -14,7 +14,8 @@ define({
     }, {
         "microtasks": [{
             "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",
-            "js_assert": "foo(\"a\") === \"ax\"\n"
+            'monitor': 'foo',
+            "js_assert": "console.log(foo('a')); return foo(\"a\") === \"ax\";"
         }, {
             "output": {
                 "name": "somethingx"

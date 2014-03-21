@@ -22,6 +22,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                     outputAce.setShowPrintMargin(false);
                     outputAce.renderer.setShowGutter(false);
 
+
                     sliderPlugins.registerPlugin('slide.slide-jsrunner', 'process', {
                         monitor: scope.monitor,
                         name: 'jsonoutput'
@@ -31,6 +32,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                         outputAce.setValue(res);
                         outputAce.clearSelection();
                     });
+
                 }
             };
         }
