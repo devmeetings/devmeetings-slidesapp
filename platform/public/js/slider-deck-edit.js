@@ -22,7 +22,7 @@ require(['config'], function() {
                     scope: {
                         deck: '='
                     },
-                    template: '<div><div class="editor editor-live"></div></div>',
+                    template: '<div class="editor editor-live"></div>',
                     link: function(scope, element) {
                         var editor = ace.edit(element.find('.editor')[0]);
                         editor.setTheme('ace/theme/todr');

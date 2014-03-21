@@ -7,11 +7,12 @@ block title
   title {{ title }} - #{title}
 
 block content
-  .container-fluid
-    .row
-      .col-md-7(ng-controller="SliderCtrl")
+  div(ng-controller="SliderCtrl")
         layout-loader(layout="'presentation-layout-std'", data="deck", extra="editMode")
-      .col-md-5(ng-controller="SliderEditCtrl")
-        yaml-editor(deck="deck")
+  .live-edit(ng-controller="SliderEditCtrl", ng-class="{ 'collapsed' : collapsed }")
+    button.btn.btn-primary.btn-block.btn-xs(ng-click="collapsed = !collapsed") 
+      span(ng-show="collapsed") show
+      span(ng-show="!collapsed") hide
+    yaml-editor(deck="deck")
 
     
