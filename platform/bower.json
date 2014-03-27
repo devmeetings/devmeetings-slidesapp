@@ -16,6 +16,6 @@
     "requirejs": "~2.1.11",
     "lodash": "~2.4.1",
     "angular-sanitize": "~1.2.14",
-    "asEvented": "git@github.com:mkuklis/asEvented.git#~0.4.3"
+    "asEvented": "https://github.com/mkuklis/asEvented.git#0.4.3"
   }
 }
