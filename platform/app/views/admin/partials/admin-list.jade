@@ -1,3 +1,13 @@
 h1 Hello decks!
 div(ng-repeat="deck in decks")
-   p {{ deck }}
+    a(href="#", ng-click="removeDeck(deck._id)")
+        span.glyphicon.glyphicon-trash
+    p {{ deck }}
+h1 Create new deck
+form.form-inline(ng-submit="addDeck()")
+    .form-group
+        input.form-control(placeholder="Deck title", ng-model="deckTitle")
+    .form-group
+        button.btn.btn-primary
+            span.glyphicon.glyphicon-plus-sign
+            |  Create new Deck
