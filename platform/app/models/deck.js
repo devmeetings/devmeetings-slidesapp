@@ -3,15 +3,15 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var ArticleSchema = new Schema({
+var DeckSchema = new Schema({
   title: String,
-  url: String,
-  text: String
+  trainersPassword: String,
+  slides: []
 });
 
-ArticleSchema.virtual('date')
+DeckSchema.virtual('date')
   .get(function(){
     return this._id.getTimestamp();
   });
 
-mongoose.model('Article', ArticleSchema);
+module.exports = mongoose.model('Deck', DeckSchema);

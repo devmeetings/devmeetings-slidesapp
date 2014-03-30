@@ -4,6 +4,8 @@ require.config({
         "jquery": "../components/jquery/dist/jquery",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
+        "angular-route": "../components/angular-route/angular-route",
+        "restangular": "../components/restangular/dist/restangular",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
@@ -29,8 +31,16 @@ require.config({
             "deps": ["angular"],
             "exports": "angular"
         },
+        "angular-route": {
+            "deps": ["angular"],
+            "exports": "angular"
+        },
         "angular-bootstrap": {
             "deps": ["angular"],
+            "exports": "angular"
+        },
+        "restangular": {
+            "deps": ["angular", "lodash"],
             "exports": "angular"
         },
         "ace": {
