@@ -16,14 +16,20 @@ require(['config'], function () {
                 decks.one(id).remove().then(fetchDecks);
             };
 
-            $scope.addDeck = function() {
+            $scope.addDeck = function () {
                 var title = $scope.deckTitle;
                 $scope.deckTitle = "";
 
                 decks.post({
                     title: title
                 }).then(fetchDecks);
-            }
+            };
+
+            $scope.addExemplaryDeck = function () {
+                require(['data'], function (exemplaryData) {
+                    decks.post(exemplaryData).then(fetchDecks);
+                });
+            };
         }]);
 
         module.config(['$routeProvider', function ($routeProvider) {
