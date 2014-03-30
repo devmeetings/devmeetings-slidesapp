@@ -18,7 +18,7 @@ define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins'], fu
     module.listen = function(scope, name, cb) {
         scope.$on('$destroy', function() {
             module.off(name, cb);
-        })
+        });
         return module.on(name, cb);
     };
     return module;

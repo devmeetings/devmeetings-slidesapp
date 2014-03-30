@@ -1,8 +1,8 @@
-'use strict';
-
 var request = require('request');
 
 module.exports = function(grunt) {
+    "use strict";
+
     // show elapsed time at the end
     require('time-grunt')(grunt);
     // load all grunt tasks
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                     'config/*.js',
                     'public/plugins/**/*.js'
                 ],
-                tasks: ['develop', 'delayed-livereload']
+                tasks: ['jshint', 'develop', 'delayed-livereload']
             },
             jade: {
                 files: ['app/views/**/*.jade', 'public/plugins/**/*.jade'],
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
         },
         jshint: {
             gruntFile: ['Gruntfile.js'],
-            fontend: ['public/js/**/*.js'],
+            fontend: ['public/js/**/*.js', '!public/js/3rd/**', '!public/js/theme-todr.js'],
             backend: ['app/**/*.js']
         }
     });

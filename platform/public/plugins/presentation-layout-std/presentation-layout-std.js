@@ -16,8 +16,10 @@ define(['module', 'slider/slider.plugins'], function(module, plugins) {
                     function($rootScope, $scope, $location) {
                         $rootScope.title = $scope.deck.title;
                         $scope.$on('$locationChangeSuccess', function() {
+                            var previousSlide = $scope.activeSlide;
                             $scope.activeSlide = $location.url().substr(1);
                             $scope.slideSource = ($scope.editMode ? '/edit:' : '/') + 'slide-' + $scope.activeSlide;
+                            plugins.trigger('slide.current.change', $scope.activeSlide, previousSlide);
                         });
                     }
                 ]

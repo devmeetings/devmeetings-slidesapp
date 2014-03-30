@@ -40,11 +40,10 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                     editor.on('change', triggerCodeChange);
                     editor.setValue(code.content);
 
-                    //TODO some mechanism to run piece of code after all plugins are loaded?
                     sliderPlugins.onLoad(function() {
                         triggerCodeChange({}, editor);
                     });
-                },
+                }
             };
         }
     ]);

@@ -14,7 +14,7 @@ define(['slider/slider'], function(slider) {
                     var el = $compile('<' + $scope.layout + ' data="data" extra="extra"></' + $scope.layout + '>')($scope);
                     $element.append(el);
                 }
-            }
+            };
         }
     ]);
 });
