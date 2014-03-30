@@ -32,3 +32,13 @@ exports.delete = function (req, res) {
         res.send(200);
     });
 };
+
+exports.getOneRequireJs = function (req, res) {
+    DeckModel.findById(req.params.id, function (err, deck) {
+        if (err) {
+            res.send(404, err);
+            return;
+        }
+        res.send("define(" + JSON.stringify(deck) + ");");
+    });
+};

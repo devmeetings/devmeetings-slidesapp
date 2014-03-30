@@ -8,14 +8,16 @@ module.exports = function(app) {
     app.get('/api/decks', decks.list);
     app.post('/api/decks', decks.create);
     app.delete('/api/decks/:id', decks.delete);
+    // TODO OMG this is so terrible
+    app.get('/decks/:id.js', decks.getOneRequireJs);
 
     //home route
     var slider = ctrl('slider');
-    app.get('/', slider.index);
-    app.get('/edit', slider.edit);
-    app.get('/trainer', slider.trainer);
-    app.get('/slide-:slide', slider.slide);
-    app.get('/edit:slide-:slide', slider.slide);
+    app.get('/slides/:slides', slider.index);
+    app.get('/slides/:slides/edit', slider.edit);
+    app.get('/slides/:slides/trainer', slider.trainer);
+    app.get('/slides/:slides/slide-:slide', slider.slide);
+    app.get('/slides/:slides/edit:slide-:slide', slider.slide);
 
     var admin = ctrl('admin');
     app.get('/admin/', admin.index);

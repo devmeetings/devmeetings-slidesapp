@@ -1,6 +1,8 @@
 extends ../layouts/main
 
 append scripts
+  script.
+    window.slides = "#{slides}";
   script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-deck')
 
 block title

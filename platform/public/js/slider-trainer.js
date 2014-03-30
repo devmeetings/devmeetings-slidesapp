@@ -1,5 +1,5 @@
 require(['config'], function() {
-    require(["data", "slider/slider", "slider/slider.plugins",
+    require(["decks/"+slides, "slider/slider", "slider/slider.plugins",
         "directives/layout-loader", "directives/plugins-loader", "plugins/trainer-notes/trainer-notes"
     ], function(deck, slider, sliderPlugins) {
 

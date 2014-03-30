@@ -1,5 +1,5 @@
 require(['config'], function() {
-    require(["data", "ace", "slider/slider", "slider/slider.plugins", "directives/layout-loader", "plugins/presentation-layout-std/presentation-layout-std"], function(deck, ace, slider, sliderPlugins) {
+    require(["decks/"+slides, "ace", "slider/slider", "slider/slider.plugins", "directives/layout-loader", "plugins/presentation-layout-std/presentation-layout-std"], function(deck, ace, slider, sliderPlugins) {
 
         slider.controller('SliderCtrl', ['$scope',
             function($scope) {

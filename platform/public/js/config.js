@@ -1,5 +1,6 @@
 require.config({
     "paths": {
+        "decks": "../../decks",
         "plugins": "../plugins",
         "jquery": "../components/jquery/dist/jquery",
         "angular": "../components/angular/angular",
