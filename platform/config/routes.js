@@ -13,7 +13,8 @@ module.exports = function(app) {
 
     //home route
     var slider = ctrl('slider');
-    app.get('/slides/:slides', slider.index);
+    app.get('/', slider.index);
+    app.get('/slides/:slides', slider.deck);
     app.get('/slides/:slides/edit', slider.edit);
     app.get('/slides/:slides/trainer', slider.trainer);
     app.get('/slides/:slides/slide-:slide', slider.slide);

@@ -1,0 +1,6 @@
+extends ../layouts/main
+
+
+block content
+    for deck in decks
+        h3: a(href="/slides/#{deck._id}") #{deck.title}
