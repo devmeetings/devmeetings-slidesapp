@@ -8,7 +8,7 @@ module.exports = function(app) {
     app.get('/api/decks', decks.list);
     app.post('/api/decks', decks.create);
     app.delete('/api/decks/:id', decks.delete);
-    // TODO OMG this is so terrible
+    // TODO [ToDr] OMG this is so terrible
     app.get('/decks/:id.js', decks.getOneRequireJs);
 
     //home route

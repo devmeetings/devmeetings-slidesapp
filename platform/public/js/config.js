@@ -11,7 +11,8 @@ require.config({
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
         "lodash": "../components/lodash/dist/lodash",
-        "asEvented": "../components/asEvented/asevented"
+        "asEvented": "../components/asEvented/asevented",
+        "socket.io": "/socket.io/socket.io"
     },
     "map": {
         "*": {
