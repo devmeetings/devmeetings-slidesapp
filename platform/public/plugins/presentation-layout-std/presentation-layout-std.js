@@ -18,7 +18,9 @@ define(['module', 'slider/slider.plugins'], function(module, plugins) {
                         $scope.$on('$locationChangeSuccess', function() {
                             var previousSlide = $scope.activeSlide;
                             $scope.activeSlide = $location.url().substr(1);
-                            $scope.slideSource = ($scope.editMode ? '/edit:' : '/') + 'slide-' + $scope.activeSlide;
+                            var absUrl = $location.absUrl();
+                            var path = absUrl.substr(0, absUrl.indexOf('#'));
+                            $scope.slideSource = path + ($scope.editMode ? '/edit:' : '/') + 'slide-' + $scope.activeSlide;
                             plugins.trigger('slide.current.change', $scope.activeSlide, previousSlide);
                         });
                     }
