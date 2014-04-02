@@ -15,7 +15,7 @@ var app = express();
 
 require('./config/express')(app, config);
 require('./config/routes')(app);
-
+require('./config/passport');
 
 var server = http.Server(app);
 var io = socketio.listen(server);

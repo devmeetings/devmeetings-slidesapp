@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require('passport');
 var lessMiddleware = require('less-middleware');
 
 module.exports = function(app, config) {
@@ -28,7 +29,11 @@ module.exports = function(app, config) {
         app.set('view engine', 'jade');
         app.use(express.favicon(config.root + '/public/img/favicon.ico'));
         app.use(express.logger('dev'));
+        app.use(express.cookieParser());
         app.use(express.bodyParser());
+        app.use(express.session({ secret: 'ImSecretAndIKnowIt' }));
+        app.use(passport.initialize());
+        app.use(passport.session());
         app.use(express.methodOverride());
         app.use(app.router);
         app.use(function(req, res) {
