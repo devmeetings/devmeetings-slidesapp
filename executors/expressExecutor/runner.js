@@ -34,7 +34,7 @@ process.on('message', function(msg) {
                 ok: true,
                 result: JSON.stringify(output, null, 2)
             }); //Send the finished message to the parent process
-        }, 100);
+        }, 50);
     } catch (e) {
         process.send({
             ok: false,
