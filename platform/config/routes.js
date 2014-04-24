@@ -41,6 +41,7 @@ module.exports = function(app) {
     app.get('/slides/:slides/trainer', authenticated, slider.trainer);
     app.get('/slides/:slides/slide-:slide', authenticated, slider.slide);
     app.get('/slides/:slides/edit:slide-:slide', authenticated, slider.slide);
+    app.get('/slides/:slides/edit/edit:slide-:slide', authenticated, slider.slide);  //mk ugly fix
 
     // Admin panel
     var admin = ctrl('admin');

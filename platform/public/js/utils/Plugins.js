@@ -38,7 +38,7 @@ define(['_'], function(_) {
 
             if (plugins[namespace]) {
                 return plugins[namespace].filter(filter).sort(function(a, b) {
-                    return a.order > b.order;
+                    return a.order - b.order;
                 });
             }
             return [];
