@@ -4,7 +4,8 @@ require(['config'], function() {
         "plugins/slide-text/slide-text", "plugins/slide-title/slide-title", "plugins/slide-code/slide-code",
         "plugins/slide-jsrunner/slide-jsrunner", "plugins/slide-jsonOutput/slide-jsonOutput",
         "plugins/slide-jsmicrotasks/jsmicrotasks", "plugins/slide-fiddle/fiddle",
-        "plugins/slide-task/slide-task", "plugins/slide-leftRight/slide-leftRight"
+        "plugins/slide-task/slide-task", "plugins/slide-leftRight/slide-leftRight",
+        "plugins/slide-accordion/slide-accordion"
     ], function(deck, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$scope', '$window',

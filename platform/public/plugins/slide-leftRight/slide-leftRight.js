@@ -2,7 +2,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'left', 'slide-left').directive('slideLeft', [
+    sliderPlugins.registerPlugin('slide', 'left', 'slide-left', 9).directive('slideLeft', [
 
         function() {
             return {
@@ -19,7 +19,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
         }
     ]);
 
-    sliderPlugins.registerPlugin('slide', 'right', 'slide-right').directive('slideRight', [
+    sliderPlugins.registerPlugin('slide', 'right', 'slide-right', 10).directive('slideRight', [
 
         function() {
             return {

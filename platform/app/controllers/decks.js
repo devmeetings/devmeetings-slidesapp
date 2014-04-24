@@ -33,6 +33,16 @@ exports.delete = function (req, res) {
     });
 };
 
+exports.edit = function (req, res) {
+    DeckModel.findByIdAndUpdate(req.params.id, req.body, {upsert: true}, function (err, deck) {
+        if (err) {
+            res.send(404, err);
+            return;
+        }
+        res.send(200);
+    });
+};
+
 exports.getOneRequireJs = function (req, res) {
     DeckModel.findById(req.params.id, function (err, deck) {
         if (err) {
