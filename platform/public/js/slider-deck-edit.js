@@ -1,5 +1,5 @@
 require(['config'], function() {
-    require(["decks/"+slides, "ace", "slider/slider", "slider/slider.plugins", "directives/layout-loader", "plugins/presentation-layout-std/presentation-layout-std"], function(deck, ace, slider, sliderPlugins) {
+    require(["decks/"+slides, "_", "ace", "slider/slider", "slider/slider.plugins", "directives/layout-loader", "plugins/presentation-layout-std/presentation-layout-std"], function(deck, _, ace, slider, sliderPlugins) {
 
         slider.controller('SliderCtrl', ['$scope',
             function($scope) {
@@ -15,8 +15,8 @@ require(['config'], function() {
             function($scope, $window) {
                 $scope.deck = deck;
             }
-        ]).directive('yamlEditor', ['$rootScope', "$window",
-            function($rootScope, $window) {
+        ]).directive('yamlEditor', ['$rootScope', "$window", "$http",
+            function($rootScope, $window, $http) {
                 return {
                     restrict: 'E',
                     scope: {
@@ -28,18 +28,19 @@ require(['config'], function() {
                         editor.setTheme('ace/theme/todr');
                         editor.getSession().setMode('ace/mode/json');
                         editor.setValue(JSON.stringify(scope.deck, null, 2));
-
-                        editor.on('change', function() {
+                        var x =  function() {
                             var value = editor.getValue();
                             scope.$apply(function() {
                                 scope.deck = JSON.parse(value);
+                                $http.put('/api/decks/' + slides, scope.deck);
                                 $rootScope.$broadcast('deck', scope.deck);
                                 $window.postMessage({
                                     type: 'deck',
                                     data: scope.deck
                                 }, $window.location);
                             });
-                        });
+                        };
+                        editor.on('change', _.throttle(x, 100));
                     }
                 };
             }
