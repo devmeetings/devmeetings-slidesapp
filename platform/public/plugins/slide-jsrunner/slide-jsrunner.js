@@ -32,7 +32,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 '}(trigger))'
             ]).join(';\n');
 
+            /* jshint evil:true */
             var result = eval(code);
+            /* jshint evil:false */
 
             return null;
         } catch (e) {

@@ -35,5 +35,5 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', ['jshint', 'less:dist']);
 
-    grunt.registerTask('default', ['dev']);
+    grunt.registerTask('default', ['serve']);
 };

@@ -23,7 +23,7 @@ define(['module', 'slider/slider.plugins'], function(module, plugins) {
                         });
                     }
                 ]
-            }
+            };
         }
     ]);
 });
