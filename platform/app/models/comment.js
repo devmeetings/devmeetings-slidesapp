@@ -8,7 +8,8 @@ var CommentSchema = new Schema({
     code: {
         js: String,
         html: String,
-        css: String
+        css: String,
+        activeTab: String
     },
     timestamp: Number
 
