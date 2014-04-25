@@ -20,7 +20,7 @@ exports.update = function (req, res) {
     } 
     var update = { 
         $addToSet: { 
-            "snapshot": req.body.codeSnapshot.snapshot
+            "snapshots": req.body.codeSnapshot.snapshot
         } 
     }
     var options = {

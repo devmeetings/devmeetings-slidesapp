@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 
 var CodeSnapshotSchema = new Schema({
   userId: String,
-  codeLivePreview: [
+  slideId: String,
+  snapshots: [
   // {
   // 	slide: slideId,
   // 	snapshots: [
