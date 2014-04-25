@@ -59,10 +59,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         $http.post('/api/codeSnapshots', {
                             codeSnapshot: {
-                                slide: 'someSlideId',
-                                snapshot: {
-                                    code: code
-                                }
+                                slide: 'someSlideId',                                
+                                code: code                                
                             }
                         });
 
