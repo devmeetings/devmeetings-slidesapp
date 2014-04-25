@@ -1,4 +1,4 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
+define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(module, sliderPlugins, SlideInfoService) {
 
     var path = sliderPlugins.extractPath(module);
 
@@ -15,29 +15,29 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 controller: 'ChatController'
             };
         }
-    ]).controller('ChatController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    ]).controller('ChatController', ['$scope', '$http', 'SlideInfo', function($scope, $http, SlideInfo){
 
-        var reg = new RegExp('slides/([^/]*)/slide-(.*)', 'ig');
-        var res = reg.exec($location.$$absUrl);
-        var presentation = res[1];
-        var slide = res[2];
-
+        var presentation = SlideInfo.presentation;
+        var slide = SlideInfo.slide;
         var url = '/api/comments';
+
+
         $scope.messages = [];
 
-
-
-
+        $http.get(url + '/' + presentation + '/' + slide)
+            .success(function(data){
+                $scope.messages = data;
+            })
+        ;
 
         $scope.sendMessage = function () {
-
             $http.post(url, {
                 presentation: presentation,
                 slide: slide,
                 comment: $scope.messageText,
                 timestamp: new Date().getTime()
-            }).success(function(){
-                $scope.messages.push($scope.messageText);
+            }).success(function(data){
+                $scope.messages.push(data);
                 $scope.messageText = '';
             });
 
