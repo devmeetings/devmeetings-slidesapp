@@ -17,5 +17,6 @@ $ npm install
 $ bower install
 $ mongod
 $ npm start
+$ grunt [dev|build]
 ```
 
