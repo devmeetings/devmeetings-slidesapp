@@ -1,9 +1,7 @@
 define(['module', 'slider/slider.plugins'], function(module, plugins) {
-
     var path = plugins.extractPath(module);
 
     plugins.directive('presentationLayoutStd', [
-
         function() {
             return {
                 restrict: 'E',
@@ -28,5 +26,4 @@ define(['module', 'slider/slider.plugins'], function(module, plugins) {
             }
         }
     ]);
-
 });

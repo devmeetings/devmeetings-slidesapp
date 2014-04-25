@@ -5,6 +5,10 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
+        jshint: {
+            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js'],
+            server: ['./*.js', 'config/*.js', 'app/**/*.js']
+        },
         less: {
             dev: {
                 files: {
@@ -22,7 +26,14 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('dev', ['less:dev']);
-    grunt.registerTask('build', ['less:dist']);
+    grunt.registerTask('serve', ['jshint', 'less:dev']);
+    grunt.registerTask('server', function () {
+        grunt.log.errorlns('Did you mean `grunt serve`?');
+        grunt.log.ok('Running `serve` task');
+        grunt.task.run('serve');
+    });
+
+    grunt.registerTask('build', ['jshint', 'less:dist']);
+
     grunt.registerTask('default', ['dev']);
 };
