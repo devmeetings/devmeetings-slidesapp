@@ -20,7 +20,6 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
                     }, EXECUTION_DELAY));
 
                     sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.debounce(function(ev) {
-                        console.log(ev);
                         scope.code.js = ev.js;
                         scope.code.css = ev.css;
                         scope.code.html = ev.html;
@@ -65,7 +64,9 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
         loadComments(loadTimeout);
 
 
-
+        $scope.hasCode = function(message){
+            return (typeof message.code != 'undefined' && message.code.js != '' && message.code.css != '' && message.code.html != '');
+        }
 
 
         $scope.sendMessage = function () {
