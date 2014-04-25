@@ -48,7 +48,7 @@
    </div>
    <div class="panel-body">
     <ul class="chat">
-        <li ng-repeat="message in messages" ng-class="{'left clearfix' : $even, 'right clearfix' : $odd}">
+        <li ng-repeat="message in messages | orderBy: message.timestamp:'true'" ng-class="{'left clearfix' : $even, 'right clearfix' : $odd}">
             <div ng-if="$even">
                 <span class="chat-img pull-left">
                     <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle" />
@@ -58,7 +58,8 @@
                         <strong class="primary-font">Jack Sparrow</strong> 
                         <small class="pull-right text-muted">
                             <span class="glyphicon glyphicon-time">
-                            </span>14 mins ago
+                            </span>
+                            {{ message.timestamp | date : 'yyyy-MM-dd HH:mm:ss' }}
                         </small>
                     </div>
                     <p>{{message.comment}}</p>
@@ -73,7 +74,7 @@
                     <div class="header">
                         <small class=" text-muted">
                             <span class="glyphicon glyphicon-time"></span>
-                            13 mins ago
+                            {{ message.timestamp | date : 'yyyy-MM-dd HH:mm:ss' }}
                         </small>
                         <strong class="pull-right primary-font">Bhaumik Patel</strong>
                     </div>
