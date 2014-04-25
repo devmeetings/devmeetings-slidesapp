@@ -1,3 +1,6 @@
 div
     .errors.alert.alert-danger
 button(ng-click="getSnapshots()") dupadupa
+div(ng-bind="snap")
+ul
+    li(ng-repeat="snap in snapshots", ng-bind="snap.code")

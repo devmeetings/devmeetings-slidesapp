@@ -55,8 +55,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 link: function(scope, element) {
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
                         scope.getSnapshots = function () {
-                            scope.snapy = $http.get('/api/codeSnapshots').then(function(result) {
-                                return result.data;
+                            $http.get('/api/codeSnapshots/user/test').then(function(result) {
+                                scope.snap = result.data[0];
+                                scope.snapshots = result.data;
                             });
                         };
 
