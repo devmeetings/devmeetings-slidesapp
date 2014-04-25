@@ -15,11 +15,32 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 controller: 'ChatController'
             };
         }
-    ]).controller('ChatController', ['$scope', function($scope){
+    ]).controller('ChatController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+        var reg = new RegExp('slides/([^/]*)/slide-(.*)', 'ig');
+        var res = reg.exec($location.$$absUrl);
+        var presentation = res[1];
+        var slide = res[2];
+
+        var url = '/api/comments';
         $scope.messages = [];
+
+
+
+
+
         $scope.sendMessage = function () {
-            $scope.messages.push($scope.messageText);
-            $scope.messageText = '';
+
+            $http.post(url, {
+                presentation: presentation,
+                slide: slide,
+                comment: $scope.messageText,
+                timestamp: new Date().getTime()
+            }).success(function(){
+                $scope.messages.push($scope.messageText);
+                $scope.messageText = '';
+            });
+
         };
     }]);
 
