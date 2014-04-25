@@ -2,6 +2,7 @@
 /public/components
 /public/slides/*.yaml
 /public/css/style.css
+.rebooted
 
 # Created by http://www.gitignore.io
 
