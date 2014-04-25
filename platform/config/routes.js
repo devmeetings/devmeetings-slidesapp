@@ -27,6 +27,7 @@ module.exports = function(app) {
 
     var codeSnapshots = ctrl('codeSnapshots');
     app.get('/api/codeSnapshots', authenticated, codeSnapshots.list);
+    app.get('/api/codeSnapshots/user/:userId', authenticated, codeSnapshots.listForUser);
     app.post('/api/codeSnapshots', authenticated, codeSnapshots.update);
 
     //login
