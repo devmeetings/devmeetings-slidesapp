@@ -8,9 +8,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         return code.replace(/(.*)\/\/(.*)/g, function(match, reg1, reg2) {
             // but don't break links! - This is shitty as fuck!
             if (/.*http[s]?\:$/.test(reg1)) {
-                return match
+                return match;
             }
-            return '/* ' + reg2 + ' */'
+            return '/* ' + reg2 + ' */';
         });
     };
 
