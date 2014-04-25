@@ -56,8 +56,21 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
                         scope.getSnapshots = function () {
                             $http.get('/api/codeSnapshots/user/test').then(function(result) {
-                                scope.snap = result.data[0];
+                                scope.snap = result.data[0];                                
                                 scope.snapshots = result.data;
+
+                                var i = 0;
+
+                                registerTimeout();
+                                
+                                function registerTimeout(){
+                                    setTimeout(function(){
+                                        scope.snap = scope.snapshots[i].code;
+                                        codeEditor.setValue(scope.snapshots[i].code);
+                                        registerTimeout();
+                                        i++;
+                                    }, 500);                                    
+                                }
                             });
                         };
 
