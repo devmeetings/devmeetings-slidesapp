@@ -1,74 +1,106 @@
-var request = require('request');
-
 module.exports = function(grunt) {
-    "use strict";
+    'use strict';
 
-    // show elapsed time at the end
+    var SERVER_PORT = 3000;
+
     require('time-grunt')(grunt);
-    // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
-    var reloadPort = 35729,
-        files;
-
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        develop: {
+        nodemon: {
             server: {
-                file: 'app.js'
+                script: 'app.js',
+                options: {
+                    env: {
+                        PORT: SERVER_PORT
+                    },
+                    watch: ['config', 'app', 'Gruntfile.js'],
+                    callback: function (nodemon) {
+                        nodemon.on('log', function (event) {
+                            console.log(event.colour);
+                        });
+
+                        nodemon.on('config:update', function () {
+                            setTimeout(function() {
+                                require('open')('http://localhost:' + SERVER_PORT);
+                            }, 1000);
+                        });
+
+                        nodemon.on('restart', function () {
+                            setTimeout(function() {
+                                require('fs').writeFileSync('.rebooted', 'rebooted');
+                            }, 1000);
+                        });
+                    }
+                }
             }
         },
         watch: {
             options: {
-                nospawn: true,
-                livereload: reloadPort
+                spawn: false
             },
             less: {
-                files: [
-                    'public/css/*.less'
-                ]
+                files: ['public/less/**/**.less'],
+                tasks: ['less:server'],
+                options: {
+                    livereload: true
+                }
             },
             js: {
-                files: [
-                    'app.js',
-                    'app/**/*.js',
-                    'public/js/**/*.js',
-                    'config/*.js',
-                    'public/plugins/**/*.js'
-                ],
-                tasks: ['jshint', 'develop', 'delayed-livereload']
-            },
-            jade: {
-                files: ['app/views/**/*.jade', 'public/plugins/**/*.jade'],
+                files: ['public/js/**/*.js', 'public/plugins/**/*.js'],
+                tasks: ['jshint:public'],
                 options: {
-                    livereload: reloadPort
+                    livereload: true
+                }
+            },
+            server: {
+                files: ['./*.js', 'config/*.js', 'app/**/*.js'],
+                tasks: ['jshint:server']
+            },
+            rebootServer: {
+                files: ['.rebooted'],
+                options: {
+                    livereload: true
                 }
             }
         },
         jshint: {
-            gruntFile: ['Gruntfile.js'],
-            fontend: ['public/js/**/*.js', '!public/js/3rd/**', '!public/js/theme-todr.js'],
-            backend: ['app/**/*.js']
+            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js'],
+            server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
+        },
+        less: {
+            server: {
+                files: {
+                    'public/css/style.css': 'public/less/style.less'
+                }
+            },
+            build: {
+                options: {
+                    cleancss: true
+                },
+                files: {
+                    'public/css/style.css': 'public/less/style.less'
+                }
+            }
+        },
+        concurrent: {
+            server: {
+                tasks: ['nodemon', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
         }
     });
 
-    grunt.config.requires('watch.js.files');
-    files = grunt.config('watch.js.files');
-    files = grunt.file.expand(files);
-
-    grunt.registerTask('delayed-livereload', 'Live reload after the node server has restarted.', function() {
-        var done = this.async();
-        setTimeout(function() {
-            request.get('http://localhost:' + reloadPort + '/changed?files=' + files.join(','), function(err, res) {
-                var reloaded = !err && res.statusCode === 200;
-                if (reloaded)
-                    grunt.log.ok('Delayed live reload successful.');
-                else
-                    grunt.log.error('Unable to make a delayed live reload.');
-                done(reloaded);
-            });
-        }, 1000);
+    grunt.registerTask('serve', ['jshint', 'less:server', 'concurrent']);
+    grunt.registerTask('server', function () {
+        grunt.log.errorlns('Did you mean `grunt serve`?');
+        grunt.log.ok('Running `serve` task');
+        grunt.task.run('serve');
     });
 
-    grunt.registerTask('default', ['develop', 'watch']);
+    grunt.registerTask('build', ['jshint', 'less:build']);
+
+    grunt.registerTask('default', ['serve']);
 };

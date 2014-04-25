@@ -30,7 +30,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                                 '}(x))'
                             ].join(';\n');
 
+                            /* jshint evil:true */
                             var result = eval(toEval);
+                            /* jshint evil:false */
+
                             if (result) {
                                 scope.$apply(function() {
                                     task.completed = true;

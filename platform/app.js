@@ -22,4 +22,5 @@ var io = socketio.listen(server);
 
 require('./config/sockets')(io);
 
+console.log('Server listening on port:', config.port);
 server.listen(config.port);
