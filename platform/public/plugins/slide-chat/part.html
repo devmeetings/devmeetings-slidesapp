@@ -38,17 +38,43 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #555;
 }
+
+.animate-enter-setup, 
+.animate-leave-setup
+{ 
+    -webkit-transition: 4000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 4000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 4000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 4000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 4000ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block;
+} 
+ 
+.animate-enter-setup.animate-enter-start, 
+.animate-leave-setup {
+    opacity: 1;
+    top: 0;
+    height: 30px;
+}
+ 
+.animate-leave-setup.animate-leave-start,
+.animate-enter-setup {
+    opacity: 0;
+    top: -50px;
+    height: 0px;
+}
+
 </style>
 
 
 <div class="panel panel-primary">
     <div class="panel-heading">
        <h3 class="panel-title">Chat</h3>
-
    </div>
-   <div class="panel-body">
+   <div class="panel-body" id="chatscroll">
     <ul class="chat">
-        <li ng-repeat="message in messages | orderBy: message.timestamp:'true'" ng-class="{'left clearfix' : $even, 'right clearfix' : $odd}">
+        <li ng-animate="'animate'" ng-repeat="message in messages | orderBy: message.timestamp:'true'" ng-class="{'left clearfix' : $even, 'right clearfix' : $odd}">
             <div ng-if="$even">
                 <span class="chat-img pull-left">
                     <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle" />
@@ -85,11 +111,13 @@
     </ul>
 </div>
 <div class="panel-footer">
-    <div class="input-group">
-        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." ng-model="messageText" /> <span class="input-group-btn">
-        <button class="btn btn-warning btn-sm" id="btn-chat" ng-click="sendMessage()">Send</button>
-    </span>
-
-</div>
+    
+        <form ng-submit="sendMessage()" class="input-group">
+            <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." ng-model="messageText" />
+            <span class="input-group-btn">
+                <input class="btn btn-warning btn-sm" id="btn-chat" type="submit" value="Send"/>
+            </span>
+        </form>
+    
 </div>
 </div>

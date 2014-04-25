@@ -15,7 +15,7 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
                 controller: 'ChatController'
             };
         }
-    ]).controller('ChatController', ['$scope', '$http', 'SlideInfo', function($scope, $http, SlideInfo){
+    ]).controller('ChatController', ['$scope', '$http', 'SlideInfo', '$timeout', function($scope, $http, SlideInfo, $timeout){
 
         var presentation = SlideInfo.presentation;
         var slide = SlideInfo.slide;
@@ -27,8 +27,16 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
         $http.get(url + '/' + presentation + '/' + slide)
             .success(function(data){
                 $scope.messages = data;
+                $timeout(function(){
+                    $scope.scrollToBottom();
+                });
             })
         ;
+
+        $scope.scrollToBottom = function () {
+            var elem = document.getElementById('chatscroll');
+            elem.scrollTop = elem.scrollHeight;
+        };
 
         $scope.sendMessage = function () {
             $http.post(url, {
@@ -39,6 +47,9 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
             }).success(function(data){
                 $scope.messages.push(data);
                 $scope.messageText = '';
+                $timeout(function(){
+                    $scope.scrollToBottom();
+                });
             });
 
         };
