@@ -40,9 +40,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         }
     };
 
-    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [
+    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [ 
+        '$http',
 
-        function() {
+        function($http) {
             return {
                 restrict: 'E',
                 scope: {
@@ -52,9 +53,19 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 templateUrl: path + '/slide-jsrunner.html',
                 link: function(scope, element) {
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
-
+                        
                         var code = codeEditor.getValue();
                         var errors = evalCode(code);
+
+                        $http.post('/api/codeSnapshots', {
+                            codeSnapshot: {
+                                slide: 'someSlideId',
+                                snapshot: {
+                                    code: code
+                                }
+                            }
+                        });
+
 
                         element.find('.errors').html(errors);
 
