@@ -49,34 +49,20 @@
    <div class="panel-body">
     <ul class="chat">
         <li ng-repeat="message in messages | orderBy: message.timestamp:'true'" ng-class="{'left clearfix' : $even, 'right clearfix' : $odd}">
-            <div ng-if="$even">
-                <span class="chat-img pull-left">
-                    <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle" />
+            <div>
+                <span class="chat-img" ng-class="{'pull-left': $even, 'pull-right': $odd}">
+                    <img ng-show="$even" src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle" />
+                    <img ng-show="$odd" src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle">
                 </span>
                 <div class="chat-body clearfix">
                     <div class="header">
-                        <strong class="primary-font">Jack Sparrow</strong> 
-                        <small class="pull-right text-muted">
+                        <strong ng-if="$even" class="primary-font">Jack Sparrow</strong>
+                        <small class="text-muted" ng-class="{'pull-right': $even}">
                             <span class="glyphicon glyphicon-time">
                             </span>
                             {{ message.timestamp | date : 'yyyy-MM-dd HH:mm:ss' }}
                         </small>
-                    </div>
-                    <p>{{message.comment}}</p>
-                </div>
-            </div>
-
-            <div ng-if="$odd">
-                <span class="chat-img pull-right">
-                    <img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle">
-                </span>
-                <div class="chat-body clearfix">
-                    <div class="header">
-                        <small class=" text-muted">
-                            <span class="glyphicon glyphicon-time"></span>
-                            {{ message.timestamp | date : 'yyyy-MM-dd HH:mm:ss' }}
-                        </small>
-                        <strong class="pull-right primary-font">Bhaumik Patel</strong>
+                        <strong ng-if="$odd" class="primary-font pull-right">Jack Sparrow</strong>
                     </div>
                     <p>{{message.comment}}</p>
                 </div>
