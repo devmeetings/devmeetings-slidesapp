@@ -25,6 +25,14 @@ module.exports = function(app) {
     // TODO [ToDr] OMG this is so terrible
     app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);
 
+
+    var comments = ctrl('comments');
+    app.get('/api/comments/:presentation/:slide', authenticated, comments.list);
+    app.post('/api/comments', authenticated, comments.create);
+    app.delete('/api/comments/:id', authenticated, comments.delete);
+    app.put('/api/comments/:id', authenticated, comments.edit);
+
+
     //login
     var login = ctrl('login');
     app.get('/login', login.login);
