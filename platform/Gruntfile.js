@@ -5,6 +5,24 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
+        watch: {
+            options: {
+                spawn: false,
+                livereload: true
+            },
+            less: {
+                files: ['public/less/**/**.less'],
+                tasks: ['less:dev']
+            },
+            jsPublic: {
+                files: ['public/js/**/*.js', 'public/plugins/**/*.js'],
+                tasks: ['jshint:public']
+            },
+            jsServer: {
+                files: ['./*.js', 'config/*.js', 'app/**/*.js'],
+                tasks: ['jshint:server']
+            }
+        },
         jshint: {
             public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js']
@@ -26,7 +44,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('serve', ['jshint', 'less:dev']);
+    grunt.registerTask('serve', ['jshint', 'less:dev', 'watch']);
     grunt.registerTask('server', function () {
         grunt.log.errorlns('Did you mean `grunt serve`?');
         grunt.log.ok('Running `serve` task');
