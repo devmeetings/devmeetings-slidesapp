@@ -1,6 +1,9 @@
 module.exports = function(grunt) {
     'use strict';
 
+    var fs = require('fs-extra');
+    var open = require('open');
+
     var SERVER_PORT = 3000;
 
     require('time-grunt')(grunt);
@@ -22,13 +25,13 @@ module.exports = function(grunt) {
 
                         nodemon.on('config:update', function () {
                             setTimeout(function() {
-                                require('open')('http://localhost:' + SERVER_PORT);
+                                open('http://localhost:' + SERVER_PORT);
                             }, 1000);
                         });
 
                         nodemon.on('restart', function () {
                             setTimeout(function() {
-                                require('fs').writeFileSync('.rebooted', 'rebooted');
+                                fs.writeFileSync('.rebooted', 'rebooted');
                             }, 1000);
                         });
                     }
@@ -65,7 +68,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js'],
+            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
         },
         less: {
@@ -90,6 +93,26 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
+        },
+        complexity: {
+            build: {
+                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js'],
+                options: {
+                    breakOnErrors: false,
+                    errorsOnly: false,
+                    cyclomatic: [3, 7, 12],
+                    halstead: [8, 13, 20],
+                    maintainability: 100,
+                    hideComplexFunctions: false
+                }
+            }
+        }
+    });
+
+    grunt.registerTask('hooks', 'Set up proper git hooks', function () {
+        if (!fs.existsSync('./../.git/hooks/pre-push')) {
+            fs.copySync('./hooks/pre-push.sample', '../.git/hooks/pre-push');
+            fs.chmodSync('../.git/hooks/pre-push', '755');
         }
     });
 
@@ -100,7 +123,7 @@ module.exports = function(grunt) {
         grunt.task.run('serve');
     });
 
-    grunt.registerTask('build', ['jshint', 'less:build']);
+    grunt.registerTask('build', ['jshint', 'less:build', 'complexity']);
 
     grunt.registerTask('default', ['serve']);
 };
