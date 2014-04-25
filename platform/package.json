@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "postinstall": "npm install -g bower && bower install && grunt hooks"
   },
   "dependencies": {
     "express": "~3.3.4",
@@ -13,7 +14,8 @@
     "connect-jade-static": "^0.1.3",
     "socket.io": "^0.9.16",
     "passport": "^0.2.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "fs-extra": "^0.8.1"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
