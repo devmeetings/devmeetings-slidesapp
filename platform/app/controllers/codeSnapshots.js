@@ -12,13 +12,13 @@ exports.list = function (req, res) {
 };
 
 exports.listForUser = function (req, res) {
-    CodeSnapshotModel.find({ userName: req.params.userId }, function (err, codeSnapshot) {
+    CodeSnapshotModel.findOne({ userName: req.params.userId }, function (err, codeSnapshot) {
         if (err) {
             console.error(err);
             res.send([]);
             return;
         }
-        res.send(codeSnapshot);
+        res.send(codeSnapshot.snapshots);
     });
 };
 
