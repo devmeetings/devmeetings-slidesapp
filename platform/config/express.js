@@ -1,10 +1,11 @@
 var express = require('express');
 var passport = require('passport');
 var lessMiddleware = require('less-middleware');
+var path = require('path');
 
 module.exports = function(app, config) {
     var jadeStatic = require('connect-jade-static')({
-        baseDir: config.root + '/public',
+        baseDir: path.join(config.root, 'public'),
         baseUrl: '/static',
         jade: {
             pretty: true
