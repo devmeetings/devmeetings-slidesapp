@@ -1,5 +1,16 @@
 var CodeSnapshotModel = require('../models/codeSnapshot');
 
+exports.list = function (req, res) {
+    CodeSnapshotModel.find(function (err, codeSnapshot) {
+        if (err) {
+            console.error(err);
+            res.send([]);
+            return;
+        }
+        res.send(codeSnapshot);
+    });
+};
+
 exports.update = function (req, res) {
     // TODO: userId to be added
 

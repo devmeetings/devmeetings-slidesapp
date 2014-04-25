@@ -26,6 +26,7 @@ module.exports = function(app) {
     app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);
 
     var codeSnapshots = ctrl('codeSnapshots');
+    app.get('/api/codeSnapshots', authenticated, codeSnapshots.list);
     app.post('/api/codeSnapshots', authenticated, codeSnapshots.update);
 
     //login
