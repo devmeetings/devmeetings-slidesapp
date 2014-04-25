@@ -15,11 +15,17 @@ exports.create = function (req, res) {
 
 
 exports.list = function (req, res) {
-    console.log(req.params);
-    CommentModel.find()
-        .where('presentation').equals(req.params.presentation)
-        .where('slide').equals(req.params.slide)
-        .exec(function (err, comments) {
+    var query = CommentModel.find();
+    if(req.params.presentation)
+    {
+        query.where('presentation').equals(req.params.presentation);
+    }
+    if(req.params.slide)
+    {
+        query.where('presentation').where('slide').equals(req.params.slide);
+    }
+
+    query.exec(function (err, comments) {
         if (err) {
             console.error(err);
             res.send([]);

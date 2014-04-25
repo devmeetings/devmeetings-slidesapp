@@ -27,7 +27,7 @@ module.exports = function(app) {
 
 
     var comments = ctrl('comments');
-    app.get('/api/comments/:presentation/:slide', authenticated, comments.list);
+    app.get('/api/comments/:presentation?/:slide?', authenticated, comments.list);
     app.post('/api/comments', authenticated, comments.create);
     app.delete('/api/comments/:id', authenticated, comments.delete);
     app.put('/api/comments/:id', authenticated, comments.edit);
