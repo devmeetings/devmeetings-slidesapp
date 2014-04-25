@@ -25,24 +25,24 @@ exports.listForUser = function (req, res) {
 exports.update = function (req, res) {
     // TODO: userId to be added
 
-    var conditions = { 
-        userName: req.user.name, 
-        slideId: req.body.codeSnapshot.slide 
-    } 
-    var update = { 
-        $addToSet: { 
+    var conditions = {
+        userName: req.user.name,
+        slideId: req.body.codeSnapshot.slide
+    };
+    var update = {
+        $addToSet: {
             snapshots: {
                 code: req.body.codeSnapshot.code,
                 timestamp: + new Date()
             }
-        } 
-    }
+        }
+    };
     var options = {
         upsert: true
     };
 
     CodeSnapshotModel.update(conditions, update, options, function(err, codeSnapshot) {
-        // console.log('updated in db');        
+        // console.log('updated in db');
     });
 
 };

@@ -42,7 +42,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         }
     };
 
-    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [ 
+    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [
         '$http',
         function($http) {
             return {
@@ -58,15 +58,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             scope.snapy = $http.get('/api/codeSnapshots').then(function(result) {
                                 return result.data;
                             });
-                        }
+                        };
 
                         var code = codeEditor.getValue();
                         var errors = evalCode(code);
 
                         $http.post('/api/codeSnapshots', {
                             codeSnapshot: {
-                                slide: 'someSlideId',                                
-                                code: code                                
+                                slide: 'someSlideId',
+                                code: code
                             }
                         });
 
