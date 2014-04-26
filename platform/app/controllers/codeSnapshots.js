@@ -33,7 +33,7 @@ exports.update = function (req, res) {
         $addToSet: {
             snapshots: {
                 code: req.body.codeSnapshot.code,
-                timestamp: + new Date()
+                timestamp: new Date().getTime()
             }
         }
     };

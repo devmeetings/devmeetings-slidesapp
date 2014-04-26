@@ -56,22 +56,21 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
                         scope.getSnapshots = function () {
                             $http.get('/api/codeSnapshots/user/test').then(function(result) {
-                                scope.snap = result.data[0];                                
-                                scope.snapshots = result.data;
+                                (function registerTimeout(snapshots, i) {
+                                    var currentSnapshot = snapshots[i],
+                                        nextSnapshot = snapshots[++i];
 
-                                var i = 0;
+                                    if (nextSnapshot) {
+                                        var delay = (nextSnapshot.timestamp-currentSnapshot.timestamp);
 
-                                registerTimeout();
-                                
-                                function registerTimeout(){
-                                    setTimeout(function(){
-                                        scope.snap = scope.snapshots[i].code;
-                                        codeEditor.setValue(scope.snapshots[i].code);
-                                        registerTimeout();
-                                        i++;
-                                    }, 500);                                    
-                                }
+                                        setTimeout(function () {
+                                            codeEditor.setValue(currentSnapshot.code);
+                                            registerTimeout(snapshots, i);
+                                        }, delay);
+                                    }
+                                })(result.data, 0);
                             });
+
                         };
 
                         var code = codeEditor.getValue();
