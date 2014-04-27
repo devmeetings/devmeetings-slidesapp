@@ -1,6 +1,6 @@
 define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(module, sliderPlugins, SlideInfoService) {
 
-    var EXECUTION_DELAY = 300
+    var EXECUTION_DELAY = 300;
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'chat', 'slide-chat', 1).directive('slideChat', [
@@ -40,7 +40,7 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
             js: '',
             html: '',
             css: ''
-        }
+        };
 
 
         $scope.messages = [];
@@ -61,7 +61,7 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
         function loadTimeout(){
             setTimeout(function(){
                 loadComments(loadTimeout);
-            }, rand)
+            }, rand);
         }
 
         loadComments(loadTimeout);
@@ -72,8 +72,8 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
         };
 
         $scope.hasCode = function(message){
-            return (typeof message.code != 'undefined' && message.code.js != '' && message.code.css != '' && message.code.html != '');
-        }
+            return (typeof message.code !== 'undefined' && message.code.js !== '' && message.code.css !== '' && message.code.html !== '');
+        };
 
         $scope.sendMessage = function () {
             $http.post(url, {
