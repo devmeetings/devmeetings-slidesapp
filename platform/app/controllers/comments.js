@@ -1,59 +1,39 @@
 var CommentModel = require('../models/comment');
 
 
-exports.create = function (req, res) {
-    var d = new CommentModel(req.body);
-    d.save(function (err, comment) {
-        if (err) {
-            console.error(err);
-            res.send(500, err);
-            return;
+exports.joinChat = function (socket) {
+    return function (data, res) {
+        if (socket.room) {
+            socket.leave(socket.room);
         }
-        res.send(comment);
-    });
+
+        socket.room = data.presentation + '#' + data.slide;
+        socket.join(socket.room);
+
+        var query = CommentModel.find().where('presentation').equals(data.presentation).where('slide').equals(data.slide);
+    
+        query.exec(function (err, comments) {
+            if (err){
+                console.error(err);
+                //res([]);
+                return;
+            }
+            res(comments);
+        });
+    };
 };
 
-exports.createFromSocket = function (socket) {
-
+exports.sendChatMsg = function (socket) {
+    return function (data, res) {
+        var d = new CommentModel(data);
+        d.save(function (err, comment) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            socket.broadcast.to(socket.room).emit('sendChatMsg', data);
+        });
+    };
 };
 
-exports.list = function (req, res) {
-    var query = CommentModel.find();
-    if(req.params.presentation)
-    {
-        query.where('presentation').equals(req.params.presentation);
-    }
-    if(req.params.slide)
-    {
-        query.where('presentation').where('slide').equals(req.params.slide);
-    }
 
-    query.exec(function (err, comments) {
-        if (err) {
-            console.error(err);
-            res.send([]);
-            return;
-        }
-        res.send(comments);
-    });
-};
-
-exports.delete = function (req, res) {
-    CommentModel.findByIdAndRemove(req.params.id, function (err, comment) {
-        if (err) {
-            res.send(404, err);
-            return;
-        }
-        res.send(200);
-    });
-};
-
-exports.edit = function (req, res) {
-    CommentModel.findByIdAndUpdate(req.params.id, req.body, {upsert: true}, function (err, comment) {
-        if (err) {
-            res.send(404, err);
-            return;
-        }
-        res.send(200);
-    });
-};

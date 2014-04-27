@@ -29,51 +29,25 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo', 'services/Socke
                 }
             };
         }
-    ]).controller('ChatController', ['$scope', '$http', 'SlideInfo', '$timeout', 'Sockets', function($scope, $http, SlideInfo, $timeout, Sockets){
+    ]).controller('ChatController', ['$scope', 'SlideInfo', '$timeout', 'Sockets', function($scope, SlideInfo, $timeout, Sockets){
 
         var presentation = SlideInfo.presentation;
         var slide = SlideInfo.slide;
-        var url = '/api/comments';
-        var rand = Math.round(Math.random() * 3000) + 500;
-
+        
         $scope.code = {
             js: '',
             html: '',
             css: ''
         };
 
-
         $scope.messages = [];   
-        // function loadComments(callback){
-        //     $http.get(url + '/' + presentation + '/' + slide)
-        //         .success(function(data){
-        //             $scope.messages = data;
-        //             $timeout(function(){
-        //                 $scope.scrollToBottom();
-        //             });
-        //             if(callback){
-        //                 callback();
-        //             }
-        //         })
-        //     ;
-        // }
-
-        // function loadTimeout(){
-        //     setTimeout(function(){
-        //         loadComments(loadTimeout);
-        //     }, rand);
-        // }
-
-        // loadComments(loadTimeout);
 
         $scope.scrollToBottom = function () {
-            var elem = document.getElementById('chatscroll');
-            elem.scrollTop = elem.scrollHeight;
+            $timeout(function(){
+                var elem = document.getElementById('chatscroll');
+                elem.scrollTop = elem.scrollHeight;
+            });
         };
-
-        // $scope.hasCode = function(message){
-        //     return (typeof message.code !== 'undefined' && message.code.js !== '' && message.code.css !== '' && message.code.html !== '');
-        // };
 
         $scope.sendMessage = function () {
             var data = {
@@ -83,39 +57,26 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo', 'services/Socke
                 timestamp: new Date().getTime(),
                 code: $scope.code
             };
-            Sockets.socket.emit('sendChat', data);
+            Sockets.socket.emit('sendChatMsg', data);
             $scope.messages.push(data);
             $scope.messageText = '';
-            $timeout(function(){
-                $scope.scrollToBottom();
-            });
+            $scope.scrollToBottom();
         };
 
-        Sockets.socket.on('sendChat', function (data) {
-            console.log(data);
+        Sockets.socket.on('sendChatMsg', function (data) {
             $scope.messages.push(data);  
             $scope.$apply();
-            console.log($scope.messages);
+            $scope.scrollToBottom();
         });
         
-        Sockets.socket.emit('joinChat', slide);
-            
-        // $scope.sendMessage = function () {
-        //     $http.post(url, {
-        //         presentation: presentation,
-        //         slide: slide,
-        //         comment: $scope.messageText,
-        //         timestamp: new Date().getTime(),
-        //         code: $scope.code
-        //     }).success(function(data){
-        //         $scope.messages.push(data);
-        //         $scope.messageText = '';
-        //         $timeout(function(){
-        //             $scope.scrollToBottom();
-        //         });
-        //     });
-
-        // };
+        Sockets.socket.emit('joinChat', {
+            presentation: presentation,
+            slide: slide
+        }, function (data) {
+            $scope.messages = $scope.messages.concat(data);
+            $scope.$apply();
+            $scope.scrollToBottom();
+        });
     }]);
 
 });

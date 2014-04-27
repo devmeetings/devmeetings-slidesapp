@@ -6,29 +6,20 @@ var log = function(socket) {
     };
 };
 
+var ctrl = function(ctrlName) {
+    return require('../app/controllers/'+ctrlName);
+};
 
 module.exports = function(io) {
-  io.on('connection', function(socket){
-     var id = socket.id;
-     var l = log(socket);
+    io.on('connection', function(socket){
+        var id = socket.id;
+        var l = log(socket);
 
-     l("New client connected");
-
-     socket.on('joinChat', function(newroom) {
-        if (socket.room) {
-            socket.leave(socket.room);
-        }
-        socket.room = newroom;
-        socket.join(newroom);
-        l(newroom);
-     });
-
-     socket.on('sendChat', function (data) {
-        socket.broadcast.to(socket.room).emit('sendChat', data); 
-     });
-
-
-     
-
-  });
+        l("New client connected");
+        
+        var comments = ctrl('comments');
+        socket.on('joinChat', comments.joinChat(socket));
+        socket.on('sendChatMsg', comments.sendChatMsg(socket));
+    
+    });
 };
