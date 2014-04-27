@@ -13,6 +13,9 @@ exports.create = function (req, res) {
     });
 };
 
+exports.createFromSocket = function (socket) {
+
+};
 
 exports.list = function (req, res) {
     var query = CommentModel.find();

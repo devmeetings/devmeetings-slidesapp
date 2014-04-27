@@ -1,4 +1,4 @@
-define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(module, sliderPlugins, SlideInfoService) {
+define(['module', 'slider/slider.plugins', 'services/SlideInfo', 'services/Sockets'], function(module, sliderPlugins, SlideInfoService, SocketsFactory) {
 
     var EXECUTION_DELAY = 300;
     var path = sliderPlugins.extractPath(module);
@@ -29,7 +29,7 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
                 }
             };
         }
-    ]).controller('ChatController', ['$scope', '$http', 'SlideInfo', '$timeout', function($scope, $http, SlideInfo, $timeout){
+    ]).controller('ChatController', ['$scope', '$http', 'SlideInfo', '$timeout', 'Sockets', function($scope, $http, SlideInfo, $timeout, Sockets){
 
         var presentation = SlideInfo.presentation;
         var slide = SlideInfo.slide;
@@ -43,54 +43,79 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo'], function(modul
         };
 
 
-        $scope.messages = [];
-        function loadComments(callback){
-            $http.get(url + '/' + presentation + '/' + slide)
-                .success(function(data){
-                    $scope.messages = data;
-                    $timeout(function(){
-                        $scope.scrollToBottom();
-                    });
-                    if(callback){
-                        callback();
-                    }
-                })
-            ;
-        }
+        $scope.messages = [];   
+        // function loadComments(callback){
+        //     $http.get(url + '/' + presentation + '/' + slide)
+        //         .success(function(data){
+        //             $scope.messages = data;
+        //             $timeout(function(){
+        //                 $scope.scrollToBottom();
+        //             });
+        //             if(callback){
+        //                 callback();
+        //             }
+        //         })
+        //     ;
+        // }
 
-        function loadTimeout(){
-            setTimeout(function(){
-                loadComments(loadTimeout);
-            }, rand);
-        }
+        // function loadTimeout(){
+        //     setTimeout(function(){
+        //         loadComments(loadTimeout);
+        //     }, rand);
+        // }
 
-        loadComments(loadTimeout);
+        // loadComments(loadTimeout);
 
         $scope.scrollToBottom = function () {
             var elem = document.getElementById('chatscroll');
             elem.scrollTop = elem.scrollHeight;
         };
 
-        $scope.hasCode = function(message){
-            return (typeof message.code !== 'undefined' && message.code.js !== '' && message.code.css !== '' && message.code.html !== '');
-        };
+        // $scope.hasCode = function(message){
+        //     return (typeof message.code !== 'undefined' && message.code.js !== '' && message.code.css !== '' && message.code.html !== '');
+        // };
 
         $scope.sendMessage = function () {
-            $http.post(url, {
+            var data = {
                 presentation: presentation,
                 slide: slide,
                 comment: $scope.messageText,
                 timestamp: new Date().getTime(),
                 code: $scope.code
-            }).success(function(data){
-                $scope.messages.push(data);
-                $scope.messageText = '';
-                $timeout(function(){
-                    $scope.scrollToBottom();
-                });
+            };
+            Sockets.socket.emit('sendChat', data);
+            $scope.messages.push(data);
+            $scope.messageText = '';
+            $timeout(function(){
+                $scope.scrollToBottom();
             });
-
         };
+
+        Sockets.socket.on('sendChat', function (data) {
+            console.log(data);
+            $scope.messages.push(data);  
+            $scope.$apply();
+            console.log($scope.messages);
+        });
+        
+        Sockets.socket.emit('joinChat', slide);
+            
+        // $scope.sendMessage = function () {
+        //     $http.post(url, {
+        //         presentation: presentation,
+        //         slide: slide,
+        //         comment: $scope.messageText,
+        //         timestamp: new Date().getTime(),
+        //         code: $scope.code
+        //     }).success(function(data){
+        //         $scope.messages.push(data);
+        //         $scope.messageText = '';
+        //         $timeout(function(){
+        //             $scope.scrollToBottom();
+        //         });
+        //     });
+
+        // };
     }]);
 
 });
