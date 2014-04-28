@@ -25,6 +25,7 @@ module.exports = function(app) {
     // TODO [ToDr] OMG this is so terrible
     app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);
 
+
     //login
     var login = ctrl('login');
     app.get('/login', login.login);

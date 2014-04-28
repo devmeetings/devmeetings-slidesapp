@@ -12,7 +12,8 @@ require.config({
         "ace": "../components/ace-builds/src-noconflict/ace",
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
-        "socket.io": "/socket.io/socket.io"
+        "socket.io": "/socket.io/socket.io",
+        "angular-animate" : "../components/angular-animate/angular-animate"
     },
     "map": {
         "*": {
@@ -48,6 +49,10 @@ require.config({
         "ace": {
             "deps": [],
             "exports": "ace"
+        },
+        "angular-animate": {
+            "deps": ["angular"],
+            "exports": "angular"
         }
     }
 });
