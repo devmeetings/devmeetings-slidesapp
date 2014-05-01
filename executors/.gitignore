@@ -4,3 +4,4 @@ javaExecutor/.project
 javaExecutor/.classpath
 javaExecutor/.settings
 javaExecutor/.gradle
+*/node_modules
