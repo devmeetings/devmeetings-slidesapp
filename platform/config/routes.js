@@ -33,6 +33,7 @@ module.exports = function(app) {
         successRedirect: '/',
         failureRedirect: '/login'
     }));
+    app.get('/logout', login.logout);
 
     //home route
     var slider = ctrl('slider');

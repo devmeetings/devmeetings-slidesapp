@@ -5,3 +5,8 @@ exports.login = function(req, res) {
         title: 'Log in to Slider'
     });
 };
+
+exports.logout = function(req, res){
+    req.logout();
+    res.redirect('/');
+};
