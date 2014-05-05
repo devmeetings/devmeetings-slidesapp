@@ -1,7 +1,7 @@
 var DeckModel = require('../models/deck');
 
-exports.list = function (req, res) {
-    DeckModel.find(function (err, decks) {
+exports.list = function(req, res) {
+    DeckModel.find(function(err, decks) {
         if (err) {
             console.error(err);
             res.send([]);
@@ -11,9 +11,9 @@ exports.list = function (req, res) {
     });
 };
 
-exports.create = function (req, res) {
+exports.create = function(req, res) {
     var d = new DeckModel(req.body);
-    d.save(function (err, deck) {
+    d.save(function(err, deck) {
         if (err) {
             console.error(err);
             res.send(500, err);
@@ -23,8 +23,8 @@ exports.create = function (req, res) {
     });
 };
 
-exports.delete = function (req, res) {
-    DeckModel.findByIdAndRemove(req.params.id, function (err, deck) {
+exports.delete = function(req, res) {
+    DeckModel.findByIdAndRemove(req.params.id, function(err, deck) {
         if (err) {
             res.send(404, err);
             return;
@@ -33,8 +33,10 @@ exports.delete = function (req, res) {
     });
 };
 
-exports.edit = function (req, res) {
-    DeckModel.findByIdAndUpdate(req.params.id, req.body, {upsert: true}, function (err, deck) {
+exports.edit = function(req, res) {
+    DeckModel.findByIdAndUpdate(req.params.id, req.body, {
+        upsert: true
+    }, function(err, deck) {
         if (err) {
             res.send(404, err);
             return;
@@ -43,8 +45,8 @@ exports.edit = function (req, res) {
     });
 };
 
-exports.getOneRequireJs = function (req, res) {
-    DeckModel.findById(req.params.id, function (err, deck) {
+exports.getOneRequireJs = function(req, res) {
+    DeckModel.findById(req.params.id, function(err, deck) {
         if (err) {
             res.send(404, err);
             return;

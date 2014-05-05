@@ -9,7 +9,7 @@ block title
   title {{ title }} - #{title}
 
 block content
-  div(ng-controller="SliderCtrl")
+  div(ng-controller="SliderCtrl", ng-init="$root.editMode=#{editMode}")
     plugins-loader(namespace="'deck'", context="deck")
     layout-loader(layout="'presentation-layout-std'", data="deck")
     

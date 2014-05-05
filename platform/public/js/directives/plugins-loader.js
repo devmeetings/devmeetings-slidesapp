@@ -5,7 +5,8 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                 restrict: 'E',
                 scope: {
                     namespace: '=',
-                    context: '='
+                    context: '=',
+                    noRefresh: '='
                 },
                 template: '',
                 controller: ['$scope', '$element', '$rootScope',
@@ -14,7 +15,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
 
                         var childScope = null;
 
-                        $scope.$watch('context', function() {
+                        var refresh = function() {
                             if (childScope) {
                                 childScope.$destroy();
                             }
@@ -22,7 +23,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                             childScope = $scope.$new();
 
                             var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
-                                if ($scope.context[plugin.trigger] === undefined) {
+                                if (plugin.trigger !== '*' && $scope.context[plugin.trigger] === undefined) {
                                     return memo;
                                 }
 
@@ -34,7 +35,13 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                             }, '');
                             var el = $compile(plugins)(childScope);
                             $element.append(el);
-                        });
+                        };
+
+                        if (!$scope.noRefresh) {
+                            $scope.$watch('context', refresh);
+                        } else {
+                            refresh();
+                        }
                     }
                 ]
             };

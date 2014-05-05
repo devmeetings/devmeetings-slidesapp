@@ -1,11 +1,15 @@
 require(['config'], function() {
-    require(["decks/"+slides, "slider/slider", "slider/slider.plugins", "directives/layout-loader", "directives/plugins-loader",
+    require(["decks/" + slides, "slider/slider", "slider/slider.plugins", "directives/layout-loader", "directives/plugins-loader",
         "plugins/presentation-layout-std/presentation-layout-std",
-        "plugins/deck-layout/deck-layout"], function(deck, slider, sliderPlugins) {
+        "plugins/deck-layout/deck-layout"
+    ], function(deck, slider, sliderPlugins) {
 
         slider.controller('SliderCtrl', ['$scope',
             function($scope) {
                 $scope.deck = deck;
+                $scope.$on('deck', function(ev, newDeck) {
+                    $scope.deck = newDeck;
+                });
             }
         ]);
 

@@ -5,7 +5,8 @@ define({
         "notes": "// These are some notes for fist slide. Just goan with standard 'Hello' for guys.\n",
         "id": "entry",
         "name": "Hello World",
-        "title": "First slide!"
+        "title": "First slide!",
+        "chat": true
     }, {
         "id": "entry2",
         "name": "Hello Left & Right",

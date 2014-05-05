@@ -6,5 +6,6 @@ append scripts
   script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-slide')
 
 block content
+  div(ng-init="$root.editMode=#{editMode}")
   div(ng-controller="SlideCtrl", ng-init="slideId='#{slide}'")
-    plugins-loader(namespace="'slide'", context="slide")
+    plugins-loader(ng-repeat="mode in modes", namespace="mode.namespace", context="slide", no-refresh="!mode.refresh")
