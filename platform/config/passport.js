@@ -1,6 +1,7 @@
 var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy,
     users = require('../users.json'),
     config = require('./config');
 
@@ -30,6 +31,17 @@ passport.use(new GoogleStrategy({
 }, function(identifier, profile, done) {
     done(null, {
         name: profile.displayName
+    });
+}));
+
+passport.use(new FacebookStrategy({
+    // We can only use facebook on production
+    clientID: 1431693610420997,
+    clientSecret: "c91cb7f914ed25e7d67e1278484f5979",
+    callbackURL: config.realmUrl + "/auth/facebook/callback"
+}, function(accessToken, refreshToken, profile, done) {
+    done(null, {
+        name: profile.name
     });
 }));
 

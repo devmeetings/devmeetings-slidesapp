@@ -31,15 +31,15 @@ module.exports = function(app) {
     app.get('/logout', login.logout);
 
     //auth
-    app.post('/auth/login', passport.authenticate('local', {
+    var redirections = {
         successRedirect: '/',
         failureRedirect: '/login'
-    }));
+    };
+    app.post('/auth/login', passport.authenticate('local', redirections));
     app.get('/auth/google', passport.authenticate('google'));
-    app.get('/auth/google/return', passport.authenticate('google', {
-        successRedirect: '/',
-        failureRedirect: '/login'
-    }));
+    app.get('/auth/google/return', passport.authenticate('google', redirections));
+    app.get('/auth/facebook', passport.authenticate('facebook'));
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
 
 
     //home route
