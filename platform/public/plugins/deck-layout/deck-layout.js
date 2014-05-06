@@ -12,9 +12,7 @@ define(['_', 'slider/slider.plugins', 'services/Sockets'], function(_, sliderPlu
                 },
                 template: '<div></div>',
                 link: function(scope, element) {
-                    sliderPlugins.listen(scope, 'slide.current.change', function(current, previous) {
-                        Sockets.socket.emit('slide.current.change', current);
-                    });
+                    Sockets.forwardEventToServer('slide.current.change');
                 }
             };
         }

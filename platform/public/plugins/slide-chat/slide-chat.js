@@ -29,54 +29,58 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo', 'services/Socke
                 }
             };
         }
-    ]).controller('ChatController', ['$scope', 'SlideInfo', '$timeout', 'Sockets', function($scope, SlideInfo, $timeout, Sockets){
+    ]).controller('ChatController', ['$scope', 'SlideInfo', '$timeout', 'Sockets',
+        function($scope, SlideInfo, $timeout, Sockets) {
 
-        var presentation = SlideInfo.presentation;
-        var slide = SlideInfo.slide;
-        
-        $scope.code = {
-            js: '',
-            html: '',
-            css: ''
-        };
+            var presentation = SlideInfo.presentation;
+            var slide = SlideInfo.slide;
 
-        $scope.messages = [];   
-
-        $scope.scrollToBottom = function () {
-            $timeout(function(){
-                var elem = document.getElementById('chatscroll');
-                elem.scrollTop = elem.scrollHeight;
-            });
-        };
-
-        $scope.sendMessage = function () {
-            var data = {
-                presentation: presentation,
-                slide: slide,
-                comment: $scope.messageText,
-                timestamp: new Date().getTime(),
-                code: $scope.code
+            $scope.code = {
+                js: '',
+                html: '',
+                css: ''
             };
-            Sockets.socket.emit('sendChatMsg', data);
-            $scope.messages.push(data);
-            $scope.messageText = '';
-            $scope.scrollToBottom();
-        };
 
-        Sockets.socket.on('sendChatMsg', function (data) {
-            $scope.messages.push(data);  
-            $scope.$apply();
-            $scope.scrollToBottom();
-        });
-        
-        Sockets.socket.emit('joinChat', {
-            presentation: presentation,
-            slide: slide
-        }, function (data) {
-            $scope.messages = $scope.messages.concat(data);
-            $scope.$apply();
-            $scope.scrollToBottom();
-        });
-    }]);
+            $scope.messages = [];
+
+            $scope.scrollToBottom = function() {
+                $timeout(function() {
+                    var elem = document.getElementById('chatscroll');
+                    elem.scrollTop = elem.scrollHeight;
+                });
+            };
+
+            $scope.sendMessage = function() {
+                var data = {
+                    presentation: presentation,
+                    slide: slide,
+                    comment: $scope.messageText,
+                    timestamp: new Date().getTime(),
+                    code: $scope.code
+                };
+                Sockets.emit('chat.msg.send', data);
+                $scope.messages.push(data);
+                $scope.messageText = '';
+                $scope.scrollToBottom();
+            };
+
+            Sockets.on('chat.msg.send', function(data) {
+                $scope.$apply(function() {
+                    $scope.messages.push(data);
+                    $scope.scrollToBottom();
+                });
+            });
+
+            Sockets.emit('chat.join', {
+                presentation: presentation,
+                slide: slide
+            }, function(data) {
+                $scope.$apply(function() {
+                    $scope.messages = $scope.messages.concat(data);
+                    $scope.scrollToBottom();
+                });
+            });
+        }
+    ]);
 
 });

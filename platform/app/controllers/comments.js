@@ -1,8 +1,8 @@
 var CommentModel = require('../models/comment');
 
 
-exports.joinChat = function (socket) {
-    return function (data, res) {
+exports.joinChat = function(socket) {
+    return function(data, res) {
         if (socket.room) {
             socket.leave(socket.room);
         }
@@ -11,9 +11,9 @@ exports.joinChat = function (socket) {
         socket.join(socket.room);
 
         var query = CommentModel.find().where('presentation').equals(data.presentation).where('slide').equals(data.slide);
-    
-        query.exec(function (err, comments) {
-            if (err){
+
+        query.exec(function(err, comments) {
+            if (err) {
                 console.error(err);
                 //res([]);
                 return;
@@ -23,17 +23,15 @@ exports.joinChat = function (socket) {
     };
 };
 
-exports.sendChatMsg = function (socket) {
-    return function (data, res) {
+exports.sendChatMsg = function(socket) {
+    return function(data, res) {
         var d = new CommentModel(data);
-        d.save(function (err, comment) {
+        d.save(function(err, comment) {
             if (err) {
                 console.error(err);
                 return;
             }
-            socket.broadcast.to(socket.room).emit('sendChatMsg', data);
+            socket.broadcast.to(socket.room).emit('chat.msg.send', data);
         });
     };
 };
-
-
