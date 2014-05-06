@@ -36,8 +36,8 @@ passport.use(new GoogleStrategy({
 
 passport.use(new FacebookStrategy({
     // We can only use facebook on production
-    clientID: 1431693610420997,
-    clientSecret: "c91cb7f914ed25e7d67e1278484f5979",
+    clientID: config.fb.id,
+    clientSecret: config.fb.secret,
     callbackURL: config.realmUrl + "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
     done(null, {
