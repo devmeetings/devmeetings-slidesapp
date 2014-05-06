@@ -15,7 +15,9 @@
     "socket.io": "^0.9.16",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
-    "fs-extra": "^0.8.1"
+    "fs-extra": "^0.8.1",
+    "passport-facebook": "^1.0.3",
+    "passport-google": "^0.3.0"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

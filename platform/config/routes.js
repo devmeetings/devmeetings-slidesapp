@@ -28,11 +28,19 @@ module.exports = function(app) {
     //login
     var login = ctrl('login');
     app.get('/login', login.login);
-    app.post('/login', passport.authenticate('local', {
+    app.get('/logout', login.logout);
+
+    //auth
+    app.post('/auth/login', passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login'
     }));
-    app.get('/logout', login.logout);
+    app.get('/auth/google', passport.authenticate('google'));
+    app.get('/auth/google/return', passport.authenticate('google', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    }));
+
 
     //home route
     var slider = ctrl('slider');
