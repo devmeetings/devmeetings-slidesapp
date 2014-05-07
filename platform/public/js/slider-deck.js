@@ -1,15 +1,21 @@
 require(['config'], function() {
-    require(["decks/" + slides, "slider/slider", "slider/slider.plugins", "directives/layout-loader", "directives/plugins-loader",
+    require(["decks/" + slides,
+        "slider/slider",
+        "slider/slider.plugins",
+        "directives/layout-loader",
+        "directives/plugins-loader",
         "plugins/presentation-layout-std/presentation-layout-std",
-        "plugins/deck-layout/deck-layout"
+        "plugins/deck-layout/deck-layout",
+        "services/Sockets"
     ], function(deck, slider, sliderPlugins) {
 
-        slider.controller('SliderCtrl', ['$scope',
-            function($scope) {
+        slider.controller('SliderCtrl', ['$scope', 'Sockets',
+            function($scope, Sockets) {
                 $scope.deck = deck;
                 $scope.$on('deck', function(ev, newDeck) {
                     $scope.deck = newDeck;
                 });
+                Sockets.emit('deck.current', deck._id);
             }
         ]);
 

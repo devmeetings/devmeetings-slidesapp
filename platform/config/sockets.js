@@ -17,7 +17,7 @@ var pluginsPath = 'app/plugins/';
 var plugins = fs.readdir(pluginsPath).then(function(files) {
     return files.map(function(pluginName) {
         try {
-            var mod = require("../" + pluginsPath + pluginName);
+            var mod = require("../" + pluginsPath + pluginName + "/" + pluginName);
             mod.name = pluginName;
             return mod;
         } catch (e) {
@@ -34,11 +34,16 @@ module.exports = function(io) {
         var l = log(socket, "main");
         l("New client connected");
 
+        socket.on('deck.current', function(id) {
+            socket.set('deck.current', id);
+            socket.join(id);
+        });
+
         plugins.then(function(pluginsList) {
 
             pluginsList.forEach(function(plugin) {
 
-                plugin.socketInit(log(socket, plugin.name), socket);
+                plugin.socketInit(log(socket, plugin.name), socket, io);
 
             });
         });

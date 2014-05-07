@@ -1,5 +1,5 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.registerPlugin('trainer', 'notes', 'trainer-notes', 1).directive('trainerNotes', [
+    sliderPlugins.registerPlugin('trainer', 'notes', 'trainer-notes').directive('trainerNotes', [
 
         function() {
             return {
