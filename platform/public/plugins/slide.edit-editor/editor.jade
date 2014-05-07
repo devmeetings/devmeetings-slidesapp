@@ -1,0 +1,5 @@
+.live-edit(ng-class="{ 'collapsed' : collapsed }")
+  button.btn.btn-primary.btn-block.btn-xs(ng-click="collapsed = !collapsed") 
+    span(ng-show="collapsed") show
+    span(ng-show="!collapsed") hide
+  .editor.editor-live

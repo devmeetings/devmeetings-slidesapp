@@ -1,4 +1,5 @@
-define(["_", "ace", 'slider/slider.plugins'], function(_, ace, sliderPlugins) {
+define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace, sliderPlugins) {
+    var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide.edit', '*', 'slideedit-editor', 0).directive('slideeditEditor', ['$rootScope', "$window", "$http",
         function($rootScope, $window, $http) {
@@ -7,27 +8,24 @@ define(["_", "ace", 'slider/slider.plugins'], function(_, ace, sliderPlugins) {
                 scope: {
                     slide: '=context'
                 },
-                /*
-                .live-edit(ng-controller="SliderEditCtrl", ng-class="{ 'collapsed' : collapsed }")
-                    button.btn.btn-primary.btn-block.btn-xs(ng-click="collapsed = !collapsed") 
-                      span(ng-show="collapsed") show
-                      span(ng-show="!collapsed") hide
-                    yaml-editor(deck="deck")
-                */
-                template: '<div class="editor editor-live"></div>',
+                templateUrl: path + "/editor.html",
                 link: function(scope, element) {
                     var editor = ace.edit(element.find('.editor')[0]);
                     editor.setTheme('ace/theme/todr');
                     editor.getSession().setMode('ace/mode/json');
                     editor.setValue(JSON.stringify(scope.slide, null, 2));
-                    var x = function() {
+                    var updateSlideContent = function() {
                         var value = editor.getValue();
                         scope.$apply(function() {
-                            scope.slide = JSON.parse(value);
-                            $rootScope.$broadcast('slide', scope.slide);
+                            try {
+                                scope.slide = JSON.parse(value);
+                                $rootScope.$broadcast('slide', scope.slide);
+                            } catch (e) {
+                                console.warn(e);
+                            }
                         });
                     };
-                    editor.on('change', _.throttle(x, 100));
+                    editor.on('change', _.throttle(updateSlideContent, 100));
                 }
             };
         }
