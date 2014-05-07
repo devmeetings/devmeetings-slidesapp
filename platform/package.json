@@ -17,7 +17,8 @@
     "passport-local": "^1.0.0",
     "fs-extra": "^0.8.1",
     "passport-facebook": "^1.0.3",
-    "passport-google": "^0.3.0"
+    "passport-google": "^0.3.0",
+    "promised-io": "^0.3.4"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

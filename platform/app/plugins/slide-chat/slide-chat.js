@@ -1,8 +1,8 @@
-var CommentModel = require('../models/comment');
+var CommentModel = require('./comment');
 
+exports.socketInit = function(log, socket) {
 
-exports.joinChat = function(socket) {
-    return function(data, res) {
+    var joinChat = function(data, res) {
         if (socket.room) {
             socket.leave(socket.room);
         }
@@ -21,10 +21,8 @@ exports.joinChat = function(socket) {
             res(comments);
         });
     };
-};
 
-exports.sendChatMsg = function(socket) {
-    return function(data, res) {
+    var sendChatMsg = function(data, res) {
         var d = new CommentModel(data);
         d.save(function(err, comment) {
             if (err) {
@@ -34,4 +32,8 @@ exports.sendChatMsg = function(socket) {
             socket.broadcast.to(socket.room).emit('chat.msg.send', data);
         });
     };
+
+
+    socket.on('chat.join', joinChat);
+    socket.on('chat.msg.send', sendChatMsg);
 };
