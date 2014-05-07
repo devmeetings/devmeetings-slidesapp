@@ -34,10 +34,15 @@ exports.delete = function(req, res) {
 };
 
 exports.edit = function(req, res) {
+    // Cannot specify _id
+    delete req.body._id;
+
     DeckModel.findByIdAndUpdate(req.params.id, req.body, {
         upsert: true
     }, function(err, deck) {
         if (err) {
+            console.log(req.body);
+            console.error(err);
             res.send(404, err);
             return;
         }
