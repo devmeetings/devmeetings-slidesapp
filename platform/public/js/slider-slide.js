@@ -7,7 +7,7 @@ require(['config'], function() {
         "plugins/slide-jsmicrotasks/jsmicrotasks", "plugins/slide-fiddle/fiddle",
         "plugins/slide-task/slide-task", "plugins/slide-leftRight/slide-leftRight",
         "plugins/slide-accordion/slide-accordion", "plugins/slide-chat/slide-chat",
-        "plugins/slide.edit-editor/slide.edit-editor"
+        "plugins/slide.edit-editor/slide.edit-editor", "plugins/slide-serverRunner/slide-serverRunner"
     ], function(deck, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',
