@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "postinstall": "npm install -g bower grunt-cli && bower install && grunt hooks"
+    "postinstall": "bower install && grunt build"
   },
   "dependencies": {
     "express": "~3.3.4",
