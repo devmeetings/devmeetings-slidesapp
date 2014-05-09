@@ -18,6 +18,14 @@ define({
             "text": "Hello there Right\n",
         }
     }, {
+        "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",        
+        "serverRunner": "nodejs",
+        "title": "Node runner / server runner",
+        "notes": "",
+        "id": "slide1-node",
+        "name": "Node runner"
+    },
+    {
         "microtasks": [{
             "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",
             'hint': 'OMG OMG <strong>So hard!</strong>',

@@ -51,6 +51,6 @@ module.exports = function(app) {
 
     // Admin panel
     var admin = ctrl('admin');
-    app.get('/admin/', authenticated, admin.index);
+    app.get('/admin', authenticated, admin.index);
     app.get('/admin/partials/:name', authenticated, admin.partials);
 };
