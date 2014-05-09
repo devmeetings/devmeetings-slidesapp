@@ -33,6 +33,9 @@ RUN cd /platform; npm install
 
 # Configure executors
 ADD ./executors /executors
+RUN cd /executors/nodeExecutor; npm install
+RUN cd /executors/expressExecutor; npm install
+
 # TODO
 
 # xplatform
