@@ -4,17 +4,22 @@ require(['config'], function() {
         "slider/slider.plugins",
         "directives/layout-loader",
         "directives/plugins-loader",
-        "plugins/presentation-layout-std/presentation-layout-std",
         "plugins/deck-layout/deck-layout",
+        "plugins/deck-navbar/deck-navbar",
+        "plugins/deck-slides/deck-slides",
         "services/Sockets"
     ], function(deck, slider, sliderPlugins) {
 
-        slider.controller('SliderCtrl', ['$scope', 'Sockets',
-            function($scope, Sockets) {
+        slider.controller('SliderCtrl', ['$rootScope', '$scope', 'Sockets',
+            function($rootScope, $scope, Sockets) {
                 $scope.deck = deck;
                 $scope.$on('deck', function(ev, newDeck) {
                     $scope.deck = newDeck;
                 });
+                $scope.modes = ['deck'];
+                if ($rootScope.editMode) {
+                    $scope.modes.push('deck.edit');
+                }
                 Sockets.emit('deck.current', deck._id);
             }
         ]);
