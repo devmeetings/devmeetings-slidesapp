@@ -2,12 +2,14 @@ require(['config'], function() {
     require(["decks/" + slides, "slider/slider", "slider/slider.plugins",
         "services/SlideInfo",
         "directives/layout-loader", "directives/plugins-loader",
+        "directives/contenteditable",
         "plugins/slide-text/slide-text", "plugins/slide-title/slide-title", "plugins/slide-code/slide-code",
         "plugins/slide-jsrunner/slide-jsrunner", "plugins/slide-jsonOutput/slide-jsonOutput",
         "plugins/slide-jsmicrotasks/jsmicrotasks", "plugins/slide-fiddle/fiddle",
         "plugins/slide-task/slide-task", "plugins/slide-leftRight/slide-leftRight",
         "plugins/slide-accordion/slide-accordion", "plugins/slide-chat/slide-chat",
-        "plugins/slide.edit-editor/slide.edit-editor", "plugins/slide-serverRunner/slide-serverRunner"
+        "plugins/slide.edit-editor/slide.edit-editor", "plugins/slide-serverRunner/slide-serverRunner",
+        "plugins/slide-speedDating/slide-speedDating"
     ], function(deck, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',

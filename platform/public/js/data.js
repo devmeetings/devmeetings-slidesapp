@@ -18,7 +18,7 @@ define({
             "text": "Hello there Right\n",
         }
     }, {
-        "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",        
+        "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
         "serverRunner": "nodejs",
         "title": "Node runner / server runner",
         "notes": "",
@@ -72,6 +72,15 @@ define({
         "id": "slide2",
         "name": "Second slide"
     }, {
+        "speedDating": {
+          "time": 15,
+          "perPerson": 40
+        },
+        "id": "speedDating",
+        "name": "Speed Dating",
+        "title": "Speed Dating"
+    },
+    {
         "text": "something",
         "task": {
             "duration": 5,
@@ -84,7 +93,7 @@ define({
         "id": "task",
         "name": "Task",
         "title": "This is task!"
-    }, {
+    },{
         "code": "var end = \"Thanks for listening!\"",
         "monitor": "end",
         "jsrunner": true,
