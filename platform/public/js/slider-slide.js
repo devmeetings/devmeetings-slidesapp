@@ -9,7 +9,7 @@ require(['config'], function() {
         "plugins/slide-task/slide-task", "plugins/slide-leftRight/slide-leftRight",
         "plugins/slide-accordion/slide-accordion", "plugins/slide-chat/slide-chat",
         "plugins/slide.edit-editor/slide.edit-editor", "plugins/slide-serverRunner/slide-serverRunner",
-        "plugins/slide-speedDating/slide-speedDating"
+        "plugins/slide-speedDating/slide-speedDating", "plugins/slide-events/slide-events"
     ], function(deck, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',
