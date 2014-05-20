@@ -1,4 +1,7 @@
-define(['slider/slider.plugins'], function(sliderPlugins) {
+define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
+
+    var path = sliderPlugins.extractPath(module);
+    
     sliderPlugins.registerPlugin('slide', 'events', 'slide-events').directive('slideEvents', [
 
         function() {
@@ -21,7 +24,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                 scope: {
                     event: '=event',
                 },
-                template: '<div> {{ event | json }}</div>'
+                templateUrl: path + '/slide-event.html'
             };
         }
     ]);
