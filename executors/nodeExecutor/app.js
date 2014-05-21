@@ -9,7 +9,7 @@ console.log("Connecting to RabbitMQ");
 var cluster = require('cluster');
 var amqp = require('amqplib');
 
-var connection = amqp.connect('amqp://localhost');
+var connection = amqp.connect('amqp://admin:kbAc4kRS@rabbit');
 
 cluster.setupMaster({
     exec: "runner.js",
@@ -68,4 +68,6 @@ connection.then(function(conn) {
             });
         });
     });
+}, function(err) {
+    console.error(err);
 });

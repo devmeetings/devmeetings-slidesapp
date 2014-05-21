@@ -4,6 +4,7 @@ var path = require('path'),
 var staticsPath = '/static';
 
 var realmUrl = process.env.REALM_URL || null;
+var mongoHost = process.env.MONGO_HOST || "localhost";
 
 var config = {
     development: {
@@ -18,7 +19,7 @@ var config = {
             id: 1431694133754278,
             secret: "c2cb2cebdccca68ed630a061436ba012"
         },
-        db: 'mongodb://localhost/platform-development'
+        db: 'mongodb://' + mongoHost + '/platform-development'
     },
 
     test: {
@@ -33,7 +34,7 @@ var config = {
             secret: "c2cb2cebdccca68ed630a061436ba012"
         },
         realmUrl: realmUrl || 'http://xplatform.org:2000',
-        db: 'mongodb://localhost/platform-test'
+        db: 'mongodb://' + mongoHost + '/platform-test'
     },
 
     production: {
@@ -48,7 +49,7 @@ var config = {
             secret: "c91cb7f914ed25e7d67e1278484f5979"
         },
         realmUrl: realmUrl || 'http://xplatform.org',
-        db: 'mongodb://localhost/platform-production'
+        db: 'mongodb://' + mongoHost + '/platform-production'
     }
 };
 

@@ -1,0 +1,19 @@
+# DOCKER-VERSION 0.3.4
+FROM debian:sid
+
+ENV LAST_UPDATE 2014-05-21
+
+# Upgrades
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+
+# Software
+RUN apt-get install mongodb -y
+# Create Mongo data dir
+RUN mkdir -p /data/db
+
+# mongo
+EXPOSE 27017 
+
+# Run the whole stuff
+CMD ["mongod"]
