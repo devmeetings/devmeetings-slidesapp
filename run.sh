@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [ -x ~/bin/boot2docker ] 
+then
+  ~/bin/boot2docker start
+fi
+export DOCKER_HOST=tcp://127.0.0.1:4243
+
 cwd=$(pwd)
 
 docker build -t xplatform/mongo - < ./Dockerfiles/mongo.docker
