@@ -22,7 +22,7 @@ ADD . /platform
 
 WORKDIR /platform
 RUN npm install
-RUN bower install
+RUN bower --allow-root install
 
 # xplatform
 EXPOSE 3000 
