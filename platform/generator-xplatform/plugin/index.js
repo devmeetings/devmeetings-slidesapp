@@ -5,16 +5,56 @@ var _s = require('underscore.string');
 
 var PluginGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
-    this.name_dash = _s.slugify(this.name);
-    this.name_camel = _s.camelize(this.name);
-    console.log('You have created plugin with name ' + this.name_dash + '.');
+    //console.log('You have created plugin with name ' + this.name_dash + '.');
+  },
+
+  askFor: function() {
+    var done = this.async();
+    var nameDash = this.name ? _s.slugify(this.name) : "";
+
+    var prompts = [{
+      name: 'pluginName',
+      message: 'What would you like the xplatform plugin name to be?',
+      default: nameDash
+    }, {
+      name: 'pluginType',
+      message: 'What would you like your xplatform plugin type to be?',
+      type: 'list',
+      default: 0,
+      choices: ['slide', 'deck']
+    }];
+
+    this.prompt(prompts, function (props) {
+      this.nameDash = _s.slugify(props.pluginName);
+      this.nameCamel = _s.camelize(this.nameDash);
+      this.pluginType = props.pluginType;
+
+      done();
+    }.bind(this));
+  },
+
+  askForDetails: function() {
+    var done = this.async();
+
+    var prompts = [{
+      name: 'pluginKey',
+      message: 'What would you like your xplatform plugin key to be?',
+      default: this.nameDash 
+    }];
+
+    this.prompt(prompts, function (props) {
+      this.pluginKey = props.pluginKey;
+
+      done();
+    }.bind(this));
+
   },
 
   files: function () {
-    var plugin_path = 'public/plugins/' + this.name_dash + '/';
-    this.mkdir(plugin_path);
+    var pluginPath = 'public/plugins/' + this.nameDash + '/';
+    this.mkdir(pluginPath);
     
-    this.template('plugin.js', plugin_path + this.name_dash + '.js');
+    this.template('plugin.js', pluginPath + this.nameDash + '.js');
   }
 });
 
