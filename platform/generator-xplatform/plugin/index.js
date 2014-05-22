@@ -14,7 +14,7 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
     var plugin_path = 'public/plugins/' + this.name_dash + '/';
     this.mkdir(plugin_path);
     
-    this.template('plugin.js', plugin_path + this.name_dash;
+    this.template('plugin.js', plugin_path + this.name_dash + '.js');
   }
 });
 
