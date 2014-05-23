@@ -14,9 +14,9 @@ docker build -t xplatform/executors-node ./executors/nodeExecutor
 docker build -t xplatform/platform ./platform
 
 
-docker run -d --name mongo -t xplatform/mongo 
-docker run -d --name rabbit -p :5672 -p :15672 -e RABBITMQ_PASS="kbAc4kRS" -t xplatform/rabbitmq 
-docker run -d --link rabbit:rabbit --name exec-node -t xplatform/executors-node
+docker start mongo || docker run -d --name mongo -t xplatform/mongo 
+docker start rabbit || docker run -d --name rabbit -p :5672 -p :15672 -e RABBITMQ_PASS="kbAc4kRS" -t xplatform/rabbitmq 
+docker start exec-node || docker run -d --link rabbit:rabbit --name exec-node -t xplatform/executors-node
 
 
 docker stop xplatform
