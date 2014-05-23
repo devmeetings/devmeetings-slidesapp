@@ -6,11 +6,9 @@ require(['config'], function() {
         "plugins/trainer-participants/trainer-participants"
     ], function(deck, slider, sliderPlugins) {
 
-        slider.controller('TrainerCtrl', ['$scope', '$window', 'Sockets',
-            function($scope, $window, Sockets) {
+        slider.controller('TrainerCtrl', ['$scope', '$window',
+            function($scope, $window) {
                 $scope.slide = deck.slides[0];
-
-                Sockets.emit('deck.current', deck._id);
             }
         ]);
 

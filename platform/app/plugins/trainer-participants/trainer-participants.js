@@ -1,22 +1,39 @@
 var pluginsEvents = require('../events');
 
-// Listen when user joins to room
+
+var socketIo;
+
+var trainersRoom = function(roomId) {
+    return roomId + '_trainers';
+};
+
 pluginsEvents.on('room.joined', function(roomId) {
-    console.log("Hello update!");
+    if (!socketIo) {
+        return;
+    }
+
+    var clientsIds = socketIo.sockets.clients(roomId).map(function(socket) {
+        return socket.id;
+    });
+
+    socketIo.sockets. in (trainersRoom(roomId)).emit('trainer.participants', {
+        clients: clientsIds
+    });
 });
 
 exports.socketInit = function(log, socket, io) {
+    //TODO [ToDr] OMG, please kill me.
+    socketIo = io;
 
-    socket.on('trainer.participants.get', function(data, callback) {
+    socket.on('trainer.register', function(data, callback) {
+        // TODO [ToDr] Check authorization
+        callback({
+            isAuthorized: true
+        });
 
         socket.get('deck.current', function(err, deck) {
-
-            var ids = io.sockets.clients(deck).map(function(socket) {
-                return socket.id;
-            });
-            console.log(ids);
-
-            callback(ids);
+            // Join trainers room
+            socket.join(trainersRoom(deck));
         });
     });
 };

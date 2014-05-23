@@ -6,7 +6,7 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], f
 
             var WebSocket = {
 
-                _socket: io.connect('http://' + $location.host()),
+                _socket: io.connect('http://' + $location.host() + "/?deck=" + slides),
 
                 _initialize: function() {
                     var s = this._socket;
