@@ -1,5 +1,5 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.registerPlugin('<%= pluginType %>', '<%= pluginKey %>', '<%= nameDash %>' ).directive('<%= nameCamel %>', [
+    sliderPlugins.registerPlugin('<%= pluginNameSpace %>', '<%= pluginTrigger %>', '<%= nameDash %>' ).directive('<%= nameCamel %>', [
 
         function() {
             return {

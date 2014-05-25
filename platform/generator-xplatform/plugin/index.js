@@ -1,12 +1,14 @@
 'use strict';
 var util = require('util');
 var yeoman = require('yeoman-generator');
+var yosay = require('yosay');
 var _s = require('underscore.string');
 
 var PluginGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
-    //console.log('You have created plugin with name ' + this.name_dash + '.');
+    this.log(yosay('Welcome to xplatform plugin generator'));
   },
+
 
   askFor: function() {
     var done = this.async();
@@ -17,8 +19,8 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
       message: 'What would you like the xplatform plugin name to be?',
       default: nameDash
     }, {
-      name: 'pluginType',
-      message: 'What would you like your xplatform plugin type to be?',
+      name: 'pluginNameSpace',
+      message: 'What would you like your xplatform plugin namespace to be?',
       type: 'list',
       default: 0,
       choices: ['slide', 'deck']
@@ -27,7 +29,7 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
     this.prompt(prompts, function (props) {
       this.nameDash = _s.slugify(props.pluginName);
       this.nameCamel = _s.camelize(this.nameDash);
-      this.pluginType = props.pluginType;
+      this.pluginNameSpace = props.pluginNameSpace;
 
       done();
     }.bind(this));
@@ -37,13 +39,13 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
     var done = this.async();
 
     var prompts = [{
-      name: 'pluginKey',
-      message: 'What would you like your xplatform plugin key to be?',
+      name: 'pluginTrigger',
+      message: 'What would you like your xplatform plugin trigger to be?',
       default: this.nameDash 
     }];
 
     this.prompt(prompts, function (props) {
-      this.pluginKey = props.pluginKey;
+      this.pluginTrigger = props.pluginTrigger;
 
       done();
     }.bind(this));
