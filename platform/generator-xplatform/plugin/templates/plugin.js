@@ -1,14 +1,16 @@
-define(['slider/slider.plugins'], function(sliderPlugins) {
+define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
+    var path = sliderPlugins.extractPath(module);
+
     sliderPlugins.registerPlugin('<%= pluginNameSpace %>', '<%= pluginTrigger %>', '<%= nameDash %>' ).directive('<%= nameCamel %>', [
 
         function() {
             return {
                 restrict: 'E',
                 scope: {
-                    text: '=data',
+                    data: '=data',
                     slide: '=context'
                 },
-                template: '<div ng-bind-html="text"></div>'
+                <%= pluginTemplateText %>
             };
         }
     ]);
