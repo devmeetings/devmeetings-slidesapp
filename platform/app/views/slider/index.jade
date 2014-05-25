@@ -2,5 +2,10 @@ extends ../layouts/main
 
 
 block content
-    for deck in decks
+    each deck in decks
         h3: a(href="/slides/#{deck._id}") #{deck.title}
+    else
+        h2
+          | No slides created yet. Head to 
+          a(href="/admin/") Admin area
+          | .

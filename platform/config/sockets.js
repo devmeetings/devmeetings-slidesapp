@@ -18,11 +18,17 @@ module.exports = function(io) {
         var l = log(socket, "main");
         l("New client connected");
 
-        socket.on('deck.current', function(id) {
-            socket.set('deck.current', id);
-            socket.join(id);
-            pluginsEvents.emit('room.joined', id);
-        });
+        // Join deck room
+        var deck = socket.manager.handshaken[socket.id].query.deck;
+
+        if (!deck) {
+            l("Connected without deck query.");
+            socket.disconnect();
+            return;
+        }
+        socket.set('deck.current', deck);
+        socket.join(deck);
+        pluginsEvents.emit('room.joined', deck);
 
         plugins.filter(function(plugin) {
             return plugin.socketInit;

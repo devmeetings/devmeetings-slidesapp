@@ -10,8 +10,8 @@ require(['config'], function() {
         "services/Sockets"
     ], function(deck, slider, sliderPlugins) {
 
-        slider.controller('SliderCtrl', ['$rootScope', '$scope', 'Sockets',
-            function($rootScope, $scope, Sockets) {
+        slider.controller('SliderCtrl', ['$rootScope', '$scope',
+            function($rootScope, $scope) {
                 $scope.deck = deck;
                 $scope.$on('deck', function(ev, newDeck) {
                     $scope.deck = newDeck;
@@ -20,7 +20,6 @@ require(['config'], function() {
                 if ($rootScope.editMode) {
                     $scope.modes.push('deck.edit');
                 }
-                Sockets.emit('deck.current', deck._id);
             }
         ]);
 
