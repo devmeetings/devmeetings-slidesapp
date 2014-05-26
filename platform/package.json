@@ -18,7 +18,10 @@
     "fs-extra": "^0.8.1",
     "passport-facebook": "^1.0.3",
     "passport-google": "^0.3.0",
-    "promised-io": "^0.3.4"
+    "promised-io": "^0.3.4",
+    "lodash": "^2.4.1",
+    "connect-mongo": "^0.4.1",
+    "passport.socketio": "^3.0.1"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

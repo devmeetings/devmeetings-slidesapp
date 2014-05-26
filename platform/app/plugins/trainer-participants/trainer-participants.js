@@ -1,39 +1,44 @@
 var pluginsEvents = require('../events');
 
 
-var socketIo;
-
 var trainersRoom = function(roomId) {
     return roomId + '_trainers';
 };
 
-pluginsEvents.on('room.joined', function(roomId) {
-    if (!socketIo) {
-        return;
-    }
-
-    var clientsIds = socketIo.sockets.clients(roomId).map(function(socket) {
+var getParticipants = function(io, roomId) {
+    var clientIds = io.sockets.clients(roomId).map(function(socket) {
         return socket.id;
     });
 
-    socketIo.sockets. in (trainersRoom(roomId)).emit('trainer.participants', {
-        clients: clientsIds
-    });
-});
+    return {
+        clients: clientIds
+    };
+};
 
-exports.socketInit = function(log, socket, io) {
-    //TODO [ToDr] OMG, please kill me.
-    socketIo = io;
 
+exports.initSockets = function(io) {
+
+    var sendParticipants = function(roomId) {
+        var participants = getParticipants(io, roomId);
+        io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
+    };
+
+    pluginsEvents.on('room.joined', sendParticipants);
+    pluginsEvents.on('room.left', sendParticipants);
+
+};
+
+exports.onSocket = function(log, socket, io) {
     socket.on('trainer.register', function(data, callback) {
         // TODO [ToDr] Check authorization
         callback({
             isAuthorized: true
         });
 
-        socket.get('deck.current', function(err, deck) {
+        socket.get('clientData', function(err, data) {
             // Join trainers room
-            socket.join(trainersRoom(deck));
+            socket.join(trainersRoom(data.deck));
+            socket.emit('trainer.participants', getParticipants(io, data.deck));
         });
     });
 };
