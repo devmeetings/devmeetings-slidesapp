@@ -21,9 +21,9 @@ module.exports = function(app) {
     app.post('/api/decks', authenticated, decks.create);
     app.delete('/api/decks/:id', authenticated, decks.delete);
     app.put('/api/decks/:id', authenticated, decks.edit);
-    // TODO [ToDr] OMG this is so terrible
+    // TODO [ToDr] OMG this is so terrible 
+    app.get('/decks/plugin_paths', authenticated, decks.getPluginsPaths);
     app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);
-
 
     //login
     var login = ctrl('login');

@@ -1,4 +1,5 @@
 var DeckModel = require('../models/deck');
+var glob = require('glob');
 
 exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
@@ -57,5 +58,20 @@ exports.getOneRequireJs = function(req, res) {
             return;
         }
         res.send("define(" + JSON.stringify(deck) + ");");
+    });
+};
+
+
+exports.getPluginsPaths = function (req, res) {
+    glob("public/plugins/**/*.js", function (err, files) {
+        if (err) {
+            res.send(404, err);
+            return;
+        }
+        files = files.map( function (file) {
+            file = file.substring(0, file.length - 3); // trim '.js'
+            return file = file.substring(7, file.length); // trim public/ 
+        });
+        res.send("define( []," + JSON.stringify(files) + ");"); // TODO dla todr!
     });
 };

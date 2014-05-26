@@ -1,14 +1,10 @@
-require(['config'], function() {
+require(['config', '/decks/plugin_paths'], function(config, plugins) {
     require(["decks/" + slides,
         "slider/slider",
         "slider/slider.plugins",
         "directives/layout-loader",
         "directives/plugins-loader",
-        "plugins/deck-layout/deck-layout",
-        "plugins/deck-navbar/deck-navbar",
-        "plugins/deck-slides/deck-slides",
-        "services/Sockets"
-    ], function(deck, slider, sliderPlugins) {
+        "services/Sockets"].concat(plugins), function(deck, slider, sliderPlugins) { 
 
         slider.controller('SliderCtrl', ['$rootScope', '$scope',
             function($rootScope, $scope) {

@@ -1,16 +1,8 @@
-require(['config'], function() {
+require(['config', '/decks/plugin_paths'], function(config, plugins) {
     require(["decks/" + slides, "slider/slider", "slider/slider.plugins",
         "services/SlideInfo",
         "directives/layout-loader", "directives/plugins-loader",
-        "directives/contenteditable",
-        "plugins/slide-text/slide-text", "plugins/slide-title/slide-title", "plugins/slide-code/slide-code",
-        "plugins/slide-jsrunner/slide-jsrunner", "plugins/slide-jsonOutput/slide-jsonOutput",
-        "plugins/slide-jsmicrotasks/jsmicrotasks", "plugins/slide-fiddle/fiddle",
-        "plugins/slide-task/slide-task", "plugins/slide-leftRight/slide-leftRight",
-        "plugins/slide-accordion/slide-accordion", "plugins/slide-chat/slide-chat",
-        "plugins/slide.edit-editor/slide.edit-editor", "plugins/slide-serverRunner/slide-serverRunner",
-        "plugins/slide-speedDating/slide-speedDating", "plugins/slide-events/slide-events"
-    ], function(deck, slider, sliderPlugins) {
+        "directives/contenteditable"].concat(plugins), function(deck, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',
             function($rootScope, $scope, $window, $http, SlideInfo) {

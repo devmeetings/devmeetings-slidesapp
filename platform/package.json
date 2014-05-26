@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "postinstall": "bower install && grunt build",
-    "preinstall" : "npm link ./generator-xplatform/"
+    "preinstall": "npm link ./generator-xplatform/"
   },
   "dependencies": {
     "express": "~3.3.4",
@@ -22,7 +22,8 @@
     "promised-io": "^0.3.4",
     "lodash": "^2.4.1",
     "connect-mongo": "^0.4.1",
-    "passport.socketio": "^3.0.1"
+    "passport.socketio": "^3.0.1",
+    "glob": "~4.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
