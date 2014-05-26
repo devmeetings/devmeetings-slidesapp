@@ -78,7 +78,7 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
       var templateExtension = '';
       switch (type){
         case "none":
-          this.pluginTemplateText = 'template: \'<div ng-bind-html="data"></div>\'';
+          this.pluginTemplateText = 'template: \'<div ng-bind="name"></div>\'';
           return;
         case ".jade":
           templateExtension = '.jade';
@@ -91,7 +91,8 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
           break;
       }
       this.pluginTemplateText = 'templateUrl: path + \'/' + name + '.html\'';
-      this.write(pluginPath + name + templateExtension, '');
+      //this.write(pluginPath + name + templateExtension, '');
+      this.copy('plugin' + templateExtension, pluginPath + name + templateExtension);
       this.template('plugin.js', pluginPath + name + '.js');
     }.bind(this))(this.pluginTemplateType, pluginPath, this.nameDash);
 

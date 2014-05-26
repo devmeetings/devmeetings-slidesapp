@@ -10,7 +10,10 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     data: '=data',
                     slide: '=context'
                 },
-                <%= pluginTemplateText %>
+                <%= pluginTemplateText %>,
+                link: function (scope, element) {
+                    scope.name = '<%= nameDash %>'
+                }
             };
         }
     ]);
