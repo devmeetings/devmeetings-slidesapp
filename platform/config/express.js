@@ -3,6 +3,8 @@ var passport = require('passport');
 var lessMiddleware = require('less-middleware');
 var path = require('path');
 
+var MongoStore = require('connect-mongo')(express);
+
 module.exports = function(app, config) {
     var jadeStatic = require('connect-jade-static')({
         baseDir: path.join(config.root, 'public'),
@@ -11,6 +13,14 @@ module.exports = function(app, config) {
             pretty: true
         }
     });
+
+    var sessionConfig = {
+        secret: 'ImSecretAndIKnowIt',
+        store: new MongoStore({
+            url: config.db
+        }),
+        cookieParser: express.cookieParser
+    };
 
     app.configure(function() {
         app.use(express.compress());
@@ -26,9 +36,9 @@ module.exports = function(app, config) {
         app.set('view engine', 'jade');
         app.use(express.favicon(config.root + '/public/img/favicon.ico'));
         app.use(express.logger('dev'));
-        app.use(express.cookieParser());
+        app.use(sessionConfig.cookieParser());
         app.use(express.bodyParser());
-        app.use(express.session({ secret: 'ImSecretAndIKnowIt' }));
+        app.use(express.session(sessionConfig));
         app.use(passport.initialize());
         app.use(passport.session());
         app.use(express.methodOverride());
@@ -39,4 +49,6 @@ module.exports = function(app, config) {
             });
         });
     });
+
+    return sessionConfig;
 };

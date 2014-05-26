@@ -10,13 +10,25 @@ var ctrl = function(ctrlName) {
     return require('../app/controllers/' + ctrlName);
 };
 
+var passportSocketIo = require('passport.socketio');
+
 var plugins = require('./plugins');
 var pluginsEvents = require('../app/plugins/events');
 
-module.exports = function(io) {
+module.exports = function(io, sessionConfig) {
+
+    plugins.invokePlugins('initSockets', [io]);
+
+    io.set('authorization', passportSocketIo.authorize({
+        cookieParser: sessionConfig.cookieParser,
+        key: 'connect.sid', // the name of the cookie where express/connect stores its session_id
+        secret: sessionConfig.secret, // the session_secret to parse the cookie
+        store: sessionConfig.store, // we NEED to use a sessionstore. no memorystore please
+    }));
+
     io.on('connection', function(socket) {
         var l = log(socket, "main");
-        l("New client connected");
+        l("New client connected: " + socket.handshake.user.name);
 
         // Join deck room
         var deck = socket.manager.handshaken[socket.id].query.deck;
@@ -26,14 +38,26 @@ module.exports = function(io) {
             socket.disconnect();
             return;
         }
-        socket.set('deck.current', deck);
+
+        socket.set('clientData', {
+            deck: deck,
+            user: socket.handshake.user
+        });
         socket.join(deck);
         pluginsEvents.emit('room.joined', deck);
 
-        plugins.filter(function(plugin) {
-            return plugin.socketInit;
-        }).forEach(function(plugin) {
-            plugin.socketInit(log(socket, plugin.name), socket, io);
+        // Disconnection
+        socket.on('disconnect', function() {
+            l("Client disconnected");
+
+            socket.get('clientData', function(err, data) {
+                pluginsEvents.emit('romm.left', data.deck);
+            });
+        });
+
+        // Plugins
+        plugins.invokePlugins('onSocket', function(plugin) {
+            return [log(socket, plugin.name), socket, io];
         });
     });
 };

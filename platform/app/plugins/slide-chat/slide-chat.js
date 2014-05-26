@@ -1,6 +1,6 @@
 var CommentModel = require('./comment');
 
-exports.socketInit = function(log, socket) {
+exports.onSocket = function(log, socket) {
 
     var joinChat = function(data, res) {
         if (socket.room) {
