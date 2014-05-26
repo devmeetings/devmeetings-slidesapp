@@ -70,7 +70,7 @@ exports.getPluginsPaths = function (req, res) {
         }
         files = files.map( function (file) {
             file = file.substring(0, file.length - 3); // trim '.js'
-            return file = file.substring(7, file.length); // trim public/ 
+            return file.substring(7, file.length); // trim public/ 
         });
         res.send("define( []," + JSON.stringify(files) + ");"); // TODO dla todr!
     });
