@@ -3,6 +3,9 @@ var util = require('util');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var _s = require('underscore.string');
+var path = require('path');
+var fs = require('fs');
+var chalk = require('chalk');
 
 var PluginGenerator = yeoman.generators.NamedBase.extend({
   init: function () {
@@ -71,38 +74,54 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
     var pluginPath = 'public/plugins/' + this.nameDash + '/';
     this.mkdir(pluginPath);
 
-    switch (this.pluginTemplateType){
-      case "none":
-        this.pluginTemplateText = 'template: <div ng-bind-html="data"></div>';
-        break;
-      case ".jade":
-        this.pluginTemplateText = 'templateUrl: path + \'' + this.nameDash + '.jade\'';
-        this.write(pluginPath + this.nameDash + '.jade', '');
-        break;
-      case ".html":
-        this.pluginTemplateText = 'templateUrl: path + \'' + this.nameDash + '.html\'';
-        this.write(pluginPath + this.nameDash + '.html', '');
-        break;
-      default:
-        console.assert(false, "unrecognized plugin template type: " + this.pluginTemplateType);
-        break;
-    }
+    (function(type, pluginPath, name){ 
+      var templateExtension = '';
+      switch (type){
+        case "none":
+          this.pluginTemplateText = 'template: \'<div ng-bind-html="data"></div>\'';
+          return;
+        case ".jade":
+          templateExtension = '.jade';
+          break;
+        case ".html":
+          templateExtension = '.html';
+          break;
+        default:
+          console.assert(false, "unrecognized plugin template type: " + type);
+          break;
+      }
+      this.pluginTemplateText = 'templateUrl: path + \'/' + name + '.html\'';
+      this.write(pluginPath + name + templateExtension, '');
+      this.template('plugin.js', pluginPath + name + '.js');
+    }.bind(this))(this.pluginTemplateType, pluginPath, this.nameDash);
 
-    switch (this.pluginStyleType){
-      case "none":
-        break;
-      case ".less":
-        this.write(pluginPath + this.nameDash + '.less', '');
-        break;
-      case ".css": 
-        this.write(pluginPath + this.nameDash + '.css', '');
-        break;
-      default:
-        console.assert(false, 'unrecognized plugin style: ' + this.pluginStyleType);
-        break;
-    }
-
-    this.template('plugin.js', pluginPath + this.nameDash + '.js');
+    (function(type, pluginPath, name, styleFilePath){
+      var styleExtension = '';
+      switch (type){
+        case "none":
+          return; // RETURN!
+        case ".less":
+          styleExtension = '.less';
+          break;
+        case ".css":
+          styleExtension = '.css';
+          break;
+        default:
+          console.assert(false, 'unrecognized plugin style: ' + type);
+          break;
+      }
+      this.write(pluginPath + name + styleExtension, '');
+      
+      try {
+        var fullStylePath = path.resolve(process.cwd(), styleFilePath);
+        var fileSrc = fs.readFileSync(fullStylePath, 'utf8');
+        fileSrc += ('\n' + '@import \'../plugins/' + name + '/' + name + styleExtension + '\';');
+        fs.writeFileSync(fullStylePath, fileSrc);
+        this.log.writeln(chalk.green(' updating') + ' %s', styleFilePath);
+      } catch (e) {
+        throw e;
+      }
+    }.bind(this))(this.pluginStyleType, pluginPath, this.nameDash, 'public/less/style.less');
 
   }
 });
