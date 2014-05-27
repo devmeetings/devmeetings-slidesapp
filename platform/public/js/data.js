@@ -1,11 +1,16 @@
 define({
     "trainersSecret": "123asd",
+    "pwyw": true,
     "slides": [{
         "text": "<h2><span class=\"glyphicon glyphicon-heart\"></span> Nothing interesting here.</h2> <h3>But something should be!</h3> <p>Hello small text!</p>\n",
         "notes": "// These are some notes for fist slide. Just goan with standard 'Hello' for guys.\n",
         "id": "entry",
         "name": "Hello World",
         "title": "First slide!",
+    }, {
+        "id": "chat",
+        "name": "Chat",
+        "title": "Chat",
         "chat": true
     }, {
         "id": "entry2",
@@ -24,8 +29,7 @@ define({
         "notes": "",
         "id": "slide1-node",
         "name": "Node runner"
-    },
-    {
+    }, {
         "microtasks": [{
             "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",
             'hint': 'OMG OMG <strong>So hard!</strong>',
@@ -73,14 +77,13 @@ define({
         "name": "Second slide"
     }, {
         "speedDating": {
-          "time": 15,
-          "perPerson": 40
+            "time": 15,
+            "perPerson": 40
         },
         "id": "speedDating",
         "name": "Speed Dating",
         "title": "Speed Dating"
-    },
-    {
+    }, {
         "text": "something",
         "task": {
             "duration": 5,
@@ -93,7 +96,11 @@ define({
         "id": "task",
         "name": "Task",
         "title": "This is task!"
-    },{
+    }, {
+        "id": "pwyw",
+        "name": "Pay What You Want",
+        "pwyw": true
+    }, {
         "code": "var end = \"Thanks for listening!\"",
         "monitor": "end",
         "jsrunner": true,

@@ -1,0 +1,8 @@
+div
+    h1 Pay What You Want
+
+    div.well.well-lg(ng-if="!fromUrl")
+      h2 Your registration ID is unknown please paste it to the field below
+      .form-group
+        input.form-control(ng-model="urlEncoded", placeholder="Registration ID from mail")
+    iframe(ng-if="url", ng-src="{{ url }}")

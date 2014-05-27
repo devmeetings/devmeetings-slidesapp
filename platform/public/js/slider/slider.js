@@ -1,3 +1,16 @@
 define(['angular', './slider.plugins', "angular-bootstrap", "angular-animate"], function(angular) {
-    return angular.module('slider', ['slider.plugins', 'ui.bootstrap', 'ngAnimate']);
+    var mod = angular.module('slider', ['slider.plugins', 'ui.bootstrap', 'ngAnimate']);
+
+    mod.config(['$sceDelegateProvider',
+        function($sceDelegateProvider) {
+            $sceDelegateProvider.resourceUrlWhitelist([
+                'self',
+                'http://devmeetings.pl/**',
+                'http://*.xplatform.org/**',
+                'http://xplatform.org/**'
+            ]);
+        }
+    ]);
+
+    return mod;
 });
