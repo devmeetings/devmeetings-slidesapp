@@ -51,7 +51,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     var url = getLink($window.sessionStorage['slider-pwyw']);
                     if (url) {
                         scope.fromUrl = true;
-                        scope.urlEncoded = url;
+                        scope.urlEncoded = decodeURIComponent(url);
                     }
 
                     scope.$watch('urlEncoded', function(val) {

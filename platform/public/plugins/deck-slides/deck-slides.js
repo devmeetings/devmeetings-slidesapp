@@ -19,7 +19,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         sliderPlugins.listen($scope, 'slide.current.change', function(activeSlide) {
                             var absUrl = $location.absUrl();
-                            var len = absUrl.indexOf("?") > -1 ? absUrl.indexOf("?") : absUrl.indexOf("#");
+                            var len = absUrl.indexOf(/\/?\?/) > -1 ? absUrl.indexOf(/\/?\?/) : absUrl.indexOf("#");
                             var path = absUrl.substr(0, len);
                             $scope.slideSource = path + '/slide-' + activeSlide + ($rootScope.editMode ? '?edit=true' : '');
                         });
