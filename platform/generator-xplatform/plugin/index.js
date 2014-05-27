@@ -91,10 +91,10 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
           break;
       }
       this.pluginTemplateText = 'templateUrl: path + \'/' + name + '.html\'';
-      //this.write(pluginPath + name + templateExtension, '');
       this.copy('plugin' + templateExtension, pluginPath + name + templateExtension);
-      this.template('plugin.js', pluginPath + name + '.js');
     }.bind(this))(this.pluginTemplateType, pluginPath, this.nameDash);
+
+    this.template('plugin.js', pluginPath + this.nameDash + '.js');
 
     (function(type, pluginPath, name, styleFilePath){
       var styleExtension = '';
