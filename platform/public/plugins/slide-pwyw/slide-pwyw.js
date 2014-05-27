@@ -46,6 +46,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 },
                 templateUrl: path + '/slide-pwyw.html',
                 link: function(scope, element) {
+                    scope.urlEncoded = "";
 
                     var url = getLink($window.sessionStorage['slider-pwyw']);
                     if (url) {
