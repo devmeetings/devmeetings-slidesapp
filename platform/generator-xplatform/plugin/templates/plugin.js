@@ -12,7 +12,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 },
                 <%= pluginTemplateText %>,
                 link: function (scope, element) {
-                    scope.name = '<%= nameDash %>'
+                    scope.name = '<%= nameDash %>';
                 }
             };
         }
