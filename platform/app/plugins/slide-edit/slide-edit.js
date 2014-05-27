@@ -5,7 +5,7 @@ exports.onSocket = function (log, socket) {
     
     var broadcastUpdate = function (data) { 
         socket.broadcast.to(socket.editName).emit('slide.edit.update', data);
-    }
+    };
 
     var onGetDeck = function (data, res) {
         socket.editName = data.editName;
