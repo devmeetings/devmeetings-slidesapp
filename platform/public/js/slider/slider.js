@@ -7,7 +7,8 @@ define(['angular', './slider.plugins', "angular-bootstrap", "angular-animate"], 
                 'self',
                 'http://devmeetings.pl/**',
                 'http://*.xplatform.org/**',
-                'http://xplatform.org/**'
+                'http://xplatform.org/**',
+                'http://**.marcinwierzbicki.com/**'
             ]);
         }
     ]);
