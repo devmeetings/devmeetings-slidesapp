@@ -54,7 +54,9 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     }
 
                     scope.$watch('urlEncoded', function(val) {
-                        scope.url = decodeBase64(val);
+                        if (val) {
+                            scope.url = decodeBase64(val);
+                        }
                     });
                 }
             };
