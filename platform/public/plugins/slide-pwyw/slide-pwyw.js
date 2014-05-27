@@ -10,6 +10,8 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
         }
     };
 
+    // Code from http://stackoverflow.com/questions/2820249/base64-encoding-and-decoding-in-client-side-javascript
+    /* jshint ignore:start */
     var decodeBase64 = function(s) {
         var e = {}, i, b = 0,
             c, x, l = 0,
@@ -30,6 +32,8 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
         }
         return r;
     };
+    /* jshint ignore:end */
+
 
     sliderPlugins.registerPlugin('slide', 'pwyw', 'slide-pwyw').directive('slidePwyw', [
         '$window',
