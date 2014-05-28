@@ -13,6 +13,14 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     slide: '=context'
                 },
                 templateUrl: path + '/trainer-participants.html',
+                controller: ['$scope', '$rootScope', function($scope, $rootScope){
+                    $scope.followUserId = null;
+
+                    $scope.follow = function(userId){
+                        $scope.followUserId = userId;
+                        $rootScope.$broadcast('FollowUser:change', $scope.followUserId);
+                    }
+                }],
                 link: function(scope) {
                     Sockets.emit('trainer.register', {}, function(data) {
                         $rootScope.$apply(function() {

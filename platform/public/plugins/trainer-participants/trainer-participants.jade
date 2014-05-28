@@ -2,3 +2,5 @@
     ul
       li(ng-repeat="user in users")
         {{ user.user.name }} @ {{ user.currentSlide }}
+        button(ng-click="follow(user.id)", class="btn", ng-class="{'btn-default': followUserId !== user.id, 'btn-success': followUserId == user.id}").
+          Follow
