@@ -41,6 +41,7 @@ module.exports = function(io, sessionConfig) {
 
         socket.set('clientData', {
             deck: deck,
+            id: socket.id,
             user: socket.handshake.user
         });
         socket.join(deck);
@@ -51,7 +52,8 @@ module.exports = function(io, sessionConfig) {
             l("Client disconnected");
 
             socket.get('clientData', function(err, data) {
-                pluginsEvents.emit('romm.left', data.deck);
+                socket.leave(data.deck);
+                pluginsEvents.emit('room.left', data.deck);
             });
         });
 

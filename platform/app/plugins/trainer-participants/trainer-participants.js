@@ -1,4 +1,5 @@
 var pluginsEvents = require('../events');
+var Q = require('q');
 
 
 var trainersRoom = function(roomId) {
@@ -6,21 +7,20 @@ var trainersRoom = function(roomId) {
 };
 
 var getParticipants = function(io, roomId) {
-    var clientIds = io.sockets.clients(roomId).map(function(socket) {
-        return socket.id;
+    var clients = io.sockets.clients(roomId).map(function(socket) {
+        return Q.ninvoke(socket, 'get', 'clientData');
     });
 
-    return {
-        clients: clientIds
-    };
+    return Q.all(clients);
 };
 
 
 exports.initSockets = function(io) {
 
     var sendParticipants = function(roomId) {
-        var participants = getParticipants(io, roomId);
-        io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
+        getParticipants(io, roomId).then(function(participants) {
+            io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
+        }, console.error);
     };
 
     pluginsEvents.on('room.joined', sendParticipants);
@@ -36,9 +36,14 @@ exports.onSocket = function(log, socket, io) {
         });
 
         socket.get('clientData', function(err, data) {
+            data.isTrainer = true;
+            socket.set('clientData', data);
+
             // Join trainers room
             socket.join(trainersRoom(data.deck));
-            socket.emit('trainer.participants', getParticipants(io, data.deck));
+            getParticipants(io, data.deck).then(function(participants) {
+                socket.emit('trainer.participants', participants);
+            }, console.error);
         });
     });
 };

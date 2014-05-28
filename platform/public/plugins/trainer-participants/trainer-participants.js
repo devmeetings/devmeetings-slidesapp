@@ -11,7 +11,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                     notes: '=data',
                     slide: '=context'
                 },
-                template: '<div><h1>Hello World</h1><ul><li ng-repeat="id in ids">{{ id }}</li></ul></div>',
+                template: '<div><h1>Hello World</h1><ul><li ng-repeat="user in users">{{ user.user.name }}</li></ul></div>',
                 link: function(scope) {
                     Sockets.emit('trainer.register', {}, function(data) {
                         $rootScope.$apply(function() {
@@ -21,7 +21,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
 
                     Sockets.on('trainer.participants', function(data) {
                         scope.$apply(function() {
-                            scope.ids = data.clients;
+                            scope.users = data;
                         });
                     });
                 }
