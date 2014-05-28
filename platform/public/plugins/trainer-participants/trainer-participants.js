@@ -19,7 +19,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     $scope.follow = function(userId){
                         $scope.followUserId = userId;
                         $rootScope.$broadcast('FollowUser:change', _.find($scope.users, {id: $scope.followUserId}));
-                    }
+                    };
                 }],
                 link: function(scope) {
                     Sockets.emit('trainer.register', {}, function(data) {

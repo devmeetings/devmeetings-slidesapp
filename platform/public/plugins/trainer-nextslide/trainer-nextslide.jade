@@ -1,2 +1,5 @@
 .trainer-nextslide
-    iframe(ng-if="followUser.currentSlide", ng-src="{{getSlidePath()}}")
+    div(ng-if="followUser.currentSlide")
+        h2.
+            Next slide
+        iframe(ng-src="{{getSlidePath()}}")
