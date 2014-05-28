@@ -1,7 +1,5 @@
-define({
-    "trainersSecret": "123asd",
-    "pwyw": true,
-    "slides": [{
+define([],
+    [{
         "text": "<h2><span class=\"glyphicon glyphicon-heart\"></span> Nothing interesting here.</h2> <h3>But something should be!</h3> <p>Hello small text!</p>\n",
         "notes": "// These are some notes for fist slide. Just goan with standard 'Hello' for guys.\n",
         "id": "entry",
@@ -108,6 +106,5 @@ define({
         "notes": "\"Say goodbye nicely\";\n",
         "id": "slide3",
         "name": "Ending"
-    }],
-    "title": "My First presentation"
-});
+    }
+]);

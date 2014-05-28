@@ -1,4 +1,4 @@
-require(['config', '/decks/plugin_paths'], function(config, plugins) {
+require(['config', '/plugins/paths'], function(config, plugins) {
     require(["decks/" + slides, "slider/slider", "slider/slider.plugins",
         "services/SlideInfo",
         "directives/layout-loader", "directives/plugins-loader",

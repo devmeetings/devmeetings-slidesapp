@@ -14,16 +14,21 @@ var authenticated = function loggedIn(req, res, next) {
 };
 
 module.exports = function(app) {
+    // API - mk
+    app.put('/api/slides', authenticated, slides.createOrUpdate);
+
 
     // API
     var decks = ctrl('decks');
-    app.get('/api/decks', authenticated, decks.list);
-    app.post('/api/decks', authenticated, decks.create);
-    app.delete('/api/decks/:id', authenticated, decks.delete);
-    app.put('/api/decks/:id', authenticated, decks.edit);
-    // TODO [ToDr] OMG this is so terrible 
-    app.get('/decks/plugin_paths', authenticated, decks.getPluginsPaths);
-    app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);
+    app.get('/api/decks', authenticated, decks.list);           // +
+    app.post('/api/decks', authenticated, decks.create);        // +
+    app.delete('/api/decks/:id', authenticated, decks.delete);  // +
+    app.put('/api/decks/:id', authenticated, decks.edit);       // + dla uaktulanienia listy slidow
+    // TODO [ToDr] OMG this is so terrible
+    
+    var plugins = ctrl('plugins');
+    app.get('/plugins/paths', authenticated, plugins.paths);    
+    app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);             // 
 
     //login
     var login = ctrl('login');
