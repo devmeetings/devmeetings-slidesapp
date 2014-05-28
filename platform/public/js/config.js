@@ -13,7 +13,7 @@ require.config({
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
-        "angular-animate" : "../components/angular-animate/angular-animate",
+        "angular-animate": "../components/angular-animate/angular-animate",
         "howler": "../components/howler/howler"
     },
     "map": {

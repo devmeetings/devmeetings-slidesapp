@@ -18,18 +18,18 @@ module.exports = function(grunt) {
                         PORT: SERVER_PORT
                     },
                     watch: ['config', 'app', 'Gruntfile.js'],
-                    callback: function (nodemon) {
-                        nodemon.on('log', function (event) {
+                    callback: function(nodemon) {
+                        nodemon.on('log', function(event) {
                             console.log(event.colour);
                         });
 
-                        nodemon.on('config:update', function () {
+                        nodemon.on('config:update', function() {
                             setTimeout(function() {
                                 open('http://localhost:' + SERVER_PORT);
                             }, 1000);
                         });
 
-                        nodemon.on('restart', function () {
+                        nodemon.on('restart', function() {
                             setTimeout(function() {
                                 fs.writeFileSync('.rebooted', 'rebooted');
                             }, 1000);
@@ -96,12 +96,12 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js'],
+                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', "!public/js/config.js"],
                 options: {
-                    breakOnErrors: false,
-                    errorsOnly: false,
-                    cyclomatic: [3, 7, 12],
-                    halstead: [8, 13, 20],
+                    breakOnErrors: true,
+                    errorsOnly: true,
+                    cyclomatic: [5, 7, 12],
+                    halstead: [10, 13, 20],
                     maintainability: 100,
                     hideComplexFunctions: false
                 }
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('hooks', 'Set up proper git hooks', function () {
+    grunt.registerTask('hooks', 'Set up proper git hooks', function() {
         if (!fs.existsSync('./../.git/hooks/pre-push')) {
             fs.copySync('./hooks/pre-push.sample', '../.git/hooks/pre-push');
             fs.chmodSync('../.git/hooks/pre-push', '755');
@@ -117,7 +117,7 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('serve', ['jshint', 'less:server', 'concurrent']);
-    grunt.registerTask('server', function () {
+    grunt.registerTask('server', function() {
         grunt.log.errorlns('Did you mean `grunt serve`?');
         grunt.log.ok('Running `serve` task');
         grunt.task.run('serve');

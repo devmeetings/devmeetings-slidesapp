@@ -1,9 +1,10 @@
-define(['slider/slider.plugins'], function(sliderPlugins) {
+define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
+
+    var path = sliderPlugins.extractPath(module);
+
     sliderPlugins.registerPlugin('trainer', '*', 'trainer-participants', 1).directive('trainerParticipants', [
         'Sockets', '$rootScope',
         function(Sockets, $rootScope) {
-
-
 
             return {
                 restrict: 'E',
@@ -11,7 +12,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                     notes: '=data',
                     slide: '=context'
                 },
-                template: '<div><h1>Hello World</h1><ul><li ng-repeat="id in ids">{{ id }}</li></ul></div>',
+                templateUrl: path + '/trainer-participants.html',
                 link: function(scope) {
                     Sockets.emit('trainer.register', {}, function(data) {
                         $rootScope.$apply(function() {
@@ -21,7 +22,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
 
                     Sockets.on('trainer.participants', function(data) {
                         scope.$apply(function() {
-                            scope.ids = data.clients;
+                            scope.users = data;
                         });
                     });
                 }

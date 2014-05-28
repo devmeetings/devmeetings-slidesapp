@@ -7,8 +7,15 @@ var ctrl = function(ctrlName) {
 
 var authenticated = function loggedIn(req, res, next) {
     if (req.user) {
+        if (req.session.redirect_to) {
+            var redirect = req.session.redirect_to;
+            delete req.session.redirect_to;
+            res.redirect(redirect);
+            return;
+        }
         next();
     } else {
+        req.session.redirect_to = req.url;
         res.redirect('/login');
     }
 };
