@@ -16,14 +16,14 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
                     scope.setStatus = function(status) {
                         Sockets.emit('stream.status', status);
-                        scope.statuses.push({
+                        scope.statuses.unshift({
                             date: new Date(),
                             status: status
                         });
                     };
 
                     Sockets.on('stream.status', function(status) {
-                        scope.statuses.push({
+                        scope.statuses.unshift({
                             date: new Date(),
                             status: status
                         });
