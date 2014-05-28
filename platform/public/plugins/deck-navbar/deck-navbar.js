@@ -3,8 +3,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-navbar', 1).directive('deckNavbar', [
-        '$rootScope', '$location', '$http',
-        function($rootScope, $location, $http) {
+        '$rootScope', '$location', '$http', 'Sockets',
+        function($rootScope, $location, $http, Sockets) {
+
+            Sockets.forwardEventToServer('slide.current.change');
 
             return {
                 restrict: 'E',
@@ -29,7 +31,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     $scope.addSlide = function() {
                         // Update deck
                         $scope.deck.slides.push({
-                            id: 'empty',
+                            id: 'empty' + new Date(),
                             name: 'New slide'
                         });
                         // TODO [ToDr] TEMP hack

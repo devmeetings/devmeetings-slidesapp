@@ -14,13 +14,24 @@ var getParticipants = function(io, roomId) {
     return Q.all(clients);
 };
 
+var updateClientData = function(socket, updater) {
+    socket.get('clientData', function(err, clientData) {
+        updater(clientData);
+        socket.set('clientData', clientData);
+    });
+};
+
+var broadcastClientsToTrainers = function(io, roomId) {
+    getParticipants(io, roomId).then(function(participants) {
+        io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
+    }, console.error);
+};
+
 
 exports.initSockets = function(io) {
 
     var sendParticipants = function(roomId) {
-        getParticipants(io, roomId).then(function(participants) {
-            io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
-        }, console.error);
+        broadcastClientsToTrainers(io, roomId);
     };
 
     pluginsEvents.on('room.joined', sendParticipants);
@@ -29,6 +40,16 @@ exports.initSockets = function(io) {
 };
 
 exports.onSocket = function(log, socket, io) {
+    socket.on('slide.current.change', function(slide) {
+
+        updateClientData(socket, function(clientData) {
+            clientData.currentSlide = slide[0];
+
+            broadcastClientsToTrainers(io, clientData.deck);
+        });
+
+    });
+
     socket.on('trainer.register', function(data, callback) {
         // TODO [ToDr] Check authorization
         callback({

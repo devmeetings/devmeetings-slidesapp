@@ -1,6 +1,6 @@
 define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], function(_, sliderPlugins, io, asEvented, guid) {
 
-    var CreateWebSocket = function(targetOrigin) {
+    var CreateWebSocket = function(targetOrigin, $window, $location) {
         var WebSocket = {
 
             _socket: null,
@@ -48,7 +48,7 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], f
         return WebSocket;
     };
 
-    var CreateForwardingSocket = function(targetOrigin) {
+    var CreateForwardingSocket = function(targetOrigin, $window) {
         var ForwardingSocket = {
             _callbacks: {},
 
@@ -146,9 +146,9 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], f
             // ifowisko
             var Sockets = null;
             if ($window.parent.___hasSockets) {
-                Sockets = CreateForwardingSocket(targetOrigin);
+                Sockets = CreateForwardingSocket(targetOrigin, $window);
             } else {
-                Sockets = CreateWebSocket(targetOrigin);
+                Sockets = CreateWebSocket(targetOrigin, $window, $location);
             }
 
             //initialize
