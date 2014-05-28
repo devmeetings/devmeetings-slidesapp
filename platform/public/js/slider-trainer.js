@@ -1,8 +1,12 @@
-require(['config', '/plugins/paths'], function(config, plugins) {
-    require(["decks/" + slides, "slider/slider", "slider/slider.plugins",
-        "directives/layout-loader", "directives/plugins-loader",
+require(['config', '/require/plugins/paths'], function(config, plugins) {
+    require(["require/decks/" + slides,
+        "require/decks/" + slides + "/slides",
+        "slider/slider",
+        "slider/slider.plugins",
+        "directives/layout-loader",
+        "directives/plugins-loader",
         "services/Sockets"
-    ].concat(plugins), function(deck, slider, sliderPlugins) {
+    ].concat(plugins), function(deck, deckSlides, slider, sliderPlugins) {
 
         slider.controller('TrainerCtrl', ['$scope', '$window',
             function($scope, $window) {

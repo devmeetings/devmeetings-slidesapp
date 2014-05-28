@@ -11,4 +11,5 @@ block title
 block content
   div(ng-init="$root.editMode=#{editMode}")
   div(ng-controller="SliderCtrl")
+    plugins-loader(namespace="'slides'", context="deckSlides")
     plugins-loader(ng-repeat="mode in modes", namespace="mode", context="deck")

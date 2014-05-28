@@ -1,8 +1,11 @@
-require(['config', '/plugins/paths'], function(config, plugins) {
-    require(["decks/" + slides, "slider/slider", "slider/slider.plugins",
+require(['config', '/require/plugins/paths'], function(config, plugins) {
+    require(["require/decks/" + slides,
+        "require/decks/" + slides + "/slides",
+        "slider/slider",
+        "slider/slider.plugins",
         "services/SlideInfo",
         "directives/layout-loader", "directives/plugins-loader",
-        "directives/contenteditable"].concat(plugins), function(deck, slider, sliderPlugins) {
+        "directives/contenteditable"].concat(plugins), function(deck, deckSlides, slider, sliderPlugins) {
 
         slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',
             function($rootScope, $scope, $window, $http, SlideInfo) {
@@ -10,8 +13,9 @@ require(['config', '/plugins/paths'], function(config, plugins) {
                     var lastSlide = $scope.slide;
                     $scope.slide = slide;
                     // Update deck
-                    deck.slides[deck.slides.indexOf(lastSlide)] = slide;
-                    $http.put('/api/decks/' + slides, deck);
+                    $http.put('/api/slides/' + slide._id, slide); 
+                    //deck.slides[deck.slides.indexOf(lastSlide)] = slide;
+                    //$http.put('/api/decks/' + slides, deck);
                 });
 
                 var updateSlide = function() {

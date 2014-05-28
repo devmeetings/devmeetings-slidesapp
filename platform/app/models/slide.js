@@ -2,9 +2,7 @@ var mongoose = require('mongoose');
     Schema = mongoose.Schema;
 
 var SlideSchema = new Schema({
-    title: String,
-    body: String,
-    author: String
+    content: Schema.Types.Mixed 
 });
 
 SlideSchema.virtual('date')

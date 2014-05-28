@@ -1,5 +1,4 @@
 var DeckModel = require('../models/deck');
-var glob = require('glob');
 
 exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
@@ -48,17 +47,6 @@ exports.edit = function(req, res) {
             return;
         }
         res.send(200);
-    });
-};
-
-exports.getOneRequireJs = function(req, res) {
-    DeckModel.findById(req.params.id, function(err, deck) {
-        if (err) {
-            res.send(404, err);
-            return;
-        }
-        res.set('Content-Type', 'application/js');
-        res.send("define(" + JSON.stringify(deck) + ");");
     });
 };
 

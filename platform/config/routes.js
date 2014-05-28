@@ -21,21 +21,21 @@ var authenticated = function loggedIn(req, res, next) {
 };
 
 module.exports = function(app) {
-    app.put('/api/slides', authenticated, slides.createOrUpdate);
+    var slides = ctrl('slides');
+    app.post('/api/slides/list', authenticated, slides.createSlides);
     app.get('/api/slides/:id', authenticated, slides.get);
 
     // API
     var decks = ctrl('decks');
-    app.get('/api/decks', authenticated, decks.list);     
+    app.get('/api/decks', authenticated, decks.list);
     app.post('/api/decks', authenticated, decks.create);        
     app.delete('/api/decks/:id', authenticated, decks.delete);  
     app.put('/api/decks/:id', authenticated, decks.edit);       
-
-
     
-    var plugins = ctrl('plugins');
-    app.get('/plugins/paths', authenticated, plugins.paths);    
-    app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);             // 
+    var req = ctrl('require');
+    app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
+    app.get('/require/decks/:id.js', authenticated, req.getDeck);
+    app.get('/require/plugins/paths', authenticated, req.pluginsPaths);
 
     //login
     var login = ctrl('login');

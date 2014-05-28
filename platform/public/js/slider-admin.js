@@ -27,10 +27,11 @@ require(['config'], function () {
 
             $scope.addExemplaryDeck = function () {
                 require(['data-slides', 'data-deck'], function (slides, deck) {
-                    $http.put('/api/slides', slides).success( function (data, status) {
+                    $http.post('/api/slides/list', slides).success( function (data, status) {
+                        console.log('slide-admin' + data);
                         deck.slides = data;
                         $scope.decks = decks;
-                        $http.put('/api/decks', deck);
+                        $http.post('/api/decks', deck);
                     });
                     //decks.post(exemplaryData).then(fetchDecks);
                 });
