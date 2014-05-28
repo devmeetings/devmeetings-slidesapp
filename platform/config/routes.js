@@ -21,17 +21,17 @@ var authenticated = function loggedIn(req, res, next) {
 };
 
 module.exports = function(app) {
-    // API - mk
     app.put('/api/slides', authenticated, slides.createOrUpdate);
-
+    app.get('/api/slides/:id', authenticated, slides.get);
 
     // API
     var decks = ctrl('decks');
-    app.get('/api/decks', authenticated, decks.list);           // +
-    app.post('/api/decks', authenticated, decks.create);        // +
-    app.delete('/api/decks/:id', authenticated, decks.delete);  // +
-    app.put('/api/decks/:id', authenticated, decks.edit);       // + dla uaktulanienia listy slidow
-    // TODO [ToDr] OMG this is so terrible
+    app.get('/api/decks', authenticated, decks.list);     
+    app.post('/api/decks', authenticated, decks.create);        
+    app.delete('/api/decks/:id', authenticated, decks.delete);  
+    app.put('/api/decks/:id', authenticated, decks.edit);       
+
+
     
     var plugins = ctrl('plugins');
     app.get('/plugins/paths', authenticated, plugins.paths);    

@@ -7,7 +7,7 @@ exports.createOrUpdate = function(req, res) {
     };
      
     var slidePromises = req.params.map(function(slide) {
-        var promise = Q.ninvoke(DeckModel, 'findByIdAndUpdate', slide._id, slide, { upsert: true });
+        var promise = Q.ninvoke(SlideModel, 'findByIdAndUpdate', slide._id, slide, { upsert: true });
         return promise;
     });
     Q.all(slidePromises).then(function(slides){
@@ -20,5 +20,15 @@ exports.createOrUpdate = function(req, res) {
     }, function(err){
         onFinish(404, err);    
     });
+};
+
+exports.get = function(req, res) {
+    SlideModel.findById(req.params.id, function(err, slide) {
+        if (err){
+            res.send(404, err);
+            return;
+        }
+        res.send(slide);
+    };
 };
 

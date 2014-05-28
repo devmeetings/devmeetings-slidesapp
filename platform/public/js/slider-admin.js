@@ -27,7 +27,7 @@ require(['config'], function () {
 
             $scope.addExemplaryDeck = function () {
                 require(['data-slides', 'data-deck'], function (slides, deck) {
-                    $http.put('/api/slides/', slides).success( function (data, status) {
+                    $http.put('/api/slides', slides).success( function (data, status) {
                         deck.slides = data;
                         $scope.decks = decks;
                         $http.put('/api/decks', deck);
