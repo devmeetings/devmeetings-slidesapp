@@ -57,8 +57,7 @@ exports.pluginsPaths = function(req, res) {
             return;
         }
         files = files.map(function(file) {
-            file = file.substring(0, file.length - 3); // trim '.js'
-            return file.substring(7, file.length); // trim public/ 
+            return file.replace(/.js$/,'').replace(/^public\//,'');
         });
         sendAsRequireJSModule(files, res);
     });  
