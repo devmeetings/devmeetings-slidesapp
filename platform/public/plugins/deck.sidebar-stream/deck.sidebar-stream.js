@@ -1,7 +1,7 @@
 define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('deck', '*', 'deck-stream').directive('deckStream', [
+    sliderPlugins.registerPlugin('deck.sidebar', '*', 'deck-sidebar-stream').directive('deckSidebarStream', [
         'Sockets',
         function(Sockets) {
             return {
@@ -10,7 +10,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     data: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/deck-stream.html',
+                templateUrl: path + '/deck.sidebar-stream.html',
                 link: function(scope, element) {
                     scope.statuses = [];
 

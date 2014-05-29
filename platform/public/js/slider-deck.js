@@ -4,14 +4,19 @@ require(['config', '/decks/plugin_paths'], function(config, plugins) {
         "slider/slider.plugins",
         "directives/layout-loader",
         "directives/plugins-loader",
-        "services/Sockets"].concat(plugins), function(deck, slider, sliderPlugins) { 
+        "directives/splitter",
+        "directives/sidebar-control/sidebar-control",
+        "services/Sockets"
+    ].concat(plugins), function(deck, slider, sliderPlugins) {
 
         slider.controller('SliderCtrl', ['$rootScope', '$scope',
             function($rootScope, $scope) {
                 $scope.deck = deck;
+
                 $scope.$on('deck', function(ev, newDeck) {
                     $scope.deck = newDeck;
                 });
+
                 $scope.modes = ['deck'];
                 if ($rootScope.editMode) {
                     $scope.modes.push('deck.edit');
