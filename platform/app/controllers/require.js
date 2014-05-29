@@ -39,7 +39,17 @@ exports.getDeck = function(req, res) {
         sendAsRequireJSModule(deck, res);
     });
 };
- 
+
+exports.getSlide = function(req, res) {
+    SlideModel.findById(req.params.id, function(err, slide) {
+        if (err) {
+            res.send(404, err);
+            return;
+        }
+        sendAsRequireJSModule(slide, res);
+    });
+};
+
 exports.pluginsPaths = function(req, res) {
     glob("public/plugins/**/*.js", function(err, files) {
         if (err) {

@@ -1,15 +1,13 @@
 require(['config', '/require/plugins/paths'], function(config, plugins) {
-    require(["require/decks/" + slides,
-        "require/decks/" + slides + "/slides",
+    require(["require/slides/" + slideId,
         "slider/slider",
         "slider/slider.plugins",
-        "services/SlideInfo",
         "directives/layout-loader", "directives/plugins-loader",
-        "directives/contenteditable"].concat(plugins), function(deck, deckSlides, slider, sliderPlugins) {
+        "directives/contenteditable"].concat(plugins), function(slide, slider, sliderPlugins) {
 
-        slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',
-            function($rootScope, $scope, $window, $http, SlideInfo) {
-                $scope.$on('slide', function(ev, slide) {
+        slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http',
+            function($rootScope, $scope, $window, $http) {
+                /*$scope.$on('slide', function(ev, slide) {
                     var lastSlide = $scope.slide;
                     $scope.slide = slide;
                     // Update deck
@@ -18,17 +16,10 @@ require(['config', '/require/plugins/paths'], function(config, plugins) {
                     //$http.put('/api/decks/' + slides, deck);
                 });
 
-                var updateSlide = function() {
-                    var newSlide = deck.slides.filter(function(s) {
-                        return s.id === $scope.slideId;
-                    })[0];
-                    $scope.slide = newSlide;
+                */
 
-                    SlideInfo.presentation = slides;
-                    SlideInfo.slide = newSlide.id;
-                };
-
-                $scope.$watch('slideId', updateSlide);
+                $scope.slide = slide.content;
+                //$scope.$watch('slideId', updateSlide);
                 $scope.modes = [{
                     namespace: 'slide',
                     refresh: true

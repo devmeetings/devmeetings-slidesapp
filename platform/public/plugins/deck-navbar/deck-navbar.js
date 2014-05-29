@@ -17,13 +17,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                 link: function($scope) {
                    // $rootScope.title = $scope.deck.title;
+                    console.log($scope.slides);
 
                     $scope.changeSlide = function() {
                         var previousSlide = $scope.activeSlide;
                         $scope.activeSlide = $location.url().substr(1);
+                        console.log($scope.activeSlide);
                         if (!$scope.activeSlide) {
-                            var firstSlide = $scope.deck.slides[0];
-                            $location.url('/' + (firstSlide ? firstSlide.id : ''));
+                            var firstSlide = $scope.slides[0];
+                            $location.url('/' + (firstSlide ? firstSlide._id : ''));
                         } else {
                             sliderPlugins.trigger('slide.current.change', $scope.activeSlide, previousSlide);
                         }

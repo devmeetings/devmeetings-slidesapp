@@ -3,11 +3,12 @@ extends ../layouts/main
 append scripts
   script.
     window.slides = "#{slides}";
+    window.slideId = "#{slide}";
   script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-slide')
 
 block content
   div(ng-init="$root.editMode=#{editMode}")
-  .container-fluid(ng-controller="SlideCtrl", ng-init="slideId='#{slide}'")
+  .container-fluid(ng-controller="SlideCtrl")
     .row
       .col-lg-12
         plugins-loader(ng-repeat="mode in modes", namespace="mode.namespace", context="slide", no-refresh="!mode.refresh")

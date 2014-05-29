@@ -1,4 +1,4 @@
-define(['module', 'slider/slider.plugins', 'services/SlideInfo', 'services/Sockets'], function(module, sliderPlugins, SlideInfoService, SocketsFactory) {
+define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module, sliderPlugins, SocketsFactory) {
 
     var EXECUTION_DELAY = 300;
     var path = sliderPlugins.extractPath(module);
@@ -29,11 +29,10 @@ define(['module', 'slider/slider.plugins', 'services/SlideInfo', 'services/Socke
                 }
             };
         }
-    ]).controller('ChatController', ['$scope', 'SlideInfo', '$timeout', 'Sockets',
-        function($scope, SlideInfo, $timeout, Sockets) {
+    ]).controller('ChatController', ['$scope', '$timeout', 'Sockets',
+        function($scope, $timeout, Sockets) {
 
-            var presentation = SlideInfo.presentation;
-            var slide = SlideInfo.slide;
+            var slide = $scope.slide.id;
 
             $scope.code = {
                 js: '',
