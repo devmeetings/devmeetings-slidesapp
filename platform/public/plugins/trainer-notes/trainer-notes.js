@@ -2,7 +2,7 @@ define(['decks/' + slides, 'module', 'slider/slider.plugins'], function(deck, mo
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer', 'notes', 'trainer-notes').directive('trainerNotes', [
+    sliderPlugins.registerPlugin('trainer', 'notes', 'trainer-notes', 2).directive('trainerNotes', [
         'Sockets',
         function(Sockets) {
             return {
@@ -17,7 +17,6 @@ define(['decks/' + slides, 'module', 'slider/slider.plugins'], function(deck, mo
                         var currentSlide = _.find(deck.slides, {id: slideId});
                         scope.notes = currentSlide.notes || 'Notes are empty';
                     }
-
 
                     scope.$on('FollowUser:change', function(event, user){
                         scope.followUser = user;
