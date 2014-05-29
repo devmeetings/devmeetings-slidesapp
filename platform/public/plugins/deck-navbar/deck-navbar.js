@@ -22,7 +22,12 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     $scope.changeSlide = function() {
                         var previousSlide = $scope.activeSlide;
                         $scope.activeSlide = $location.url().substr(1);
-                        sliderPlugins.trigger('slide.current.change', $scope.activeSlide, previousSlide);
+                        if (!$scope.activeSlide) {
+                            var firstSlide = $scope.deck.slides[0];
+                            $location.url('/' + (firstSlide ? firstSlide.id : ''));
+                        } else {
+                            sliderPlugins.trigger('slide.current.change', $scope.activeSlide, previousSlide);
+                        }
                     };
 
                     $scope.changeSlide();
