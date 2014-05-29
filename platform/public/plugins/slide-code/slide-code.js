@@ -19,8 +19,8 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
     };
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
-
-        function() {
+        '$timeout',
+        function($timeout) {
 
             var editor = null;
 
@@ -30,21 +30,24 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                     code: '=data',
                     slide: '=context'
                 },
-                template: '<div class="editor" ng-class="editor-{{size}}"><div></div></div>',
+                template: '<div class="editor editor-{{ code.size }}"><div></div></div>',
                 link: function(scope, element) {
-                    var code = getCodeData(scope.code);
-                    scope.size = code.size;
+                    scope.code = getCodeData(scope.code);
+                    var code = scope.code;
 
-                    editor = ace.edit(element[0].childNodes[0]);
-                    editor.setTheme("ace/theme/" + EDITOR_THEME);
-                    editor.getSession().setMode('ace/mode/' + code.mode);
+                    $timeout(function() {
+                        editor = ace.edit(element[0].childNodes[0]);
+                        editor.setTheme("ace/theme/" + EDITOR_THEME);
+                        editor.getSession().setMode('ace/mode/' + code.mode);
 
-                    editor.on('change', triggerCodeChange);
-                    editor.setValue(code.content, -1);
+                        editor.on('change', triggerCodeChange);
+                        editor.setValue(code.content, -1);
+                    });
 
                     sliderPlugins.onLoad(function() {
                         triggerCodeChange({}, editor);
                     });
+
                 }
             };
         }

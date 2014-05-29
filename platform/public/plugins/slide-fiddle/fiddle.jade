@@ -4,7 +4,7 @@ mixin tabHeader(name)
 
 mixin tabContent(name, mode)
   .tab-pane.fade(ng-class="{'active in': active === '#{name}' }")
-    .editor(class="editor-#{name}", data-mode="#{mode}", data-content="#{name}")
+    .editor(class="editor-#{name} editor-{{ fiddle.size}}", data-mode="#{mode}", data-content="#{name}")
 .row
   div(ng-class="{'col-sm-12': fiddle.hideOutput, 'col-sm-6': !fiddle.hideOutput }")
     ul.nav.nav-tabs(ng-init="active = fiddle.active")
