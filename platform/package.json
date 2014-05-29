@@ -23,7 +23,7 @@
     "connect-mongo": "^0.4.1",
     "passport.socketio": "^3.0.1",
     "glob": "~4.0.0",
-    "q": "^1.0.1"
+    "q": "~1.0.1"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

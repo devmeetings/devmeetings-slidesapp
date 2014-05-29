@@ -10,14 +10,8 @@ nav.navbar.navbar-default(role='navigation')
   #navbar-slides.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-slides
       li(ng-repeat="slide in slides", ng-class="{ 'active' : slide.id === activeSlide}")
-        a(href='\#{{slide.id}}') 
-          | {{ slide.name }}
-        div(ng-if="$root.editMode")
-          a(ng-click="editMode = !editMode", ng-class="{'active': editMode}")
-            span.glyphicon.glyphicon-pencil
-          div(ng-if="$root.editMode", ng-show="editMode")
-            input.col-xs-4(ng-model="slide.name")
-            input.col-xs-3(ng-model="slide.id")
+        a(href='\#{{slide._id}}') 
+          | {{ slide.content.name }}
 
     ul.nav.navbar-nav(ng-if="$root.editMode")
       li

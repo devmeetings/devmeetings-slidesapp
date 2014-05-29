@@ -102,7 +102,7 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', "!public/js/config.js"],
+                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', "!public/js/config.js", '!public/js/data-*.js'],
                 options: {
                     breakOnErrors: true,
                     errorsOnly: true,

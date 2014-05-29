@@ -2,7 +2,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('deck', 'slides', 'deck-navbar', 1).directive('deckNavbar', [
+    sliderPlugins.registerPlugin('deck.slides', '*', 'deck-navbar', 1).directive('deckNavbar', [
         '$rootScope', '$location', '$http', 'Sockets',
         function($rootScope, $location, $http, Sockets) {
 
@@ -11,20 +11,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return {
                 restrict: 'E',
                 scope: {
-                    slides: '=data',
-                    deck: '=context'
+                    slides: '=context'
                 },
                 templateUrl: path + '/deck-navbar.html',
 
                 link: function($scope) {
-                    $rootScope.title = $scope.deck.title;
-
                     $scope.changeSlide = function() {
                         var previousSlide = $scope.activeSlide;
                         $scope.activeSlide = $location.url().substr(1);
                         if (!$scope.activeSlide) {
-                            var firstSlide = $scope.deck.slides[0];
-                            $location.url('/' + (firstSlide ? firstSlide.id : ''));
+                            var firstSlide = $scope.slides[0];
+                            $location.url('/' + (firstSlide ? firstSlide._id : ''));
                         } else {
                             sliderPlugins.trigger('slide.current.change', $scope.activeSlide, previousSlide);
                         }
