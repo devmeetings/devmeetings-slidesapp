@@ -26,7 +26,7 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
             message: 'What would you like your xplatform plugin namespace to be?',
             type: 'list',
             default: 0,
-            choices: ['slide', 'slide.edit', 'deck', 'deck.sidebar', 'trainer']
+            choices: ['slide', 'slide.edit', 'deck', 'deck.slides', 'deck.sidebar', 'trainer']
         }];
 
         this.prompt(prompts, function(props) {

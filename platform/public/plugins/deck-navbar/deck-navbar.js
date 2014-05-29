@@ -2,7 +2,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slides', '*', 'deck-navbar', 1).directive('deckNavbar', [
+    sliderPlugins.registerPlugin('deck.slides', '*', 'deck-navbar', 1).directive('deckNavbar', [
         '$rootScope', '$location', '$http', 'Sockets',
         function($rootScope, $location, $http, Sockets) {
 
