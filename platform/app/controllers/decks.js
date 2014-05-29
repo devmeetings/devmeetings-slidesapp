@@ -1,4 +1,5 @@
 var DeckModel = require('../models/deck');
+var _ = require('lodash');
 
 exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
@@ -12,14 +13,14 @@ exports.list = function(req, res) {
 };
 
 exports.create = function(req, res) {
-    var d = new DeckModel(req.body);
-    d.save(function(err, deck) {
-        if (err) {
+    DeckModel.create(req.body, function (err){
+        if (err){
             console.error(err);
-            res.send(500, err);
+            res.send(404, err);
             return;
-        }
-        res.send(deck);
+        }   
+        var decks = Array.prototype.slice.call(arguments, 1);
+        res.send(_.pluck(decks, "_id"));
     });
 };
 

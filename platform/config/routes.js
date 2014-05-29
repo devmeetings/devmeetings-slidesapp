@@ -22,7 +22,7 @@ var authenticated = function loggedIn(req, res, next) {
 
 module.exports = function(app) {
     var slides = ctrl('slides');
-    app.post('/api/slides/list', authenticated, slides.createSlides);
+    app.post('/api/slides', authenticated, slides.create);
     app.get('/api/slides/:id', authenticated, slides.get);
 
     // API
