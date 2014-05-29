@@ -1,23 +1,19 @@
 var SlideModel = require('../models/slide');
-var Q = require('q');
+var _ = require('lodash');
 
-exports.createSlides = function(req, res) {
-    var onFinish = function (code, result){
-        res.send(code, result);
-    };
-     
-    var slidePromises = req.body.map(function(slide) {
-        console.log(slide);
-        var promise = Q.ninvoke(SlideModel, 'create', { content: slide } );
-        return promise;
-    });
-    Q.all(slidePromises).then(function(slides){
-        onFinish(200, slides.map(function(slide) {
-            return slide._id;
-        }));
-    }, function(err){
-        console.log(err);
-        onFinish(404, err);    
+exports.create = function(req, res) {
+    var contents = (_.isArray(req.body) ? req.body : [req.body]).map( function(slide) {
+        return { content : slide };
+    }); 
+
+    SlideModel.create(contents, function (err) {
+        if (err){
+            console.error(err);
+            res.send(404, err);
+            return;
+        }
+        var slides = Array.prototype.slice.call(arguments, 1);
+        res.send(_.pluck(slides, "_id"));
     });
 };
 
