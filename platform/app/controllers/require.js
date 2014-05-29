@@ -4,7 +4,7 @@ var glob = require('glob');
 var _ = require('lodash');
 
 var sendAsRequireJSModule = function(object, res) {
-    res.set('Content-Type', 'application/js');
+    res.set('Content-Type', 'application/javascript');
     var data = (_.isArray(object) ? "define( []," : "define(") + JSON.stringify(object) + ");";
     res.send(data);
 };
@@ -13,7 +13,7 @@ exports.getDeckSlides = function(req, res) {
     DeckModel.findById(req.params.id, function(err, deck) {
         if (err) {
             console.error(err);
-            res.send(404, []);
+            res.send(404, err);
             return;
         }
 
@@ -22,7 +22,7 @@ exports.getDeckSlides = function(req, res) {
         }, function(err, slides){
             if (err) {
                 console.error(err);
-                res.send(404, []);
+                res.send(404, err);
                 return;
             }
             sendAsRequireJSModule(slides, res);
