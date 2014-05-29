@@ -18,6 +18,10 @@ require(['config', '/require/plugins/paths'], function(config, plugins) {
 
                 */
 
+                $scope.$on('slide', function(ev, slide) {
+                    console.log(slide);
+                });
+
                 $scope.slide = slide.content;
                 //$scope.$watch('slideId', updateSlide);
                 $scope.modes = [{

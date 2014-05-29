@@ -12,12 +12,6 @@ nav.navbar.navbar-default(role='navigation')
       li(ng-repeat="slide in slides", ng-class="{ 'active' : slide.id === activeSlide}")
         a(href='\#{{slide._id}}') 
           | {{ slide.content.name }}
-        div(ng-if="$root.editMode")
-          a(ng-click="editMode = !editMode", ng-class="{'active': editMode}")
-            span.glyphicon.glyphicon-pencil
-          div(ng-if="$root.editMode", ng-show="editMode")
-            input.col-xs-4(ng-model="slide.name")
-            input.col-xs-3(ng-model="slide.id")
 
     ul.nav.navbar-nav(ng-if="$root.editMode")
       li

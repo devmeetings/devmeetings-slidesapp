@@ -22,7 +22,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     $scope.changeSlide = function() {
                         var previousSlide = $scope.activeSlide;
                         $scope.activeSlide = $location.url().substr(1);
-                        console.log($scope.activeSlide);
                         if (!$scope.activeSlide) {
                             var firstSlide = $scope.slides[0];
                             $location.url('/' + (firstSlide ? firstSlide._id : ''));

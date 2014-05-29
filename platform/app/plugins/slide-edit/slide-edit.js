@@ -13,7 +13,6 @@ exports.onSocket = function (log, socket) {
                 console.error(err);
                 return;
             }
-            broadcastUpdate(data); // TODO: format data properly
         });
     };
 
