@@ -10,6 +10,12 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
+        copy: {
+          theme: {
+            src: 'public/js/theme-todr.js',
+            dest: 'public/components/ace-builds/src-noconflict/theme-todr.js'
+          }
+        },
         nodemon: {
             server: {
                 script: 'app.js',
@@ -26,7 +32,7 @@ module.exports = function(grunt) {
                         nodemon.on('config:update', function() {
                             setTimeout(function() {
                                 open('http://localhost:' + SERVER_PORT);
-                            }, 1000);
+                            }, 5000);
                         });
 
                         nodemon.on('restart', function() {
@@ -116,14 +122,14 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('serve', ['jshint', 'less:server', 'concurrent']);
+    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent']);
     grunt.registerTask('server', function() {
         grunt.log.errorlns('Did you mean `grunt serve`?');
         grunt.log.ok('Running `serve` task');
         grunt.task.run('serve');
     });
 
-    grunt.registerTask('build', ['jshint', 'less:build', 'complexity']);
+    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'complexity']);
 
     grunt.registerTask('default', ['serve']);
 };
