@@ -1,0 +1,27 @@
+div
+    button.btn.btn-warning(ng-click="setStatus('too-fast')")
+      span.fa.fa-tachometer
+      |  Too fast!
+    button.btn.btn-success(ng-click="setStatus('awesome')")
+      span.fa.fa-thumbs-o-up
+      |  Awesome!
+    button.btn.btn-primary(ng-click="setStatus('boring')")
+      span.fa.fa-fast-forward
+      |  Boring...
+
+    .list-group
+      .list-group-item(ng-repeat="status in statuses")
+        div(ng-show="status.status == 'boring'")
+          span.fa.fa-fast-forward
+          |  {{ status.date | date:'mediumTime' }}
+          |  Booooring...
+        div(ng-show="status.status == 'awesome'")
+          span.fa.fa-thumbs-o-up
+          |  {{ status.date | date:'mediumTime' }}
+          |  Awesomeee!!!!
+        div(ng-show="status.status == 'too-fast'")
+          span.fa.fa-tachometer
+          |  {{ status.date | date:'mediumTime' }}
+          |  Too fast! Please slow down!
+
+

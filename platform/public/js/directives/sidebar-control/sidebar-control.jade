@@ -1,0 +1,7 @@
+div.text-right
+  button.btn.btn-sm.btn-default(ng-click="toggle()", ng-class="{'splitter-btn-fixed': splitter.size === maxSize}")
+    span.fa.fa-caret-square-o-left(ng-show="splitter.size === maxSize")
+    span.fa.fa-caret-square-o-right(ng-hide="splitter.size === maxSize")
+  button.btn.btn-sm.btn-default(ng-click="toggleSize()")
+    span.fa.fa-arrows-h
+
