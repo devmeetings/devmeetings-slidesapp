@@ -2,7 +2,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', 3).directive('trainerdeckNextslide', [
+    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', 2).directive('trainerdeckNextslide', [
         'Sockets',
         function(Sockets) {
 

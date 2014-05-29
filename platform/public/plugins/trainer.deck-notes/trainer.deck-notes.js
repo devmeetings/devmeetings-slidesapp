@@ -2,24 +2,26 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer', 'notes', 'trainer-notes', 2).directive('trainerNotes', [
+    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-notes', 1).directive('trainerdeckNotes', [
         'Sockets',
         function(Sockets) {
             return {
                 restrict: 'E',
                 scope: {
                     data: '=data',
-                    slide: '=context'
+                    deck: '=context'
                 },
                 link: function(scope){
                     scope.followUser = false;
-                    function refreshNote(){
-                        scope.notes = scope.slide.notes || 'No notes';
+
+                    function refreshNotes(){
+                        var currentSlide = _.find(scope.deck.slides, {id: scope.followUser.currentSlide});
+                        scope.notes = (currentSlide && currentSlide.notes) ? currentSlide.notes : 'No notes';
                     }
 
                     scope.$on('FollowUser:change', function(event, user){
                         scope.followUser = user;
-                        refreshNote();
+                        refreshNotes();
                     });
 
                     Sockets.on('trainer.participants', function(data) {
@@ -29,12 +31,12 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                             user = _.find(data, {id: scope.followUser.id});
                             scope.$apply(function() {
                                 scope.followUser = (user) ? user : false;
-                                refreshNote();
+                                refreshNotes();
                             });
                         }
                     });
                 },
-                template: '<div class="trainer-notes" ng-if="followUser"><h2>Current slide notes</h2><pre ng-bind-html="notes"></pre></div>'
+                template: '<div class="trainer-notes" ng-if="followUser.currentSlide"><h2>Current slide notes</h2><pre ng-bind-html="notes"></pre></div>'
             };
         }
     ]);
