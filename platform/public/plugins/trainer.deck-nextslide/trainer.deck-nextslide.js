@@ -1,24 +1,24 @@
-define(['decks/' + slides, 'module', 'slider/slider.plugins'], function(deck, module, sliderPlugins) {
+define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer', '*', 'trainer-nextslide', 3).directive('trainerNextslide', [
+    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', 3).directive('trainerdeckNextslide', [
         'Sockets',
         function(Sockets) {
 
             return {
                 restrict: 'E',
                 scope: {
-                    notes: '=data',
-                    slide: '=context'
+                    data: '=data',
+                    deck: '=context'
                 },
-                templateUrl: path + '/trainer-nextslide.html',
+                templateUrl: path + '/trainer.deck-nextslide.html',
                 link: function(scope) {
                     scope.followUser = false;
 
                     function getNextSlideId(slideId){
-                        var currentSlidePosition = _.findIndex(deck.slides, {id: slideId});
-                        return deck.slides[(++currentSlidePosition % deck.slides.length)].id;
+                        var currentSlidePosition = _.findIndex(scope.deck.slides, {id: slideId});
+                        return scope.deck.slides[(++currentSlidePosition % scope.deck.slides.length)].id;
                     }
 
                     scope.$on('FollowUser:change', function(event, user){

@@ -6,6 +6,7 @@ require(['config', '/decks/plugin_paths'], function(config, plugins) {
         slider.controller('TrainerCtrl', ['$scope', '$window',
             function($scope, $window) {
                 $scope.slide = deck.slides[0];
+                $scope.deck = deck;
             }
         ]);
 
