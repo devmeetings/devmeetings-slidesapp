@@ -16,9 +16,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 templateUrl: path + '/deck-navbar.html',
 
                 link: function($scope) {
-                   // $rootScope.title = $scope.deck.title;
-                    console.log($scope.slides);
-
                     $scope.changeSlide = function() {
                         var previousSlide = $scope.activeSlide;
                         $scope.activeSlide = $location.url().substr(1);
