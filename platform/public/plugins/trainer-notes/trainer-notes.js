@@ -1,4 +1,4 @@
-define(['decks/' + slides, 'module', 'slider/slider.plugins'], function(deck, module, sliderPlugins) {
+define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
@@ -8,36 +8,33 @@ define(['decks/' + slides, 'module', 'slider/slider.plugins'], function(deck, mo
             return {
                 restrict: 'E',
                 scope: {
-                    notes: '=data',
+                    data: '=data',
                     slide: '=context'
                 },
                 link: function(scope){
                     scope.followUser = false;
-                    function bindNote(slideId){
-                        var currentSlide = _.find(deck.slides, {id: slideId});
-                        scope.notes = currentSlide.notes || 'Notes are empty';
+                    function refreshNote(){
+                        scope.notes = scope.slide.notes || 'No notes';
                     }
 
                     scope.$on('FollowUser:change', function(event, user){
                         scope.followUser = user;
-                        if(user.currentSlide)
-                        {
-                            bindNote(user.currentSlide);
-                        }
+                        refreshNote();
                     });
 
                     Sockets.on('trainer.participants', function(data) {
+                        var user;
                         if(scope.followUser)
                         {
-                            var user = _.find(data, {id: scope.followUser.id});
+                            user = _.find(data, {id: scope.followUser.id});
                             scope.$apply(function() {
                                 scope.followUser = (user) ? user : false;
-                                bindNote(user.currentSlide);
+                                refreshNote();
                             });
                         }
                     });
                 },
-                template: '<div ng-if="followUser"><h2>Current slide notes</h2><pre ng-bind-html="notes"></pre></div>'
+                template: '<div class="trainer-notes" ng-if="followUser"><h2>Current slide notes</h2><pre ng-bind-html="notes"></pre></div>'
             };
         }
     ]);
