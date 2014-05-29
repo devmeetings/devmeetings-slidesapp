@@ -1,21 +1,17 @@
-var DeckModel = require('../../models/deck');
+var SlideModel = require('../../models/slide');
 
 
 exports.onSocket = function (log, socket) {
     
-    var onPutDeck = function (data, res) {
-        // Cannot specify _id
-        delete data.body._id;
-        
-        DeckModel.findByIdAndUpdate(data.params.id, data.body, { upsert: true }, function (err, deck) {
+    var onPutSlide = function (data, res) { 
+        SlideModel.findByIdAndUpdate(data._id, data, { upsert: true }, function (err, slide) {
             if (err) {
-                console.log(data);
                 console.error(err);
                 return;
             }
         });
     };
 
-    socket.on('slide.edit.put', onPutDeck);
+    socket.on('slide.edit.put', onPutSlide);
 
 };
