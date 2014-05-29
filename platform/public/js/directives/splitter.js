@@ -11,7 +11,7 @@ define(['slider/slider'], function(slider) {
                     var aside = element.children('aside');
 
                     scope.splitter = {
-                        size: 10
+                        size: 12
                     };
                 }
             };
