@@ -1,10 +1,10 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'], function(module, _, sliderPlugins, CurrentSlideManager) {
 
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$location', '$rootScope',
-        function($location, $rootScope) {
+        '$location', '$rootScope', 'CurrentSlideManager',
+        function($location, $rootScope, CurrentSlideManager) {
 
             return {
                 restrict: 'E',
