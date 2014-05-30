@@ -1,18 +1,17 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
     sliderPlugins.factory('DeckAndSlides', ['$q', function($q) {
-        var d1 = $q.defer();
-        require(['require/decks/' + slides], function(deck){
-            d1.resolve(deck);
-        }); 
-        
-        var d2 = $q.defer();
-        require(['require/decks/' + slides + '/slides'], function(deckSlides){
-            d2.resolve(deckSlides);
-        });
+
+        var asPromise = function(path) {
+            var result = $q.defer();
+            require([path], function(promiseResult) {
+                result.resolve(promiseResult);
+            });
+            return result.promise;
+        };
             
         return {
-            deck: d1.promise,
-            slides: d2.promise
+            deck: asPromise('require/decks/' + slides),
+            slides: asPromise('require/decks/' + slides + '/slides')
         };
     }]);
 });
