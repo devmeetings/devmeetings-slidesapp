@@ -9,7 +9,7 @@ nav.navbar.navbar-default(role='navigation')
       span.glyphicon.glyphicon-th-large
   #navbar-slides.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-slides
-      li(ng-repeat="slide in slides", ng-class="{ 'active' : slide.id === activeSlide}")
+      li(ng-repeat="slide in slides", ng-class="{ 'active' : slide._id === csm.activeSlideId}")
         a(href='\#{{slide._id}}') 
           | {{ slide.content.name }}
 
