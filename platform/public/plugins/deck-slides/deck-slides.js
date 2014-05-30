@@ -14,15 +14,17 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
                 },
                 templateUrl: path + '/deck-slides.html',
 
-                link: function($scope) {
-
-                    sliderPlugins.listen($scope, 'slide.current.change', function(activeSlide) {
+                link: function(scope) {
+                    var onSlideChange = function(activeSlideId) {
                         var absUrl = $location.absUrl();
                         var len = (absUrl.indexOf("/?") > -1 || absUrl.indexOf("?") > -1) ? absUrl.indexOf("?") : absUrl.indexOf("#");
-                        var path = absUrl.substr(0, len);
-                        $scope.slideSource = path.replace(/\/$/, '') + '/slide-' + activeSlide + ($rootScope.editMode ? '?edit=true' : '');
-                    });
+                        var path = len != -1 ? absUrl.substr(0, len) : absUrl;
+                        scope.slideSource = path.replace(/\/$/, '') + '/slide-' + activeSlideId + ($rootScope.editMode ? '?edit=true' : '');
+                    };
 
+                    scope.csm = CurrentSlideManager;
+                    onSlideChange(scope.csm.activeSlideId);
+                    scope.$watch('csm.activeSlideId', onSlideChange);
                 }
             };
         }

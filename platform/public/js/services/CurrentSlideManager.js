@@ -1,9 +1,13 @@
  define(['slider/slider.plugins', 'services/DeckAndSlides', 'services/Sockets'], function(sliderPlugins) {
-    sliderPlugins.factory('CurrentSlideManager', ['$rootScope', '$location', 'Sockets', function( $rootScope, $location, Sockets) {
+    sliderPlugins.factory('CurrentSlideManager', ['$rootScope', '$location', 'Sockets', 'DeckAndSlides', function( $rootScope, $location, Sockets, DeckAndSlides) {
         
         var csm = {
             activeSlideId: 0
         };
+
+        DeckAndSlides.deck.then( function(deck) {
+            csm.activeSlideId = deck.slides[0];
+        });
 
         Sockets.forwardEventToServer('slide.current.change');
 
