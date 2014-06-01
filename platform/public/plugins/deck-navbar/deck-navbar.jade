@@ -1,13 +1,8 @@
 nav.navbar.navbar-default.navbar-slides(role='navigation')
   .navbar-header
-    button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-      span.sr-only Toggle navigation
-      span.icon-bar
-      span.icon-bar
-      span.icon-bar
-    a.navbar-brand.text-muted(href='/')
-      span.glyphicon.glyphicon-th-large
     ul.nav.navbar-nav.nav-slides
+      a.navbar-brand.text-muted(href='/')
+        span.glyphicon.glyphicon-th-large
       li(ng-repeat="slide in slides", ng-class="{ 'active' : slide._id === csm.activeSlideId}")
         a(href='\#{{slide._id}}') 
           | {{ slide.content.name }}
