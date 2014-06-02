@@ -46,8 +46,8 @@ module.exports = {
             commands.addBash("grunt build", "Build Frontend");
         }
 
-        commands.addBash("(forever stop app.js || 1)", "Stopping service " + env.name);
-        commands.addBash("forever start -l " + env.options.logName + "-a app.js", "Starting service " + env.name);
+        commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
+        commands.addBash("forever start  --uid " + env.name + "-l " + env.options.logName + "-a app.js", "Starting service " + env.name);
     }
 
 };
