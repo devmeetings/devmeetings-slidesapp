@@ -3,7 +3,7 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert'], functi
 
     var path = sliderPlugins.extractPath(module);
 
-
+    /* jshint ignore:start */
     var hashCode = function (str) {
         var hash = 0;
         if (str.length === 0) return hash;
@@ -15,6 +15,7 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert'], functi
         }
         return hash;
     };
+    /* jshint ignore:end */
 
     sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
  
