@@ -25,12 +25,12 @@ process.on('message', function(msg) {
             }
         });
         process.send({
-            ok: true,
-            result: JSON.stringify(output, null, 2)
+            success: true,
+            result: output
         }); //Send the finished message to the parent process
     } catch (e) {
         process.send({
-            ok: false,
+            success: false,
             errors: [e.toString()]
         });
     }

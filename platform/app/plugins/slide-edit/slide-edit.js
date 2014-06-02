@@ -3,8 +3,11 @@ var SlideModel = require('../../models/slide');
 
 exports.onSocket = function (log, socket) {
     
-    var onPutSlide = function (data, res) { 
-        SlideModel.findByIdAndUpdate(data._id, data, { upsert: true }, function (err, slide) {
+    var onPutSlide = function (data, res) {
+        var slideId = data._id;
+        delete data._id;
+
+        SlideModel.findByIdAndUpdate(slideId, data, { upsert: true }, function (err, slide) {
             if (err) {
                 console.error(err);
                 return;

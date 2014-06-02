@@ -9,25 +9,33 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
             return {
                 restrict: 'E',
                 scope: {
-                    slides: '=context'
+                    context: '=context'
                 },
                 templateUrl: path + '/deck-navbar.html',
 
                 link: function(scope) {
                     scope.csm = CurrentSlideManager;
-                    DeckAndSlides.slides.then( function(slides) {
+
+                    DeckAndSlides.slides.then(function (slides) {
                         scope.slides = slides;
                     });
-                    /*$scope.addSlide = function() {
+                    DeckAndSlides.deck.then(function (deck) {
+                        scope.deck = deck;
+                    });
+
+                    scope.addSlide = function() {
                         // Update deck
-                        $scope.deck.slides.push({
+                        var newSlide = {
                             id: 'empty' + new Date(),
                             name: 'New slide'
+                        };
+
+                        $http.post('/api/slides', newSlide).success( function (data, status) {
+                            scope.slides = scope.slides.concat(newSlide);
+                            scope.deck.slides = scope.deck.slides.concat(data);
+                            $http.put('/api/decks/' + scope.deck._id, scope.deck);
                         });
-                        // TODO [ToDr] TEMP hack
-                        $http.put('/api/decks/' + slides, $scope.deck);
                     };
-                    */
                 }
             };
         }
