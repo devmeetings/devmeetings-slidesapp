@@ -49,6 +49,19 @@ module.exports = {
                 "class": "btn-warning",
                 "label": "NodeExecutor [prod]"
             }
+        },
+        "deployment-app": {
+            "name": "deployment-app",
+            "path": xplatformDir + "../deployment-app",
+            "options": {
+                "startFile": "app.js",
+                "logName": "deployment.log",
+                "env": ""
+            },
+            "btn": {
+                "class": "btn-info",
+                "label": "Deployment App"
+            }
         }
     },
 
