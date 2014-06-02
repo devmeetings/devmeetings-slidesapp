@@ -3,6 +3,19 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     var path = sliderPlugins.extractPath(module);
 
+
+    var hashCode = function (str) {
+        var hash = 0;
+        if (str.length === 0) return hash;
+        var i = 0;
+        for (; i < str.length; i++) {
+            var char = str.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    };
+
     sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
 
         function() {
@@ -15,18 +28,28 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 templateUrl: path + '/jsmicrotasks.html',
                 link: function(scope, element) {
 
-                    var hashCode = function (str) {
-                            var hash = 0;
-                            if (str.length === 0) return hash;
-                            var i = 0;
-                                for (; i < str.length; i++) {
-                                    var char = str.charCodeAt(i);
-                                    hash = ((hash<<5)-hash)+char;
-                                    hash = hash & hash; // Convert to 32bit integer
-                                }
-                            return hash;
+                    
+                    var runJSAssert = function(task, x) {
+                        var toEval = [
+                            '(function(' + task.monitor + '){',
+                            task.js_assert,
+                            '}(x))'
+                        ].join(';\n');
+                        
+                        /* jshint evil:true */
+                        var result = eval(toEval);
+                        /* jshint evil:false */
+                        return result;
                     };
 
+                    var runHTMLRegexp = function(task, x) {
+                        
+                    };
+
+                    
+                    var availableTaskTypes = {
+                        js_assert: runJSAssert
+                    };
 
                     scope.microtasks.filter(function(task) {
                         return task.js_assert;
@@ -38,6 +61,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         });
 
                         sliderPlugins.listen(scope, 'slide.slide-jsrunner.' + taskHash, function(x) {
+                            
                             if (task.completed) {
                                 return;
                             }

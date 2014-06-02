@@ -15,6 +15,24 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                 },
                 templateUrl: path + '/fiddle.html',
                 link: function(scope, element) {
+                    if (scope.fiddle.active) {
+                        scope.active = scope.fiddle.active;
+                    } else {
+                        var keys = _.keys(scope.fiddle);
+                        scope.active = _.find(['js', 'coffee', 'css', 'html'], function (key) {
+                            return _.contains(keys, key);
+                        });
+                    }
+
+                    var fiddleCopy = function(){
+                        return _.extend({
+                            js: '',
+                            css: '',
+                            html:'<html><head></head><body></body></html'
+                        }, scope.fiddle);
+                    };
+
+
                     $timeout(function() {
                         element.find('.editor').each(function() {
                             var e = this;
@@ -42,11 +60,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                     updateScopeLater();
                                 }
                                 //Trigger event
-                                sliderPlugins.trigger('slide.slide-fiddle.change', scope.fiddle);
+                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                             });
 
                             sliderPlugins.onLoad(function() {
-                                sliderPlugins.trigger('slide.slide-fiddle.change', scope.fiddle);
+                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                             });
                         });
                     });
@@ -54,5 +72,5 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
             };
         }
     ]);
-
+ 
 });

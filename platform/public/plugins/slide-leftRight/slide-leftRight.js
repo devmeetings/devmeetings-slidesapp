@@ -2,7 +2,10 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'left', 'slide-left', 9).directive('slideLeft', [
+    sliderPlugins.registerPlugin('slide', 'left', 'slide-left', 9);
+    sliderPlugins.registerPlugin('slide', 'l', 'slide-left', 9);
+    
+    sliderPlugins.directive('slideLeft', [
 
         function() {
             return {
