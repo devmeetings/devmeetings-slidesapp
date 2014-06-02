@@ -7,6 +7,20 @@ module.exports = {
     port: 9000,
 
     environments: {
+        "xplatform-dev": {
+            "name": "xplatform-dev",
+            "path": xplatformDir "../devmeetings-slidesapp-dev/platform",
+            "options": {
+                "buildGrunt": true,
+                "startFile": "app.js",
+                "logName": "xplatform.dev.log",
+                "env": "NODE_ENV=\"test\"",
+            },
+            "btn": {
+                "class": "btn-success",
+                "label": "XPlatform [dev]"
+            }
+        },
         "xplatform-prod": {
             "name": "xplatform-prod",
             "path": xplatformDir + "platform",
@@ -27,7 +41,8 @@ module.exports = {
             "path": xplatformDir + "executors/nodeExecutor",
             "options": {
                 "startFile": "app.js",
-                "logName": "exec-node.log"
+                "logName": "exec-node.log",
+                "env": ""
             },
             "btn": {
                 "confirm": true,
