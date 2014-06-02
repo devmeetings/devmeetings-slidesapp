@@ -15,15 +15,33 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 templateUrl: path + '/jsmicrotasks.html',
                 link: function(scope, element) {
 
+                    var hashCode = function (str) {
+                            var hash = 0;
+                            if (str.length === 0) return hash;
+                            var i = 0;
+                                for (; i < str.length; i++) {
+                                    var char = str.charCodeAt(i);
+                                    hash = ((hash<<5)-hash)+char;
+                                    hash = hash & hash; // Convert to 32bit integer
+                                }
+                            return hash;
+                    };
+
+
                     scope.microtasks.filter(function(task) {
                         return task.js_assert;
                     }).map(function(task) {
+                        var taskHash = hashCode(task.js_assert).toString();
                         sliderPlugins.registerScopePlugin(scope, 'slide.slide-jsrunner', 'process', {
                             monitor: task.monitor,
-                            name: task.id
+                            name: taskHash
                         });
 
-                        sliderPlugins.listen(scope, 'slide.slide-jsrunner.' + task.id, function(x) {
+                        sliderPlugins.listen(scope, 'slide.slide-jsrunner.' + taskHash, function(x) {
+                            if (task.completed) {
+                                return;
+                            }
+
                             var toEval = [
                                 '(function(' + task.monitor + '){',
                                 task.js_assert,
