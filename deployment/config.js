@@ -9,7 +9,7 @@ module.exports = {
     environments: {
         "xplatform-dev": {
             "name": "xplatform-dev",
-            "path": xplatformDir "../devmeetings-slidesapp-dev/platform",
+            "path": xplatformDir + "../devmeetings-slidesapp-dev/platform",
             "options": {
                 "buildGrunt": true,
                 "startFile": "app.js",
