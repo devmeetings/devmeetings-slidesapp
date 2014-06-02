@@ -27,7 +27,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             element.find('.errors').html(data.errors || "");
 
                             if (data.success) {
-                                sliderPlugins.trigger('slide.jsonOutput.display', JSON.parse(data.result));
+                                sliderPlugins.trigger('slide.jsonOutput.display', data.result);
                             }
                         });
 

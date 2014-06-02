@@ -47,7 +47,7 @@ module.exports = {
         }
 
         commands.addBash("(forever stop app.js || 1)", "Stopping service " + env.name);
-        commands.addBash("forever start -o " + env.options.logName + "-a app.js", "Starting service " + env.name);
+        commands.addBash("forever start -l " + env.options.logName + "-a app.js", "Starting service " + env.name);
     }
 
 };
