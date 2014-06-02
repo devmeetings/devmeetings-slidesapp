@@ -25,7 +25,7 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                             }
                         });
                     };
-                    editor.on('change', _.throttle(updateSlideContent, 100));
+                    editor.on('change', _.throttle(updateSlideContent, 300));
                 }
             };
         }

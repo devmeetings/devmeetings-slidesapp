@@ -21,7 +21,7 @@ docker start exec-node || docker run -d --link rabbit:rabbit --name exec-node -t
 
 docker stop xplatform
 docker rm xplatform
-docker run -p 3000 --link mongo:mongo --link rabbit:rabbit --name xplatform -e MONGO_HOST="mongo" -t xplatform/platform
+docker run -p 3000 --link mongo:mongo --link rabbit:rabbit --name xplatform -e MONGO_HOST="mongo" RABBIT_HOST="admin:kbAc4kRS@rabbit" -t xplatform/platform
 
 #docker build -t devmeetings/xplatform-basic .
 #docker run -v $cwd/platform:/platform -p 3000 -t devmeetings/xplatform-basic
