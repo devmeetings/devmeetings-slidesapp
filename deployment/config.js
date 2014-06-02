@@ -48,7 +48,7 @@ module.exports = {
         }
 
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
-        commands.addBash(env.options.env + " forever start  --uid " + env.name + "-l " + env.options.logName + "-a app.js", "Starting service " + env.name);
+        commands.addBash(env.options.env + " forever start  --uid " + env.name + "-l " + env.options.logName + " -a app.js", "Starting service " + env.name);
     }
 
 };
