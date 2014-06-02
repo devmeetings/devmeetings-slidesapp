@@ -7,8 +7,9 @@ console.log("Connecting to RabbitMQ");
 
 var cluster = require('cluster');
 var amqp = require('amqplib');
+var host = process.env.RABBITMQ_HOST || "localhost";
 
-var connection = amqp.connect('amqp://admin:kbAc4kRS@rabbit');
+var connection = amqp.connect('amqp://' + host);
 
 cluster.setupMaster({
     exec: "runner.js",
