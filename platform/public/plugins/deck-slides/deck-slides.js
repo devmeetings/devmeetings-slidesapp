@@ -23,7 +23,6 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
                     };
 
                     scope.csm = CurrentSlideManager;
-                    onSlideChange(scope.csm.activeSlideId);
                     scope.$watch('csm.activeSlideId', onSlideChange);
                 }
             };
