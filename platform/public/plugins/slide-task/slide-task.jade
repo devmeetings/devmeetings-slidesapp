@@ -20,7 +20,7 @@
       | 
       span.text-warning.task-time-left
         span(ng-hide="timerState.isRunning") {{ task.duration }}
-        span(ng-show="timerState.isRunning") {{ timerState.timeLeft }}
+        span(ng-show="timerState.isRunning") {{ timerState.timeLeft / 60 / 1000 | number:1 }}
       span.text-warning
         |  min
 
@@ -32,8 +32,8 @@
     h2
       span.glyphicon.glyphicon-play
       | 
-      span.task-start-time {{ timerState.startTime | date:'short' }}
+      span.task-start-time {{ timerState.startTime | date:'H:mm' }}
     h2
       span.glyphicon.glyphicon-pause
       | 
-      span.task-end-time {{ timerState.endTime }}
+      span.task-end-time {{ timerState.endTime | date:'H:mm' }}
