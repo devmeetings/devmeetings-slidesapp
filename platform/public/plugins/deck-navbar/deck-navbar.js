@@ -29,8 +29,11 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                             name: 'New slide'
                         };
 
-                        $http.post('/api/slides', newSlide).success(function(data, status) {
-                            scope.slides = scope.slides.concat(newSlide);
+                        $http.post('/api/slides', newSlide).success( function (data, status) {
+                            scope.slides = scope.slides.concat({
+                                content: newSlide,
+                                _id: data
+                            });
                             scope.deck.slides = scope.deck.slides.concat(data);
                             $http.put('/api/decks/' + scope.deck._id, scope.deck);
                         });
