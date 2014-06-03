@@ -19,16 +19,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                         scope.active = scope.fiddle.active;
                     } else {
                         var keys = _.keys(scope.fiddle);
-                        scope.active = _.find(['js', 'coffee', 'css', 'html'], function (key) {
+                        scope.active = _.find(['js', 'coffee', 'css', 'html'], function(key) {
                             return _.contains(keys, key);
                         });
                     }
 
-                    var fiddleCopy = function(){
+                    var fiddleCopy = function() {
                         return _.extend({
                             js: '',
                             css: '',
-                            html:'<html><head></head><body></body></html'
+                            html: '<html><head></head><body></body></html'
                         }, scope.fiddle);
                     };
 
@@ -71,5 +71,5 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
             };
         }
     ]);
- 
+
 });

@@ -3,7 +3,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
 
     var OUTPUT_THEME = 'twilight';
 
-    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', 5000).directive('slideJsonoutput', [
+    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', 6000).directive('slideJsonoutput', [
 
         function() {
             return {
