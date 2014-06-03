@@ -44,6 +44,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             var updateScopeLater = _.debounce(function() {
                                 scope.$apply(function() {
                                     scope.fiddle[content] = editor.getValue();
+                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                                 });
                             }, 50);
 
@@ -59,8 +60,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 if (scope.fiddle[content] !== newValue) {
                                     updateScopeLater();
                                 }
-                                //Trigger event
-                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                             });
 
                             sliderPlugins.onLoad(function() {
