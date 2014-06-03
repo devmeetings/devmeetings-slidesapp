@@ -7,13 +7,28 @@ module.exports = {
     port: 9000,
 
     environments: {
+        "xplatform-dev": {
+            "name": "xplatform-dev",
+            "path": xplatformDir + "../devmeetings-slidesapp-dev/platform",
+            "options": {
+                "buildGrunt": true,
+                "startFile": "app.js",
+                "logName": "xplatform.dev.log",
+                "env": "NODE_ENV=\"test\"",
+            },
+            "btn": {
+                "class": "btn-success",
+                "label": "XPlatform [dev]"
+            }
+        },
         "xplatform-prod": {
             "name": "xplatform-prod",
             "path": xplatformDir + "platform",
             "options": {
                 "buildGrunt": true,
                 "startFile": "app.js",
-                "logName": "xplatform.log"
+                "logName": "xplatform.log",
+                "env": "NODE_ENV=\"production\"",
             },
             "btn": {
                 "confirm": true,
@@ -26,12 +41,26 @@ module.exports = {
             "path": xplatformDir + "executors/nodeExecutor",
             "options": {
                 "startFile": "app.js",
-                "logName": "exec-node.log"
+                "logName": "exec-node.log",
+                "env": ""
             },
             "btn": {
                 "confirm": true,
                 "class": "btn-warning",
                 "label": "NodeExecutor [prod]"
+            }
+        },
+        "deployment-app": {
+            "name": "deployment-app",
+            "path": xplatformDir + "../deployment-app",
+            "options": {
+                "startFile": "app.js",
+                "logName": "deployment.log",
+                "env": ""
+            },
+            "btn": {
+                "class": "btn-info",
+                "label": "Deployment App"
             }
         }
     },
@@ -46,8 +75,8 @@ module.exports = {
             commands.addBash("grunt build", "Build Frontend");
         }
 
-        commands.addBash("(forever stop app.js || 1)", "Stopping service " + env.name);
-        commands.addBash("forever start -l " + env.options.logName + "-a app.js", "Starting service " + env.name);
+        commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
+        commands.addBash(env.options.env + " forever --uid " + env.name + " -l " + env.options.logName + " -a start app.js", "Starting service " + env.name);
     }
 
 };
