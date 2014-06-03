@@ -1,7 +1,7 @@
 define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'survey', 'slide-survey').directive('slideSurvey', [
+    sliderPlugins.registerPlugin('slide', 'survey', 'slide-survey', 50).directive('slideSurvey', [
         'Sockets',
         function(Sockets) {
             return {
