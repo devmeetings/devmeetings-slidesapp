@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$location', '$rootScope', 'CurrentSlideManager',
-        function($location, $rootScope, CurrentSlideManager) {
+        '$timeout', '$location', '$rootScope', 'CurrentSlideManager',
+        function($timeout, $location, $rootScope, CurrentSlideManager) {
 
             return {
                 restrict: 'E',
@@ -14,7 +14,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
                 },
                 templateUrl: path + '/deck-slides.html',
 
-                link: function(scope) {
+                link: function(scope, element) {
                     var onSlideChange = function(activeSlideId) {
                         var absUrl = $location.absUrl();
                         var len = (absUrl.indexOf("/?") > -1 || absUrl.indexOf("?") > -1) ? absUrl.indexOf("?") : absUrl.indexOf("#");
@@ -24,6 +24,15 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
 
                     scope.csm = CurrentSlideManager;
                     scope.$watch('csm.activeSlideId', onSlideChange);
+
+                    // refresh size
+                    element.find('iframe').on('load', function() {
+                        var frame = this;
+                        $timeout(function() {
+                            var innerBody = frame.contentWindow.document.body;
+                            frame.style.height = Math.max(700, innerBody.scrollHeight + 100, innerBody.offsetHeight + 100) + 'px';
+                        }, 1000);
+                    });
                 }
             };
         }
