@@ -1,13 +1,13 @@
 nav.navbar.navbar-default.navbar-slides(role='navigation')
   .navbar-header
-    button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1")
+    button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-slides")
       span.sr-only Toggle navigation
       span.icon-bar
       span.icon-bar
       span.icon-bar
     a.navbar-brand.text-muted(href='/')
       span.glyphicon.glyphicon-th-large
-  div.collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
+  #navbar-slides.collapse.navbar-collapse
     div.slimScrollDiv(style="position: relative; width: calc(100% - 120px); height: 60px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;")
       ul.nav.navbar-nav.nav-slides
         li(ng-repeat="slide in slides", ng-class="{ 'active' : slide._id === csm.activeSlideId}")
