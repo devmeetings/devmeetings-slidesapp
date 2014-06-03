@@ -15,6 +15,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
 
                 link: function(scope) {
                     scope.csm = CurrentSlideManager;
+
                     DeckAndSlides.slides.then(function (slides) {
                         scope.slides = slides;
                     });

@@ -1,10 +1,24 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', './microtask_js_assert'], function(module, _, sliderPlugins, ace, js_assert) {
     'use strict';
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
+    /* jshint ignore:start */
+    var hashCode = function (str) {
+        var hash = 0;
+        if (str.length === 0) return hash;
+        var i = 0;
+        for (; i < str.length; i++) {
+            var char = str.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    };
+    /* jshint ignore:end */
 
+    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
+ 
         function() {
             return {
                 restrict: 'E',
@@ -15,29 +29,21 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 templateUrl: path + '/jsmicrotasks.html',
                 link: function(scope, element) {
 
-                    scope.microtasks.filter(function(task) {
-                        return task.js_assert;
-                    }).map(function(task) {
-                        sliderPlugins.registerScopePlugin(scope, 'slide.slide-jsrunner', 'process', {
-                            monitor: task.monitor,
-                            name: task.id
-                        });
-
-                        sliderPlugins.listen(scope, 'slide.slide-jsrunner.' + task.id, function(x) {
-                            var toEval = [
-                                '(function(' + task.monitor + '){',
-                                task.js_assert,
-                                '}(x))'
-                            ].join(';\n');
-
-                            /* jshint evil:true */
-                            var result = eval(toEval);
-                            /* jshint evil:false */
-
-                            if (result) {
-                                scope.$apply(function() {
-                                    task.completed = true;
+                    
+                    _.forEach(scope.microtasks, function (task) {
+                        var keys = _.keys(task);
+                        _.forEach(keys, function (key) {
+                            var plugin = _.find(sliderPlugins.getPlugins('microtasks', key), function (plugin) {
+                                return plugin.plugin;
+                            });
+                            if (plugin) {
+                                task.hash = hashCode(task[key]).toString(); 
+                                plugin.plugin(task, sliderPlugins.registerScopePlugin.bind(sliderPlugins, scope), sliderPlugins.listen.bind(sliderPlugins, scope), function (){
+                                    scope.$apply(function () {
+                                        task.completed = true;
+                                    });
                                 });
+                                return;
                             }
                         });
                     });
