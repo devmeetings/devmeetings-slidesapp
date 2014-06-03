@@ -1,7 +1,7 @@
 define(['module', 'slider/slider.plugins', './Timer'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'task', 'slide-task', 1).directive('slideTask', [
+    sliderPlugins.registerPlugin('slide', 'task', 'slide-task', 100).directive('slideTask', [
         'Timer',
         function(Timer) {
             return {

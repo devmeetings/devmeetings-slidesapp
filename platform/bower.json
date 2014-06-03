@@ -23,9 +23,10 @@
     "angular-animate": "~1.2.16",
     "angular-ui-sortable": "~0.12.6",
     "howler": "~1.1.20",
-    "es6-shim": "~0.10.1"
+    "es6-shim": "~0.10.1",
+    "venturocket-angular-slider": "~0.3.2"
   },
   "resolutions": {
-    "angular": "1.2.16"
+    "angular": "~1.2.14"
   }
 }
