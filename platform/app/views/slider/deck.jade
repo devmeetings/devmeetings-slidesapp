@@ -18,4 +18,11 @@ block content
       aside(class="col-sm-{{ 12 - splitter.size }}")
         sidebar-control(splitter="splitter")
         plugins-loader(namespace="'deck.sidebar'", context="deck")
+  .bitcoin-button
+    a.coinbase-button(
+      data-code="14f6859dbadf3356cd2e10bb566a2e56" 
+      data-button-style="donation_small" 
+      href="https://coinbase.com/checkouts/14f6859dbadf3356cd2e10bb566a2e56")
+      | Donate Bitcoins
+    script(src="https://coinbase.com/assets/button.js")
 
