@@ -15,7 +15,9 @@ require.config({
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
         "angular-animate": "../components/angular-animate/angular-animate",
-        "howler": "../components/howler/howler"
+        "howler": "../components/howler/howler",
+        "angular-touch": "../components/angular-touch/angular-touch",
+        "angular-slider": "../components/venturocket-angular-slider/build/angular-slider"
     },
     "map": {
         "*": {
@@ -43,6 +45,13 @@ require.config({
         "angular-bootstrap": {
             "deps": ["angular"],
             "exports": "angular"
+        },
+        "angular-touch": {
+            "deps": ["angular"],
+            "exports": "angular"
+        },
+        "angular-slider": {
+            "deps": ["angular-touch"]
         },
         "restangular": {
             "deps": ["angular", "lodash"],

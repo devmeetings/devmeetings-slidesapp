@@ -1,0 +1,26 @@
+.container(ng-hide="showPayment")
+    .row(ng-repeat='question in survey.questions')
+      .col-sm-4.text-right
+        p
+          h5 {{ question.q }}
+          span.glyphicon.glyphicon-info-sign.text-info(ng-show='question.hint', tooltip='{{ question.hint }}', tooltip-placement='right')
+      .col-sm-4
+        p
+          slider(ng-model="question.rate", step="1", floor="0", ceiling="10")
+    .row
+      .col-sm-4.text-right
+        p
+          h5 Za udział w szkoleniu gotowy byłbym zapłacić [zł]
+      .col-sm-4
+        p
+          slider(ng-model="survey.payment", step="5", floor="0", ceiling="150")
+
+    .row
+      .col-sm-4
+      .col-sm-4
+        button.btn.btn-lg.btn-primary(ng-click="sendAnswers()") Wyślij odpowiedzi
+
+.alert.alert-info(ng-show="showPayment")
+  | Dziękujemy za udział w ankiecie    
+div(ng-show="showPayment")
+  slide-pwyw(data="paymentData", context="slide")
