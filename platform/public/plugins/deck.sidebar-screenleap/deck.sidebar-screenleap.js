@@ -10,7 +10,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     data: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/decksidebar-screenleap.html',
+                templateUrl: path + '/deck.sidebar-screenleap.html',
                 link: function(scope, element) {
                     scope.name = 'decksidebar-screenleap';
                 }

@@ -5,8 +5,6 @@ var mongoose = require('mongoose'),
 
 var DeckSchema = new Schema({
     title: String,
-    trainersPassword: String,
-    pwyw: Boolean,
     slides: []
 });
 

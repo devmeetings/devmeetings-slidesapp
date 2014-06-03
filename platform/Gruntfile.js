@@ -11,10 +11,10 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         copy: {
-          theme: {
-            src: 'public/js/theme-todr.js',
-            dest: 'public/components/ace-builds/src-noconflict/theme-todr.js'
-          }
+            theme: {
+                src: 'public/js/theme-todr.js',
+                dest: 'public/components/ace-builds/src-noconflict/theme-todr.js'
+            }
         },
         nodemon: {
             server: {
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                 spawn: false
             },
             less: {
-                files: ['public/less/**/**.less'],
+                files: ['public/**/**.less'],
                 tasks: ['less:server'],
                 options: {
                     livereload: true
@@ -58,6 +58,13 @@ module.exports = function(grunt) {
             js: {
                 files: ['public/js/**/*.js', 'public/plugins/**/*.js'],
                 tasks: ['jshint:public'],
+                options: {
+                    livereload: true
+                }
+            },
+            jade: {
+                files: ['public/plugins/**/*.jade'],
+                tasks: [],
                 options: {
                     livereload: true
                 }

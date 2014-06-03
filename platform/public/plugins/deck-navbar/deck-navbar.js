@@ -16,17 +16,16 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                 link: function(scope) {
                     scope.csm = CurrentSlideManager;
 
-                    DeckAndSlides.slides.then(function (slides) {
+                    DeckAndSlides.slides.then(function(slides) {
                         scope.slides = slides;
                     });
-                    DeckAndSlides.deck.then(function (deck) {
+                    DeckAndSlides.deck.then(function(deck) {
                         scope.deck = deck;
                     });
 
                     scope.addSlide = function() {
                         // Update deck
                         var newSlide = {
-                            id: 'empty' + new Date(),
                             name: 'New slide'
                         };
 
