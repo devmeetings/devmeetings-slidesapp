@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', './microtask_js_assert'], function(module, _, sliderPlugins, ace, js_assert) {
+define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './microtask_regexp'], function(module, _, sliderPlugins, ace, jsAssert, microtaskRegexp) {
     'use strict';
 
     var path = sliderPlugins.extractPath(module);
