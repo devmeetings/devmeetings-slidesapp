@@ -1,5 +1,5 @@
-define(['angular', './slider.plugins', "angular-bootstrap", "angular-animate", "angular-touch", "angular-slider"], function(angular) {
-    var mod = angular.module('slider', ['slider.plugins', 'ui.bootstrap', 'ngAnimate', 'vr.directives.slider']);
+define(['angular', './slider.plugins', "angular-bootstrap", "angular-animate", "angular-touch", "angular-slider", 'angular-ui-sortable'], function(angular) {
+    var mod = angular.module('slider', ['slider.plugins', 'ui.bootstrap', 'ngAnimate', 'vr.directives.slider', 'ui.sortable']);
 
     mod.config(['$sceDelegateProvider',
         function($sceDelegateProvider) {

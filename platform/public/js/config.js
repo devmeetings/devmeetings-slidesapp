@@ -4,9 +4,11 @@ require.config({
         "require": "../../require",
         "plugins": "../plugins",
         "jquery": "../components/jquery/dist/jquery",
+        "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
         "angular-route": "../components/angular-route/angular-route",
+        "angular-ui-sortable": "../components/angular-ui-sortable/sortable",
         "restangular": "../components/restangular/dist/restangular",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
@@ -52,6 +54,10 @@ require.config({
         },
         "angular-slider": {
             "deps": ["angular-touch"]
+        },
+        "angular-ui-sortable" : {
+            "deps": ["angular", "jquery-ui"],
+            "exports" : "angular"
         },
         "restangular": {
             "deps": ["angular", "lodash"],
