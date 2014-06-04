@@ -13,7 +13,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 templateUrl: path + '/slide-pwyw.html',
                 link: function(scope) {
                     scope.$watch('workshopData', function() {
-                        scope.pwyw_url = $sce.getTrustedUrl($sce.trustAsUrl('http://devmeetings.pl/pay-what-you-want?work_shop=' + encodeURIComponent(scope.workshopData.workshop) + '&price=' + scope.workshopData.payment));
+                        scope.pwyw_url = $sce.getTrustedUrl($sce.trustAsUrl('http://devmeetings.pl/pay-what-you-want?term_id=' + encodeURIComponent(scope.workshopData.workshop) + '&price=' + scope.workshopData.payment));
                     });
                 }
             };
