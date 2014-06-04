@@ -59,7 +59,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         //TODO microtasks
 
-                        element.find('iframe')[0].src = "data:text/html;charset=utf-8," + htmlCode;
+                        element.find('iframe')[0].src = "/api/static?p=" + btoa(htmlCode);
 
 
                     }, EXECUTION_DELAY));
