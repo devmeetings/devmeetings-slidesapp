@@ -25,7 +25,11 @@ exports.getDeckSlides = function(req, res) {
                 res.send(404, err);
                 return;
             }
-            sendAsRequireJSModule(slides, res);
+            sendAsRequireJSModule(slides.sort(function(a, b){
+                var aIdx = deck.slides.indexOf(a._id);
+                var bIdx = deck.slides.indexOf(b._id);
+                return aIdx - bIdx;
+            }), res);
         });
     });  
 };
