@@ -14,6 +14,27 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 link: function(scope, element) {
                     scope.paymentData = {};
 
+                    scope.treasures = [{
+                        text: "Nagranie z warsztatu LUB dostęp do kodu",
+                        value: 10
+                    }, {
+                        text: "Dyplom uczestnictwa + dostęp do kodu + nagranie z wasztatu",
+                        value: 20,
+                    }, {
+                        text: "Wyjście na piwo z ekipa devmeetings",
+                        value: 0,
+                        maxValue: 1
+                    }];
+                    
+
+                    scope.showTreasure = function(x){
+                        var first = x.value <= scope.survey.payment;
+                        if (x.maxValue) {
+                            return first && scope.survey.payment < x.maxValue;
+                        }
+                        return first;
+                    };
+
                     scope.sendAnswers = function() {
                         Sockets.emit('survey.submit', {
                             answers: scope.survey.questions,

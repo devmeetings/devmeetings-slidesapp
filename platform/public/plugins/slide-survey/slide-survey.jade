@@ -15,10 +15,23 @@
         p
           slider(ng-model="survey.payment", step="1", floor="0", ceiling="90")
 
+    .row      
+      .col-sm-4.text-right
+        p
+          h5 Po wpłaceniu {{ survey.payment }} zł otrzymasz
+      .col-sm-4
+        div(ng-repeat='treasure in treasures | filter: showTreasure')
+           h5
+              span.glyphicon.glyphicon-ok.text-success
+              |  {{treasure.text}}
     .row
       .col-sm-4
       .col-sm-4
         button.btn.btn-lg.btn-primary(ng-click="sendAnswers()") Wyślij odpowiedzi
+
+
+
+
 
 .alert.alert-info(ng-show="showPayment")
   | Dziękujemy za udział w ankiecie    
