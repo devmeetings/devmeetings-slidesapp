@@ -23,6 +23,14 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                         scope.deck = deck;
                     });
 
+                    scope.sortableOptions = {
+                        stop: function(em, ui) {
+                            // elements are already sorted here
+                            scope.deck.slides = _.pluck(scope.slides, '_id');
+                            $http.put('/api/decks/' + scope.deck._id, scope.deck);
+                        }
+                    };
+
                     scope.addSlide = function() {
                         // Update deck
                         var newSlide = {
