@@ -1,7 +1,7 @@
 # DOCKER-VERSION 0.3.4
 FROM debian:sid
 
-ENV LAST_UPDATE 2014-05-21
+ENV LAST_UPDATE 2014-06-05
 
 # Upgrades
 RUN apt-get update
