@@ -36,15 +36,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.debounce(function(fiddle) {
                         var isPure = false;
                         var wrapWithForwarder = function(code) {
-                            return 'try { ' + code + ';window.parent.postMessage({msg: ""}, "' + host + '");}' +
-                                'catch (e) { console.error(e); window.parent.postMessage({msg: e.message}, "' + host + '"); }';
+                            return 'try { ' + code + ';window.parent.postMessage({type:"fiddle-error", msg: ""}, "' + host + '");}' +
+                                'catch (e) { console.error(e); window.parent.postMessage({type: "fiddle-error", msg: e.message}, "' + host + '"); }';
                         };
                         var jsCode = (isPure ? '' : commonJs) + "<script>" + wrapWithForwarder(fixOneLineComments(fiddle.js)) + "</script>";
                         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(fiddle.css) + "</style>";
                         var htmlCode = fiddle.html;
-                        var coffee = fiddle.coffee;
 
-                        // TODO coffee
 
                         if (htmlCode.search("</body>")) {
                             htmlCode = htmlCode.replace("</body>", jsCode + "</body>");
@@ -56,8 +54,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         } else {
                             htmlCode = cssCode + htmlCode;
                         }
-
-                        //TODO microtasks
 
                         element.find('iframe')[0].src = "/api/static?p=" + btoa(htmlCode);
 

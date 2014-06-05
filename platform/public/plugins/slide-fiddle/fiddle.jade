@@ -18,5 +18,6 @@ mixin tabContent(name, mode)
       mixin tabContent('css', 'css')
       mixin tabContent('html', 'html')
     .errors.alert.alert-danger.errors-fiddle
+      {{ errors }}
   .col-sm-6(ng-class="{ 'hidden': fiddle.hideOutput }")
     slide-fiddle-output(data="fiddle")
