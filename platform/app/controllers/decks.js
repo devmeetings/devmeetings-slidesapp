@@ -1,5 +1,5 @@
 var DeckModel = require('../models/deck');
-var glob = require('glob');
+var _ = require('lodash');
 
 exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
@@ -13,14 +13,14 @@ exports.list = function(req, res) {
 };
 
 exports.create = function(req, res) {
-    var d = new DeckModel(req.body);
-    d.save(function(err, deck) {
-        if (err) {
+    DeckModel.create(req.body, function (err){
+        if (err){
             console.error(err);
-            res.send(500, err);
+            res.send(404, err);
             return;
-        }
-        res.send(deck);
+        }   
+        var decks = Array.prototype.slice.call(arguments, 1);
+        res.send(_.pluck(decks, "_id"));
     });
 };
 
@@ -51,29 +51,3 @@ exports.edit = function(req, res) {
     });
 };
 
-exports.getOneRequireJs = function(req, res) {
-    DeckModel.findById(req.params.id, function(err, deck) {
-        if (err) {
-            res.send(404, err);
-            return;
-        }
-        res.set('Content-Type', 'application/js');
-        res.send("define(" + JSON.stringify(deck) + ");");
-    });
-};
-
-
-exports.getPluginsPaths = function(req, res) {
-    glob("public/plugins/**/*.js", function(err, files) {
-        if (err) {
-            res.send(404, err);
-            return;
-        }
-        files = files.map(function(file) {
-            file = file.substring(0, file.length - 3); // trim '.js'
-            return file.substring(7, file.length); // trim public/ 
-        });
-        res.set('Content-Type', 'application/js');
-        res.send("define( []," + JSON.stringify(files) + ");"); // TODO dla todr!
-    });
-};

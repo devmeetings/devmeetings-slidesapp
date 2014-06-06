@@ -9,23 +9,12 @@ nav.navbar.navbar-default(role='navigation')
       span.glyphicon.glyphicon-th-large
   #navbar-slides.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-slides
-      li(ng-repeat="slide in slides", ng-class="{ 'active' : slide.id === activeSlide}")
-        a(href='\#{{slide.id}}') 
-          | {{ slide.name }}
-        div(ng-if="$root.editMode")
-          a(ng-click="editMode = !editMode", ng-class="{'active': editMode}")
-            span.glyphicon.glyphicon-pencil
-          div(ng-if="$root.editMode", ng-show="editMode")
-            input.col-xs-4(ng-model="slide.name")
-            input.col-xs-3(ng-model="slide.id")
+      li(ng-repeat="slide in slides", ng-class="{ 'active' : slide._id === csm.activeSlideId}")
+        a(href='\#{{slide._id}}') 
+          | {{ slide.content.name }}
 
     ul.nav.navbar-nav(ng-if="$root.editMode")
       li
         a(ng-click="addSlide()")
           span.glyphicon.glyphicon-plus
-
-    ul.nav.navbar-nav.navbar-right
-      li
-        a.trainers-mode(href="/trainer", data-toggle="tooltip", data-placement="left", title="Trainer's mode")
-          span.glyphicon.glyphicon-lock
   

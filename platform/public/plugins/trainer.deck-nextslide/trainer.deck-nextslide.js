@@ -17,8 +17,8 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     scope.followUser = false;
 
                     function getNextSlideId(slideId){
-                        var currentSlidePosition = _.findIndex(scope.deck.slides, {id: slideId});
-                        return scope.deck.slides[(++currentSlidePosition % scope.deck.slides.length)].id;
+                        var currentSlidePosition = scope.deck.slides.indexOf(slideId);
+                        return scope.deck.slides[(++currentSlidePosition % scope.deck.slides.length)];
                     }
 
                     scope.$on('FollowUser:change', function(event, user){

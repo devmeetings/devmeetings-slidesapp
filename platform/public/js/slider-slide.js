@@ -1,30 +1,19 @@
-require(['config', '/decks/plugin_paths'], function(config, plugins) {
-    require(["decks/" + slides, "slider/slider", "slider/slider.plugins",
-        "services/SlideInfo",
+require(['config', '/require/plugins/paths'], function(config, plugins) {
+    require(["require/slides/" + slideId,
+        "slider/slider",
+        "slider/slider.plugins",
         "directives/layout-loader", "directives/plugins-loader",
-        "directives/contenteditable"].concat(plugins), function(deck, slider, sliderPlugins) {
+        "directives/contenteditable"].concat(plugins), function(slide, slider, sliderPlugins) {
 
-        slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'SlideInfo',
-            function($rootScope, $scope, $window, $http, SlideInfo) {
-                $scope.$on('slide', function(ev, slide) {
-                    var lastSlide = $scope.slide;
-                    $scope.slide = slide;
-                    // Update deck
-                    deck.slides[deck.slides.indexOf(lastSlide)] = slide;
-                    $http.put('/api/decks/' + slides, deck);
+        slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'Sockets',
+            function($rootScope, $scope, $window, $http, Sockets) {
+                $scope.$on('slide', function(ev, slide_content) {
+                    $scope.slide = slide_content;
+                    slide.content = slide_content;
+                    Sockets.emit('slide.edit.put', slide);
                 });
 
-                var updateSlide = function() {
-                    var newSlide = deck.slides.filter(function(s) {
-                        return s.id === $scope.slideId;
-                    })[0];
-                    $scope.slide = newSlide;
-
-                    SlideInfo.presentation = slides;
-                    SlideInfo.slide = newSlide.id;
-                };
-
-                $scope.$watch('slideId', updateSlide);
+                $scope.slide = slide.content;
                 $scope.modes = [{
                     namespace: 'slide',
                     refresh: true

@@ -3,7 +3,7 @@ require(['config'], function () {
         var module = angular.module('slider-admin', ['ngRoute', 'restangular']);
 
 
-        module.controller('AdminSlidesListCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+        module.controller('AdminSlidesListCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
             var decks = Restangular.all('api/decks');
             var fetchDecks = function () {
                 decks.getList().then(function (decks) {
@@ -26,8 +26,14 @@ require(['config'], function () {
             };
 
             $scope.addExemplaryDeck = function () {
-                require(['data'], function (exemplaryData) {
-                    decks.post(exemplaryData).then(fetchDecks);
+                require(['data-slides', 'data-deck'], function (slides, deck) {
+                    $http.post('/api/slides', slides).success( function (data, status) {
+                        console.log('slide-admin' + data);
+                        deck.slides = data;
+                        $scope.decks = decks;
+                        $http.post('/api/decks', deck);
+                    });
+                    //decks.post(exemplaryData).then(fetchDecks);
                 });
             };
         }]);

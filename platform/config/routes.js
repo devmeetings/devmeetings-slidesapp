@@ -21,16 +21,22 @@ var authenticated = function loggedIn(req, res, next) {
 };
 
 module.exports = function(app) {
+    var slides = ctrl('slides');
+    app.post('/api/slides', authenticated, slides.create);
+    app.get('/api/slides/:id', authenticated, slides.get);
 
     // API
     var decks = ctrl('decks');
     app.get('/api/decks', authenticated, decks.list);
-    app.post('/api/decks', authenticated, decks.create);
-    app.delete('/api/decks/:id', authenticated, decks.delete);
-    app.put('/api/decks/:id', authenticated, decks.edit);
-    // TODO [ToDr] OMG this is so terrible 
-    app.get('/decks/plugin_paths', authenticated, decks.getPluginsPaths);
-    app.get('/decks/:id.js', authenticated, decks.getOneRequireJs);
+    app.post('/api/decks', authenticated, decks.create);        
+    app.delete('/api/decks/:id', authenticated, decks.delete);  
+    app.put('/api/decks/:id', authenticated, decks.edit);       
+    
+    var req = ctrl('require');
+    app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
+    app.get('/require/decks/:id.js', authenticated, req.getDeck);
+    app.get('/require/plugins/paths', authenticated, req.pluginsPaths);
+    app.get('/require/slides/:id.js', authenticated, req.getSlide);
 
     //login
     var login = ctrl('login');
