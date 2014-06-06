@@ -20,6 +20,15 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                         $scope.followUserId = userId;
                         $rootScope.$broadcast('FollowUser:change', _.find($scope.users, {id: $scope.followUserId}));
                     };
+
+                    $scope.goToNextSlide = function(){
+                        var user =  _.find($scope.users, {id: $scope.followUserId});
+                        Sockets.emit('trainer.follow.nextSlide', {user: user});
+                    };
+
+                    $scope.goToPrevSlide = function(){
+                        var user =  _.find($scope.users, {id: $scope.followUserId});
+                    };
                 }],
                 link: function(scope) {
                     Sockets.emit('trainer.register', {}, function(data) {
