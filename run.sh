@@ -16,12 +16,12 @@ docker build -t xplatform/platform ./platform
 
 docker start mongo || docker run -d --name mongo -p :27017 -t xplatform/mongo 
 docker start rabbit || docker run -d --name rabbit -p :5672 -p :15672 -e RABBITMQ_PASS="kbAc4kRS" -t xplatform/rabbitmq 
-docker start exec-node || docker run -d --link rabbit:rabbit --name exec-node -t xplatform/executors-node
+docker start exec-node || docker run -d --link rabbit:rabbit --name exec-node -e RABBITMQ_HOST="admin:kbAc4kRS@rabbit"-t xplatform/executors-node
 
 
 docker stop xplatform
 docker rm xplatform
-docker run -p 3000 --link mongo:mongo --link rabbit:rabbit --name xplatform -e MONGO_HOST="mongo" -t xplatform/platform
+docker run -p 3000 --link mongo:mongo --link rabbit:rabbit --name xplatform -e MONGO_HOST="mongo" RABBIT_HOST="admin:kbAc4kRS@rabbit" -t xplatform/platform
 
 #docker build -t devmeetings/xplatform-basic .
 #docker run -v $cwd/platform:/platform -p 3000 -t devmeetings/xplatform-basic

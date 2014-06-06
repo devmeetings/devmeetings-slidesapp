@@ -5,8 +5,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 5000).directive('slideFiddle', [
-        '$timeout',
-        function($timeout) {
+        '$timeout', '$window',
+        function($timeout, $window) {
             return {
                 restrict: 'E',
                 scope: {
@@ -15,6 +15,24 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                 },
                 templateUrl: path + '/fiddle.html',
                 link: function(scope, element) {
+                    if (scope.fiddle.active) {
+                        scope.active = scope.fiddle.active;
+                    } else {
+                        var keys = _.keys(scope.fiddle);
+                        scope.active = _.find(['js', 'coffee', 'css', 'html'], function(key) {
+                            return _.contains(keys, key);
+                        });
+                    }
+
+                    var fiddleCopy = function() {
+                        return _.extend({
+                            js: '',
+                            css: '',
+                            html: '<html><head></head><body></body></html'
+                        }, scope.fiddle);
+                    };
+
+
                     $timeout(function() {
                         element.find('.editor').each(function() {
                             var e = this;
@@ -26,8 +44,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             var updateScopeLater = _.debounce(function() {
                                 scope.$apply(function() {
                                     scope.fiddle[content] = editor.getValue();
+                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                                 });
-                            }, 50);
+                            }, 100);
 
                             scope.$watch('fiddle.' + content, function() {
                                 if (editor.getValue() !== scope.fiddle[content]) {
@@ -41,14 +60,29 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 if (scope.fiddle[content] !== newValue) {
                                     updateScopeLater();
                                 }
-                                //Trigger event
-                                sliderPlugins.trigger('slide.slide-fiddle.change', scope.fiddle);
                             });
 
                             sliderPlugins.onLoad(function() {
-                                sliderPlugins.trigger('slide.slide-fiddle.change', scope.fiddle);
+                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                             });
                         });
+                    });
+
+                    // Errors forwarder
+                    var listener = function(ev) {
+                        var d = ev.data;
+                        if (d.type !== 'fiddle-error') {
+                            return;
+                        }
+                        scope.$apply(function() {
+                            scope.errors = d.msg;
+                        });
+                    };
+
+                    $window.addEventListener('message', listener);
+                    scope.$on('$destroy', function() {
+
+                        $window.removeEventListener('message', listener);
                     });
                 }
             };

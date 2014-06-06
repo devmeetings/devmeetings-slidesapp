@@ -14,9 +14,9 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         return code;
     };
 
-    var triggerCodeChange = function(ev, editor) {
+    var triggerCodeChange = _.debounce(function(ev, editor) {
         sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
-    };
+    }, 100);
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
         '$timeout',

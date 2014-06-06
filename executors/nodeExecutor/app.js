@@ -1,20 +1,21 @@
 #!/usr/local/bin/node
 
-var Queue = 'run_node';
-var ReplyQueue = 'run_replies';
+var Queue = 'exec_nodejs';
 
 console.log("Connecting to RabbitMQ");
 
 
 var cluster = require('cluster');
 var amqp = require('amqplib');
+var host = process.env.RABBITMQ_HOST || "localhost";
 
-var connection = amqp.connect('amqp://admin:kbAc4kRS@rabbit');
+var connection = amqp.connect('amqp://' + host);
 
 cluster.setupMaster({
     exec: "runner.js",
     silent: false
 });
+
 cluster.on('exit', function(worker, code, signal) {
     console.log('  worker %d died (%s)',
         worker.process.pid, signal || code);
@@ -40,7 +41,7 @@ connection.then(function(conn) {
                     }
                     replied = true;
                     ch.ack(msg);
-                    ch.sendToQueue(ReplyQueue, new Buffer(JSON.stringify(thing)), {
+                    ch.sendToQueue(msg.properties.replyTo, new Buffer(JSON.stringify(thing)), {
                         correlationId: msg.properties.correlationId
                     });
                 };
@@ -54,11 +55,13 @@ connection.then(function(conn) {
                 worker.on("exit", function() {
                     clearTimeout(timer); //The worker responded in under 5 seconds, clear the timeout
                     reply({
+                        success: false,
                         errors: ["Worker exited"]
                     });
                 });
                 timer = setTimeout(function() {
                     reply({
+                        success: false,
                         errors: ["Worker timed out."]
                     });
                     console.log("  worker timed out");

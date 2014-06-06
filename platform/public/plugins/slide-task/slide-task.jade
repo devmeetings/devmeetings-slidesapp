@@ -19,19 +19,21 @@
       span.glyphicon.glyphicon-time
       | 
       span.text-warning.task-time-left
-        | {{ task.duration }}
+        span(ng-hide="timerState.isRunning") {{ task.duration }}
+        span(ng-show="timerState.isRunning") {{ timerState.timeLeft / 60 / 1000 | number:1 }}
       span.text-warning
         |  min
 
-      button.task-start-btn.btn.btn-default.pull-right(
-        tooltip="Start task")
+      button.task-start-btn.btn.btn-default.pull-right(tooltip="Start task", ng-click="timerState.start()", ng-hide="timerState.isRunning")
         span.glyphicon.glyphicon-play
+      button.task-start-btn.btn.btn-danger.pull-right(tooltip="Stop timer", ng-click="timerState.stop()", ng-show="timerState.isRunning")
+        span.glyphicon.glyphicon-stop
     hr
     h2
       span.glyphicon.glyphicon-play
       | 
-      span.task-start-time
+      span.task-start-time {{ timerState.startTime | date:'H:mm' }}
     h2
       span.glyphicon.glyphicon-pause
       | 
-      span.task-end-time
+      span.task-end-time {{ timerState.endTime | date:'H:mm' }}

@@ -1,5 +1,5 @@
 mixin tabHeader(name)
-  li(ng-class="{'active': active === '#{name}' }", ng-show="fiddle.#{name}")
+  li(ng-class="{'active': active === '#{name}' }", ng-show="fiddle.#{name} !== undefined")
     a(ng-click="active = '#{name}'") #{name}
 
 mixin tabContent(name, mode)
@@ -7,7 +7,7 @@ mixin tabContent(name, mode)
     .editor(class="editor-#{name} editor-{{ fiddle.size}}", data-mode="#{mode}", data-content="#{name}")
 .row
   div(ng-class="{'col-sm-12': fiddle.hideOutput, 'col-sm-6': !fiddle.hideOutput }")
-    ul.nav.nav-tabs(ng-init="active = fiddle.active")
+    ul.nav.nav-tabs
       mixin tabHeader('js')
       mixin tabHeader('coffee')
       mixin tabHeader('css')
@@ -18,5 +18,6 @@ mixin tabContent(name, mode)
       mixin tabContent('css', 'css')
       mixin tabContent('html', 'html')
     .errors.alert.alert-danger.errors-fiddle
+      {{ errors }}
   .col-sm-6(ng-class="{ 'hidden': fiddle.hideOutput }")
     slide-fiddle-output(data="fiddle")

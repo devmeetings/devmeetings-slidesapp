@@ -28,10 +28,10 @@ module.exports = function(app) {
     // API
     var decks = ctrl('decks');
     app.get('/api/decks', authenticated, decks.list);
-    app.post('/api/decks', authenticated, decks.create);        
-    app.delete('/api/decks/:id', authenticated, decks.delete);  
-    app.put('/api/decks/:id', authenticated, decks.edit);       
-    
+    app.post('/api/decks', authenticated, decks.create);
+    app.delete('/api/decks/:id', authenticated, decks.delete);
+    app.put('/api/decks/:id', authenticated, decks.edit);
+
     var req = ctrl('require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);
@@ -66,4 +66,8 @@ module.exports = function(app) {
     var admin = ctrl('admin');
     app.get('/admin', authenticated, admin.index);
     app.get('/admin/partials/:name', authenticated, admin.partials);
+
+
+    var plugins = require('./plugins');
+    plugins.invokePlugins('initApi', ['/api/', app, authenticated]);
 };

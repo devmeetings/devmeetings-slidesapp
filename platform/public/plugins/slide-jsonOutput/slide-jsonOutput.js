@@ -3,7 +3,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
 
     var OUTPUT_THEME = 'twilight';
 
-    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', 5000).directive('slideJsonoutput', [
+    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', 6000).directive('slideJsonoutput', [
 
         function() {
             return {
@@ -27,11 +27,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                         monitor: scope.monitor,
                         name: 'jsonoutput'
                     });
-                    sliderPlugins.listen(scope, 'slide.slide-jsrunner.jsonoutput', function(output) {
+
+                    var outputJson = function(output) {
                         var res = JSON.stringify(output, null, 2);
                         outputAce.setValue(res);
                         outputAce.clearSelection();
-                    });
+                    };
+
+                    sliderPlugins.listen(scope, 'slide.slide-jsrunner.jsonoutput', outputJson);
+                    sliderPlugins.listen(scope, 'slide.jsonOutput.display', outputJson);
 
                 }
             };

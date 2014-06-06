@@ -11,8 +11,10 @@ db.on('error', function() {
     throw new Error('unable to connect to database at ' + config.db);
 });
 
-var app = express();
+var plugins = require('./config/plugins');
+plugins.invokePlugins('init', [config]);
 
+var app = express();
 
 var sessionConfig = require('./config/express')(app, config);
 

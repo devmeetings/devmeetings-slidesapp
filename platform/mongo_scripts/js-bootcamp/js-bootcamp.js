@@ -2,14 +2,16 @@
     {
       "id": "opening",
       "name": "Hello World",
-      "title": "JavdfaScript 4 Programmers - Quick Introduction",
+      "title": "JavaScript 4 Programmers - Quick Introduction",
       "left": {
         "text": "<h3>\n  Hello <span class=\"user-name\"></span>!\n</h3>\n<h2>\n  <a href=\"http://devmeetings.pl\"><img src=\"http://devmeetings.pl/assets/logo-18db74aab9d40e85fddffe7608edd756.jpg\"></a>\n  rocks!\n</h2>\n",
         "code": {
           "small": true,
           "hideOutput": true,
-          "content": "var username = localStorage.getItem('name');\nwhile (!username) {\n  username = prompt(\"Please provide your name\");\n}\nlocalStorage.setItem('name', username);\ndocument.querySelector('.user-name').innerText = username;\n"
-        }
+          "content": "var username = localStorage.getItem('name');\nwhile (!username) {\n  username = prompt(\"Please provide your name\");\n}\nlocalStorage.setItem('name', username);\ndocument.querySelector('.user-name').innerText = username;\n",
+          "mode": "javascript"
+        },
+        "jsrunner" : true
       },
       "right": {
         "text": ">\n<div class=\"text-center\">\n  <a href=\"http://pl.tinypic.com?ref=oa2mbk\" target=\"_blank\">\n    <img src=\"http://i39.tinypic.com/oa2mbk.png\" alt=\"Image and video hosting by TinyPic\" width=\"400\">\n  </a>\n</div>\n"
@@ -21,6 +23,7 @@
       "name": "Run",
       "title": "Tell that you are ready!",
       "code": {
+        "mode" : "javascript",
         "hideOutput": true,
         "small": true,
         "content": "var ready = false;\n"
@@ -29,28 +32,34 @@
         {
           "description": "Change <code>ready</code> value to <code>true</code>",
           "hint": "Write <code>ready=true</code> inside code editor.",
-          "js_assert": "ready === true\n"
+          "js_assert": "return ready === true\n",
+          "monitor": "ready"
         }
-      ]
+      ],
+      "jsrunner" : true
     },
     {
       "id": "basics1",
       "name": "JS Basics",
       "title": "JS Essentials in 5 minutes",
       "monitor": "todos",
+      "jsrunner" : true,
       "code": {
+        "mode" : "javascript",
         "content": "var todos = [{\n  title: \"Checkout project from github\",\n  completed: true\n}, {\n  title: \"Learn JS essentials\",\n  completed: false\n}];\n\nfor (var k in todos) {\n  console.log(todos[k]);\n}\n"
       },
       "microtasks": [
         {
           "description": "Change <code>completed</code> state of second todo",
           "hint": "Change false to true in second todos in array",
-          "js_assert": "todos[1].completed\n"
+          "js_assert": "return todos[1].completed\n",
+          "monitor" : "todos"
         },
         {
           "description": "Add another todo to \"todos\" variable",
           "hint": "Just copy the object and paste after a comma",
-          "js_assert": "todos[2].title && todos[2].completed !== undefined\n"
+          "js_assert": "return todos[2].title && todos[2].completed !== undefined\n",
+          "monitor" : "todos"
         }
       ],
       "notes": "0. JS is:\n  * interpreted\n  * dynamically typed\n  * awesome\n1. Keyword `var`\n2. Assignment\n3. String literal, Array literal\n  - Say something about auto-execution\n  - Show how to use object inspector\n4. Opening Chrome Dev Tools / Firebug\n  - F12 / Ctrl+Shift+I\n  - Go to \"Console\" tab.\n  - Show where to search for errors\n  - Mention about Debugging\n"
