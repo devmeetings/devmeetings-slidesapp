@@ -18,7 +18,9 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
 
                     Sockets.on('slide.trainer.change_slide', function(slideId){
                         console.log(slideId);
-                        $location.path('#' + slideId);
+                        scope.$apply(function(){
+                            $location.path(slideId);
+                        });
                     });
 
                     DeckAndSlides.slides.then(function(slides) {

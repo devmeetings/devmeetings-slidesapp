@@ -28,6 +28,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
                     $scope.goToPrevSlide = function(){
                         var user =  _.find($scope.users, {id: $scope.followUserId});
+                        Sockets.emit('trainer.follow.prevSlide', {user: user});
                     };
                 }],
                 link: function(scope) {
