@@ -17,7 +17,6 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                     scope.csm = CurrentSlideManager;
 
                     Sockets.on('slide.trainer.change_slide', function(slideId){
-                        console.log(slideId);
                         scope.$apply(function(){
                             $location.path(slideId);
                         });

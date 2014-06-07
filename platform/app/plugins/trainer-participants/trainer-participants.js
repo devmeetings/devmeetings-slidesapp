@@ -109,7 +109,8 @@ exports.onSocket = function(log, socket, io) {
         var userSocket = getClient(io, data.deck, data.user.id);
         broadcastTrainerChangeSlide(data, function(userData, deck){
             var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
-            userSocket.emit('slide.trainer.change_slide', deck.slides[(--currentSlidePosition % deck.slides.length)]);
+            currentSlidePosition = (currentSlidePosition === 0) ? deck.slides.length : currentSlidePosition;
+            userSocket.emit('slide.trainer.change_slide', deck.slides[(--currentSlidePosition)]);
         });
     });
 };
