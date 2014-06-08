@@ -40,7 +40,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                         $http.post('/api/slides', newSlide).success( function (data, status) {
                             scope.slides = scope.slides.concat({
                                 content: newSlide,
-                                _id: data
+                                _id: data[0]
                             });
                             scope.deck.slides = scope.deck.slides.concat(data);
                             $http.put('/api/decks/' + scope.deck._id, scope.deck);
