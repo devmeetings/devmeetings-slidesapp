@@ -1,18 +1,19 @@
-h1 Hello decks!
+div.col-md-12
+  h1 Hello decks!
 ul
-    li(ng-repeat="deck in decks")
-        a(href="#", ng-click="removeDeck(deck._id)")
-            span.glyphicon.glyphicon-trash
-        {{ deck.title }}
+  li(ng-repeat="deck in decks")
+    a(href="#", ng-click="removeDeck(deck._id)")
+      span.glyphicon.glyphicon-trash
+    {{ deck.title }}
 h1 Create new deck
 form.form-inline(ng-submit="addDeck()")
-    .form-group
-        input.form-control(placeholder="Deck title", ng-model="deckTitle")
-    .form-group
-        button.btn.btn-primary
-            span.glyphicon.glyphicon-plus-sign
-            |  Create new Deck
+  .form-group
+    input.form-control(placeholder="Deck title", ng-model="deckTitle")
+  .form-group
+    button.btn.btn-primary
+      span.glyphicon.glyphicon-plus-sign
+      |  Create new Deck
 h1 Exemplary deck
 a(href="#", ng-click="addExemplaryDeck()")
-    span.glyphicon.glyphicon-bell
-    |  Add exemplary Deck
+  span.glyphicon.glyphicon-bell
+  |  Add exemplary Deck
