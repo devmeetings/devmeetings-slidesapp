@@ -1,19 +1,30 @@
-div.col-md-12
-  h1 Hello decks!
-ul
-  li(ng-repeat="deck in decks")
-    a(href="#", ng-click="removeDeck(deck._id)")
-      span.glyphicon.glyphicon-trash
-    {{ deck.title }}
-h1 Create new deck
-form.form-inline(ng-submit="addDeck()")
+.col-md-12
+  h1 Admin panel!
+.col-md-4
+  h2 Zestawy slajdów
+  ul.list-group 
+    li.list-group-item(ng-repeat="deck in decks")
+      a.pull-right(ng-click="removeDeck(deck._id)")
+        span.glyphicon.glyphicon-trash
+      a(ng-click="selectDeck(deck)")
+        {{ deck.title }}
+  a.pull-right(ng-click="addExemplaryDeck()")
+    span.glyphicon.glyphicon-bell
+    |  Add exemplary Deck
+  h2 Create new deck
   .form-group
-    input.form-control(placeholder="Deck title", ng-model="deckTitle")
-  .form-group
-    button.btn.btn-primary
-      span.glyphicon.glyphicon-plus-sign
-      |  Create new Deck
-h1 Exemplary deck
-a(href="#", ng-click="addExemplaryDeck()")
-  span.glyphicon.glyphicon-bell
-  |  Add exemplary Deck
+    form.input-group(ng-submit="addDeck()")
+      input.form-control(placeholder="Deck title", ng-model="deckTitle")
+      span.input-group-btn
+        button.btn.btn-primary
+          |  Create new Deck 
+.col-md-6(ng-if="selected.slides.length")
+  h2 Slajdy: {{selected.title}}
+  ul.list-group
+    li.list-group-item(ng-repeat="slide in selected.slides")
+      a.pull-right(ng-click="removeFromDeckSlideAtIndex(selected, $index)")
+        span.glyphicon.glyphicon-trash
+      {{slide}}
+
+
+
