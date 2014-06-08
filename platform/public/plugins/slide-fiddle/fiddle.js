@@ -5,8 +5,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 5000).directive('slideFiddle', [
-        '$timeout',
-        function($timeout) {
+        '$timeout', '$window',
+        function($timeout, $window) {
             return {
                 restrict: 'E',
                 scope: {
@@ -46,7 +46,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                     scope.fiddle[content] = editor.getValue();
                                     sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                                 });
-                            }, 50);
+                            }, 100);
 
                             scope.$watch('fiddle.' + content, function() {
                                 if (editor.getValue() !== scope.fiddle[content]) {
@@ -66,6 +66,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
                             });
                         });
+                    });
+
+                    // Errors forwarder
+                    var listener = function(ev) {
+                        var d = ev.data;
+                        if (d.type !== 'fiddle-error') {
+                            return;
+                        }
+                        scope.$apply(function() {
+                            scope.errors = d.msg;
+                        });
+                    };
+
+                    $window.addEventListener('message', listener);
+                    scope.$on('$destroy', function() {
+
+                        $window.removeEventListener('message', listener);
                     });
                 }
             };
