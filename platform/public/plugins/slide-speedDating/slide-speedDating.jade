@@ -27,7 +27,7 @@ div
     .col-md-9
       h2.text-right {{ session.left }} changes left
       p.speedDating__timer.text-success {{ session.timeLeft.toFixed(3) }} s
-      div.videos
+      div.videos(ng-controller="VideoDatingController")
         video.me(autoplay="true")
         video.other(autoplay="true")
       div.speedDating__message

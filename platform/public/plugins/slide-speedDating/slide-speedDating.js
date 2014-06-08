@@ -3,32 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'speedDating', 'slide-speed-dating', 3000).directive('slideSpeedDating', [
-        '$timeout', 'User',
-        function ($timeout, User) {
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-            var peer;
-            var setMyVideo = function () {
-                navigator.getUserMedia({video:true}, function (MediaStream) {
-                    document.querySelector('video.me').src = URL.createObjectURL(MediaStream);
-                }, function (error) {
-                    console.log('error', error)
-                });
-            };
-            var connectToPeer = function (userData) {
-                var username = userData.name.replace(/[^\w|-]|\s/g, '_');
-                peer = new Peer(username, {key: 'k7vpr9xlmbc323xr', config: {'iceServers': [
-                    {url: 'stun:stun.l.google.com:19302'},
-                    {url: 'stun:stun1.l.google.com:19302'},
-                    {url: 'stun:stun2.l.google.com:19302'},
-                    {url: 'stun:stun3.l.google.com:19302'},
-                    {url: 'stun:stun4.l.google.com:19302'}
-                ]}});
-                peer.on('open', function () {
-                    setMyVideo();
-                });
-            };
-            User.setCallback(connectToPeer);
-            User.getUserData();
+        '$timeout',
+        function ($timeout) {
 
             var sounds = new howler.Howl({
                 urls: [path + '/sounds/sprite.mp3', path + '/sounds/sprite.wav'],
@@ -37,8 +13,6 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                     voiceSwap: [6100, 8400]
                 }
             });
-
-
             return {
                 restrict: 'E',
                 scope: {
@@ -49,7 +23,7 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                 link: function (scope, element) {
                     _.defaults(scope.speedDating, {
                         time: 15,
-                        perPerson: 10
+                        perPerson: 40
                     });
                     var toInt = function (x) {
                         var i = parseInt(x, 10);
@@ -70,7 +44,6 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                     scope.testPlay = function (what) {
                         sounds.play(what);
                     };
-
                     scope.startDating = function () {
                         var session = {
                             running: true,
@@ -135,6 +108,38 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                 }
             };
         }
-    ]);
+    ]).controller('VideoDatingController', ['$scope', '$timeout', 'Sockets', 'User',
+        function ($scope, $timeout, Sockets, User) {
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            var peer;
+            var setMyVideo = function () {
+                // setConnect
+                //Sockets.emit('speedDating.connected', data);
+                navigator.getUserMedia({video: true}, function (MediaStream) {
+                    document.querySelector('video.me').src = URL.createObjectURL(MediaStream);
+                }, function (error) {
+                    console.log('error', error);
+                });
+            };
+            var connectToPeer = function (userData) {
+                var username = userData.name.replace(/[^\w|-]|\s/g, '_');
+                peer = new Peer(username, {key: 'k7vpr9xlmbc323xr', config: {'iceServers': [
+                    {url: 'stun:stun.l.google.com:19302'},
+                    {url: 'stun:stun1.l.google.com:19302'},
+                    {url: 'stun:stun2.l.google.com:19302'},
+                    {url: 'stun:stun3.l.google.com:19302'},
+                    {url: 'stun:stun4.l.google.com:19302'}
+                ]}});
+                peer.on('open', function () {
+                    setMyVideo();
+                });
+                peer.on('close', function () {
+                    // destroy connection
+                });
+            };
+            User.setCallback(connectToPeer);
+            User.getUserData();
+
+        }]);
 
 });
