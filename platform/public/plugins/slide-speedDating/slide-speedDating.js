@@ -1,10 +1,34 @@
-define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, sliderPlugins, howler) {
+define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/User'], function (module, _, sliderPlugins, howler, User) {
 
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'speedDating', 'slide-speed-dating', 3000).directive('slideSpeedDating', [
-        '$timeout',
-        function($timeout) {
+        '$timeout', 'User',
+        function ($timeout, User) {
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            var peer;
+            var setMyVideo = function () {
+                navigator.getUserMedia({video:true}, function (MediaStream) {
+                    document.querySelector('video.me').src = URL.createObjectURL(MediaStream);
+                }, function (error) {
+                    console.log('error', error)
+                });
+            };
+            var connectToPeer = function (userData) {
+                var username = userData.name.replace(/[^\w|-]|\s/g, '_');
+                peer = new Peer(username, {key: 'k7vpr9xlmbc323xr', config: {'iceServers': [
+                    {url: 'stun:stun.l.google.com:19302'},
+                    {url: 'stun:stun1.l.google.com:19302'},
+                    {url: 'stun:stun2.l.google.com:19302'},
+                    {url: 'stun:stun3.l.google.com:19302'},
+                    {url: 'stun:stun4.l.google.com:19302'}
+                ]}});
+                peer.on('open', function () {
+                    setMyVideo();
+                });
+            };
+            User.setCallback(connectToPeer);
+            User.getUserData();
 
             var sounds = new howler.Howl({
                 urls: [path + '/sounds/sprite.mp3', path + '/sounds/sprite.wav'],
@@ -22,16 +46,16 @@ define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, s
                     slide: '=context'
                 },
                 templateUrl: path + '/slide-speedDating.html',
-                link: function(scope, element) {
+                link: function (scope, element) {
                     _.defaults(scope.speedDating, {
                         time: 15,
-                        perPerson: 40
+                        perPerson: 10
                     });
-                    var toInt = function(x) {
+                    var toInt = function (x) {
                         var i = parseInt(x, 10);
                         return isNaN(i) ? 0 : i;
                     };
-                    var updateInteractions = function() {
+                    var updateInteractions = function () {
                         scope.interactions = Math.floor(toInt(scope.speedDating.time) * 60 / (toInt(scope.speedDating.perPerson) + 5)) / 2;
                         scope.session.left = scope.interactions;
                     };
@@ -43,11 +67,11 @@ define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, s
                         timeLeft: 5
                     };
 
-                    scope.testPlay = function(what) {
+                    scope.testPlay = function (what) {
                         sounds.play(what);
                     };
 
-                    scope.startDating = function() {
+                    scope.startDating = function () {
                         var session = {
                             running: true,
                             type: 0,
@@ -55,24 +79,24 @@ define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, s
                             endDate: new Date()
                         };
 
-                        var updateTimeLeft = function() {
+                        var updateTimeLeft = function () {
                             session.timeLeft = (session.endDate.getTime() - new Date().getTime()) / 1000;
                             return session.timeLeft <= 0;
                         };
 
-                        var updateSession = function() {
+                        var updateSession = function () {
                             session.type = (session.type + 1) % 4;
                             if (session.type === 0) {
                                 session.left--;
                             }
                         };
-                        var playSound = function() {
+                        var playSound = function () {
                             var toPlay = ['newPerson', 'voiceSwap'];
                             sounds.play(toPlay[session.type / 2]);
                         };
 
 
-                        var timer = function(self, time, other, starting) {
+                        var timer = function (self, time, other, starting) {
                             if (starting) {
                                 session.endDate = new Date(new Date().getTime() + time * 1000);
                             }
@@ -93,14 +117,14 @@ define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, s
                             }
                         };
 
-                        var change = timer.bind(null, function() {
+                        var change = timer.bind(null, function () {
                             return change;
-                        }, 5, function() {
+                        }, 5, function () {
                             talking(true);
                         });
-                        var talking = timer.bind(null, function() {
+                        var talking = timer.bind(null, function () {
                             return talking;
-                        }, toInt(scope.speedDating.perPerson), function() {
+                        }, toInt(scope.speedDating.perPerson), function () {
                             change(true);
                         });
 
