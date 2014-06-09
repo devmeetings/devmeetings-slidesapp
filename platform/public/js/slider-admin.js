@@ -6,11 +6,20 @@ require(['config'], function () {
         module.controller('AdminSlidesListCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
             var decks = Restangular.all('api/decks');
             var fetchDecks = function () {
-                decks.getList().then(function (decks) {
-                    $scope.decks = decks;
+                 decks.getList().then(function (deckList) {
+                    $scope.decks = deckList;
                 });
             };
             fetchDecks();
+
+            $scope.selectDeck = function (deck) {
+                $scope.selected = deck;
+            };
+
+            $scope.removeFromDeckSlideAtIndex = function (deck, index) {
+                deck.slides.splice(index, 1);
+                $http.put('/api/decks/' + deck._id, deck);
+            };
 
             $scope.removeDeck = function (id) {
                 decks.one(id).remove().then(fetchDecks);
@@ -28,12 +37,11 @@ require(['config'], function () {
             $scope.addExemplaryDeck = function () {
                 require(['data-slides', 'data-deck'], function (slides, deck) {
                     $http.post('/api/slides', slides).success( function (data, status) {
-                        console.log('slide-admin' + data);
                         deck.slides = data;
-                        $scope.decks = decks;
-                        $http.post('/api/decks', deck);
+                        decks.post(deck).then(function (){
+                            $scope.decks.push(deck);
+                        });
                     });
-                    //decks.post(exemplaryData).then(fetchDecks);
                 });
             };
         }]);
