@@ -1,12 +1,14 @@
-require(["slider/slider",
+require([
+    "slider/slider",
     "slider/slider.plugins",
+    "slider/bootstrap",
     "services/DeckAndSlides",
     "services/Sockets",
     "directives/layout-loader",
     "directives/plugins-loader",
     "directives/splitter",
     "directives/sidebar-control/sidebar-control"
-], function(slider, sliderPlugins) {
+], function(slider, sliderPlugins, bootstrap) {
     slider.controller('SliderCtrl', ['$rootScope', '$scope', 'DeckAndSlides',
 
         function($rootScope, $scope, DeckAndSlides) {
@@ -29,14 +31,5 @@ require(["slider/slider",
         }
     ]);
 
-    require(['/require/plugins/paths'], function() {
-        require(plugins, function() {
-            angular.bootstrap(document, ["slider"]);
-
-            // TODO shitty
-            setTimeout(function() {
-                sliderPlugins.trigger('load');
-            }, 200);
-        });
-    });
+    bootstrap();
 });

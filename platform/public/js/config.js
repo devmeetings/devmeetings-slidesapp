@@ -1,4 +1,5 @@
 require.config({
+    "baseUrl": "/static/js",
     "paths": {
         "decks": "../../decks",
         "require": "../../require",

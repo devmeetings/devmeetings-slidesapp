@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                         nodemon.on('config:update', function() {
                             setTimeout(function() {
                                 open('http://localhost:' + SERVER_PORT);
-                            }, 5000);
+                            }, 3000);
                         });
 
                         nodemon.on('restart', function() {
@@ -81,7 +81,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js'],
+            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', '!public/js/bin/**'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
         },
         less: {
@@ -125,8 +125,13 @@ module.exports = function(grunt) {
                 options: {
                     baseUrl: "public/js",
                     mainConfigFile: "public/js/config.js",
-                    name: "slider-deck", // assumes a production build using a2lmond
-                    out: "bin/optimized.js"
+                    findNestedDependencies: true,
+                    name: "slider-deck", // assumes a production build using almond
+                    out: "public/js/bin/slider-deck.js",
+                    paths: {
+                        "require/plugins/paths": "../../bin/plugins_paths",
+                        "socket.io": "empty:"
+                    }
                 }
             }
         }
@@ -145,8 +150,8 @@ module.exports = function(grunt) {
             });
 
             var mkdirp = require('mkdirp');
-            mkdirp('public/js/require/plugins', function() {
-                grunt.file.write("public/js/require/plugins/paths", 'define([], ' + JSON.stringify(files) + ');');
+            mkdirp('bin', function() {
+                grunt.file.write("bin/plugins_paths.js", 'define([], ' + JSON.stringify(files) + ');');
                 async();
             });
         });
@@ -159,13 +164,14 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent']);
     grunt.registerTask('server', function() {
         grunt.log.errorlns('Did you mean `grunt serve`?');
         grunt.log.ok('Running `serve` task');
         grunt.task.run('serve');
     });
 
+    grunt.registerTask('optimize', ['create-plugins-paths', 'requirejs']);
+    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent']);
     grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'complexity']);
 
     grunt.registerTask('default', ['serve']);

@@ -3,12 +3,14 @@ extends ../layouts/main
 append scripts
   script.
     window.slides = "#{slides}";
-  script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-trainer')
+  script(src='/static/components/requirejs/require.js')
+  script(src='/static/js/config.js')
+  script(src='/static/js/slider-trainer.js')
 
 block content
   div(ng-controller="TrainerCtrl")
     .alert.alert-danger.ng-cloak(ng-if="isAuthorized === false")
       img(ng-src="http://i.imgur.com/OfJELqG.gif", width="50%")
       h1 Leave now and never come back!
-    plugins-loader(ng-show="isAuthorized", namespace="'trainer'", context="slide")
+    plugins-loader(ng-show="isAuthorized", namespace="'trainer'", context="deck")
     plugins-loader(ng-show="isAuthorized", namespace="'trainer.deck'", context="deck")
