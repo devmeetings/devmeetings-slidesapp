@@ -27,9 +27,11 @@ div
     .col-md-9
       h2.text-right {{ session.left }} changes left
       p.speedDating__timer.text-success {{ session.timeLeft.toFixed(3) }} s
-      div.videos(ng-controller="VideoDatingController")
-        video.me(autoplay="true")
-        video.other(autoplay="true")
+      div.videoDating(ng-controller="VideoDatingController")
+        div.connections(ng-model="sd.connections") {{sd.connections}}
+        div.videos
+            video.me(autoplay="true")
+            video.other(autoplay="true")
       div.speedDating__message
         div.alert.alert-danger(ng-show="session.type == 0") Find New Person!
         div.alert.alert-success(ng-show="session.type == 2") Voice Swap!

@@ -108,15 +108,26 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                 }
             };
         }
-    ]).controller('VideoDatingController', ['$scope', '$timeout', 'Sockets', 'User',
-        function ($scope, $timeout, Sockets, User) {
+    ]).controller('VideoDatingController', ['$scope', '$timeout', 'Sockets', 'User', 'DeckAndSlides',
+        function ($scope, $timeout, Sockets, User, DeckAndSlides) {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
             var peer;
+            $scope.sd = {
+                connections: []
+            };
+            Sockets.on('speedDating.connections', function (connections) {
+                console.log('here', connections);
+                $scope.sd.connections = connections;
+                $scope.$digest();
+            });
             var setMyVideo = function () {
-                // setConnect
-                //Sockets.emit('speedDating.connected', data);
                 navigator.getUserMedia({video: true}, function (MediaStream) {
+                    DeckAndSlides.deck.then(function (data) {
+                        console.log(data);
+                        Sockets.emit('speedDating.connected', {deck: data._id, slide: $scope.slide.id});
+                    });
                     document.querySelector('video.me').src = URL.createObjectURL(MediaStream);
+
                 }, function (error) {
                     console.log('error', error);
                 });
@@ -139,7 +150,6 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
             };
             User.setCallback(connectToPeer);
             User.getUserData();
-
         }]);
 
 });

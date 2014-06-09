@@ -2,7 +2,8 @@ var SpeedDating = require('./SpeedDating');
 
 exports.onSocket = function (log, socket) {
     var getConnections = function(data){
-        var query = SpeedDating.find()
+
+        SpeedDating.find()
             .where('deck').equals(data.deck)
             .where('slide').equals(data.slide)
             //date today now
@@ -14,12 +15,12 @@ exports.onSocket = function (log, socket) {
                 }
                 else {
                     socket.emit('speedDating.connections', connections);
+                    socket.broadcast.emit('speedDating.connections', connections);
                 }
             }
         );
     };
-
-    socket.on('speedDating.connected', function (data, callback) {
+    socket.on('speedDating.connected', function (data) {
         data.username = socket.handshake.user.name;
         var query = SpeedDating.findOne()
             .where('deck').equals(data.deck)
@@ -33,10 +34,10 @@ exports.onSocket = function (log, socket) {
                 return;
             } else if (connection) {
                 connection.updated = Date.now();
-                connection.save(callback);
+                connection.save(getConnections.bind(null,data));
             } else {
                 var newConnection = new SpeedDating(data);
-                newConnection.save(callback);
+                newConnection.save(getConnections.bind(null,data));
             }
         });
     });
