@@ -5,7 +5,7 @@ exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
         if (err) {
             console.error(err);
-            res.send([]);
+            res.send(404, err);
             return;
         }
         res.send(decks);

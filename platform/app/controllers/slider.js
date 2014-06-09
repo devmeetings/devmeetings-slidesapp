@@ -11,13 +11,13 @@ exports.index = function(req, res) {
             decks: decks,
             events: [{
                 title: 'JS contexty',
-                date: '19-06-14'
+                date: '-'
             }, {
                 title: 'iOS - wprowadzenie',
-                date: '20-06-14'
+                date: '-'
             }, {
                 title: 'Swift - poczatki',
-                date: '22-06-14'
+                date: '-'
             }
             ]
         });
