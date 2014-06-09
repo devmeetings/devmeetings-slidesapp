@@ -1,6 +1,6 @@
 #!/bin/sh
 
-function show_help()
+function show_help
 {
     echo ""
     echo "Usage:"
