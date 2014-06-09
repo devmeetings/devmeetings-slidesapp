@@ -28,13 +28,19 @@ require.config({
         }
     },
     "shim": {
-        "angular": {
-            "deps": ["jquery"],
-            "exports": "angular"
+        "jquery": {
+            "exports": "$"
+        },
+        "jquery-ui": {
+            "deps": ["jquery"]
         },
         "bootstrap": {
             "deps": ["jquery"],
             "exports": "$"
+        },
+        "angular": {
+            "deps": ["jquery"],
+            "exports": "angular"
         },
         "angular-sanitize": {
             "deps": ["angular"],
@@ -55,9 +61,9 @@ require.config({
         "angular-slider": {
             "deps": ["angular-touch"]
         },
-        "angular-ui-sortable" : {
+        "angular-ui-sortable": {
             "deps": ["angular", "jquery-ui"],
-            "exports" : "angular"
+            "exports": "angular"
         },
         "restangular": {
             "deps": ["angular", "lodash"],

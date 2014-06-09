@@ -119,7 +119,37 @@ module.exports = function(grunt) {
                     hideComplexFunctions: false
                 }
             }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: "public/js",
+                    mainConfigFile: "public/js/config.js",
+                    name: "slider-deck", // assumes a production build using a2lmond
+                    out: "bin/optimized.js"
+                }
+            }
         }
+    });
+
+    grunt.registerTask('create-plugins-paths', 'Create /require/plugins/paths file', function() {
+        var async = this.async();
+
+        var glob = require('glob');
+        glob("public/plugins/**/*.js", function(err, files) {
+            if (err) {
+                throw new Error("Cannot find plugins");
+            }
+            files = files.map(function(file) {
+                return file.replace(/.js$/, '').replace(/^public\//, '');
+            });
+
+            var mkdirp = require('mkdirp');
+            mkdirp('public/js/require/plugins', function() {
+                grunt.file.write("public/js/require/plugins/paths", 'define([], ' + JSON.stringify(files) + ');');
+                async();
+            });
+        });
     });
 
     grunt.registerTask('hooks', 'Set up proper git hooks', function() {
