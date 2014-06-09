@@ -81,7 +81,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', '!public/js/bin/**'],
+            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/bin/**'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
         },
         less: {
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', "!public/js/config.js", '!public/js/data-*.js', '!public/plugins/slide-jsmicrotasks/jsmicrotasks.js'],
+                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', "!public/js/config.js", /* Because of hashCode function */ '!public/plugins/slide-jsmicrotasks/jsmicrotasks.js', '!public/js/data-*.js', '!public/js/bin/**'],
                 options: {
                     breakOnErrors: true,
                     errorsOnly: true,

@@ -9,17 +9,22 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                 });
                 return result.promise;
             };
-            var deckAndSlides = {
+
+            var addCurrentSlide = function(das) {
+                // Add current slide
+                if (typeof slideId !== 'undefined') {
+                    das.currentSlide = asPromise('require/slides/' + slideId);
+                }
+            };
+
+            var das = {
                 deck: asPromise('require/decks/' + slides),
                 slides: asPromise('require/decks/' + slides + '/slides')
             };
 
-            // Add current slide
-            if (typeof slideId !== 'undefined') {
-                deckAndSlides.currentSlide = asPromise('require/slides/' + slideId);
-            }
+            addCurrentSlide(das);
 
-            return deckAndSlides;
+            return das;
         }
     ]);
 });
