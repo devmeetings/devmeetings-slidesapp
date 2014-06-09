@@ -2,7 +2,7 @@ mixin slideCell(trashAction)
   a.pull-right.hover-content.cursor-pointer(ng-click="#{trashAction}")
     span.glyphicon.glyphicon-trash.text-danger
   label.text-primary
-    | {{slide.content.title}}&nbsp;
+    | {{slide.content.name}} - {{slide.content.title}}<br/>
   | {{slide._id}}
 
 
@@ -16,7 +16,7 @@ mixin slideCell(trashAction)
       form.input-group(ng-submit="addDeck()")
         input.form-control(placeholder="Deck title", ng-model="deckTitle")
         span.input-group-btn
-          button.btn.btn-primary
+          button.btn.btn-success
             |  Create new Deck 
     .panel-body
       ul.list-group 
@@ -33,18 +33,20 @@ mixin slideCell(trashAction)
   .panel.panel-primary
     .panel-heading
       h2 Slajdy: {{selected.title}}
+      input.form-control(placeholder="Search...", ng-model='deckSlidesSearch')
     .panel.body.slides-scroll
-      ul.list-group
-        li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
-          mixin slideCell("removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
+      ul.list-group(ui-sortable="orderUpdated", ng-model="selectedSlides")
+        li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides | filter: { content: {name: deckSlidesSearch}}")
+          mixin slideCell("removeSlideFromDeck(selected, selectedSlides, slide)") 
 .col-md-4
   .panel.panel-primary
     .panel-heading
       h2 Slajdy
+      input.form-control(placeholder="Search...", ng-model='allSlidesSearch')
     .panel.body.slides-scroll 
       ul.list-group
-        li.list-group-item.hover-trigger(ng-repeat="slide in slides")
-          mixin slideCell("removeSlideAtIndex(slides, $index)")  
+        li.list-group-item.hover-trigger(ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}}")
+          mixin slideCell("removeSlide(slides, slide)")  
           a.pull-right.hover-content.cursor-pointer(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
             span.glyphicon.glyphicon-plus.text-success
             | &nbsp;

@@ -1,9 +1,11 @@
 require(['config'], function () {
-    require(['angular-route', 'restangular'], function (angular) {
-        var module = angular.module('slider-admin', ['ngRoute', 'restangular']);
+    require(['angular', 'angular-route', 'restangular', '_', 'angular-ui-sortable'], function (angular, angularRoute, restangular, _) {
+        var module = angular.module('slider-admin', ['ngRoute', 'restangular', 'ui.sortable']);
 
 
         module.controller('AdminSlidesListCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
+            $scope.deckSlidesSearch = "";
+            $scope.allSlidesSearch = "";
             var decks = Restangular.all('api/decks');
             var fetchDecks = function () {
                  decks.getList().then(function (deckList) {
@@ -19,8 +21,8 @@ require(['config'], function () {
             };
             fetchSlides();
 
-            $scope.removeSlideAtIndex = function (slides, index) {
-                var slide = slides[0];
+            $scope.removeSlide = function (slides, slide) {
+                var index = _.pluck(slides, '_id').indexOf(slide._id);
                 slides.splice(index, 1);
                 //TODO send put to API
             };
@@ -44,7 +46,15 @@ require(['config'], function () {
                 });
             };
 
-            $scope.removeFromDeckSlideAtIndex = function (deck, slides, index) {
+            $scope.orderUpdated = {
+                stop: function(em, ui) {
+                    $scope.selected.slides = _.pluck($scope.selectedSlides, '_id');
+                    $http.put('/api/decks/' + $scope.selected._id, $scope.selected);
+                }
+            };
+
+            $scope.removeSlideFromDeck = function (deck, slides, slide) {
+                var index = deck.slides.indexOf(slide._id);
                 deck.slides.splice(index, 1);
                 slides.splice(index, 1);
                 $http.put('/api/decks/' + deck._id, deck);
