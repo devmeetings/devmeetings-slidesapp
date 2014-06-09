@@ -153,9 +153,9 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('hooks', 'Set up proper git hooks', function() {
-        if (!fs.existsSync('./../.git/hooks/pre-push')) {
-            fs.copySync('./hooks/pre-push.sample', '../.git/hooks/pre-push');
-            fs.chmodSync('../.git/hooks/pre-push', '755');
+        if (!fs.existsSync('./../.git/hooks/pre-commit')) {
+            fs.copySync('./hooks/pre-commit.sample', '../.git/hooks/pre-commit');
+            fs.chmodSync('../.git/hooks/pre-commit', '755');
         }
     });
 

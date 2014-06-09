@@ -1,4 +1,10 @@
 .trainer-participants
     ul
-      li(ng-repeat="user in users")
-        {{ user.user.name }} @ {{ user.currentSlide }}
+        li(ng-repeat="user in users")
+            {{ user.user.name }} @ {{ user.currentSlide }}
+            .btn-group
+                button.btn(ng-click="follow(user.id)", ng-class="{'btn-default': followUserId !== user.id, 'btn-success': followUserId == user.id}") Follow
+                button.btn.btn-default(ng-if="followUserId === user.id", ng-click="goToPrevSlide()")
+                    i.glyphicon.glyphicon-arrow-left
+                button.btn.btn-default(ng-if="followUserId === user.id", ng-click="goToNextSlide()")
+                    i.glyphicon.glyphicon-arrow-right
