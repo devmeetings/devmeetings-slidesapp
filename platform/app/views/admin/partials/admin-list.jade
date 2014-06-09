@@ -1,3 +1,11 @@
+mixin slideCell(trashAction)
+  a.pull-right.hover-content.cursor-pointer(ng-click="#{trashAction}")
+    span.glyphicon.glyphicon-trash.text-danger
+  label.text-primary
+    | {{slide.content.title}}&nbsp;
+  | {{slide._id}}
+
+
 .col-md-12
   h1 Admin panel!
 .col-md-4
@@ -18,15 +26,18 @@
       span.input-group-btn
         button.btn.btn-primary
           |  Create new Deck 
-.col-md-6(ng-if="selected.slides.length")
+.col-md-4(ng-if="selected.slides.length")
   h2 Slajdy: {{selected.title}}
   ul.list-group
     li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
-      a.pull-right.hover-content.cursor-pointer(ng-click="removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
-        span.glyphicon.glyphicon-trash
-      label.text-primary
-        | {{slide.content.title}}&nbsp;
-      | {{slide._id}}
+      mixin slideCell("removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
+.col-md-4
+  h2 Slajdy
+  ul.list-group
+    li.list-group-item.hover-trigger(ng-repeat="slide in slides")
+      mixin slideCell("removeSlideAtIndex(slides, $index)")  
+      a.pull-right.hover-content.cursor-pointer.text-success(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
+        | Add&nbsp;
 
 
 

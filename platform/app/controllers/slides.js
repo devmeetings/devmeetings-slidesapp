@@ -28,3 +28,14 @@ exports.get = function(req, res) {
     });
 };
 
+exports.list = function(req, res) {
+    SlideModel.find(function(err, slides) {
+        if (err) {
+            console.error(err);
+            res.send(404, err);
+            return;
+        }
+        res.send(slides);
+    });
+};
+

@@ -12,6 +12,28 @@ require(['config'], function () {
             };
             fetchDecks();
 
+            var fetchSlides = function () {
+                $http.get('/api/slides').success( function (data, status) {
+                    $scope.slides = data;
+                });
+            };
+            fetchSlides();
+
+            $scope.removeSlideAtIndex = function (slides, index) {
+                var slide = slides[0];
+                slides.splice(index, 1);
+                //TODO send put to API
+            };
+
+            $scope.addSlideToDeck = function (deck, slides, slide) {
+                if (_.contains(deck.slides, slide._id)){
+                    return;
+                }
+                deck.slides.push(slide._id);
+                slides.push(slide);
+                $http.put('/api/decks/' + deck._id, deck);
+            };
+
             $scope.selectDeck = function (deck) {
                 $scope.selected = deck;
                 $scope.selectedSlides = [];
