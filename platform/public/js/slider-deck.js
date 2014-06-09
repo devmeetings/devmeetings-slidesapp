@@ -7,13 +7,13 @@ require(["slider/slider",
     "directives/splitter",
     "directives/sidebar-control/sidebar-control"
 ], function(slider, sliderPlugins) {
-    slider.controller('SliderCtrl', ['$rootScope', '$scope', 'DeckAndSlides'
+    slider.controller('SliderCtrl', ['$rootScope', '$scope', 'DeckAndSlides',
 
         function($rootScope, $scope, DeckAndSlides) {
 
             DeckAndSlides.deck.then(function(deck) {
                 $scope.deck = deck;
-            })
+            });
             DeckAndSlides.slides.then(function(deckSlides) {
                 $scope.deckSlides = deckSlides;
             });
