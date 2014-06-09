@@ -3,10 +3,10 @@
 .col-md-4
   h2 Zestawy slajdów
   ul.list-group 
-    li.list-group-item(ng-repeat="deck in decks")
-      a.pull-right(ng-click="removeDeck(deck._id)")
+    li.list-group-item.hover-trigger(ng-repeat="deck in decks")
+      a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
         span.glyphicon.glyphicon-trash
-      a(ng-click="selectDeck(deck)")
+      a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
         {{ deck.title }}
   a.pull-right(ng-click="addExemplaryDeck()")
     span.glyphicon.glyphicon-bell
@@ -21,8 +21,8 @@
 .col-md-6(ng-if="selected.slides.length")
   h2 Slajdy: {{selected.title}}
   ul.list-group
-    li.list-group-item(ng-repeat="slide in selected.slides")
-      a.pull-right(ng-click="removeFromDeckSlideAtIndex(selected, $index)")
+    li.list-group-item.hover-trigger(ng-repeat="slide in selected.slides")
+      a.pull-right.hover-content.cursor-pointer(ng-click="removeFromDeckSlideAtIndex(selected, $index)")
         span.glyphicon.glyphicon-trash
       {{slide}}
 
