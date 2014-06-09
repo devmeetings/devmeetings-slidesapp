@@ -10,6 +10,12 @@ mixin slideCell(trashAction)
   h1 Admin panel!
 .col-md-4
   h2 Zestawy slajdów
+  .form-group
+    form.input-group(ng-submit="addDeck()")
+      input.form-control(placeholder="Deck title", ng-model="deckTitle")
+      span.input-group-btn
+        button.btn.btn-primary
+          |  Create new Deck 
   ul.list-group 
     li.list-group-item.hover-trigger(ng-repeat="deck in decks")
       a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
@@ -19,25 +25,19 @@ mixin slideCell(trashAction)
   a.pull-right(ng-click="addExemplaryDeck()")
     span.glyphicon.glyphicon-bell
     |  Add exemplary Deck
-  h2 Create new deck
-  .form-group
-    form.input-group(ng-submit="addDeck()")
-      input.form-control(placeholder="Deck title", ng-model="deckTitle")
-      span.input-group-btn
-        button.btn.btn-primary
-          |  Create new Deck 
 .col-md-4(ng-if="selected.slides.length")
   h2 Slajdy: {{selected.title}}
-  ul.list-group
-    li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
-      mixin slideCell("removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
+  .slides-scroll
+    ul.list-group
+      li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
+        mixin slideCell("removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
 .col-md-4
   h2 Slajdy
-  ul.list-group
-    li.list-group-item.hover-trigger(ng-repeat="slide in slides")
-      mixin slideCell("removeSlideAtIndex(slides, $index)")  
-      a.pull-right.hover-content.cursor-pointer.text-success(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
-        | Add&nbsp;
-
+  .slides-scroll 
+    ul.list-group
+      li.list-group-item.hover-trigger(ng-repeat="slide in slides")
+        mixin slideCell("removeSlideAtIndex(slides, $index)")  
+        a.pull-right.hover-content.cursor-pointer.text-success(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
+          | Add&nbsp;
 
 
