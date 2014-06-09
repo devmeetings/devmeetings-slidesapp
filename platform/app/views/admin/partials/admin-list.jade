@@ -9,35 +9,44 @@ mixin slideCell(trashAction)
 .col-md-12
   h1 Admin panel!
 .col-md-4
-  h2 Zestawy slajdów
-  .form-group
-    form.input-group(ng-submit="addDeck()")
-      input.form-control(placeholder="Deck title", ng-model="deckTitle")
-      span.input-group-btn
-        button.btn.btn-primary
-          |  Create new Deck 
-  ul.list-group 
-    li.list-group-item.hover-trigger(ng-repeat="deck in decks")
-      a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
-        span.glyphicon.glyphicon-trash
-      a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
-        {{ deck.title }}
-  a.pull-right(ng-click="addExemplaryDeck()")
-    span.glyphicon.glyphicon-bell
-    |  Add exemplary Deck
+  .panel.panel-primary
+    .panel-heading
+      h2 Zestawy slajdów
+      .form-group
+      form.input-group(ng-submit="addDeck()")
+        input.form-control(placeholder="Deck title", ng-model="deckTitle")
+        span.input-group-btn
+          button.btn.btn-primary
+            |  Create new Deck 
+    .panel-body
+      ul.list-group 
+        li.list-group-item.hover-trigger(ng-repeat="deck in decks")
+          a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
+            span.glyphicon.glyphicon-trash
+          a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
+            {{ deck.title }}
+    .panel-footer
+      a(ng-click="addExemplaryDeck()")
+        span.glyphicon.glyphicon-bell
+        |  Add exemplary Deck
 .col-md-4(ng-if="selected.slides.length")
-  h2 Slajdy: {{selected.title}}
-  .slides-scroll
-    ul.list-group
-      li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
-        mixin slideCell("removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
+  .panel.panel-primary
+    .panel-heading
+      h2 Slajdy: {{selected.title}}
+    .panel.body.slides-scroll
+      ul.list-group
+        li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
+          mixin slideCell("removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
 .col-md-4
-  h2 Slajdy
-  .slides-scroll 
-    ul.list-group
-      li.list-group-item.hover-trigger(ng-repeat="slide in slides")
-        mixin slideCell("removeSlideAtIndex(slides, $index)")  
-        a.pull-right.hover-content.cursor-pointer.text-success(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
-          | Add&nbsp;
+  .panel.panel-primary
+    .panel-heading
+      h2 Slajdy
+    .panel.body.slides-scroll 
+      ul.list-group
+        li.list-group-item.hover-trigger(ng-repeat="slide in slides")
+          mixin slideCell("removeSlideAtIndex(slides, $index)")  
+          a.pull-right.hover-content.cursor-pointer(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
+            span.glyphicon.glyphicon-plus.text-success
+            | &nbsp;
 
 
