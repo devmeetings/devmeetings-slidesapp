@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', '*', 'deck-navbar', 1).directive('deckNavbar', [
-        '$rootScope', '$location', '$http', 'CurrentSlideManager', 'DeckAndSlides',
-        function($rootScope, $location, $http, CurrentSlideManager, DeckAndSlides) {
+        '$rootScope', '$location', '$http', 'CurrentSlideManager', 'DeckAndSlides', 'Sockets',
+        function($rootScope, $location, $http, CurrentSlideManager, DeckAndSlides, Sockets) {
 
             return {
                 restrict: 'E',
@@ -15,6 +15,12 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
 
                 link: function(scope) {
                     scope.csm = CurrentSlideManager;
+
+                    Sockets.on('slide.trainer.change_slide', function(slideId){
+                        scope.$apply(function(){
+                            $location.path(slideId);
+                        });
+                    });
 
                     DeckAndSlides.slides.then(function(slides) {
                         scope.slides = slides;

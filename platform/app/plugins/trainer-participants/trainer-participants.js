@@ -1,5 +1,6 @@
 var pluginsEvents = require('../events');
 var Q = require('q');
+var DeckModel = require('../../models/deck');
 
 
 var trainersRoom = function(roomId) {
@@ -25,6 +26,34 @@ var broadcastClientsToTrainers = function(io, roomId) {
     getParticipants(io, roomId).then(function(participants) {
         io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
     }, console.error);
+};
+
+
+var getClient = function(io, roomId, id){
+    var userSocket;
+    io.sockets.clients(roomId).forEach(function(client){
+        if(client.id === id)
+        {
+            userSocket = client;
+        }
+    });
+
+    return userSocket;
+};
+
+
+var broadcastTrainerChangeSlide = function(userData, callback){
+
+    DeckModel.find().where('id').equals(userData.deck).exec(function(err, decks) {
+        var deck;
+        if (err) {
+            console.error(err);
+            return;
+        }
+        deck = decks[0];
+
+        callback(userData, deck);
+    });
 };
 
 
@@ -65,6 +94,23 @@ exports.onSocket = function(log, socket, io) {
             getParticipants(io, data.deck).then(function(participants) {
                 socket.emit('trainer.participants', participants);
             }, console.error);
+        });
+    });
+
+    socket.on('trainer.follow.nextSlide', function(data){
+        var userSocket = getClient(io, data.deck, data.user.id);
+        broadcastTrainerChangeSlide(data, function(userData, deck){
+            var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
+            userSocket.emit('slide.trainer.change_slide', deck.slides[(++currentSlidePosition % deck.slides.length)]);
+        });
+    });
+
+    socket.on('trainer.follow.prevSlide', function(data){
+        var userSocket = getClient(io, data.deck, data.user.id);
+        broadcastTrainerChangeSlide(data, function(userData, deck){
+            var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
+            currentSlidePosition = (currentSlidePosition === 0) ? deck.slides.length : currentSlidePosition;
+            userSocket.emit('slide.trainer.change_slide', deck.slides[(--currentSlidePosition)]);
         });
     });
 };

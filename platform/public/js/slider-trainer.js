@@ -7,10 +7,10 @@ require(['config', '/require/plugins/paths'], function(config, plugins) {
         "directives/plugins-loader",
         "services/Sockets"
     ].concat(plugins), function(deck, deckSlides, slider, sliderPlugins) {
-
         slider.controller('TrainerCtrl', ['$scope', '$window',
             function($scope, $window) {
                 $scope.slide = deck.slides[0];
+                $scope.deck = deck;
             }
         ]);
 
