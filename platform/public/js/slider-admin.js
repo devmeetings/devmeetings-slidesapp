@@ -14,10 +14,17 @@ require(['config'], function () {
 
             $scope.selectDeck = function (deck) {
                 $scope.selected = deck;
+                $scope.selectedSlides = [];
+                require(['require/decks/' + deck._id + '/slides'], function (slides, deck) {
+                    $scope.$apply( function () {
+                        $scope.selectedSlides = slides;
+                    });
+                });
             };
 
-            $scope.removeFromDeckSlideAtIndex = function (deck, index) {
+            $scope.removeFromDeckSlideAtIndex = function (deck, slides, index) {
                 deck.slides.splice(index, 1);
+                slides.splice(index, 1);
                 $http.put('/api/decks/' + deck._id, deck);
             };
 

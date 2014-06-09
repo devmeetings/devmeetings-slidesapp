@@ -21,10 +21,12 @@
 .col-md-6(ng-if="selected.slides.length")
   h2 Slajdy: {{selected.title}}
   ul.list-group
-    li.list-group-item.hover-trigger(ng-repeat="slide in selected.slides")
-      a.pull-right.hover-content.cursor-pointer(ng-click="removeFromDeckSlideAtIndex(selected, $index)")
+    li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides")
+      a.pull-right.hover-content.cursor-pointer(ng-click="removeFromDeckSlideAtIndex(selected, selectedSlides, $index)")
         span.glyphicon.glyphicon-trash
-      {{slide}}
+      label.text-primary
+        | {{slide.content.title}}&nbsp;
+      | {{slide._id}}
 
 
 
