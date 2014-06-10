@@ -37,7 +37,6 @@ exports.deck = function(req, res) {
 exports.slide = function(req, res) {
     res.render('slider/slide', {
         title: 'Slide',
-        slides: req.params.slides,
         slide: req.params.slide,
         editMode: req.query.edit,
         jsModulesPath: req.jsModulesPath,

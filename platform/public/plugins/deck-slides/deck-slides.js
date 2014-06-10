@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$timeout', '$location', '$rootScope', 'CurrentSlideManager',
-        function($timeout, $location, $rootScope, CurrentSlideManager) {
+        '$timeout', '$rootScope', 'CurrentSlideManager',
+        function($timeout, $rootScope, CurrentSlideManager) {
 
             return {
                 restrict: 'E',
@@ -16,10 +16,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
 
                 link: function(scope, element) {
                     var onSlideChange = function(activeSlideId) {
-                        var absUrl = $location.absUrl();
-                        var len = (absUrl.indexOf("/?") > -1 || absUrl.indexOf("?") > -1) ? absUrl.indexOf("?") : absUrl.indexOf("#");
-                        var path = len != -1 ? absUrl.substr(0, len) : absUrl;
-                        scope.slideSource = path.replace(/\/$/, '') + '/slide-' + activeSlideId + ($rootScope.editMode ? '?edit=true' : '');
+                        scope.slideSource = '/slides/' + activeSlideId + ($rootScope.editMode ? '?edit=true' : '');
                     };
 
                     scope.csm = CurrentSlideManager;
