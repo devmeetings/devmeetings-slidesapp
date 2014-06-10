@@ -3,7 +3,9 @@ extends ../layouts/main
 append scripts
   script.
     window.slides = "#{slides}";
-  script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-deck')
+  script(src='/static/components/requirejs/require.js')
+  script(src='/static/js/config.js')
+  script(src='#{jsModulesPath}/slider-deck.js')
 
 block title
   title {{ title }} - #{title}
@@ -24,4 +26,4 @@ block content
       data-button-style="donation_small" 
       href="https://coinbase.com/checkouts/874bd874065865284ce04e6d52d79e70")
       | Donate Bitcoins
-    script(src="https://coinbase.com/assets/button.js")
+    script(src="https://coinbase.com/assets/button.js", async)

@@ -28,7 +28,9 @@ exports.deck = function(req, res) {
     res.render('slider/deck', {
         title: 'Devmeetings.pl',
         slides: req.params.slides,
-        editMode: req.query.edit
+        editMode: req.query.edit,
+        jsModulesPath: req.jsModulesPath,
+        doLiveReload: req.doLiveReload
     });
 };
 
@@ -36,13 +38,17 @@ exports.slide = function(req, res) {
     res.render('slider/slide', {
         title: 'Slide',
         slide: req.params.slide,
-        editMode: req.query.edit
+        editMode: req.query.edit,
+        jsModulesPath: req.jsModulesPath,
+        doLiveReload: req.doLiveReload
     });
 };
 
 exports.trainer = function(req, res) {
     res.render('slider/trainer', {
         title: "Trainer's Screen",
-        slides: req.params.slides
+        slides: req.params.slides,
+        jsModulesPath: req.jsModulesPath,
+        doLiveReload: req.doLiveReload
     });
 };

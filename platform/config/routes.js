@@ -36,7 +36,7 @@ module.exports = function(app) {
     var req = ctrl('require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);
-    app.get('/require/plugins/paths', authenticated, req.pluginsPaths);
+    app.get('/require/plugins/paths.js', authenticated, req.pluginsPaths);
     app.get('/require/slides/:id.js', authenticated, req.getSlide);
 
     //login
