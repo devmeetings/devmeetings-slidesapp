@@ -15,11 +15,12 @@
 
              Sockets.forwardEventToServer('slide.current.change');
 
-             var updateCurrentSlide = function() {
-                 var previousSlideId = csm.activeSlideId;
-                 csm.activeSlideId = $location.url().substr(1);
-                 if (csm.activeSlideId) {
-                     sliderPlugins.trigger('slide.current.change', csm.activeSlideId, previousSlideId);
+                var updateCurrentSlide = function() {
+                var slideId = $location.url().substr(1);
+                if (slideId !== '') {
+                    var previousSlideId = csm.activeSlideId;
+                    csm.activeSlideId = slideId;
+                    sliderPlugins.trigger('slide.current.change', csm.activeSlideId, previousSlideId);
                  }
              };
              $rootScope.$on('$locationChangeSuccess', updateCurrentSlide);
