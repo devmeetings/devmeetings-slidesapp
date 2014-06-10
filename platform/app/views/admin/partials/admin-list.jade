@@ -1,18 +1,54 @@
-h1 Hello decks!
-ul
-    li(ng-repeat="deck in decks")
-        a(href="#", ng-click="removeDeck(deck._id)")
-            span.glyphicon.glyphicon-trash
-        {{ deck.title }}
-h1 Create new deck
-form.form-inline(ng-submit="addDeck()")
-    .form-group
+mixin slideCell(trashAction)
+  a.pull-right.hover-content.cursor-pointer(ng-click="#{trashAction}")
+    span.glyphicon.glyphicon-trash.text-danger
+  label.text-primary
+    | {{slide.content.name}} - {{slide.content.title}}<br/>
+  | {{slide._id}}
+
+
+.col-md-12
+  h1 Admin panel!
+.col-md-4
+  .panel.panel-primary
+    .panel-heading
+      h2 Zestawy slajdów
+      .form-group
+      form.input-group(ng-submit="addDeck()")
         input.form-control(placeholder="Deck title", ng-model="deckTitle")
-    .form-group
-        button.btn.btn-primary
-            span.glyphicon.glyphicon-plus-sign
-            |  Create new Deck
-h1 Exemplary deck
-a(href="#", ng-click="addExemplaryDeck()")
-    span.glyphicon.glyphicon-bell
-    |  Add exemplary Deck
+        span.input-group-btn
+          button.btn.btn-success
+            |  Create new Deck 
+    .panel-body
+      ul.list-group 
+        li.list-group-item.hover-trigger(ng-repeat="deck in decks")
+          a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
+            span.glyphicon.glyphicon-trash
+          a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
+            {{ deck.title }}
+    .panel-footer
+      a(ng-click="addExemplaryDeck()")
+        span.glyphicon.glyphicon-bell
+        |  Add exemplary Deck
+.col-md-4(ng-if="selected.slides.length")
+  .panel.panel-primary
+    .panel-heading
+      h2 Slajdy: {{selected.title}}
+      input.form-control(placeholder="Search...", ng-model='deckSlidesSearch')
+    .panel.body.slides-scroll
+      ul.list-group(ui-sortable="orderUpdated", ng-model="selectedSlides")
+        li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides | filter: { content: {name: deckSlidesSearch}}")
+          mixin slideCell("removeSlideFromDeck(selected, selectedSlides, slide)") 
+.col-md-4
+  .panel.panel-primary
+    .panel-heading
+      h2 Slajdy
+      input.form-control(placeholder="Search...", ng-model='allSlidesSearch')
+    .panel.body.slides-scroll 
+      ul.list-group
+        li.list-group-item.hover-trigger(ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}}")
+          mixin slideCell("removeSlide(slides, slide)")  
+          a.pull-right.hover-content.cursor-pointer(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
+            span.glyphicon.glyphicon-plus.text-success
+            | &nbsp;
+
+

@@ -7,8 +7,19 @@ exports.index = function(req, res) {
             return;
         }
         res.render('slider/index', {
-            title: 'Available slide decks',
-            decks: decks
+            title: 'Xplatform',
+            decks: decks,
+            events: [{
+                title: 'JS contexty',
+                date: '-'
+            }, {
+                title: 'iOS - wprowadzenie',
+                date: '-'
+            }, {
+                title: 'Swift - poczatki',
+                date: '-'
+            }
+            ]
         });
     });
 };
