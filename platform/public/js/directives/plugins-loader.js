@@ -16,6 +16,10 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                         var childScope = null;
 
                         var refresh = function() {
+                            if (!$scope.context) {
+                                return;
+                            }
+
                             if (childScope) {
                                 childScope.$destroy();
                             }

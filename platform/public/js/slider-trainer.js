@@ -1,23 +1,25 @@
-require(['config', '/require/plugins/paths'], function(config, plugins) {
-    require(["require/decks/" + slides,
-        "require/decks/" + slides + "/slides",
-        "slider/slider",
-        "slider/slider.plugins",
-        "directives/layout-loader",
-        "directives/plugins-loader",
-        "services/Sockets"
-    ].concat(plugins), function(deck, deckSlides, slider, sliderPlugins) {
-        slider.controller('TrainerCtrl', ['$scope', '$window',
-            function($scope, $window) {
-                $scope.slide = deck.slides[0];
-                $scope.deck = deck;
-            }
-        ]);
+require([
+    "slider/slider",
+    "slider/slider.plugins",
+    "slider/bootstrap",
+    "services/DeckAndSlides",
+    "services/Sockets",
+    "directives/plugins-loader"
+], function(slider, sliderPlugins, bootstrap) {
 
-        angular.bootstrap(document, ["slider"]);
-        // TODO shitty
-        setTimeout(function() {
-            sliderPlugins.trigger('load');
-        }, 200);
-    });
+    slider.controller('TrainerCtrl', ['$scope', '$window', 'DeckAndSlides',
+
+        function($scope, $window, DeckAndSlides) {
+
+            DeckAndSlides.deck.then(function(deck) {
+                $scope.deck = deck;
+            });
+            DeckAndSlides.slides.then(function(slides) {
+                $scope.slide = slides[0];
+            });
+
+        }
+    ]);
+
+    bootstrap();
 });

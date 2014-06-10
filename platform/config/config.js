@@ -11,6 +11,8 @@ var config = {
     development: {
         root: rootPath,
         staticsPath: staticsPath,
+        jsModulesPath: staticsPath + '/js',
+        doLiveReload: true,
         app: {
             name: 'platform'
         },
@@ -27,6 +29,7 @@ var config = {
     test: {
         root: rootPath,
         staticsPath: staticsPath,
+        jsModulesPath: staticsPath + '/js',
         app: {
             name: 'platform'
         },
@@ -43,6 +46,7 @@ var config = {
     production: {
         root: rootPath,
         staticsPath: staticsPath,
+        jsModulesPath: staticsPath + '/js/bin',
         app: {
             name: 'platform'
         },

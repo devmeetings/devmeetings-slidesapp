@@ -9,6 +9,24 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
 
+    var rjsOptimizationModule = function(module) {
+        return {
+            options: {
+                baseUrl: "public/js",
+                mainConfigFile: "public/js/config.js",
+                findNestedDependencies: true,
+                name: module, // assumes a production build using almond
+                out: "public/js/bin/" + module + ".js",
+                paths: {
+                    "slider/bootstrap": "bin/bootstrap",
+                    "require/plugins/paths": "../../bin/plugins_paths",
+                    "socket.io": "empty:"
+                },
+                optimize: "none"
+            }
+        };
+    };
+
     grunt.initConfig({
         copy: {
             theme: {
@@ -32,7 +50,7 @@ module.exports = function(grunt) {
                         nodemon.on('config:update', function() {
                             setTimeout(function() {
                                 open('http://localhost:' + SERVER_PORT);
-                            }, 5000);
+                            }, 3000);
                         });
 
                         nodemon.on('restart', function() {
@@ -57,7 +75,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['public/js/**/*.js', 'public/plugins/**/*.js'],
-                tasks: ['jshint:public'],
+                tasks: ['jshint:public', 'complexity'],
                 options: {
                     livereload: true
                 }
@@ -71,7 +89,7 @@ module.exports = function(grunt) {
             },
             server: {
                 files: ['./*.js', 'config/*.js', 'app/**/*.js'],
-                tasks: ['jshint:server']
+                tasks: ['jshint:server', 'complexity']
             },
             rebootServer: {
                 files: ['.rebooted'],
@@ -81,7 +99,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js'],
+            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/bin/**'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
         },
         less: {
@@ -92,7 +110,8 @@ module.exports = function(grunt) {
             },
             build: {
                 options: {
-                    cleancss: true
+                    cleancss: true,
+                    sourceMap: true
                 },
                 files: {
                     'public/css/style.css': 'public/less/style.less'
@@ -109,7 +128,7 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/data.js', "!public/js/config.js", '!public/js/data-*.js', '!public/plugins/slide-jsmicrotasks/jsmicrotasks.js'],
+                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', "!public/js/config.js", /* Because of hashCode function */ '!public/plugins/slide-jsmicrotasks/jsmicrotasks.js', '!public/js/data-*.js', '!public/js/bin/**'],
                 options: {
                     breakOnErrors: true,
                     errorsOnly: true,
@@ -119,7 +138,36 @@ module.exports = function(grunt) {
                     hideComplexFunctions: false
                 }
             }
+        },
+        requirejs: {
+            deck: rjsOptimizationModule("slider-deck"),
+            slide: rjsOptimizationModule("slider-slide"),
+            trainer: rjsOptimizationModule("slider-trainer")
         }
+    });
+
+    grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
+        var async = this.async();
+
+        var glob = require('glob');
+        glob("public/plugins/**/*.js", function(err, files) {
+            if (err) {
+                throw new Error("Cannot find plugins");
+            }
+            files = files.map(function(file) {
+                return file.replace(/.js$/, '').replace(/^public\//, '');
+            });
+
+            var mkdirp = require('mkdirp');
+            mkdirp('bin', function() {
+
+                var bootstrap = grunt.file.read('public/js/slider/bootstrap-prod.js');
+                bootstrap = bootstrap.replace('"<plugins>"', JSON.stringify(files));
+                grunt.file.write("public/js/bin/bootstrap.js", bootstrap);
+
+                async();
+            });
+        });
     });
 
     grunt.registerTask('hooks', 'Set up proper git hooks', function() {
@@ -129,14 +177,16 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent']);
     grunt.registerTask('server', function() {
         grunt.log.errorlns('Did you mean `grunt serve`?');
         grunt.log.ok('Running `serve` task');
         grunt.task.run('serve');
     });
 
-    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'complexity']);
+    grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'requirejs']);
+    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent']);
+    grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
+    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'optimize']);
 
     grunt.registerTask('default', ['serve']);
 };
