@@ -1,8 +1,7 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.factory('DeckAndSlides', ['$q',
+    sliderPlugins.factory('CurrentSlide', ['$q',
         function($q) {
-
-            /* TODO [ToDr] Rethink and merge CurrentSlide & CurrentSlideManager & DeckAndSlides */
+        /* TODO [ToDr] Rethink and merge CurrentSlide & CurrentSlideManager & DeckAndSlides */
             var asPromise = function(path) {
                 var result = $q.defer();
                 require([path], function(promiseResult) {
@@ -11,10 +10,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                 return result.promise;
             };
 
-            return {
-                deck: asPromise('require/decks/' + slides),
-                slides: asPromise('require/decks/' + slides + '/slides')
-            };
+            return asPromise('require/slides/' + slideId);
         }
     ]);
 });

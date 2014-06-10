@@ -2,6 +2,7 @@
      sliderPlugins.factory('CurrentSlideManager', ['$rootScope', '$location', 'Sockets', 'DeckAndSlides',
          function($rootScope, $location, Sockets, DeckAndSlides) {
 
+             /* TODO [ToDr] Rethink and merge CurrentSlide & CurrentSlideManager & DeckAndSlides */
              var csm = {
                  activeSlideId: 0
              };

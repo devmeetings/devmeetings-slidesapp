@@ -2,15 +2,15 @@ require([
     "slider/slider",
     "slider/slider.plugins",
     "slider/bootstrap",
-    "services/DeckAndSlides",
+    "services/CurrentSlide",
     "directives/plugins-loader",
     "directives/contenteditable"
 ], function(slider, sliderPlugins, bootstrap) {
 
-    slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'Sockets', 'DeckAndSlides',
-        function($rootScope, $scope, $window, $http, Sockets, DeckAndSlides) {
+    slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'Sockets', 'CurrentSlide',
+        function($rootScope, $scope, $window, $http, Sockets, CurrentSlide) {
 
-            DeckAndSlides.currentSlide.then(function(slide) {
+            CurrentSlide.then(function(slide) {
                 $scope.slide = slide.content;
             });
 
