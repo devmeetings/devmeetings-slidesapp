@@ -42,6 +42,11 @@ module.exports = function(app, config) {
         app.use(passport.initialize());
         app.use(passport.session());
         app.use(express.methodOverride());
+        app.use(function(req, res, next) {
+            req.jsModulesPath = config.jsModulesPath;
+            req.doLiveReload = config.doLiveReload;
+            next();
+        });
         app.use(app.router);
         app.use(function(req, res) {
             res.status(404).render('404', {

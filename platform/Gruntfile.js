@@ -9,6 +9,23 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
 
+    var rjsOptimizationModule = function(module) {
+        return {
+            options: {
+                baseUrl: "public/js",
+                mainConfigFile: "public/js/config.js",
+                findNestedDependencies: true,
+                name: module, // assumes a production build using almond
+                out: "public/js/bin/" + module + ".js",
+                paths: {
+                    "require/plugins/paths": "../../bin/plugins_paths",
+                    "socket.io": "empty:"
+                },
+                optimize: "none"
+            }
+        };
+    };
+
     grunt.initConfig({
         copy: {
             theme: {
@@ -57,7 +74,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['public/js/**/*.js', 'public/plugins/**/*.js'],
-                tasks: ['jshint:public'],
+                tasks: ['jshint:public', 'complexity'],
                 options: {
                     livereload: true
                 }
@@ -71,7 +88,7 @@ module.exports = function(grunt) {
             },
             server: {
                 files: ['./*.js', 'config/*.js', 'app/**/*.js'],
-                tasks: ['jshint:server']
+                tasks: ['jshint:server', 'complexity']
             },
             rebootServer: {
                 files: ['.rebooted'],
@@ -92,7 +109,8 @@ module.exports = function(grunt) {
             },
             build: {
                 options: {
-                    cleancss: true
+                    cleancss: true,
+                    sourceMap: true
                 },
                 files: {
                     'public/css/style.css': 'public/less/style.less'
@@ -121,19 +139,9 @@ module.exports = function(grunt) {
             }
         },
         requirejs: {
-            compile: {
-                options: {
-                    baseUrl: "public/js",
-                    mainConfigFile: "public/js/config.js",
-                    findNestedDependencies: true,
-                    name: "slider-deck", // assumes a production build using almond
-                    out: "public/js/bin/slider-deck.js",
-                    paths: {
-                        "require/plugins/paths": "../../bin/plugins_paths",
-                        "socket.io": "empty:"
-                    }
-                }
-            }
+            deck: rjsOptimizationModule("slider-deck"),
+            slide: rjsOptimizationModule("slider-slide"),
+            trainer: rjsOptimizationModule("slider-trainer")
         }
     });
 
@@ -171,8 +179,9 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('optimize', ['create-plugins-paths', 'requirejs']);
-    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent']);
-    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'complexity']);
+    grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent']);
+    grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
+    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'optimize']);
 
     grunt.registerTask('default', ['serve']);
 };
