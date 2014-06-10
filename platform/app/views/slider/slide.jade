@@ -2,7 +2,6 @@ extends ../layouts/main
 
 append scripts
   script.
-    window.slides = "#{slides}";
     window.slideId = "#{slide}";
   script(src='/static/components/requirejs/require.js', data-main='/static/js/slider-slide')
   // Inspectlet

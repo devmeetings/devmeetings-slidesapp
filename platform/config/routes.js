@@ -59,9 +59,9 @@ module.exports = function(app) {
     //home route
     var slider = ctrl('slider');
     app.get('/', authenticated, slider.index);
-    app.get('/slides/:slides', authenticated, slider.deck);
-    app.get('/slides/:slides/trainer', authenticated, slider.trainer);
-    app.get('/slides/:slides/slide-:slide', authenticated, slider.slide);
+    app.get('/decks/:slides', authenticated, slider.deck);
+    app.get('/decks/:slides/trainer', authenticated, slider.trainer);
+    app.get('/slides/:slide', authenticated, slider.slide);
 
     // Admin panel
     var admin = ctrl('admin');

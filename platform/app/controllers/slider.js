@@ -18,8 +18,7 @@ exports.index = function(req, res) {
             }, {
                 title: 'Swift - poczatki',
                 date: '-'
-            }
-            ]
+            }]
         });
     });
 };
@@ -36,7 +35,6 @@ exports.deck = function(req, res) {
 exports.slide = function(req, res) {
     res.render('slider/slide', {
         title: 'Slide',
-        slides: req.params.slides,
         slide: req.params.slide,
         editMode: req.query.edit
     });
