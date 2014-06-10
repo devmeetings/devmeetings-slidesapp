@@ -18,6 +18,7 @@ module.exports = function(grunt) {
                 name: module, // assumes a production build using almond
                 out: "public/js/bin/" + module + ".js",
                 paths: {
+                    "slider/bootstrap": "bin/bootstrap",
                     "require/plugins/paths": "../../bin/plugins_paths",
                     "socket.io": "empty:"
                 },
@@ -145,7 +146,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('create-plugins-paths', 'Create /require/plugins/paths file', function() {
+    grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
         var async = this.async();
 
         var glob = require('glob');
@@ -159,7 +160,11 @@ module.exports = function(grunt) {
 
             var mkdirp = require('mkdirp');
             mkdirp('bin', function() {
-                grunt.file.write("bin/plugins_paths.js", 'define([], ' + JSON.stringify(files) + ');');
+
+                var bootstrap = grunt.file.read('public/js/slider/bootstrap-prod.js');
+                bootstrap = bootstrap.replace('"<plugins>"', JSON.stringify(files));
+                grunt.file.write("public/js/bin/bootstrap.js", bootstrap);
+
                 async();
             });
         });
@@ -178,7 +183,7 @@ module.exports = function(grunt) {
         grunt.task.run('serve');
     });
 
-    grunt.registerTask('optimize', ['create-plugins-paths', 'requirejs']);
+    grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'requirejs']);
     grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent']);
     grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
     grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'optimize']);

@@ -1,6 +1,7 @@
 require.config({
     "baseUrl": "/static/js",
     "paths": {
+        "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
         "require": "../../require",
         "plugins": "../plugins",
