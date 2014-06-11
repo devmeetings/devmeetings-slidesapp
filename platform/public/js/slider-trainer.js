@@ -11,10 +11,10 @@ require([
 
         function($scope, $window, DeckAndSlides) {
 
-            DeckAndSlides.deck.then(function(deck) {
+            DeckAndSlides.inContextOf('deck').deck.then(function(deck) {
                 $scope.deck = deck;
             });
-            DeckAndSlides.slides.then(function(slides) {
+            DeckAndSlides.inContextOf('deck').slides.then(function(slides) {
                 $scope.slide = slides[0];
             });
 

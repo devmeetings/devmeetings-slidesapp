@@ -43,8 +43,10 @@ module.exports = function(app, config) {
         app.use(passport.session());
         app.use(express.methodOverride());
         app.use(function(req, res, next) {
-            req.jsModulesPath = config.jsModulesPath;
-            req.doLiveReload = config.doLiveReload;
+            var configRewrite = ['jsModulesPath', 'doLiveReload', 'withGoogleAnalytics', 'withInspectlet'];
+            configRewrite.map(function(what) {
+                req[what] = config[what];
+            });
             next();
         });
         app.use(app.router);

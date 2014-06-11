@@ -23,32 +23,35 @@ exports.index = function(req, res) {
     });
 };
 
+var _ = require('lodash');
+var stdReq = function(req, obj) {
 
-exports.deck = function(req, res) {
-    res.render('slider/deck', {
-        title: 'Devmeetings.pl',
-        slides: req.params.slides,
+    return _.extend({
         editMode: req.query.edit,
         jsModulesPath: req.jsModulesPath,
-        doLiveReload: req.doLiveReload
-    });
+        doLiveReload: req.doLiveReload,
+        withGoogleAnalytics: req.withGoogleAnalytics,
+        withInspectlet: req.withInspectlet
+    }, obj);
+};
+
+exports.deck = function(req, res) {
+    res.render('slider/deck', stdReq(req, {
+        title: 'Devmeetings.pl',
+        slides: req.params.slides,
+    }));
 };
 
 exports.slide = function(req, res) {
-    res.render('slider/slide', {
+    res.render('slider/slide', stdReq(req, {
         title: 'Slide',
-        slide: req.params.slide,
-        editMode: req.query.edit,
-        jsModulesPath: req.jsModulesPath,
-        doLiveReload: req.doLiveReload
-    });
+        slide: req.params.slide
+    }));
 };
 
 exports.trainer = function(req, res) {
-    res.render('slider/trainer', {
+    res.render('slider/trainer', stdReq(req, {
         title: "Trainer's Screen",
-        slides: req.params.slides,
-        jsModulesPath: req.jsModulesPath,
-        doLiveReload: req.doLiveReload
-    });
+        slides: req.params.slides
+    }));
 };

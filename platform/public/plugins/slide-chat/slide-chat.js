@@ -1,4 +1,4 @@
-define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module, sliderPlugins, SocketsFactory) {
+define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(module, sliderPlugins, SocketsFactory) {
 
     var EXECUTION_DELAY = 300;
     var path = sliderPlugins.extractPath(module);
@@ -29,8 +29,9 @@ define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module,
                 }
             };
         }
-    ]).controller('ChatController', ['$scope', '$timeout', 'Sockets',
-        function($scope, $timeout, Sockets) {
+    ]).controller('ChatController', ['$scope', '$timeout', 'Sockets', 'DeckAndSlides',
+
+        function($scope, $timeout, Sockets, DeckAndSlides) {
 
             var slide = $scope.slide.id;
 
@@ -51,8 +52,8 @@ define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module,
 
             $scope.sendMessage = function() {
                 var data = {
-                    presentation: presentation,
-                    slide: slide,
+                    presentation: DeckAndSlides.deckId,
+                    slide: DeckAndSlides.slideId,
                     comment: $scope.messageText,
                     timestamp: new Date().getTime(),
                     code: $scope.code
@@ -71,8 +72,8 @@ define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module,
             });
 
             Sockets.emit('chat.join', {
-                presentation: presentation,
-                slide: slide
+                presentation: DeckAndSlides.deckId,
+                slide: DeckAndSlides.slideId
             }, function(data) {
                 $scope.$apply(function() {
                     $scope.messages = $scope.messages.concat(data);

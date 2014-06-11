@@ -47,6 +47,8 @@ var config = {
         root: rootPath,
         staticsPath: staticsPath,
         jsModulesPath: staticsPath + '/js/bin',
+        withGoogleAnalytics: true,
+        withInspectlet: true,
         app: {
             name: 'platform'
         },

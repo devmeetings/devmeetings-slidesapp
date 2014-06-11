@@ -1,10 +1,10 @@
-define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'], function(module, _, sliderPlugins, CurrentSlideManager) {
+define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$timeout', '$rootScope', 'CurrentSlideManager',
-        function($timeout, $rootScope, CurrentSlideManager) {
+        '$timeout', '$rootScope', 'CurrentSlideManagerForDeck',
+        function($timeout, $rootScope, CurrentSlideManagerForDeck) {
 
             return {
                 restrict: 'E',
@@ -19,7 +19,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager'],
                         scope.slideSource = '/slides/' + activeSlideId + ($rootScope.editMode ? '?edit=true' : '');
                     };
 
-                    scope.csm = CurrentSlideManager;
+                    scope.csm = CurrentSlideManagerForDeck;
                     scope.$watch('csm.activeSlideId', onSlideChange);
 
                     // refresh size
