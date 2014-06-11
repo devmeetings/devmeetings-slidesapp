@@ -24,6 +24,11 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                         refreshNotes();
                     });
 
+                    scope.$on('FollowUser:stopFollow', function(){
+                        scope.followUser = false;
+                    });
+
+
                     Sockets.on('trainer.participants', function(data) {
                         var user;
                         if(scope.followUser)

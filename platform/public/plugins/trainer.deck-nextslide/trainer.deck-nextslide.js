@@ -25,6 +25,10 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                         scope.followUser = user;
                     });
 
+                    scope.$on('FollowUser:stopFollow', function(){
+                        scope.followUser = false;
+                    });
+
                     scope.getSlidePath = function() {
                         var slideId = getNextSlideId(scope.followUser.currentSlide);
                         return '/slides/' + slideId;

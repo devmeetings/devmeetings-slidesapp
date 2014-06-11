@@ -30,15 +30,11 @@ var broadcastClientsToTrainers = function(io, roomId) {
 
 
 var getClient = function(io, roomId, id){
-    var userSocket;
-    io.sockets.clients(roomId).forEach(function(client){
-        if(client.id === id)
-        {
-            userSocket = client;
-        }
+    var clients = io.sockets.clients(roomId).filter(function(client){
+        return client.id === id
     });
 
-    return userSocket;
+    return (clients.length === 1) ? clients[0] : false;
 };
 
 

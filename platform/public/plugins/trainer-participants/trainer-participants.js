@@ -17,8 +17,16 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     $scope.followUserId = null;
 
                     $scope.follow = function(userId){
-                        $scope.followUserId = userId;
-                        $rootScope.$broadcast('FollowUser:change', _.find($scope.users, {id: $scope.followUserId}));
+                        if($scope.followUserId != userId)
+                        {
+                            $scope.followUserId = userId;
+                            $rootScope.$broadcast('FollowUser:change', _.find($scope.users, {id: $scope.followUserId}));
+                        }
+                        else
+                        {
+                            $scope.followUserId = null;
+                            $rootScope.$broadcast('FollowUser:stopFollow');
+                        }
                     };
 
                     $scope.goToNextSlide = function(){
