@@ -14,18 +14,16 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         return code;
     };
 
-    var triggerCodeChange = _.debounce(function(code, editMode, ev, editor) {
-        if (editMode){
-            this.$apply( function() {
-                code.content = editor.getValue(); 
-            });
-        }
+    var triggerCodeChange = _.debounce(function(code, ev, editor) {
+        this.$apply( function() {
+            code.content = editor.getValue(); 
+        });
         sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
     }, 100);
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
-        '$timeout', '$rootScope',
-        function($timeout, $rootScope) {
+        '$timeout',
+        function($timeout) {
 
             var editor = null;
 
@@ -40,7 +38,7 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                     scope.code = getCodeData(scope.code);
                     var code = scope.code;
 
-                    var codeChangeCallback = triggerCodeChange.bind(scope, scope.code, $rootScope.editMode);
+                    var codeChangeCallback = triggerCodeChange.bind(scope, scope.code);
 
                     $timeout(function() {
                         editor = ace.edit(element[0].childNodes[0]);
