@@ -14,13 +14,18 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         return code;
     };
 
-    var triggerCodeChange = _.debounce(function(ev, editor) {
+    var triggerCodeChange = _.debounce(function(code, editMode, ev, editor) {
+        if (editMode){
+            this.$apply( function() {
+                code.content = editor.getValue(); 
+            });
+        }
         sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
     }, 100);
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
-        '$timeout',
-        function($timeout) {
+        '$timeout', '$rootScope',
+        function($timeout, $rootScope) {
 
             var editor = null;
 
@@ -35,17 +40,19 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                     scope.code = getCodeData(scope.code);
                     var code = scope.code;
 
+                    var codeChangeCallback = triggerCodeChange.bind(scope, scope.code, $rootScope.editMode);
+
                     $timeout(function() {
                         editor = ace.edit(element[0].childNodes[0]);
                         editor.setTheme("ace/theme/" + EDITOR_THEME);
                         editor.getSession().setMode('ace/mode/' + code.mode);
 
-                        editor.on('change', triggerCodeChange);
+                        editor.on('change', codeChangeCallback);
                         editor.setValue(code.content, -1);
                     });
 
                     sliderPlugins.onLoad(function() {
-                        triggerCodeChange({}, editor);
+                        codeChangeCallback({}, editor);
                     });
 
                 }

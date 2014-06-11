@@ -11,13 +11,12 @@ require([
         function($rootScope, $scope, $window, $http, Sockets, DeckAndSlides) {
 
             DeckAndSlides.inContextOf('slide').slide.then(function(slide) {
-                $scope.slide = slide.content;
+                $scope.slide = slide;
             });
 
             $scope.$on('slide', function(ev, slide_content) {
-                $scope.slide = slide_content;
-                Sockets.emit('slide.edit.put', slide);
-            });
+                $scope.slide.content = slide_content;
+            }); 
 
             $scope.modes = [{
                 namespace: 'slide',

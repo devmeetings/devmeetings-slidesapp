@@ -1,4 +1,4 @@
-define(['_', 'slider/slider.plugins'], function(_, sliderPlugins) {
+define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function(_, sliderPlugins, DeckAndSlides) {
 
     var EXECUTION_DELAY = 500;
 
@@ -10,16 +10,21 @@ define(['_', 'slider/slider.plugins'], function(_, sliderPlugins) {
                 scope: {
                     data: '=data',
                     slide: '=context'
-                }
+                },
+                controller: 'SlideEditSyncController'
             };
         }
-    ]).controller('SlideEditSyncController', ['$scope', 'Sockets',
-        function($scope, Sockets) {
-            _.forEach(['css', 'html', 'js'], function (trigger) {
-                sliderPlugins.listen($scope, 'slide.slide-fiddle.change', _.debounce( function(fiddle) {
-                
-                }, EXECUTION_DELAY));
-            });
+    ]).controller('SlideEditSyncController', ['$scope', 'Sockets', 'DeckAndSlides',
+        function($scope, Sockets, DeckAndSlides) {
+        
+            $scope.$watch('slide', function (newSlide, oldSlide){
+                if (newSlide) {
+                    Sockets.emit('slide.edit.put', {
+                        _id: DeckAndSlides.slideId,
+                        content: angular.copy(newSlide)
+                    });
+                }
+            }, true);
         }
     ]);
 });
