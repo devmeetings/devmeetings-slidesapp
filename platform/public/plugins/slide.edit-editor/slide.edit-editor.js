@@ -30,16 +30,17 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                     editor.on('change', updateSlideContentThrottled);
 
                     scope.$watch('slide', _.throttle(function (newSlide, oldSlide) {
-                        if (newSlide) {
-
-                            var slideString = JSON.stringify(newSlide, null, 2);
-                            if (editor.getValue() !== slideString) {
-                                editor.off('change', updateSlideContentThrottled);
-                                editor.setValue(slideString);
-                                editor.on('change', updateSlideContentThrottled);
-                            }
-
+                        if (newSlide === undefined) {
+                            return ;
                         }
+
+                        var slideString = JSON.stringify(newSlide, null, 2);
+                        if (editor.getValue() !== slideString) {
+                            editor.off('change', updateSlideContentThrottled);
+                            editor.setValue(slideString);
+                            editor.on('change', updateSlideContentThrottled);
+                        }
+
                     }, 300), true);
                 }
             };
