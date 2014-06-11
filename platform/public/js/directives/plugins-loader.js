@@ -13,17 +13,15 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                     function($scope, $element, $rootScope) {
                         var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context"></<%= pluginName%>>');
 
-                        var childScope = null;
+                        var childScope = $scope.$new();
 
                         var refresh = function() {
                             if (!$scope.context) {
                                 return;
                             }
 
-                            if (childScope) {
-                                childScope.$destroy();
-                            }
                             $element.empty();
+                            childScope.$destroy();
                             childScope = $scope.$new();
 
                             var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
@@ -44,7 +42,19 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                         if (!$scope.noRefresh) {
                             $scope.$watch('context', refresh);
                         } else {
-                            refresh();
+                            if ($scope.context) {
+                                refresh();
+                            } else {
+                                var isFired = false;
+                                var refreshOnce = function() {
+                                    if (!$scope.context || isFired) {
+                                        return;
+                                    }
+                                    isFired = true;
+                                    refresh();
+                                };
+                                $scope.$watch('context', refreshOnce);
+                            }
                         }
                     }
                 ]

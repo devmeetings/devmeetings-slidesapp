@@ -26,4 +26,4 @@ block content
   .container-fluid(ng-controller="SlideCtrl")
     .row
       .col-lg-12
-        plugins-loader(ng-repeat="mode in modes", namespace="mode.namespace", context="slide", no-refresh="!mode.refresh")
+        plugins-loader(ng-repeat="mode in modes", namespace="mode.namespace", context="slide.content", no-refresh="!mode.refresh")
