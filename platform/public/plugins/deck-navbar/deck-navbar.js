@@ -1,10 +1,10 @@
-define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 'services/DeckAndSlides'], function(module, _, sliderPlugins, CurrentSlideManager, DeckAndSlides) {
+define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', 'services/DeckAndSlides'], function(module, _, sliderPlugins, CurrentSlideManagerForDeck, DeckAndSlides) {
 
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', '*', 'deck-navbar', 1).directive('deckNavbar', [
-        '$rootScope', '$location', '$http', 'CurrentSlideManager', 'DeckAndSlides', 'Sockets',
-        function($rootScope, $location, $http, CurrentSlideManager, DeckAndSlides, Sockets) {
+        '$rootScope', '$location', '$http', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'Sockets',
+        function($rootScope, $location, $http, CurrentSlideManagerForDeck, DeckAndSlides, Sockets) {
 
             return {
                 restrict: 'E',
@@ -14,18 +14,18 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                 templateUrl: path + '/deck-navbar.html',
 
                 link: function(scope) {
-                    scope.csm = CurrentSlideManager;
+                    scope.csm = CurrentSlideManagerForDeck;
 
-                    Sockets.on('slide.trainer.change_slide', function(slideId){
-                        scope.$apply(function(){
+                    Sockets.on('slide.trainer.change_slide', function(slideId) {
+                        scope.$apply(function() {
                             $location.path(slideId);
                         });
                     });
 
-                    DeckAndSlides.slides.then(function(slides) {
+                    DeckAndSlides.inContextOf('deck').slides.then(function(slides) {
                         scope.slides = slides;
                     });
-                    DeckAndSlides.deck.then(function(deck) {
+                    DeckAndSlides.inContextOf('deck').deck.then(function(deck) {
                         scope.deck = deck;
                     });
 
@@ -43,7 +43,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManager', 
                             name: 'New slide'
                         };
 
-                        $http.post('/api/slides', newSlide).success( function (data, status) {
+                        $http.post('/api/slides', newSlide).success(function(data, status) {
                             scope.slides = scope.slides.concat({
                                 content: newSlide,
                                 _id: data[0]

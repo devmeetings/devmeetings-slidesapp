@@ -1,12 +1,12 @@
-define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], function(_, sliderPlugins, io, asEvented, guid) {
+define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid', 'services/DeckAndSlides'], function(_, sliderPlugins, io, asEvented, guid) {
 
-    var CreateWebSocket = function(targetOrigin, $window, $location) {
+    var CreateWebSocket = function(targetOrigin, $window, $location, deckId) {
         var WebSocket = {
 
             _socket: null,
 
             _initialize: function() {
-                this._socket = io.connect('http://' + $location.host() + "/?deck=" + slides);
+                this._socket = io.connect('http://' + $location.host() + "/?deck=" + deckId);
                 var s = this._socket;
                 this.emit = s.emit.bind(s);
                 this.on = s.on.bind(s);
@@ -139,8 +139,8 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], f
         return BaseSocket;
     };
 
-    sliderPlugins.factory('Sockets', ['$location', '$window',
-        function($location, $window) {
+    sliderPlugins.factory('Sockets', ['$location', '$window', 'DeckAndSlides',
+        function($location, $window, DeckAndSlides) {
             var targetOrigin = $window.location;
 
             // ifowisko
@@ -148,7 +148,7 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid'], f
             if ($window.parent.___hasSockets) {
                 Sockets = CreateForwardingSocket(targetOrigin, $window);
             } else {
-                Sockets = CreateWebSocket(targetOrigin, $window, $location);
+                Sockets = CreateWebSocket(targetOrigin, $window, $location, DeckAndSlides.deckId);
             }
 
             //initialize
