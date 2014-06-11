@@ -18,12 +18,13 @@ define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function(_, sli
         function($scope, Sockets, DeckAndSlides) {
         
             $scope.$watch('slide', function (newSlide, oldSlide){
-                if (newSlide) {
-                    Sockets.emit('slide.edit.put', {
-                        _id: DeckAndSlides.slideId,
-                        content: angular.copy(newSlide)
-                    });
+                if (newSlide === undefined) {
+                    return;
                 }
+                Sockets.emit('slide.edit.put', {
+                    _id: DeckAndSlides.slideId,
+                    content: angular.copy(newSlide)
+                });
             }, true);
         }
     ]);
