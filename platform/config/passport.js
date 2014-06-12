@@ -24,13 +24,13 @@ var getOrCreate = function(user, callback) {
         }
 
         // It's not in DB. We have to insert that
-        UserModel.create(user, function(err) {
+        UserModel.create(user, function(err, dbUser) {
             if (err) {
                 callback(err);
                 return;
             }
 
-            callback(null, user);
+            callback(null, dbUser);
         });
     });
 };
