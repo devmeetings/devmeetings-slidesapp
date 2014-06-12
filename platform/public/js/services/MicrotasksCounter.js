@@ -8,7 +8,7 @@ define(['slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], 
                     Sockets.emit('microtasks.counter.done', {
                         deck: DeckAndSlides.deckId,
                         slide: DeckAndSlides.slideId,
-                        
+                        task: task.hash 
                     });
                 }
             };
