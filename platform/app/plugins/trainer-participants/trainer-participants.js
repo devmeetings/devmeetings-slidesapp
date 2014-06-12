@@ -31,7 +31,7 @@ var broadcastClientsToTrainers = function(io, roomId) {
 
 var getClient = function(io, roomId, id){
     var clients = io.sockets.clients(roomId).filter(function(client){
-        return client.id === id
+        return client.id === id;
     });
 
     return (clients.length === 1) ? clients[0] : false;
