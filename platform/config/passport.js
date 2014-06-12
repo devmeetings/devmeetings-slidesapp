@@ -3,12 +3,36 @@ var passport = require('passport'),
     GoogleStrategy = require('passport-google').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
     users = require('../users.json'),
-    config = require('./config');
+    config = require('./config'),
+    UserModel = require('../app/models/user');
 
 var msg = function(message) {
     return {
         message: message
     };
+};
+
+
+var getOrCreate = function(user, callback) {
+    UserModel.findOne({
+        userId: user.userId
+    }).exec().then(function(dbUser) {
+        if (dbUser) {
+            // User found just pass
+            callback(null, dbUser);
+            return;
+        }
+
+        // It's not in DB. We have to insert that
+        UserModel.create(user, function(err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            callback(null, user);
+        });
+    });
 };
 
 passport.use(new LocalStrategy(function(username, password, done) {
@@ -22,16 +46,20 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return;
     }
 
-    done(null, user);
+    getOrCreate(user, done);
 }));
 
 passport.use(new GoogleStrategy({
     returnURL: config.realmUrl + "/auth/google/return",
     realm: config.realmUrl
 }, function(identifier, profile, done) {
-    done(null, {
+
+    var user = {
+        userId: identifier,
         name: profile.displayName
-    });
+    };
+
+    getOrCreate(user, done);
 }));
 
 passport.use(new FacebookStrategy({
@@ -40,23 +68,22 @@ passport.use(new FacebookStrategy({
     clientSecret: config.fb.secret,
     callbackURL: config.realmUrl + "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-    done(null, {
+
+    var user = {
+        userId: profile.id,
         name: profile.name
-    });
+    };
+
+    getOrCreate(user, done);
 }));
 
 
 passport.serializeUser(function(user, done) {
-    done(null, user.name);
+    done(null, user.userId);
 });
 
 passport.deserializeUser(function(username, done) {
-    // TODO - awful, create users in DB instead of this shit
-    if (users[username]) {
-        done(null, users[username]);
-    } else {
-        done(null, {
-            name: username
-        });
-    }
+    UserModel.findOne({
+        userId: username
+    }).exec(done);
 });

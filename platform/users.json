@@ -1,6 +1,7 @@
 {
-  "test": {
-      "name": "test",
-      "password": "testpass"
-  }
+    "test": {
+        "userId": "internal:test",
+        "name": "Tester Testowy",
+        "password": "testpass"
+    }
 }
