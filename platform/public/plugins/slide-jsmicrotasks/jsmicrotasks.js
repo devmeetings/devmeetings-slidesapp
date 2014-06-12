@@ -29,8 +29,8 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
                 templateUrl: path + '/jsmicrotasks.html',
                 link: function(scope, element) {
 
-                    
-                    _.forEach(scope.microtasks, function (task) {
+                    scope.microtasksCopy = _.clone(scope.microtasks, true); // copy microtasks, cause we will modify it, and we do not want to save modifications 
+                    _.forEach(scope.microtasksCopy, function (task) {
                         var keys = _.keys(task);
                         _.forEach(keys, function (key) {
                             var plugin = _.find(sliderPlugins.getPlugins('microtasks', key), function (plugin) {

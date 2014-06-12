@@ -1,5 +1,5 @@
 .microtasks
-  .microtask.alert(ng-repeat="task in microtasks", 
+  .microtask.alert(ng-repeat="task in microtasksCopy", 
     tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="left",
     ng-class="{'alert-danger': !task.completed, 'alert-success': task.completed }")
     span.microtask-status
