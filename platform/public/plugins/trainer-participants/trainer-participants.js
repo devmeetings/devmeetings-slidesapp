@@ -13,24 +13,45 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     slide: '=context'
                 },
                 templateUrl: path + '/trainer-participants.html',
-                controller: ['$scope', '$rootScope', function($scope, $rootScope){
-                    $scope.followUserId = null;
+                controller: ['$scope', '$rootScope',
+                    function($scope, $rootScope) {
+                        $scope.followUserId = null;
 
-                    $scope.follow = function(userId){
-                        $scope.followUserId = userId;
-                        $rootScope.$broadcast('FollowUser:change', _.find($scope.users, {id: $scope.followUserId}));
-                    };
+                        $scope.follow = function(userId) {
+                            var user;
+                            if ($scope.followUserId === userId) {
+                                // unfollow
+                                userId = null;
+                                user = null;
+                            } else {
+                                user = _.find($scope.users, {
+                                    id: userId
+                                });
+                            }
 
-                    $scope.goToNextSlide = function(){
-                        var user =  _.find($scope.users, {id: $scope.followUserId});
-                        Sockets.emit('trainer.follow.nextSlide', {user: user});
-                    };
+                            $scope.followUserId = userId;
+                            $rootScope.$broadcast('FollowUser:change', user);
+                        };
 
-                    $scope.goToPrevSlide = function(){
-                        var user =  _.find($scope.users, {id: $scope.followUserId});
-                        Sockets.emit('trainer.follow.prevSlide', {user: user});
-                    };
-                }],
+                        $scope.goToNextSlide = function() {
+                            var user = _.find($scope.users, {
+                                id: $scope.followUserId
+                            });
+                            Sockets.emit('trainer.follow.nextSlide', {
+                                user: user
+                            });
+                        };
+
+                        $scope.goToPrevSlide = function() {
+                            var user = _.find($scope.users, {
+                                id: $scope.followUserId
+                            });
+                            Sockets.emit('trainer.follow.prevSlide', {
+                                user: user
+                            });
+                        };
+                    }
+                ],
                 link: function(scope) {
                     Sockets.emit('trainer.register', {}, function(data) {
                         $rootScope.$apply(function() {
