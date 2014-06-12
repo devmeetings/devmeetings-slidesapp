@@ -25,7 +25,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                                 user = null;
                             } else {
                                 user = _.find($scope.users, {
-                                    id: $scope.followUserId
+                                    id: userId
                                 });
                             }
 
