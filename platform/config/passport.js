@@ -2,9 +2,10 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
-    users = require('../users.json'),
+    usersFromJson = require('../users.json'),
     config = require('./config'),
-    UserModel = require('../app/models/user');
+    users = require('../app/services/users'),
+    _ = require('lodash');
 
 var msg = function(message) {
     return {
@@ -12,31 +13,11 @@ var msg = function(message) {
     };
 };
 
-
-var getOrCreate = function(user, callback) {
-    UserModel.findOne({
-        userId: user.userId
-    }).exec().then(function(dbUser) {
-        if (dbUser) {
-            // User found just pass
-            callback(null, dbUser);
-            return;
-        }
-
-        // It's not in DB. We have to insert that
-        UserModel.create(user, function(err, dbUser) {
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            callback(null, dbUser);
-        });
-    });
-};
-
 passport.use(new LocalStrategy(function(username, password, done) {
-    var user = users[username];
+    var user = _.find(usersFromJson, function(user) {
+        return user.login === username;
+    });
+
     if (!user) {
         done(null, false, msg("Cannot find user " + username));
         return;
@@ -46,7 +27,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return;
     }
 
-    getOrCreate(user, done);
+    users.getOrCreateUser(user, done);
 }));
 
 passport.use(new GoogleStrategy({
@@ -59,7 +40,7 @@ passport.use(new GoogleStrategy({
         name: profile.displayName
     };
 
-    getOrCreate(user, done);
+    users.getOrCreateUser(user, done);
 }));
 
 passport.use(new FacebookStrategy({
@@ -74,7 +55,7 @@ passport.use(new FacebookStrategy({
         name: profile.name
     };
 
-    getOrCreate(user, done);
+    users.getOrCreateUser(user, done);
 }));
 
 
@@ -82,8 +63,6 @@ passport.serializeUser(function(user, done) {
     done(null, user.userId);
 });
 
-passport.deserializeUser(function(username, done) {
-    UserModel.findOne({
-        userId: username
-    }).exec(done);
+passport.deserializeUser(function(userId, done) {
+    users.findByUserId(userId, done);
 });
