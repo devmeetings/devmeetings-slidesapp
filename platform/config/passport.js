@@ -2,8 +2,10 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
-    users = require('../users.json'),
-    config = require('./config');
+    usersFromJson = require('../users.json'),
+    config = require('./config'),
+    users = require('../app/services/users'),
+    _ = require('lodash');
 
 var msg = function(message) {
     return {
@@ -12,7 +14,10 @@ var msg = function(message) {
 };
 
 passport.use(new LocalStrategy(function(username, password, done) {
-    var user = users[username];
+    var user = _.find(usersFromJson, function(user) {
+        return user.login === username;
+    });
+
     if (!user) {
         done(null, false, msg("Cannot find user " + username));
         return;
@@ -22,16 +27,20 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return;
     }
 
-    done(null, user);
+    users.getOrCreateUser(user, done);
 }));
 
 passport.use(new GoogleStrategy({
     returnURL: config.realmUrl + "/auth/google/return",
     realm: config.realmUrl
 }, function(identifier, profile, done) {
-    done(null, {
+
+    var user = {
+        userId: identifier,
         name: profile.displayName
-    });
+    };
+
+    users.getOrCreateUser(user, done);
 }));
 
 passport.use(new FacebookStrategy({
@@ -40,23 +49,20 @@ passport.use(new FacebookStrategy({
     clientSecret: config.fb.secret,
     callbackURL: config.realmUrl + "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-    done(null, {
+
+    var user = {
+        userId: profile.id,
         name: profile.name
-    });
+    };
+
+    users.getOrCreateUser(user, done);
 }));
 
 
 passport.serializeUser(function(user, done) {
-    done(null, user.name);
+    done(null, user.userId);
 });
 
-passport.deserializeUser(function(username, done) {
-    // TODO - awful, create users in DB instead of this shit
-    if (users[username]) {
-        done(null, users[username]);
-    } else {
-        done(null, {
-            name: username
-        });
-    }
+passport.deserializeUser(function(userId, done) {
+    users.findByUserId(userId, done);
 });
