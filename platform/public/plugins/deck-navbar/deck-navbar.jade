@@ -11,8 +11,21 @@ nav.navbar.navbar-default.navbar-slides(role='navigation')
       span.icon-bar
       span.icon-bar
       span.icon-bar
-    a.navbar-brand.text-muted(href='/')
-      span.glyphicon.glyphicon-th-large
+    ul.nav.navbar-nav.navbar-left
+      li.dropdown
+        a.dropdown-toggle.text-muted.cursor-pointer(data-toggle="dropdown") 
+          span.glyphicon.glyphicon-th-large
+        ul.dropdown-menu
+          li: a(href="?edit=true")
+            span.fa.fa-pencil
+            |  Edit Mode
+          li: a(href="{{ deckUrl }}/trainer")
+            span.fa.fa-graduation-cap
+            |  Trainer Mode
+          li.divider
+          li: a(href="/") 
+            span.fa.fa-paper-plane
+            |  All slides
 
   #navbar-slides.collapse.navbar-collapse
     div.slimScrollDiv(style="position: relative; width: calc(100% - 60px); height: 60px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 

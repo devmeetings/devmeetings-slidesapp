@@ -15,6 +15,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
 
                 link: function(scope) {
                     scope.csm = CurrentSlideManagerForDeck;
+                    scope.deckUrl = '/decks/' + DeckAndSlides.deckId;
 
                     Sockets.on('slide.trainer.change_slide', function(slideId) {
                         scope.$apply(function() {
