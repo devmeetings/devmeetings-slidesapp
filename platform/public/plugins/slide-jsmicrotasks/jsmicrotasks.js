@@ -33,7 +33,7 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
                     _.forEach(scope.microtasksCopy, function (task) {
                         var keys = _.keys(task);
                         _.forEach(keys, function (key) {
-                            var plugin = _.find(sliderPlugins.getPlugins('microtasks', key), function (plugin) {
+                            var plugin = _.find(sliderPlugins.getPlugins('microtask.runner', key), function (plugin) {
                                 return plugin.plugin;
                             });
                             if (plugin) {
