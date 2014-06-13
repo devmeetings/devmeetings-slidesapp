@@ -15,7 +15,6 @@ exports.onSocket = function(log, socket, io) {
             var room = taskRoom(slideId);
             Participants.getParticipants(io, room).then( function (participants) {
                 SlideData.findBySlideIdOrCreate( slideId, function (err, slideData) {
-                    log('WATCHx :', slideData);
                     if (err) {
                         console.error(err);
                         return;
@@ -31,7 +30,7 @@ exports.onSocket = function(log, socket, io) {
                     var solvedArray = _.map(slideData.content.microtasks, function (task) {
                         return {
                             total: participantsIds.length,
-                            solved: task.users ? _.intersection(task.users, participants.Ids).length : 0,
+                            solved: task.solvedByUsers ? _.intersection(task.solvedByUsers, participantsIds).length : 0,
                             task: task.hash
                         };
                     });
@@ -82,8 +81,11 @@ exports.onSocket = function(log, socket, io) {
             }
 
             socket.get('clientData', function(err, clientData) {
+                if (_.contains(task.solvedByUsers, clientData.user.userId)){
+                    return;
+                }
+
                 task.solvedByUsers.push(clientData.user.userId);
-                console.log('MARKa: %j', slideData);
                 SlideData.updateSlideData(slideData, function (err, slideData) {
                     if (err) {
                         console.error(err);
