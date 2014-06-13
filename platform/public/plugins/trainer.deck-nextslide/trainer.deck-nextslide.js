@@ -14,7 +14,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 },
                 templateUrl: path + '/trainer.deck-nextslide.html',
                 link: function(scope) {
-                    scope.followUser = false;
+                    scope.followUser = null;
 
                     function getNextSlideId(slideId) {
                         var currentSlidePosition = scope.deck.slides.indexOf(slideId);
@@ -31,14 +31,16 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     };
 
                     Sockets.on('trainer.participants', function(data) {
-                        if (scope.followUser) {
-                            var user = _.find(data, {
-                                id: scope.followUser.id
-                            });
-                            scope.$apply(function() {
-                                scope.followUser = (user) ? user : false;
-                            });
+                        if (!scope.followUser) {
+                            return;
                         }
+
+                        var user = _.find(data, {
+                            id: scope.followUser.id
+                        });
+                        scope.$apply(function() {
+                            scope.followUser = user || null;
+                        });
                     });
                 }
             };

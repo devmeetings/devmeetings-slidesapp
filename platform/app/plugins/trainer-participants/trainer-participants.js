@@ -29,20 +29,16 @@ var broadcastClientsToTrainers = function(io, roomId) {
 };
 
 
-var getClient = function(io, roomId, id){
-    var userSocket;
-    io.sockets.clients(roomId).forEach(function(client){
-        if(client.id === id)
-        {
-            userSocket = client;
-        }
+var getClient = function(io, roomId, id) {
+    var clients = io.sockets.clients(roomId).filter(function(client) {
+        return client.id === id;
     });
 
-    return userSocket;
+    return clients[0];
 };
 
 
-var broadcastTrainerChangeSlide = function(userData, callback){
+var broadcastTrainerChangeSlide = function(userData, callback) {
 
     DeckModel.find().where('id').equals(userData.deck).exec(function(err, decks) {
         var deck;
@@ -97,17 +93,17 @@ exports.onSocket = function(log, socket, io) {
         });
     });
 
-    socket.on('trainer.follow.nextSlide', function(data){
+    socket.on('trainer.follow.nextSlide', function(data) {
         var userSocket = getClient(io, data.deck, data.user.id);
-        broadcastTrainerChangeSlide(data, function(userData, deck){
+        broadcastTrainerChangeSlide(data, function(userData, deck) {
             var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
             userSocket.emit('slide.trainer.change_slide', deck.slides[(++currentSlidePosition % deck.slides.length)]);
         });
     });
 
-    socket.on('trainer.follow.prevSlide', function(data){
+    socket.on('trainer.follow.prevSlide', function(data) {
         var userSocket = getClient(io, data.deck, data.user.id);
-        broadcastTrainerChangeSlide(data, function(userData, deck){
+        broadcastTrainerChangeSlide(data, function(userData, deck) {
             var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
             currentSlidePosition = (currentSlidePosition === 0) ? deck.slides.length : currentSlidePosition;
             userSocket.emit('slide.trainer.change_slide', deck.slides[(--currentSlidePosition)]);
