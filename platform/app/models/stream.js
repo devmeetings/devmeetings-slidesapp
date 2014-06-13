@@ -2,16 +2,13 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var StreamItemSchema = new Schema({
-    userId: Schema.ObjectId,
-    deckId: Schema.ObjectId,
+    userId: String,
+    streamId: String,
     message: String,
     type: String,
-    data: Schema.Types.Mixed
+    data: Schema.Types.Mixed,
+    timestamp: Date
 });
 
-StreamItemSchema.virtual('date')
-    .get(function() {
-        return this._id.getTimestamp();
-    });
 
 module.exports = mongoose.model('StreamItem', StreamItemSchema);

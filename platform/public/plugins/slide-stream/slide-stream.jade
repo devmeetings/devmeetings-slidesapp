@@ -1,0 +1,7 @@
+.slide-stream
+  .list-group
+    .list-group-item(ng-repeat="item in stream|orderBy:'timestamp':true")
+      div(ng-if="item.type === 'commit'")
+        span.text-muted {{ item.timestamp | date }}
+        |  
+        a(href="/slides/{{item.data}}") {{ item.message }} by {{ item.userId }}
