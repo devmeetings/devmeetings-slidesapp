@@ -13,7 +13,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 templateUrl: path + '/slide-survey.html',
                 link: function(scope, element) {
                     scope.paymentData = {};
-
+/*
                     scope.treasures = [{
                         text: "Nagranie z warsztatu LUB dostęp do kodu",
                         value: 10
@@ -25,7 +25,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                         value: 0,
                         maxValue: 1
                     }];
-                    
+  */                  
 
                     scope.showTreasure = function(x){
                         var first = x.value <= scope.survey.payment;
