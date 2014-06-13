@@ -1,9 +1,8 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
+define(['module', 'slider/slider.plugins', 'services/MicrotasksCounter'], function(module, sliderPlugins, MicrotasksCounter) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'slide-microtasks-counter', 'slide-microtasks-counter' ).directive('slideMicrotasksCounter', [
-
-        function() {
+    sliderPlugins.registerPlugin('slide', 'counter', 'slide-microtasks-counter' ).directive('slideMicrotasksCounter', ['MicrotasksCounter',
+        function( MicrotasksCounter ) {
             return {
                 restrict: 'E',
                 scope: {
@@ -12,7 +11,17 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 },
                 templateUrl: path + '/slide-microtasks-counter.html',
                 link: function (scope, element) {
-                    scope.name = 'slide-microtasks-counter';
+                    MicrotasksCounter.listen( function (data) {
+                        
+                    });
+
+                    var task = {
+                        hash: 1231
+                    };
+
+                    MicrotasksCounter.watch( task );
+
+                    MicrotasksCounter.markTaskAsDone( task ); 
                 }
             };
         }

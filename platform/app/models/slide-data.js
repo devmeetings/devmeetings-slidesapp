@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var SlideData = new Schema({
-    userId: Schema.ObjectId,
-    slideId: Schema.SlideId,
+    slideId: Schema.ObjectId,
     content: Schema.Types.Mixed
 });
 

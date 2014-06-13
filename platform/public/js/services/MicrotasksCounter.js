@@ -3,18 +3,25 @@ define(['slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], 
         function(Sockets, DeckAndSlides) {
             
             var MicrotasksCounter = {
-                count: 0,
                 markTaskAsDone: function( task ) {
                     Sockets.emit('microtasks.counter.done', {
-                        deck: DeckAndSlides.deckId,
-                        slide: DeckAndSlides.slideId,
-                        task: task.hash 
+                        slideId: DeckAndSlides.slideId,
+                        taskHash: task.hash 
                     });
+                },
+                watch: function( task ) {
+                    Sockets.emit('microtasks.counter.watch', {
+                        slideId: DeckAndSlides.slideId,
+                        taskHash: task.hash
+                    });
+                }, 
+                listen: function( callback ) {
+                    Sockets.on('microtasks.counter.notify', callback);
                 }
             };
 
 
-            return MicrotaskCounter;
+            return MicrotasksCounter;
         }
     ]);
 });

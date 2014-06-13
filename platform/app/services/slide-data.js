@@ -5,11 +5,15 @@ exports.findBySlideIdOrCreate = function (slideId, callback) {
         slideId: slideId 
     }).exec().then( function (slideData) {
         if (slideData) {
+            slideData.content = slideData.content ? slideData.content : {};
             callback(null, slideData);
             return;
         }
 
-        SlideDataModel.create(slideId, function (err, slideData) {
+        SlideDataModel.create({
+            slideId : slideId,
+            content : {}
+        }, function (err, slideData) {
             if (err) {
                 callback(err);
                 return;
@@ -21,6 +25,7 @@ exports.findBySlideIdOrCreate = function (slideId, callback) {
 };
 
 exports.updateSlideData = function (slideData, callback) {
+    slideData = slideData.toObject();
     var slideDataId = slideData._id;
     delete slideData._id;
 
