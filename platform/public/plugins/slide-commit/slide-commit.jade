@@ -1,0 +1,11 @@
+.row
+  .col-sm-3.offset-sm-8
+      input.form-control(placeholder="Commit message", ng-model="commitMessage", ng-disabled="committing")
+   .col-sm-1
+      button.btn.btn-success(ng-disabled="committing || !commitMessage.length", ng-click="commit()")
+        span.fa.fa-circle-o-notch.fa-spin(ng-show="committing")
+        span(ng-show="committing")   Working
+        span.fa.fa-cloud-upload(ng-show="!committing")
+        span(ng-show="!committing")  Commit work
+
+      
