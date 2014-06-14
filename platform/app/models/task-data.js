@@ -1,16 +1,17 @@
 var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
-var SlideData = new Schema({
+var TaskData = new Schema({
     slideId: Schema.ObjectId,
     userId: String,
-    content: Schema.Types.Mixed
+    tasks: []
 });
 
-SlideData.virtual('date')
-    .get(function() {
+TaskData.virtual('date')
+    .get(function () {
         return this._id.getTimestamp();
     });
 
-module.exports = mongoose.model('SlideData', SlideData);
+module.exports = mongoose.model('TaskData', TaskData);
+
 

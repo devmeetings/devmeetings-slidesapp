@@ -1,6 +1,8 @@
+var Q = require('q');
 var _ = require('lodash');
 var Participants = require('../../services/participants');
 var pluginsEvents = require('../events');
+var TaskData = require('../../services/task-data');
 var SlideData = require('../../services/slide-data');
 
 
@@ -41,7 +43,40 @@ exports.onSocket = function(log, socket, io) {
         }, 1000))();
     };
 
+
+
+    var saveTaskAsDone = function(slideId, taskHash, done) {
+        return Participants.getClientData(socket).then( function (clientData) {
+            return TaskData.getOrCreateTaskData( slideId, clientData.user.userId );
+        }).then( function (taskData) {
+            log('db taskdata: ', taskData);
+            var task =_.find(taskData.tasks, function (task) {
+                return task.hash === taskHash;
+            });
+            if (!task) {
+                task = {
+                    hash: taskHash,
+                    done: done
+                };
+                taskData.tasks.push(task);
+            } else {
+                task.done = task.done || done;
+            }
+
+            var result = Q.defer();   
+            taskData.markModified('tasks');
+            taskData.save( function (err, taskData) {
+                if (err) {
+                    log(err);
+                }
+                result.resolve(taskData);
+            });
+            return result.promise;
+        }); 
+    };
+
     // required: 
+    // data.tashHash
     // data.slideId
     var watchTasks = function(data, res) {
         log('WATCH :', data);
@@ -49,8 +84,12 @@ exports.onSocket = function(log, socket, io) {
             slideId: data.slideId
         }); 
         var room = taskRoom(data.slideId);
-        socket.join(room); 
-        broadcastState(data.slideId);
+        socket.join(room);
+        saveTaskAsDone(data.slideId, data.taskHash, false).then (function (taskData) {
+            log('WATCH1 :', taskData);
+        });
+
+        //broadcastState(data.slideId);
     };
 
     // required: 
@@ -58,6 +97,25 @@ exports.onSocket = function(log, socket, io) {
     // data.taskHash
     var markTaskAsDone = function(data, res) {
         log('MARK :', data);
+        
+        saveTaskAsDone(data.slideId, data.taskHash, true).then (function (taskData) {
+            log('MARK1 :', taskData);
+        });
+        
+
+        /*var room = taskRoom(data.slideId);
+        Participants.getParticipants(io, room).then( function (participants) {
+            var participantsIds = _.uniq(_.map(participants, function (object) {
+                return object.user.userId;
+            }));
+
+            return TaskData.getTaskDataForUsers(data.slideId, participantsIds);
+        }).then( function (taskDataArray) {
+            log('MARK1 :', taskDataArray);
+            var task = _.find(tasks
+        });*/
+
+        /*
         SlideData.findBySlideIdOrCreate( data.slideId, function (err, slideData) {
             if (err) {
                 console.error(err);
@@ -95,6 +153,7 @@ exports.onSocket = function(log, socket, io) {
                 });
             });
         });
+        */
     };
 
 
@@ -107,7 +166,7 @@ exports.onSocket = function(log, socket, io) {
             
             var room = taskRoom(taskData.slideId);
             socket.leave(room);
-            broadcastState(taskData.slideId);
+            //broadcastState(taskData.slideId);
         });
     };
 
