@@ -20,11 +20,19 @@ define(['module', '_', 'slider/slider.plugins', 'services/MicrotasksCounter'], f
                             return object.task === scope.task.hash;
                         });
                         if (taskInfo) {
-                            scope.taskInfo = taskInfo;
+                            scope.$apply( function () {
+                                scope.taskInfo = taskInfo;
+                            });
                         }
                     });
                     
                     MicrotasksCounter.watch( scope.task );
+
+                    scope.$watch('task.completed', function (completed) {
+                        if (completed) {
+                            MicrotasksCounter.markTaskAsDone(scope.task); 
+                        }
+                    });
                 }
             };
         }

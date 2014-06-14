@@ -3,4 +3,10 @@
     "userId": "internal:test",
     "name": "Tester Testowy",
     "password": "testpass"
+},
+{
+    "login": "test2",
+    "userId": "internal:test2",
+    "name": "Tester Testowy2",
+    "password": "testpass"
 }]

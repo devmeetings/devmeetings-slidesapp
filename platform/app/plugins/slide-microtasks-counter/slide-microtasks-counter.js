@@ -91,16 +91,17 @@ exports.onSocket = function(log, socket, io) {
                         console.error(err);
                         return;
                     }
-                    broadcastState(taskRoom(data.slideId));
+                    broadcastState(data.slideId);
                 });
             });
         });
     };
 
 
+    // TODO fix this, cause currently it triggers only when user leave the deck
     var onDisconnect = function(data, res) {
         socket.get('taskData', function (err, taskData) {
-            if (err || !data) {
+            if (err || !taskData) {
                 return;
             }
             
