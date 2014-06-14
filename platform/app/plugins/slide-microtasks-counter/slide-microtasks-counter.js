@@ -20,17 +20,19 @@ exports.onSocket = function(log, socket, io) {
                 }));
                 return TaskData.getTaskDataForUsers(slideId, participantsIds);
             }).then( function (taskDataArray) {
-                var total = taskDataArray.length;
-                var solved = _.reduce(taskDataArray, function (sum, taskData) {
-                    var task = _.find(taskData.tasks, function (task) {
-                        return task.hash === taskHash;
+                var result = {
+                    total: 0,
+                    solved: 0
+                };
+
+                _.forEach(taskDataArray, function (taskData) {
+                    var task = _.find(taskData.tasks, function (object) {
+                        return object.hash === taskHash;
                     });
-                    return sum + (task && task.done ? 1 : 0);
-                }, 0);
-                io.sockets.in(room).emit('microtasks.counter.notify' + taskHash, {
-                    total: total,
-                    solved: solved
+                    result.total += (task ? 1 : 0);
+                    result.solved += (task && task.done ? 1 : 0);
                 });
+                io.sockets.in(room).emit('microtasks.counter.notify' + taskHash, result);
             });
         }, 1000))();
     };
@@ -67,7 +69,14 @@ exports.onSocket = function(log, socket, io) {
     // required: 
     // data.taskHash
     // data.slideId
+    var socketWatchLock = false;
     var watchTasks = function(data, res) {
+        if (socketWatchLock) {
+            _.delay(watchTasks, 200, data, res);
+            return;
+        }
+        socketWatchLock = true;
+
         socket.set('taskData', {
             slideId: data.slideId,
             taskHash: data.taskHash
@@ -75,6 +84,7 @@ exports.onSocket = function(log, socket, io) {
         var room = taskRoom(data.slideId, data.taskHash);
         socket.join(room);
         saveTaskAsDone(data.slideId, data.taskHash, false).then (function (taskData) {
+            socketWatchLock = false;
             broadcastState(data.slideId, data.taskHash);
         });
     };
@@ -89,7 +99,7 @@ exports.onSocket = function(log, socket, io) {
     };
 
 
-    // TODO fix this, cause currently it triggers only when user leave the deck
+    // currently it triggers only when user leave the deck
     var onDisconnect = function(data, res) {
         socket.get('taskData', function (err, taskData) {
             if (err || !taskData) {
