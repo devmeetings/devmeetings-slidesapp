@@ -3,7 +3,6 @@ var _ = require('lodash');
 var Participants = require('../../services/participants');
 var pluginsEvents = require('../events');
 var TaskData = require('../../services/task-data');
-var SlideData = require('../../services/slide-data');
 
 
 var taskRoom = function (slideId, taskHash) {
@@ -21,7 +20,6 @@ exports.onSocket = function(log, socket, io) {
                 }));
                 return TaskData.getTaskDataForUsers(slideId, participantsIds);
             }).then( function (taskDataArray) {
-                log('MARK1 :', taskDataArray);
                 var total = taskDataArray.length;
                 var solved = _.reduce(taskDataArray, function (sum, taskData) {
                     var task = _.find(taskData.tasks, function (task) {
@@ -41,7 +39,6 @@ exports.onSocket = function(log, socket, io) {
         return Participants.getClientData(socket).then( function (clientData) {
             return TaskData.getOrCreateTaskData( slideId, clientData.user.userId );
         }).then( function (taskData) {
-            log('db taskdata: ', taskData);
             var task =_.find(taskData.tasks, function (task) {
                 return task.hash === taskHash;
             });
