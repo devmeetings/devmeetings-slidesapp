@@ -1,18 +1,11 @@
 var pluginsEvents = require('../events');
-var Q = require('q');
 var DeckModel = require('../../models/deck');
+var Participants = require('../../services/participants');
+var _ = require('lodash');
 
 
 var trainersRoom = function(roomId) {
     return roomId + '_trainers';
-};
-
-var getParticipants = function(io, roomId) {
-    var clients = io.sockets.clients(roomId).map(function(socket) {
-        return Q.ninvoke(socket, 'get', 'clientData');
-    });
-
-    return Q.all(clients);
 };
 
 var updateClientData = function(socket, updater) {
@@ -23,18 +16,16 @@ var updateClientData = function(socket, updater) {
 };
 
 var broadcastClientsToTrainers = function(io, roomId) {
-    getParticipants(io, roomId).then(function(participants) {
-        io.sockets. in (trainersRoom(roomId)).emit('trainer.participants', participants);
+    Participants.getParticipants(io, roomId).then(function(participants) {
+        io.sockets.in(trainersRoom(roomId)).emit('trainer.participants', participants);
     }, console.error);
 };
 
 
-var getClient = function(io, roomId, id) {
-    var clients = io.sockets.clients(roomId).filter(function(client) {
+var getClient = function(io, roomId, id){
+    return _.find(io.sockets.clients(roomId), function(client) {
         return client.id === id;
     });
-
-    return clients[0];
 };
 
 
@@ -87,7 +78,7 @@ exports.onSocket = function(log, socket, io) {
 
             // Join trainers room
             socket.join(trainersRoom(data.deck));
-            getParticipants(io, data.deck).then(function(participants) {
+            Participants.getParticipants(io, data.deck).then(function(participants) {
                 socket.emit('trainer.participants', participants);
             }, console.error);
         });

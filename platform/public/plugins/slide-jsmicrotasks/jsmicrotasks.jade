@@ -7,3 +7,4 @@
       span.glyphicon.glyphicon-question-sign.text-warning(ng-show="!task.completed")
     span &nbsp;
     span.microtask-text(ng-bind-html="task.description")
+    plugins-loader(namespace="'microtask'", context="task")

@@ -4,7 +4,7 @@ define(['_', 'utils/Plugins'], function(_, Plugins) {
     var EXECUTION_DELAY = 500;
 
     _.forEach(['css', 'html', 'js'], function (trigger) {
-        Plugins.registerPlugin('microtasks', trigger, function (task, registerPlugin, listenPlugin, markTaskCompleted) {
+        Plugins.registerPlugin('microtask.runner', trigger, function (task, registerPlugin, listenPlugin, markTaskCompleted) {
             //TODO fix these awful code, mk
             listenPlugin('slide.slide-fiddle.change', _.debounce( function(fiddle) {
                 if (task.completed) {

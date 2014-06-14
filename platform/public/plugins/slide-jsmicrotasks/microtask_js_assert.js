@@ -1,7 +1,7 @@
 define(['_','utils/Plugins'], function(_, Plugins) {
     'use strict';
 
-    Plugins.registerPlugin('microtasks', 'js_assert', function (task, registerPlugin, listenPlugin, markTaskCompleted){
+    Plugins.registerPlugin('microtask.runner', 'js_assert', function (task, registerPlugin, listenPlugin, markTaskCompleted){
         registerPlugin('slide.slide-jsrunner', 'process', {
             monitor: task.monitor,
             name: task.hash
