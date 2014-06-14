@@ -15,15 +15,10 @@ define(['module', '_', 'slider/slider.plugins', 'services/MicrotasksCounter'], f
                         solved: 0
                     };
 
-                    MicrotasksCounter.listen( function (data) {
-                        var taskInfo =_.find(data, function (object) {
-                            return object.task === scope.task.hash;
+                    MicrotasksCounter.listen(scope.task, function (taskInfo) {
+                        scope.$apply( function () {
+                            scope.taskInfo = taskInfo;
                         });
-                        if (taskInfo) {
-                            scope.$apply( function () {
-                                scope.taskInfo = taskInfo;
-                            });
-                        }
                     });
                     
                     MicrotasksCounter.watch( scope.task );

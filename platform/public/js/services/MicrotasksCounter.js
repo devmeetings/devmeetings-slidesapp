@@ -15,8 +15,8 @@ define(['slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], 
                         taskHash: task.hash
                     });
                 }, 
-                listen: function( callback ) {
-                    Sockets.on('microtasks.counter.notify', callback);
+                listen: function(task, callback ) {
+                    Sockets.on('microtasks.counter.notify' + task.hash, callback);
                 }
             };
 
