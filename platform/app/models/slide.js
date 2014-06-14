@@ -1,8 +1,9 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var SlideSchema = new Schema({
-    content: Schema.Types.Mixed 
+    parentId: Schema.ObjectId,
+    content: Schema.Types.Mixed
 });
 
 SlideSchema.virtual('date')
