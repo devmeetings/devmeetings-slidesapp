@@ -1,18 +1,18 @@
-var fs = require('promised-io/fs');
-var pluginsPath = 'app/plugins/';
-var _ = require('lodash');
+var fs = require('promised-io/fs'),
+    _ = require('lodash'),
+    pluginsPath = 'app/plugins/';
 
 var plugins = fs.readdir(pluginsPath).then(function(files) {
+
     return files.filter(function(pluginName) {
         return fs.statSync(pluginsPath + pluginName).isDirectory();
     }).map(function(pluginName) {
         try {
-            var mod = require("../" + pluginsPath + pluginName + "/" + pluginName);
+            var mod = require('../' + pluginsPath + pluginName + '/' + pluginName);
             mod.name = pluginName;
             return mod;
         } catch (e) {
-            console.warn("Cannot load plugin " + pluginName, e);
-            return null;
+            throw new Error('Cannot load plugin ' + pluginName);
         }
     }).filter(function(plugin) {
         return plugin;
@@ -41,30 +41,15 @@ CollectionPromise.prototype = {
             return list;
         }));
     },
-
     invokePlugins: function(functionName, args) {
-        var invokingFunc = null;
-
-        // Decide where args come from
-        if (_.isFunction(args)) {
-            invokingFunc = function(plugin) {
-                var realArgs = args(plugin);
-                plugin[functionName].apply(plugin, realArgs);
-            };
-        } else {
-            invokingFunc = function(plugin) {
-                plugin[functionName].apply(plugin, args);
-            };
-        }
-
+        var invokingFunc = function(plugin) {
+            plugin[functionName].apply(plugin, _.isFunction(args) ? args(plugin) : args);
+        };
         this.filter(function(plugin) {
             return plugin[functionName];
         }).forEach(invokingFunc);
     }
 };
 
-var pluginsCollection = new CollectionPromise(plugins);
-
-
-module.exports = pluginsCollection;
+module.exports = new CollectionPromise(plugins);
 module.exports.all = plugins;
