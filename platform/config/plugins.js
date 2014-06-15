@@ -3,7 +3,9 @@ var pluginsPath = 'app/plugins/';
 var _ = require('lodash');
 
 var plugins = fs.readdir(pluginsPath).then(function(files) {
-    return files.map(function(pluginName) {
+    return files.filter(function(pluginName) {
+        return fs.statSync(pluginsPath + pluginName).isDirectory();
+    }).map(function(pluginName) {
         try {
             var mod = require("../" + pluginsPath + pluginName + "/" + pluginName);
             mod.name = pluginName;
