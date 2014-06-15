@@ -45,10 +45,8 @@ exports.onSocket = function (log, socket) {
         getConnections(data, false, function (connections) {
             if (connections) {
 
-                var qtCon = connections.map(function(el){return el.username});
-                console.log('connections',qtCon);
+                var qtCon = connections.map(function(el){return el.username;});
                 queueTable = robin(qtCon.length, qtCon);
-                console.log('qt',queueTable);
             }
             socket.emit('speedDating.roundRobin', queueTable);
             socket.broadcast.emit('speedDating.roundRobin', queueTable);
