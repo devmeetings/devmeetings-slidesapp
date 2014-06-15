@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'speedDating', 'slide-speed-dating', 3000).directive('slideSpeedDating', [
-        '$timeout', 'Sockets','DeckAndSlides',
-        function ($timeout, Sockets,DeckAndSlides) {
+        '$timeout', 'Sockets', 'DeckAndSlides',
+        function ($timeout, Sockets, DeckAndSlides) {
 
             var sounds = new howler.Howl({
                 urls: [path + '/sounds/sprite.mp3', path + '/sounds/sprite.wav'],
@@ -25,11 +25,6 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                         time: 5,
                         perPerson: 10
                     });
-                    // test values
-
-                    scope.speedDating.time = 5;
-                    scope.speedDating.perPerson = 10;
-
                     var toInt = function (x) {
                         var i = parseInt(x, 10);
                         return isNaN(i) ? 0 : i;
@@ -39,30 +34,19 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                         scope.session.left = scope.interactions;
                     };
                     scope.$watch('speedDating', updateInteractions, true);
-
-
                     scope.session = {
                         running: false,
                         timeLeft: 5,
                         type: 0,
                         left: scope.interactions,
-                        round:0
+                        round: 0
                     };
 
                     scope.testPlay = function (what) {
                         sounds.play(what);
                     };
-
-
-                    var session = {
-                        running: true,
-                        type: 0,
-                        left: scope.interactions,
-                        round:0,
-                        endDate: new Date()
-                    };
                     scope.startDating = function () {
-                         Sockets.emit('speedDating.startDating');
+                        Sockets.emit('speedDating.startDating');
                     };
                     var updateTimeLeft = function () {
                         scope.session.timeLeft = (scope.session.endDate.getTime() - new Date().getTime()) / 1000;
@@ -106,8 +90,8 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
 
                     var change = timer.bind(null, function () {
                         return change;
-                    },  toInt(scope.speedDating.time), function () {
-                        Sockets.emit('speedDating.nextRound',{round: scope.session.round});
+                    }, toInt(scope.speedDating.time), function () {
+                        Sockets.emit('speedDating.nextRound', {round: scope.session.round});
                         // get round start check qt table and start calling.
                         talking(true);
                     });
@@ -117,7 +101,7 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                         // destroy calling
                         change(true);
                     });
-                    Sockets.on('speedDating.startDating',function(){
+                    Sockets.on('speedDating.startDating', function () {
                         change(true);
                         sounds.play('newPerson');
                     });
@@ -132,7 +116,8 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
 
                     DeckAndSlides.deck.then(function (data) {
                         Sockets.emit('speedDating.countQueues',
-                            {deck: data._id, slide: scope.slide.id},function () {});
+                            {deck: data._id, slide: scope.slide.id}, function () {
+                            });
                     });
                 }
             };
@@ -177,28 +162,28 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                 peer.on('close', function () {
                     // destroy connection
                 });
-                peer.on('call', function(call) {
+                peer.on('call', function (call) {
                     // Answer the call, providing our mediaStream
                     callConnection = call;
-                    callConnection.on('stream', function(stream) {
+                    callConnection.on('stream', function (stream) {
                         document.querySelector('video.other').src = URL.createObjectURL(stream);
                     });
                     callConnection.answer(MyMediaStream);
                 });
             };
 
-            Sockets.on('speedDating.startRound',function(data){
-                if(callConnection && callConnection.close)
+            Sockets.on('speedDating.startRound', function (data) {
+                if (callConnection && callConnection.close)
                     callConnection.close();
-                if(data.type === 'call') {
+                if (data.type === 'call') {
                     callConnection = peer.call(data.user.username.replace(/[^\w|-]|\s/g, '_'), MyMediaStream);
-                    callConnection.on('stream', function(stream) {
+                    callConnection.on('stream', function (stream) {
                         document.querySelector('video.other').src = URL.createObjectURL(stream);
                     });
                 }
             });
-            Sockets.on('speedDating.finish',function(){
-                if(callConnection && callConnection.close)
+            Sockets.on('speedDating.finish', function () {
+                if (callConnection && callConnection.close)
                     callConnection.close();
             });
             User.setCallback(connectToPeer);
