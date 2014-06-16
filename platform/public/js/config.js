@@ -21,7 +21,8 @@ require.config({
         "angular-animate": "../components/angular-animate/angular-animate",
         "howler": "../components/howler/howler",
         "angular-touch": "../components/angular-touch/angular-touch",
-        "angular-slider": "../components/venturocket-angular-slider/build/angular-slider"
+        "angular-slider": "../components/venturocket-angular-slider/build/angular-slider",
+        "peerjs":"../components/peerjs/peer.min"
     },
     "map": {
         "*": {
