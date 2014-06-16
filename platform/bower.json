@@ -28,7 +28,6 @@
     "almond": "~0.2.9"
   },
   "resolutions": {
-    "angular": "~1.2.14",
-    "font-awesome": "~4.1.0"
+    "angular": "~1.2.14"
   }
 }
