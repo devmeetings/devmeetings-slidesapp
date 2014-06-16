@@ -25,7 +25,9 @@ define([], [{
     "title": "Node runner / server runner",
     "notes": "",
     "id": "slide1-node",
-    "name": "Node runner"
+    "name": "Node runner",
+    "commit": true,
+    "stream": true
 }, {
     "microtasks": [{
         "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",

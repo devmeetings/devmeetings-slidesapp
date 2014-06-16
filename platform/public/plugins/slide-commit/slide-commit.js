@@ -20,6 +20,7 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
                         scope.committing = true;
 
                         Sockets.emit('slide.commit', {
+                            deckId: DeckAndSlides.deckId,
                             parentId: DeckAndSlides.slideId,
                             slideContent: scope.slide,
                             message: scope.commitMessage

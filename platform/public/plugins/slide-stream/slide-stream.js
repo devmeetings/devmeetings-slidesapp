@@ -1,9 +1,11 @@
-define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module, sliderPlugins) {
+define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'stream', 'slide-stream').directive('slideStream', [
-        'Sockets',
-        function(Sockets) {
+        'Sockets', 'DeckAndSlides',
+        function(Sockets, DeckAndSlides) {
+
+            var streamId = DeckAndSlides.deckId || DeckAndSlides.slideId;
 
             return {
                 restrict: 'E',
@@ -20,8 +22,7 @@ define(['module', 'slider/slider.plugins', 'services/Sockets'], function(module,
                         });
                     });
 
-                    Sockets.emit('stream.get', '??');
-
+                    Sockets.emit('stream.get', streamId);
                 }
             };
         }
