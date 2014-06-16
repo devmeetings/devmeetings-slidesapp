@@ -5,7 +5,7 @@ require.config({
         "decks": "../../decks",
         "require": "../../require",
         "plugins": "../plugins",
-        "jquery": "../components/jquery/dist/jquery",
+        "jquery": "../components/jquery/jquery",
         "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
