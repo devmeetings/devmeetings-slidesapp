@@ -5,8 +5,6 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
         'Sockets', 'DeckAndSlides',
         function(Sockets, DeckAndSlides) {
 
-            var streamId = DeckAndSlides.deckId || DeckAndSlides.slideId;
-
             return {
                 restrict: 'E',
                 scope: {
@@ -22,6 +20,7 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
                         });
                     });
 
+                    var streamId = DeckAndSlides.slideId;
                     Sockets.emit('stream.get', streamId);
                 }
             };

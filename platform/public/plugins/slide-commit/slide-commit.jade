@@ -1,5 +1,6 @@
 .row
-  .col-sm-3.offset-sm-8
+
+  .col-sm-3.col-sm-offset-8
       input.form-control(placeholder="Commit message", ng-model="commitMessage", ng-disabled="committing")
    .col-sm-1
       button.btn.btn-success(ng-disabled="committing || !commitMessage.length", ng-click="commit()")

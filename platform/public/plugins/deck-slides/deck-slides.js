@@ -27,7 +27,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         var frame = this;
                         $timeout(function() {
                             var innerBody = frame.contentWindow.document.body;
-                            frame.style.height = Math.max(700, innerBody.scrollHeight + 100, innerBody.offsetHeight + 100) + 'px';
+                            frame.style.height = Math.max(700, innerBody.scrollHeight + 200, innerBody.offsetHeight + 200) + 'px';
                         }, 1000);
                     });
                 }
