@@ -117,7 +117,7 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                     });
 
                     Sockets.emit('speedDating.countQueues', {
-                        deck: eckAndSlides.deckId,
+                        deck: DeckAndSlides.deckId,
                         slide: scope.slide.id
                     }, function() {});
                 }
