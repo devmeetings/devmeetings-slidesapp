@@ -191,7 +191,7 @@ define(['module', '_', 'slider/slider.plugins', 'howler', 'peerjs', 'services/Us
                 if (callConnection && callConnection.close)
                     callConnection.close();
                 if (data.type === 'call') {
-                    callConnection = peer.call(data.user.username.replace(/[^\w|-]|\s/g, '_'), MyMediaStream);
+                    callConnection = peer.call(data.user.replace(/[^\w|-]|\s/g, '_'), MyMediaStream);
                     callConnection.on('stream', function(stream) {
                         document.querySelector('video.other').src = URL.createObjectURL(stream);
                     });

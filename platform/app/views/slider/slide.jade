@@ -6,20 +6,6 @@ append scripts
   script(src='/static/components/requirejs/require.js')
   script(src='/static/js/config.js')
   script(src='#{jsModulesPath}/slider-slide.js')
-  if withInspectlet
-    // Inspectlet
-    script.
-        window.__insp = window.__insp || [];
-        __insp.push(['wid', 1974211314]);
-        (function() {
-          function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
-
-          if (window.attachEvent) {
-            window.attachEvent('onload', __ldinsp);
-          } else {
-            window.addEventListener('load', __ldinsp, false);
-          }
-        })();
 
 block content
   div(ng-init="$root.editMode=#{editMode}")
