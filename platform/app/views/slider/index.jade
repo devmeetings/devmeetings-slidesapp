@@ -6,14 +6,31 @@ append scripts
   script(src='#{jsModulesPath}/slider-index.js')
 
 block content
+  
   div(ng-controller='IndexCtrl')
-    .col-md-12
-      h1
-        | Xplatform
+    .navbar.navbar-inverse
+      .navbar-header
+        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand
+          | Xplatform
+      .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
+        form.navbar-form.navbar-left
+          input.form-control.col-md-8(type="text", placeholder="Search", ng-model="searchText")
+        ul.nav.navbar-nav.navbar-right
+          li
+            a.ng-cloak
+              | {{username}}
+          li
+            a(href="/logout")
+              | Logout
+
     .col-md-12
       h2
         | Zestawy slajdów
-      .deckgrid(deckgrid, source="decks")
+      .deckgrid.ng-cloak(deckgrid, source="decksToDisplay")
         .a-card
           a.col-md-11.deckgrid-index-element(ng-href="/decks/{{card._id}}")
             h4
