@@ -37,7 +37,8 @@ passport.use(new GoogleStrategy({
 
     var user = {
         userId: identifier,
-        name: profile.displayName
+        name: profile.displayName,
+        email: _.first(profile.emails).value || ''
     };
 
     users.getOrCreateUser(user, done);
@@ -50,6 +51,7 @@ passport.use(new FacebookStrategy({
     callbackURL: config.realmUrl + "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
 
+    //TODO implement gathering emails from facebook
     var user = {
         userId: profile.id,
         name: profile.name

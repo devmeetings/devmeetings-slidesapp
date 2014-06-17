@@ -1,6 +1,6 @@
 require(['config'], function () {
-    require(['angular', '_', 'angular-deckgrid', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, slider, User) {
-        var module = angular.module('slider-index', ['akoenig.deckgrid', 'slider']);
+    require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, slider, User) {
+        var module = angular.module('slider-index', ['akoenig.deckgrid', 'slider', 'ui.gravatar']);
 
         module.controller('IndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
             $scope.bricks = [
@@ -23,10 +23,9 @@ require(['config'], function () {
 
 
 
-            $scope.username = '';
 
             User.getUserData( function (data) {
-                $scope.username = data.name;
+                $scope.user = data;
             });
         }]);
         

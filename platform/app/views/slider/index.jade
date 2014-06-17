@@ -21,11 +21,14 @@ block content
           input.form-control.col-md-8(type="text", placeholder="Search", ng-model="searchText")
         ul.nav.navbar-nav.navbar-right
           li
+            img(gravatar-src="user.email", gravatar-size="50")
+          li
             a.ng-cloak
-              | {{username}}
+              | {{user.name}}
           li
             a(href="/logout")
               | Logout
+
 
     .col-md-12
       h2
