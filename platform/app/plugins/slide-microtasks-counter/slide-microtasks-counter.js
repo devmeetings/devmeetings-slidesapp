@@ -5,43 +5,43 @@ var pluginsEvents = require('../events');
 var TaskData = require('../../services/task-data');
 
 
-var taskRoom = function (slideId, taskHash) {
+var taskRoom = function(slideId, taskHash) {
     return slideId + taskHash + '_task';
 };
 
 exports.onSocket = function(log, socket, io) {
-   
+
     var broadcastState = function(slideId, taskHash) {
-        (_.throttle(function(){
+        (_.throttle(function() {
             var room = taskRoom(slideId, taskHash);
-            Participants.getParticipants(io, room).then( function (participants) {
-                var participantsIds = _.uniq(_.map(participants, function (object) {
+            Participants.getParticipants(io, room).then(function(participants) {
+                var participantsIds = _.uniq(_.map(participants, function(object) {
                     return object.user.userId;
                 }));
                 return TaskData.getTaskDataForUsers(slideId, participantsIds);
-            }).then( function (taskDataArray) {
+            }).then(function(taskDataArray) {
                 var result = {
                     total: 0,
                     solved: 0
                 };
 
-                _.forEach(taskDataArray, function (taskData) {
-                    var task = _.find(taskData.tasks, function (object) {
+                _.forEach(taskDataArray, function(taskData) {
+                    var task = _.find(taskData.tasks, function(object) {
                         return object.hash === taskHash;
                     });
                     result.total += (task ? 1 : 0);
                     result.solved += (task && task.done ? 1 : 0);
                 });
-                io.sockets.in(room).emit('microtasks.counter.notify' + taskHash, result);
+                io.sockets. in (room).emit('microtasks.counter.notify' + taskHash, result);
             });
         }, 1000))();
     };
 
     var saveTaskAsDone = function(slideId, taskHash, done) {
-        return Participants.getClientData(socket).then( function (clientData) {
-            return TaskData.getOrCreateTaskData( slideId, clientData.user.userId );
-        }).then( function (taskData) {
-            var task =_.find(taskData.tasks, function (task) {
+        return Participants.getClientData(socket).then(function(clientData) {
+            return TaskData.getOrCreateTaskData(slideId, clientData.user.userId);
+        }).then(function(taskData) {
+            var task = _.find(taskData.tasks, function(task) {
                 return task.hash === taskHash;
             });
             if (!task) {
@@ -54,16 +54,16 @@ exports.onSocket = function(log, socket, io) {
                 task.done = task.done || done;
             }
 
-            var result = Q.defer();   
+            var result = Q.defer();
             taskData.markModified('tasks');
-            taskData.save( function (err, taskData) {
+            taskData.save(function(err, taskData) {
                 if (err) {
                     log(err);
                 }
                 result.resolve(taskData);
             });
             return result.promise;
-        }); 
+        });
     };
 
     // required: 
@@ -80,10 +80,10 @@ exports.onSocket = function(log, socket, io) {
         socket.set('taskData', {
             slideId: data.slideId,
             taskHash: data.taskHash
-        }); 
+        });
         var room = taskRoom(data.slideId, data.taskHash);
         socket.join(room);
-        saveTaskAsDone(data.slideId, data.taskHash, false).then (function (taskData) {
+        saveTaskAsDone(data.slideId, data.taskHash, false).then(function(taskData) {
             socketWatchLock = false;
             broadcastState(data.slideId, data.taskHash);
         });
@@ -93,7 +93,7 @@ exports.onSocket = function(log, socket, io) {
     // data.slideId
     // data.taskHash
     var markTaskAsDone = function(data, res) {
-        saveTaskAsDone(data.slideId, data.taskHash, true).then (function (taskData) {
+        saveTaskAsDone(data.slideId, data.taskHash, true).then(function(taskData) {
             broadcastState(data.slideId, data.taskHash);
         });
     };
@@ -101,11 +101,11 @@ exports.onSocket = function(log, socket, io) {
 
     // currently it triggers only when user leave the deck
     var onDisconnect = function(data, res) {
-        socket.get('taskData', function (err, taskData) {
+        socket.get('taskData', function(err, taskData) {
             if (err || !taskData) {
                 return;
             }
-            
+
             var room = taskRoom(taskData.slideId, taskData.taskHash);
             socket.leave(room);
             broadcastState(taskData.slideId, taskData.taskHash);
@@ -114,7 +114,5 @@ exports.onSocket = function(log, socket, io) {
 
     socket.on('microtasks.counter.watch', watchTasks);
     socket.on('microtasks.counter.done', markTaskAsDone);
-    socket.on('disconnect', onDisconnect); 
+    socket.on('disconnect', onDisconnect);
 };
- 
-

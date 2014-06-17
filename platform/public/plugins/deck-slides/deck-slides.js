@@ -22,14 +22,6 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                     scope.csm = CurrentSlideManagerForDeck;
                     scope.$watch('csm.activeSlideId', onSlideChange);
 
-                    // refresh size
-                    element.find('iframe').on('load', function() {
-                        var frame = this;
-                        $timeout(function() {
-                            var innerBody = frame.contentWindow.document.body;
-                            frame.style.height = Math.max(700, innerBody.scrollHeight + 200, innerBody.offsetHeight + 200) + 'px';
-                        }, 1000);
-                    });
                 }
             };
         }

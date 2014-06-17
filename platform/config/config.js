@@ -1,4 +1,5 @@
 var path = require('path'),
+    fs = require('fs'),
     rootPath = path.normalize(path.join(__dirname, '..')),
     env = process.env.NODE_ENV || 'development';
 var staticsPath = '/static';
@@ -13,6 +14,7 @@ var config = {
         staticsPath: staticsPath,
         jsModulesPath: staticsPath + '/js',
         doLiveReload: true,
+        cacheBustingVersion: '',
         app: {
             name: 'platform'
         },
@@ -30,6 +32,7 @@ var config = {
         root: rootPath,
         staticsPath: staticsPath,
         jsModulesPath: staticsPath + '/js',
+        cacheBustingVersion: '',
         app: {
             name: 'platform'
         },
@@ -48,7 +51,9 @@ var config = {
         staticsPath: staticsPath,
         jsModulesPath: staticsPath + '/js/bin',
         withGoogleAnalytics: true,
-        withInspectlet: true,
+        cacheBustingVersion: '-' + fs.readFileSync('.version', {
+            encoding: 'utf8'
+        }),
         app: {
             name: 'platform'
         },

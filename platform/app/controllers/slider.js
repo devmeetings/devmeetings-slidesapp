@@ -9,6 +9,7 @@ exports.index = function(req, res) {
         res.render('slider/index', {
             title: 'Xplatform',
             decks: decks,
+            cacheBustingVersion: req.cacheBustingVersion,
             events: [{
                 title: 'JS contexty',
                 date: '-'
@@ -25,13 +26,13 @@ exports.index = function(req, res) {
 
 var _ = require('lodash');
 var stdReq = function(req, obj) {
-
     return _.extend({
         editMode: req.query.edit,
         jsModulesPath: req.jsModulesPath,
         doLiveReload: req.doLiveReload,
         withGoogleAnalytics: req.withGoogleAnalytics,
-        withInspectlet: req.withInspectlet
+        withInspectlet: req.withInspectlet,
+        cacheBustingVersion: req.cacheBustingVersion
     }, obj);
 };
 

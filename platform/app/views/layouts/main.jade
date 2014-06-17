@@ -1,16 +1,16 @@
 doctype 5
-html(lang='en')
+html.full-height(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
     block title
       title= title
     block css
-      link(rel='stylesheet', href='/static/css/style.css')
+      link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')
     block js2
       if doLiveReload
         script(src='http://localhost:35729/livereload.js')
-  body
+  body.full-height
     block content
     block scripts
       script(src='/static/components/jquery/jquery.js')

@@ -3,7 +3,9 @@
 /public/js/bin
 /public/slides/*.yaml
 /public/css/style.css
-.rebooted
+/public/css/style-*.css
+/.rebooted
+/.version
 
 # Created by http://www.gitignore.io
 
