@@ -52,7 +52,7 @@ else
     slides_content = $slides;
     
     ids = [];
-    slides = []
+    slides = [];
     slides_content.forEach( function (content) {
         slide = {
             _id: new ObjectId(),
