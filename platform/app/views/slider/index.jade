@@ -6,42 +6,16 @@ append scripts
   script(src='#{jsModulesPath}/slider-index.js')
 
 block content
-  div(ng-init="")
-    div(ng-controller='IndexCtrl')
-      div(masonry)
-        div.masonry-brick(ng-repeat='brick in bricks')
-          {{brick}}
-  div.col-md-12
-    h1
-      | Xplatform
-  div.col-md-4
-    h2
-      | Zestawy slajdów
-    ul.list-group
-      each deck in decks
-        li.list-group-item
-          span.badge
-            | #{deck.slides.length}
-          a(href="/decks/#{deck._id}")
-            | #{deck.title}
-      else
-        h2
-          | No slides created yet. Head to 
-          a(href="/admin/") Admin area
-          | .
-  
-  div.col-md-6
-    h2
-      | Najbliższe szkolenia
-    ul.list-group
-      each event in events
-        li.list-group-item
-          a
-            | #{event.title} 
-          strong
-            label.pull-right.text-warning 
-              span.glyphicon.glyphicon-time.pull-right
-              | #{event.date}&nbsp; 
-
-
-
+  div(ng-controller='IndexCtrl')
+    .col-md-12
+      h1
+        | Xplatform
+    .col-md-12
+      h2
+        | Zestawy slajdów
+      .deckgrid(deckgrid, source="decks")
+        .a-card
+          a.col-md-11.deckgrid-index-element(ng-href="/decks/{{card._id}}")
+            h4
+              | {{card.title}}
+ 

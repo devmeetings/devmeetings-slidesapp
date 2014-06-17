@@ -1,0 +1,40 @@
+.deckgrid[deckgrid]::before {
+    content: '4 .column.column-1-4';
+    font-size: 0;
+    visibility: hidden;
+}
+
+.deckgrid .column {
+    float: left;
+}
+
+.deckgrid .column-1-4 {
+    width: 25%;
+}
+
+@media screen and (max-width: 480px){
+    .deckgrid[deckgrid]::before {
+        content: '1 .column.column-1-1';
+    }
+    
+    .deckgrid .column-1-1 {
+        width: 100%;
+    }
+}
+
+.deckgrid-index-element {
+    cursor: pointer;
+    background-color: #224a70;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 106px;
+}
+
+.deckgrid-index-element:hover {
+    opacity: 0.8;
+    text-decoration: none;
+}
+

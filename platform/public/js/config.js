@@ -5,7 +5,7 @@ require.config({
         "decks": "../../decks",
         "require": "../../require",
         "plugins": "../plugins",
-        "jquery": "../components/jquery/jquery",
+        "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
@@ -23,7 +23,7 @@ require.config({
         "angular-touch": "../components/angular-touch/angular-touch",
         "angular-slider": "../components/venturocket-angular-slider/build/angular-slider",
         "peerjs":"../components/peerjs/peer.min",
-        "angular-masonry": "../components/angular-masonry/angular-masonry"
+        "angular-deckgrid": "../components/angular-deckgrid/angular-deckgrid"
     },
     "map": {
         "*": {
@@ -81,7 +81,7 @@ require.config({
             "deps": ["angular"],
             "exports": "angular"
         },
-        "angular-masonry": {
+        "angular-deckgrid": {
             "deps": ["angular"],
             "exports": "angular"
         }
