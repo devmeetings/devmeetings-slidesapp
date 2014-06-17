@@ -9,7 +9,7 @@ append scripts
 
 block content
   div(ng-init="$root.editMode=#{editMode}")
-  .container-fluid(ng-controller="SlideCtrl")
-    .row
-      .col-lg-12
+  .container-fluid.full-height(ng-controller="SlideCtrl")
+    .row.full-height
+      .col-lg-12.full-height
         plugins-loader(ng-repeat="mode in modes", namespace="mode.namespace", context="slide.content", no-refresh="!mode.refresh")

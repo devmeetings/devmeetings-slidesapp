@@ -12,7 +12,7 @@ block title
 
 block content
   div(ng-init="$root.editMode=#{editMode}")
-  div(ng-controller="SliderCtrl")
+  div.full-height(ng-controller="SliderCtrl")
     splitter
       section(class="col-sm-{{ splitter.size }}")
         plugins-loader(namespace="'deck.slides'", context="deckSlides")

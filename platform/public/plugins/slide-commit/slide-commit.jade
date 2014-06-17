@@ -1,12 +1,16 @@
-.row
-
-  .col-sm-3.col-sm-offset-8
-      input.form-control(placeholder="Commit message", ng-model="commitMessage", ng-disabled="committing")
-   .col-sm-1
-      button.btn.btn-success(ng-disabled="committing || !commitMessage.length", ng-click="commit()")
-        span.fa.fa-circle-o-notch.fa-spin(ng-show="committing")
-        span(ng-show="committing")   Working
-        span.fa.fa-cloud-upload(ng-show="!committing")
-        span(ng-show="!committing")  Commit work
-
-      
+div(ng-hide="showDetails")
+  button.btn.btn-sm.btn-success(ng-click="showDetails = true")
+    span.fa.fa-cloud-upload   Save
+.form-inline(ng-show="showDetails")
+  .form-group
+    input.input-sm.form-control(placeholder="Commit message", ng-model="commitMessage", ng-disabled="committing")
+  .form-group
+    button.btn.btn-sm.btn-success(ng-disabled="committing || !commitMessage.length", ng-click="commit()")
+      span.fa.fa-circle-o-notch.fa-spin(ng-show="committing")
+      span(ng-show="committing")   Working
+      span.fa.fa-cloud-upload(ng-show="!committing")
+      span(ng-show="!committing")  Commit work
+  .form-group
+    button.btn.btn-link.text-muted(ng-click="showDetails = false")
+      | &times;
+  
