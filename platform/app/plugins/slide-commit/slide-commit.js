@@ -21,7 +21,7 @@ exports.onSocket = function(log, socket, io) {
 
             var postForkMessage = Stream.post(data._id, 'Slide forked by ' + user.name, 'created', parentId, user.userId);
 
-            return Q.all(postForkMessage.concat(streamPostPromises));
+            return Q.all([postForkMessage].concat(streamPostPromises));
         }).then(callback, function(err) {
             console.error(err);
         });
