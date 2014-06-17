@@ -32,7 +32,7 @@ define(['module', '_', 'slider/slider', 'slider/slider.plugins'], function(modul
                             $scope.splitter.size = $scope.maxSize;
                         } else {
                             if (lastSize === $scope.maxSize) {
-                                lastSize = sizes[2];
+                                lastSize = sizes[0];
                             }
                             $scope.splitter.size = lastSize;
                         }
