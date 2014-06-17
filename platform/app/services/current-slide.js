@@ -22,13 +22,10 @@ exports.onSocket = function (log, socket, io) {
 };
 
 exports.getSlideUsers = function (io, slide) {
-    var result = Q.defer();
-    Participants.getParticipants(io, slideRoom(slide)).then( function (participants) {
-        var users = _.uniq(_.map(participants, function (object) {
+    return Participants.getParticipants(io, slideRoom(slide)).then( function (participants) {
+        return _.uniq(_.map(participants, function (object) {
             return object.user.userId;
         }));
-        result.resolve(users);
     });
-    return result.promise;
 };
 
