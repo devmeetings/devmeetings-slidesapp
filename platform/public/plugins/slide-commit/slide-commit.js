@@ -14,6 +14,7 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
                 templateUrl: path + '/slide-commit.html',
                 link: function(scope, element) {
                     scope.committing = false;
+                    scope.showDetails = false;
                     scope.commitMessage = "";
 
                     scope.commit = function() {
@@ -29,6 +30,7 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
                             scope.$apply(function() {
                                 scope.commitMessage = "";
                                 scope.committing = false;
+                                scope.showDetails = false;
 
                                 // TODO [ToDr] Not sure if this should happen?
                                 // $window.location = '/slides/' + data.data;
