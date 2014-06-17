@@ -27,7 +27,8 @@
     "venturocket-angular-slider": "~0.3.2",
     "almond": "~0.2.9",
     "peerjs": "~0.3.8",
-    "angular-gravatar": "~0.1.5"
+    "angular-gravatar": "~0.1.5",
+    "angular-deckgrid": "~0.4.4"
   },
   "resolutions": {
     "angular": "~1.2.14"
