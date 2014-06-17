@@ -33,11 +33,12 @@ block content
 
 
     .col-md-12
-      h2
+      h2.deckgrid-index-section-header
         | Zestawy slajdów
       .deckgrid.ng-cloak(deckgrid, source="decksToDisplay")
         .a-card
-          a.col-md-11.deckgrid-index-element(ng-href="/decks/{{card._id}}")
+          div.col-md-11.deckgrid-index-element
+            a.col-md-12.deckgrid-index-href(ng-href="/decks/{{card._id}}")
             h4
               | {{card.title}}
             button.btn.btn-link.deckgrid-index-element-star(ng-click="mother.star($event, card)")
