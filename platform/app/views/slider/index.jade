@@ -14,11 +14,12 @@ block content
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand
+        a.navbar-brand.index-xplatform-header
           | Xplatform
       .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
-        form.navbar-form.navbar-left
-          input.form-control.col-md-8(type="text", placeholder="Search", ng-model="searchText")
+        form.navbar-form.navbar-left.index-form-search
+          input.form-control.col-md-8.index-input-search(type="text", ng-model="searchText")
+          span.glyphicon.glyphicon-search.index-glyph-search
         ul.nav.navbar-nav.navbar-right
           li
             img(gravatar-src="user.email", gravatar-size="50")
@@ -38,4 +39,8 @@ block content
           a.col-md-11.deckgrid-index-element(ng-href="/decks/{{card._id}}")
             h4
               | {{card.title}}
+            button.btn.btn-link.deckgrid-index-element-star(ng-click="mother.star($event, card)")
+              span.glyphicon.glyphicon-star.pull-right(ng-click)
+            h5.text-success.deckgrid-index-element-counter
+              | 14/15
  

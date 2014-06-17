@@ -21,6 +21,10 @@ require(['config'], function () {
                 });
             });
 
+            $scope.star = function (event, deck) {
+                event.preventDefault();
+            };
+
 
 
 

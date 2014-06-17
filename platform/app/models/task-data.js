@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var TaskData = new Schema({
+    deckId: Schema.ObjectId,
     slideId: Schema.ObjectId,
     userId: String,
     tasks: []
