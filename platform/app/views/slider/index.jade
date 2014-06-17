@@ -34,8 +34,9 @@ block content
 
     .col-md-12
       h2.deckgrid-index-section-header
+        span.glyphicon.glyphicon-th-list.deckgrid-index-section-logo
         | Zestawy slajdów
-      .deckgrid.ng-cloak(deckgrid, source="decksToDisplay")
+      .deckgrid.deckgrid-index-grid.ng-cloak(deckgrid, source="decksToDisplay")
         .a-card
           div.col-md-11.deckgrid-index-element
             a.col-md-12.deckgrid-index-href(ng-href="/decks/{{card._id}}")
@@ -44,5 +45,5 @@ block content
             button.btn.btn-link.deckgrid-index-element-star(ng-click="mother.star($event, card)")
               span.glyphicon.glyphicon-star.pull-right(ng-click)
             h5.text-success.deckgrid-index-element-counter
-              | 14/15
+              | 
  
