@@ -5,7 +5,7 @@ append scripts
     window.slideId = "#{slide}";
   script(src='/static/components/requirejs/require.js')
   script(src='/static/js/config.js')
-  script(src='#{jsModulesPath}/slider-slide.js')
+  script(src='#{jsModulesPath}/slider-slide.js?v=#{cacheBustingVersion}')
 
 block content
   div(ng-init="$root.editMode=#{editMode}")

@@ -4,8 +4,8 @@ append scripts
   script.
     window.slides = "#{slides}";
   script(src='/static/components/requirejs/require.js')
-  script(src='/static/js/config.js')
-  script(src='#{jsModulesPath}/slider-deck.js')
+  script(src='/static/js/config.js?v=#{cacheBustingVersion}')
+  script(src='#{jsModulesPath}/slider-deck.js?v=#{cacheBustingVersion}')
 
 block title
   title {{ title }} - #{title}

@@ -6,7 +6,7 @@ html(lang='en')
     block title
       title= title
     block css
-      link(rel='stylesheet', href='/static/css/style.css')
+      link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')
     block js2
       if doLiveReload
         script(src='http://localhost:35729/livereload.js')

@@ -28,6 +28,8 @@ module.exports = function(grunt) {
         };
     };
 
+    var version = generateAndSaveNewVersion('.version');
+
     grunt.initConfig({
         copy: {
             theme: {
@@ -114,9 +116,11 @@ module.exports = function(grunt) {
                     cleancss: true,
                     sourceMap: true
                 },
-                files: {
-                    'public/css/style.css': 'public/less/style.less'
-                }
+                files: (function() {
+                    var files = {};
+                    files['public/css/style-' + version + '.css'] = 'public/less/style.less';
+                    return files;
+                }())
             }
         },
         concurrent: {
@@ -146,6 +150,13 @@ module.exports = function(grunt) {
             trainer: rjsOptimizationModule("slider-trainer")
         }
     });
+
+    function generateAndSaveNewVersion(path) {
+        // Generate new version id
+        var version = new Date().getTime();
+        grunt.file.write(path, version);
+        return version;
+    }
 
     grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
         var async = this.async();
