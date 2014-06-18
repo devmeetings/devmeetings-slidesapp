@@ -1,6 +1,5 @@
 require(['config'], function () {
-    require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'angular-ui-router', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, angularRouter, slider, User) {
-
+    require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, slider, User) {
         angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
             $scope.app = {
                 searchText: '',

@@ -61,6 +61,10 @@ module.exports = function(app) {
     var xplatform = ctrl('xplatform');
     app.get('/', authenticated, xplatform.index);
 
+    //devhero
+    var devhero = ctrl('devhero');
+    app.get('/devhero', authenticated, devhero.index);
+
     //home route
     var slider = ctrl('slider');
     app.get('/decks/:slides', authenticated, slider.deck);
