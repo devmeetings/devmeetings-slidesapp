@@ -27,8 +27,12 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return;
     }
 
-    users.getOrCreateUser(user, done);
+    users.upsertUser(user, done);
 }));
+
+var getEmail = function(profile) {
+    return _.first(profile.emails).value || '';
+};
 
 passport.use(new GoogleStrategy({
     returnURL: config.realmUrl + "/auth/google/return",
@@ -38,10 +42,10 @@ passport.use(new GoogleStrategy({
     var user = {
         userId: identifier,
         name: profile.displayName,
-        email: _.first(profile.emails).value || ''
+        email: getEmail(profile)
     };
 
-    users.getOrCreateUser(user, done);
+    users.upsertUser(user, done);
 }));
 
 passport.use(new FacebookStrategy({
@@ -51,13 +55,14 @@ passport.use(new FacebookStrategy({
     callbackURL: config.realmUrl + "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
 
-    //TODO implement gathering emails from facebook
     var user = {
         userId: profile.id,
-        name: profile.name
+        name: profile.displayName,
+        email: getEmail(profile)
     };
+    console.log(user);
 
-    users.getOrCreateUser(user, done);
+    users.upsertUser(user, done);
 }));
 
 

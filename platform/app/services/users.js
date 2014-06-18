@@ -1,12 +1,14 @@
 var UserModel = require('../models/user');
+var _ = require('lodash');
 
-exports.getOrCreateUser = function(user, callback) {
+exports.upsertUser = function(user, callback) {
     UserModel.findOne({
         userId: user.userId
     }).exec().then(function(dbUser) {
         if (dbUser) {
-            // User found just pass
-            callback(null, dbUser);
+            // Update user
+            _.extend(dbUser, user);
+            dbUser.save(callback);
             return;
         }
 
