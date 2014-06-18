@@ -1,38 +1,49 @@
 extends ../layouts/main
 
+append scripts
+  script(src='/static/components/requirejs/require.js')
+  script(src='/static/js/config.js')
+  script(src='#{jsModulesPath}/slider-index.js')
 
 block content
-  div.col-md-12
-    h1
-      | Xplatform
-  div.col-md-4
-    h2
-      | Zestawy slajdów
-    ul.list-group
-      each deck in decks
-        li.list-group-item
-          span.badge
-            | #{deck.slides.length}
-          a(href="/decks/#{deck._id}")
-            | #{deck.title}
-      else
-        h2
-          | No slides created yet. Head to 
-          a(href="/admin/") Admin area
-          | .
   
-  div.col-md-6
-    h2
-      | Najbliższe szkolenia
-    ul.list-group
-      each event in events
-        li.list-group-item
-          a
-            | #{event.title} 
-          strong
-            label.pull-right.text-warning 
-              span.glyphicon.glyphicon-time.pull-right
-              | #{event.date}&nbsp; 
+  div(ng-controller='IndexCtrl')
+    .navbar.navbar-inverse
+      .navbar-header
+        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand.index-xplatform-header
+          span.glyphicon.glyphicon-th-large.index-xplatform-logo
+          | &nbsp;Xplatform
+      .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
+        form.navbar-form.navbar-left.index-form-search
+          input.form-control.col-md-8.index-input-search(type="text", ng-model="searchText")
+          span.glyphicon.glyphicon-search.index-glyph-search
+        ul.nav.navbar-nav.navbar-right
+          li
+            img(gravatar-src="user.email", gravatar-size="50")
+          li
+            a.ng-cloak
+              | {{user.name}}
+          li
+            a(href="/logout")
+              | Logout
 
 
-
+    .col-md-12
+      h2.deckgrid-index-section-header
+        span.glyphicon.glyphicon-th-list.deckgrid-index-section-logo
+        | Zestawy slajdów
+      .deckgrid.deckgrid-index-grid.ng-cloak(deckgrid, source="decksToDisplay")
+        .a-card
+          div.col-md-11.deckgrid-index-element
+            a.col-md-12.deckgrid-index-href(ng-href="/decks/{{card._id}}")
+            h4
+              | {{card.title}}
+            button.btn.btn-link.deckgrid-index-element-star(ng-click="mother.star($event, card)")
+              span.glyphicon.glyphicon-star.pull-right(ng-click)
+            h5.text-success.deckgrid-index-element-counter
+              | 
+ 

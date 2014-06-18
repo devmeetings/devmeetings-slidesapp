@@ -1,5 +1,5 @@
 define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins'], function(_, angular, angularSanitize, asEvented, Plugins) {
-    var module = angular.module(['slider.plugins'], ['ngSanitize']);
+    var module = angular.module('slider.plugins', ['ngSanitize']);
 
     module.extractPath = function(module) {
         var path = module.uri.split('/');

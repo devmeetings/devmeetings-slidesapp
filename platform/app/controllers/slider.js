@@ -1,3 +1,18 @@
+var _ = require('lodash');
+
+var stdReq = function(req, obj) {
+
+    return _.extend({
+        editMode: req.query.edit,
+        jsModulesPath: req.jsModulesPath,
+        doLiveReload: req.doLiveReload,
+        withGoogleAnalytics: req.withGoogleAnalytics,
+        withInspectlet: req.withInspectlet,
+        cacheBustingVersion: req.cacheBustingVersion
+    }, obj);
+};
+
+
 exports.index = function(req, res) {
     var DeckModel = require('../models/deck');
 
@@ -6,7 +21,7 @@ exports.index = function(req, res) {
             res.render(500, err);
             return;
         }
-        res.render('slider/index', {
+        res.render('slider/index', stdReq(req, {
             title: 'Xplatform',
             decks: decks,
             cacheBustingVersion: req.cacheBustingVersion,
@@ -20,20 +35,8 @@ exports.index = function(req, res) {
                 title: 'Swift - poczatki',
                 date: '-'
             }]
-        });
+        }));
     });
-};
-
-var _ = require('lodash');
-var stdReq = function(req, obj) {
-    return _.extend({
-        editMode: req.query.edit,
-        jsModulesPath: req.jsModulesPath,
-        doLiveReload: req.doLiveReload,
-        withGoogleAnalytics: req.withGoogleAnalytics,
-        withInspectlet: req.withInspectlet,
-        cacheBustingVersion: req.cacheBustingVersion
-    }, obj);
 };
 
 exports.deck = function(req, res) {
