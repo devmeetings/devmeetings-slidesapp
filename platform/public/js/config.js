@@ -9,7 +9,6 @@ require.config({
         "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
-        "angular-route": "../components/angular-route/angular-route",
         "angular-ui-sortable": "../components/angular-ui-sortable/sortable",
         "restangular": "../components/restangular/dist/restangular",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
@@ -25,7 +24,8 @@ require.config({
         "peerjs":"../components/peerjs/peer.min",
         "angular-deckgrid": "../components/angular-deckgrid/angular-deckgrid",
         "angular-gravatar-md5": "../components/angular-gravatar/build/md5",
-        "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar"
+        "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar",
+        "angular-ui-router": "../components/angular-ui-router/release/angular-ui-router"
     },
     "map": {
         "*": {
@@ -49,10 +49,6 @@ require.config({
             "exports": "angular"
         },
         "angular-sanitize": {
-            "deps": ["angular"],
-            "exports": "angular"
-        },
-        "angular-route": {
             "deps": ["angular"],
             "exports": "angular"
         },
@@ -94,6 +90,11 @@ require.config({
         "angular-gravatar": {
             "deps": ["angular", "angular-gravatar-md5"],
             "exports": "angular"
+        },
+        "angular-ui-router": {
+            "deps": ["angular"],
+            "exports": "angular"
         }
     }
 });
+

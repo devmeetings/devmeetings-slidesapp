@@ -1,16 +1,12 @@
 require(['config'], function () {
-    require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, slider, User) {
-        var module = angular.module('slider-index', ['akoenig.deckgrid', 'slider', 'ui.gravatar']);
+    require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'angular-ui-router', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, angularRouter, slider, User) {
+        var module = angular.module('slider-index', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router']);
+
+        module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+            
+        }]);
 
         module.controller('IndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
-            $scope.bricks = [
-                {id: 'p1', 'title': 'A nice day!', src: "http://lorempixel.com/300/400/"},
-                {id: 'p2', 'title': 'Puh!', src: "http://lorempixel.com/300/400/sports"},
-                {id: 'p3', 'title': 'What a club!', src: "http://lorempixel.com/300/400/nightlife"},
-                {id: 'p1', 'title': 'A nice day!', src: "http://lorempixel.com/300/400/"},
-                {id: 'p2', 'title': 'Puh!', src: "http://lorempixel.com/300/400/sports"},
-                {id: 'p3', 'title': 'What a club!', src: "http://lorempixel.com/300/400/nightlife"}
-            ];
 
             $scope.searchText = '';
             $http.get('/api/decks').then( function (decks) {
@@ -36,3 +32,6 @@ require(['config'], function () {
         angular.bootstrap(document, ['slider-index']);
     });
 });
+
+
+

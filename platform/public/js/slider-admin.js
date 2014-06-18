@@ -1,7 +1,15 @@
 require(['config'], function () {
-    require(['angular', 'angular-route', 'restangular', '_', 'angular-ui-sortable'], function (angular, angularRoute, restangular, _) {
-        var module = angular.module('slider-admin', ['ngRoute', 'restangular', 'ui.sortable']);
+    require(['angular', 'restangular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (angular, restangular, _, angularSortable, angularRouter) {
+        var module = angular.module('slider-admin', ['restangular', 'ui.sortable', 'ui.router']);
 
+        module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+            $stateProvider.state('list', {
+                url: '/list',
+                templateUrl: '/admin/partials/admin-list',
+                controller: 'AdminSlidesListCtrl'
+            });
+            $urlRouterProvider.otherwise('/list');
+        }]);
 
         module.controller('AdminSlidesListCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
             $scope.deckSlidesSearch = "";
@@ -83,15 +91,6 @@ require(['config'], function () {
                     });
                 });
             };
-        }]);
-
-        module.config(['$routeProvider', function ($routeProvider) {
-            $routeProvider.when('/list', {
-                templateUrl: 'partials/admin-list',
-                controller: 'AdminSlidesListCtrl'
-            }).otherwise({
-                    redirectTo: '/list'
-                });
         }]);
 
         angular.bootstrap(document, ['slider-admin']);
