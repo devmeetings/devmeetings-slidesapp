@@ -1,23 +1,7 @@
 require(['config'], function () {
     require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'angular-ui-router', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, angularRouter, slider, User) {
-        var module = angular.module('slider-index', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router']);
 
-        module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-            $stateProvider.state('index', {
-                url: '/index',
-                views: {
-                    navbar: {
-                        templateUrl: '/static/partials/navbar/navbar.html',
-                    },
-                    content: {
-                        templateUrl: '/static/partials/deckgrid/deckgrid.html',
-                    }
-                }
-            });
-            $urlRouterProvider.otherwise('/index');
-        }]);
-
-        module.controller('IndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
+        angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
             $scope.app = {
                 searchText: '',
                 decks: [],
@@ -40,8 +24,7 @@ require(['config'], function () {
                 $scope.app.user = data;
             });
         }]);
-        
-        angular.bootstrap(document, ['slider-index']);
+        angular.bootstrap(document, ['xplatform']);
     });
 });
 

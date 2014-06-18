@@ -57,10 +57,12 @@ module.exports = function(app) {
     }));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
 
+    //xplatform
+    var xplatform = ctrl('xplatform');
+    app.get('/', authenticated, xplatform.index);
 
     //home route
     var slider = ctrl('slider');
-    app.get('/', authenticated, slider.index);
     app.get('/decks/:slides', authenticated, slider.deck);
     app.get('/decks/:slides/trainer', authenticated, slider.trainer);
     app.get('/slides/:slide', authenticated, slider.slide);
