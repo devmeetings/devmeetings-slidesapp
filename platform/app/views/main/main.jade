@@ -1,0 +1,12 @@
+extends ../layouts/main
+
+append scripts
+  script(src='/static/components/requirejs/require.js')
+  script(src='/static/js/config.js')
+  script(src='#{jsModulesPath}/slider-index.js')
+
+block content
+  div(ng-controller='IndexCtrl')
+    div(ui-view='navbar')
+    div(ui-view='content')
+

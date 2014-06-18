@@ -3,29 +3,41 @@ require(['config'], function () {
         var module = angular.module('slider-index', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router']);
 
         module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-            
+            $stateProvider.state('index', {
+                url: '/index',
+                views: {
+                    navbar: {
+                        templateUrl: '/static/partials/navbar/navbar.html',
+                    },
+                    content: {
+                        templateUrl: '/static/partials/deckgrid/deckgrid.html',
+                    }
+                }
+            });
+            $urlRouterProvider.otherwise('/index');
         }]);
 
         module.controller('IndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
+            $scope.app = {
+                searchText: '',
+                decks: [],
+                decksToDisplay: [],
+                star: function (event, deck) {
+                    event.preventDefault();
+                },
+                user: {}
+            };
 
-            $scope.searchText = '';
             $http.get('/api/decks').then( function (decks) {
-                $scope.decks = decks.data;    
+                $scope.app.decks = decks.data;    
 
-                $scope.$watch('searchText', function (newVal, oldVal) {
-                    $scope.decksToDisplay = $filter('filter')($scope.decks, {title: newVal});
+                $scope.$watch('app.searchText', function (newVal, oldVal) {
+                    $scope.app.decksToDisplay = $filter('filter')($scope.app.decks, {title: newVal});
                 });
             });
 
-            $scope.star = function (event, deck) {
-                event.preventDefault();
-            };
-
-
-
-
             User.getUserData( function (data) {
-                $scope.user = data;
+                $scope.app.user = data;
             });
         }]);
         

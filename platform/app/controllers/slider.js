@@ -21,7 +21,7 @@ exports.index = function(req, res) {
             res.render(500, err);
             return;
         }
-        res.render('slider/index', stdReq(req, {
+        res.render('main/main', stdReq(req, {
             title: 'Xplatform',
             decks: decks,
             cacheBustingVersion: req.cacheBustingVersion,
