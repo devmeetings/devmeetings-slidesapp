@@ -2,8 +2,8 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'stream', 'slide-stream').directive('slideStream', [
-        'Sockets', 'DeckAndSlides',
-        function(Sockets, DeckAndSlides) {
+        'Sockets', 'DeckAndSlides', '$timeout',
+        function(Sockets, DeckAndSlides, $timeout) {
 
             return {
                 restrict: 'E',
@@ -13,10 +13,16 @@ define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAnd
                 },
                 templateUrl: path + '/slide-stream.html',
                 link: function(scope, element) {
+                    scope.isNew = false;
 
                     Sockets.on('stream.update', function(stream) {
                         scope.$apply(function() {
+                            scope.isNew = true;
                             scope.stream = stream;
+
+                            $timeout(function() {
+                                scope.isNew = false;
+                            }, 500);
                         });
                     });
 
