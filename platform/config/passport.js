@@ -2,74 +2,44 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
-    usersFromJson = require('../users.json'),
     config = require('./config'),
-    users = require('../app/services/users'),
-    _ = require('lodash');
+    users = require('../app/services/users');
 
-var msg = function(message) {
-    return {
-        message: message
-    };
-};
+/** Passport strategies **/
 
-passport.use(new LocalStrategy(function(username, password, done) {
-    var user = _.find(usersFromJson, function(user) {
-        return user.login === username;
-    });
-
-    if (!user) {
-        done(null, false, msg("Cannot find user " + username));
-        return;
-    }
-    if (user.password !== password) {
-        done(null, false, msg("Incorrect password."));
-        return;
-    }
-
-    users.upsertUser(user, done);
-}));
-
-var getEmail = function(profile) {
-    return _.first(profile.emails).value || '';
-};
+passport.use(new LocalStrategy(users.authFields, users.verify));
 
 passport.use(new GoogleStrategy({
     returnURL: config.realmUrl + "/auth/google/return",
     realm: config.realmUrl
 }, function(identifier, profile, done) {
-
-    var user = {
+    users.findOrCreate({
         userId: identifier,
         name: profile.displayName,
-        email: getEmail(profile)
-    };
-
-    users.upsertUser(user, done);
+        email: profile.emails.pop() || null,
+        type: 'g+',
+        verified: true
+    }, done);
 }));
 
+// @TODO https://github.com/jaredhanson/passport-facebook#issues
 passport.use(new FacebookStrategy({
-    // We can only use facebook on production
     clientID: config.fb.id,
     clientSecret: config.fb.secret,
     callbackURL: config.realmUrl + "/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-
-    var user = {
+    users.findOrCreate({
         userId: profile.id,
         name: profile.displayName,
-        email: getEmail(profile)
-    };
-    console.log(user);
-
-    users.upsertUser(user, done);
+        type: 'fb',
+        verified: true
+    }, done);
 }));
 
-
 passport.serializeUser(function(user, done) {
-    done(null, user.userId);
+    done(null, user._id);
 });
 
-passport.deserializeUser(function(userId, done) {
-    users.findByUserId(userId, done);
+passport.deserializeUser(function(id, done) {
+    users.findByUserId(id, done);
 });
