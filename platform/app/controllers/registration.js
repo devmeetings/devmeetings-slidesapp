@@ -74,6 +74,5 @@ exports.register = function(req, res, next, app) {
                 };
             })(req));
         });
-
     });
 };

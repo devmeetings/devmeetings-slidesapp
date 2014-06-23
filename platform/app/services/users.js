@@ -97,20 +97,83 @@ exports.verify = function(email, password, done) {
             throw err;
         }
 
-        // It's not in DB. We have to insert that
-        UserModel.create(user, function(err, dbUser) {
+        bcrypt.hash(user.password, salt, function(err, hash) {
             if (err) {
-                callback(err);
-                return;
+                return next(err);
             }
-
-            callback(null, dbUser);
+            user.password = hash;
+            next();
         });
     });
 };
 
-exports.findByUserId = function(userId, callback) {
+/**
+ * Finds user or create it
+ * @constructor
+ * @param {Object} user
+ * @param {Object} callback
+ */
+exports.findOrCreate = function(user, callback) {
     UserModel.findOne({
-        userId: userId
-    }).exec(callback);
+        userId: user.userId,
+        type: user.type
+    }).exec().then(function(dbUser) {
+        if (dbUser) {
+            return callback(null, dbUser);
+        }
+        var newUser = new UserModel(user);
+        newUser.save(function(err) {
+            return err ? callback(err) : callback(null, dbUser);
+        });
+    });
+};
+
+/**
+ * Authorization fields for Passport
+ * @type {{usernameField: string, passwordField: string}}
+ */
+exports.authFields = authFields;
+
+/**
+ * Find User by _id field
+ * @constructor
+ * @param userId
+ * @param collback
+ */
+exports.findByUserId = function(userId, collback) {
+    UserModel.findOne({
+        _id: userId
+    }).exec(collback);
+};
+
+/**
+ * Verify user password
+ * @constructor
+ * @param {String} email
+ * @param {String} password
+ * @param {Object} done
+ */
+exports.verify = function(email, password, done) {
+    UserModel.findOne({
+        email: email
+    }, function(err, user) {
+        if (err) {
+            throw err;
+        }
+
+        if (user === null) {
+            return done(null, false, {
+                message: "Cannot find user " + email
+            });
+        }
+
+        comparePassword(password, user.password, function(err, isMatch) {
+            if (err) {
+                throw err;
+            }
+            return !isMatch ? done(null, false, {
+                message: "Cannot find user " + email
+            }) : done(null, user);
+        });
+    });
 };
