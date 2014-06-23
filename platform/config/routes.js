@@ -1,9 +1,15 @@
-var passport = require('passport');
+var passport = require('passport'),
+    controllersPath = '../app/controllers/';
 
+/**
+ * Zwraca obiekt node'a z podanego kontrolera
+ *
+ * @param {String} ctrlName
+ * @returns {*}
+ */
 var ctrl = function(ctrlName) {
     return require('../app/controllers/' + ctrlName);
 };
-
 
 var authenticated = function loggedIn(req, res, next) {
     if (req.user) {
@@ -21,7 +27,7 @@ var authenticated = function loggedIn(req, res, next) {
 };
 
 module.exports = function(app) {
-    var slides = ctrl('slides');
+    var slides = require('../app/controllers/slides');
     app.get('/api/slides', authenticated, slides.list);
     app.post('/api/slides', authenticated, slides.create);
     app.get('/api/slides/:id', authenticated, slides.get);
@@ -40,7 +46,7 @@ module.exports = function(app) {
     app.get('/require/slides/:id.js', authenticated, req.getSlide);
 
     //login
-    var login = ctrl('login');
+    var login = require('../app/controllers/login');
     app.get('/login', login.login);
     app.get('/logout', login.logout);
 
@@ -57,6 +63,12 @@ module.exports = function(app) {
     }));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
 
+    // registration
+    var registration = require('../app/controllers/registration');
+    app.get('/registration', registration.form);
+    app.post('/registration', function(req, res, next){
+        registration.register(req, res, next, app);
+    });
 
     //home route
     var slider = ctrl('slider');
