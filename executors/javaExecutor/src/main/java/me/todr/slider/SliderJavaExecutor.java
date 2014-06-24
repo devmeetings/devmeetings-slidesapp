@@ -1,8 +1,11 @@
 package me.todr.slider;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -13,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Optional;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -28,17 +32,20 @@ import com.rabbitmq.client.ShutdownSignalException;
 
 public class SliderJavaExecutor {
 
-	private static final String QUEUE_NAME = "run";
+	private static final String QUEUE_NAME = "exec_java";
 	private static final int MAXIMAL_EXECUTION_TIME_SECONDS = 7;
 
 	public static void main(String[] args) throws IOException,
 			ShutdownSignalException, ConsumerCancelledException,
-			InterruptedException, ExecutionException {
+			InterruptedException, ExecutionException, KeyManagementException,
+			NoSuchAlgorithmException, URISyntaxException {
 		ExecutorService exec = Executors.newCachedThreadPool();
 
 		// Connect to queue
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		String host = Optional.of(System.getenv("RABBITMQ_HOST")).or(
+				"localhost");
+		factory.setUri("amqp://" + host);
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
@@ -67,8 +74,8 @@ public class SliderJavaExecutor {
 
 	private static final class ExecuteMessageWithTimeout implements
 			Callable<Void> {
-		private static final Map<String, ImmutableList<String>> TOO_LONG_MAP = ImmutableMap
-				.of("errors", ImmutableList
+		private static final Map<String, Serializable> TOO_LONG_MAP = ImmutableMap
+				.of("success", false, "errors", ImmutableList
 						.of("Your code has taken to long to execute."));
 		private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -110,7 +117,8 @@ public class SliderJavaExecutor {
 
 		private Map<String, Object> exceptionMap(ExecutionException e) {
 			Map<String, Object> map = Maps.newHashMap();
-			map.put("errors", Arrays.asList(e.getCause().getMessage()));
+			map.put("success", false);
+			map.put("errors", e.getCause().getMessage());
 			map.put("stacktrace", e.getCause().getStackTrace());
 			return map;
 
