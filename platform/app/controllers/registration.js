@@ -34,42 +34,43 @@ exports.register = function(req, res, next, app) {
                 message: 'User already exist'
             });
             return;
-        } else {
-            var newUser = new User(userData);
-            newUser.save(function(err) {
-                if (err) {
-                    throw err;
-                }
-                req._passport.instance.serializeUser(newUser, (function(req) {
-                    return function(err, user) {
-                        if (err) {
-                            res.render('registration/form', {
-                                message: 'Error occurred serializing user'
-                            });
-                            return;
-                        }
-
-                        /*mailer.sendEmail(app, 'email/registration',
-                            {
-                                to: userData.email,
-                                subject: 'Welcome to Xplatform',
-                                userName: userData.name
-                            },
-                            function(err) {
-                                if (err) {
-                                    // @TODO user was added but mail was not send - handle it
-                                    res.render('registration/form', {
-                                        message: err.message
-                                    });
-                                    return;
-                                }
-                            }
-                        );*/
-                        req._passport.session.user = user;
-                        res.redirect('/');
-                    };
-                })(req));
-            });
         }
+
+        var newUser = new User(userData);
+        newUser.save(function(err) {
+            if (err) {
+                throw err;
+            }
+            req._passport.instance.serializeUser(newUser, (function(req) {
+                return function(err, user) {
+                    if (err) {
+                        res.render('registration/form', {
+                            message: 'Error occurred serializing user'
+                        });
+                        return;
+                    }
+
+                    /*mailer.sendEmail(app, 'email/registration',
+                        {
+                            to: userData.email,
+                            subject: 'Welcome to Xplatform',
+                            userName: userData.name
+                        },
+                        function(err) {
+                            if (err) {
+                                // @TODO user was added but mail was not send - handle it
+                                res.render('registration/form', {
+                                    message: err.message
+                                });
+                                return;
+                            }
+                        }
+                    );*/
+                    req._passport.session.user = user;
+                    res.redirect('/');
+                };
+            })(req));
+        });
+
     });
 };
