@@ -1,4 +1,15 @@
-var passport = require('passport');
+var passport = require('passport'),
+    controllersPath = '../app/controllers/';
+
+/**
+ * Zwraca obiekt node'a z podanego kontrolera
+ *
+ * @param {String} ctrlName
+ * @returns {*}
+ */
+var ctrl = function(ctrlName) {
+    return require('../app/controllers/' + ctrlName);
+};
 
 var authenticated = function loggedIn(req, res, next) {
     if (req.user) {
@@ -22,13 +33,13 @@ module.exports = function(app) {
     app.get('/api/slides/:id', authenticated, slides.get);
 
     // API
-    var decks = require('../app/controllers/decks');
+    var decks = ctrl('decks');
     app.get('/api/decks', authenticated, decks.list);
     app.post('/api/decks', authenticated, decks.create);
     app.delete('/api/decks/:id', authenticated, decks.delete);
     app.put('/api/decks/:id', authenticated, decks.edit);
 
-    var req = require('../app/controllers/require');
+    var req = ctrl('require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);
     app.get('/require/plugins/paths.js', authenticated, req.pluginsPaths);
@@ -60,14 +71,14 @@ module.exports = function(app) {
     });
 
     //home route
-    var slider = require('../app/controllers/slider');
+    var slider = ctrl('slider');
     app.get('/', authenticated, slider.index);
     app.get('/decks/:slides', authenticated, slider.deck);
     app.get('/decks/:slides/trainer', authenticated, slider.trainer);
     app.get('/slides/:slide', authenticated, slider.slide);
 
     // Admin panel
-    var admin = require('../app/controllers/admin');
+    var admin = ctrl('admin');
     app.get('/admin', authenticated, admin.index);
     app.get('/admin/partials/:name', authenticated, admin.partials);
 

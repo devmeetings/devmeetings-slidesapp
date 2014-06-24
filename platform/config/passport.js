@@ -16,7 +16,7 @@ passport.use(new GoogleStrategy({
     users.findOrCreate({
         userId: identifier,
         name: profile.displayName,
-        email: profile.emails ? profile.emails.pop() : null,
+        email: profile.emails.pop() || null,
         type: 'g+',
         verified: true
     }, done);
@@ -31,7 +31,6 @@ passport.use(new FacebookStrategy({
     users.findOrCreate({
         userId: profile.id,
         name: profile.displayName,
-        email: profile.emails ? profile.emails.pop().value : null,
         type: 'fb',
         verified: true
     }, done);
