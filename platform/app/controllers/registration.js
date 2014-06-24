@@ -8,7 +8,10 @@ var User = require('../models/user'),
  * @param {Object} res
  */
 exports.form = function(req, res) {
-    res.render('registration/form', {});
+    res.render('registration/form', {
+        cacheBustingVersion: req.cacheBustingVersion,
+        title: 'Create account'
+    });
 };
 
 /**
