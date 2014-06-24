@@ -137,13 +137,12 @@ exports.authFields = authFields;
 /**
  * Find User by _id field
  * @constructor
- * @param userId
- * @param collback
+ * @param {String} id
+ * @param {Object} collback
  */
-exports.findByUserId = function(userId, collback) {
-    UserModel.findOne({
-        _id: userId
-    }).exec(collback);
+
+exports.findByUserId = function(id, callback) {
+    UserModel.findById(id).exec(callback);
 };
 
 /**
@@ -155,7 +154,8 @@ exports.findByUserId = function(userId, collback) {
  */
 exports.verify = function(email, password, done) {
     UserModel.findOne({
-        email: email
+        email: email,
+        type: 'local'
     }, function(err, user) {
         if (err) {
             throw err;
