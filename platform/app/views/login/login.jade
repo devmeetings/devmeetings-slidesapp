@@ -6,8 +6,8 @@ block content
             .col-md-6.col-md-offset-3
                 form.well(action="/auth/login", method="post")
                     .form-group
-                        label.form-label Email
-                        input.form-control(type="email", name="email")
+                        label.form-label Username
+                        input.form-control(type="text", name="username")
                     .form-group
                         label.form-label Password
                         input.form-control(type="password", name="password")
@@ -18,5 +18,3 @@ block content
                             span.fa.fa-google-plus-square
                         a.btn.btn-lg.btn-primary(href="/auth/facebook")
                             span.fa.fa-facebook-square
-                        br
-                        a.btn.btn-lg.btn-primary(href="/registration") Create account

@@ -1,109 +1,31 @@
-var UserModel = require('../models/user'),
-    bcrypt = require('bcrypt'),
-    SALT_WORK_FACTOR = 10,
-    authFields = {
-        usernameField: 'email',
-        passwordField: 'password'
-    };
+var UserModel = require('../models/user');
+var _ = require('lodash');
 
-/**
- * Check hash
- * @constructor
- * @param {String} candidatePassword
- * @param {String} hash
- * @param {*} callback
- */
-var comparePassword = function(candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
-        return err ? callback(err) : callback(null, isMatch);
-    });
-};
-
-/**
- * Extend User model schema to automatically hash password before 'save'
- */
-UserModel.schema.pre('save', function(next) {
-    var user = this;
-
-    if (!user.isModified('password') || !user.password) {
-        return next();
-    }
-
-    // generate a salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-        if (err) {
-            return next(err);
-        }
-
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) {
-                return next(err);
-            }
-            user.password = hash;
-            next();
-        });
-    });
-});
-
-/**
- * Finds user or create it
- * @constructor
- * @param {Object} user
- * @param {Object} callback
- */
-exports.findOrCreate = function(user, callback) {
+exports.upsertUser = function(user, callback) {
     UserModel.findOne({
-        userId: user.userId,
-        type: user.type
+        userId: user.userId
     }).exec().then(function(dbUser) {
         if (dbUser) {
-            return callback(null, dbUser);
-        }
-        var newUser = new UserModel(user);
-        newUser.save(function(err) {
-            return err ? callback(err) : callback(null, dbUser);
-        });
-    });
-};
-
-/**
- * Authorization fields for Passport
- * @type {{usernameField: string, passwordField: string}}
- */
-exports.authFields = authFields;
-
-/**
- * Find User by _id field
- * @constructor
- * @param userId
- * @param collback
- */
-exports.findByUserId = function(userId, collback) {
-    UserModel.findOne({ _id: userId }).exec(collback);
-};
-
-/**
- * Verify user password
- * @constructor
- * @param {String} email
- * @param {String} password
- * @param {Object} done
- */
-exports.verify = function(email, password, done) {
-    UserModel.findOne({ email: email }, function(err, user) {
-        if (err) {
-            throw err;
+            // Update user
+            _.extend(dbUser, user);
+            dbUser.save(callback);
+            return;
         }
 
-        if (user === null) {
-            return done(null, false, { message: "Cannot find user " + email });
-        }
-
-        comparePassword(password, user.password, function(err, isMatch) {
+        // It's not in DB. We have to insert that
+        UserModel.create(user, function(err, dbUser) {
             if (err) {
-                throw err;
+                callback(err);
+                return;
             }
-            return !isMatch ? done(null, false, { message: "Cannot find user " + email }) : done(null, user);
+
+            callback(null, dbUser);
         });
     });
+};
+
+exports.findByUserId = function(userId, callback) {
+    UserModel.findOne({
+        userId: userId
+    }).exec(callback);
 };
