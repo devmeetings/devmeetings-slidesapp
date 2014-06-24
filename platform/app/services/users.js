@@ -40,7 +40,7 @@ UserModel.schema.pre('save', function(next) {
                 return next(err);
             }
             user.password = hash;
-            next();
+            return next();
         });
     });
 });
@@ -61,7 +61,7 @@ exports.findOrCreate = function(user, callback) {
         }
         var newUser = new UserModel(user);
         newUser.save(function(err) {
-            return err ? callback(err) : callback(null, dbUser);
+            return err ? callback(err) : callback(null, newUser);
         });
     });
 };
