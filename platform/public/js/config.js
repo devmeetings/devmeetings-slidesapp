@@ -26,7 +26,7 @@ require.config({
         "angular-deckgrid": "../components/angular-deckgrid/angular-deckgrid",
         "angular-gravatar-md5": "../components/angular-gravatar/build/md5",
         "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar",
-        "lz-string": "../components/lz-string/libs/lz-string-1.3.3.js",
+        "lz-string": "../components/lz-string/libs/lz-string-1.3.3",
         "moment": "../components/moment/moment",
         "angular-moment": "../components/angular-moment/angular-moment"
     },
