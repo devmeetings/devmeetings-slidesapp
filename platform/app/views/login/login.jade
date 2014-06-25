@@ -5,9 +5,15 @@ block content
         .row
             .col-md-6.col-md-offset-3
                 form.well(action="/auth/login", method="post")
+                    .form-group.text-right
+                        p.small
+                            | Don't have an account yet?
+                            |   
+                            a.text-muted(href="/registration") Create new!
+                    hr
                     .form-group
-                        label.form-label Username
-                        input.form-control(type="text", name="username")
+                        label.form-label Email
+                        input.form-control(type="email", name="email")
                     .form-group
                         label.form-label Password
                         input.form-control(type="password", name="password")

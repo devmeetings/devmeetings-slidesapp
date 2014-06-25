@@ -16,7 +16,7 @@ exports.onSocket = function(log, socket, io) {
             var room = taskRoom(slideId, taskHash);
             Participants.getParticipants(io, room).then(function(participants) {
                 var participantsIds = _.uniq(_.map(participants, function(object) {
-                    return object.user.userId;
+                    return object.user._id;
                 }));
                 return TaskData.getTaskDataForUsers(slideId, participantsIds);
             }).then(function(taskDataArray) {
@@ -39,7 +39,7 @@ exports.onSocket = function(log, socket, io) {
 
     var saveTaskAsDone = function(slideId, taskHash, done) {
         return Participants.getClientData(socket).then(function(clientData) {
-            return TaskData.getOrCreateTaskData(slideId, clientData.user.userId);
+            return TaskData.getOrCreateTaskData(slideId, clientData.user._id);
         }).then(function(taskData) {
             var task = _.find(taskData.tasks, function(task) {
                 return task.hash === taskHash;
