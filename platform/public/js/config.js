@@ -25,7 +25,8 @@ require.config({
         "peerjs":"../components/peerjs/peer.min",
         "angular-deckgrid": "../components/angular-deckgrid/angular-deckgrid",
         "angular-gravatar-md5": "../components/angular-gravatar/build/md5",
-        "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar"
+        "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar",
+        "lz-string": "../components/lz-string/libs/lz-string-1.3.3.js"
     },
     "map": {
         "*": {
