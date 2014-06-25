@@ -19,12 +19,11 @@ define(['_', 'lz-string', 'slider/slider.plugins', 'services/Sockets', 'services
                 save: function (code) {
                     buffer.push({
                         timestamp: Date.now(),
-                        code: lzString.compress(code)
+                        code: lzString.compressToBase64(JSON.stringify(code))
                     });
                     send();
                 }
-            };
-
+            }; 
             return SlideLiveSave;
         }
     ]);

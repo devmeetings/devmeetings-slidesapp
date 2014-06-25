@@ -1,15 +1,16 @@
-var lzString = require('lz-string');
+var LZString = require('lz-string');
 var Participants = require('../../services/participants');
 var Snapshot = require('../../models/snapshot');
+var _ = require('lodash');
 
 exports.onSocket = function (log, socket, io) {
-   
+  
     // deckId
     // slideId
     // timestamp
     // data
     var saveCode = function (data, res) {
-        Participants.getClientData(socket).then (function (clientData) {
+        Participants.getClientData(socket).done (function (clientData) {
             var snap = {
                 deckId: data.deckId,
                 slideId: data.slideId,
@@ -19,8 +20,10 @@ exports.onSocket = function (log, socket, io) {
             };
             
             Snapshot.create(snap);
-        });
+        }, console.error);
     };
+
+
 
     var loadCode = function (data, res) {
     

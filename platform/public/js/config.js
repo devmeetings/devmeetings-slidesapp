@@ -104,6 +104,9 @@ require.config({
         },
         "angular-local-storage": {
             "deps": ["angular"]
+        },
+        "lz-string": {
+            "exports" : "LZString"
         }
     }
 });
