@@ -1,5 +1,5 @@
 .microtasks
-  .microtask.alert(ng-repeat="task in microtasksCopy", 
+  .microtask.alert.hidden-sm.hidden-xs(ng-repeat="task in microtasksCopy", 
     tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="left",
     ng-class="{'alert-danger': !task.completed, 'alert-success': task.completed }")
     span.microtask-status
@@ -8,3 +8,10 @@
     span &nbsp;
     span.microtask-text(ng-bind-html="task.description")
     plugins-loader(namespace="'microtask'", context="task")
+  .microtask.alert.visible-xs.visible-sm(ng-repeat="task in microtasksCopy", 
+    tooltip-html-unsafe="{{ task.description }}", tooltip-placement="left",
+    ng-class="{'alert-danger': !task.completed, 'alert-success': task.completed }")
+    span.microtask-status
+      span.glyphicon.glyphicon-ok(ng-show="task.completed")
+      span.glyphicon.glyphicon-question-sign.text-warning(ng-show="!task.completed")
+

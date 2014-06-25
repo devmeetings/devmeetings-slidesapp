@@ -31,8 +31,10 @@ var config = {
     test: {
         root: rootPath,
         staticsPath: staticsPath,
-        jsModulesPath: staticsPath + '/js',
-        cacheBustingVersion: '',
+        jsModulesPath: staticsPath + '/js/bin',
+        cacheBustingVersion: '-' + fs.readFileSync('.version', {
+            encoding: 'utf8'
+        }),
         app: {
             name: 'platform'
         },

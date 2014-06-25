@@ -20,7 +20,7 @@ exports.initSockets = function(io) {
 exports.onSocket = function(log, socket) {
 
     var sendStream = function(streamId) {
-        Stream.getLatest(streamId, 5).then(function(stream) {
+        Stream.getLatest(streamId, 10).then(function(stream) {
             socket.emit('stream.update', stream);
         }, function(err) {
             console.error(err);
