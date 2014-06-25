@@ -16,7 +16,7 @@ passport.use(new GoogleStrategy({
     users.findOrCreate({
         userId: identifier,
         name: profile.displayName,
-        email: profile.emails ? profile.emails.pop() : null,
+        email: profile.emails ? profile.emails.pop().value : null,
         type: 'g+',
         verified: true
     }, done);
