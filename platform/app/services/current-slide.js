@@ -24,7 +24,7 @@ exports.onSocket = function (log, socket, io) {
 exports.getSlideUsers = function (io, slide) {
     return Participants.getParticipants(io, slideRoom(slide)).then( function (participants) {
         return _.uniq(_.map(participants, function (object) {
-            return object.user.userId;
+            return object.user._id;
         }));
     });
 };
