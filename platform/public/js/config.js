@@ -22,11 +22,13 @@ require.config({
         "howler": "../components/howler/howler",
         "angular-touch": "../components/angular-touch/angular-touch",
         "angular-slider": "../components/venturocket-angular-slider/build/angular-slider",
-        "peerjs":"../components/peerjs/peer.min",
+        "peerjs": "../components/peerjs/peer.min",
         "angular-deckgrid": "../components/angular-deckgrid/angular-deckgrid",
         "angular-gravatar-md5": "../components/angular-gravatar/build/md5",
         "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar",
-        "lz-string": "../components/lz-string/libs/lz-string-1.3.3.js"
+        "lz-string": "../components/lz-string/libs/lz-string-1.3.3.js",
+        "moment": "../components/moment/moment",
+        "angular-moment": "../components/angular-moment/angular-moment"
     },
     "map": {
         "*": {
@@ -95,6 +97,9 @@ require.config({
         "angular-gravatar": {
             "deps": ["angular", "angular-gravatar-md5"],
             "exports": "angular"
+        },
+        "angular-moment": {
+            "deps": ["angular", "moment"]
         }
     }
 });

@@ -51,6 +51,10 @@ define([], [{
         },
         "description": "Output should be named <code>somethingx</code>"
     }],
+    "toolbar": {
+        "commit": true
+    },
+    "stream": true,
     "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
     "monitor": "x",
     "jsrunner": true,
