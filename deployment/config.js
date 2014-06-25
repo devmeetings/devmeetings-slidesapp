@@ -50,6 +50,20 @@ module.exports = {
                 "label": "NodeExecutor [prod]"
             }
         },
+        "javaExecutor": {
+            "name": "javaExecutor",
+            "path": xplatformDir + "executors/javaExecutor",
+            "options": {
+                "startFile": "gradle run",
+                "logName": "exec-java.log",
+                "env": ""
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-warning",
+                "label": "JavaExecutor [prod]"
+            }
+        },
         "deployment-app": {
             "name": "deployment-app",
             "path": xplatformDir + "../deployment-app",

@@ -11,12 +11,14 @@ cwd=$(pwd)
 docker build -t xplatform/mongo - < ./Dockerfiles/mongo.docker
 docker build -t xplatform/rabbitmq https://github.com/tutumcloud/tutum-docker-rabbitmq.git
 docker build -t xplatform/executors-node ./executors/nodeExecutor
+docker build -t xplatform/executors-java ./executors/javaExecutor
 docker build -t xplatform/platform ./platform
 
 
 docker start mongo || docker run -d --name mongo -p :27017 -t xplatform/mongo 
 docker start rabbit || docker run -d --name rabbit -p :5672 -p :15672 -e RABBITMQ_PASS="kbAc4kRS" -t xplatform/rabbitmq 
-docker start exec-node || docker run -d --link rabbit:rabbit --name exec-node -e RABBITMQ_HOST="admin:kbAc4kRS@rabbit"-t xplatform/executors-node
+docker start exec-node || docker run -d --link rabbit:rabbit --name exec-node -e RABBITMQ_HOST="admin:kbAc4kRS@rabbit" -t xplatform/executors-node
+docker start exec-java || docker run -d --link rabbit:rabbit --name exec-java -e RABBITMQ_HOST="admin:kbAc4kRS@rabbit" -t xplatform/executors-java
 
 
 docker stop xplatform

@@ -20,12 +20,23 @@ define([], [{
         "text": "Hello there Right\n",
     }
 }, {
-    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
+    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\nconsole.log(x);",
     "serverRunner": "nodejs",
     "title": "Node runner / server runner",
     "notes": "",
+    "monitor": true,
     "id": "slide1-node",
     "name": "Node runner",
+    "commit": true,
+    "stream": true
+}, {
+    "code": "import java.util.Random;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class TestClass {\n\n  public static int rand() {\n    return new Random().nextInt();\n  }\n  \n  public static String main() {\n    final StringBuilder builder = new StringBuilder();\n    \n    // Java 8!\n    List features = Arrays.asList(\"Lambds\", \"Def6ault Method\", \"Stream API\", \"Date and Time API\");\n    features.forEach(n -> builder.append(n +  \" \"));\n    \n    builder.append(rand());\n    return builder.toString();\n  }\n  \n}",
+    "serverRunner": "java",
+    "title": "Java runner / server runner",
+    "notes": "",
+    "monitor": true,
+    "id": "exec-java",
+    "name": "Java runner",
     "commit": true,
     "stream": true
 }, {
