@@ -56,6 +56,7 @@ module.exports = {
             "options": {
                 "startFile": "gradle run",
                 "logName": "exec-java.log",
+                "noNpm": true,
                 "env": ""
             },
             "btn": {
@@ -70,7 +71,6 @@ module.exports = {
             "options": {
                 "startFile": "app.js",
                 "logName": "deployment.log",
-                "noNpm": true,
                 "env": ""
             },
             "btn": {
