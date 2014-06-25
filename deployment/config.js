@@ -50,6 +50,22 @@ module.exports = {
                 "label": "NodeExecutor [prod]"
             }
         },
+        "javaExecutor": {
+            "name": "javaExecutor",
+            "path": xplatformDir + "executors/javaExecutor",
+            "options": {
+                "cmd": "bash",
+                "startFile": "run",
+                "logName": "exec-java.log",
+                "noNpm": true,
+                "env": ""
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-warning",
+                "label": "JavaExecutor [prod]"
+            }
+        },
         "deployment-app": {
             "name": "deployment-app",
             "path": xplatformDir + "../deployment-app",
@@ -69,14 +85,19 @@ module.exports = {
 
         commands.addBash("git pull", "Updating working copy");
 
-        commands.addBash("npm install", "Installing npm modules");
+        if (!env.options.noNpm) {
+            commands.addBash("npm install", "Installing npm modules");
+        }
 
         if (env.options.buildGrunt) {
             commands.addBash("grunt build", "Build Frontend");
         }
 
+        var startFile = env.options.startFile;
+        var cmd = env.options.cmd ? "-c " + env.options.cmd : "";
+
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
-        commands.addBash(env.options.env + " forever --uid " + env.name + " -l " + env.options.logName + " -a start app.js", "Starting service " + env.name);
+        commands.addBash(env.options.env + " forever --uid " + env.name + " " + cmd + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
     }
 
 };

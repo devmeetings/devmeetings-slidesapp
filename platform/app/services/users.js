@@ -53,8 +53,7 @@ UserModel.schema.pre('save', function(next) {
  */
 exports.findOrCreate = function(user, callback) {
     UserModel.findOne({
-        userId: user.userId,
-        type: user.type
+        userId: user.userId
     }).exec().then(function(dbUser) {
         if (dbUser) {
             return callback(null, dbUser);
@@ -90,20 +89,28 @@ exports.findByUserId = function(id, collback) {
  * @param {Object} done
  */
 exports.verify = function(email, password, done) {
-    UserModel.findOne({ email: email, type: 'local' }, function(err, user) {
+    UserModel.findOne({
+        email: email,
+        type: 'local'
+    }, function(err, user) {
         if (err) {
             throw err;
         }
 
-        if (user === null) {
-            return done(null, false, { message: "Cannot find user " + email });
-        }
-
-        comparePassword(password, user.password, function(err, isMatch) {
+        // It's not in DB. We have to insert that
+        UserModel.create(user, function(err, dbUser) {
             if (err) {
-                throw err;
+                callback(err);
+                return;
             }
-            return !isMatch ? done(null, false, { message: "Cannot find user " + email }) : done(null, user);
+
+            callback(null, dbUser);
         });
     });
+};
+
+exports.findByUserId = function(userId, callback) {
+    UserModel.findOne({
+        userId: userId
+    }).exec(callback);
 };

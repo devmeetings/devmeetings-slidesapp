@@ -24,7 +24,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             runner: scope.runner,
                             code: code
                         }, function(data) {
-                            element.find('.errors').html(data.errors || "");
+                            scope.$apply(function() {
+                                scope.success = data.success;
+                                scope.errors = data.errors || "";
+                                scope.stacktrace = data.stacktrace;
+                            });
 
                             if (data.success) {
                                 sliderPlugins.trigger('slide.jsonOutput.display', data.result);

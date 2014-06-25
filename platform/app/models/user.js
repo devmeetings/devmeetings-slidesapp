@@ -1,12 +1,15 @@
 var mongoose = require('mongoose');
+Schema = mongoose.Schema;
 
-module.exports = mongoose.model('User', new mongoose.Schema({
-    userId: { type: String, required: true, default: new mongoose.Types.ObjectId() },
-    name: { type: String, required: true },
-    email: { type: String },
-    password: { type: String },
-    type: { type: String, enum: ['local', 'g+', 'fb'], default: 'local' },
-    verified: {type: Boolean, default: false },
-    acl: { type: [String], enum: ['admin', 'teacher', 'student'], default: 'student' },
-    added: { type: Date, default: Date.now }
-}));
+var UserSchema = new Schema({
+    userId: {
+        type: String,
+        index: {
+            unique: true
+        }
+    },
+    name: String,
+    email: String
+});
+
+module.exports = mongoose.model('User', UserSchema);

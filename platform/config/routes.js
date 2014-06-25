@@ -1,5 +1,10 @@
 var passport = require('passport');
 
+var ctrl = function(ctrlName) {
+    return require('../app/controllers/' + ctrlName);
+};
+
+
 var authenticated = function loggedIn(req, res, next) {
     if (req.user) {
         if (req.session.redirect_to) {
@@ -16,26 +21,26 @@ var authenticated = function loggedIn(req, res, next) {
 };
 
 module.exports = function(app) {
-    var slides = require('../app/controllers/slides');
+    var slides = ctrl('slides');
     app.get('/api/slides', authenticated, slides.list);
     app.post('/api/slides', authenticated, slides.create);
     app.get('/api/slides/:id', authenticated, slides.get);
 
     // API
-    var decks = require('../app/controllers/decks');
+    var decks = ctrl('decks');
     app.get('/api/decks', authenticated, decks.list);
     app.post('/api/decks', authenticated, decks.create);
     app.delete('/api/decks/:id', authenticated, decks.delete);
     app.put('/api/decks/:id', authenticated, decks.edit);
 
-    var req = require('../app/controllers/require');
+    var req = ctrl('require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);
     app.get('/require/plugins/paths.js', authenticated, req.pluginsPaths);
     app.get('/require/slides/:id.js', authenticated, req.getSlide);
 
     //login
-    var login = require('../app/controllers/login');
+    var login = ctrl('login');
     app.get('/login', login.login);
     app.get('/logout', login.logout);
 
@@ -52,22 +57,16 @@ module.exports = function(app) {
     }));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
 
-    // registration
-    var registration = require('../app/controllers/registration');
-    app.get('/registration', registration.form);
-    app.post('/registration', function(req, res, next){
-        registration.register(req, res, next, app);
-    });
 
     //home route
-    var slider = require('../app/controllers/slider');
+    var slider = ctrl('slider');
     app.get('/', authenticated, slider.index);
     app.get('/decks/:slides', authenticated, slider.deck);
     app.get('/decks/:slides/trainer', authenticated, slider.trainer);
     app.get('/slides/:slide', authenticated, slider.slide);
 
     // Admin panel
-    var admin = require('../app/controllers/admin');
+    var admin = ctrl('admin');
     app.get('/admin', authenticated, admin.index);
     app.get('/admin/partials/:name', authenticated, admin.partials);
 

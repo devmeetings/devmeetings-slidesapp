@@ -29,9 +29,7 @@
     "mkdirp": "^0.5.0",
     "mongoose": "^3.8.12",
     "node-uuid": "~1.4.1",
-    "roundrobin":"~1.0.0",
-    "bcrypt":"~0.7.8",
-    "express-mailer": "~0.2.3"
+    "roundrobin":"~1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

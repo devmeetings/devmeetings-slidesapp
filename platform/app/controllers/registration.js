@@ -28,7 +28,10 @@ exports.register = function(req, res, next, app) {
         password: req.body.password || null
     };
 
-    User.findOne({ email: userData.email, type: 'local' }).count(function(err, count) {
+    User.findOne({
+        email: userData.email,
+        type: 'local'
+    }).count(function(err, count) {
         if (count > 0) {
             res.render('registration/form', {
                 message: 'User already exist'

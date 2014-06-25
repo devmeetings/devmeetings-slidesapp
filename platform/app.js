@@ -5,7 +5,6 @@ var express = require('express'),
     socketio = require('socket.io'),
     config = require('./config/config');
 
-
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', function() {
@@ -19,7 +18,6 @@ var app = express();
 
 var sessionConfig = require('./config/express')(app, config);
 
-require('./config/mail')(app);
 require('./config/routes')(app);
 require('./config/passport');
 
