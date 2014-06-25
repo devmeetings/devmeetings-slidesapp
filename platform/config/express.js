@@ -1,7 +1,7 @@
-var express = require('express');
-var passport = require('passport');
-var lessMiddleware = require('less-middleware');
-var path = require('path');
+var express = require('express'),
+    passport = require('passport'),
+    lessMiddleware = require('less-middleware'),
+    path = require('path');
 
 var MongoStore = require('connect-mongo')(express);
 

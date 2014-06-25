@@ -16,10 +16,10 @@ exports.onSocket = function(log, socket, io) {
             var streams = [deckId, parentId];
 
             var streamPostPromises = streams.map(function(streamId) {
-                return Stream.post(streamId, 'Commit: ' + message + ' by ' + user.name, 'commit', data._id, user.userId);
+                return Stream.post(streamId, 'Commit: ' + message + ' by ' + user.name, 'commit', data._id, user._id);
             });
 
-            var postForkMessage = Stream.post(data._id, 'Slide forked by ' + user.name, 'created', parentId, user.userId);
+            var postForkMessage = Stream.post(data._id, 'Slide forked by ' + user.name, 'created', parentId, user._id);
 
             return Q.all([postForkMessage].concat(streamPostPromises));
         }).then(callback, function(err) {
