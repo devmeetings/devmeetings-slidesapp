@@ -43,7 +43,7 @@ public class SliderJavaExecutor {
 
 		// Connect to queue
 		ConnectionFactory factory = new ConnectionFactory();
-		String host = Optional.of(System.getenv("RABBITMQ_HOST")).or(
+		String host = Optional.fromNullable(System.getenv("RABBITMQ_HOST")).or(
 				"localhost");
 		factory.setUri("amqp://" + host);
 		Connection connection = factory.newConnection();
