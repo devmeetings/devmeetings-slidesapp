@@ -1,2 +1,4 @@
 div
-  .errors.alert.alert-danger
+  .errors.alert.alert-danger(ng-show="!success")
+    {{ errors }}
+    pre(ng-if="stacktrace") {{ stacktrace | json }}

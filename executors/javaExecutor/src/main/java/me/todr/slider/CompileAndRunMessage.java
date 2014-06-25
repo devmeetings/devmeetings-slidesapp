@@ -32,7 +32,7 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 		ObjectNode map = objectMapper.createObjectNode();
 		// Read JSON
 		JsonNode readTree = objectMapper.readTree(message);
-		String name = readTree.get("name").asText();
+		String name = "TestClass";
 		String code = readTree.get("code").asText();
 
 		// Compile code
@@ -52,13 +52,17 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 			Object invoke = method.invoke(null);
 			if (invoke != null) {
 				byte[] bytes = invoke.toString().getBytes();
+				map.put("success", true);
 				map.put("result", new String(bytes));
 			} else {
+				map.put("success", false);
 				map.withArray("errors").add("method main returned null");
 			}
 		} catch (InvocationTargetException e) {
+			map.put("success", false);
 			map.withArray("errors").add(e.getTargetException().toString());
 		} catch (Exception e) {
+			map.put("success", false);
 			map.withArray("errors").add(e.toString());
 		}
 		System.out.println(MessageFormat.format("  Running: {0}us",
