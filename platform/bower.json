@@ -28,7 +28,8 @@
     "almond": "~0.2.9",
     "peerjs": "~0.3.8",
     "angular-gravatar": "~0.1.5",
-    "angular-deckgrid": "~0.4.4"
+    "angular-deckgrid": "~0.4.4",
+    "lz-string": "https://github.com/pieroxy/lz-string.git#4cc031b68e3a6db202c467396a01429629666122"
   },
   "resolutions": {
     "angular": "~1.2.14"
