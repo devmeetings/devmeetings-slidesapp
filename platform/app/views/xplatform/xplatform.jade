@@ -1,13 +1,12 @@
-extends ../../layouts/main
+extends ../layouts/main
 
 append scripts
   script(src='/static/components/requirejs/require.js')
   script(src='/static/js/config.js')
   script(src='/static/xplatform/xplatform-app.js')
   script(src='/static/xplatform/index/xplatform-index.js')
+  script(src='/static/xplatform/navbar/xplatform-navbar.js') 
 
 block content
-  div(ng-controller='XplatformIndexCtrl')
-    div(ui-view='navbar')
-    div(ui-view='content')
+  div(ui-view='navbar')
 

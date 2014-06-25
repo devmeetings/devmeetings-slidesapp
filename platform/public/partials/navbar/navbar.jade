@@ -9,15 +9,16 @@
       | &nbsp;Xplatform
   .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
     form.navbar-form.navbar-left.index-form-search
-      input.form-control.col-md-8.index-input-search(type="text", ng-model="app.searchText")
+      input.form-control.col-md-8.index-input-search(type="text", ng-model="navbar.searchText")
       span.glyphicon.glyphicon-search.index-glyph-search
     ul.nav.navbar-nav.navbar-right
       li
-        img(gravatar-src="app.user.email", gravatar-size="50")
+        img(gravatar-src="navbar.user.email", gravatar-size="50")
       li
-        a.ng-cloak(ng-href='/devhero')
-          | {{app.user.name}}
+        a.ng-cloak(ui-sref="navbar.devhero")
+          | {{navbar.user.name}}
       li
         a(href="/logout")
           | Logout
+div(ui-view='content')
 

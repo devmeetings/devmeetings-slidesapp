@@ -3,20 +3,37 @@ require(['config'], function () {
         angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router']);
         
         angular.module('xplatform').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-            $stateProvider.state('index', {
-                url: '/index',
+            $stateProvider.state('navbar', {
                 views: {
                     navbar: {
-                        templateUrl: '/static/partials/navbar/navbar.html'
-                    },
-                    content: {
-                        templateUrl: '/static/partials/deckgrid/deckgrid.html'
+                        templateUrl: '/static/partials/navbar/navbar.html',
+                        controller: 'XplatformNavbarCtrl'
                     }
                 }
             });
+
+            $stateProvider.state('navbar.index', {
+                url: '/index',
+                views: {
+                    content: {
+                        templateUrl: '/static/partials/deckgrid/deckgrid.html',
+                        controller: 'XplatformIndexCtrl'
+                    }
+                }
+            });
+
+    
+            $stateProvider.state('navbar.devhero', {
+                url: '/devhero',
+                views: {
+                    content: {
+                        templateUrl: '/static/partials/profile/profile.html'         
+                    }
+                }
+            });
+
             $urlRouterProvider.otherwise('/index');
         }]);
-        
     });
 });
 

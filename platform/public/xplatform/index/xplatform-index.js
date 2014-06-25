@@ -1,29 +1,22 @@
 require(['config'], function () {
-    require(['angular', '_', 'angular-deckgrid', 'angular-gravatar', 'slider/slider', 'services/User'], function (angular, _, angularDeckgrid, angularGravatar, slider, User) {
-        angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', 'User', function ($scope, $http, $filter, User) {
-            $scope.app = {
-                searchText: '',
+    require(['angular', '_', 'angular-deckgrid', 'slider/slider'], function (angular, _, angularDeckgrid, slider) {
+        angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+            $scope.index = {
                 decks: [],
                 decksToDisplay: [],
                 star: function (event, deck) {
                     event.preventDefault();
-                },
-                user: {}
+                }
             };
 
             $http.get('/api/decks').then( function (decks) {
-                $scope.app.decks = decks.data;    
+                $scope.index.decks = decks.data;    
 
-                $scope.$watch('app.searchText', function (newVal, oldVal) {
-                    $scope.app.decksToDisplay = $filter('filter')($scope.app.decks, {title: newVal});
+                $scope.$watch('navbar.searchText', function (newVal, oldVal) {
+                    $scope.index.decksToDisplay = $filter('filter')($scope.index.decks, {title: newVal});
                 });
             });
-
-            User.getUserData( function (data) {
-                $scope.app.user = data;
-            });
-        }]);
-        angular.bootstrap(document, ['xplatform']);
+        }]); 
     });
 });
 

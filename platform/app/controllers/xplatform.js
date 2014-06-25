@@ -2,7 +2,7 @@
 
 var Xplatform = {
     index: function (req, res) {
-        res.render('xplatform/index/index', {
+        res.render('xplatform/xplatform', {
             title: 'Xplatform',
             cacheBustingVersion: req.cacheBustingVersion
         });
