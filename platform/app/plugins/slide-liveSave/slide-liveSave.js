@@ -1,4 +1,4 @@
-var lz-string = require('lz-string');
+var lzString = require('lz-string');
 
 
 
