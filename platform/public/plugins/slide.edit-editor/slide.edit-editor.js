@@ -1,6 +1,8 @@
 define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
+    var UPDATE_THROTTLE_TIME = 1000;
+
     sliderPlugins.registerPlugin('slide.edit', '*', 'slideedit-editor', 0).directive('slideeditEditor', ['$rootScope', "$window", "$http",
         function($rootScope, $window, $http) {
             return {
@@ -26,12 +28,12 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                         });
                     };
 
-                    var updateSlideContentThrottled = _.throttle(updateSlideContent, 300);
+                    var updateSlideContentThrottled = _.throttle(updateSlideContent, UPDATE_THROTTLE_TIME);
                     editor.on('change', updateSlideContentThrottled);
 
-                    scope.$watch('slide', _.throttle(function (newSlide, oldSlide) {
+                    scope.$watch('slide', _.throttle(function(newSlide, oldSlide) {
                         if (newSlide === undefined) {
-                            return ;
+                            return;
                         }
 
                         var slideString = JSON.stringify(newSlide, null, 2);
@@ -41,7 +43,7 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                             editor.on('change', updateSlideContentThrottled);
                         }
 
-                    }, 300), true);
+                    }, UPDATE_THROTTLE_TIME), true);
                 }
             };
         }
