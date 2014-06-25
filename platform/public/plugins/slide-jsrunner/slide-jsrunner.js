@@ -15,14 +15,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
         // Now convert to some code that will be injected
         toObserve = toObserve.map(function(plugin) {
-            var invoke = triggerFunctionName + '("' + plugin.name + '", ' + plugin.monitor + ')';
+            var monitor = _.isArray(plugin.monitor) ? plugin.monitor : [plugin.monitor];
+
+            var invoke = triggerFunctionName + '("' + plugin.name + '", ' + monitor.join(', ') + ')';
             return 'try { ' + invoke + ' } catch (e) { console.warn(e); }';
         });
 
         // Actually execute code
         try {
-            var trigger = function(name, data) {
-                sliderPlugins.trigger('slide.slide-jsrunner.' + name, data);
+            var trigger = function(name /*, args */ ) {
+                var args = [].slice.call(arguments, 1);
+                sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-jsrunner.' + name].concat(args));
             };
 
             var code = ['(function(' + triggerFunctionName + '){',
