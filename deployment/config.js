@@ -54,7 +54,7 @@ module.exports = {
             "name": "javaExecutor",
             "path": xplatformDir + "executors/javaExecutor",
             "options": {
-                "startFile": "gradle run",
+                "startFile": "run",
                 "logName": "exec-java.log",
                 "noNpm": true,
                 "env": ""
@@ -92,8 +92,10 @@ module.exports = {
             commands.addBash("grunt build", "Build Frontend");
         }
 
+        var startFile = env.options.startFile;
+
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
-        commands.addBash(env.options.env + " forever --uid " + env.name + " -l " + env.options.logName + " -a start app.js", "Starting service " + env.name);
+        commands.addBash(env.options.env + " forever --uid " + env.name + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
     }
 
 };
