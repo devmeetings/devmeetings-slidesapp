@@ -54,6 +54,7 @@ module.exports = {
             "name": "javaExecutor",
             "path": xplatformDir + "executors/javaExecutor",
             "options": {
+                "cmd": "gradle",
                 "startFile": "run",
                 "logName": "exec-java.log",
                 "noNpm": true,
@@ -93,9 +94,10 @@ module.exports = {
         }
 
         var startFile = env.options.startFile;
+        var cmd = env.options.cmd ? "-c " + env.options.cmd : "";
 
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
-        commands.addBash(env.options.env + " forever --uid " + env.name + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
+        commands.addBash(env.options.env + " forever --uid " + env.name + " " + cmd + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
     }
 
 };
