@@ -54,7 +54,7 @@ module.exports = {
             "name": "javaExecutor",
             "path": xplatformDir + "executors/javaExecutor",
             "options": {
-                "cmd": "gradle",
+                "cmd": "bash",
                 "startFile": "run",
                 "logName": "exec-java.log",
                 "noNpm": true,
