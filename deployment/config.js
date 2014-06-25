@@ -70,6 +70,7 @@ module.exports = {
             "options": {
                 "startFile": "app.js",
                 "logName": "deployment.log",
+                "noNpm": true,
                 "env": ""
             },
             "btn": {
@@ -83,7 +84,9 @@ module.exports = {
 
         commands.addBash("git pull", "Updating working copy");
 
-        commands.addBash("npm install", "Installing npm modules");
+        if (!env.options.noNpm) {
+            commands.addBash("npm install", "Installing npm modules");
+        }
 
         if (env.options.buildGrunt) {
             commands.addBash("grunt build", "Build Frontend");
