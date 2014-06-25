@@ -1,4 +1,4 @@
-define(['_', 'lz-string' 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function (_, lzString, sliderPlugins, Sockets, DeckAndSlides) {
+define(['_', 'lz-string', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function (_, lzString, sliderPlugins, Sockets, DeckAndSlides) {
     sliderPlugins.factory('SlideLiveSave', ['Sockets', 'DeckAndSlides',
         function (Sockets, DeckAndSlides) {
             
@@ -11,9 +11,9 @@ define(['_', 'lz-string' 'slider/slider.plugins', 'services/Sockets', 'services/
                     timestamp: Date.now(),
                     deckId: DeckAndSlides.deckId,
                     slideId: DeckAndSlides.slideId
-                };
+                });
                 buffer = [];
-            };
+            }, SEND_FREQ);
 
             var SlideLiveSave = {
                 save: function (code) {

@@ -15,7 +15,7 @@ exports.onSocket = function (log, socket, io) {
                 slideId: data.slideId,
                 userId: clientData.user.userId,
                 timestamp: data.timestamp,
-                data: dasta;
+                data: data.data
             };
             
             Snapshot.create(snap);
