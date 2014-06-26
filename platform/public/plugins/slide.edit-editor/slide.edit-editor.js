@@ -43,7 +43,10 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                             editor.on('change', updateSlideContentThrottled);
                         }
 
-                    }, UPDATE_THROTTLE_TIME), true);
+                    }, UPDATE_THROTTLE_TIME, {
+                        leading: false,
+                        trailing: true
+                    }), true);
                 }
             };
         }
