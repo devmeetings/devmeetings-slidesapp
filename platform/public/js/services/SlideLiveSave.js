@@ -9,7 +9,7 @@ define(['_', 'lz-string', 'slider/slider.plugins', 'services/Sockets', 'services
                 var data = lzString.compressToBase64(JSON.stringify(buffer));
 
                 Sockets.emit('slide.code.save', {
-                    data: buffer,
+                    data: data,
                     timestamp: Date.now(),
                     deckId: DeckAndSlides.deckId,
                     slideId: DeckAndSlides.slideId
