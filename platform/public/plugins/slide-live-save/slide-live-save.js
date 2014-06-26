@@ -1,7 +1,7 @@
 define(['module', 'slider/slider.plugins', 'services/SlideLiveSave'], function(module, sliderPlugins, SlideLiveSave) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'live-save', 'slide-live-save', 5000).directive('slideLiveSave', [
+    sliderPlugins.registerPlugin('slide.toolbar', 'live-save', 'slide-live-save', 5000).directive('slideLiveSave', [
         'SlideLiveSave', 'localStorageService',
         function(SlideLiveSave, localStorageService) {
             return {
