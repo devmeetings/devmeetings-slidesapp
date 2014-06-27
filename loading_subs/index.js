@@ -1,5 +1,4 @@
-var parser = require('subtitles-parser'),
-    fs = require('fs'),
+var fs = require('fs'),
     MongoClient = require('mongodb').MongoClient,
     LZString = require('lz-string'),
     _ = require('lodash');
