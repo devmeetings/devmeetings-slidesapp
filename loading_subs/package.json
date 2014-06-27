@@ -11,6 +11,7 @@
   "dependencies": {
     "subtitles-parser": "0.0.2",
     "mongodb": "~1.4.7",
-    "lz-string": "~1.3.3"
+    "lz-string": "~1.3.3",
+    "lodash": "~2.4.1"
   }
 }
