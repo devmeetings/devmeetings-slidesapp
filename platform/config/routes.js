@@ -28,8 +28,8 @@ module.exports = function(app) {
     app.put('/api/decks/:id', authenticated, decks.edit);
 
     var recordings = require('../app/controllers/recordings');
-    app.get('api/recordings', authenticated, recordings.list);
-    app.get('api/recordings/:id', authenticated, recording.get);
+    app.get('/api/recordings', authenticated, recordings.list);
+    app.get('/api/recordings/:id', authenticated, recordings.get);
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);

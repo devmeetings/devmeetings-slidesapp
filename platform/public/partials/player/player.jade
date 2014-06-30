@@ -1,0 +1,13 @@
+.col-md-12
+  .col-md-3
+    ul.list-group
+      li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
+        span.badge.pull-right
+          | {{recording.slides.length}}
+        h4
+          | {{recording.slideId}}
+
+  .col-md-9
+    plugins-loader(namespace="'slide'", context="slide")
+  .col-md-6
+  .col-md-6

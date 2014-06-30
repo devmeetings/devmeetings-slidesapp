@@ -1,9 +1,7 @@
-require(['config'], function () {
-    require(['angular', '_', 'angular-gravatar', 'slider/slider'], function (angular, _, angularGravatar, slider) {
-        angular.module('xplatform').controller('XPlatformDevheroCtrl', ['$scope', function ($scope) {
-            $scope.app = {
-            };
-        }]);
-    });
+define(['angular', '_', 'angular-gravatar', 'xplatform/xplatform-app', 'slider/slider'], function (angular, _, angularGravatar, xplatformApp, slider) {
+    angular.module('xplatform').controller('XPlatformDevheroCtrl', ['$scope', function ($scope) {
+        $scope.app = {
+        };
+    }]);
 });
 

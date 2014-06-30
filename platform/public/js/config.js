@@ -5,6 +5,7 @@ require.config({
         "decks": "../../decks",
         "require": "../../require",
         "plugins": "../plugins",
+        "xplatform":"../xplatform",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
