@@ -1,11 +1,17 @@
 .col-md-12
   .col-md-3
-    ul.list-group
-      li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
-        span.badge.pull-right
-          | {{recording.slides.length}}
-        h4
+    .col-md-12
+      ul.list-group
+        li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
+          span.badge
+            | {{recording.slides.length}}
           | {{recording.slideId}}
+    .col-md-12
+      button.btn.btn-default(ng-class="{'btn-primary': play}", ng-click="play=true")
+        | PLAY  
+      button.btn.btn-default(ng-class="{'btn-primary': !play}", ng-click="play=false")
+        | PAUSE
+
 
   .col-md-9
     plugins-loader(namespace="'slide'", context="slide")

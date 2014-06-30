@@ -12,8 +12,22 @@ define(['angular', '_', 'xplatform/xplatform-app', 'services/Recordings', 'servi
                 $scope.player = RecordingsPlayerFactory(recording, function (slide) {
                     $scope.slide = slide;
                 });
-                $scope.player.play();
+                $scope.play = true;
             };
+
+            $scope.$watch('play', function (newVal, oldVal) {
+                if (newVal === oldVal) {
+                    return;
+                }
+                if (!$scope.player) {
+                    return;
+                }
+                if (newVal) {
+                    $scope.player.play();
+                    return;
+                }
+                $scope.player.pause();
+            });
         }
     ]);
 });
