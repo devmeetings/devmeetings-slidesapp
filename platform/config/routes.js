@@ -55,6 +55,10 @@ module.exports = function(app) {
     }));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
 
+    //xplatform
+    var xplatform = require('../app/controllers/xplatform');
+    app.get('/', authenticated, xplatform.index);
+
     // registration
     var registration = require('../app/controllers/registration');
     app.get('/registration', registration.form);
@@ -64,7 +68,6 @@ module.exports = function(app) {
 
     //home route
     var slider = require('../app/controllers/slider');
-    app.get('/', authenticated, slider.index);
     app.get('/decks/:slides', authenticated, slider.deck);
     app.get('/decks/:slides/trainer', authenticated, slider.trainer);
     app.get('/slides/:slide', authenticated, slider.slide);
