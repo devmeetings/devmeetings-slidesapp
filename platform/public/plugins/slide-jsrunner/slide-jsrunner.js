@@ -18,7 +18,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             var monitor = _.isArray(plugin.monitor) ? plugin.monitor : [plugin.monitor];
 
             var invoke = triggerFunctionName + '("' + plugin.name + '", ' + monitor.join(', ') + ')';
-            return 'try { ' + invoke + ' } catch (e) { console.warn(e); }';
+            return 'try { ' + invoke + ' } catch (e) { if (typeof __debug !== "undefined") { console.warn(e); } }';
         });
 
         // Actually execute code

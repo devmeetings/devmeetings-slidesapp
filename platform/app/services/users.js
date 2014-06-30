@@ -46,26 +46,6 @@ UserModel.schema.pre('save', function(next) {
 });
 
 /**
- * Finds user or create it
- * @constructor
- * @param {Object} user
- * @param {Object} callback
- */
-exports.findOrCreate = function(user, callback) {
-    UserModel.findOne({
-        userId: user.userId
-    }).exec().then(function(dbUser) {
-        if (dbUser) {
-            return callback(null, dbUser);
-        }
-        var newUser = new UserModel(user);
-        newUser.save(function(err) {
-            return err ? callback(err) : callback(null, newUser);
-        });
-    });
-};
-
-/**
  * Authorization fields for Passport
  * @type {{usernameField: string, passwordField: string}}
  */
@@ -79,32 +59,6 @@ exports.authFields = authFields;
  */
 exports.findByUserId = function(id, collback) {
     UserModel.findById(id).exec(collback);
-};
-
-/**
- * Verify user password
- * @constructor
- * @param {String} email
- * @param {String} password
- * @param {Object} done
- */
-exports.verify = function(email, password, done) {
-    UserModel.findOne({
-        email: email,
-        type: 'local'
-    }, function(err, user) {
-        if (err) {
-            throw err;
-        }
-
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) {
-                return next(err);
-            }
-            user.password = hash;
-            next();
-        });
-    });
 };
 
 /**
@@ -123,26 +77,9 @@ exports.findOrCreate = function(user, callback) {
         }
         var newUser = new UserModel(user);
         newUser.save(function(err) {
-            return err ? callback(err) : callback(null, dbUser);
+            return err ? callback(err) : callback(null, newUser);
         });
     });
-};
-
-/**
- * Authorization fields for Passport
- * @type {{usernameField: string, passwordField: string}}
- */
-exports.authFields = authFields;
-
-/**
- * Find User by _id field
- * @constructor
- * @param {String} id
- * @param {Object} collback
- */
-
-exports.findByUserId = function(id, callback) {
-    UserModel.findById(id).exec(callback);
 };
 
 /**

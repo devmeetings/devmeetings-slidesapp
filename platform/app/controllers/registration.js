@@ -53,7 +53,9 @@ exports.register = function(req, res, next, app) {
                         return;
                     }
 
-                    /*mailer.sendEmail(app, 'email/registration',
+                    // @TODO send mail with activation link
+                    /*
+                    mailer.sendEmail(app, 'email/registration',
                         {
                             to: userData.email,
                             subject: 'Welcome to Xplatform',
