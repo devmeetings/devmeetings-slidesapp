@@ -1,4 +1,4 @@
-define(['slider/slider.plugins'], function (sliderPlugins) {
+define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
     sliderPlugins.factory('RecordingsPlayerFactory', ['$timeout',
         function ($timeout) {
             var RecordingsPlayerFactory = function (recording, callback) {
@@ -39,6 +39,23 @@ define(['slider/slider.plugins'], function (sliderPlugins) {
                     },
                     pause: function () {
                         run = false;
+                    },
+                    length: function () {
+                        var last =_.last(recording.slides);
+                        return last ? last.timestamp / 1000 : 0;
+                    },
+                    goToMinisecond: function (minisecond) {
+                        var second = minisecond * 1000;
+                        var index = _.findIndex(recording.slides, function (slide) {
+                            return slide.timestamp > second;
+                        });
+                        if (index === -1) {
+                            return;
+                        }
+                        index = index > 0 ? index - 1 : 0;
+                        currentTime = getTime(index);
+                        currentSnap = index;
+                        callback(getCode(index));
                     }
                 };
             };

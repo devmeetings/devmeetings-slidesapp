@@ -14,6 +14,9 @@
 
 
   .col-md-9
-    plugins-loader(namespace="'slide'", context="slide")
+    .col-md-12
+      slider(ng-model="currentSecond", step="1", floor="0", ceiling="{{maxSecond}}")
+    .col-md-12
+      plugins-loader(namespace="'slide'", context="slide")
   .col-md-6
   .col-md-6
