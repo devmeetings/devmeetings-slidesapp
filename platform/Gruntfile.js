@@ -147,8 +147,10 @@ module.exports = function(grunt) {
         requirejs: {
             deck: rjsOptimizationModule("slider-deck"),
             slide: rjsOptimizationModule("slider-slide"),
-            trainer: rjsOptimizationModule("slider-trainer"),
-            index: rjsOptimizationModule("slider-index")
+            trainer: rjsOptimizationModule("slider-trainer")
+            
+            //, TODO!!!
+            //index: rjsOptimizationModule("slider-index")
         }
     });
 
