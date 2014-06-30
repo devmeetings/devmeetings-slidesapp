@@ -54,11 +54,18 @@ MongoClient.connect(config.db, function (err, db) {
             _.forEach(snap.slides, function (slide) {
                 slide.timestamp -= beginTime;
             });
-            return snap.slides;
+            return {
+                slides: snap.slides,
+                slideId: snap.slideId
+            }
         });
 
-        //fs.writeFile('testOutput', JSON.stringify(finalSnaps));
-        //console.log(finalSnaps);
-        db.close();
+        console.log(finalSnaps);
+        db.collection('recordings').insert(finalSnaps, function (err, insertedSnaps) {
+            if (err) {
+                throw err;
+            }
+            db.close();
+        });
     });
 });
