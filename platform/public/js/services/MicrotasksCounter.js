@@ -9,7 +9,7 @@ define(['slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], 
                         taskHash: hash
                     });
                 },
-                watch: function(hash, callback) {
+                listen: function(hash, callback) {
                     Sockets.emit('microtasks.counter.watch', {
                         slideId: DeckAndSlides.slideId,
                         taskHash: hash
