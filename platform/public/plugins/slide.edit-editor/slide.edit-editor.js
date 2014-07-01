@@ -1,7 +1,15 @@
-define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace, sliderPlugins) {
+define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(module, angular, _, ace, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
     var UPDATE_THROTTLE_TIME = 1000;
+
+    var toNiceJson = function(str) {
+        return JSON.stringify(str, null, 2);
+    };
+
+    var toNiceJsonFromString = function(string) {
+        return toNiceJson(JSON.parse(string));
+    };
 
     sliderPlugins.registerPlugin('slide.edit', '*', 'slideedit-editor', 0).directive('slideeditEditor', ['$rootScope', "$window", "$http",
         function($rootScope, $window, $http) {
@@ -16,6 +24,7 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                     editor.setTheme('ace/theme/todr');
                     editor.getSession().setMode('ace/mode/json');
                     editor.setValue(JSON.stringify(scope.slide, null, 2));
+
                     var updateSlideContent = function() {
                         var value = editor.getValue();
                         scope.$apply(function() {
@@ -36,8 +45,14 @@ define(["module", "_", "ace", 'slider/slider.plugins'], function(module, _, ace,
                             return;
                         }
 
-                        var slideString = JSON.stringify(newSlide, null, 2);
-                        if (editor.getValue() !== slideString) {
+                        // Copy slide to cut off some angular properties
+                        var slideCopy = angular.copy(newSlide);
+                        // Convert to nice json
+                        var slideString = toNiceJson(slideCopy);
+                        // To compare content instead of formatting issues reformat to JSON
+                        var editorContentFormatted = toNiceJsonFromString(editor.getValue());
+
+                        if (editorContentFormatted !== slideString) {
                             editor.off('change', updateSlideContentThrottled);
                             editor.setValue(slideString);
                             editor.on('change', updateSlideContentThrottled);

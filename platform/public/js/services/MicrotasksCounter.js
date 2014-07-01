@@ -1,22 +1,20 @@
 define(['slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(sliderPlugins, Sockets, DeckAndSlides) {
     sliderPlugins.factory('MicrotasksCounter', ['Sockets', 'DeckAndSlides',
         function(Sockets, DeckAndSlides) {
-            
+
             var MicrotasksCounter = {
-                markTaskAsDone: function( task ) {
+                markTaskAsDone: function(hash) {
                     Sockets.emit('microtasks.counter.done', {
                         slideId: DeckAndSlides.slideId,
-                        taskHash: task.hash 
+                        taskHash: hash
                     });
                 },
-                watch: function( task ) {
+                watch: function(hash, callback) {
                     Sockets.emit('microtasks.counter.watch', {
                         slideId: DeckAndSlides.slideId,
-                        taskHash: task.hash
+                        taskHash: hash
                     });
-                }, 
-                listen: function(task, callback ) {
-                    Sockets.on('microtasks.counter.notify' + task.hash, callback);
+                    Sockets.on('microtasks.counter.notify' + hash, callback);
                 }
             };
 

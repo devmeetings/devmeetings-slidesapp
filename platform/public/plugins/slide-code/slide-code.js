@@ -14,12 +14,15 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         return code;
     };
 
-    var triggerCodeChange = _.debounce(function(code, ev, editor) {
-        this.$apply( function() {
-            code.content = editor.getValue(); 
+    var triggerCodeChange = _.throttle(function(scope, code, ev, editor) {
+        scope.$apply(function() {
+            code.content = editor.getValue();
         });
         sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
-    }, 100);
+    }, 100, {
+        leading: false,
+        trailing: true
+    });
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
         '$timeout',
@@ -36,23 +39,24 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                 template: '<div class="editor editor-{{ code.size }}"><div></div></div>',
                 link: function(scope, element) {
                     scope.code = getCodeData(scope.code);
-                    var code = scope.code;
 
-                    var codeChangeCallback = triggerCodeChange.bind(scope, scope.code);
 
                     $timeout(function() {
                         editor = ace.edit(element[0].childNodes[0]);
                         editor.setTheme("ace/theme/" + EDITOR_THEME);
-                        editor.getSession().setMode('ace/mode/' + code.mode);
+                        editor.getSession().setMode('ace/mode/' + scope.code.mode);
 
-                        editor.on('change', codeChangeCallback);
-                        editor.setValue(code.content, -1);
+                        editor.on('change', function(ev, editor) {
+                            triggerCodeChange(scope, scope.code, ev, editor);
+                        });
+
+                        scope.$watch('code.content', function(content) {
+                            var oldContent = editor.getValue();
+                            if (content && oldContent !== content) {
+                                editor.setValue(content, editor.getSelection().getCursor());
+                            }
+                        });
                     });
-
-                    sliderPlugins.onLoad(function() {
-                        codeChangeCallback({}, editor);
-                    });
-
                 }
             };
         }
