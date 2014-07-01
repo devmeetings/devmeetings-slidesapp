@@ -1,22 +1,26 @@
 .col-md-12
-  .col-md-3
-    .col-md-12
+  .col-md-6
+    .col-md-6
       ul.list-group
         li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
           span.badge
             | {{recording.slides.length}}
           | {{recording.slideId}}
-    .col-md-12
-      button.btn.btn-default(ng-class="{'btn-primary': play}", ng-click="play=true")
-        | PLAY  
-      button.btn.btn-default(ng-class="{'btn-primary': !play}", ng-click="play=false")
-        | PAUSE
+      .col-md-12
+        button.btn.btn-default(ng-class="{'btn-primary': play}", ng-click="play=true")
+          | PLAY  
+        button.btn.btn-default(ng-class="{'btn-primary': !play}", ng-click="play=false")
+          | PAUSE
 
-
-  .col-md-9
-    .col-md-12
-      slider(ng-model="currentSecond", step="1", floor="0", ceiling="{{maxSecond}}")
+  .col-md-6
+.col-md-12 
+  .col-md-5
+    video.video-js.vjs-default-skin(id="PLAYER_VIDEO", controls, preload="auto", width="512", height="211", data-setup="{}")
+      source(src="static/js/test.mp4", type="video/mp4")
+  .col-md-7
+    //.col-md-12
+    //  slider(ng-model="currentSecond", step="1", floor="0", ceiling="{{maxSecond}}")
     .col-md-12
       plugins-loader(namespace="'slide'", context="slide")
-  .col-md-6
+
   .col-md-6

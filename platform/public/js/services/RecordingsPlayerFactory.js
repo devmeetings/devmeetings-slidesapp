@@ -44,15 +44,14 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
                         var last =_.last(recording.slides);
                         return last ? last.timestamp / 1000 : 0;
                     },
-                    goToMinisecond: function (minisecond) {
-                        var second = minisecond * 1000;
+                    goToSecond: function (second) {
+                        var millisecond = second * 1000;
                         var index = _.findIndex(recording.slides, function (slide) {
-                            return slide.timestamp > second;
+                            return slide.timestamp > millisecond;
                         });
                         if (index === -1) {
                             return;
                         }
-                        index = index > 0 ? index - 1 : 0;
                         currentTime = getTime(index);
                         currentSnap = index;
                         callback(getCode(index));

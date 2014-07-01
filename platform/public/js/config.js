@@ -30,7 +30,8 @@ require.config({
         "lz-string": "../components/lz-string/libs/lz-string-1.3.3",
         "moment": "../components/moment/moment",
         "angular-moment": "../components/angular-moment/angular-moment",
-        "angular-local-storage": "../components/angular-local-storage/angular-local-storage"
+        "angular-local-storage": "../components/angular-local-storage/angular-local-storage",
+        "video-js": "../components/video.js/dist/video-js/video"
     },
     "map": {
         "*": {

@@ -1,8 +1,14 @@
-define(['angular', '_', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
-        function (angular, _, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
+define(['angular', '_', 'video-js', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
+        function (angular, _, videojs, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
     angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory',
         function ($scope, Recordings, RecordingsPlayerFactory) {
-       
+            var videojsPlayer = videojs('PLAYER_VIDEO');
+            videojsPlayer.on('timeupdate', function () {
+                $scope.$apply( function (){
+                    $scope.currentSecond = videojsPlayer.currentTime(); 
+                });
+            });
+            
             $scope.currentSecond = 0;
             $scope.maxSecond = 100;
 
@@ -19,7 +25,7 @@ define(['angular', '_', 'xplatform/xplatform-app', 'services/Recordings', 'servi
                     $scope.slide = slide;
                 });
                 $scope.maxSecond = $scope.player.length(); 
-                $scope.play = true;
+                //$scope.play = true;
             };
 
             $scope.$watch('play', function (newVal, oldVal) {
@@ -43,7 +49,7 @@ define(['angular', '_', 'xplatform/xplatform-app', 'services/Recordings', 'servi
                 if (!$scope.player) {
                     return;
                 }
-                $scope.player.goToMinisecond(newVal); 
+                $scope.player.goToSecond(newVal); 
             });
         }
     ]);
