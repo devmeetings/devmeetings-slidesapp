@@ -41,16 +41,19 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                             $element.empty();
                             childScope.$destroy();
                             childScope = $scope.$new();
-
+                            
+                            var pluginTpl = function(plugin) {
+                                return tpl({
+                                    pluginName: plugin.plugin,
+                                    trigger: plugin.trigger
+                                });
+                            };
                             var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
                                 if (plugin.trigger !== '*' && newContext[plugin.trigger] === undefined) {
                                     return memo;
                                 }
 
-                                return memo + tpl({
-                                    pluginName: plugin.plugin,
-                                    trigger: plugin.trigger
-                                });
+                                return memo + pluginTpl(plugin);
 
                             }, '');
                             var el = $compile(plugins)(childScope);
