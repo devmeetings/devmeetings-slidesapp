@@ -1,8 +1,11 @@
-define(['angular', '_', 'video-js', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
-        function (angular, _, videojs, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
+define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
+        function (angular, _, videojs, videojsyoutube, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
     angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory',
         function ($scope, Recordings, RecordingsPlayerFactory) {
-            var videojsPlayer = videojs('PLAYER_VIDEO');
+            var videojsPlayer = videojs('PLAYER_VIDEO', { 
+                techOrder: ['youtube'], 
+                src:'https://www.youtube.com/watch?v=cpBRAZ7RJvc'
+            });
             videojsPlayer.on('timeupdate', function () {
                 $scope.$apply( function (){
                     $scope.currentSecond = videojsPlayer.currentTime(); 
@@ -25,6 +28,7 @@ define(['angular', '_', 'video-js', 'xplatform/xplatform-app', 'services/Recordi
                     $scope.slide = slide;
                 });
                 $scope.maxSecond = $scope.player.length(); 
+                $scope.player.goToSecond($scope.currentSecond);
                 //$scope.play = true;
             };
 

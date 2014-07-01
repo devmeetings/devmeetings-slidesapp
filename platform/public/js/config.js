@@ -31,7 +31,8 @@ require.config({
         "moment": "../components/moment/moment",
         "angular-moment": "../components/angular-moment/angular-moment",
         "angular-local-storage": "../components/angular-local-storage/angular-local-storage",
-        "video-js": "../components/video.js/dist/video-js/video"
+        "video-js": "../components/video.js/dist/video-js/video",
+        "video-js-youtube": "../components/videojs-youtube/dist/vjs.youtube"
     },
     "map": {
         "*": {
@@ -109,6 +110,9 @@ require.config({
         },
         "lz-string": {
             "exports" : "LZString"
+        },
+        "video-js-youtube": {
+            "deps": ["video-js"]
         }
     }
 });
