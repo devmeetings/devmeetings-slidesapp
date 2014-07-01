@@ -1,0 +1,18 @@
+.microtasks
+  .microtask.alert.hidden-sm.hidden-xs(ng-repeat="task in microtasks", 
+    tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="left",
+    ng-class="{'alert-danger': !taskMeta[task.description].completed, 'alert-success': task.completed }")
+    span.microtask-status
+      span.glyphicon.glyphicon-ok(ng-show="taskMeta[task.description].completed")
+      span.glyphicon.glyphicon-question-sign.text-warning(ng-show="!taskMeta[task.description].completed")
+    span &nbsp;
+    span.microtask-text(ng-bind-html="task.description")
+    plugins-loader(namespace="'microtask'", context="taskMeta[task.description]")
+      
+  .microtask.alert.visible-xs.visible-sm(ng-repeat="task in microtasks", 
+    tooltip-html-unsafe="{{ task.description }}", tooltip-placement="left",
+    ng-class="{'alert-danger': !taskMeta[task.description].completed, 'alert-success': taskMeta[task.description].completed }")
+    span.microtask-status
+      span.glyphicon.glyphicon-ok(ng-show="taskMeta[task.description].completed")
+      span.glyphicon.glyphicon-question-sign.text-warning(ng-show="!taskMeta[task.description].completed")
+
