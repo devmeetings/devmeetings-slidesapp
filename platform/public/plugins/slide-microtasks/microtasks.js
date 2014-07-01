@@ -31,7 +31,7 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
 
                     scope.taskMeta = {};
 
-                    $scope.$watchCollection('microtasks', function(microtasks) {
+                    scope.$watchCollection('microtasks', function(microtasks) {
                         _.forEach(scope.microtasks, function(task) {
                             if (scope.taskMeta[task.description]) {
                                 return;
