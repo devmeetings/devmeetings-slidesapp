@@ -30,9 +30,11 @@ MongoClient.connect(config.db, function (err, db) {
             return elem.timestamp;
 
         });
+        var time = 2 * 60 * 60 * 1000; // 2 hours
         var snaps = _.reduce(sortedResults, function (acc, elem) {
             var last = _.last(acc);
-            if (last !== undefined && last.slideId === elem.slideId.toString() && last.userId === elem.userId && elem.timestamp < last.timestamp + 60000){
+//            if (last !== undefined && last.slideId === elem.slideId.toString() && last.userId === elem.userId && elem.timestamp < last.timestamp + time){
+            if (last !== undefined && elem.timestamp < last.timestamp + time) {
                 last.timestamp = elem.timestamp;
                 last.slides = last.slides.concat(JSON.parse(LZString.decompressFromBase64(elem.data)));
             } else {
@@ -60,11 +62,11 @@ MongoClient.connect(config.db, function (err, db) {
             }
         });
 
-        console.log(finalSnaps);
         db.collection('recordings').insert(finalSnaps, function (err, insertedSnaps) {
             if (err) {
                 throw err;
             }
+            console.log('imported ' + insertedSnaps.length + ' recordings');
             db.close();
         });
     });
