@@ -8,10 +8,13 @@
           | {{recording.slideId}}
 
   .col-md-6
-.col-md-12 
+.col-md-12
+  .col-md-12
+    p
+      | Delay
+    input(type="text", ng-model="timeDelay")
   .col-md-5
     video.video-js.vjs-default-skin(id="PLAYER_VIDEO", controls, preload="auto", width="512", height="211")
-      //source(src="static/js/test.mp4", type="video/mp4")
   .col-md-7
     .col-md-12
       plugins-loader(namespace="'slide'", context="slide")

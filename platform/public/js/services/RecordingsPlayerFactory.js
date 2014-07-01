@@ -51,6 +51,8 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
                         });
                         if (index === -1) {
                             return;
+                        } else if (index > 0) {
+                            index -= 1;
                         }
                         currentTime = getTime(index);
                         currentSnap = index;
