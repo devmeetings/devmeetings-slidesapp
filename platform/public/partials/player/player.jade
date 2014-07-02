@@ -1,22 +1,13 @@
-.col-md-12
-  .col-md-6
-    .col-md-6
-      ul.list-group
-        li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
-          span.badge
-            | {{recording.slides.length}}
-          | {{recording.slideId}}
+mixin layoutMenu(id, name)
+  li(ng-class="{'active': layout == '#{id}'}")
+    a(ng-click="layout = '#{id}'") #{name}
 
-  .col-md-6
-.col-md-12
-  .col-md-12
-    p
-      | Delay
-    input(type="text", ng-model="timeDelay")
-  .col-md-5
-    video.video-js.vjs-default-skin(id="PLAYER_VIDEO", controls, preload="auto", width="512", height="211")
-  .col-md-7
-    .col-md-12
-      plugins-loader(namespace="'slide'", context="slide")
+.pull-right
+  ul.nav.nav-pills
+    mixin layoutMenu('first', 'First')
+    mixin layoutMenu('second', 'Second')
 
-  .col-md-6
+div(ng-if="layout == 'first'")
+  include layouts/first
+div(ng-if="layout == 'second'")
+  include layouts/second

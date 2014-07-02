@@ -1,0 +1,23 @@
+.col-md-12
+  .col-md-12
+    p
+      | Delay
+    input(type="text", ng-model="state.timeDelay")
+  .col-md-5
+    videojs(src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond")
+    {{ currentSecond | json }}
+  .col-md-7
+    .col-md-12
+      plugins-loader(namespace="'slide'", context="slide")
+
+  .col-md-6
+.col-md-12
+  .col-md-6
+    .col-md-6
+      ul.list-group
+        li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
+          span.badge
+            | {{recording.slides.length}}
+          | {{recording.slideId}}
+
+  .col-md-6
