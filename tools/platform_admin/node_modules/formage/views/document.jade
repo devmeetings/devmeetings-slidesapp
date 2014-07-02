@@ -1,0 +1,45 @@
+extends layout.jade
+
+block breadcrumb
+    span.divider /
+    a(href="#{rootPath}/model/#{model_name}") #{model_label}
+    span.divider /
+    | editor
+
+block body
+    - if (!isDialog)
+        .page-header
+            h2 #{model_label} editor
+
+    - if (Object.keys(errors).length)
+        p.alert.alert-error Saving failed, fix the following errors and try again.
+    - if (errors.exception)
+        p.alert.alert-error #{errors.exception}
+
+    form#document(enctype="multipart/form-data",method="post").clearfix
+        != form
+        - if(subCollections && subCollections.length)
+            - each sub in subCollections
+                a.subCollection(href="#{rootPath}/model/#{sub.model}?#{sub.field}=#{sub.value}") #{sub.label} - #{sub.count? sub.count + ' Items' : 'No items'}
+
+        p.submit.btn-group
+            button#saveButton.btn.btn-large.btn-primary(type='submit',data-saving-text="Saving...") Save
+            a#cancelButton.btn.btn-large(href="#{rootPath}/model/#{model_name}") Cancel
+            - if (allow_delete)
+                button#deleteButton.btn.btn-large.btn-danger(type='button',data-loading-text='Deleting...') Delete
+            - each action in actions
+                - if (action.id != 'delete')
+                    button.action.btn.btn-large(value='#{action.id}') #{action.label}
+
+    - if (!isDialog)
+        #myModal.modal.hide.fade(tabindex='-1', role='dialog', style='width:1060px;height:624px')
+            .modal-header
+                button.close(type='button', data-dismiss='modal') ×
+                h3#myModalLabel &nbsp;
+            .modal-body(style='max-height:inherit')
+                iframe(src='', style='zoom: 0.60;', width='99.6%', height='800', frameborder='0')
+
+block scripts
+    script.
+        var model = '#{model_name}';
+        var isDialog = !{JSON.stringify(Boolean(isDialog))};

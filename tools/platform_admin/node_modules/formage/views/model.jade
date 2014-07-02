@@ -1,0 +1,189 @@
+extends layout.jade
+
+mixin fielddesc(value, type, document_url)
+    - var value_url = value && value.url;
+    - var cloudinary_url = value_url && value.url.split('/upload/')[0] + '/upload/c_fill,h_80,w_80/' + value.public_id + '.png';
+    - var geomery = value && value.geometry && value.geometry.lat + ',' + value.geometry.lng;
+    - var maps_url = geomery && 'https://maps.google.com/?q=' + geomery;
+    - var filename = value && value.filename;
+    - var date_string = value && value.toISOString ? value.toISOString().split('T')[0] : '';
+    case type
+        when 'Picture'
+            a(href=value_url, target='_blank'): img(src=cloudinary_url)
+
+        when 'Html'
+            !=value
+
+        when 'Filepicker'
+            - if (value)
+                a(href=value_url, target='_blank')
+                    - if (value.isWriteable && value.mimetype.indexOf('image') != 0)
+                        =filename
+                    - else
+                        img(src=value_url+'/convert?fit=crop&w=80&h=80')
+
+        when 'File'
+            a(href=value_url, target='_blank'): =filename
+
+        when 'GeoPoint'
+            a(href=maps_url, target='_blank'): =geomery
+
+        when 'Boolean'
+            .bool
+                i(class=(value ? 'icon-ok' : 'icon-remove'))
+
+        when 'Date'
+            a(href=document_url): =date_string
+
+        default
+            a(href=document_url): =value
+
+
+block breadcrumb
+    span.divider /
+    | #{label}
+
+block body
+    .page-header
+        h2 #{label}
+
+    #content.clearfix
+        - if (filters.length)
+            #filters
+                .well
+                    h3
+                        i.icon-filter
+                        | Filters
+                        small.pull-right
+                            a(href='#{rootPath}/model/#{model_name}') Clear
+
+                    ul.nav.nav-list
+                        - each filter in filters
+                            li.nav-header
+                                strong #{filter.key}:
+                            - if (current_filters[filter.key])
+                                li
+                                    a(href='#{makeLink(filter.key,"")}') All
+                            - else
+                                li.active
+                                    strong All
+                            - each value in filter.values
+                                - if (value)
+                                    li
+                                        - if (current_filters[filter.key] !== String(value.value) )
+                                            a(href='#{makeLink(filter.key, value.value)}') #{value.text}
+                                        - else
+                                            strong #{value.text}
+
+                            - if (filter.isString)
+                                div.input-append
+                                    input.literal(type='text', name='#{filter.key}', value='#{current_filters[filter.key] || ""}')
+                                    span.add-on: button.icon-calendar.free_search(data-href='#{makeLink(filter.key, "__replace__")}')
+
+        div
+            .btn-toolbar.clearfix
+                - if (creatable)
+                    - if (newTypes.length === 0)
+                        a.btn.pull-right.btn-warning(href="#{rootPath}/model/#{model_name}/document/new#{makeLink()}")
+                            i.icon-plus.icon-white
+                            &nbsp;New Item&nbsp;
+                    - else
+                        div.btn-group.pull-right
+                            button.btn.btn-warning.dropdown-toggle(type="button", data-toggle="dropdown")
+                                i.icon-plus.icon-white
+                                &nbsp;New Item&nbsp;
+                            ul.dropdown-menu
+                                - each type in newTypes
+                                    li: a(href="#{rootPath}/model/#{type}/document/new#{makeLink()}") #{type}
+
+
+                - if (search)
+                    div
+                        form(class="form-inline")
+                            input(type="text",name="_search",value="#{search_value}",class="span5")
+                            - for(var key in current_filters)
+                                - if(key != "_search")
+                                    input(type="hidden",name="#{key}",value="#{current_filters[key]}")
+                            - if(dialog)
+                                input(type="hidden",name="_dialog",value="yes")
+                            button(type="submit",class="btn") Search
+
+                - if (sortable)
+                    button#reorder.btn.btn-success.pull-left.hide(data-loading-text='Saving...', data-saved-text='Saved!')
+                        i.icon-ok.icon-white
+                        | Save Order
+
+                - if (actions.length && dataTable.data.length)
+                    #actions.input-prepend.hide
+                        span.add-on With selected: &nbsp;
+                        div.btn-group
+                            - each action in actions
+                                if (action.id == 'delete')
+                                    button.btn.btn-danger(value='#{action.id}')
+                                        i.icon-trash.icon-white
+                                        | &nbsp;#{action.label}
+                                else
+                                    button.btn(value='#{action.id}') #{action.label}
+
+            - if (!dataTable.data.length)
+                p.center No documents yet
+
+            - else
+                p.counter Viewing #{start+1}–#{start + dataTable.data.length} of #{total_count} documents
+
+                table.table.table-bordered.table-hover
+                    colgroup.selectors: col.center(width='60')
+                    colgroup
+                        - each field in dataTable.header
+                            col(class=field.thClass)
+                    if cloneable
+                        colgroup.buttons: col(width='130')
+
+                    thead
+                        tr
+                            th.center
+                                input.select-all-rows(type='checkbox')
+                            - each field in dataTable.header
+                                th
+                                    a(href=field.href) #{field.label)
+                            if cloneable
+                                th &nbsp;
+
+                    tbody(class=sortable?'sortable':'')
+                        - each row in dataTable.data
+                            - var document_url = rootPath + '/model/' + model_name + '/document/' + row.id
+                            tr(id=row.id)
+                                td.center
+                                    input.select-row(type='checkbox')
+                                    if sortable
+                                        span.list-drag: i.icon-resize-vertical
+
+                                - each field in row.data
+                                    td
+                                        +fielddesc(field.value, field.type, document_url)
+
+                                td
+                                    div.btn-group
+                                        a.btn.btn-primary(href=document_url) Edit
+                                        if cloneable
+                                            a.btn.btn-default(href="#{rootPath}/model/#{model_name}/document/new?orig=#{row.id}") Duplicate
+
+                p.counter Viewing #{start+1}–#{start + dataTable.data.length} of #{total_count} documents
+                - if (total_count > count)
+                    .pagination
+                        ul
+                            - for (var i = 0, page = 1; i < total_count; i += count, page++)
+                                - if (start == i)
+                                    li.active
+                                        span #{page}
+                                - else if (start/count <= page+5 && start/count >= page-5 || i == 0 || i+count >= total_count)
+                                    li
+                                        a(href='#{makeLink("start",i)}') #{page}
+
+block scripts
+    script.
+        var startIndex = [#{start}][0];
+        var model = '#{model_name}';
+
+    script(src="#{rootPath}/vendor/bootbox/bootbox.js")
+    script(src="#{rootPath}/js/model.js")
