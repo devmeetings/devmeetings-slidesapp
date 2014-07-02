@@ -3,7 +3,7 @@ var fs = require('fs'),
     LZString = require('lz-string'),
     _ = require('lodash');
 
-var config = require('../platform/config/config');
+var config = require('../../platform/config/config');
 
 var keysToTrim = ['live-save', 'toolbar', 'commit'];
 
