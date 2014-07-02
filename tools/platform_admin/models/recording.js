@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var Recording = new Schema({
-    slideId: String,
+    title: String,
     videoUrl: String,
     timeOffset: Number,
+    slideId: String,
     slides: [Schema.Types.Mixed]
 });
 
