@@ -3,6 +3,8 @@ Schema = mongoose.Schema;
 
 var Recording = new Schema({
     slideId: String,
+    videoUrl: String,
+    timeOffset: Number,
     slides: [Schema.Types.Mixed]
 });
 
