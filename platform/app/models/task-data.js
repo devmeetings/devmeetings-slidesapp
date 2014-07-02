@@ -4,7 +4,7 @@ Schema = mongoose.Schema;
 var TaskData = new Schema({
     slideId: Schema.ObjectId,
     userId: String,
-    tasks: []
+    tasks: [Schema.Types.Mixed]
 });
 
 TaskData.virtual('date')

@@ -3,7 +3,7 @@ Schema = mongoose.Schema;
 
 var Recording = new Schema({
     slideId: String,
-    slides: []
+    slides: [Schema.Types.Mixed]
 });
 
 Recording.virtual('date')
