@@ -73,9 +73,9 @@ module.exports = function(app) {
     app.get('/slides/:slide', authenticated, slider.slide);
 
     // Admin panel
-//    var admin = require('../app/controllers/admin');
-//    app.get('/admin', authenticated, admin.index);
-//    app.get('/admin/partials/:name', authenticated, admin.partials);
+    var admin = require('../app/controllers/admin');
+    app.get('/admin', authenticated, admin.index);
+    app.get('/admin/partials/:name', authenticated, admin.partials);
 
 
     var plugins = require('./plugins');
