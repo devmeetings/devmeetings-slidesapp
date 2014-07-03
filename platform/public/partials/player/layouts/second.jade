@@ -1,0 +1,49 @@
+style.
+  .full-screen-mode {
+    margin: 3em auto;
+    position: relative;
+    width: 1080px;
+    height: 700px;
+  }
+  .full-screen-mode::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  .full-screen-mode .on-top {
+    z-index: 5;
+  }
+
+  .full-screen-mode .video-js {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index: 2;
+  }
+  .full-screen-mode plugins-loader {
+    position: absolute;
+    top:50px;
+    left:0;
+    right:0;
+    bottom: 50px;
+    z-index: 1; 
+    background: #000;
+  }
+p.
+  Zatrzymując film możesz przejść w tryb interaktywny i zacząć samemu eksperymentować z kodem.
+.row
+  .full-screen-mode
+    videojs(height="900", src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true')
+    plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
+.row
+  .col-md-4.col-md-offset-4
+    button.btn.btn-primary.btn-block(ng-click="state.isPlaying = !state.isPlaying")
+      span(ng-hide="state.isPlaying")
+        span.fa.fa-play
+        | 
+        span Play
+      span(ng-show="state.isPlaying")
+        span.fa.fa-pause

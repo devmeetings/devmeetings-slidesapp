@@ -1,6 +1,6 @@
 mixin layoutMenu(id, name)
-  li(ng-class="{'active': layout == '#{id}'}")
-    a(ng-click="layout = '#{id}'") #{name}
+  li(ui-sref-active="active")
+    a(ui-sref="navbar.player({layout: '#{id}'})") #{name}
 
 .row
   .pull-right

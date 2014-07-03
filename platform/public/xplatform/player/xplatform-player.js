@@ -13,15 +13,17 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         isPlaying: '=',
                         delay: '=',
                         shouldUpdateTime: '@',
-                        controls: '@'
+                        controls: '@',
+                        height: '@'
                     },
-                    template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%" height="450"></video></div>',
+                    template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%"></video></div>',
                     link: function(scope, element) {
 
                         var $video = element.find('video')[0];
                         if (scope.controls) {
                             $video.setAttribute('controls', true);
                         }
+                        $video.setAttribute('height', scope.height);
 
                         var player = videojs($video, {
                             techOrder: ['youtube'],
@@ -94,15 +96,16 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                 }
             }
         ]);
-        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory',
-            function($scope, Recordings, RecordingsPlayerFactory) {
+        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams',
+            function($scope, Recordings, RecordingsPlayerFactory, $stateParams) {
 
-                $scope.layout = 'first';
+                $scope.layout = $stateParams.layout;
                 $scope.state = {
                     currentSecond: 0,
                     maxSecond: 100,
                     timeDelay: 782,
-                    secondVideoDelay: -29
+                    secondVideoDelay: -28.5,
+                    isPlaying: false
                 };
 
                 Recordings.getRecordings().success(function(recordings) {
