@@ -1,4 +1,4 @@
-div(ng-hide="showDetails")
+div(ng-hide="showDetails", style="position: absolute; bottom: 50px; left: 10px;z-index:19999")
   button.btn.btn-sm.btn-success(ng-click="showDetails = true")
     span.fa.fa-cloud-upload   Save
 .form-inline(ng-show="showDetails")
