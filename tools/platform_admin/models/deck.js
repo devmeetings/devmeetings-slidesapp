@@ -13,9 +13,4 @@ DeckSchema.virtual('date')
         return this._id.getTimestamp();
     });
 
-//DeckSchema.formage = {
-//    singular: 'Deck',
-//    order_by: ['title']
-//};
-
 module.exports = mongoose.model('Deck', DeckSchema);
