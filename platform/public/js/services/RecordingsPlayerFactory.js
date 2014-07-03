@@ -27,9 +27,7 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
                         $timeout(next, time - currentTime);
                         currentTime = time;
                         callback(getCode(currentSnapIdx));
-                    } else {
-                        run = false;
-                    }
+                    } 
                 };
 
                 return {
