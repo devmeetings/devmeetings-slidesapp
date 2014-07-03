@@ -1,7 +1,7 @@
 define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'commit', 'slide-commit', 10000).directive('slideCommit', [
+    sliderPlugins.registerPlugin('slide', '*', 'slide-commit', 10000).directive('slideCommit', [
         'Sockets', 'DeckAndSlides', '$window',
         function(Sockets, DeckAndSlides, $window) {
 
