@@ -25,9 +25,9 @@ style.
   }
   .full-screen-mode plugins-loader {
     position: absolute;
-    top:50px;
-    left:0;
-    right:0;
+    top: 10px;
+    left:30px;
+    right:30px;
     bottom: 50px;
     z-index: 1; 
     background: #000;
@@ -46,7 +46,7 @@ style.
     plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
 .row
   .col-md-4.col-md-offset-4
-    button.btn.btn-primary.btn-block(ng-click="state.isPlaying = !state.isPlaying")
+    button.btn.btn-block(ng-click="state.isPlaying = !state.isPlaying", ng-class="{'btn-primary': !state.isPlaying, 'btn-default': state.isPlaying}")
       span(ng-hide="state.isPlaying")
         span.fa.fa-play
         | 
