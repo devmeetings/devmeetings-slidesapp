@@ -14,6 +14,9 @@ style.
   .full-screen-mode .on-top {
     z-index: 5;
   }
+  .full-screen-mode .on-top2 {
+    z-index: 6;
+  }
 
   .full-screen-mode .video-js {
     position: absolute;
@@ -44,7 +47,7 @@ style.
     include navi.jade
     videojs(height="700", src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true')
     plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
-.row
+.row.on-top2
   .col-md-4.col-md-offset-4
     button.btn.btn-block(ng-click="state.isPlaying = !state.isPlaying", ng-class="{'btn-primary': !state.isPlaying, 'btn-default': state.isPlaying}")
       span(ng-hide="state.isPlaying")
@@ -53,6 +56,6 @@ style.
         span Play
       span(ng-show="state.isPlaying")
         span.fa.fa-pause
-.row
+.row.on-top2
   .col-md-12
     videojs(src='"http://youtu.be/hc8XeUE-1Io"', current-second="state.currentSecond", is-playing="state.isPlaying", delay="state.secondVideoDelay", height="400")
