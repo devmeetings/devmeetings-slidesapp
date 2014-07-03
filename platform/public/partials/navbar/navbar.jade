@@ -1,3 +1,12 @@
+style.
+  .x-top-most {
+    z-index: 100000;
+  }
+
+mixin layoutMenu(id, name)
+  li(ui-sref-active="active")
+    a(ui-sref="navbar.player({layout: '#{id}'})") #{name}
+
 .navbar.navbar-inverse
   .navbar-header
     button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
@@ -8,13 +17,18 @@
       span.glyphicon.glyphicon-th-large.index-xplatform-logo
       | &nbsp;Xplatform
   .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
-    form.navbar-form.navbar-left.index-form-search
-      input.form-control.col-md-8.index-input-search(type="text", ng-model="navbar.searchText")
-      span.glyphicon.glyphicon-search.index-glyph-search
+    //form.navbar-form.navbar-left.index-form-search
+    //  input.form-control.col-md-8.index-input-search(type="text", ng-model="navbar.searchText")
+    //  span.glyphicon.glyphicon-search.index-glyph-search
     ul.nav.navbar-nav.navbar-right
-      li
-        a.ng-cloak(ui-sref="navbar.player")
-          | Player
+      li.dropdown
+        a.dropdown-toggle(data-toggle="dropdown")
+          | Player&nbsp;
+          b.caret
+        ul.dropdown-menu.x-top-most
+          mixin layoutMenu('first', 'First')
+          mixin layoutMenu('second', 'Second')
+          mixin layoutMenu('third', 'Third')
       li
         img(gravatar-src="navbar.user.email", gravatar-size="50")
       li

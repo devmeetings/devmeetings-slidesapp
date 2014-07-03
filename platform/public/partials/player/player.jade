@@ -1,14 +1,3 @@
-mixin layoutMenu(id, name)
-  li(ui-sref-active="active")
-    a(ui-sref="navbar.player({layout: '#{id}'})") #{name}
-
-.row
-  .pull-right
-    ul.nav.nav-pills
-      mixin layoutMenu('first', 'First')
-      mixin layoutMenu('second', 'Second')
-      mixin layoutMenu('third', 'Third')
-
 div(ng-if="layout == 'first'")
   include layouts/first
 div(ng-if="layout == 'second'")
