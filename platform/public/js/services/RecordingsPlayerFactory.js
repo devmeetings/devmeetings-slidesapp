@@ -3,7 +3,7 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
         function ($timeout) {
             var RecordingsPlayerFactory = function (recording, callback) {
                 var currentTime = 0;
-                var currentSnap = 0;
+                var currentSnapIdx = 0;
                 var run = false;
                
                 var getCode = function (index) {
@@ -16,20 +16,18 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
 
                 var nextSnap = function next() {
                     if (run) {
-                        if (currentSnap > recording.slides.length - 2){
-                            callback(getCode(currentSnap));
+                        if (currentSnapIdx > recording.slides.length - 2){
+                            callback(getCode(currentSnapIdx));
                             run = false;
                             return;
                         }
                         
-                        var time = getTime(++currentSnap);
+                        var time = getTime(++currentSnapIdx);
         
                         $timeout(next, time - currentTime);
                         currentTime = time;
-                        callback(getCode(currentSnap));
-                    } else {
-                        run = false;
-                    }
+                        callback(getCode(currentSnapIdx));
+                    } 
                 };
 
                 return {
@@ -51,11 +49,13 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
                         });
                         if (index === -1) {
                             return;
-                        } else if (index > 0) {
+                        } 
+                        
+                        if (index > 0) {
                             index -= 1;
                         }
                         currentTime = getTime(index);
-                        currentSnap = index;
+                        currentSnapIdx = index;
                         callback(getCode(index));
                     }
                 };
