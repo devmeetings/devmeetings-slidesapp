@@ -53,3 +53,6 @@ p.
         span Play
       span(ng-show="state.isPlaying")
         span.fa.fa-pause
+.row
+  .col-md-12
+    videojs(src='"http://youtu.be/hc8XeUE-1Io"', current-second="state.currentSecond", is-playing="state.isPlaying", delay="state.secondVideoDelay", height="400")
