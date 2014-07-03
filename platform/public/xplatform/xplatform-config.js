@@ -49,7 +49,7 @@ require(['angular',
                 }
             });
 
-            $urlRouterProvider.when('/player', '/player/first');
+            $urlRouterProvider.when('/player/', '/player/first');
             $urlRouterProvider.otherwise('/index');
         }
     ]);
