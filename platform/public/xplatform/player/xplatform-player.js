@@ -11,24 +11,40 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         src: '=',
                         currentSecond: '=',
                         isPlaying: '=',
+                        delay: '=',
                         shouldUpdateTime: '@',
                         controls: '@'
                     },
-                    template: '<div><video class="video-js vjs-default-skin" preload="auto" width="512" height="211"></video></div>',
+                    template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%" height="450"></video></div>',
                     link: function(scope, element) {
 
                         var $video = element.find('video')[0];
                         if (scope.controls) {
                             $video.setAttribute('controls', true);
                         }
+
                         var player = videojs($video, {
                             techOrder: ['youtube'],
                             src: scope.src
+                        }, function() {
+                            $timeout(function() {
+                                updateCurrentTime();
+                            });
                         });
+
+                        var updateCurrentTime = function() {
+                            var delay = parseInt(scope.delay, 10) || 0;
+                            player.currentTime(Math.round(scope.currentSecond + delay));
+                        };
+
                         if (scope.shouldUpdateTime) {
                             player.on('timeupdate', function() {
                                 scope.$apply(function() {
-                                    scope.currentSecond = player.currentTime();
+                                    var time = player.currentTime();
+                                    // Don't override when there is 0 in currentTime and we already played video
+                                    if (time) {
+                                        scope.currentSecond = time;
+                                    }
                                 });
                             });
                         }
@@ -42,7 +58,14 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         player.on('pause', function() {
                             scope.$apply(function() {
                                 scope.isPlaying = false;
+                                if (scope.shouldUpdateTime) {
+                                    scope.currentSecond = Math.round(scope.currentSecond);
+                                }
                             });
+                        });
+
+                        scope.$watch('delay', function() {
+                            updateCurrentTime();
                         });
 
                         scope.$watch('isPlaying', function(newVal, oldVal) {
@@ -52,17 +75,20 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
 
                             $timeout(function() {
                                 if (scope.isPlaying) {
-                                    if (!player.paused()) {
+                                    if (player.paused()) {
                                         player.play();
                                     }
-                                    player.currentTime(Math.round(scope.currentSecond));
                                 } else {
-                                    if (player.paused()) {
-                                        return;
+                                    if (!player.paused()) {
+                                        player.pause();
                                     }
-                                    player.pause();
                                 }
+                                updateCurrentTime();
                             });
+                        });
+
+                        scope.$on('$destroy', function() {
+                            player.dispose();
                         });
                     }
                 }
@@ -75,11 +101,15 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                 $scope.state = {
                     currentSecond: 0,
                     maxSecond: 100,
-                    timeDelay: 0
+                    timeDelay: 782,
+                    secondVideoDelay: -29
                 };
 
                 Recordings.getRecordings().success(function(recordings) {
                     $scope.recordings = recordings;
+                    // TODO [ToDr] Selecting single recording for now.
+                    $scope.onRecordingSelected(2);
+                    // TODO:End
                 });
 
                 var goToSecond = function() {

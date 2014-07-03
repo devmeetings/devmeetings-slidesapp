@@ -2,10 +2,11 @@ mixin layoutMenu(id, name)
   li(ng-class="{'active': layout == '#{id}'}")
     a(ng-click="layout = '#{id}'") #{name}
 
-.pull-right
-  ul.nav.nav-pills
-    mixin layoutMenu('first', 'First')
-    mixin layoutMenu('second', 'Second')
+.row
+  .pull-right
+    ul.nav.nav-pills
+      mixin layoutMenu('first', 'First')
+      mixin layoutMenu('second', 'Second')
 
 div(ng-if="layout == 'first'")
   include layouts/first
