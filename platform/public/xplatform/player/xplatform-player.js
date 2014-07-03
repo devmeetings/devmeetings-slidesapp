@@ -16,7 +16,10 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         controls: '@',
                         height: '@'
                     },
-                    template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%"></video></div>',
+                    template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%">' //
+                    // TODO [ToDr] Chapters will be working in 4.7 version of video.js (not released yet)
+                    //+ '<track kind="chapters" src="/static/xplatform/player/chapters.vtt" srclang="pl" label="Slajdy" default>' //
+                    + '</video></div>',
                     link: function(scope, element) {
 
                         var $video = element.find('video')[0];
@@ -96,8 +99,8 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                 }
             }
         ]);
-        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams',
-            function($scope, Recordings, RecordingsPlayerFactory, $stateParams) {
+        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout',
+            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout) {
 
                 $scope.layout = $stateParams.layout;
                 $scope.state = {
@@ -115,11 +118,18 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     // TODO:End
                 });
 
-                var goToSecond = function() {
+                $scope.goToSecond = function() {
                     if (!$scope.player) {
                         return;
                     }
                     $scope.player.goToSecond($scope.state.currentSecond + parseInt($scope.state.timeDelay));
+                };
+                $scope.jumpTo = function(second) {
+                    $scope.state.isPlaying = false;
+                    $timeout(function() {
+                        $scope.state.currentSecond = second;
+                        $scope.state.isPlaying = true;
+                    }, 500);
                 };
 
                 $scope.onRecordingSelected = function(index) {
@@ -127,11 +137,12 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         $scope.player.pause();
                     }
                     var recording = $scope.recordings[index];
-                    $scope.player = RecordingsPlayerFactory(recording, function(slide) {
+                    $scope.player = RecordingsPlayerFactory(recording, function(slide, wholeSlide) {
                         $scope.slide = slide;
+                        $scope.wholeSlide = wholeSlide;
                     });
                     $scope.state.maxSecond = $scope.player.length();
-                    goToSecond();
+                    $scope.goToSecond();
                     //$scope.play = true;
                 };
 
@@ -139,15 +150,87 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     if (newVal === oldVal) {
                         return;
                     }
-                    goToSecond();
+                    $scope.goToSecond();
+                    $scope.slideId = 'http://xplatform.org/decks/53aa9c9d5c03231c66ce3886#/' + $scope.findSlideData($scope.state.currentSecond);
                 });
 
                 $scope.$watch('state.timeDelay', function(newVal, oldVal) {
                     if (newVal === oldVal) {
                         return;
                     }
-                    goToSecond();
+                    $scope.goToSecond();
                 });
+
+                $scope.findSlideData = function(timestamp) {
+                    var data = $scope.timestampData.slice();
+                    var last = null;
+                    do {
+                        last = data.shift();
+                    } while (data[0] && data[0].timestamp < timestamp);
+
+                    return last;
+                };
+
+                $scope.timestampData = [{
+                    "timestamp": 0,
+                    "id": "53aa9dd35c03231c66ce3887",
+                    "name": "Wprowadzenie,"
+                }, {
+                    "timestamp": 21,
+                    "id": "53aa9f415c03231c66ce3888",
+                    "name": "Tablice i Literały"
+                }, {
+                    "timestamp": 945,
+                    "id": "53aae93ecc503947710314b1",
+                    "name": "Obiekty"
+                }, {
+                    "timestamp": 1822,
+                    "id": "53aaf1d8cc503947710314b3",
+                    "name": "Funkcje"
+                }, {
+                    "timestamp": 2669,
+                    "id": "53aaf499cc503947710314b5",
+                    "name": "Metody"
+                }, {
+                    "timestamp": 3214,
+                    "id": "53aaf88a074cea9b7f2862ec",
+                    "name": "HTML"
+                }, {
+                    "timestamp": 3455,
+                    "id": "53aafcbc074cea9b7f2862ee",
+                    "name": "HTML5"
+                }, {
+                    "timestamp": 4161,
+                    "id": "53ab02b5074cea9b7f2862f0",
+                    "name": "Modyfikowanie DOM"
+                }, {
+                    "timestamp": 4794,
+                    "id": "53ab0576074cea9b7f2862f2",
+                    "name": "Tworzenie elementów DOM"
+                }, {
+                    "timestamp": 5386,
+                    "id": "53ab06b2074cea9b7f2862f4",
+                    "name": "Zadanie - Lista Todos"
+                }, {
+                    "timestamp": 6727,
+                    "id": "53ab06b2074cea9b7f2862f4",
+                    "name": "Scopes"
+                }, {
+                    "timestamp": 7090,
+                    "id": "538de6fb3b2fb14c48000010",
+                    "name": "Zakończenie"
+                }];
+            }
+        ]);
+
+        angular.module('xplatform').config(['$sceDelegateProvider',
+            function($sceDelegateProvider) {
+                $sceDelegateProvider.resourceUrlWhitelist([
+                    'self',
+                    'http://devmeetings.pl/**',
+                    'http://*.xplatform.org/**',
+                    'http://xplatform.org/**'
+                ]);
             }
         ]);
     });

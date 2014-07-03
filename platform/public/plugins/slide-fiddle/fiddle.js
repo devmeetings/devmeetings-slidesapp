@@ -4,6 +4,46 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
     var EDITOR_THEME = 'todr';
     var path = sliderPlugins.extractPath(module);
 
+
+    var handleListeners = function(scope, $window) {
+        // Errors forwarder
+        var listener = function(ev) {
+            var d = ev.data;
+            if (d.type !== 'fiddle-error') {
+                return;
+            }
+            scope.$apply(function() {
+                scope.errors = d.msg;
+            });
+        };
+
+        $window.addEventListener('message', listener);
+        scope.$on('$destroy', function() {
+
+            $window.removeEventListener('message', listener);
+        });
+    };
+
+    var fiddleCopy = function(scope) {
+        return _.extend({
+            js: '',
+            css: '',
+            html: '<html><head></head><body></body></html'
+        }, scope.fiddle);
+    };
+
+    var getActive = function(scope) {
+        if (scope.fiddle.active) {
+            return scope.fiddle.active;
+        }
+
+        var keys = _.keys(scope.fiddle);
+        return _.find(['js', 'coffee', 'css', 'html'], function(key) {
+            return _.contains(keys, key);
+        });
+
+    };
+
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 5000).directive('slideFiddle', [
         '$timeout', '$window',
         function($timeout, $window) {
@@ -15,22 +55,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                 },
                 templateUrl: path + '/fiddle.html',
                 link: function(scope, element) {
-                    if (scope.fiddle.active) {
-                        scope.active = scope.fiddle.active;
-                    } else {
-                        var keys = _.keys(scope.fiddle);
-                        scope.active = _.find(['js', 'coffee', 'css', 'html'], function(key) {
-                            return _.contains(keys, key);
-                        });
+                    if (!scope.fiddle) {
+                        return;
                     }
 
-                    var fiddleCopy = function() {
-                        return _.extend({
-                            js: '',
-                            css: '',
-                            html: '<html><head></head><body></body></html'
-                        }, scope.fiddle);
-                    };
+                    scope.active = getActive(scope);
 
 
                     $timeout(function() {
@@ -44,7 +73,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             var updateScopeLater = _.debounce(function() {
                                 scope.$apply(function() {
                                     scope.fiddle[content] = editor.getValue();
-                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
+                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
                                 });
                             }, 100);
 
@@ -63,27 +92,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             });
 
                             sliderPlugins.onLoad(function() {
-                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy());
+                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
                             });
                         });
                     });
 
-                    // Errors forwarder
-                    var listener = function(ev) {
-                        var d = ev.data;
-                        if (d.type !== 'fiddle-error') {
-                            return;
-                        }
-                        scope.$apply(function() {
-                            scope.errors = d.msg;
-                        });
-                    };
-
-                    $window.addEventListener('message', listener);
-                    scope.$on('$destroy', function() {
-
-                        $window.removeEventListener('message', listener);
-                    });
+                    handleListeners(scope, $window);
                 }
             };
         }
