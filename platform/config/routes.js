@@ -31,6 +31,9 @@ module.exports = function(app) {
     app.get('/api/recordings', authenticated, recordings.list);
     app.get('/api/recordings/:id', authenticated, recordings.get);
 
+    var events = require('../app/controllers/events');
+    app.get('/api/events', authenticated, events.list);
+
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);

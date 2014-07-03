@@ -1,11 +1,7 @@
-define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins'], function(_, angular, angularSanitize, asEvented, Plugins) {
+define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins', '../utils/ExtractPath'], function(_, angular, angularSanitize, asEvented, Plugins, ExtractPath) {
     var module = angular.module('slider.plugins', ['ngSanitize']);
 
-    module.extractPath = function(module) {
-        var path = module.uri.split('/');
-        path.pop();
-        return path.join('/');
-    };
+    module.extractPath = ExtractPath;
 
     _.extend(module, Plugins);
     asEvented.call(module);
