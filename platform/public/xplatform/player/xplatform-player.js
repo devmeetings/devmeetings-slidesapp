@@ -151,7 +151,7 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         return;
                     }
                     $scope.goToSecond();
-                    $scope.slideId = 'http://xplatform.org/decks/53aa9c9d5c03231c66ce3886#/' + $scope.findSlideData($scope.state.currentSecond);
+                    $scope.slideId = 'http://xplatform.org/decks/53aa9c9d5c03231c66ce3886#/' + $scope.findSlideData($scope.state.currentSecond).id;
                 });
 
                 $scope.$watch('state.timeDelay', function(newVal, oldVal) {
@@ -173,50 +173,62 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
 
                 $scope.timestampData = [{
                     "timestamp": 0,
+                    "end": 21,
                     "id": "53aa9dd35c03231c66ce3887",
                     "name": "Wprowadzenie,"
                 }, {
                     "timestamp": 21,
+                    "end": 945,
                     "id": "53aa9f415c03231c66ce3888",
                     "name": "Tablice i Literały"
                 }, {
                     "timestamp": 945,
+                    "end": 1822,
                     "id": "53aae93ecc503947710314b1",
                     "name": "Obiekty"
                 }, {
                     "timestamp": 1822,
+                    "end": 2669,
                     "id": "53aaf1d8cc503947710314b3",
                     "name": "Funkcje"
                 }, {
                     "timestamp": 2669,
+                    "end": 3214,
                     "id": "53aaf499cc503947710314b5",
                     "name": "Metody"
                 }, {
                     "timestamp": 3214,
+                    "end": 3455,
                     "id": "53aaf88a074cea9b7f2862ec",
                     "name": "HTML"
                 }, {
                     "timestamp": 3455,
+                    "end": 4161,
                     "id": "53aafcbc074cea9b7f2862ee",
                     "name": "HTML5"
                 }, {
                     "timestamp": 4161,
+                    "end": 4794,
                     "id": "53ab02b5074cea9b7f2862f0",
                     "name": "Modyfikowanie DOM"
                 }, {
                     "timestamp": 4794,
+                    "end": 5386,
                     "id": "53ab0576074cea9b7f2862f2",
                     "name": "Tworzenie elementów DOM"
                 }, {
                     "timestamp": 5386,
+                    "end": 6727,
                     "id": "53ab06b2074cea9b7f2862f4",
                     "name": "Zadanie - Lista Todos"
                 }, {
                     "timestamp": 6727,
+                    "end": 7090,
                     "id": "53ab06b2074cea9b7f2862f4",
                     "name": "Scopes"
                 }, {
                     "timestamp": 7090,
+                    "end": 7100,
                     "id": "538de6fb3b2fb14c48000010",
                     "name": "Zakończenie"
                 }];

@@ -35,11 +35,17 @@ style.
   iframe.sandbox {
     border: none;
   }
-p.
-  Zatrzymując film możesz przejść w tryb interaktywny i zacząć samemu eksperymentować z kodem.
+  .full-screen-mode .navi {
+    position: absolute;
+    top: -50px;
+    left:0;
+    right: 0;
+    height: 50px;
+  }
 .row
   .col-md-6
     .full-screen-mode
+      include navi.jade
       videojs(height="700", src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true')
       plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
   .col-md-6

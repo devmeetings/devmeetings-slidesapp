@@ -8,9 +8,6 @@ mixin layoutMenu(id, name)
       mixin layoutMenu('first', 'First')
       mixin layoutMenu('second', 'Second')
       mixin layoutMenu('third', 'Third')
-.row
-  a.btn.btn-xs.btn-default(ng-repeat="slide in timestampData", ng-click="jumpTo(slide.timestamp)")
-    {{ slide.name }}
 
 div(ng-if="layout == 'first'")
   include layouts/first

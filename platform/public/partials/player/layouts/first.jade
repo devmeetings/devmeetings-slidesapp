@@ -2,6 +2,7 @@
   .col-md-5.text-right
     videojs(src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true', height="450")
     videojs(src='"http://youtu.be/hc8XeUE-1Io"', current-second="state.currentSecond", is-playing="state.isPlaying", delay="state.secondVideoDelay", height="450")
+    include navi.jade
   .col-md-7
     plugins-loader(namespace="'slide'", context="slide")
 //.col-md-12
