@@ -35,6 +35,9 @@ style.
     z-index: 1; 
     background: #000;
   }
+  iframe.sandbox {
+    border: none;
+  }
   .full-screen-mode .navi {
     position: absolute;
     top: -50px;
@@ -43,11 +46,14 @@ style.
     height: 50px;
   }
 .row
-  .full-screen-mode
-    include navi.jade
-    videojs(height="700", src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true')
-    plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
-.row.on-top2
+  .col-md-6
+    .full-screen-mode
+      include navi.jade
+      videojs(height="700", src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true')
+      plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
+  .col-md-6
+    iframe.sandbox(width="100%", height="700", ng-src="{{slideId}}")
+.row.clearfix.on-top2
   .col-md-4.col-md-offset-4
     button.btn.btn-block(ng-click="state.isPlaying = !state.isPlaying", ng-class="{'btn-primary': !state.isPlaying, 'btn-default': state.isPlaying}")
       span(ng-hide="state.isPlaying")

@@ -1,0 +1,4 @@
+.navi
+  a.btn.btn-xs.btn-default(ng-repeat="slide in timestampData", ng-click="jumpTo(slide.timestamp)", ng-class="{'btn-primary' : slide.timestamp < state.currentSecond && slide.end > state.currentSecond}")
+    | {{ slide.name }}
+    span &nbsp;  

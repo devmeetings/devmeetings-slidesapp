@@ -1,13 +1,17 @@
 mixin layoutMenu(id, name)
-  li(ng-class="{'active': layout == '#{id}'}")
-    a(ng-click="layout = '#{id}'") #{name}
+  li(ui-sref-active="active")
+    a(ui-sref="navbar.player({layout: '#{id}'})") #{name}
 
-.pull-right
-  ul.nav.nav-pills
-    mixin layoutMenu('first', 'First')
-    mixin layoutMenu('second', 'Second')
+.row
+  .pull-right
+    ul.nav.nav-pills
+      mixin layoutMenu('first', 'First')
+      mixin layoutMenu('second', 'Second')
+      mixin layoutMenu('third', 'Third')
 
 div(ng-if="layout == 'first'")
   include layouts/first
 div(ng-if="layout == 'second'")
   include layouts/second
+div(ng-if="layout == 'third'")
+  include layouts/third
