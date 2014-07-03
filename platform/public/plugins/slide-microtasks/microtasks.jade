@@ -1,7 +1,7 @@
 .microtasks
   .microtask.alert.hidden-sm.hidden-xs(ng-repeat="task in microtasks", 
     tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="left",
-    ng-class="{'alert-danger': !taskMeta[task.description].completed, 'alert-success': task.completed }")
+    ng-class="{'alert-danger': !taskMeta[task.description].completed, 'alert-success': taskMeta[task.description].completed }")
     span.microtask-status
       span.glyphicon.glyphicon-ok(ng-show="taskMeta[task.description].completed")
       span.glyphicon.glyphicon-question-sign.text-warning(ng-show="!taskMeta[task.description].completed")

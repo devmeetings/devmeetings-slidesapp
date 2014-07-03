@@ -31,8 +31,9 @@
     "angular-ui-router": "~0.2.10",
     "angular-moment": "~0.7.1",
     "lz-string": "https://github.com/pieroxy/lz-string.git#4cc031b68e3a6db202c467396a01429629666122",
-    "angular-moment": "~0.7.1",
-    "angular-local-storage": "~0.0.5"
+    "angular-local-storage": "~0.0.5",
+    "video.js": "~4.6.3",
+    "videojs-youtube": "~1.2.2"
   },
   "resolutions": {
     "angular": "~1.2.14"

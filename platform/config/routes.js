@@ -21,12 +21,15 @@ module.exports = function(app) {
     app.post('/api/slides', authenticated, slides.create);
     app.get('/api/slides/:id', authenticated, slides.get);
 
-    // API
     var decks = require('../app/controllers/decks');
     app.get('/api/decks', authenticated, decks.list);
     app.post('/api/decks', authenticated, decks.create);
     app.delete('/api/decks/:id', authenticated, decks.delete);
     app.put('/api/decks/:id', authenticated, decks.edit);
+
+    var recordings = require('../app/controllers/recordings');
+    app.get('/api/recordings', authenticated, recordings.list);
+    app.get('/api/recordings/:id', authenticated, recordings.get);
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);

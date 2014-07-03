@@ -5,6 +5,7 @@ require.config({
         "decks": "../../decks",
         "require": "../../require",
         "plugins": "../plugins",
+        "xplatform":"../xplatform",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
@@ -29,7 +30,9 @@ require.config({
         "lz-string": "../components/lz-string/libs/lz-string-1.3.3",
         "moment": "../components/moment/moment",
         "angular-moment": "../components/angular-moment/angular-moment",
-        "angular-local-storage": "../components/angular-local-storage/angular-local-storage"
+        "angular-local-storage": "../components/angular-local-storage/angular-local-storage",
+        "video-js": "../components/video.js/dist/video-js/video",
+        "video-js-youtube": "../components/videojs-youtube/dist/vjs.youtube"
     },
     "map": {
         "*": {
@@ -107,6 +110,9 @@ require.config({
         },
         "lz-string": {
             "exports" : "LZString"
+        },
+        "video-js-youtube": {
+            "deps": ["video-js"]
         }
     }
 });

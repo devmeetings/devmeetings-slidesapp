@@ -1,0 +1,25 @@
+.col-md-12
+  .col-md-12
+    p
+      | Delay
+    input(type="text", ng-model="state.timeDelay")
+  .col-md-5
+    button.btn.btn-primary.btn-lg(ng-click="state.isPlaying = true")
+      span.fa.fa-play
+    videojs(src='"https://www.youtube.com/watch?v=cpBRAZ7RJvc"', current-second="state.currentSecond", is-playing="state.isPlaying", should-update-time='true', controls='true')
+    videojs(src='"http://youtu.be/hc8XeUE-1Io"', current-second="state.currentSecond", is-playing="state.isPlaying")
+  .col-md-7
+    .col-md-12
+      plugins-loader(namespace="'slide'", context="slide")
+
+  .col-md-6
+.col-md-12
+  .col-md-6
+    .col-md-6
+      ul.list-group
+        li.list-group-item(ng-repeat='recording in recordings', ng-click='onRecordingSelected($index)') 
+          span.badge
+            | {{recording.slides.length}}
+          | {{recording.slideId}}
+
+  .col-md-6

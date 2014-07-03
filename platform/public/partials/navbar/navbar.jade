@@ -4,7 +4,7 @@
       span.icon-bar
       span.icon-bar
       span.icon-bar
-    a.navbar-brand.index-xplatform-header
+    a.navbar-brand.index-xplatform-header(href='#')
       span.glyphicon.glyphicon-th-large.index-xplatform-logo
       | &nbsp;Xplatform
   .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
@@ -12,6 +12,9 @@
       input.form-control.col-md-8.index-input-search(type="text", ng-model="navbar.searchText")
       span.glyphicon.glyphicon-search.index-glyph-search
     ul.nav.navbar-nav.navbar-right
+      li
+        a.ng-cloak(ui-sref="navbar.player")
+          | Player
       li
         img(gravatar-src="navbar.user.email", gravatar-size="50")
       li
