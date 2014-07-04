@@ -40,8 +40,8 @@ var config = {
         },
         port: 2000,
         fb: {
-            id: 1431694133754278,
-            secret: "c2cb2cebdccca68ed630a061436ba012"
+            id: 1463301147260243,
+            secret: "f579fbf63f830536b11eddc852b85e2d"
         },
         realmUrl: realmUrl || 'http://xplatform.org:2000',
         db: 'mongodb://' + mongoHost + '/platform-test',
