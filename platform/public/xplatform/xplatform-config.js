@@ -40,7 +40,7 @@ require(['angular',
             });
 
             $stateProvider.state('navbar.player', {
-                url: '/player/:layout',
+                url: '/player/:id',
                 views: {
                     content: {
                         templateUrl: '/static/xplatform/player/xplatform-player.html',

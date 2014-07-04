@@ -17,7 +17,7 @@ var Dashboard = {
                     items: _.map(arr[2], function (item) {
                         return {
                             title: item.title,
-                            url: 'navbar.player({layout: "second"})',
+                            url: 'navbar.player({id: "' + item._id + '"})',
                             urlType: 'router'
                         };
                     })

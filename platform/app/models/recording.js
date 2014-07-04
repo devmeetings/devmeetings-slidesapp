@@ -6,6 +6,11 @@ var Recording = new Schema({
     videoUrl: String,
     timeOffset: Number,
     slideId: String,
+    chapters: [{
+        timestamp: Number,
+        end: Number,
+        name: String
+    }],
     slides: {
         type: [Schema.Types.Mixed],
         editable: false
