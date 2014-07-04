@@ -23,7 +23,7 @@ require(['angular',
                 url: '/index',
                 views: {
                     content: {
-                        templateUrl: '/static/partials/deckgrid/deckgrid.html',
+                        templateUrl: '/static/xplatform/index/xplatform-index.html',
                         controller: 'XplatformIndexCtrl'
                     }
                 }
