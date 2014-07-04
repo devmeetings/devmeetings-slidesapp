@@ -117,6 +117,10 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     $scope.onRecordingSelected(2);
                     // TODO:End
                 });
+                
+                $scope.secondIsActive = function (slide, second) {
+                    return slide.timestamp < second && slide.end > second;
+                };
 
                 $scope.goToSecond = function() {
                     if (!$scope.player) {
