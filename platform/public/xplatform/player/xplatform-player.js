@@ -102,7 +102,6 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
         angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout',
             function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout) {
 
-                $scope.layout = $stateParams.layout;
                 $scope.state = {
                     currentSecond: 0,
                     maxSecond: 100,
@@ -111,11 +110,18 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     isPlaying: false
                 };
 
-                Recordings.getRecordings().success(function(recordings) {
-                    $scope.recordings = recordings;
-                    // TODO [ToDr] Selecting single recording for now.
-                    $scope.onRecordingSelected(2);
-                    // TODO:End
+                Recordings.getRecordingWithId($stateParams.id).success( function (recording) {
+                    if ($scope.player) {
+                        $scope.player.pause();
+                    }
+
+                    $scope.chapters = recording.chapters;
+                    $scope.player = RecordingsPlayerFactory(recording, function(slide, wholeSlide) {
+                        $scope.slide = slide;
+                        $scope.wholeSlide = wholeSlide;
+                    });
+                    $scope.state.maxSecond = $scope.player.length();
+                    $scope.goToSecond();
                 });
                 
                 $scope.secondIsActive = function (slide, second) {
@@ -134,20 +140,6 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         $scope.state.currentSecond = second;
                         $scope.state.isPlaying = true;
                     }, 500);
-                };
-
-                $scope.onRecordingSelected = function(index) {
-                    if ($scope.player) {
-                        $scope.player.pause();
-                    }
-                    var recording = $scope.recordings[index];
-                    $scope.player = RecordingsPlayerFactory(recording, function(slide, wholeSlide) {
-                        $scope.slide = slide;
-                        $scope.wholeSlide = wholeSlide;
-                    });
-                    $scope.state.maxSecond = $scope.player.length();
-                    $scope.goToSecond();
-                    //$scope.play = true;
                 };
 
                 $scope.$watch('state.currentSecond', function(newVal, oldVal) {

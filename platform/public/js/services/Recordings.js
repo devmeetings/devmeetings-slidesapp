@@ -4,6 +4,9 @@ define(['slider/slider.plugins'], function (sliderPlugins) {
             var Recordings = {
                 getRecordings: function () {
                     return $http.get('api/recordings');             
+                },
+                getRecordingWithId: function (id) {
+                    return $http.get('api/recordings/' + id);
                 }
             };
 
