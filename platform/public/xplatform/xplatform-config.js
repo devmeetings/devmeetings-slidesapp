@@ -43,7 +43,7 @@ require(['angular',
                 url: '/player/:layout',
                 views: {
                     content: {
-                        templateUrl: '/static/partials/player/player.html',
+                        templateUrl: '/static/xplatform/player/xplatform-player.html',
                         controller: 'XplatformPlayerCtrl'
                     }
                 }
