@@ -130,8 +130,8 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     $scope.state.maxSecond = $scope.player.length();
                     $scope.goToSecond();
                 });
-                
-                $scope.secondIsActive = function (slide, second) {
+
+                $scope.secondIsActive = function(slide, second) {
                     return slide.timestamp < second && slide.end > second;
                 };
 

@@ -11,12 +11,13 @@ block title
   title {{ title }} - #{title}
 
 block content
-  div(ng-init="$root.editMode=#{editMode}")
+  div(ng-init="$root.modes.isEditMode=#{editMode}")
   div.full-height(ng-controller="SliderCtrl")
     splitter
       section(class="col-sm-{{ splitter.size }}")
         plugins-loader(namespace="'deck.slides'", context="deckSlides")
-        plugins-loader(ng-repeat="mode in modes", namespace="mode", context="deck")
+        plugins-loader(namespace="'deck'", context="deck")
+        plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck")  
       aside(class="col-sm-{{ 12 - splitter.size }}")
         sidebar-control(splitter="splitter")
         plugins-loader(namespace="'deck.sidebar'", context="deck")
