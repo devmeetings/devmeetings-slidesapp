@@ -3,6 +3,6 @@
 .col-lg-10.col-md-10
   .row
     .full-screen-mode 
-      videojs(height="610", src="state.videoUrl", current-second="state.currentSecond", is-playing="state.isPlaying", controls='true')
+      videojs(height="610", src="state.videoUrl", video-length="state.videoLength", current-second="state.currentSecond", is-playing="state.isPlaying", controls='true')
       plugins-loader(ng-class="{'on-top': !state.isPlaying}", namespace="'slide'", context="slide")
 include xplatform-player-bottombar.jade

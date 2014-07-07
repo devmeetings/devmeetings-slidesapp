@@ -1,8 +1,5 @@
 .list-group
-  a.list-group-item(ng-repeat="slide in chapters", ng-click="secondIsActive(slide, state.currentSecond) ? (state.isPlaying = !state.isPlaying) : jumpTo(slide.timestamp)", ng-class="{'active' : secondIsActive(slide, state.currentSecond)}")
+  a.list-group-item(ng-repeat="slide in chapters", ng-click="state.activeChapterIndex === $index ? (state.isPlaying = !state.isPlaying) : jumpTo($index)", ng-class="{'active' : state.activeChapterIndex === $index}")
+    span.pull-right.player-chapter-time
+      | {{timeForChapter($index) | amDateFormat:'mm:ss'}}
     | {{slide.name}}
-    div.pull-right(ng-show="secondIsActive(slide, state.currentSecond)")
-      span(ng-hide="state.isPlaying")
-        span.fa.fa-play
-      span(ng-show="state.isPlaying")
-        span.fa.fa-pause

@@ -3,10 +3,42 @@ style.
     background-color: rgb(31,158,216);
   }
 
-  .player-slider .ui-slider-range {
-    background: red;
+  .player-slider{
+    width: 400px;
   }
 
+  .player-navbar-center {
+    float: none !important;
+    text-align: center;
+  }
+
+  .player-brand-center {
+    float: none;
+    display: inline-block;
+  }
+
+  .player-icon {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .player-top-bottombar {
+    height: 10px;
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    background-color: red;
+    z-index: 100000;
+    -webkit-transition: width 1s ease-in-out;
+    -moz-transition: width 1s ease-in-out;
+    -o-transition: width 1s ease-in-out;
+    transition: width 1s ease-in-out;
+  }
+
+
+
+#player-bottombar.player-top-bottombar(style="width:{{state.activeChapterSecond/state.activeChapterLength * 100}}%")
 
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
@@ -15,9 +47,9 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
       span.icon-bar
       span.icon-bar
       span.icon-bar
-    a.navbar-brand
-      span.fa(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
   .navbar-collapse.collapse.navbar-inverse-collapse
-    .navbar-left
-      h4
-        | Hello World
+    .navbar-left.player-navbar-center 
+      a.navbar-brand.player-brand-center
+        span.fa.player-icon.fa-step-backward(ng-click="moveBySeconds(-15)")
+        span.fa.player-icon(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
+        span.fa.player-icon.fa-step-forward(ng-click="moveBySeconds(15)")

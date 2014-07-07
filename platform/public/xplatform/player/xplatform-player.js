@@ -1,5 +1,5 @@
-define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
-    function(angular, _, videojs, videojsyoutube, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
+define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angular-moment', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
+    function(angular, _, videojs, videojsyoutube, angularSlider, angularMoment, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
 
         angular.module('xplatform').directive('videojs', [
             '$timeout',
@@ -12,6 +12,7 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                         currentSecond: '=',
                         isPlaying: '=',
                         delay: '=',
+                        videoLength: '=',
                         controls: '@',
                         height: '@'
                     },
@@ -42,6 +43,9 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                                 });
                             }).ready(function () {
                                 player = this;
+                                scope.$apply(function() {
+                                    scope.videoLength = player.duration();
+                                });
                             });
                             initialize = true;
                         
@@ -72,7 +76,7 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                                 var time = Math.round(scope.currentSecond + delay)
                                 player.currentTime(time);
                                 scope.$apply(function () {
-                                    currentSecond = time;
+                                    scope.currentSecond = time;
                                 });
                             };
 
@@ -112,7 +116,13 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     maxSecond: 100,
                     timeDelay: 0,
                     videoUrl: '',
-                    isPlaying: false
+                    isPlaying: false,
+                    videoLength: 0,
+                    
+                    activeChapterIndex: -1,
+                    activeChapterLength: 0,
+                    activeChapterSecond: 0
+
                 };
 
                 Recordings.getRecordingWithId($stateParams.id).success( function (recording) {
@@ -139,9 +149,14 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     if (!$scope.player) {
                         return;
                     }
+                    $scope.updateChapterData();
                     $scope.player.goToSecond($scope.state.currentSecond + parseInt($scope.state.timeDelay));
                 };
-                $scope.jumpTo = function(second) {
+
+
+                $scope.jumpTo = function(index) {
+                    var chapter = $scope.chapters[index];
+                    var second = chapter.timestamp;
                     $scope.state.isPlaying = false;
                     $timeout(function() {
                         $scope.state.currentSecond = second;
@@ -149,12 +164,56 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     }, 500);
                 };
 
+                $scope.moveBySeconds = function(seconds) {
+                    $scope.state.isPlaying = false;
+                    $timeout(function() {
+                        $scope.state.currentSecond += seconds;
+                        $scope.state.isPlaying = true;
+                    }, 500);
+                };
+               
+                $scope.timeForChapter = function(index) {
+                    var chapter = $scope.chapters[index];
+                    return (new Date((chapter.end - chapter.timestamp) * 1000));
+                };
+
+                $scope.updateChapterData = function () {
+                    $scope.state.activeChapterIndex = _.findIndex($scope.chapters, function (chapter) {
+                        return chapter.end > $scope.state.currentSecond;
+                    });
+                    var chapter = $scope.chapters[$scope.state.activeChapterIndex];
+                    $scope.state.activeChapterSecond = $scope.state.currentSecond - chapter.timestamp;
+                };
+
+
                 $scope.$watch('state.currentSecond', function(newVal, oldVal) {
                     if (newVal === oldVal) {
                         return;
                     }
                     $scope.goToSecond();
                 });
+
+                $scope.$watch('state.activeChapterIndex', function(newVal, oldVal) {
+                    if ($scope.chapters) {
+                        var chapter = $scope.chapters[newVal];
+
+                        $scope.state.activeChapterLength = chapter.end - chapter.timestamp;
+                        $scope.state.activeChapterSecond = $scope.state.currentSecond - chapter.timestamp;
+                    }
+                });
+
+                /*
+                $scope.$watch('state.activeChapterSecond', function(newVal, oldVal) {
+                    $scope.state.isPlaying = false;
+                    (_.debounce(function () {
+                        $scope.$apply(function () {
+                            var chapter = $scope.chapters[$scope.state.activeChapterIndex];
+                            $scope.state.currentSecond = $scope.state.currentSecond + chapter.timestamp;
+                            $scope.state.isPlaying = true;
+                        });
+                    }, 500))();
+                });
+                */
             }
         ]);
 
