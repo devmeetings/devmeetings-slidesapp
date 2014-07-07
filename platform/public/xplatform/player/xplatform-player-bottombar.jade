@@ -1,0 +1,23 @@
+style.
+  .player-bottombar {
+    background-color: rgb(31,158,216);
+  }
+
+  .player-slider .ui-slider-range {
+    background: red;
+  }
+
+
+
+nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
+  .navbar-header
+    button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    a.navbar-brand
+      span.fa(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
+  .navbar-collapse.collapse.navbar-inverse-collapse
+    .navbar-left
+      h4
+        | Hello World
