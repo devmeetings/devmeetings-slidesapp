@@ -7,9 +7,7 @@ var Slides = {
             return data;
         }, function(err) {
             return SlideModel.find({
-                content: {
-                    id: slideId
-                }
+                "content.id": slideId
             }).then(function(slides) {
                 if (slides.length) {
                     return slides[0];
