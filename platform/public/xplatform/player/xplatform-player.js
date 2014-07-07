@@ -22,9 +22,9 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     link: function(scope, element) {
 
                         var $video = element.find('video')[0];
-                        if (scope.controls) {
-                            $video.setAttribute('controls', true);
-                        }
+                        //if (scope.controls) {
+                        //    $video.setAttribute('controls', false);
+                        //}
                         $video.setAttribute('height', scope.height);
                         
                         var initialized = false;
