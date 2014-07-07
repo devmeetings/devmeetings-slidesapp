@@ -121,7 +121,8 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                     
                     activeChapterIndex: -1,
                     activeChapterLength: 0,
-                    activeChapterSecond: 0
+                    activeChapterSecond: 0,
+                    activeChapterPercentage: 0
 
                 };
 
@@ -177,12 +178,20 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                     return (new Date((chapter.end - chapter.timestamp) * 1000));
                 };
 
+                var updatePercentage = _.throttle(function (){
+                    $scope.state.activeChapterPercentage = $scope.state.activeChapterSecond/$scope.state.activeChapterLength * 100;
+                }, 200, {
+                    leading: true,
+                    trailing: false
+                });
+
                 $scope.updateChapterData = function () {
                     $scope.state.activeChapterIndex = _.findIndex($scope.chapters, function (chapter) {
                         return chapter.end > $scope.state.currentSecond;
                     });
                     var chapter = $scope.chapters[$scope.state.activeChapterIndex];
                     $scope.state.activeChapterSecond = $scope.state.currentSecond - chapter.timestamp;
+                    updatePercentage();
                 };
 
 

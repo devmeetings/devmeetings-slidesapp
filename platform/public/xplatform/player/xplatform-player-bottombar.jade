@@ -30,15 +30,15 @@ style.
     right: 0;
     background-color: red;
     z-index: 100000;
-    -webkit-transition: width 1s ease-in-out;
-    -moz-transition: width 1s ease-in-out;
-    -o-transition: width 1s ease-in-out;
-    transition: width 1s ease-in-out;
+    -webkit-transition: width 0.2s ease-in-out;
+    -moz-transition: width 0.2s ease-in-out;
+    -o-transition: width 0.2s ease-in-out;
+    transition: width 0.2s ease-in-out;
   }
 
 
 
-#player-bottombar.player-top-bottombar(style="width:{{state.activeChapterSecond/state.activeChapterLength * 100}}%")
+#player-bottombar.player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
 
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
