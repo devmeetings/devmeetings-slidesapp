@@ -23,11 +23,6 @@ require([
             $scope.$on('deck', function(ev, newDeck) {
                 $scope.deck = newDeck;
             });
-
-            $scope.modes = ['deck'];
-            if ($rootScope.editMode) {
-                $scope.modes.push('deck.edit');
-            }
         }
     ]);
 

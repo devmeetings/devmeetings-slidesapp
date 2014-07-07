@@ -117,8 +117,8 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
                     $scope.onRecordingSelected(2);
                     // TODO:End
                 });
-                
-                $scope.secondIsActive = function (slide, second) {
+
+                $scope.secondIsActive = function(slide, second) {
                     return slide.timestamp < second && slide.end > second;
                 };
 
@@ -239,8 +239,10 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
             }
         ]);
 
-        angular.module('xplatform').config(['$sceDelegateProvider',
-            function($sceDelegateProvider) {
+        angular.module('xplatform').config(['$sceDelegateProvider', '$rootScope',
+            function($sceDelegateProvider, $rootScope) {
+                $rootScope.modes.isPlayerMode = true;
+
                 $sceDelegateProvider.resourceUrlWhitelist([
                     'self',
                     'http://devmeetings.pl/**',

@@ -8,8 +8,9 @@ append scripts
   script(src='#{jsModulesPath}/slider-slide.js?v=#{cacheBustingVersion}')
 
 block content
-  div(ng-init="$root.editMode=#{editMode}")
+  div(ng-init="$root.modes.isEditMode=#{editMode}")
   .container-fluid.full-height(ng-controller="SlideCtrl")
     .row.full-height
       .col-lg-12.full-height
-        plugins-loader(ng-repeat="mode in modes", namespace="mode", context="slide.content")
+        plugins-loader(namespace="'slide'", context="slide.content")
+        plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
