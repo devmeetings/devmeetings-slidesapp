@@ -1,8 +1,10 @@
 .list-group
-  a.list-group-item(ng-repeat="slide in timestampData", ng-click="secondIsActive(slide, state.currentSecond) ? (state.isPlaying = !state.isPlaying) : jumpTo(slide.timestamp)", ng-class="{'active' : secondIsActive(slide, state.currentSecond)}")
+  a.list-group-item.hoverable.cursor-pointer(ng-repeat="slide in timestampData", ng-click="secondIsActive(slide, state.currentSecond) ? (state.isPlaying = !state.isPlaying) : jumpTo(slide.timestamp)", ng-class="{'active' : secondIsActive(slide, state.currentSecond)}")
     | {{slide.name}}
     div.pull-right(ng-show="secondIsActive(slide, state.currentSecond)")
-      span(ng-hide="state.isPlaying")
-        span.fa.fa-play
       span(ng-show="state.isPlaying")
-        span.fa.fa-pause
+        span.show-on-hover.fa.fa-pause
+        span.hide-on-hover.fa.fa-play
+      span(ng-show="!state.isPlaying")
+        span.hide-on-hover.fa.fa-pause
+        span.show-on-hover.fa.fa-play
