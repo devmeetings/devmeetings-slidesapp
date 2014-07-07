@@ -1,5 +1,7 @@
 var DeckModel = require('../models/deck');
 var SlideModel = require('../models/slide');
+var Slides = require('../services/slides');
+
 var glob = require('glob');
 var _ = require('lodash');
 
@@ -47,12 +49,10 @@ exports.getDeck = function(req, res) {
 };
 
 exports.getSlide = function(req, res) {
-    SlideModel.findById(req.params.id, function(err, slide) {
-        if (err) {
-            res.send(404, err);
-            return;
-        }
+    Slides.findSlide(req.params.id).then(function(slide) {
         sendAsRequireJSModule(slide, res);
+    }, function(err) {
+        res.send(404, err);
     });
 };
 

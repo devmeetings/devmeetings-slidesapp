@@ -1,13 +1,16 @@
 var SlideModel = require('../models/slide');
+var Slides = require('../services/slides');
 var _ = require('lodash');
 
 exports.create = function(req, res) {
-    var contents = (_.isArray(req.body) ? req.body : [req.body]).map( function(slide) {
-        return { content : slide };
-    }); 
+    var contents = (_.isArray(req.body) ? req.body : [req.body]).map(function(slide) {
+        return {
+            content: slide
+        };
+    });
 
-    SlideModel.create(contents, function (err) {
-        if (err){
+    SlideModel.create(contents, function(err) {
+        if (err) {
             console.error(err);
             res.send(404, err);
             return;
@@ -18,14 +21,14 @@ exports.create = function(req, res) {
 };
 
 exports.get = function(req, res) {
-    SlideModel.findById(req.params.id, function(err, slide) {
-        if (err){
-            console.log(err);
-            res.send(404, err);
-            return;
-        }
+
+    Slides.findSlide(req.params.id).then(function(slide) {
         res.send(slide);
+    }, function(err) {
+        console.error(err);
+        res.send(404, err);
     });
+
 };
 
 exports.list = function(req, res) {
@@ -38,4 +41,3 @@ exports.list = function(req, res) {
         res.send(slides);
     });
 };
-
