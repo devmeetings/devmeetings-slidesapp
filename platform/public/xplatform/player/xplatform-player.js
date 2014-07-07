@@ -239,10 +239,8 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'xplatform/xplatform-app
             }
         ]);
 
-        angular.module('xplatform').config(['$sceDelegateProvider', '$rootScope',
-            function($sceDelegateProvider, $rootScope) {
-                $rootScope.modes.isPlayerMode = true;
-
+        angular.module('xplatform').config(['$sceDelegateProvider',
+            function($sceDelegateProvider) {
                 $sceDelegateProvider.resourceUrlWhitelist([
                     'self',
                     'http://devmeetings.pl/**',
