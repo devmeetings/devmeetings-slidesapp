@@ -25,7 +25,7 @@ style.
   .player-top-bottombar {
     height: 5px;
     position: fixed;
-    bottom: 50px;
+    bottom: 92px;
     left: 0;
     right: 0;
     background-color: rgb(7,136,177);
@@ -36,9 +36,40 @@ style.
     transition: width 0.2s ease-in-out;
   }
 
+  .inline-list {
+    white-space: nowrap;
+    overflow: auto;
+  }
+
+  .inline-item {
+    display: inline-block;
+  }
+
+  .chapters-bottombar {
+    height: 42px;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    z-index: 10000000;
+    
+  }
+
+  .chapters-bottombar ::-webkit-scrollbar {
+    height: 0px;
+  }
+
 
 
 #player-bottombar.player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
+
+.chapters-bottombar
+  .list-group.inline-list
+    a.list-group-item.inline-item(ng-repeat="slide in chapters", ng-click="state.activeChapterIndex === $index ? (state.isPlaying = !state.isPlaying) : jumpTo($index)", ng-class="{'active' : state.activeChapterIndex === $index}")
+      span.pull-right.player-chapter-time
+        | {{timeForChapter($index) | amDateFormat:'mm:ss'}}
+      | {{slide.name}}
 
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")

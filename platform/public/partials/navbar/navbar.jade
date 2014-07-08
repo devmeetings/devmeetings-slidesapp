@@ -3,11 +3,22 @@ style.
     z-index: 100000;
   }
 
+  .xplatform-navbar {
+    //background-color: rgb(31,158,216);
+    background-color: #224a70;
+    border-radius: 0px;
+    border-width: 0px;
+  }
+
+  .xplatform-navbar-text {
+    color: white !important;
+  }
+
 mixin layoutMenu(id, name)
   li(ui-sref-active="active")
     a(ui-sref="navbar.player({layout: '#{id}'})") #{name}
 
-.navbar.navbar-inverse
+.navbar.navbar-inverse.xplatform-navbar
   .navbar-header
     button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
       span.icon-bar
@@ -21,10 +32,10 @@ mixin layoutMenu(id, name)
       li
         img(gravatar-src="navbar.user.email", gravatar-size="50")
       li
-        a.ng-cloak(ui-sref="navbar.devhero")
+        a.ng-cloak.xplatform-navbar-text(ui-sref="navbar.devhero")
           | {{navbar.user.name}}
       li
-        a(href="/logout")
+        a.xplatform-navbar-text(href="/logout")
           | Logout
 div(ui-view='content')
 
