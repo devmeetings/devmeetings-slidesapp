@@ -1,0 +1,36 @@
+style.
+
+  .inline-list {
+    white-space: nowrap;
+    overflow: auto;
+  }
+
+  .inline-item {
+    display: inline-block;
+    border-radius: 0px !important;
+  }
+
+  .chapters-bottombar {
+    height: 42px;
+    //position: fixed;
+    width: 100%;
+    //left: 0;
+    //right: 0;
+    //top: 50px;
+    z-index: 10000000;
+    margin-bottom: 20px;
+    
+  }
+
+  .chapters-bottombar ::-webkit-scrollbar {
+    height: 0px;
+  }
+
+
+.chapters-bottombar
+  .list-group.inline-list
+    a.list-group-item.inline-item(ng-repeat="slide in chapters", ng-click="state.activeChapterIndex === $index ? (state.isPlaying = !state.isPlaying) : jumpTo($index)", ng-class="{'active' : state.activeChapterIndex === $index}")
+      span.pull-right.player-chapter-time
+        | {{timeForChapter($index) | amDateFormat:'mm:ss'}}
+      | {{slide.name}}
+

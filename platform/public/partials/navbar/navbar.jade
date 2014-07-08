@@ -8,6 +8,7 @@ style.
     background-color: #224a70;
     border-radius: 0px;
     border-width: 0px;
+    margin-bottom: 0px;
   }
 
   .xplatform-navbar-text {
@@ -16,7 +17,7 @@ style.
 
 mixin layoutMenu(id, name)
   li(ui-sref-active="active")
-    a(ui-sref="navbar.player({layout: '#{id}'})") #{name}
+    a(ui-sref="player({layout: '#{id}'})") #{name}
 
 .navbar.navbar-inverse.xplatform-navbar
   .navbar-header
