@@ -1,8 +1,12 @@
-@import '../components/bootstrap/dist/css/bootstrap.css';
+@components: '../components';
+@xplatform: '../xplatform';
+@plugins: '../plugins';
+
+@import '@{components}/font-awesome/css/font-awesome.css';
+@import '@{components}/video.js/dist/video-js/video-js.less';
+@import '@{components}/angular-hotkeys/build/hotkeys.css';
+@import '@{components}/bootstrap/dist/css/bootstrap.css';
 @import '../css/bootstrap-cyborg.css';
-@import '../components/font-awesome/css/font-awesome.css';
-@import '../components/video.js/dist/video-js/video-js.less';
-@import '../components/angular-hotkeys/build/hotkeys.css';
 
 table {
     background-color: rgba(0,0,0,0);
@@ -20,26 +24,23 @@ table {
 @import 'layout.less';
 @import 'index.less';
 
-@import '../xplatform/player/xplatform-player.less';
+@import '@{xplatform}/player/xplatform-player.less';
 
-@import '../plugins/deck-navbar/deck-navbar.less';
-@import '../plugins/deck-slides/deck-slides.less';
-@import '../plugins/slide-fiddle/fiddleOutput.less';
-@import '../plugins/slide-microtasks/microtasks.less';
-@import '../plugins/slide.edit-editor/slide.edit-editor.less';
-@import '../plugins/slide-code/slide-code.less';
-@import '../plugins/slide-chat/slide-chat.less';
-@import '../plugins/slide-speedDating/slide-speedDating.less';
-@import '../plugins/trainer.deck-notes/trainer.deck-notes.less';
-@import '../plugins/trainer.deck-nextslide/trainer.deck-nextslide.less';
-@import '../plugins/deck.sidebar-stream/deck.sidebar-stream.less';
-@import '../plugins/deck.sidebar-screenleap/deck.sidebar-screenleap.less';
-@import '../plugins/slide-pwyw/slide-pwyw.less';
-@import '../plugins/slide-survey/slide-survey.less';
-
-@import '../plugins/slide-microtasks-counter/slide-microtasks-counter.less';
-@import '../plugins/slide-stream/slide-stream.less';
-
-@import '../plugins/slide-toolbar/slide-toolbar.less';
-
-@import '../plugins/slide-live-save/slide-live-save.less';
+@import '@{plugins}/deck-navbar/deck-navbar.less';
+@import '@{plugins}/deck-slides/deck-slides.less';
+@import '@{plugins}/slide-fiddle/fiddleOutput.less';
+@import '@{plugins}/slide-microtasks/microtasks.less';
+@import '@{plugins}/slide.edit-editor/slide.edit-editor.less';
+@import '@{plugins}/slide-code/slide-code.less';
+@import '@{plugins}/slide-chat/slide-chat.less';
+@import '@{plugins}/slide-speedDating/slide-speedDating.less';
+@import '@{plugins}/trainer.deck-notes/trainer.deck-notes.less';
+@import '@{plugins}/trainer.deck-nextslide/trainer.deck-nextslide.less';
+@import '@{plugins}/deck.sidebar-stream/deck.sidebar-stream.less';
+@import '@{plugins}/deck.sidebar-screenleap/deck.sidebar-screenleap.less';
+@import '@{plugins}/slide-pwyw/slide-pwyw.less';
+@import '@{plugins}/slide-survey/slide-survey.less';
+@import '@{plugins}/slide-microtasks-counter/slide-microtasks-counter.less';
+@import '@{plugins}/slide-stream/slide-stream.less';
+@import '@{plugins}/slide-toolbar/slide-toolbar.less';
+@import '@{plugins}/slide-live-save/slide-live-save.less';

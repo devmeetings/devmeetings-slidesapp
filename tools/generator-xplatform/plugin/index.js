@@ -116,7 +116,7 @@ var PluginGenerator = yeoman.generators.NamedBase.extend({
             try {
                 var fullStylePath = path.resolve(process.cwd(), styleFilePath);
                 var fileSrc = fs.readFileSync(fullStylePath, 'utf8');
-                fileSrc += ('\n' + '@import \'../plugins/' + name + '/' + name + styleExtension + '\';');
+                fileSrc += ('\n' + '@import \'@{plugins}/' + name + '/' + name + styleExtension + '\';');
                 fs.writeFileSync(fullStylePath, fileSrc);
                 this.log.writeln(chalk.green(' updating') + ' %s', styleFilePath);
             } catch (e) {
