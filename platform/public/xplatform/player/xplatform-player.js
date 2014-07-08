@@ -36,6 +36,7 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
 
                             var player = videojs($video, {
                                 techOrder: ['youtube', 'html5'],
+                                quality: '720p',
                                 src: scope.src 
                             }, function() {
                                 $timeout(function() {

@@ -1,7 +1,7 @@
 define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'stream', 'slide-stream').directive('slideStream', [
+    sliderPlugins.registerPlugin('slide', 'stream_hide', 'slide-stream').directive('slideStream', [
         'Sockets', 'DeckAndSlides', '$timeout',
         function(Sockets, DeckAndSlides, $timeout) {
 
