@@ -13,7 +13,7 @@ require(['angular',
             $stateProvider.state('navbar', {
                 views: {
                     navbar: {
-                        templateUrl: '/static/partials/navbar/navbar.html',
+                        templateUrl: '/static/xplatform/navbar/xplatform-navbar.html',
                         controller: 'XplatformNavbarCtrl'
                     }
                 }
@@ -34,7 +34,8 @@ require(['angular',
                 url: '/devhero',
                 views: {
                     content: {
-                        templateUrl: '/static/partials/profile/profile.html'
+                        templateUrl: '/static/xplatform/devhero/xplatform-devhero.html',
+                        controller: 'XplatformDevheroCtrl'
                     }
                 }
             });
