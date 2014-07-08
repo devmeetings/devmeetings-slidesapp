@@ -23,7 +23,7 @@ require(['angular',
                 url: '/index',
                 views: {
                     content: {
-                        templateUrl: '/static/partials/deckgrid/deckgrid.html',
+                        templateUrl: '/static/xplatform/index/xplatform-index.html',
                         controller: 'XplatformIndexCtrl'
                     }
                 }
@@ -40,10 +40,10 @@ require(['angular',
             });
 
             $stateProvider.state('navbar.player', {
-                url: '/player/:layout',
+                url: '/player/:id',
                 views: {
                     content: {
-                        templateUrl: '/static/partials/player/player.html',
+                        templateUrl: '/static/xplatform/player/xplatform-player.html',
                         controller: 'XplatformPlayerCtrl'
                     }
                 }

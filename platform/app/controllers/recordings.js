@@ -13,8 +13,8 @@ var Recordings = {
         });
     },
     get: function (req, res) {
-        RecordingModel.find( {
-            slideId: req.params.id
+        RecordingModel.findOne( {
+            _id: req.params.id
         }, function (err, recordings) {
             if (err) {
                 console.error(err);

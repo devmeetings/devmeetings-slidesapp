@@ -17,18 +17,7 @@ mixin layoutMenu(id, name)
       span.glyphicon.glyphicon-th-large.index-xplatform-logo
       | &nbsp;Xplatform
   .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
-    //form.navbar-form.navbar-left.index-form-search
-    //  input.form-control.col-md-8.index-input-search(type="text", ng-model="navbar.searchText")
-    //  span.glyphicon.glyphicon-search.index-glyph-search
     ul.nav.navbar-nav.navbar-right
-      li.dropdown
-        a.dropdown-toggle(data-toggle="dropdown")
-          | Player&nbsp;
-          b.caret
-        ul.dropdown-menu.x-top-most
-          mixin layoutMenu('first', 'First')
-          mixin layoutMenu('second', 'Second')
-          mixin layoutMenu('third', 'Third')
       li
         img(gravatar-src="navbar.user.email", gravatar-size="50")
       li
