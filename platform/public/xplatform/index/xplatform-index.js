@@ -10,15 +10,14 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
             restrict: 'E',
             scope: {
                 title: '=',
-                elements: '=',
-                onSelect: '&'
+                elements: '='
             },
             replace: true,
             transclude: true,
             templateUrl: path + '/xplatform-deckgrid.html',
             controller: 'XplatformDeckgridCtrl'
         }
-    }]).directive('xplatformDeckgridElement', [ function () {
+    }]).directive('xplatformDeckgridItem', [ function () {
         return {
             restrict: 'E',
             require: '^xplatformDeckgrid',

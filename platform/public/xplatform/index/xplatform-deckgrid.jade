@@ -1,10 +1,8 @@
-.row
-  h2.deckgrid-index-section-header
-    span.glyphicon.glyphicon-th-list.deckgrid-index-section-logo
+.row.xplatform-deckgrid
+  h2
+    span.glyphicon.glyphicon-th-list
     | {{title}}
-  .deckgrid.deckgrid-index-grid.ng-cloak(deckgrid, source="elements")
-    .a-card
-     .col-md-11.deckgrid-index-element
-       a.col-md-12.deckgrid-index-href
-       xplatform-deckgrid-element
+  .deckgrid.xplatform-deckgrid-list.ng-cloak(deckgrid, source="elements")
+    .a-card.col-md-11
+      xplatform-deckgrid-item
 
