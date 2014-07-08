@@ -236,19 +236,6 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                         $scope.state.activeChapterSecond = $scope.state.currentSecond - chapter.timestamp;
                     }
                 });
-
-                /*
-                $scope.$watch('state.activeChapterSecond', function(newVal, oldVal) {
-                    $scope.state.isPlaying = false;
-                    (_.debounce(function () {
-                        $scope.$apply(function () {
-                            var chapter = $scope.chapters[$scope.state.activeChapterIndex];
-                            $scope.state.currentSecond = $scope.state.currentSecond + chapter.timestamp;
-                            $scope.state.isPlaying = true;
-                        });
-                    }, 500))();
-                });
-                */
             }
         ]);
 
