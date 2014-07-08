@@ -1,5 +1,5 @@
-define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angular-moment', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
-    function(angular, _, videojs, videojsyoutube, angularSlider, angularMoment, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
+define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angular-moment', 'angular-hotkeys', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
+    function(angular, _, videojs, videojsyoutube, angularSlider, angularMoment, angularHotkeys, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
 
         angular.module('xplatform').directive('videojs', [
             '$timeout',
@@ -108,8 +108,33 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                 }
             }
         ]);
-        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout',
-            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout) {
+        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout', 'hotkeys',
+            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout, hotkeys) {
+
+                hotkeys.add({
+                    combo: 'shift+left',
+                    description: 'Move backward by 15 seconds',
+                    callback: function () {
+                        $scope.moveBySeconds(-15);
+                    }
+                });
+                
+                hotkeys.add({
+                    combo: 'shift+right',
+                    description: 'Move forward by 15 seconds',
+                    callback: function () {
+                        $scope.moveBySeconds(15);
+                    }
+                });
+
+                hotkeys.add({
+                    combo: 'shift+space',
+                    description: 'Pause/Play',
+                    callback: function () {
+                        $scope.state.isPlaying = !$scope.state.isPlaying;
+                    }
+                });
+
 
                 $scope.state = {
                     currentSecond: 0,
