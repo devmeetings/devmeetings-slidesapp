@@ -42,6 +42,7 @@ exports.index = function(req, res) {
 exports.deck = function(req, res) {
     res.render('slider/deck', stdReq(req, {
         title: 'Devmeetings.pl',
+        withGoogleAnalytics: req.withGoogleAnalytics,
         slides: req.params.slides,
     }));
 };

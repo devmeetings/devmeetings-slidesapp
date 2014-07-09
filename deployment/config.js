@@ -21,6 +21,21 @@ module.exports = {
                 "label": "XPlatform [dev]"
             }
         },
+        "xplatform-staging": {
+            "name": "xplatform-staging",
+            "path": xplatformDir + "../devmeetings-slidesapp-staging/platform",
+            "options": {
+                "buildGrunt": true,
+                "startFile": "app.js",
+                "logName": "xplatform.staging.log",
+                "env": "NODE_ENV=\"staging\"",
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-danger",
+                "label": "XPlatform [staging]"
+            }
+        },
         "xplatform-prod": {
             "name": "xplatform-prod",
             "path": xplatformDir + "platform",

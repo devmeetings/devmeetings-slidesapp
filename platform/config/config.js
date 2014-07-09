@@ -48,11 +48,33 @@ var config = {
         queue: rabbitHost
     },
 
+    staging: {
+        root: rootPath,
+        staticsPath: staticsPath,
+        jsModulesPath: staticsPath + '/js/bin',
+        withInspectlet: true,
+        withGoogleAnalytics: 'UA-52669907-2',
+        cacheBustingVersion: '-' + fs.readFileSync('.version', {
+            encoding: 'utf8'
+        }),
+        app: {
+            name: 'platform'
+        },
+        port: 7000,
+        fb: {
+            id: 503641503100997,
+            secret: "2161dca6f444c60837e0d7578f0a8a53"
+        },
+        realmUrl: realmUrl || 'http://jsintro.xplatform.org',
+        db: 'mongodb://' + mongoHost + '/platform-staging',
+        queue: rabbitHost
+    },
+
     production: {
         root: rootPath,
         staticsPath: staticsPath,
         jsModulesPath: staticsPath + '/js/bin',
-        withGoogleAnalytics: true,
+        withGoogleAnalytics: 'UA-52669907-1',
         cacheBustingVersion: '-' + fs.readFileSync('.version', {
             encoding: 'utf8'
         }),
