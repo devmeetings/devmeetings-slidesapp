@@ -67,7 +67,7 @@ define(['module',
 
                             var player = videojs($video, {
                                 techOrder: ['youtube', 'html5'],
-                                quality: '720p',
+                                quality: 'hd720',
                                 src: scope.src 
                             }, function() {
                                 $timeout(function() {
