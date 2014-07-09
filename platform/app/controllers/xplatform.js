@@ -3,6 +3,7 @@ var Xplatform = {
         res.render('xplatform/xplatform', {
             title: 'Xplatform',
             withInspectlet: req.withInspectlet,
+            withGoogleAnalytics: req.withGoogleAnalytics,
             cacheBustingVersion: req.cacheBustingVersion
         });
     }
