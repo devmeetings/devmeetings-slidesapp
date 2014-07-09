@@ -55,8 +55,8 @@ define([], [{
         "commit": true
     },
     "stream": true,
-    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
-    "monitor": "x",
+    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};console.log(x);\n",
+    "monitor": "console_log",
     "jsrunner": true,
     "title": "Slides are awesome",
     "notes": "On this slide we show basic code execution with monitoring. If you change the code the output will change accordingly.\n",

@@ -28,21 +28,40 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-jsrunner.' + name].concat(args));
             };
 
-            var code = ['(function(' + triggerFunctionName + '){',
+            var code = ['(function(' + triggerFunctionName + ', console_log){',
                 '"use strict"',
                 value
             ].concat(toObserve).concat([
-                '}(trigger))'
+                '}(trigger, console_log))'
             ]).join(';\n');
 
+            var console_log = [];
+            var consoleControl = captureConsoleTo(console_log);
             /* jshint evil:true */
             var result = eval(code);
             /* jshint evil:false */
+            consoleControl.restore();
 
             return null;
         } catch (e) {
             return e;
         }
+    };
+
+    var captureConsoleTo = function(log) {
+        var oldLog = window.console.log;
+
+        window.console.log = function( /*args*/ ) {
+            var args = [].slice.call(arguments);
+            log.push(args);
+            oldLog.apply(window.console, args);
+        };
+
+        return {
+            restore: function() {
+                window.console.log = oldLog;
+            }
+        };
     };
 
     sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [
