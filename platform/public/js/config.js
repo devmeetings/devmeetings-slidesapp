@@ -7,7 +7,7 @@ require.config({
         "plugins": "../plugins",
         "xplatform": "../xplatform",
         "jquery": "../components/jquery/dist/jquery",
-        "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
+        "jquery-ui": "../components/jquery-ui/jquery-ui",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
         "angular-ui-sortable": "../components/angular-ui-sortable/sortable",
