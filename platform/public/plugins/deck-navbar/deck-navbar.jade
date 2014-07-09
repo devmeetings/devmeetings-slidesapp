@@ -29,11 +29,11 @@ nav.navbar.navbar-default.navbar-slides(role='navigation')
 
   #navbar-slides.collapse.navbar-collapse
     div.slimScrollDiv(style="position: relative; width: calc(100% - 60px); height: 40px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 
-      ul.nav.navbar-nav.nav-slides(ng-if="$root.editMode", ui-sortable="sortableOptions", ng-model="slides")
+      ul.nav.navbar-nav.nav-slides(ng-if="$root.modes.isEditMode", ui-sortable="sortableOptions", ng-model="slides")
         mixin slidesMixin() 
-      ul.nav.navbar-nav.nav-slides(ng-if="!$root.editMode", ng-model="slides")
+      ul.nav.navbar-nav.nav-slides(ng-if="!$root.modes.isEditMode", ng-model="slides")
         mixin slidesMixin()
-    ul.nav.navbar-nav(ng-if="$root.editMode")
+    ul.nav.navbar-nav(ng-if="$root.modes.isEditMode")
       li
         a(ng-click="addSlide()")
           span.glyphicon.glyphicon-plus
