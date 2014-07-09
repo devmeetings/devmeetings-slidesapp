@@ -32,7 +32,7 @@ require.config({
         "angular-moment": "../components/angular-moment/angular-moment",
         "angular-local-storage": "../components/angular-local-storage/angular-local-storage",
         "video-js": "../components/video.js/dist/video-js/video",
-        "video-js-youtube": "../components/videojs-youtube/dist/vjs.youtube",
+        "video-js-youtube": "../components/videojs-youtube/src/youtube",
         "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
         "coffee": "../components/coffee-script/extras/coffee-script"
     },

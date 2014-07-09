@@ -54,9 +54,9 @@ define(['module',
                     link: function(scope, element) {
 
                         var $video = element.find('video')[0];
-                        //if (scope.controls) {
-                        //    $video.setAttribute('controls', false);
-                        //}
+                        if (scope.controls) {
+                            $video.setAttribute('controls', false);
+                        }
                         $video.setAttribute('height', scope.height);
                         
                         var initialized = false;
@@ -67,7 +67,7 @@ define(['module',
 
                             var player = videojs($video, {
                                 techOrder: ['youtube', 'html5'],
-                                quality: 'hd720',
+                                quality: '720p',
                                 src: scope.src 
                             }, function() {
                                 $timeout(function() {
