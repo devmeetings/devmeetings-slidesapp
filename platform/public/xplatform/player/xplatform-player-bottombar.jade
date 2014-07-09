@@ -41,6 +41,16 @@ style.
     padding-left: 20px;
   }
 
+  .player-navbar-right {
+    z-index: 10002;
+    position: absolute;
+    right: 0px;
+    bottom: 6px;
+    margin: 0px;
+    float: none !important;
+    padding-right: 20px;
+  }
+
   .player-load-list {
     max-height: 400px;
     width: 400px;
@@ -70,7 +80,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
       span.icon-bar
   .navbar-collapse.collapse.navbar-inverse-collapse
     ul.player-navbar-left
-      li.inline-item
+      li.inline-item(ng-show="files.length > 0")
         .dropup
           button.btn.dropdown-toggle.bottombar-button(type="button", data-toggle="dropup")
             i.fa.fa-folder-open
@@ -84,6 +94,12 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
         button.btn.bottombar-button(type="button", ng-click="saveFile()")
           i.fa.fa-save
           | &nbsp;Save
+    ul.player-navbar-right
+      li.inline-item
+        button.btn.bottombar-button(type="button")
+          a.xplatform-index-item(target="_blank", href="https://docs.google.com/forms/d/1F91oqRZCYzP__r6zCAGjAP_vEQ6NlaquZChfgAc4Xl8/viewform")
+          i.fa.fa-smile-o
+          | &nbsp;Ankieta - wypelnij i wygraj karte Empiku
     .navbar-left.player-navbar-center 
       a.navbar-brand.player-brand-center
         span.fa.player-icon.fa-step-backward(ng-click="moveBySeconds(-15)")
