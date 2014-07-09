@@ -35,7 +35,8 @@
     "video.js": "~4.6.3",
     "videojs-youtube": "~1.2.2",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0",
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "jquery-ui": "~1.11.0"
   },
   "resolutions": {
     "angular": "~1.2.14"
