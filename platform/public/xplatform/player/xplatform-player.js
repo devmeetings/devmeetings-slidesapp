@@ -1,27 +1,36 @@
-define(['angular',
+define(['module',
+        'angular',
         '_',
         'video-js',
         'video-js-youtube',
         'angular-slider',
         'angular-moment',
         'angular-hotkeys',
+        'angular-bootstrap',
         'xplatform/xplatform-app',
         'services/Recordings', 
         'services/RecordingsPlayerFactory', 
         'services/User', 
-        'slider/slider.plugins'],
-    function(angular,
+        'slider/slider.plugins',
+        'utils/ExtractPath'],
+    function(
+        module,
+        angular,
         _, 
         videojs, 
         videojsyoutube, 
         angularSlider, 
         angularMoment, 
         angularHotkeys, 
+        angularBootstrap,
         xplatformApp, 
         Recordings, 
         RecordingsPlayerFactory, 
         User, 
-        sliderPlugins) {
+        sliderPlugins,
+        ExtractPath) {
+
+        var path = ExtractPath(module);
 
         angular.module('xplatform').directive('videojs', [
             '$timeout',
@@ -131,8 +140,20 @@ define(['angular',
                 }
             }
         ]);
-        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout', 'hotkeys', '$http', 'User',
-            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout, hotkeys, $http, User) {
+        angular.module('xplatform').controller('XplatformPlayerModalCtrl', ['$scope', '$modalInstance', 'title',
+                function ($scope, $modalInstance, title) {      
+                    $scope.content = {
+                        fileTitle: title
+                    }
+                    $scope.ok = function () {
+                        $modalInstance.close($scope.content.fileTitle);
+                    };
+                }
+            ]
+        );
+
+        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout', 'hotkeys', '$modal', '$http', 'User',
+            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout, hotkeys, $modal, $http, User) {
 
                 hotkeys.add({
                     combo: 'shift+left',
@@ -166,19 +187,34 @@ define(['angular',
                 });
 
                 $scope.saveFile = function () {
-                    var fileToSave = {
-                        title: $scope.chapters[$scope.state.activeChapterIndex].name,
-                        recordingId: $stateParams.id,
-                        userId: $scope.userId,
-                        second: $scope.state.currentSecond,
-                        slide: $scope.slide,
-                        date: new Date()
-                    }; 
-
-                    $http.post('/api/player', fileToSave).success(function (){
-                        // display message
+                    var modalInstance = $modal.open({
+                        templateUrl: path + '/xplatform-player-modal.html',
+                        controller: 'XplatformPlayerModalCtrl',
+                        size: 'sm',
+                        resolve: {
+                            title: function () {
+                                return $scope.fileTitle;      
+                            }
+                        }
                     });
-                    $scope.files.push(fileToSave);
+
+                    modalInstance.result.then(function (title) {
+                        $scope.fileTitle = title;
+
+                        var fileToSave = {
+                            title: $scope.fileTitle, 
+                            recordingId: $stateParams.id,
+                            userId: $scope.userId,
+                            second: $scope.state.currentSecond,
+                            slide: $scope.slide,
+                            date: new Date()
+                        };   
+
+                        $http.post('/api/player', fileToSave).success(function (){
+                        });
+                    
+                        $scope.files.push(fileToSave);
+                    });
                 };
 
                 $scope.openFile = function (index) {
@@ -190,7 +226,9 @@ define(['angular',
                         $scope.slide = file.slide;
                     }, 500);
                 };
-                    
+                   
+                $scope.fileTitle = '';
+
                 $scope.state = {
                     currentSecond: 0,
                     maxSecond: 100,
@@ -285,7 +323,7 @@ define(['angular',
                 $scope.$watch('state.activeChapterIndex', function(newVal, oldVal) {
                     if ($scope.chapters) {
                         var chapter = $scope.chapters[newVal];
-
+                        $scope.fileTitle = chapter.name;
                         $scope.state.activeChapterLength = chapter.end - chapter.timestamp;
                         $scope.state.activeChapterSecond = $scope.state.currentSecond - chapter.timestamp;
                     }

@@ -38,12 +38,25 @@ style.
     bottom: 6px;
     margin: 0px;
     float: none !important;
+    padding-left: 20px;
   }
 
   .player-load-list {
     max-height: 400px;
-    width: 280px;
+    width: 400px;
     overflow-y: auto;
+    margin-bottom: 10px !important;
+  }
+
+  .save-group {
+    width: 250px;
+    margin-bottom: -16px;
+  }
+
+  .bottombar-button {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
   }
 
 .player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
@@ -59,16 +72,16 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
     ul.player-navbar-left
       li.inline-item
         .dropup
-          button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropup")
+          button.btn.dropdown-toggle.bottombar-button(type="button", data-toggle="dropup")
             i.fa.fa-folder-open
             | &nbsp;Open
-          ul.dropdown-menu.list-group.player-load-list
-            li.list-group-item(ng-repeat="file in files", ng-click="openFile($index)")
+          .dropdown-menu.list-group.player-load-list
+            a.list-group-item(ng-repeat="file in files", ng-click="openFile($index)")
               span.pull-right(am-time-ago="file.date")
               b 
                 | {{file.title}}
-      li.inline-item
-        button.btn.btn-success(ng-show="!state.isPlaying", ng-click="saveFile()")
+      li.inline-item(ng-show="!state.isPlaying")
+        button.btn.bottombar-button(type="button", ng-click="saveFile()")
           i.fa.fa-save
           | &nbsp;Save
     .navbar-left.player-navbar-center 

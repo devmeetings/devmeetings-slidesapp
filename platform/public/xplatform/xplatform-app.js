@@ -5,8 +5,9 @@ define(['angular',
         'angular-slider',
         'angular-moment',
         'angular-hotkeys',
+        'angular-bootstrap',
         'slider/slider',
         'slider/slider.plugins'
-], function (angular, angularRouter, angularDeckgrid, angularGravatar, angularSlider, angularMoment, angularHotkeys, slider) {
-    return angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router', 'slider.plugins', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys']); 
+], function (angular, angularRouter, angularDeckgrid, angularGravatar, angularSlider, angularMoment, angularHotkeys, angularBootstrap, slider) {
+    return angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router', 'slider.plugins', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'ui.bootstrap']); 
 });
