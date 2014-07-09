@@ -48,6 +48,27 @@ var config = {
         queue: rabbitHost
     },
 
+    staging: {
+        root: rootPath,
+        staticsPath: staticsPath,
+        jsModulesPath: staticsPath + '/js/bin',
+        withInspectlet: true,
+        cacheBustingVersion: '-' + fs.readFileSync('.version', {
+            encoding: 'utf8'
+        }),
+        app: {
+            name: 'platform'
+        },
+        port: 7000,
+        fb: {
+            id: 1431694133754278,
+            secret: "c2cb2cebdccca68ed630a061436ba012"
+        },
+        realmUrl: realmUrl || 'http://xplatform.org:7000',
+        db: 'mongodb://' + mongoHost + '/platform-staging',
+        queue: rabbitHost
+    },
+
     production: {
         root: rootPath,
         staticsPath: staticsPath,
