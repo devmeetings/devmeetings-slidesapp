@@ -3,7 +3,7 @@ define(['_', 'utils/Plugins'], function(_, Plugins) {
 
     var EXECUTION_DELAY = 500;
 
-    _.forEach(['css', 'html', 'js'], function(trigger) {
+    _.forEach(['css', 'html', 'js', 'code'], function(trigger) {
         Plugins.registerPlugin('microtask.runner', trigger, function(taskData, registerPlugin, listenPlugin, markTaskCompleted) {
             var task = taskData.task;
 
