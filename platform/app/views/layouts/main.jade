@@ -14,9 +14,8 @@ html.full-height(lang='en')
     block content
     block scripts
       script(src='/static/components/jquery/dist/jquery.js')
-        
+
     if typeof withInspectlet !== 'undefined' && withInspectlet
-      //<!-- Begin Inspectlet Embed Code -->
       script#inspectletjs.
         window.__insp = window.__insp || [];
         __insp.push(['wid', 1778636902]);
@@ -28,6 +27,14 @@ html.full-height(lang='en')
                         window.addEventListener('load', __ldinsp, false);
                 }
         })();
-      //<!-- End Inspectlet Embed Code -->
+    if typeof withGoogleAnalytics !== 'undefined' && withGoogleAnalytics
+      script.
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+         ga('create', '#{withGoogleAnalytics}', 'auto');
+         ga('send', 'pageview');
 
 
