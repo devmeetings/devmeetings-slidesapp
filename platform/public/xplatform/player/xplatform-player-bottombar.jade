@@ -24,11 +24,20 @@ style.
     left: 0;
     right: 0;
     background-color: rgb(7,136,177);
-    z-index: 100000;
+    z-index: 1000;
     -webkit-transition: width 0.2s ease-in-out;
     -moz-transition: width 0.2s ease-in-out;
     -o-transition: width 0.2s ease-in-out;
     transition: width 0.2s ease-in-out;
+  }
+
+  .player-navbar-left {
+    z-index: 1001;
+    position: absolute;
+    left: 0px;
+    bottom: 6px;
+    margin: 0px;
+    float: none !important;
   }
 
 .player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
@@ -41,6 +50,20 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
       span.icon-bar
       span.icon-bar
   .navbar-collapse.collapse.navbar-inverse-collapse
+    ul.player-navbar-left
+      li.inline-item
+        .dropup
+          button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropup")
+            | Load 
+            b.caret
+          ul.dropdown-menu
+            li
+              | 1
+            li
+              | 2
+      li.inline-item
+        button.btn.btn-warning
+          | Save
     .navbar-left.player-navbar-center 
       a.navbar-brand.player-brand-center
         span.fa.player-icon.fa-step-backward(ng-click="moveBySeconds(-15)")
