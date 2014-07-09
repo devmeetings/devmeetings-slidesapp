@@ -50,8 +50,8 @@ require(['angular',
                 }
             });
 
-            $urlRouterProvider.when('/player/', '/player/53b2cd856703ba00002096e9/');
-            $urlRouterProvider.otherwise('/player/53b2cd856703ba00002096e9/');
+            $urlRouterProvider.when('/player/', '/player/53b2cd856703ba00002096e9');
+            $urlRouterProvider.otherwise('/player/53b2cd856703ba00002096e9');
         }
     ]);
     bootstrap('xplatform');
