@@ -40,6 +40,12 @@ style.
     float: none !important;
   }
 
+  .player-load-list {
+    max-height: 400px;
+    width: 280px;
+    overflow-y: auto;
+  }
+
 .player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
 
 
@@ -54,16 +60,17 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
       li.inline-item
         .dropup
           button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropup")
-            | Load 
-            b.caret
-          ul.dropdown-menu
-            li
-              | 1
-            li
-              | 2
+            i.fa.fa-folder-open
+            | &nbsp;Open
+          ul.dropdown-menu.list-group.player-load-list
+            li.list-group-item(ng-repeat="file in files")
+              span.pull-right(am-time-ago="file.date")
+              b 
+                | {{file.title}}
       li.inline-item
-        button.btn.btn-warning
-          | Save
+        button.btn.btn-success(ng-show="!state.isPlaying")
+          i.fa.fa-save
+          | &nbsp;Save
     .navbar-left.player-navbar-center 
       a.navbar-brand.player-brand-center
         span.fa.player-icon.fa-step-backward(ng-click="moveBySeconds(-15)")

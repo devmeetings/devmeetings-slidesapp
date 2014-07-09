@@ -137,6 +137,11 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                 });
 
 
+                $scope.files = [{  
+                    title: 'Commit Title',
+                    date: new Date()
+                }];
+
                 $scope.state = {
                     currentSecond: 0,
                     maxSecond: 100,
