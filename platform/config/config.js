@@ -61,8 +61,8 @@ var config = {
         },
         port: 7000,
         fb: {
-            id: 1431694133754278,
-            secret: "c2cb2cebdccca68ed630a061436ba012"
+            id: 503641503100997,
+            secret: "2161dca6f444c60837e0d7578f0a8a53"
         },
         realmUrl: realmUrl || 'http://jsintro.xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-staging',
