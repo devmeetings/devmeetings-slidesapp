@@ -1,5 +1,27 @@
-define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angular-moment', 'angular-hotkeys', 'xplatform/xplatform-app', 'services/Recordings', 'services/RecordingsPlayerFactory', 'slider/slider.plugins'],
-    function(angular, _, videojs, videojsyoutube, angularSlider, angularMoment, angularHotkeys, xplatformApp, Recordings, RecordingsPlayerFactory, sliderPlugins) {
+define(['angular',
+        '_',
+        'video-js',
+        'video-js-youtube',
+        'angular-slider',
+        'angular-moment',
+        'angular-hotkeys',
+        'xplatform/xplatform-app',
+        'services/Recordings', 
+        'services/RecordingsPlayerFactory', 
+        'services/User', 
+        'slider/slider.plugins'],
+    function(angular,
+        _, 
+        videojs, 
+        videojsyoutube, 
+        angularSlider, 
+        angularMoment, 
+        angularHotkeys, 
+        xplatformApp, 
+        Recordings, 
+        RecordingsPlayerFactory, 
+        User, 
+        sliderPlugins) {
 
         angular.module('xplatform').directive('videojs', [
             '$timeout',
@@ -53,7 +75,7 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                             player.on('timeupdate', function () {
                                 scope.$apply(function () {
                                     var time = player.currentTime();
-                                    if (time) {
+                                    if (time && scope.isPlaying) {
                                         scope.currentSecond = time;
                                     }
                                 });
@@ -109,8 +131,8 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                 }
             }
         ]);
-        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout', 'hotkeys',
-            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout, hotkeys) {
+        angular.module('xplatform').controller('XplatformPlayerCtrl', ['$scope', 'Recordings', 'RecordingsPlayerFactory', '$stateParams', '$timeout', 'hotkeys', '$http', 'User',
+            function($scope, Recordings, RecordingsPlayerFactory, $stateParams, $timeout, hotkeys, $http, User) {
 
                 hotkeys.add({
                     combo: 'shift+left',
@@ -136,12 +158,39 @@ define(['angular', '_', 'video-js', 'video-js-youtube', 'angular-slider', 'angul
                     }
                 });
 
+                User.getUserData(function (user) {
+                    $scope.userId = user._id;
+                    $http.get('/api/player/' + $scope.userId).success(function (files) {
+                        $scope.files = files;
+                    });
+                });
 
-                $scope.files = [{  
-                    title: 'Commit Title',
-                    date: new Date()
-                }];
+                $scope.saveFile = function () {
+                    var fileToSave = {
+                        title: $scope.chapters[$scope.state.activeChapterIndex].name,
+                        recordingId: $stateParams.id,
+                        userId: $scope.userId,
+                        second: $scope.state.currentSecond,
+                        slide: $scope.slide,
+                        date: new Date()
+                    }; 
 
+                    $http.post('/api/player', fileToSave).success(function (){
+                        // display message
+                    });
+                    $scope.files.push(fileToSave);
+                };
+
+                $scope.openFile = function (index) {
+                    $scope.state.isPlaying = false;
+
+                    var file = $scope.files[index];
+                    $scope.state.currentSecond = file.second;
+                    $timeout(function() {
+                        $scope.slide = file.slide;
+                    }, 500);
+                };
+                    
                 $scope.state = {
                     currentSecond: 0,
                     maxSecond: 100,

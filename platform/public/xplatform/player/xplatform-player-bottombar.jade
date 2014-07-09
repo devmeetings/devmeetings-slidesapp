@@ -63,12 +63,12 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
             i.fa.fa-folder-open
             | &nbsp;Open
           ul.dropdown-menu.list-group.player-load-list
-            li.list-group-item(ng-repeat="file in files")
+            li.list-group-item(ng-repeat="file in files", ng-click="openFile($index)")
               span.pull-right(am-time-ago="file.date")
               b 
                 | {{file.title}}
       li.inline-item
-        button.btn.btn-success(ng-show="!state.isPlaying")
+        button.btn.btn-success(ng-show="!state.isPlaying", ng-click="saveFile()")
           i.fa.fa-save
           | &nbsp;Save
     .navbar-left.player-navbar-center 

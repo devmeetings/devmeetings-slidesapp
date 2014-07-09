@@ -37,6 +37,10 @@ module.exports = function(app) {
     var dashboard = require('../app/controllers/dashboard');
     app.get('/api/dashboard', authenticated, dashboard.list);
 
+    var player = require('../app/controllers/player');
+    app.get('/api/player/:id', authenticated, player.userSaves);
+    app.post('/api/player', authenticated, player.save);
+
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);
