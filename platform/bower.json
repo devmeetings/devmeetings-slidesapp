@@ -34,7 +34,8 @@
     "angular-local-storage": "~0.0.5",
     "video.js": "~4.6.3",
     "videojs-youtube": "~1.2.2",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0",
+    "coffee-script": "~1.7.1"
   },
   "resolutions": {
     "angular": "~1.2.14"
