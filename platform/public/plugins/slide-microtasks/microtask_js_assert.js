@@ -1,4 +1,4 @@
-define(['_', 'utils/Plugins'], function(_, Plugins) {
+define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAssertion) {
     'use strict';
 
     Plugins.registerPlugin('microtask.runner', 'js_assert', function(taskData, registerPlugin, listenPlugin, markTaskCompleted) {
@@ -18,15 +18,8 @@ define(['_', 'utils/Plugins'], function(_, Plugins) {
             var args = [].slice.call(arguments);
             var monitor = _.isArray(task.monitor) ? task.monitor : [task.monitor];
 
-            var toEval = [
-                '(function(' + monitor.join(',') + '){',
-                task.js_assert,
-                '}).apply(null, args)'
-            ].join(';\n');
 
-            /* jshint evil:true */
-            var result = eval(toEval);
-            /* jshint evil:false */
+            var result = evalAssertion(task.js_assert, monitor, args);
 
             if (result) {
                 markTaskCompleted();

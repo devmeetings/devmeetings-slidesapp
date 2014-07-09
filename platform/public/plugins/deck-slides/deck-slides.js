@@ -16,7 +16,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
 
                 link: function(scope, element) {
                     var onSlideChange = function(activeSlideId) {
-                        scope.slideSource = '/slides/' + activeSlideId + ($rootScope.editMode ? '?edit=true' : '');
+                        scope.slideSource = '/slides/' + activeSlideId + ($rootScope.modes.isEditMode ? '?edit=true' : '');
                     };
 
                     scope.csm = CurrentSlideManagerForDeck;

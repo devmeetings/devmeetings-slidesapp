@@ -5,7 +5,7 @@ require.config({
         "decks": "../../decks",
         "require": "../../require",
         "plugins": "../plugins",
-        "xplatform":"../xplatform",
+        "xplatform": "../xplatform",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
@@ -33,7 +33,8 @@ require.config({
         "angular-local-storage": "../components/angular-local-storage/angular-local-storage",
         "video-js": "../components/video.js/dist/video-js/video",
         "video-js-youtube": "../components/videojs-youtube/dist/vjs.youtube",
-        "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys"
+        "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
+        "coffee": "../components/coffee-script/extras/coffee-script"
     },
     "map": {
         "*": {
@@ -110,7 +111,7 @@ require.config({
             "deps": ["angular"]
         },
         "lz-string": {
-            "exports" : "LZString"
+            "exports": "LZString"
         },
         "video-js-youtube": {
             "deps": ["video-js"]

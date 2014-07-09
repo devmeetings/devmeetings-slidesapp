@@ -1,11 +1,11 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee'], function(module, _, sliderPlugins, coffeeRunner) {
     'use strict';
 
     var EXECUTION_DELAY = 300;
 
     var path = sliderPlugins.extractPath(module);
 
-    var evalCode = function(value) {
+    var evalJsCode = function(value) {
 
         var triggerFunctionName = '________trigger';
         // We have to process code through the plugins
@@ -28,21 +28,44 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-jsrunner.' + name].concat(args));
             };
 
-            var code = ['(function(' + triggerFunctionName + '){',
+            var code = ['(function(' + triggerFunctionName + ', console_log){',
                 '"use strict"',
                 value
             ].concat(toObserve).concat([
-                '}(trigger))'
+                '}(trigger, console_log))'
             ]).join(';\n');
 
+            var console_log = [];
+            var consoleControl = captureConsoleTo(console_log);
             /* jshint evil:true */
             var result = eval(code);
             /* jshint evil:false */
+            consoleControl.restore();
 
             return null;
         } catch (e) {
             return e;
         }
+    };
+
+    var captureConsoleTo = function(log) {
+        var oldLog = window.console.log;
+
+        window.console.log = function( /*args*/ ) {
+            var args = [].slice.call(arguments);
+            log.push(args);
+            oldLog.apply(window.console, args);
+        };
+
+        return {
+            restore: function() {
+                window.console.log = oldLog;
+            }
+        };
+    };
+
+    var compilers = {
+        'coffee': coffeeRunner
     };
 
     sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [
@@ -56,12 +79,24 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 },
                 templateUrl: path + '/slide-jsrunner.html',
                 link: function(scope, element) {
+                    var setErrors = function(errors) {
+                        element.find('.errors').html(errors);
+                    };
+
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
 
                         var code = codeEditor.getValue();
-                        var errors = evalCode(code);
 
-                        element.find('.errors').html(errors);
+                        if (compilers[scope.jsrunner]) {
+                            try {
+                                code = compilers[scope.jsrunner].compileToJs(code);
+                            } catch (e) {
+                                setErrors("Compilation error: " + e);
+                            }
+                        }
+
+                        var errors = evalJsCode(code);
+                        setErrors(errors);
 
                     }, EXECUTION_DELAY));
                 }

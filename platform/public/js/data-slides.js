@@ -55,13 +55,28 @@ define([], [{
         "commit": true
     },
     "stream": true,
-    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
-    "monitor": "x",
+    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};console.log(x);\n",
+    "monitor": "console_log",
     "jsrunner": true,
     "title": "Slides are awesome",
     "notes": "On this slide we show basic code execution with monitoring. If you change the code the output will change accordingly.\n",
     "id": "slide1",
     "name": "Slide 1"
+}, {
+    "microtasks": [{
+        "jsonOutput": "x.name === 'somethingx'",
+        "hint": "name === somethingx",
+        "description": "Output should be named <code>somethingx</code>"
+    }],
+    "toolbar": {
+        "commit": true
+    },
+    "stream": true,
+    "code": "function foo(items) {\n  var x = \"All this is syntax highlighted\" + items;\n  return x;\n}\nvar x = {\n  name: foo(\"something\")\n};\n",
+    "monitor": "x",
+    "jsrunner": true,
+    "title": "Output assertions",
+    "name": "Output assert"
 }, {
     "microtasks": [{
         "description": "Change <code>div</code> display to <code>inline</code>",
@@ -89,6 +104,14 @@ define([], [{
     "notes": "On this slide we show capabilities of our JSON inspector. Just dig inside array.\nSome another snippet var y = function() {\n  var x = \"123\" + 4;\n  return ~x;\n}; console.log(y());\n",
     "id": "slide2",
     "name": "Second slide"
+}, {
+    "code": "array = [1..3]\narray.push 5\n",
+    "jsrunner": "coffee",
+    "monitor": "array",
+    "title": "Coffee Script",
+    "notes": "",
+    "id": "coffeePlayground",
+    "name": "Coffee script"
 }, {
     "speedDating": {
         "time": 15,
