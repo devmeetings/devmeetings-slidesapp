@@ -90,6 +90,14 @@ define([], [{
     "id": "slide2",
     "name": "Second slide"
 }, {
+    "code": "array = [1..3]\narray.push 5\n",
+    "jsrunner": "coffee",
+    "monitor": "array",
+    "title": "Coffee Script",
+    "notes": "",
+    "id": "coffeePlayground",
+    "name": "Coffee script"
+}, {
     "speedDating": {
         "time": 15,
         "perPerson": 40

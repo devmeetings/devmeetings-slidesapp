@@ -40,11 +40,13 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                 link: function(scope, element) {
                     scope.code = getCodeData(scope.code);
 
-
                     $timeout(function() {
                         editor = ace.edit(element[0].childNodes[0]);
                         editor.setTheme("ace/theme/" + EDITOR_THEME);
-                        editor.getSession().setMode('ace/mode/' + scope.code.mode);
+
+                        scope.$watch('code.mode', function() {
+                            editor.getSession().setMode('ace/mode/' + scope.code.mode);
+                        });
 
                         editor.on('change', function(ev, editor) {
                             triggerCodeChange(scope, scope.code, ev, editor);
