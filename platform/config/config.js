@@ -74,6 +74,7 @@ var config = {
         root: rootPath,
         staticsPath: staticsPath,
         jsModulesPath: staticsPath + '/js/bin',
+        withInspectlet: true,
         withGoogleAnalytics: 'UA-52669907-1',
         cacheBustingVersion: '-' + fs.readFileSync('.version', {
             encoding: 'utf8'
