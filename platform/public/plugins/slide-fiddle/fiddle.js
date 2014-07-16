@@ -44,6 +44,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
 
     };
 
+
+    var safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 5000).directive('slideFiddle', [
         '$timeout', '$window',
         function($timeout, $window) {
@@ -70,12 +83,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             editor.getSession().setMode("ace/mode/" + e.getAttribute('data-mode'));
                             var content = e.getAttribute('data-content');
 
-                            var updateScopeLater = _.debounce(function() {
-                                scope.$apply(function() {
+                            var updateScopeLater = _.throttle(function() {
+                                safeApply.call(scope, function() {
                                     scope.fiddle[content] = editor.getValue();
                                     sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
                                 });
-                            }, 100);
+                            }, 100, {
+                                leading: false,
+                                trailing: true
+                            });
 
                             scope.$watch('fiddle.' + content, function() {
                                 if (editor.getValue() !== scope.fiddle[content]) {

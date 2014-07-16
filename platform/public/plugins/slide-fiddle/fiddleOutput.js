@@ -1,7 +1,7 @@
 define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins, ace) {
     'use strict';
 
-    var EXECUTION_DELAY = 500;
+    var EXECUTION_DELAY = 2000;
     var path = sliderPlugins.extractPath(module);
 
     var fixOneLineComments = function(code) {
@@ -33,7 +33,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 scope: {},
                 templateUrl: path + '/fiddleOutput.html',
                 link: function(scope, element) {
-                    sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.debounce(function(fiddle) {
+                    sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.throttle(function(fiddle) {
                         var isPure = false;
                         var wrapWithForwarder = function(code) {
                             return 'try { ' + code + ';window.parent.postMessage({type:"fiddle-error", msg: ""}, "' + host + '");}' +
