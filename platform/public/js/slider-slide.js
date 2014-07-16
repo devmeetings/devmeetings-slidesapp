@@ -4,7 +4,6 @@ require([
     "slider/bootstrap",
     "services/DeckAndSlides",
     "directives/plugins-loader",
-    "directives/contenteditable"
 ], function(slider, sliderPlugins, bootstrap) {
 
     slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'Sockets', 'DeckAndSlides',
