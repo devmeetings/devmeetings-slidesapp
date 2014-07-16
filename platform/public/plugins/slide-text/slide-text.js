@@ -4,11 +4,12 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
         function() {
             return {
                 restrict: 'E',
+                replace: true,
                 scope: {
                     text: '=data',
                     slide: '=context'
                 },
-                template: '<div ng-bind-html="text"></div>'
+                template: '<div><div ng-if="!$root.modes.isEditMode" ng-bind-html="slide.text"></div><div ng-if="$root.modes.isEditMode" contenteditable ng-model="slide.text"></div></div>'
             };
         }
     ]);

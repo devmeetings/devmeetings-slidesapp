@@ -34,7 +34,8 @@ require.config({
         "video-js": "../components/video.js/dist/video-js/video",
         "video-js-youtube": "../components/videojs-youtube/dist/vjs.youtube",
         "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
-        "coffee": "../components/coffee-script/extras/coffee-script"
+        "coffee": "../components/coffee-script/extras/coffee-script",
+        "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable"
     },
     "map": {
         "*": {
@@ -108,6 +109,9 @@ require.config({
             "deps": ["angular", "moment"]
         },
         "angular-local-storage": {
+            "deps": ["angular"]
+        },
+        "angular-contenteditable": {
             "deps": ["angular"]
         },
         "lz-string": {
