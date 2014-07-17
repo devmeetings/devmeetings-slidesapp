@@ -23,6 +23,32 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         leading: false,
         trailing: true
     });
+    
+    var safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
+    var triggerCursorChange = _.throttle(function(scope, code, editor) {
+        safeApply.call(scope, function() {
+            code.aceOptions = {
+                cursorPosition: editor.getCursorPosition(),
+                selectionRange: editor.getSelectionRange(),
+                firstVisibleRow: editor.getFirstVisibleRow(),
+                lastVisibleRow: editor.getLastVisibleRow()
+            };
+        });
+    }, 100, {
+        leading: false,
+        trailing: true
+    });
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
         '$timeout',
@@ -50,6 +76,10 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
 
                         editor.on('change', function(ev, editor) {
                             triggerCodeChange(scope, scope.code, ev, editor);
+                        });
+
+                        editor.getSession().getSelection().on('changeCursor', function () {
+                            triggerCursorChange(scope, scope.code, editor);            
                         });
 
                         scope.$watch('code.content', function(content) {
