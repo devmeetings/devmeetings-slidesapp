@@ -86,6 +86,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             var updateScopeLater = _.throttle(function() {
                                 safeApply.call(scope, function() {
                                     scope.fiddle[content] = editor.getValue();
+                                    scope.fiddle.aceOptions = {
+                                        cursorPosition: editor.getCursorPosition(),
+                                        selectionRange: editor.getSelectionRange(),
+                                        firstVisibleRow: editor.getFirstVisibleRow(),
+                                        lastVisibleRow: editor.getLastVisibleRow()
+                                    };
                                     sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
                                 });
                             }, 100, {
@@ -105,6 +111,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 if (scope.fiddle[content] !== newValue) {
                                     updateScopeLater();
                                 }
+                            });
+                            
+                            editor.getSession().getSelection().on('changeCursor', function () {
+                                updateScopeLater();
                             });
 
                             sliderPlugins.onLoad(function() {
