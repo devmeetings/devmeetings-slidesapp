@@ -15,19 +15,21 @@ define(['module', '_', 'slider/slider.plugins', 'services/SlideLiveSave'], funct
                 templateUrl: path + '/slide-live-save.html',
                 link: function(scope, element) {
                     scope.recording = localStorageService.get('dev.recording') === 'true';
-                    scope.$watch('slide', _.throttle(function(newSlide, oldSlide) {
-
-                        // if button
+                
+                    var updateSlide = _.throttle(function(newSlide) {
                         if (scope.recording) {
                             SlideLiveSave.save(newSlide);
                         }
                     }, THROTTLE_SAVING, {
-                        leading: false,
-                        trailing: true
-                    }), true);
+                        leading: true,
+                        trailing: false
+                    });
+
+                    scope.$watch('slide', updateSlide, true);
                     scope.$watch('recording', function(newVal) {
                         if (newVal !== undefined) {
                             localStorageService.set('dev.recording', newVal);
+                            updateSlide(scope.slide);
                         }
                     });
                 }
