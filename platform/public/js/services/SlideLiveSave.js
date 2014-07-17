@@ -24,7 +24,7 @@ define(['_', 'lz-string', 'slider/slider.plugins', 'services/Sockets', 'services
                 save: function(code) {
                     buffer.push({
                         timestamp: Date.now(),
-                        code: code
+                        code: angular.copy(code)
                     });
                     send();
                 }
