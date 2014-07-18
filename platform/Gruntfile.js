@@ -77,14 +77,14 @@ module.exports = function(grunt) {
                 }
             },
             js: {
-                files: ['public/dm-slider/**/*.js', 'public/plugins/**/*.js'],
+                files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js'],
                 tasks: ['jshint:public', 'complexity'],
                 options: {
                     livereload: true
                 }
             },
             jade: {
-                files: ['public/plugins/**/*.jade'],
+                files: ['public/dm-plugins/**/*.jade'],
                 tasks: [],
                 options: {
                     livereload: true
@@ -102,7 +102,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            public: ['public/dm-slider/**/*.js', 'public/plugins/**/*.js', '!public/dm-slider/theme-todr.js', '!public/dm-slider/bin/**'],
+            public: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', '!public/dm-slider/bin/**'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
         },
         less: {
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/dm-slider/**/*.js', 'public/plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/dm-slider/config.js", /* Because of hashCode function */ '!public/plugins/slide-microtasks/microtasks.js', '!public/dm-slider/data-*.js', '!public/dm-slider/bin/**'],
+                src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/dm-slider/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', '!public/dm-slider/data-*.js', '!public/dm-slider/bin/**'],
                 options: {
                     breakOnErrors: true,
                     errorsOnly: true,
@@ -165,7 +165,7 @@ module.exports = function(grunt) {
         var async = this.async();
 
         var glob = require('glob');
-        glob("public/plugins/**/*.js", function(err, files) {
+        glob("public/dm-plugins/**/*.js", function(err, files) {
             if (err) {
                 throw new Error("Cannot find plugins");
             }

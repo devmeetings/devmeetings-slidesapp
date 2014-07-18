@@ -4,7 +4,7 @@ require.config({
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
         "require": "../../require",
-        "plugins": "../plugins",
+        "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/jquery-ui",
