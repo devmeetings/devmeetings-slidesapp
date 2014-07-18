@@ -170,7 +170,7 @@ module.exports = function(grunt) {
                 throw new Error("Cannot find plugins");
             }
             files = files.map(function(file) {
-                return file.replace(/.js$/, '').replace(/^public\//, '');
+                return file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
             });
 
             var mkdirp = require('mkdirp');
