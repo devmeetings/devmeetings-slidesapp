@@ -12,7 +12,7 @@ var config = {
     development: {
         root: rootPath,
         staticsPath: staticsPath,
-        jsModulesPath: staticsPath + '/js',
+        jsModulesPath: staticsPath + '/dm-slider',
         doLiveReload: true,
         cacheBustingVersion: '',
         app: {
@@ -31,7 +31,7 @@ var config = {
     test: {
         root: rootPath,
         staticsPath: staticsPath,
-        jsModulesPath: staticsPath + '/js/bin',
+        jsModulesPath: staticsPath + '/dm-slider/bin',
         cacheBustingVersion: '-' + fs.readFileSync('.version', {
             encoding: 'utf8'
         }),
@@ -51,7 +51,7 @@ var config = {
     staging: {
         root: rootPath,
         staticsPath: staticsPath,
-        jsModulesPath: staticsPath + '/js/bin',
+        jsModulesPath: staticsPath + '/dm-slider/bin',
         withInspectlet: true,
         withGoogleAnalytics: 'UA-52669907-2',
         cacheBustingVersion: '-' + fs.readFileSync('.version', {
@@ -73,7 +73,7 @@ var config = {
     production: {
         root: rootPath,
         staticsPath: staticsPath,
-        jsModulesPath: staticsPath + '/js/bin',
+        jsModulesPath: staticsPath + '/dm-slider/bin',
         withInspectlet: true,
         withGoogleAnalytics: 'UA-52669907-1',
         cacheBustingVersion: '-' + fs.readFileSync('.version', {
