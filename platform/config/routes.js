@@ -66,8 +66,9 @@ module.exports = function(app) {
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
 
     //xplatform
-    var xplatform = require('../app/controllers/xplatform');
-    app.get('/', authenticated, xplatform.index);
+    var devmeetings = require('../app/controllers/devmeetings');
+    app.get('/', authenticated, devmeetings.xplatform);
+    app.get('/admin', authenticated, devmeetings.admin);
 
     // registration
     var registration = require('../app/controllers/registration');
@@ -84,8 +85,8 @@ module.exports = function(app) {
 
     // Admin panel
     var admin = require('../app/controllers/admin');
-    app.get('/admin', authenticated, admin.index);
-    app.get('/admin/partials/:name', authenticated, admin.partials);
+    app.get('/admin_old', authenticated, admin.index);
+    app.get('/admin_old/partials/:name', authenticated, admin.partials);
 
 
     var plugins = require('./plugins');

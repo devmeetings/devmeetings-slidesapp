@@ -1,11 +1,11 @@
-require(['config'], function () {
+require(['../config'], function () {
     require(['angular', 'restangular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (angular, restangular, _, angularSortable, angularRouter) {
         var module = angular.module('slider-admin', ['restangular', 'ui.sortable', 'ui.router']);
 
         module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $stateProvider.state('list', {
                 url: '/list',
-                templateUrl: '/admin/partials/admin-list',
+                templateUrl: '/admin_old/partials/admin-list',
                 controller: 'AdminSlidesListCtrl'
             });
             $urlRouterProvider.otherwise('/list');

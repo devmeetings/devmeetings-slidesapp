@@ -6,6 +6,7 @@ require.config({
         "require": "../../require",
         "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",
+        "dm-admin": "../dm-admin",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/jquery-ui",
         "angular": "../components/angular/angular",
