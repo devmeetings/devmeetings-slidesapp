@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         return {
             options: {
                 baseUrl: "public/dm-slider",
-                mainConfigFile: "public/dm-slider/config.js",
+                mainConfigFile: "public/config.js",
                 findNestedDependencies: true,
                 name: module, // assumes a production build using almond
                 out: "public/dm-slider/bin/" + module + ".js",
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/dm-slider/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', '!public/dm-slider/data-*.js', '!public/dm-slider/bin/**'],
+                src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', '!public/dm-slider/data-*.js', '!public/dm-slider/bin/**'],
                 options: {
                     breakOnErrors: true,
                     errorsOnly: true,
