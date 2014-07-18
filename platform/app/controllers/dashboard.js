@@ -52,7 +52,7 @@ var Dashboard = {
                 sections: [
                     recordingSection(),
                  //   eventSection(),
-                 //   deckSection()
+                    deckSection()
                 ]
             }); 
         });
