@@ -13,7 +13,7 @@ require(['angular',
             $stateProvider.state('navbar', {
                 views: {
                     navbar: {
-                        templateUrl: '/static/xplatform/navbar/xplatform-navbar.html',
+                        templateUrl: '/static/dm-xplatform/navbar/xplatform-navbar.html',
                         controller: 'XplatformNavbarCtrl'
                     }
                 }
@@ -23,7 +23,7 @@ require(['angular',
                 url: '/index',
                 views: {
                     content: {
-                        templateUrl: '/static/xplatform/index/xplatform-index.html',
+                        templateUrl: '/static/dm-xplatform/index/xplatform-index.html',
                         controller: 'XplatformIndexCtrl'
                     }
                 }
@@ -34,7 +34,7 @@ require(['angular',
                 url: '/devhero',
                 views: {
                     content: {
-                        templateUrl: '/static/xplatform/devhero/xplatform-devhero.html',
+                        templateUrl: '/static/dm-xplatform/devhero/xplatform-devhero.html',
                         controller: 'XplatformDevheroCtrl'
                     }
                 }
@@ -44,7 +44,7 @@ require(['angular',
                 url: '/player/:id',
                 views: {
                     navbar: {
-                        templateUrl: '/static/xplatform/player/xplatform-player.html',
+                        templateUrl: '/static/dm-xplatform/player/xplatform-player.html',
                         controller: 'XplatformPlayerCtrl'
                     }
                 }
