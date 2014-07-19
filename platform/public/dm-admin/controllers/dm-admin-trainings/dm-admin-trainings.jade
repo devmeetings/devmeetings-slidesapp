@@ -1,0 +1,18 @@
+.col-lg-2.col-md-2.dm-admin-div
+    .panel
+        .panel-heading
+            h2
+                | Trainings
+        .panel-body
+            .list-group 
+                a.list-group-item(ng-repeat='training in trainings', ui-sref='index.trainings.player({title: training.title})')
+                    | {{training.title}}
+        .panel-footer
+            form.form-group
+                .input-group
+                    input.form-control(type='text')  
+                    span.input-group-btn
+                        button.btn.btn-default(type='button') 
+                            | Add
+.col-lg-10.col-md-10.dm-admin-div
+    div(ui-view='training')
