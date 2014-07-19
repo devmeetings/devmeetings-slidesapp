@@ -1,8 +1,8 @@
-.col-lg-2.col-md-2
+.col-lg-2.col-md-2.dm-admin-div
   h2
     | Menu 
   .list-group
     a.list-group-item(ng-repeat='option in options', ui-sref="{{option.sref}}")
       | {{option.title}} 
-.col-lg-10.col-md-10
+.col-lg-10.col-md-10.dm-admin-div
   div(ui-view="content")
