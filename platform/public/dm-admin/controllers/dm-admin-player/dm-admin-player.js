@@ -6,10 +6,14 @@ define(['module',
     adminApp.controller('dmAdminPlayer', ['$scope', '$stateParams',
         function ($scope, $stateParams) {
             $scope.title = $stateParams.title;
-            $scope.trainings = [{
-                title: 'Hello World'
-            },{
-                title: 'Wstęp do JS'
+            $scope.chapters = [{
+                title: 'Hello World',
+                type: 'video',    
+                videoData: {
+                    video: '',
+                    timestamp: 0,
+                    snapshots: []
+                }
             }];
 
         }

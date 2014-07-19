@@ -1,6 +1,11 @@
 .col-lg-3.col-md-3.dm-admin-div
-  h2
-    | {{title}}
-  .list-group 
-    a.list-group-item(ng-repeat='training in trainings')
-      | {{training.title}}
+    .panel
+        .panel-heading
+            h2
+                | {{title}}
+        .panel-body
+            .list-group
+                a.list-group-item(ng-repeat='training in trainings')
+                    | {{training.title}}
+        .panel-footer
+
