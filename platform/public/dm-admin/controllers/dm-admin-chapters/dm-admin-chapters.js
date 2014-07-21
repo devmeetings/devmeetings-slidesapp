@@ -15,7 +15,8 @@ define(['module',
             });
             
             var putTraining = function () {
-                return $http.put('/api/trainings/' + $scope.training._id, angular.copy($scope.training));
+                //return $http.put('/api/trainings/' + $scope.training._id, angular.copy($scope.training));
+                dmTrainings.putTraining($scope.training)
             };
 
             $scope.addChapter = function () {

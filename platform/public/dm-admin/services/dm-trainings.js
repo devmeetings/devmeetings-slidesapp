@@ -44,11 +44,25 @@ define(['angular',
                     }
                 });
             };
+            
+            var putTraining = function (training) {
+                var index =_.findIndex(trainings, function (elem) {
+                    return elem._id === training._id;
+                });
+                if (index === -1) {
+                    trainings.push(training);
+                } else {
+                    trainings[index] = training;
+                }
+
+                return $http.put('/api/trainings/' + training._id, angular.copy(training));
+            };
 
             var Trainings = {
                 getTrainings: getTrainings,
                 addTraining: addTraining,
-                getTrainingWithId: getTrainingWithId
+                getTrainingWithId: getTrainingWithId,
+                putTraining: putTraining
             };
 
             return Trainings;

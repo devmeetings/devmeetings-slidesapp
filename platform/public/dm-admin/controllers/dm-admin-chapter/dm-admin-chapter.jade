@@ -1,0 +1,62 @@
+.col-lg-12.col-md-12.dm-admin-div
+    .panel
+        .panel-heading
+            h2
+                {{chapter.title}}
+        .panel-body
+            form.form-horizontal.col-lg-12.col-md-12
+                fieldset.col-lg-8.col-md-8
+                    .form-group
+                        label.col-lg-2.col-md-2(control-label)
+                            | Title
+                        .col-lg-10.col-md-10
+                            input.form-control(type='text', ng-model='chapter.title')
+                    .form-group
+                        label.col-lg-2.col-md-2(control-label)
+                            | Mode
+                        .col-lg-10.col-md-10
+                            select.form-control(ng-model='chapter.mode')
+                                option video
+                                option task
+            .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "video"')
+                h4 videodata
+                form.form-horizontal.col-lg-8.col-md-8
+                    fieldset
+                        .form-group
+                            label.col-lg-2.col-md-2(control-label)
+                                | url
+                            .col-lg-10.col-md-10
+                                input.form-control(type='text', ng-model='chapter.videodata.url')
+                        .form-group
+                            label.col-lg-2.col-mg-2(control-label)
+                                | timestamp
+                            .col-lg-10.col-md-10
+                                input.form-control(type='number', ng-model='chapter.videodata.timestamp')
+                        .form-group
+                            label.col-lg-2.col-mg-2(control-label)
+                                | length 
+                            .col-lg-10.col-md-10
+                                input.form-control(type='number', ng-model='chapter.videodata.length')
+
+            .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "task"')
+                h4 taskdata
+                form.form-horizontal.col-lg-8.col-md-8
+                    fieldset
+                        .form-group
+                            label.col-lg-2.col-md-2(control-label)
+                                | slide
+                            .col-lg-10.col-md-10
+                                textarea.form-control(rows='3', ng-model='chapter.taskdata.slide')
+
+            .col-lg-12.col-md-12
+                form.form-horizontal.col-lg-8.col-md-8
+                    fieldset
+                        .form-group
+                            .col-lg-12
+                                button.btn.btn-primary.pull-right(type='button', ng-click='saveChapter()')
+                                    | Submit
+                                button.btn.btn-default.pull-right(type='button', ng-click='cancelSaveChapter()')
+                                    | Cancel
+
+
+

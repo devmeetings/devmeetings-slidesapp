@@ -5,7 +5,7 @@
                 | {{training.title}}
         .panel-body
             .list-group(ui-sortable='updateChaptersOrder', ng-model='training.chapters')
-                a.list-group-item(ng-repeat='chapter in training.chapters')
+                a.list-group-item(ng-repeat='chapter in training.chapters', ui-sref='index.trainings.chapters.chapter({index: $index})', ui-sref-active='active')
                     | {{chapter.title}}
         .panel-footer
             form.form-group(ng-submit='addChapter()')
@@ -15,5 +15,5 @@
                         button.btn.btn-default(type='submit')
                             | Add
 .col-lg-9.col-md-9.dm-admin-div
-    div(ui-view-'player')
+    div(ui-view='chapter')
 

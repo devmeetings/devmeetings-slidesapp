@@ -12,11 +12,19 @@ var Training = new Schema({
             enum: ['video' , 'task']
         },
         videodata: {
+            url: {
+                type: String
+            },
             timestamp: {
                 type: Number   
             },
             length: {
                 type: Number        
+            }
+        },
+        taskdata: {
+            slide: {
+                type: String       
             }
         }
     }]

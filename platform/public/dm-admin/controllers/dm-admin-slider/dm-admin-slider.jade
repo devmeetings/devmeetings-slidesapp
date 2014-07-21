@@ -2,7 +2,7 @@
   h2
     | Menu 
   .list-group
-    a.list-group-item(ng-repeat='option in options', ui-sref="{{option.sref}}")
+    a.list-group-item(ng-repeat='option in options', ui-sref="{{option.sref}}", ui-sref-active='active')
       | {{option.title}} 
 .col-lg-10.col-md-10.dm-admin-div
   div(ui-view="content")

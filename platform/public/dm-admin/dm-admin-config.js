@@ -5,6 +5,7 @@ require(['angular',
         'dm-admin/controllers/dm-admin-trainings/dm-admin-trainings',
         'dm-admin/controllers/dm-admin-decks/dm-admin-decks',
         'dm-admin/controllers/dm-admin-chapters/dm-admin-chapters',
+        'dm-admin/controllers/dm-admin-chapter/dm-admin-chapter',
 ], function (angular, angularRouter, adminApp, adminSlider) {
     adminApp.config(['$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
@@ -47,6 +48,16 @@ require(['angular',
                     training: {
                         templateUrl: getControllerTemplate('dm-admin-chapters'),
                         controller: 'dmAdminChapters'
+                    }
+                }
+            });
+
+            $stateProvider.state('index.trainings.chapters.chapter', {
+                url: '/:index',
+                views: {
+                    chapter: {
+                        templateUrl: getControllerTemplate('dm-admin-chapter'),
+                        controller: 'dmAdminChapter'
                     }
                 }
             });
