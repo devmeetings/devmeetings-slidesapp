@@ -28,10 +28,20 @@
                             .col-lg-10.col-md-10
                                 input.form-control(type='text', ng-model='chapter.videodata.url')
                         .form-group
+                            label.col-lg-2.col-md-2(control-label)
+                                | recording
+                            .col-lg-10.col-md-10
+                                select.form-control(ng-model='selectedRecording', ng-options='recording.title group by recording.group for recording in recordings')
+                        .form-group
                             label.col-lg-2.col-mg-2(control-label)
                                 | timestamp
                             .col-lg-10.col-md-10
                                 input.form-control(type='number', ng-model='chapter.videodata.timestamp')
+                        .form-group
+                            label.col-lg-2.col-mg-2(control-label)
+                                | recording time
+                            .col-lg-10.col-md-10
+                                input.form-control(type='number', ng-model='chapter.videodata.recordingTime')
                         .form-group
                             label.col-lg-2.col-mg-2(control-label)
                                 | length 

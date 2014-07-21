@@ -1,8 +1,8 @@
 define(['angular',
         'dm-admin/dm-admin-app'
 ], function (angular, adminApp) {
-    adminApp.controller('dmAdminChapter', ['$scope', '$stateParams', 'dmTrainings',
-        function ($scope, $stateParams, dmTrainings) {
+    adminApp.controller('dmAdminChapter', ['$scope', '$stateParams', 'dmTrainings', '$http',
+        function ($scope, $stateParams, dmTrainings, $http) {
             var setupChapter = function () {
                 $scope.chapter = angular.copy($scope.training.chapters[$stateParams.index]);
                 if ($scope.chapter.videodata === undefined) {
@@ -42,6 +42,19 @@ define(['angular',
                 $scope.videopreview.startSecond= newVal;
                 $scope.videopreview.currentSecond= newVal;
             });
+
+            $http.get('/api/recordings').success(function (recordings) {
+                $scope.recordings = recordings;
+            });
+            /*
+            $scope.recordings = [{
+                title: 'hej',
+                group: 'grupa1'
+            }, {
+                title: 'hej1',
+                group: 'title2'
+            }];
+            */
         }
     ]);
 });

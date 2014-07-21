@@ -18,6 +18,9 @@ var Training = new Schema({
             timestamp: {
                 type: Number   
             },
+            recordingTime: {
+                type: Number             
+            },
             length: {
                 type: Number        
             },

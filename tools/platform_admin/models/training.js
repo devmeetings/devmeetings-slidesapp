@@ -12,11 +12,22 @@ var Training = new Schema({
             enum: ['video' , 'task']
         },
         videodata: {
+            url: {
+                type: String
+            },
             timestamp: {
                 type: Number   
             },
             length: {
                 type: Number        
+            },
+            slides: {
+                type: [Schema.Types.Mixed]        
+            }
+        },
+        taskdata: {
+            slide: {
+                type: String       
             }
         }
     }]
