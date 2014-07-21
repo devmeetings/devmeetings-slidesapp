@@ -3,7 +3,6 @@ define(['angular',
 ], function (angular, adminApp) {
     adminApp.controller('dmAdminChapter', ['$scope', '$stateParams', 'dmTrainings',
         function ($scope, $stateParams, dmTrainings) {
-            
             var setupChapter = function () {
                 $scope.chapter = angular.copy($scope.training.chapters[$stateParams.index]);
                 if ($scope.chapter.videodata === undefined) {
