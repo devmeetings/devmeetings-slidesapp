@@ -1,8 +1,10 @@
 .col-lg-2.col-md-2.dm-admin-div
-  h2
-    | Menu 
-  .list-group
-    a.list-group-item(ng-repeat='option in options', ui-sref="{{option.sref}}", ui-sref-active='active')
-      | {{option.title}} 
+    h2
+        | Menu 
+    .list-group
+        a.list-group-item(ng-repeat='option in options', ui-sref="{{option.sref}}", ui-sref-active='active')
+            | {{option.title}} 
 .col-lg-10.col-md-10.dm-admin-div
-  div(ui-view="content")
+    div(ui-view="content")
+.col-lg-12.col-md-12.dm-admin-div
+    div(ui-view="subcontent")

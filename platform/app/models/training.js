@@ -20,6 +20,9 @@ var Training = new Schema({
             },
             length: {
                 type: Number        
+            },
+            slides: {
+                type: [Schema.Types.Mixed]        
             }
         },
         taskdata: {
