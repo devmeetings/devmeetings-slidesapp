@@ -4,7 +4,7 @@ define(['module',
         'dm-admin/dm-admin-app',
         'dm-admin/services/dm-trainings',
 ], function (module, angular, _, adminApp) {
-    adminApp.controller('dmAdminPlayer', ['$scope', '$http', '$stateParams', 'dmTrainings',
+    adminApp.controller('dmAdminChapters', ['$scope', '$http', '$stateParams', 'dmTrainings',
         function ($scope, $http, $stateParams, dmTrainings) {
             $scope.playerData = {
                 title: ''

@@ -5,7 +5,7 @@
                 | Trainings
         .panel-body
             .list-group(ui-sortable='updateTrainingsOrder', ng-model='trainings')
-                a.list-group-item(ng-repeat='training in trainings', ui-sref='index.trainings.player({id: training._id})')
+                a.list-group-item(ng-repeat='training in trainings', ui-sref='index.trainings.chapters({id: training._id})')
                     | {{training.title}}
         .panel-footer
             form.form-group(ng-submit='addTraining()')
