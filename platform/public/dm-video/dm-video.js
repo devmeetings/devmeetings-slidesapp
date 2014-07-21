@@ -1,11 +1,12 @@
 'use strict';
 angular.module('dm-video', []).directive('dmVideo', ['$timeout',
-    function () {
+    function ($timeout) {
         return {
             restrict: 'E',
             scope: {
                 dmSrc: '=',
                 dmCurrentSecond: '=',
+                dmStartSecond: '=',
                 dmIsPlaying: '=',
                 dmVideoLength: '=',
                 dmControls: '@',
@@ -22,10 +23,40 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                 
                 $video.setAttribute('height', scope.dmHeight);
                 
-                videojs($video, {
-                    techOrder: ['youtube', 'html5'],
-                    quality: '720p',
-                    src: scope.dmSrc
+                var player = undefined;
+                scope.$watch('dmSrc', function (newSrc) {
+                    if (newSrc === "" || newSrc === undefined) {
+                        return;
+                    }
+
+                    if (player === undefined) {
+                        videojs($video, {
+                            techOrder: ['youtube', 'html5'],
+                            quality: '720p',
+                            src: newSrc
+                        }).ready (function () {
+                            player = this;
+
+                            player.on('timeupdate', function () {
+                                scope.$apply( function () { // replace with safe apply
+                                    scope.dmCurrentSecond = player.currentTime();
+                                });
+                            });
+
+                            var goToSecond = function (newSecond) {
+                                var time = Math.round(newSecond);
+                                player.currentTime(time);
+                            };
+                            player.pause();
+                            $timeout(function () {
+                                goToSecond(scope.dmStartSecond);
+                            }, 500);
+                            scope.$watch('dmStartSecond', goToSecond);
+                            
+                        });
+                    } else {
+                        player.src({src: newSrc, type: 'video/youtube'});
+                    }
                 });
             }
         }

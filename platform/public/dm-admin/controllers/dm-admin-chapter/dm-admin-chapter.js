@@ -26,6 +26,22 @@ define(['angular',
             $scope.cancelSaveChapter = function () {
                 setupChapter();
             };
+
+
+            $scope.videopreview = {
+                src: '',
+                currentSecond: 0,
+                startSecond: 0
+            };
+
+            $scope.$watch('chapter.videodata.url', function (newVal) {
+                $scope.videopreview.src = newVal;
+            });
+            
+            $scope.$watch('chapter.videodata.timestamp', function (newVal) {
+                $scope.videopreview.startSecond= newVal;
+                $scope.videopreview.currentSecond= newVal;
+            });
         }
     ]);
 });

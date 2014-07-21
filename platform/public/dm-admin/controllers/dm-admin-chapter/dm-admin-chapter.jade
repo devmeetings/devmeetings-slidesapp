@@ -68,7 +68,10 @@
                                 | Play
                             button.btn.btn-default.pull-right(type='button')
                                 | Reload
-            dm-video(dm-height='300', dm-controls, dm-src='"https://www.youtube.com/watch?v=SFMfAxiERKk"')
+            p.col-lg-12.col-md-12
+                | current-second: {{videopreview.currentSecond | number:2}}
+            .col-lg-12.col-md-12
+                dm-video(dm-height='300', dm-controls, dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond')
 
 
 
