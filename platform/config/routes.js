@@ -41,6 +41,14 @@ module.exports = function(app) {
     app.get('/api/player/:id', authenticated, player.userSaves);
     app.post('/api/player', authenticated, player.save);
 
+    var trainings = require('../app/controllers/trainings');
+    app.get('/api/trainings', authenticated, trainings.list);
+    app.post('/api/trainings', authenticated, trainings.create);
+    app.get('/api/trainings/:id', authenticated, trainings.get);
+    app.put('/api/trainings/:id', authenticated, trainings.edit);
+    app.delete('/api/trainings/:id', authenticated, trainings.delete);
+
+
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', authenticated, req.getDeck);

@@ -2,10 +2,18 @@
     .panel
         .panel-heading
             h2
-                | {{title}}
+                | {{training.title}}
         .panel-body
-            .list-group
-                a.list-group-item(ng-repeat='training in trainings')
-                    | {{training.title}}
+            .list-group(ui-sortable='updateChaptersOrder', ng-model='training.chapters')
+                a.list-group-item(ng-repeat='chapter in training.chapters')
+                    | {{chapter.title}}
         .panel-footer
+            form.form-group(ng-submit='addChapter()')
+                .input-group
+                    input.form-control(type='text', ng-model='playerData.title')
+                    span.input-group-btn
+                        button.btn.btn-default(type='submit')
+                            | Add
+.col-lg-9.col-md-9.dm-admin-div
+    div(ui-view-'player')
 

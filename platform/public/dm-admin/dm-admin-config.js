@@ -42,7 +42,7 @@ require(['angular',
 
 
             $stateProvider.state('index.trainings.player', {
-                url: '/:title',
+                url: '/:id',
                 views: {
                     training: {
                         templateUrl: getControllerTemplate('dm-admin-player'),
