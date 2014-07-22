@@ -6,6 +6,13 @@ define(['angular',
 ], function (angular, adminApp) {
     adminApp.controller('dmAdminChapter', ['$scope', '$stateParams', 'dmTrainings', '$http', 'RecordingsPlayerFactory',
         function ($scope, $stateParams, dmTrainings, $http, RecordingsPlayerFactory) {
+            var setupRecordings = function () {
+                if ($scope.chapter && $scope.chapter.videodata.recording && $scope.recordings) {
+                    var rec = _.find($scope.recordings, {_id: $scope.chapter.videodata.recording});
+                    $scope.select.recording = rec ? rec : '';
+                }
+            };
+            
             var setupChapter = function () {
                 $scope.chapter = angular.copy($scope.training.chapters[$stateParams.index]);
                 if ($scope.chapter.videodata === undefined) {
@@ -18,6 +25,7 @@ define(['angular',
                 if ($scope.chapter.videodata.recordingTime === undefined) {
                     $scope.chapter.videodata.recordingTime = 0;
                 }
+                setupRecordings();
             };
 
             dmTrainings.getTrainingWithId($stateParams.id).then(function (training) {
@@ -43,7 +51,7 @@ define(['angular',
             };
 
             $scope.select = {
-                recording: ''
+                recording: undefined
             };
 
             $scope.recordingPlayer = {
@@ -73,15 +81,21 @@ define(['angular',
             $scope.$watch('videopreview.currentSecond', function (newVal) {
                 goToSecond();
             });
+            
+            $scope.$watch('chapter.videodata.recordingTime', function (newVal) {
+                goToSecond();
+            });
 
             $http.get('/api/recordings').success(function (recordings) {
                 $scope.recordings = recordings;
-
-                var rec = _.find(recordings, {_id: $scope.chapter.videodata.recording});
-                $scope.select.recording = rec ? rec : '';
+                setupRecordings();
             });
 
             $scope.$watch('select.recording', function (newRecording) {
+                if (newRecording === undefined) {
+                    return;
+                }
+
                 if ($scope.recordingPlayer.player) {
                     $scope.recordingPlayer.player.pause();
                 }
