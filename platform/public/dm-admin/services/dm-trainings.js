@@ -36,7 +36,7 @@ define(['angular',
             var addTraining = function (title) {
                 var result = $q.defer();
                 
-                return $http.post('api/trainings', {
+                return $http.post('/api/trainings', {
                     title: title
                 }).success(function(res) {
                     if (_.find(trainings, {_id :res.id}) === undefined) {
