@@ -42,6 +42,20 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                                     scope.dmCurrentSecond = player.currentTime();
                                 });
                             });
+                            
+                        
+                            player.on('play', function () {
+                                scope.$apply( function () {
+                                    scope.dmIsPlaying = true;
+                                });
+                            });
+
+                            player.on('pause', function () {
+                                scope.$apply( function () {
+                                    scope.dmIsPlaying = false;
+                                    scope.dmCurrentSecond = Math.round(player.currentTime());
+                                });
+                            });
 
                             var goToSecond = function (newSecond) {
                                 var time = Math.round(newSecond);

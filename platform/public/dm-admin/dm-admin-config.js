@@ -1,12 +1,14 @@
 require(['angular',
         'angular-ui-router',
+        'slider/bootstrap',
         'dm-admin/dm-admin-app',
         'dm-admin/controllers/dm-admin-slider/dm-admin-slider',
         'dm-admin/controllers/dm-admin-trainings/dm-admin-trainings',
         'dm-admin/controllers/dm-admin-decks/dm-admin-decks',
         'dm-admin/controllers/dm-admin-chapters/dm-admin-chapters',
         'dm-admin/controllers/dm-admin-chapter/dm-admin-chapter',
-], function (angular, angularRouter, adminApp, adminSlider) {
+        'directives/plugins-loader'
+], function (angular, angularRouter, bootstrap, adminApp, adminSlider) {
     adminApp.config(['$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
         
@@ -65,5 +67,6 @@ require(['angular',
             $urlRouterProvider.otherwise('');
         }
     ]);
-    angular.bootstrap(document, ['dm-admin']);
+    bootstrap('dm-admin');
+    //angular.bootstrap(document, ['dm-admin']);
 });

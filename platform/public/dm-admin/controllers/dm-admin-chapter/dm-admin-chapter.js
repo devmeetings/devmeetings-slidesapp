@@ -1,8 +1,11 @@
 define(['angular',
-        'dm-admin/dm-admin-app'
+        'dm-admin/dm-admin-app',
+        'services/Recordings',
+        'services/RecordingsPlayerFactory',
+        'directives/plugins-loader'
 ], function (angular, adminApp) {
-    adminApp.controller('dmAdminChapter', ['$scope', '$stateParams', 'dmTrainings', '$http',
-        function ($scope, $stateParams, dmTrainings, $http) {
+    adminApp.controller('dmAdminChapter', ['$scope', '$stateParams', 'dmTrainings', '$http', 'RecordingsPlayerFactory',
+        function ($scope, $stateParams, dmTrainings, $http, RecordingsPlayerFactory) {
             var setupChapter = function () {
                 $scope.chapter = angular.copy($scope.training.chapters[$stateParams.index]);
                 if ($scope.chapter.videodata === undefined) {
@@ -31,8 +34,26 @@ define(['angular',
             $scope.videopreview = {
                 src: '',
                 currentSecond: 0,
-                startSecond: 0
+                startSecond: 0,
+                isPlaying: 0
             };
+
+            $scope.select = {
+                recording: ''
+            };
+
+            $scope.recordingPlayer = {
+                player: false
+            };
+
+        
+            var goToSecond = function () {
+                if (!$scope.recordingPlayer.player) {
+                    return;
+                }
+                $scope.recordingPlayer.player.goToSecond($scope.videopreview.currentSecond);
+            };
+            
 
             $scope.$watch('chapter.videodata.url', function (newVal) {
                 $scope.videopreview.src = newVal;
@@ -42,10 +63,27 @@ define(['angular',
                 $scope.videopreview.startSecond= newVal;
                 $scope.videopreview.currentSecond= newVal;
             });
+            
+            $scope.$watch('videopreview.currentSecond', function (newVal) {
+                goToSecond();
+            });
 
             $http.get('/api/recordings').success(function (recordings) {
                 $scope.recordings = recordings;
             });
+
+            $scope.$watch('select.recording', function (newRecording) {
+                if ($scope.recordingPlayer.player) {
+                    $scope.recordingPlayer.player.pause();
+                }
+                
+                $scope.recordingPlayer.player = RecordingsPlayerFactory($scope.select.recording, function (slide, wholeSlide) {
+                    $scope.recordingPlayer.slide = slide;
+                });
+                
+            });
+            
+    
             /*
             $scope.recordings = [{
                 title: 'hej',

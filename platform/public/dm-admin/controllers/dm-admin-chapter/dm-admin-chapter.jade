@@ -31,7 +31,7 @@
                             label.col-lg-2.col-md-2(control-label)
                                 | recording
                             .col-lg-10.col-md-10
-                                select.form-control(ng-model='selectedRecording', ng-options='recording.title group by recording.group for recording in recordings')
+                                select.form-control(ng-model='select.recording', ng-options='recording.title group by recording.group for recording in recordings')
                         .form-group
                             label.col-lg-2.col-mg-2(control-label)
                                 | timestamp
@@ -81,7 +81,11 @@
             p.col-lg-12.col-md-12
                 | current-second: {{videopreview.currentSecond | number:2}}
             .col-lg-12.col-md-12
-                dm-video(dm-height='300', dm-controls, dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond')
+                dm-video(dm-height='300', dm-controls, dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond', dm-is-Playing='videopreview.isPlaying')
+            .col-lg-12.col-md-12
+                plugins-loader(namespace="'slide'", context="recordingPlayer.slide")
+                pre.
+                    {{recordingPlayer.slide|json}}
 
 
 
