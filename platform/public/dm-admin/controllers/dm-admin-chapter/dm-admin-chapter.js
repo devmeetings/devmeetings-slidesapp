@@ -65,7 +65,7 @@ define(['angular',
                 if (!$scope.recordingPlayer.player) {
                     return;
                 }
-                $scope.recordingPlayer.player.goToSecond($scope.videopreview.currentSecond + $scope.chapter.videodata.recordingTime);
+                $scope.recordingPlayer.player.goToSecond(($scope.videopreview.currentSecond - $scope.videopreview.startSecond) + $scope.chapter.videodata.recordingTime);
             };
             
 
