@@ -80,6 +80,10 @@
                                 | Reload
             p.col-lg-12.col-md-12
                 | current-second: {{videopreview.currentSecond | number:2}}
+            p.col-lg-12.col-md-12
+                | numberOfSlides: {{recordingPlayer.numberOfSlides }}
+            p.col-lg-12.col-md-12
+                | length: {{recordingPlayer.length}}
             .col-lg-12.col-md-12
                 dm-video(dm-height='300', dm-controls, dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond', dm-is-Playing='videopreview.isPlaying')
             .col-lg-12.col-md-12

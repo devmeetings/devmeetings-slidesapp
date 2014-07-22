@@ -14,6 +14,10 @@ define(['angular',
                 if ($scope.chapter.taskdata === undefined) {
                     $scope.chapter.taskdata = {};
                 }
+
+                if ($scope.chapter.videodata.recordingTime === undefined) {
+                    $scope.chapter.videodata.recordingTime = 0;
+                }
             };
 
             dmTrainings.getTrainingWithId($stateParams.id).then(function (training) {
@@ -43,7 +47,9 @@ define(['angular',
             };
 
             $scope.recordingPlayer = {
-                player: false
+                player: false,
+                numberOfSlides: 0,
+                length: 0
             };
 
         
@@ -51,7 +57,7 @@ define(['angular',
                 if (!$scope.recordingPlayer.player) {
                     return;
                 }
-                $scope.recordingPlayer.player.goToSecond($scope.videopreview.currentSecond);
+                $scope.recordingPlayer.player.goToSecond($scope.videopreview.currentSecond + $scope.chapter.videodata.recordingTime);
             };
             
 
@@ -70,16 +76,22 @@ define(['angular',
 
             $http.get('/api/recordings').success(function (recordings) {
                 $scope.recordings = recordings;
+
+                var rec = _.find(recordings, {_id: $scope.chapter.videodata.recording});
+                $scope.select.recording = rec ? rec : '';
             });
 
             $scope.$watch('select.recording', function (newRecording) {
                 if ($scope.recordingPlayer.player) {
                     $scope.recordingPlayer.player.pause();
                 }
-                
+
+                $scope.chapter.videodata.recording = newRecording._id;
                 $scope.recordingPlayer.player = RecordingsPlayerFactory($scope.select.recording, function (slide, wholeSlide) {
                     $scope.recordingPlayer.slide = slide;
                 });
+                $scope.recordingPlayer.numberOfSlides = $scope.select.recording.slides.length;
+                $scope.recordingPlayer.length = $scope.recordingPlayer.player.length();
                 
             });
             

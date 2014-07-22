@@ -24,8 +24,9 @@ var Training = new Schema({
             length: {
                 type: Number        
             },
-            slides: {
-                type: [Schema.Types.Mixed]        
+            recording: {
+                type: Schema.Types.ObjectId,
+                ref: 'recording'
             }
         },
         taskdata: {
