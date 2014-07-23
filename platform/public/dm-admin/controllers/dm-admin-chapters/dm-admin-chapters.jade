@@ -6,6 +6,7 @@
         .panel-body
             .list-group(ui-sortable='updateChaptersOrder', ng-model='training.chapters')
                 a.list-group-item(ng-repeat='chapter in training.chapters', ui-sref='index.trainings.chapters.chapter({index: $index})', ui-sref-active='active')
+                    span.glyphicon.glyphicon-trash.text-danger.pull-right(ng-click='removeChapterAtIndex($index)')
                     | {{chapter.title}}
         .panel-footer
             form.form-group(ng-submit='addChapter()')

@@ -30,6 +30,11 @@ define(['module',
                 $scope.playerData.title = '';
                 putTraining();
             };
+
+            $scope.removeChapterAtIndex = function (index) {
+                $scope.training.chapters.splice(index, 1);
+                dmTrainings.putTraining($scope.training);
+            };
             
             $scope.updateChaptersOrder = {
                 stop: function (em, ui) {
