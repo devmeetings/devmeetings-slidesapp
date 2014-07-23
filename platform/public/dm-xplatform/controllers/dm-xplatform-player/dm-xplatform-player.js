@@ -6,6 +6,8 @@ define(['angular',
 
             $scope.state = {
                 isPlaying: true, 
+                currentSecond: 0,
+                length: 0,              // slide should and when is currentSecond + length
                 onLeftButtonPressed: undefined,
                 onRightButtonPressed: undefined
             };
