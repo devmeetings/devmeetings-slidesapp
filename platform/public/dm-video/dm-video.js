@@ -23,8 +23,15 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                 }
                
                 if (scope.dmAutoHeight) {
-                    var body = document.getElementsByTagName("body")[0];
-                    $video.setAttribute('height', body.clientHeight - 130);
+                    var body = document.getElementsByClassName("player-wrapper")[0];
+                    scope.body = body;
+                    $video.setAttribute('height', body.clientHeight);
+                    
+                    //scope.$watch('body.clientHeight', function (newHeight) {
+                        //$video.setAttribute('height', newHeight);
+                    //});
+                    
+
                 } else {
                     $video.setAttribute('height', scope.dmHeight);
                 }
