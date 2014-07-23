@@ -19,7 +19,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
                             b 
                                 | {{file.title}}
             li(ng-show="!state.isPlaying")
-                button.btn(type="button", ng-click="saveFile()")
+                button.btn(type="button", ng-click="state.onSaveFile()")
                     i.fa.fa-save
         ul.player-list.player-right
             li

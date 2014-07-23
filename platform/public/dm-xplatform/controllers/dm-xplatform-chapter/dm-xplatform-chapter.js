@@ -1,9 +1,11 @@
 define(['angular',
         'xplatform/xplatform-app',
-        'directives/plugins-loader'
+        'directives/plugins-loader',
+        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-save',
+        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next'
 ], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformChapter', ['$scope', '$stateParams', '$http', 'dmTrainings', 'RecordingsPlayerFactory',
-        function ($scope, $stateParams, $http, dmTrainings, RecordingsPlayerFactory) {
+    xplatformApp.controller('dmXplatformChapter', ['$scope', '$stateParams', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
+        function ($scope, $stateParams, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
             var trainingId = $stateParams.id;
             var chapterIndex = $stateParams.index;
 
@@ -43,14 +45,47 @@ define(['angular',
            
             };
 
+            $scope.state.onSaveFile = function () {
+                    var modalInstance = $modal.open({
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-save.html',
+                        controller: 'dmXplatformChapterSave',
+                        size: 'sm',
+                        resolve: {
+                            title: function () {
+                                return angular.copy($scope.chapter.title);      
+                            }
+                        }
+                    });
+            };
+
+            var modalIsOpened = false;
             $scope.$watch('state.currentSecond', function (newVal) {
                 goToSecond();
 
                 var remaining = $scope.state.length - ($scope.state.currentSecond - $scope.chapter.videodata.timestamp);
-                if (remaining <= 0) {
-                    $scope.state.isPlaying = false; 
-
+                if (remaining > 0) {
+                    return;
                 }
+
+                if (modalIsOpened) {
+                    return;
+                }
+
+                modalIsOpened = true;
+
+                $scope.state.isPlaying = false;
+
+                var modalInstance = $modal.open({
+                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next.html',
+                    controller: 'dmXplatformChapterNext',
+                    size: 'sm',
+                    resolve: {
+                        title: function () {
+                           return angular.copy($scope.chapter.title);    
+                        }
+                    }
+                });
+
             });
         }
     ]);
