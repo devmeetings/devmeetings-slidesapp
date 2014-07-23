@@ -1,8 +1,7 @@
 define(['module',
         'angular',
         '_',
-        'dm-admin/dm-admin-app',
-        'dm-admin/services/dm-trainings'
+        'dm-admin/dm-admin-app'
 ], function (module, angular, _, adminApp) {
     adminApp.controller('dmAdminTrainings', ['$scope', 'dmTrainings',
         function ($scope, dmTrainings) {

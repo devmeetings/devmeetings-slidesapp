@@ -1,10 +1,7 @@
-define(['angular',
-        '_',
-        'dm-admin/dm-admin-app',
-], function (angular, _, adminApp) {
-    adminApp.factory('dmTrainings', ['$http', '$q',
+'use strict'
+angular.module('dm-training', []).factory('dmTrainings', ['$http', '$q',
         function ($http, $q) {
-            
+
             var trainings = [];
 
             var getTrainings = function () {
@@ -21,21 +18,21 @@ define(['angular',
                     result.resolve(training);
                     return result.promise;
                 }
-                    
+
                 $http.get('/api/trainings/' + id).success(function (res) {
                     if (_.find(trainings, {_id :id}) === undefined) {
                         trainings.push(res);  
                     }
                     result.resolve(res);
                 });
-                
+
                 return result.promise;
 
             };
 
             var addTraining = function (title) {
                 var result = $q.defer();
-                
+
                 return $http.post('/api/trainings', {
                     title: title
                 }).success(function(res) {
@@ -44,7 +41,7 @@ define(['angular',
                     }
                 });
             };
-            
+
             var putTraining = function (training) {
                 var index =_.findIndex(trainings, function (elem) {
                     return elem._id === training._id;
@@ -67,5 +64,5 @@ define(['angular',
 
             return Trainings;
         }
-    ]);
-});
+]);
+
