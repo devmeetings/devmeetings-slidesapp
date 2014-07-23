@@ -7,7 +7,8 @@ define(['angular',
         'angular-hotkeys',
         'angular-bootstrap',
         'slider/slider',
-        'slider/slider.plugins'
+        'slider/slider.plugins',
+        'dm-video'
 ], function (angular, angularRouter, angularDeckgrid, angularGravatar, angularSlider, angularMoment, angularHotkeys, angularBootstrap, slider) {
-    return angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router', 'slider.plugins', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'ui.bootstrap']); 
+    return angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router', 'slider.plugins', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'ui.bootstrap', 'dm-video']); 
 });

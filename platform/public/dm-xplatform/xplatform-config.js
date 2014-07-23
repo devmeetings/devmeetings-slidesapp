@@ -6,7 +6,8 @@ require(['angular',
     'xplatform/index/xplatform-index',
     'xplatform/devhero/xplatform-devhero',
     'xplatform/player/xplatform-player',
-    'directives/plugins-loader'
+    'directives/plugins-loader',
+    'xplatform/controllers/dm-xplatform-player/dm-xplatform-player'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -44,8 +45,9 @@ require(['angular',
                 url: '/player/:id',
                 views: {
                     navbar: {
-                        templateUrl: '/static/dm-xplatform/player/xplatform-player.html',
-                        controller: 'XplatformPlayerCtrl'
+                        //templateUrl: '/static/dm-xplatform/player/xplatform-player.html',
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
+                        controller: 'dmXplatformPlayer'
                     }
                 }
             });
