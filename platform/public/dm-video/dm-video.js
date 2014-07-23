@@ -83,7 +83,7 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                             
                             $timeout(function () {
                                 goToSecond(scope.dmStartSecond);
-                            }, 500);
+                            }, 1000);
 
                             scope.$watch('dmStartSecond', goToSecond);
 
