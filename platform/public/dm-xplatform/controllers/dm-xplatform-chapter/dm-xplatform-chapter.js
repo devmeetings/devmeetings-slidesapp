@@ -5,8 +5,8 @@ define(['angular',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open'
 ], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$timeout', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
-        function ($scope, $state, $stateParams, $timeout, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
+    xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$timeout', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory', 'User',
+        function ($scope, $state, $stateParams, $timeout, $http, $modal, dmTrainings, RecordingsPlayerFactory, User) {
             var trainingId = $stateParams.id;
             var chapterIndex = parseInt($stateParams.index);
 
@@ -17,10 +17,12 @@ define(['angular',
                 $scope.recordingPlayer.player.goToSecond(($scope.state.currentSecond - $scope.chapter.videodata.timestamp) + $scope.chapter.videodata.recordingTime);
             };
             
-            $scope.recordingPlayer = {
-                //player
-                //slide
-            }
+
+            $scope.modalData = {
+               //saveTitle
+               //openTitle
+            };
+
 
             dmTrainings.getTrainingWithId(trainingId).then (function (training) {
                 $scope.chapter = training.chapters[chapterIndex];
@@ -30,7 +32,10 @@ define(['angular',
                 $http.get('/api/recordings/' + $scope.chapter.videodata.recording)
                 .success(function (recording) {
                     $scope.recording = recording;  
-                    
+                   
+                    if ($scope.recordingPlayer.player) {
+                        $scope.recordingPlayer.player.pause();
+                    }
                     $scope.recordingPlayer.player = RecordingsPlayerFactory(recording, function (slide, wholeSlide) {
                         $scope.recordingPlayer.slide = slide;
                     });
@@ -45,44 +50,95 @@ define(['angular',
             };
 
             $scope.state.onRightButtonPressed = function () {
-                var previousState = $scope.state.isPlaying;
-                //$scope.state.isPlaying = false;
-                //$timeout(function () {
-                    $scope.state.startSecond = $scope.chapter.videodata.timestamp + $scope.state.length - 5; 
-                //    $scope.state.isPlaying = previousState; 
-                //}, 500);
+                $scope.state.startSecond = $scope.chapter.videodata.timestamp + $scope.state.length - 5; 
             };
+            
 
             $scope.state.onSaveFile = function () {
-                    var modalInstance = $modal.open({
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-save.html',
-                        controller: 'dmXplatformChapterSave',
-                        size: 'sm',
-                        resolve: {
-                            title: function () {
-                                return angular.copy($scope.chapter.title);      
-                            }
-                        }
-                    });
+                
+                $scope.modalData.saveTitle = $scope.chapter.title;
+                var modalInstance = $modal.open({
+                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-save.html',
+                    controller: 'dmXplatformChapterSave',
+                    size: 'sm',
+                    resolve: {
+                        modalData: function () {
+                            return $scope.modalData;      
+                       }
+                    }
+                });
+
+                modalInstance.result.then(function (save) {
+                    if (!save) {
+                        return;
+                    }
+
+                    var fileToSave = {
+                        title: $scope.modalData.saveTitle,
+                        trainingId: trainingId,
+                        userId: $scope.userId,
+                        chapter: chapterIndex,
+                        second: $scope.state.currentSecond,
+                        slide: $scope.recordingPlayer.slide,
+                        date: new Date()
+                    };
+                    
+                    $http.post('/api/player', fileToSave);
+                    $scope.files.push(fileToSave);
+                });
+
             };
 
+            User.getUserData(function (user) {
+                $scope.userId = user._id;
+                $http.get('/api/player/' + $scope.userId + '/' + trainingId).success(function (files) {
+                    $scope.files = files;
+                });
+            });
+
             $scope.state.onOpenFile = function () {
-                    var modalInstance = $modal.open({
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open.html',
-                        controller: 'dmXplatformChapterOpen',
-                        size: 'sm',
-                        resolve: {
-                            files: function () {
-                                return [{
-                                    title: '1'
-                                }, {
-                                    title: '2'
-                                }, { 
-                                    title: '3'
-                                }]; 
-                            }
+                $scope.modalData.openTitle = undefined;
+
+                var modalInstance = $modal.open({
+                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open.html',
+                    controller: 'dmXplatformChapterOpen',
+                    size: 'sm',
+                    resolve: {
+                        files: function () {
+                            return $scope.files;
+                                   /*return [{
+                                     title: '1'
+                                     }, {
+                                     title: '2'
+                                     }, { 
+                                     title: '3'
+                                     }]; */
+                        },
+                        modalData: function () {
+                            return $scope.modalData;           
                         }
-                    });
+                    }
+                });
+
+                modalInstance.result.then(function (open) {
+                    if (!open || $scope.modalData.openTitle === undefined) {
+                        return;
+                    }
+
+                    var file = $scope.modalData.openTitle;
+                    
+                    $scope.state.isPlaying = false;
+                    $scope.state.currentSecond = 0; //reset timer
+                    
+                    $timeout( function () {
+                        $state.go('navbar.player.chapter', {index: file.chapter})
+                        $timeout( function () {
+                            $scope.recordingPlayer.slide = file.slide;
+                            $scope.state.startSecond = file.second;
+                        }, 1000);
+                    }, 500);
+
+                });
             };
 
             

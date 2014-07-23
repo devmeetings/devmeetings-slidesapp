@@ -4,8 +4,6 @@ define(['angular',
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', 'dmTrainings',
         function ($scope, $timeout, $state, $stateParams, dmTrainings) {
 
-            
-        
 
             $scope.state = {
                 isPlaying: false, 
@@ -19,6 +17,11 @@ define(['angular',
                 onRightButtonPressed: undefined,
                 onSaveFile: undefined,
                 onOpenFile: undefined
+            };
+            
+            $scope.recordingPlayer = {
+                //player
+                //slide
             };
 
             var trainingId = $stateParams.id;

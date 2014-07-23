@@ -1,18 +1,16 @@
 define(['angular',
         'xplatform/xplatform-app'
 ], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformChapterSave', ['$scope', '$modalInstance', 'title',
-        function ($scope, $modalInstance, title) {
-            $scope.content = {
-                fileTitle: title
-            };
-
+    xplatformApp.controller('dmXplatformChapterSave', ['$scope', '$modalInstance', 'modalData',
+        function ($scope, $modalInstance, modalData) {
+           
+            $scope.modalData = modalData;
             $scope.cancel = function () {
                 $modalInstance.close(false);
             };
 
             $scope.ok = function () {
-                $modalInstance.close(true, $scope.content.fileTitle);
+                $modalInstance.close(true);
             };
         }
     ]);
