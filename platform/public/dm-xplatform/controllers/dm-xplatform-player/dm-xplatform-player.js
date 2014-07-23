@@ -4,6 +4,36 @@ define(['angular',
     xplatformApp.controller('dmXplatformPlayer', ['$scope', 
         function ($scope) {
             
+
+            $scope.trainings = [{
+                title: 'A'   
+            }, {
+                title: 'dupa'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }, {
+                title: 'test'
+            }];
         }
     ]);
 });
