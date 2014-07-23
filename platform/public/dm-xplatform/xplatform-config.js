@@ -42,10 +42,10 @@ require(['angular',
                 }
             });
 
-            $stateProvider.state('player', {
+            $stateProvider.state('navbar.player', {
                 url: '/player/:id',
                 views: {
-                    navbar: {
+                    content: {
                         //templateUrl: '/static/dm-xplatform/player/xplatform-player.html',
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
                         controller: 'dmXplatformPlayer'
@@ -53,7 +53,7 @@ require(['angular',
                 }
             });
 
-            $stateProvider.state('player.chapter', {
+            $stateProvider.state('navbar.player.chapter', {
                 url: '/:index',
                 views: {
                     chapter: {
