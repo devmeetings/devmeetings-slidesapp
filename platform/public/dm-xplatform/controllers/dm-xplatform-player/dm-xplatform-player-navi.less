@@ -2,6 +2,7 @@
     height: 30px;
     width: 100%;
     margin-bottom: 20px;
+    background: #2c2c2c;
 
     > .list-group {
         white-space: nowrap;
@@ -18,3 +19,26 @@
 .player-navi::-webkit-scrollbar {
     height: 0px;
 }
+
+
+a.list-group-item {
+    background: #2c2c2c;
+    border-top: 1px solid #2c2c2c;
+    border-left: 1px solid #2c2c2c;
+    border-right: 1px solid #363636;
+    border-bottom: 0;
+    color: #797979;
+    font-size: 13px
+}
+a.list-group-item.active,
+a.list-group-item:hover,
+a.list-group-item:focus,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus {
+    background: #353535; 
+    border-top: 1px solid #2c2c2c;
+    border-left: 1px solid #2c2c2c;
+    border-right: 1px solid #363636;
+    border-bottom: 0;
+    color: #616161;
+} 
