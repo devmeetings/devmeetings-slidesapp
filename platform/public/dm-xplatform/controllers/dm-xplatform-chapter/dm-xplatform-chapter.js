@@ -13,6 +13,17 @@ define(['angular',
                     $scope.recording = recording;    
                 });
             });
+
+            
+            // implement state interface
+            
+            $scope.state.onLeftButtonPressed = function () {
+            
+            };
+
+            $scope.state.onRightButtonPressed = function () {
+           
+            };
         }
     ]);
 });

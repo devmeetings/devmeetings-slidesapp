@@ -3,11 +3,19 @@ define(['angular',
 ], function (angular, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', 'dmTrainings',
         function ($scope, $stateParams, dmTrainings) {
-            var trainingId = $stateParams.id;
 
+            $scope.state = {
+                isPlaying: true, 
+                onLeftButtonPressed: undefined,
+                onRightButtonPressed: undefined
+            };
+
+            var trainingId = $stateParams.id;
             dmTrainings.getTrainingWithId(trainingId).then( function (training) {
                 $scope.training = training;
             });
+
+            
         }
     ]);
 });
