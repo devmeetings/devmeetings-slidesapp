@@ -2,7 +2,8 @@ define(['angular',
         'xplatform/xplatform-app',
         'directives/plugins-loader',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-save',
-        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next'
+        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next',
+        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open'
 ], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformChapter', ['$scope', '$stateParams', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
         function ($scope, $stateParams, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
@@ -57,6 +58,30 @@ define(['angular',
                         }
                     });
             };
+
+            $scope.state.onOpenFile = function () {
+                    var modalInstance = $modal.open({
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open.html',
+                        controller: 'dmXplatformChapterOpen',
+                        size: 'sm',
+                        resolve: {
+                            files: function () {
+                                return [{
+                                    title: '1'
+                                }, {
+                                    title: '2'
+                                }, { 
+                                    title: '3'
+                                }]; 
+                            }
+                        }
+                    });
+            };
+
+            
+
+            var modalIsOpened = false;
+            
 
             var modalIsOpened = false;
             $scope.$watch('state.currentSecond', function (newVal) {

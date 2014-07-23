@@ -7,8 +7,12 @@ define(['angular',
                 fileTitle: title
             };
 
+            $scope.cancel = function () {
+                $modalInstance.close(false);
+            };
+
             $scope.ok = function () {
-                $modalInstance.close($scope.content.fileTitle);
+                $modalInstance.close(true, $scope.content.fileTitle);
             };
         }
     ]);

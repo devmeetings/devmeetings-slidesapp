@@ -10,18 +10,12 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
     .navbar-collapse.collapse.navbar-inverse-collapse
         ul.player-list.player-left
             li
-                .dropup
-                    button.btn.dropdown-toggle(type="button", data-toggle="dropup")
-                        i.fa.fa-folder-open
-                    .dropdown-menu.list-group
-                        a.list-group-item(ng-repeat="file in files", ng-click="openFile($index)")
-                            span.pull-right(am-time-ago="file.date")
-                            b 
-                                | {{file.title}}
+                button.btn.dropdown-toggle(type="button", ng-click="state.onOpenFile()")
+                    i.fa.fa-folder-open
             li(ng-show="!state.isPlaying")
                 button.btn(type="button", ng-click="state.onSaveFile()")
                     i.fa.fa-save
-        ul.player-list.player-right
+        //-ul.player-list.player-right
             li
                 button.btn(type="button")
                     i.fa.fa-smile-o

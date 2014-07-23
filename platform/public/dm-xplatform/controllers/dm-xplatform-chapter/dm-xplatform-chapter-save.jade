@@ -4,5 +4,7 @@
 .modal-body
     input.form-control(type='text', ng-model='content.fileTitle')
 .modal-footer
+    button.btn.btn-default(ng-click='cancel()')
+        | Anuluj
     button.btn.btn-success(ng-click='ok()')
         | Zapisz

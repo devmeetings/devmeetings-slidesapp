@@ -10,7 +10,8 @@ define(['angular',
                 length: 0,              // slide should and when is currentSecond + length
                 onLeftButtonPressed: undefined,
                 onRightButtonPressed: undefined,
-                onSaveFile: undefined
+                onSaveFile: undefined,
+                onOpenFile: undefined
             };
 
             var trainingId = $stateParams.id;
