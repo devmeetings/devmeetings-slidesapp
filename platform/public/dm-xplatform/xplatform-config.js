@@ -7,7 +7,8 @@ require(['angular',
     'xplatform/devhero/xplatform-devhero',
     'xplatform/player/xplatform-player',
     'directives/plugins-loader',
-    'xplatform/controllers/dm-xplatform-player/dm-xplatform-player'
+    'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
+    'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -52,8 +53,18 @@ require(['angular',
                 }
             });
 
-            $urlRouterProvider.when('/player/', '/player/53b2cd856703ba00002096e9');
-            $urlRouterProvider.otherwise('/player/53b2cd856703ba00002096e9');
+            $stateProvider.state('player.chapter', {
+                url: '/:index',
+                views: {
+                    chapter: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter.html',
+                        controller: 'dmXplatformChapter'
+                    }
+                }
+            });
+
+            $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
+            $urlRouterProvider.otherwise('/player/53ce34758fb745d156d54301/0');
         }
     ]);
     bootstrap('xplatform');

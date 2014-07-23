@@ -1,5 +1,5 @@
 .player-navi
     .list-group
-        .list-group-item(ng-repeat='training in trainings')
+        a.list-group-item(ng-repeat='chapter in training.chapters', ui-sref='player.chapter({index: $index})', ui-sref-active='active')
             span.pull-right
-            | {{training.title}} 
+            | {{chapter.title}} 

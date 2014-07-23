@@ -1,39 +1,13 @@
 define(['angular',
         'xplatform/xplatform-app'
 ], function (angular, xplatformApp) {   
-    xplatformApp.controller('dmXplatformPlayer', ['$scope', 
-        function ($scope) {
-            
+    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', 'dmTrainings',
+        function ($scope, $stateParams, dmTrainings) {
+            var trainingId = $stateParams.id;
 
-            $scope.trainings = [{
-                title: 'A'   
-            }, {
-                title: 'dupa'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }, {
-                title: 'test'
-            }];
+            dmTrainings.getTrainingWithId(trainingId).then( function (training) {
+                $scope.training = training;
+            });
         }
     ]);
 });
