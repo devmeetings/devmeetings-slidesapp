@@ -51,6 +51,9 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                             player = this;
 
                             player.on('timeupdate', function () {
+                                if (!scope.dmIsPlaying && !player.paused()){
+                                    player.pause();
+                                }
                                 scope.$apply( function () { // replace with safe apply
                                     scope.dmCurrentSecond = player.currentTime();
                                 });
@@ -74,13 +77,14 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                                 var time = Math.round(newSecond);
                                 player.currentTime(time);
                             };
+                           
+                            //always start paused
+                            player.pause();
                             
-                            if (!scope.dmIsPlaying) {
-                                player.pause();
-                            }
                             $timeout(function () {
                                 goToSecond(scope.dmStartSecond);
                             }, 500);
+
                             scope.$watch('dmStartSecond', goToSecond);
 
                             scope.$watch('dmIsPlaying', function (newVal) {

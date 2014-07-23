@@ -10,6 +10,13 @@ define(['angular',
             var trainingId = $stateParams.id;
             var chapterIndex = parseInt($stateParams.index);
 
+            var goToSecond = function () {
+                if (!$scope.recordingPlayer.player) {
+                    return;
+                }
+                $scope.recordingPlayer.player.goToSecond(($scope.state.currentSecond - $scope.chapter.videodata.timestamp) + $scope.chapter.videodata.recordingTime);
+            };
+            
             $scope.recordingPlayer = {
                 //player
                 //slide
@@ -17,6 +24,7 @@ define(['angular',
 
             dmTrainings.getTrainingWithId(trainingId).then (function (training) {
                 $scope.chapter = training.chapters[chapterIndex];
+                $scope.state.startSecond = $scope.chapter.videodata.timestamp;
                 $scope.state.chapterId = chapterIndex;
                 $scope.state.length = $scope.chapter.videodata.length;
                 $http.get('/api/recordings/' + $scope.chapter.videodata.recording)
@@ -26,20 +34,10 @@ define(['angular',
                     $scope.recordingPlayer.player = RecordingsPlayerFactory(recording, function (slide, wholeSlide) {
                         $scope.recordingPlayer.slide = slide;
                     });
-                    $timeout(function () {
-                        $scope.state.isPlaying = true;
-                    }, 500);
-
+                    goToSecond();
                 });
             });
 
-            var goToSecond = function () {
-                if (!$scope.recordingPlayer.player) {
-                    return;
-                }
-                $scope.recordingPlayer.player.goToSecond(($scope.state.currentSecond - $scope.chapter.videodata.timestamp) + $scope.chapter.videodata.recordingTime);
-            };
-            
             // implement state interface
             
             $scope.state.onLeftButtonPressed = function () {
@@ -47,7 +45,12 @@ define(['angular',
             };
 
             $scope.state.onRightButtonPressed = function () {
-           
+                var previousState = $scope.state.isPlaying;
+                //$scope.state.isPlaying = false;
+                //$timeout(function () {
+                    $scope.state.startSecond = $scope.chapter.videodata.timestamp + $scope.state.length - 5; 
+                //    $scope.state.isPlaying = previousState; 
+                //}, 500);
             };
 
             $scope.state.onSaveFile = function () {

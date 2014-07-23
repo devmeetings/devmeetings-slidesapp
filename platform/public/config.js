@@ -124,7 +124,7 @@ require.config({
             "deps": ["video-js"]
         },
         "dm-video": {
-            "deps": ["angular", "video-js-youtube"]
+            "deps": ["angular", "video-js-youtube", "_"]
         },
         "dm-training" : {
             "deps" :["angular", "_"]

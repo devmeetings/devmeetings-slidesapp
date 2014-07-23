@@ -10,6 +10,7 @@ define(['angular',
             $scope.state = {
                 isPlaying: false, 
                 currentSecond: 0,
+                startSecond: 0,
                 videoHeight: 850,
                 autoHeight: true,
                 length: 0,              // slide should and when is currentSecond + length
@@ -23,7 +24,7 @@ define(['angular',
             var trainingId = $stateParams.id;
             dmTrainings.getTrainingWithId(trainingId).then( function (training) {
                 $scope.training = training;
-                //$scope.navbar.title = 'Podstawy JavaScript';// training.title;
+                $scope.navbar.title = 'Podstawy JavaScript';// training.title;
                 $scope.navbar.showTitle = true;
             });
             
@@ -33,9 +34,6 @@ define(['angular',
                 
                 $timeout(function () {
                     $state.go('navbar.player.chapter', {index: index});
-                    //$timeout(function () {
-                    //    $scope.state.isPlaying = true;
-                    //}, 500);
                 }, 500);
             };
 
