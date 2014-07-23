@@ -66,17 +66,19 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                                 goToSecond(scope.dmStartSecond);
                             }, 500);
                             scope.$watch('dmStartSecond', goToSecond);
-                            
+
                             scope.$watch('dmIsPlaying', function (newVal) {
-                                if (newVal) {
-                                    if (player.paused()) {
-                                        player.play();
-                                    } 
-                                } else {
-                                    if (!player.paused()) {
-                                        player.pause();
+                                $timeout (function () {
+                                    if (newVal) {
+                                        if (player.paused()) {
+                                            player.play();
+                                        } 
+                                    } else {
+                                        if (!player.paused()) {
+                                            player.pause();
+                                        }
                                     }
-                                }
+                                });
                             });
                         });
                     } else {

@@ -14,6 +14,7 @@ define(['angular',
 
             dmTrainings.getTrainingWithId(trainingId).then (function (training) {
                 $scope.chapter = training.chapters[chapterIndex];
+                $scope.state.length = $scope.chapter.videodata.length;
                 $http.get('/api/recordings/' + $scope.chapter.videodata.recording)
                 .success(function (recording) {
                     $scope.recording = recording;  
@@ -21,8 +22,6 @@ define(['angular',
                     $scope.recordingPlayer.player = RecordingsPlayerFactory(recording, function (slide, wholeSlide) {
                         $scope.recordingPlayer.slide = slide;
                     });
-
-                    $scope.state.length = $scope.recordingPlayer.player.length();
 
                 });
             });
@@ -45,7 +44,13 @@ define(['angular',
             };
 
             $scope.$watch('state.currentSecond', function (newVal) {
-                goToSecond(); 
+                goToSecond();
+
+                var remaining = $scope.state.length - ($scope.state.currentSecond - $scope.chapter.videodata.timestamp);
+                if (remaining <= 0) {
+                    $scope.state.isPlaying = false; 
+
+                }
             });
         }
     ]);

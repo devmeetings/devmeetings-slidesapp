@@ -15,6 +15,8 @@ define(['angular',
             var trainingId = $stateParams.id;
             dmTrainings.getTrainingWithId(trainingId).then( function (training) {
                 $scope.training = training;
+                $scope.navbar.title = 'Podstawy JavaScript';// training.title;
+                $scope.navbar.showTitle = true;
             });
 
             

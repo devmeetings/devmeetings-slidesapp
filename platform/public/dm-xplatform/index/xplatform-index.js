@@ -32,7 +32,7 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
     
     angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
 
-        //$scope.index.eventsToDisplay = $filter('filter')($scope.index.events, {title: filterValue});
+        $scope.navbar.showTitle = false;
 
         $http.get('/api/dashboard').success( function (dashboard) {
             $scope.dashboard = dashboard; 

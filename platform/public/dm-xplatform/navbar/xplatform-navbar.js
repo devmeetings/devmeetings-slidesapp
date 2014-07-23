@@ -2,7 +2,9 @@ define(['angular', '_', 'angular-gravatar', 'xplatform/xplatform-app', 'slider/s
     angular.module('xplatform').controller('XplatformNavbarCtrl', ['$scope', '$filter', 'User', function ($scope, $filter, User) {
         $scope.navbar = {
             searchText: '',
-            user: {}
+            user: {},
+            showTitle: false,
+            title: ''
         };
 
         User.getUserData( function (data) {
