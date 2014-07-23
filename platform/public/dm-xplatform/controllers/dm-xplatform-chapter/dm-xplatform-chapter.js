@@ -5,8 +5,8 @@ define(['angular',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open'
 ], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformChapter', ['$scope', '$stateParams', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
-        function ($scope, $stateParams, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
+    xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
+        function ($scope, $state, $stateParams, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
             var trainingId = $stateParams.id;
             var chapterIndex = $stateParams.index;
 
@@ -17,6 +17,7 @@ define(['angular',
 
             dmTrainings.getTrainingWithId(trainingId).then (function (training) {
                 $scope.chapter = training.chapters[chapterIndex];
+                $scope.state.chapterId = parseInt(chapterIndex);
                 $scope.state.length = $scope.chapter.videodata.length;
                 $http.get('/api/recordings/' + $scope.chapter.videodata.recording)
                 .success(function (recording) {
@@ -82,10 +83,16 @@ define(['angular',
 
             var modalIsOpened = false;
             
-
-            var modalIsOpened = false;
             $scope.$watch('state.currentSecond', function (newVal) {
+                if ($scope.state.chapterId !== chapterIndex) {
+                    return;
+                }
+                
                 goToSecond();
+                
+                if (!$scope.chapter || !$scope.chapter.videodata) {
+                    return;
+                }
 
                 var remaining = $scope.state.length - ($scope.state.currentSecond - $scope.chapter.videodata.timestamp);
                 if (remaining > 0) {
@@ -109,6 +116,19 @@ define(['angular',
                            return angular.copy($scope.chapter.title);    
                         }
                     }
+                });
+
+                modalInstance.result.then( function (next) {
+                    modalIsOpened = false;
+                    if (!next) {
+                        return;
+                    }
+
+                    $scope.state.currentSecond = 0; //reset timer
+                    $state.go('navbar.player.chapter', {
+                        index: parseInt(chapterIndex) + 1
+                    });
+                    
                 });
 
             });
