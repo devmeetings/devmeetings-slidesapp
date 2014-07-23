@@ -8,7 +8,7 @@ define(['angular',
         
 
             $scope.state = {
-                isPlaying: true, 
+                isPlaying: false, 
                 currentSecond: 0,
                 videoHeight: 850,
                 autoHeight: true,
@@ -33,9 +33,9 @@ define(['angular',
                 
                 $timeout(function () {
                     $state.go('navbar.player.chapter', {index: index});
-                    $timeout(function () {
-                        $scope.state.isPlaying = true;
-                    }, 500);
+                    //$timeout(function () {
+                    //    $scope.state.isPlaying = true;
+                    //}, 500);
                 }, 500);
             };
 

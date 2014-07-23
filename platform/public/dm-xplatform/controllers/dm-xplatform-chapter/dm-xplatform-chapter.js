@@ -5,8 +5,8 @@ define(['angular',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open'
 ], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
-        function ($scope, $state, $stateParams, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
+    xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$timeout', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
+        function ($scope, $state, $stateParams, $timeout, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
             var trainingId = $stateParams.id;
             var chapterIndex = parseInt($stateParams.index);
 
@@ -26,6 +26,9 @@ define(['angular',
                     $scope.recordingPlayer.player = RecordingsPlayerFactory(recording, function (slide, wholeSlide) {
                         $scope.recordingPlayer.slide = slide;
                     });
+                    $timeout(function () {
+                        $scope.state.isPlaying = true;
+                    }, 500);
 
                 });
             });
@@ -93,6 +96,10 @@ define(['angular',
                 if (!$scope.chapter || !$scope.chapter.videodata) {
                     return;
                 }
+                
+                if (!$scope.state.isPlaying) {
+                    return;
+                }
 
                 var remaining = $scope.state.length - ($scope.state.currentSecond - $scope.chapter.videodata.timestamp);
                 if (remaining > 0) {
@@ -124,11 +131,14 @@ define(['angular',
                         return;
                     }
 
+                    $scope.state.isPlaying = false;
                     $scope.state.currentSecond = 0; //reset timer
-                    $state.go('navbar.player.chapter', {
-                        index: parseInt(chapterIndex) + 1
-                    });
-                    
+
+                    $timeout(function () {
+                        $state.go('navbar.player.chapter', {
+                            index: parseInt(chapterIndex) + 1
+                        });
+                    }, 500);
                 });
 
             });

@@ -74,7 +74,10 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                                 var time = Math.round(newSecond);
                                 player.currentTime(time);
                             };
-                            player.pause();
+                            
+                            if (!scope.dmIsPlaying) {
+                                player.pause();
+                            }
                             $timeout(function () {
                                 goToSecond(scope.dmStartSecond);
                             }, 500);
