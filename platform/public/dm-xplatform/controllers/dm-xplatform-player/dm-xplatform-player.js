@@ -4,9 +4,14 @@ define(['angular',
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', 'dmTrainings',
         function ($scope, $timeout, $state, $stateParams, dmTrainings) {
 
+            
+        
+
             $scope.state = {
                 isPlaying: true, 
                 currentSecond: 0,
+                videoHeight: 850,
+                autoHeight: true,
                 length: 0,              // slide should and when is currentSecond + length
                 chapterId: undefined,
                 onLeftButtonPressed: undefined,
@@ -23,12 +28,17 @@ define(['angular',
             });
             
             $scope.goToChapter = function (index) {
-                //$scope.state.isPlaying = false;
+                $scope.state.isPlaying = false;
+                $scope.state.currentSecond = 0;
                 
-                //$timeout
-
-                $state.go('navbar.player.chapter', {index: index});
+                $timeout(function () {
+                    $state.go('navbar.player.chapter', {index: index});
+                    $timeout(function () {
+                        $scope.state.isPlaying = true;
+                    }, 500);
+                }, 500);
             };
+
             
         }
     ]);

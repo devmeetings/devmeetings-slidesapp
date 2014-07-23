@@ -11,6 +11,7 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                 dmVideoLength: '=',
                 dmControls: '@',
                 dmHeight: '@',
+                dmAutoHeight: '=',
                 delay: '='
             },
             template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%" autoplay="autoplay">'
@@ -20,8 +21,13 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                 if (scope.dmControls) {
                     $video.setAttribute('controls', true);
                 }
-                
-                $video.setAttribute('height', scope.dmHeight);
+               
+                if (scope.dmAutoHeight) {
+                    var body = document.getElementsByTagName("body")[0];
+                    $video.setAttribute('height', body.clientHeight - 130);
+                } else {
+                    $video.setAttribute('height', scope.dmHeight);
+                }
                 
                 var player = undefined;
                 scope.$watch('dmSrc', function (newSrc) {

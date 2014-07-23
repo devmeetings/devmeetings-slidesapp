@@ -8,7 +8,7 @@ define(['angular',
     xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory',
         function ($scope, $state, $stateParams, $http, $modal, dmTrainings, RecordingsPlayerFactory) {
             var trainingId = $stateParams.id;
-            var chapterIndex = $stateParams.index;
+            var chapterIndex = parseInt($stateParams.index);
 
             $scope.recordingPlayer = {
                 //player
@@ -17,7 +17,7 @@ define(['angular',
 
             dmTrainings.getTrainingWithId(trainingId).then (function (training) {
                 $scope.chapter = training.chapters[chapterIndex];
-                $scope.state.chapterId = parseInt(chapterIndex);
+                $scope.state.chapterId = chapterIndex;
                 $scope.state.length = $scope.chapter.videodata.length;
                 $http.get('/api/recordings/' + $scope.chapter.videodata.recording)
                 .success(function (recording) {
