@@ -1,21 +1,44 @@
-.navbar.navbar-inverse.xplatform-navbar
+.navbar.navbar-inverse.xplatform-navbar(role='navigation')
   .navbar-header
-    button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+    button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+      span.sr-only Toggle navigation
       span.icon-bar
       span.icon-bar
       span.icon-bar
-    a.navbar-brand(href='#')
-      span.glyphicon.glyphicon-th-large
-      | &nbsp;Xplatform
-  .navbar-collapse.navbar-inverse-collapse.collapse(style="height: 1px")
+
+  .navbar-center.input-search
+    img.ico-search(src="static/images/navbar/ico_search.png")
+    input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...')
+    img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
+
+  .collapse.navbar-collapse.navbar-inverse-collapse
+    ul.nav.navbar-nav.navbar-left
+      li
+        a(href='#')
+           img(src="static/images/navbar/xplatform_logo.png")
+
     ul.nav.navbar-nav.navbar-right
       li
-        img(gravatar-src="navbar.user.email", gravatar-size="50")
+        a(href='#')
+          img(src="static/images/navbar/ico_bell.png")
+          span.badge.badge-notification 3
       li
-        a.ng-cloak.xplatform-navbar-text(ui-sref="navbar.devhero")
+        a(href='#')
+          img(src="static/images/navbar/ico_msg.png")
+          span.badge.badge-notification 7
+      li
+        img.avatar-holder(gravatar-src="navbar.user.email", gravatar-size="40")
+      li
+        a.ng-cloak(ui-sref="navbar.devhero")
           | {{navbar.user.name}}
       li
-        a.xplatform-navbar-text(href="/logout")
-          | Logout
-div(ui-view='content')
+        .dropdown
+          #dropdownNav.dropdown-toggle(type='button', data-toggle='dropdown')
+              span.glyphicon.glyphicon-cog
+            ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
+              li(role='presentation')
+                a(href="/logout", role='menuitem', tabindex='-1')
+                  | Logout
 
+
+div(ui-view='content')

@@ -1,5 +1,4 @@
 var UserModel = require('../models/user'),
-    bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10,
     authFields = {
         usernameField: 'email',
@@ -14,6 +13,7 @@ var UserModel = require('../models/user'),
  * @param {*} callback
  */
 var comparePassword = function(candidatePassword, hash, callback) {
+    var bcrypt = require('bcrypt');
     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
         return err ? callback(err) : callback(null, isMatch);
     });
@@ -29,6 +29,7 @@ UserModel.schema.pre('save', function(next) {
         return next();
     }
 
+    var bcrypt = require('bcrypt');
     // generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) {
