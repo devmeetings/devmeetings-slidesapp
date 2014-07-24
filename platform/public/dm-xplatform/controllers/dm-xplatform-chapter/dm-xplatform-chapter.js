@@ -153,8 +153,16 @@ define(['angular',
 
                 });
             };
+        
 
-            
+            $scope.state.onRestart = function () {
+                $scope.state.startSecond = $scope.chapter.videodata.timestamp + 1;
+                $timeout (function () {
+                    $scope.state.startSecond = $scope.chapter.videodata.timestamp;
+                }, 500);
+
+            };
+
 
             var modalIsOpened = false;
             

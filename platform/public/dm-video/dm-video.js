@@ -18,14 +18,14 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
             + '</video></div>',
             link: function (scope, element) {
                 var $video = element.find('video')[0];
-                if (scope.dmControls) {
+                //if (scope.dmControls) {
                     $video.setAttribute('controls', true);
-                }
+                //}
                
                 if (scope.dmAutoHeight) {
                     var body = document.getElementsByClassName("player-wrapper")[0];
                     scope.body = body;
-                    $video.setAttribute('height', body.clientHeight);
+                    $video.setAttribute('height', body.clientHeight - 40);
                     
                     //scope.$watch('body.clientHeight', function (newHeight) {
                         //$video.setAttribute('height', newHeight);
