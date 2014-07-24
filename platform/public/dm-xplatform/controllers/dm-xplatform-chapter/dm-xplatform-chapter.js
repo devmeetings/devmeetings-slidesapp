@@ -11,6 +11,7 @@ define(['angular',
             var chapterIndex = parseInt($stateParams.index);
 
             var goToSecond = function () {
+                $scope.state.activeChapterPercentage = ($scope.state.currentSecond - $scope.chapter.videodata.timestamp) / $scope.state.length * 100;
                 if (!$scope.recordingPlayer.player) {
                     return;
                 }
@@ -46,13 +47,32 @@ define(['angular',
             // implement state interface
             
             $scope.state.onLeftButtonPressed = function () {
-            
+                if (chapterIndex === 0) {
+                    return;
+                }
+                $scope.state.isPlaying = false;
+                $scope.state.currentSecond = 0; //reset timer
+
+                $timeout(function () {
+                    $state.go('navbar.player.chapter', {
+                        index: parseInt(chapterIndex) - 1
+                    });
+                }, 500);
             };
 
             $scope.state.onRightButtonPressed = function () {
-                $scope.state.startSecond = $scope.chapter.videodata.timestamp + $scope.state.length - 5; 
+                //$scope.state.startSecond = $scope.chapter.videodata.timestamp + $scope.state.length - 5; 
+                
+                $scope.state.isPlaying = false;
+                $scope.state.currentSecond = 0; //reset timer
+
+                $timeout(function () {
+                    $state.go('navbar.player.chapter', {
+                        index: parseInt(chapterIndex) + 1
+                    });
+                }, 500);
             };
-            
+
 
             $scope.state.onSaveFile = function () {
                 
