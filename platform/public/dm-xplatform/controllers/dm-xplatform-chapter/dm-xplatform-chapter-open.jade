@@ -1,7 +1,7 @@
 .modal-header
     h1
         | Otwórz szkolenie
-.modal-body
+.modal-body.chapter-open
     .list-group
         a.list-group-item(ng-repeat='file in content.files', ng-click='selectFile($index)', ng-class='{active: $index === content.index}')
             b
