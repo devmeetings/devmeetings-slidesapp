@@ -22,7 +22,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
                     | &nbsp Restart 
         .navbar-left.player-center
             a.navbar-brand
-                span.fa.fa-step-backward(ng-click="state.onLeftButtonPressed()")
-                span.fa(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
-                span.fa.fa-step-forward(ng-click="state.onRightButtonPressed()")
+                span.fa.fa-step-backward.cursor-pointer(ng-click="state.onLeftButtonPressed()")
+                span.fa.cursor-pointer(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
+                span.fa.fa-step-forward.cursor-pointer(ng-click="state.onRightButtonPressed()")
 

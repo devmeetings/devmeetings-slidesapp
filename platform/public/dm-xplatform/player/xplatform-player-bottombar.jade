@@ -102,6 +102,6 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
           | &nbsp;Ankieta - wypelnij i wygraj karte Empiku
     .navbar-left.player-navbar-center 
       a.navbar-brand.player-brand-center
-        span.fa.player-icon.fa-step-backward(ng-click="moveBySeconds(-15)")
-        span.fa.player-icon(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
-        span.fa.player-icon.fa-step-forward(ng-click="moveBySeconds(15)")
+        span.fa.player-icon.fa-step-backward.cursor-pointer(ng-click="moveBySeconds(-15)")
+        span.fa.player-icon.cursor-pointer(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
+        span.fa.player-icon.fa-step-forward.cursor-pointer(ng-click="moveBySeconds(15)")
