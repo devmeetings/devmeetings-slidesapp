@@ -106,13 +106,6 @@ define(['angular',
                     resolve: {
                         files: function () {
                             return $scope.files;
-                                   /*return [{
-                                     title: '1'
-                                     }, {
-                                     title: '2'
-                                     }, { 
-                                     title: '3'
-                                     }]; */
                         },
                         modalData: function () {
                             return $scope.modalData;           
