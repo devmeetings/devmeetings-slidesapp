@@ -4,10 +4,10 @@ require(['angular',
     'xplatform/xplatform-app',
     'xplatform/navbar/xplatform-navbar',
     'xplatform/index/xplatform-index',
-    'xplatform/devhero/xplatform-devhero',
     'directives/plugins-loader',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
-    'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter'
+    'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
+    'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -35,7 +35,7 @@ require(['angular',
                 url: '/devhero',
                 views: {
                     content: {
-                        templateUrl: '/static/dm-xplatform/devhero/xplatform-devhero.html',
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                         controller: 'XplatformDevheroCtrl'
                     }
                 }
