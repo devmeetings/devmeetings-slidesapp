@@ -7,3 +7,4 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         }
     ]);
 });
+

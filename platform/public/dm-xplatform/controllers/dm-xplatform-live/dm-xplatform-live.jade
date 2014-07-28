@@ -18,4 +18,5 @@ div.col-lg-12.col-md-12.dm-live-table-container
                     img(ng-repeat='user in event.people | limitTo: 3', gravatar-src='user.mail', gravatar-size='25', ui-sref='navbar.devhero({id: user.userId})')
                     span(ng-if='event.people.length > 3') + {{event.people.length - 3}}
             td 
-                p Zapisz się
+                p(ng-if='!isRegistered', ng-click='register()') Zapisz się
+                p(ng-if='isRegistered') Zapisano
