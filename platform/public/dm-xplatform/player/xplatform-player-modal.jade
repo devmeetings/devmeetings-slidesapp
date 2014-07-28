@@ -1,0 +1,20 @@
+style. 
+  .player-modal-save {
+    background-color: black;
+    color: white;
+  }
+
+  .modal {
+    background-color: rgba(125,125,125,0.5);
+  }
+
+
+
+.modal-header
+  h1
+    | Save as
+.modal-body
+  input.form-control(type="text", ng-model="content.fileTitle")
+.modal-footer
+  button.btn.btn-success(ng-click="ok()")
+    | OK

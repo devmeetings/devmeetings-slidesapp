@@ -1,0 +1,18 @@
+.col-lg-2.col-md-2.dm-admin-div
+    .panel
+        .panel-heading
+            h2
+                | Trainings
+        .panel-body
+            .list-group(ui-sortable='updateTrainingsOrder', ng-model='trainings')
+                a.list-group-item(ng-repeat='training in trainings', ui-sref='index.trainings.chapters({id: training._id})', ui-sref-active='active')
+                    | {{training.title}}
+        .panel-footer
+            form.form-group(ng-submit='addTraining()')
+                .input-group
+                    input.form-control(type='text', ng-model='trainingsData.title')  
+                    span.input-group-btn
+                        button.btn.btn-default(type='submit') 
+                            | Add
+.col-lg-10.col-md-10.dm-admin-div
+    div(ui-view='training')

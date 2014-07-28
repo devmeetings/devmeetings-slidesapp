@@ -1,6 +1,6 @@
 /bin
 /public/components
-/public/js/bin
+/public/dm-slider/bin
 /public/slides/*.yaml
 /public/css/style.css
 /public/css/style-*.css

@@ -1,0 +1,28 @@
+.player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
+
+
+nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
+    .navbar-header
+        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+    .navbar-collapse.collapse.navbar-inverse-collapse
+        ul.player-list.player-left
+            li
+                button.btn.dropdown-toggle(type="button", ng-click="state.onOpenFile()")
+                    i.fa.fa-folder-open
+            li(ng-show="!state.isPlaying")
+                button.btn(type="button", ng-click="state.onSaveFile()")
+                    i.fa.fa-save
+        ul.player-list.player-right
+            li
+                button.btn(type="button", ng-click="state.onRestart()")
+                    i.fa.fa-smile-o
+                    | &nbsp Restart 
+        .navbar-left.player-center
+            a.navbar-brand
+                span.fa.fa-step-backward.cursor-pointer(ng-click="state.onLeftButtonPressed()")
+                span.fa.cursor-pointer(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
+                span.fa.fa-step-forward.cursor-pointer(ng-click="state.onRightButtonPressed()")
+

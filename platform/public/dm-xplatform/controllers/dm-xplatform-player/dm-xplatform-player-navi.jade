@@ -1,0 +1,5 @@
+.player-navi
+    .list-group
+        a.list-group-item(ng-class='{active: $index === state.chapterId}', ng-repeat='chapter in training.chapters', ng-click='goToChapter($index)')
+            span.pull-right
+            | {{chapter.title}} 

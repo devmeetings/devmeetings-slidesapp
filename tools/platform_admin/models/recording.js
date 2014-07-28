@@ -3,6 +3,8 @@ Schema = mongoose.Schema;
 
 var Recording = new Schema({
     title: String,
+    group: String,
+    date: Date,
     videoUrl: String,
     timeOffset: Number,
     slideId: String,
@@ -17,14 +19,9 @@ var Recording = new Schema({
     }
 });
 
-Recording.virtual('date')
-    .get( function () {
-        return this._id.getTimestamp();
-    });
-
 Recording.formage = {
-    list: ['title', 'videoUrl']
+    list: ['date', 'title', 'videoUrl']
 };
 
-module.exports = mongoose.model('Recording', Recording);
+module.exports = mongoose.model('recording', Recording);
 

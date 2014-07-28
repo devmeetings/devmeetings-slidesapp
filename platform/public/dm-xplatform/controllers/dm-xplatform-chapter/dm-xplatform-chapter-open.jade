@@ -1,0 +1,13 @@
+.modal-header
+    h1
+        | Otwórz szkolenie
+.modal-body.chapter-open
+    .list-group
+        a.list-group-item(ng-repeat='file in content.files', ng-click='selectFile($index)', ng-class='{active: $index === content.index}')
+            b
+                | {{file.title}}
+.modal-footer
+    button.btn.btn-default(ng-click='cancel()')
+        | Anuluj
+    button.btn.btn-success(ng-click='ok()')
+        | Otwórz

@@ -2,8 +2,7 @@ var RecordingModel = require('../models/recording');
 
 var Recordings = {
     list: function (req, res) {
-        console.log('REC LIST');
-        RecordingModel.find( function (err, recordings) {
+        RecordingModel.find({}, function (err, recordings) {
             if (err) {
                 console.error(err);
                 res.send(404, err);

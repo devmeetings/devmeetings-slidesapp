@@ -1,0 +1,107 @@
+style.
+  .player-bottombar {
+    background-color: #224a70;
+  }
+  .player-navbar-center {
+    float: none !important;
+    text-align: center;
+  }
+
+  .player-brand-center {
+    float: none;
+    display: inline-block;
+  }
+
+  .player-icon {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .player-top-bottombar {
+    height: 5px;
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    background-color: rgb(7,136,177);
+    z-index: 1000;
+    -webkit-transition: width 0.2s ease-in-out;
+    -moz-transition: width 0.2s ease-in-out;
+    -o-transition: width 0.2s ease-in-out;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .player-navbar-left {
+    z-index: 1001;
+    position: absolute;
+    left: 0px;
+    bottom: 6px;
+    margin: 0px;
+    float: none !important;
+    padding-left: 20px;
+  }
+
+  .player-navbar-right {
+    z-index: 10002;
+    position: absolute;
+    right: 0px;
+    bottom: 6px;
+    margin: 0px;
+    float: none !important;
+    padding-right: 20px;
+  }
+
+  .player-load-list {
+    max-height: 400px;
+    width: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px !important;
+  }
+
+  .save-group {
+    width: 250px;
+    margin-bottom: -16px;
+  }
+
+  .bottombar-button {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+  }
+
+.player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
+
+
+nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
+  .navbar-header
+    button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+  .navbar-collapse.collapse.navbar-inverse-collapse
+    ul.player-navbar-left
+      li.inline-item(ng-show="files.length > 0")
+        .dropup
+          button.btn.dropdown-toggle.bottombar-button(type="button", data-toggle="dropup")
+            i.fa.fa-folder-open
+            | &nbsp;Open
+          .dropdown-menu.list-group.player-load-list
+            a.list-group-item(ng-repeat="file in files", ng-click="openFile($index)")
+              span.pull-right(am-time-ago="file.date")
+              b 
+                | {{file.title}}
+      li.inline-item(ng-show="!state.isPlaying")
+        button.btn.bottombar-button(type="button", ng-click="saveFile()")
+          i.fa.fa-save
+          | &nbsp;Save
+    ul.player-navbar-right
+      li.inline-item
+        button.btn.bottombar-button(type="button")
+          a.xplatform-index-item(target="_blank", href="https://docs.google.com/forms/d/1F91oqRZCYzP__r6zCAGjAP_vEQ6NlaquZChfgAc4Xl8/viewform")
+          i.fa.fa-smile-o
+          | &nbsp;Ankieta - wypelnij i wygraj karte Empiku
+    .navbar-left.player-navbar-center 
+      a.navbar-brand.player-brand-center
+        span.fa.player-icon.fa-step-backward.cursor-pointer(ng-click="moveBySeconds(-15)")
+        span.fa.player-icon.cursor-pointer(ng-class="{'fa-play':!state.isPlaying, 'fa-pause':state.isPlaying}", ng-click="state.isPlaying = !state.isPlaying")
+        span.fa.player-icon.fa-step-forward.cursor-pointer(ng-click="moveBySeconds(15)")

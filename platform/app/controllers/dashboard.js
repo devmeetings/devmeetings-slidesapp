@@ -13,11 +13,11 @@ var Dashboard = {
         Q.all([deckPromise, eventPromise, recordingPromise]).then(function (arr) {
             var recordingSection = function (){
                 return {
-                    title: 'Player',
+                    title: 'Szkolenia',
                     items: _.map(arr[2], function (item) {
                         return {
                             title: item.title,
-                            url: 'navbar.player({id: "' + item._id + '"})',
+                            url: 'player({id: "' + item._id + '"})',
                             urlType: 'router'
                         };
                     })

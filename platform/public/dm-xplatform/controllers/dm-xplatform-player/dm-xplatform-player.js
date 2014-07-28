@@ -1,0 +1,48 @@
+define(['angular',
+        'xplatform/xplatform-app'
+], function (angular, xplatformApp) {   
+    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', 'dmTrainings',
+        function ($scope, $timeout, $state, $stateParams, dmTrainings) {
+
+
+            $scope.state = {
+                isPlaying: false, 
+                currentSecond: 0,
+                startSecond: 0,
+                videoHeight: 850,
+                autoHeight: true,
+                length: 0,              // slide should and when is currentSecond + length
+                chapterId: undefined,
+                onLeftButtonPressed: undefined,
+                onRightButtonPressed: undefined,
+                onSaveFile: undefined,
+                onOpenFile: undefined,
+                activeChapterPercentage: 0
+            };
+            
+            $scope.recordingPlayer = {
+                //player
+                //slide
+            };
+
+            var trainingId = $stateParams.id;
+            dmTrainings.getTrainingWithId(trainingId).then( function (training) {
+                $scope.training = training;
+                $scope.navbar.title = 'Podstawy JavaScript';// training.title;
+                $scope.navbar.showTitle = true;
+            });
+            
+            $scope.goToChapter = function (index) {
+                $scope.state.isPlaying = false;
+                $scope.state.currentSecond = 0;
+                
+                $timeout(function () {
+                    $state.go('navbar.player.chapter', {index: index});
+                }, 500);
+            };
+
+            
+        }
+    ]);
+});
+

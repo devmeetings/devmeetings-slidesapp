@@ -1,0 +1,7 @@
+.col-md-12
+  xplatform-deckgrid(ng-repeat="board in dashboard.sections", title="board.title", elements="board.items")
+    h4
+      | {{card.title}}
+    a.col-md-12.xplatform-index-item(ng-show="card.urlType === 'static'", ng-href="{{card.url}}")
+    a.col-md-12.xplatform-index-item(ng-show="card.urlType === 'router'", ui-sref="{{card.url}}")
+

@@ -1,0 +1,10 @@
+extends ../layouts/main
+
+append scripts
+  script(src='/static/components/requirejs/require.js')
+  script(src='/static/config.js')
+  script(src='/static/dm-admin/dm-admin-config.js')
+
+block content
+  div(ui-view)
+

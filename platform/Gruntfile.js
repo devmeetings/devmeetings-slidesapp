@@ -12,11 +12,11 @@ module.exports = function(grunt) {
     var rjsOptimizationModule = function(module) {
         return {
             options: {
-                baseUrl: "public/js",
-                mainConfigFile: "public/js/config.js",
+                baseUrl: "public/dm-slider",
+                mainConfigFile: "public/config.js",
                 findNestedDependencies: true,
                 name: module, // assumes a production build using almond
-                out: "public/js/bin/" + module + ".js",
+                out: "public/dm-slider/bin/" + module + ".js",
                 paths: {
                     "slider/bootstrap": "bin/bootstrap",
                     "require/plugins/paths": "../../bin/plugins_paths",
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         copy: {
             theme: {
-                src: 'public/js/theme-todr.js',
+                src: 'public/dm-slider/theme-todr.js',
                 dest: 'public/components/ace-builds/src-noconflict/theme-todr.js'
             }
         },
@@ -77,14 +77,14 @@ module.exports = function(grunt) {
                 }
             },
             js: {
-                files: ['public/js/**/*.js', 'public/plugins/**/*.js'],
+                files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js'],
                 tasks: ['jshint:public', 'complexity'],
                 options: {
                     livereload: true
                 }
             },
             jade: {
-                files: ['public/plugins/**/*.jade'],
+                files: ['public/dm-plugins/**/*.jade'],
                 tasks: [],
                 options: {
                     livereload: true
@@ -102,7 +102,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            public: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', '!public/js/bin/**'],
+            public: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', '!public/dm-slider/bin/**'],
             server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
         },
         less: {
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
         },
         complexity: {
             build: {
-                src: ['public/js/**/*.js', 'public/plugins/**/*.js', '!public/js/theme-todr.js', "!public/js/config.js", /* Because of hashCode function */ '!public/plugins/slide-microtasks/microtasks.js', '!public/js/data-*.js', '!public/js/bin/**'],
+                src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', '!public/dm-slider/data-*.js', '!public/dm-slider/bin/**'],
                 options: {
                     breakOnErrors: true,
                     errorsOnly: true,
@@ -165,20 +165,20 @@ module.exports = function(grunt) {
         var async = this.async();
 
         var glob = require('glob');
-        glob("public/plugins/**/*.js", function(err, files) {
+        glob("public/dm-plugins/**/*.js", function(err, files) {
             if (err) {
                 throw new Error("Cannot find plugins");
             }
             files = files.map(function(file) {
-                return file.replace(/.js$/, '').replace(/^public\//, '');
+                return file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
             });
 
             var mkdirp = require('mkdirp');
             mkdirp('bin', function() {
 
-                var bootstrap = grunt.file.read('public/js/slider/bootstrap-prod.js');
+                var bootstrap = grunt.file.read('public/dm-slider/slider/bootstrap-prod.js');
                 bootstrap = bootstrap.replace('"<plugins>"', JSON.stringify(files));
-                grunt.file.write("public/js/bin/bootstrap.js", bootstrap);
+                grunt.file.write("public/dm-slider/bin/bootstrap.js", bootstrap);
 
                 async();
             });
