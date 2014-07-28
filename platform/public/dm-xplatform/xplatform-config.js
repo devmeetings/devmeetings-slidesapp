@@ -68,7 +68,7 @@ require(['angular',
                 views: {
                     content: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
-                        controller: 'XplatformDevheroCtrl'
+                        controller: 'dmXplatformDevhero'
                     }
                 }
             });
@@ -95,7 +95,8 @@ require(['angular',
 
             $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
             //$urlRouterProvider.otherwise('/player/53ce34758fb745d156d54301/0');
-            $urlRouterProvider.otherwise('/index');
+            $urlRouterProvider.when('/index', '/live');
+            $urlRouterProvider.otherwise('/index/live');
         }
     ]);
     bootstrap('xplatform');
