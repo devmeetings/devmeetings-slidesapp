@@ -23,5 +23,5 @@ Recording.formage = {
     list: ['date', 'title', 'videoUrl']
 };
 
-module.exports = mongoose.model('Recording', Recording);
+module.exports = mongoose.model('recording', Recording);
 

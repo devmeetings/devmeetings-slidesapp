@@ -3,8 +3,9 @@ var mongoose = require('mongoose'),
 
 var PlayerSave = new Schema({
     title: String,
-    recordingId: Schema.ObjectId,
+    trainingId: Schema.ObjectId,
     userId: Schema.ObjectId,
+    chapter: Number,
     second: Number,
     slide: Schema.Types.Mixed,
     date: Date
