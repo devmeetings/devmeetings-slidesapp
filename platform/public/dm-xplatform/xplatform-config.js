@@ -63,7 +63,8 @@ require(['angular',
             });
 
             $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
-            $urlRouterProvider.otherwise('/player/53ce34758fb745d156d54301/0');
+            //$urlRouterProvider.otherwise('/player/53ce34758fb745d156d54301/0');
+            $urlRouterProvider.otherwise('/index');
         }
     ]);
     bootstrap('xplatform');

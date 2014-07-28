@@ -3,7 +3,7 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
     var path = ExtractPath(module);
    
 
-    angular.module('xplatform').controller('XplatformDeckgridCtrl', function($scope, $transclude) {
+    /*angular.module('xplatform').controller('XplatformDeckgridCtrl', function($scope, $transclude) {
         this.renderElement = $transclude;
     }).directive('xplatformDeckgrid', [ function () {
         return {
@@ -27,16 +27,22 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
                 });
             }
         }
-    }]);
+    }]);*/
     
     
     angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
 
         $scope.navbar.showTitle = false;
 
-        $http.get('/api/dashboard').success( function (dashboard) {
+        $scope.sections = [
+            'Szkolenia na żywo',
+            'Szkolenia online',
+            'Videoszkolenia'
+        ];  
+
+        /*$http.get('/api/dashboard').success( function (dashboard) {
             $scope.dashboard = dashboard; 
-        });
+        });*/
 
     }]); 
 });
