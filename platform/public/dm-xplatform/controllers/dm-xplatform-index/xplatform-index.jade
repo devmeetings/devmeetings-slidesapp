@@ -1,7 +1,7 @@
 .col-md-12.col-lg-12.dm-xplatform-index-div
     .col-md-2.col-lg-2.dm-xplatform-index-left
         .list-group
-            a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}')
+            a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}', ui-sref-active='dm-index-active')
                 {{section.title}}
                 .dm-xplatform-bottomstripe
     .col-md-10.col-lg-10.dm-xplatform-index-right
