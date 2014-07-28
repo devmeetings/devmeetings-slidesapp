@@ -1,6 +1,0 @@
-include xplatform-player-navi.jade
-.col-lg-12.col-md-12
-  .xplatform-player-fullscreen 
-    videojs(height="610", src="state.videoUrl", video-length="state.videoLength", current-second="state.currentSecond", is-playing="state.isPlaying", controls='true', data-playing="{{state.isPlaying}}")
-    plugins-loader(namespace="'slide'", context="slide", data-playing="{{state.isPlaying}}")
-include xplatform-player-bottombar.jade

@@ -5,7 +5,6 @@ require(['angular',
     'xplatform/navbar/xplatform-navbar',
     'xplatform/index/xplatform-index',
     'xplatform/devhero/xplatform-devhero',
-    'xplatform/player/xplatform-player',
     'directives/plugins-loader',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter'
