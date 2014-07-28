@@ -1,2 +1,14 @@
-h1
-    | Hello Live!
+div.col-lg-12.col-md-12
+    table.table.dm-live-table
+        tr
+            th Temat szkolenia
+            th Data
+            th Trener
+            th Uczestnicy
+            th 
+        tr(ng-repeat='event in events')
+            td.dm-live-blue {{event.title}}
+            td {{event.date | amCalendar}}
+            td.dm-live-blue {{event.trainer}}
+            td {{event.people}}
+            td Zapisz się
