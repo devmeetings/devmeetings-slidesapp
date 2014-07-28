@@ -7,7 +7,10 @@ require(['angular',
     'directives/plugins-loader',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
-    'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero'
+    'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
+    'xplatform/controllers/dm-xplatform-live/dm-xplatform-live',
+    'xplatform/controllers/dm-xplatform-online/dm-xplatform-online',
+    'xplatform/controllers/dm-xplatform-video/dm-xplatform-video'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -29,7 +32,36 @@ require(['angular',
                     }
                 }
             });
+            
+            $stateProvider.state('navbar.index.live', {
+                url: '/live',
+                views: {
+                    list: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-live/dm-xplatform-live.html',
+                        controller: 'dmXplatformLive'
+                    }
+                }
+            });
 
+            $stateProvider.state('navbar.index.online', {
+                url: '/online',
+                views: {
+                    list: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-online/dm-xplatform-online.html',
+                        controller: 'dmXplatformOnline'
+                    }
+                }
+            });
+
+            $stateProvider.state('navbar.index.video', {
+                url: '/video',
+                views: {
+                    list: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-video/dm-xplatform-video.html',
+                        controller: 'dmXplatformVideo'
+                    }
+                }
+            });
 
             $stateProvider.state('navbar.devhero', {
                 url: '/devhero',

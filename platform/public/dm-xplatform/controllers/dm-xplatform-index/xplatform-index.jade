@@ -1,12 +1,11 @@
 .col-md-12.col-lg-12.dm-xplatform-index-div
     .col-md-2.col-lg-2.dm-xplatform-index-left
         .list-group
-            a.list-group-item(ng-repeat='section in sections')
-                {{section}}
+            a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}')
+                {{section.title}}
                 .dm-xplatform-bottomstripe
-
     .col-md-10.col-lg-10.dm-xplatform-index-right
-
+        div(ui-view='list')
 
   //xplatform-deckgrid(ng-repeat="board in dashboard.sections", title="board.title", elements="board.items")
     h4

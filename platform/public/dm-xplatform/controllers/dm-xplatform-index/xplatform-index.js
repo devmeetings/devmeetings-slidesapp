@@ -34,11 +34,16 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
 
         $scope.navbar.showTitle = false;
 
-        $scope.sections = [
-            'Szkolenia na żywo',
-            'Szkolenia online',
-            'Videoszkolenia'
-        ];  
+        $scope.sections = [{
+            title: 'Szkolenia na żywo',
+            sref: 'navbar.index.live'
+        }, {
+            title: 'Szkolenia online',
+            sref: 'navbar.index.online'
+        }, {
+            title: 'Videoszkolenia',
+            sref: 'navbar.index.video'
+        }];  
 
         /*$http.get('/api/dashboard').success( function (dashboard) {
             $scope.dashboard = dashboard; 
