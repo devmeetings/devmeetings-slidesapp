@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('User', new mongoose.Schema({
+module.exports = mongoose.model('user', new mongoose.Schema({
     userId: { type: String, required: true, default: new mongoose.Types.ObjectId() },
     name: { type: String, required: true },
     email: { type: String },

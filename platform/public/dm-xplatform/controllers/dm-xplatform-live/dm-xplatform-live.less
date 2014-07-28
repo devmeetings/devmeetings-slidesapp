@@ -1,3 +1,8 @@
+.dm-live-table-container {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
 table.table.dm-live-table {
     margin-top: 15px;
     tr th {
@@ -10,9 +15,41 @@ table.table.dm-live-table {
     tr td {
         border-top-width: 0px;
         color: rgb(180,180,180);
+        border-bottom: solid 1px rgb(40,40,40);
+        height: 55px;
+        
+        > div, > p {
+            padding-top: 10px;
+            cursor: pointer;
+            margin: 0px;
+        }
     }
 
     tr td.dm-live-blue {
         color: #5aabcb;
+    }
+
+    tr td.dm-live-avatars {
+        > p, > div {
+            padding-top: 5px;
+            float: left;
+            > span, > img {
+                float: left;
+                border: 1px solid #5b5b5b;
+                color: #5b5b5b;
+                border-radius: 2px;
+                width: 25px;
+                height: 25px;
+                background-color: rgb(47,47,47);
+                margin-left: 2px;
+            }
+            > span {
+                padding-top: 4px;
+                font-size: 12px;
+                text-align: right;
+                padding-right: 2px;
+                font-weight: bold;
+            }
+        }
     }
 }

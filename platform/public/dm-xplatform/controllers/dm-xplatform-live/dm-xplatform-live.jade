@@ -1,4 +1,4 @@
-div.col-lg-12.col-md-12
+div.col-lg-12.col-md-12.dm-live-table-container
     table.table.dm-live-table
         tr
             th Temat szkolenia
@@ -7,8 +7,15 @@ div.col-lg-12.col-md-12
             th Uczestnicy
             th 
         tr(ng-repeat='event in events')
-            td.dm-live-blue {{event.title}}
-            td {{event.date | amCalendar}}
-            td.dm-live-blue {{event.trainer}}
-            td {{event.people}}
-            td Zapisz się
+            td.dm-live-blue
+                p {{event.title}}
+            td
+                p {{event.date | amCalendar}}
+            td.dm-live-blue
+                p(ui-sref='navbar.devhero({id: event.trainer.userId})') {{event.trainer.name}}
+            td.dm-live-avatars 
+                div 
+                    img(ng-repeat='user in event.people | limitTo: 3', gravatar-src='user.mail', gravatar-size='25', ui-sref='navbar.devhero({id: user.userId})')
+                    span(ng-if='event.people.length > 3') + {{event.people.length - 3}}
+            td 
+                p Zapisz się

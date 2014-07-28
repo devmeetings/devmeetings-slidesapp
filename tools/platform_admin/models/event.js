@@ -5,11 +5,27 @@ var Event = new Schema({
     title: String,
     date: Date,
     description: String,
-    trainer: String,
+    trainer: {
+        name: {
+            type: String      
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
+    },
     peopleLimit: Number,
-    people: [String]
+    people: [{
+        mail: {
+            type: String      
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
+    }]
 });
 
-module.exports = mongoose.model('Event', Event);
+module.exports = mongoose.model('event', Event);
 
 
