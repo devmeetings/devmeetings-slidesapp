@@ -101,17 +101,6 @@ define(['angular',
                 $scope.recordingPlayer.length = $scope.recordingPlayer.player.length();
                 
             });
-            
-    
-            /*
-            $scope.recordings = [{
-                title: 'hej',
-                group: 'grupa1'
-            }, {
-                title: 'hej1',
-                group: 'title2'
-            }];
-            */
         }
     ]);
 });
