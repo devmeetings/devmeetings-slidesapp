@@ -2,8 +2,8 @@ require(['angular',
     'angular-ui-router',
     'slider/bootstrap',
     'xplatform/xplatform-app',
-    'xplatform/navbar/xplatform-navbar',
-    'xplatform/index/xplatform-index',
+    'xplatform/controllers/dm-xplatform-navbar/xplatform-navbar',
+    'xplatform/controllers/dm-xplatform-index/xplatform-index',
     'directives/plugins-loader',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
@@ -14,7 +14,7 @@ require(['angular',
             $stateProvider.state('navbar', {
                 views: {
                     navbar: {
-                        templateUrl: '/static/dm-xplatform/navbar/xplatform-navbar.html',
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-navbar/xplatform-navbar.html',
                         controller: 'XplatformNavbarCtrl'
                     }
                 }
@@ -24,7 +24,7 @@ require(['angular',
                 url: '/index',
                 views: {
                     content: {
-                        templateUrl: '/static/dm-xplatform/index/xplatform-index.html',
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-index/xplatform-index.html',
                         controller: 'XplatformIndexCtrl'
                     }
                 }
