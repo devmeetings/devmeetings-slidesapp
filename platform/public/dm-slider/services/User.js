@@ -1,10 +1,10 @@
 define(['slider/slider.plugins', 'services/Sockets'], function(sliderPlugins, Sockets) {
-    sliderPlugins.factory('User', ['Sockets', '$rootScope',
-        function(Sockets, $rootScope) {
+    sliderPlugins.factory('User', ['Sockets', '$rootScope', '$q',
+        function(Sockets, $rootScope, $q) {
             var userData;
 
             return {
-                getUserData: function(callback) {
+                getUserData: function(callback) {  // deprecated
                     if (!userData) {
                         Sockets.emit('getUserData');
                         Sockets.on('userData', function(data) {
@@ -16,6 +16,21 @@ define(['slider/slider.plugins', 'services/Sockets'], function(sliderPlugins, So
                     } else {
                         callback(userData);
                     }
+                },
+                currentUser: function() {
+                    var result = $q.defer();
+                    if (userData) {
+                        result.resolve(userData);
+                        return result.promise;
+                    }
+
+                    Sockets.emit('getUserData');
+                    Sockets.on('userData', function (data) {
+                        userData = data;
+                        result.resolve(userData);
+                    });
+
+                    return result.promise;
                 }
             };
         }

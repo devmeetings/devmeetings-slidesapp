@@ -1,7 +1,7 @@
 var Event = require('../models/event');
 var _ = require('lodash');
 
-var EventsCtrl = {
+var Events = {
     list: function (req, res) {
         Event.find(function (err, events) {
             if (err) {
@@ -11,8 +11,11 @@ var EventsCtrl = {
             }
             res.send(events);
         });
+    },
+    register: function (req, res) {
+                 
     }
 };
 
-module.exports = EventsCtrl;
+module.exports = Events;
 
