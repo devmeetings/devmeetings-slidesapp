@@ -15,16 +15,9 @@ define(['angular',
             
             var setupChapter = function () {
                 $scope.chapter = angular.copy($scope.training.chapters[$stateParams.index]);
-                if ($scope.chapter.videodata === undefined) {
-                    $scope.chapter.videodata = {};
-                }
-                if ($scope.chapter.taskdata === undefined) {
-                    $scope.chapter.taskdata = {};
-                }
-
-                if ($scope.chapter.videodata.recordingTime === undefined) {
-                    $scope.chapter.videodata.recordingTime = 0;
-                }
+                $scope.chapter.videodata = $scope.chapter.videodata || {}
+                $scope.chapter.taskdata = $scope.chapter.taskdata || {};
+                $scope.chapter.videodata.recordingTime = $scope.chapter.videodata.recordingTime || 0;
                 setupRecordings();
             };
 
