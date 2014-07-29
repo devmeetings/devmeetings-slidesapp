@@ -48,6 +48,11 @@ module.exports = function(app) {
     var users = require('../app/controllers/users');
     app.get('/api/users/:id', authenticated, users.get);
 
+    var observes = require('../app/controllers/observes');
+    app.get('/api/observes',  authenticated, observes.get);
+    app.post('/api/observes', authenticated, observes.observe);
+    app.delete('/api/observes/:id', authenticated, observes.unobserve);
+
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);

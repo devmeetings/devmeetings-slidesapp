@@ -10,7 +10,8 @@ define(['angular',
         'slider/slider.plugins',
         'dm-video',
         'dm-training',
-        'dm-user'
+        'dm-user',
+        'dm-observe'
 ], function (angular, angularRouter, angularDeckgrid, angularGravatar, angularSlider, angularMoment, angularHotkeys, angularBootstrap, slider) {
-    return angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router', 'slider.plugins', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'ui.bootstrap', 'dm-video', 'dm-training', 'dm-user']); 
+    return angular.module('xplatform', ['akoenig.deckgrid', 'slider', 'ui.gravatar', 'ui.router', 'slider.plugins', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'ui.bootstrap', 'dm-video', 'dm-training', 'dm-user', 'dm-observe']); 
 });

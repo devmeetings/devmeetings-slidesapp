@@ -8,7 +8,8 @@
         p.dm-devhero-info Wroclaw
         p.dm-devhero-info devhero.org
     .col-md-12.dm-devhero-buttons
-        button.btn Obserwuj
+        button.btn(ng-if='canBeObserved', ng-click='observe()') Obserwuj
+        button.btn(ng-if='!canBeObserved', ng-click='unobserve()') Zrezygnuj
         button.btn Wiadomosc
     .col-md-12
         p 

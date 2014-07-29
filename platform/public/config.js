@@ -39,7 +39,8 @@ require.config({
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
         "dm-video" : "../dm-video/dm-video",
         "dm-training" : "../dm-training/dm-training",
-        "dm-user" : "../dm-user/dm-user"
+        "dm-user" : "../dm-user/dm-user",
+        "dm-observe" : "../dm-observe/dm-observe"
     },
     "map": {
         "*": {
@@ -132,6 +133,9 @@ require.config({
         },
         "dm-user" : {
             "deps" :["angular"]
+        },
+        "dm-observe" : {
+            "deps" :["angular", "_"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]
