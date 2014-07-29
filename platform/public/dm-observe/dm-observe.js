@@ -1,12 +1,12 @@
 'use strict'
 angular.module('dm-observe', []).factory('dmObserve', ['$http', '$q', function ($http, $q) {
-    var data;
+    var data = {};
     var result;
     var pending = {};
 
 
     var resolveCanBeObserved = function (value, key) { 
-        var single = _.find(data.observed, function (observed) {
+        var single = _.find(data.result.observed, function (observed) {
             return observed.userId === key;
         });
 
@@ -21,8 +21,8 @@ angular.module('dm-observe', []).factory('dmObserve', ['$http', '$q', function (
 
             result = $q.defer();
             $http.get('/api/observes').success(function (observe) {
-                result.resolve(observe);
-                data = observe;
+                data.result = observe;
+                result.resolve(data);
                 _.forEach(pending, function (value, key) {
                     resolveCanBeObserved(value, key);
                 });
@@ -46,13 +46,27 @@ angular.module('dm-observe', []).factory('dmObserve', ['$http', '$q', function (
             resolveCanBeObserved(can, id);
             return can.promise;
         },
-        observe: function (id) {
-            return $http.post('/api/observes', {
+        observe: function (id, name, mail) {
+            $http.post('/api/observes', {
                 id: id
+            });
+            data.result.observed.push({
+                userId: id,
+                name: name,
+                mail: mail
             });
         },
         unobserve: function (id) {
-            return $http.delete('/api/observes/' + id);
+            $http.delete('/api/observes/' + id);
+            var index =_.findIndex(data.result.observed, function (observed) {
+                return observed.userId === id;
+            });
+            
+            if (index === -1) {
+                return;
+            }
+
+            data.result.observed.splice(index, 1);
         }
     }
 }]);

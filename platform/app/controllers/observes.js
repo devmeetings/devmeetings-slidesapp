@@ -49,6 +49,7 @@ var Observes = {
 
             observe.observed.push({
                 name: user.name,
+                mail: user.email,
                 userId: observedId
             });
 

@@ -13,7 +13,7 @@ define(['angular', '_', 'angular-gravatar', 'xplatform/xplatform-app', 'slider/s
         });
 
         $scope.observe = function () {
-            dmObserve.observe($scope.user._id);
+            dmObserve.observe($scope.user._id, $scope.user.name, $scope.user.email);
             $scope.canBeObserved = false;
         };
 

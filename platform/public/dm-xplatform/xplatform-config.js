@@ -9,7 +9,8 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
     'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
     'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
-    'xplatform/controllers/dm-xplatform-table/dm-xplatform-table'
+    'xplatform/controllers/dm-xplatform-table/dm-xplatform-table',
+    'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -64,6 +65,10 @@ require(['angular',
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                         controller: 'dmXplatformDevhero'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
+                        controller: 'dmXplatformObserved'
                     }
                 },
                 onEnter: function ($rootScope) {

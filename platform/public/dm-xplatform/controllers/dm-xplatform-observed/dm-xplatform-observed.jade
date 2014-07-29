@@ -1,0 +1,5 @@
+.col-md-12
+    .list-group
+        a.list-group-item(ng-repeat='user in observed')
+            img(gravatar-size='25', gravatar-src='user.mail')
+            | {{user.name}}
