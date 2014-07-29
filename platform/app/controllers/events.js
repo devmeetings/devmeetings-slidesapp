@@ -3,7 +3,10 @@ var _ = require('lodash');
 
 var Events = {
     list: function (req, res) {
-        Event.find(function (err, events) {
+        var type = req.params.type;
+        Event.find({
+            type: type
+        },function (err, events) {
             if (err) {
                 console.error(err);
                 res.send(404);

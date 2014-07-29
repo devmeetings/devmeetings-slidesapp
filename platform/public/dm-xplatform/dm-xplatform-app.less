@@ -1,0 +1,59 @@
+.dm-table-container {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+table.table.dm-table {
+    margin-top: 15px;
+    tr th {
+        border: 0px;
+        font-weight: normal;
+        font-size: 12px;
+        color: rgb(60,60,60);
+    }
+
+    tr td {
+        border-top-width: 0px;
+        color: rgb(180,180,180);
+        border-bottom: solid 1px rgb(40,40,40);
+        height: 55px;
+        
+        > div, > p {
+            padding-top: 10px;
+            cursor: pointer;
+            margin: 0px;
+        }
+    }
+
+    tr td.dm-table-blue p {
+        color: #5aabcb;
+    }
+
+    tr td.dm-table-green p.green {
+        color: rgb(133,186,57)
+    }
+
+    tr td.dm-table-avatars {
+        > p, > div {
+            padding-top: 5px;
+            float: left;
+            > span, > img {
+                float: left;
+                border: 1px solid #5b5b5b;
+                color: #5b5b5b;
+                border-radius: 2px;
+                width: 25px;
+                height: 25px;
+                background-color: rgb(47,47,47);
+                margin-left: 2px;
+            }
+            > span {
+                padding-top: 4px;
+                font-size: 12px;
+                text-align: right;
+                padding-right: 2px;
+                font-weight: bold;
+            }
+        }
+    }
+}

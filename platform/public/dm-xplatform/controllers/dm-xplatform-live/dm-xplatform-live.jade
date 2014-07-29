@@ -1,22 +1,25 @@
-div.col-lg-12.col-md-12.dm-live-table-container
-    table.table.dm-live-table
+div.col-lg-12.col-md-12.dm-table-container
+    table.table.dm-table
         tr
             th Temat szkolenia
             th Data
+            th Technologia
             th Trener
             th Uczestnicy
             th 
         tr(ng-repeat='event in events | filter: navbar.searchText')
-            td.dm-live-blue
+            td.dm-table-blue
                 p {{event.title}}
             td
                 p {{event.date | amCalendar}}
-            td.dm-live-blue
+            td.dm-table-green
+                p.green {{event.technology}}
+            td.dm-table-blue
                 p(ui-sref='navbar.devhero({id: event.trainer.userId})') {{event.trainer.name}}
-            td.dm-live-avatars 
+            td.dm-table-avatars 
                 div 
                     img(ng-repeat='user in event.people | limitTo: 3', gravatar-src='user.mail', gravatar-size='25', ui-sref='navbar.devhero({id: user.userId})')
                     span(ng-if='event.people.length > 3') + {{event.people.length - 3}}
-            td.dm-live-green 
+            td.dm-table-green 
                 p(ng-if='!isRegistered(event)', ng-click='register(event)') Zapisz się
                 p.green(ng-if='isRegistered(event)') Zapisano

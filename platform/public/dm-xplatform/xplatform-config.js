@@ -8,9 +8,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
     'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
-    'xplatform/controllers/dm-xplatform-live/dm-xplatform-live',
-    'xplatform/controllers/dm-xplatform-online/dm-xplatform-online',
-    'xplatform/controllers/dm-xplatform-video/dm-xplatform-video'
+    'xplatform/controllers/dm-xplatform-live/dm-xplatform-live'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -33,8 +31,8 @@ require(['angular',
                 }
             });
             
-            $stateProvider.state('navbar.index.live', {
-                url: '/live',
+            $stateProvider.state('navbar.index.table', {
+                url: '/:type',
                 views: {
                     list: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-live/dm-xplatform-live.html',
@@ -42,27 +40,7 @@ require(['angular',
                     }
                 }
             });
-
-            $stateProvider.state('navbar.index.online', {
-                url: '/online',
-                views: {
-                    list: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-online/dm-xplatform-online.html',
-                        controller: 'dmXplatformOnline'
-                    }
-                }
-            });
-
-            $stateProvider.state('navbar.index.video', {
-                url: '/video',
-                views: {
-                    list: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-video/dm-xplatform-video.html',
-                        controller: 'dmXplatformVideo'
-                    }
-                }
-            });
-
+            
             $stateProvider.state('navbar.devhero', {
                 url: '/devhero/:id',
                 views: {
@@ -72,6 +50,7 @@ require(['angular',
                     }
                 }
             });
+            
 
             $stateProvider.state('navbar.player', {
                 url: '/player/:id',

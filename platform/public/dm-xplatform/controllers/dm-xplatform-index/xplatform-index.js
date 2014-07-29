@@ -8,13 +8,13 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
 
         $scope.sections = [{
             title: 'Szkolenia na żywo',
-            sref: 'navbar.index.live'
+            sref: 'live'
         }, {
             title: 'Szkolenia online',
-            sref: 'navbar.index.online'
+            sref: 'online'
         }, {
             title: 'Videoszkolenia',
-            sref: 'navbar.index.video'
+            sref: 'video'
         }];  
 
     }]); 

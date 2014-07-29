@@ -32,7 +32,7 @@ module.exports = function(app) {
     app.get('/api/recordings/:id', authenticated, recordings.get);
 
     var events = require('../app/controllers/events');
-    app.get('/api/events', authenticated, events.list);
+    app.get('/api/events/:type', authenticated, events.list);
 
     var player = require('../app/controllers/player');
     app.get('/api/player/:id/:training', authenticated, player.userSaves);

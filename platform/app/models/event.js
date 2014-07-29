@@ -3,6 +3,12 @@ var mongoose = require('mongoose'),
 
 var Event = new Schema({
     title: String,
+    type: {
+        type: String,
+        enum: ['live', 'online', 'video'],
+        default: 'live'
+    },
+    technology: String,
     date: Date,
     description: String,
     trainer: {
