@@ -10,7 +10,7 @@
     .col-md-12.dm-devhero-buttons
         button.btn(ng-if='canBeObserved', ng-click='observe()') Obserwuj
         button.btn(ng-if='!canBeObserved', ng-click='unobserve()') Zrezygnuj
-        button.btn Wiadomosc
+        button.btn(ui-sref='navbar.index.message({id: user._id})') Wiadomosc
     .col-md-12
         p 
             | Przebyte szkolenia

@@ -10,7 +10,8 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
     'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
     'xplatform/controllers/dm-xplatform-table/dm-xplatform-table',
-    'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed'
+    'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
+    'xplatform/controllers/dm-xplatform-message/dm-xplatform-message'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -76,6 +77,27 @@ require(['angular',
                         left: 4,
                         mid: 4,
                         right: 4
+                    };
+                }
+            });
+
+            $stateProvider.state('navbar.index.message', {
+                url: '/message/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-message/dm-xplatform-message.html',
+                        controller: 'dmXplatformMessage'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
+                        controller: 'dmXplatformObserved'
+                    }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 8,
+                        mid: 4,
+                        right: 0
                     };
                 }
             });
