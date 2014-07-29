@@ -61,7 +61,7 @@ require(['angular',
             $stateProvider.state('navbar.index.devhero', {
                 url: '/devhero/:id',
                 views: {
-                    mid: {
+                    left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                         controller: 'dmXplatformDevhero'
                     }

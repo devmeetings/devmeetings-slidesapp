@@ -38,7 +38,8 @@ require.config({
         "coffee": "../components/coffee-script/extras/coffee-script",
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
         "dm-video" : "../dm-video/dm-video",
-        "dm-training" : "../dm-training/dm-training"
+        "dm-training" : "../dm-training/dm-training",
+        "dm-user" : "../dm-user/dm-user"
     },
     "map": {
         "*": {
@@ -128,6 +129,9 @@ require.config({
         },
         "dm-training" : {
             "deps" :["angular", "_"]
+        },
+        "dm-user" : {
+            "deps" :["angular"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]

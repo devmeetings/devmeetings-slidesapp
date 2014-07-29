@@ -2,6 +2,7 @@ define(['slider/slider.plugins', 'services/Sockets'], function(sliderPlugins, So
     sliderPlugins.factory('User', ['Sockets', '$rootScope', '$q',
         function(Sockets, $rootScope, $q) {
             var userData;
+            var result;
 
             return {
                 getUserData: function(callback) {  // deprecated
@@ -18,11 +19,10 @@ define(['slider/slider.plugins', 'services/Sockets'], function(sliderPlugins, So
                     }
                 },
                 currentUser: function() {
-                    var result = $q.defer();
-                    if (userData) {
-                        result.resolve(userData);
+                    if (result) {
                         return result.promise;
                     }
+                    result = $q.defer();
 
                     Sockets.emit('getUserData');
                     Sockets.on('userData', function (data) {

@@ -45,6 +45,9 @@ module.exports = function(app) {
     app.put('/api/trainings/:id', authenticated, trainings.edit);
     app.delete('/api/trainings/:id', authenticated, trainings.delete);
 
+    var users = require('../app/controllers/users');
+    app.get('/api/users/:id', authenticated, users.get);
+
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
