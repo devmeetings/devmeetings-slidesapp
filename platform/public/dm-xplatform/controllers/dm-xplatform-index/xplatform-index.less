@@ -12,7 +12,7 @@
 
     .dm-xplatform-index-left {
         background-color: rgb(33,33,33);
-
+        
         .list-group-item {
             background-color: transparent;
             border-width: 0px;
@@ -44,8 +44,22 @@
         }
     }
 
-    .dm-xplatform-index-right {
+    .dm-xplatform-index-mid {
         background-color: rgb(22,22,22);
+    }
+
+
+    .dm-xplatform-index-right {
+        background-color: red;    
+    }
+
+    .dm-xplatform-index-left,
+    .dm-xplatform-index-mid,
+    .dm-xplatform-index-right {
+        -webkit-transition: width 0.2s ease-in-out;
+        -moz-transition: width 0.2s ease-in-out;
+        -o-transition: width 0.2s ease-in-out;
+        transition: width 0.2s ease-in-out;
     }
 }
 

@@ -3,20 +3,24 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
     var path = ExtractPath(module);
     
     angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+        var className = '.dm-xplatform-index';
 
-        $scope.navbar.showTitle = false;
+        var changeWidthTo = function (className, width) {
+            var col = 'col-md-' + width;
+            var element = $('[class*="' + className + '"]');
+            element.removeClass();
+            element.addClass(className);
+            element.addClass(col);
+        }
 
-        $scope.sections = [{
-            title: 'Szkolenia na żywo',
-            sref: 'live'
-        }, {
-            title: 'Szkolenia online',
-            sref: 'online'
-        }, {
-            title: 'Videoszkolenia',
-            sref: 'video'
-        }];  
+        var reload = function () {
+            changeWidthTo('dm-xplatform-index-left', $scope.xplatformData.columns.left);
+            changeWidthTo('dm-xplatform-index-mid', $scope.xplatformData.columns.mid);
+            changeWidthTo('dm-xplatform-index-right', $scope.xplatformData.columns.right);
+        };
 
+        $scope.$watch('xplatformData.columns', reload);
+    
     }]); 
 });
 

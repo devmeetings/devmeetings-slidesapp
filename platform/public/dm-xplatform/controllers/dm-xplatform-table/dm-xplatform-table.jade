@@ -15,7 +15,7 @@ div.col-lg-12.col-md-12.dm-table-container
             td.dm-table-green
                 p.green {{event.technology}}
             td.dm-table-blue
-                p(ui-sref='navbar.devhero({id: event.trainer.userId})') {{event.trainer.name}}
+                p(ui-sref='navbar.index.devhero({id: event.trainer.userId})') {{event.trainer.name}}
             td.dm-table-avatars 
                 div 
                     img(ng-repeat='user in event.people | limitTo: 3', gravatar-src='user.mail', gravatar-size='25', ui-sref='navbar.devhero({id: user.userId})')

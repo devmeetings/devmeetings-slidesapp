@@ -8,6 +8,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
     'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
+    'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
     'xplatform/controllers/dm-xplatform-table/dm-xplatform-table'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
@@ -28,26 +29,49 @@ require(['angular',
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-index/xplatform-index.html',
                         controller: 'XplatformIndexCtrl'
                     }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData = {
+                        columns: {}
+                    };
                 }
             });
-            
-            $stateProvider.state('navbar.index.table', {
+           
+            $stateProvider.state('navbar.index.menu', {
                 url: '/:type',
                 views: {
-                    list: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-table/dm-xplatform-table.html',
                         controller: 'dmXplatformTable'
                     }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 10,
+                        right: 0
+                    };
                 }
             });
             
-            $stateProvider.state('navbar.devhero', {
+            $stateProvider.state('navbar.index.devhero', {
                 url: '/devhero/:id',
                 views: {
-                    content: {
+                    mid: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                         controller: 'dmXplatformDevhero'
                     }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 4,
+                        mid: 4,
+                        right: 4
+                    };
                 }
             });
             
