@@ -8,7 +8,7 @@
 
     .navbar-center.input-search(ng-if="!navbar.showTitle")
         img.ico-search(src="static/images/navbar/ico_search.png")
-        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...')
+        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='navbar.searchText')
         img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
     .navbar-center(ng-if="navbar.showTitle")
         span.nav-title

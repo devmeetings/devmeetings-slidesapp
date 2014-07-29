@@ -6,7 +6,7 @@ div.col-lg-12.col-md-12.dm-live-table-container
             th Trener
             th Uczestnicy
             th 
-        tr(ng-repeat='event in events')
+        tr(ng-repeat='event in events | filter: navbar.searchText')
             td.dm-live-blue
                 p {{event.title}}
             td
