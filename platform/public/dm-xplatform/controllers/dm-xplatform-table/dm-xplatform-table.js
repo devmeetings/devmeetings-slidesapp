@@ -1,5 +1,5 @@
 define(['angular', '_', 'xplatform/xplatform-app'], function (angular, _, xplatformApp) {
-    xplatformApp.controller('dmXplatformLive', ['$scope', '$http', '$q', '$stateParams', 'User',
+    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$q', '$stateParams', 'User',
         function ($scope, $http, $q, $stateParams, User) {
             var type = $stateParams.type;
             $q.all([$http.get('/api/events/' + type), User.currentUser()]).then(function (arr) {

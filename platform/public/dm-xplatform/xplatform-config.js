@@ -8,7 +8,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
     'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
     'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
-    'xplatform/controllers/dm-xplatform-live/dm-xplatform-live'
+    'xplatform/controllers/dm-xplatform-table/dm-xplatform-table'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -35,8 +35,8 @@ require(['angular',
                 url: '/:type',
                 views: {
                     list: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-live/dm-xplatform-live.html',
-                        controller: 'dmXplatformLive'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-table/dm-xplatform-table.html',
+                        controller: 'dmXplatformTable'
                     }
                 }
             });
