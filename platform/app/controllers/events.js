@@ -9,10 +9,23 @@ var Events = {
         },function (err, events) {
             if (err) {
                 console.error(err);
-                res.send(404);
+                res.send(400);
                 return;
             }
             res.send(events);
+        });
+    },
+    get: function (req, res) {
+        var id = req.params.id;
+        Event.findOne({
+            _id :id
+        }, function (err, event) {
+            if (err) {
+                console.error(err);
+                res.send(400);
+                return;
+            }
+            res.send(event);
         });
     },
     register: function (req, res) {

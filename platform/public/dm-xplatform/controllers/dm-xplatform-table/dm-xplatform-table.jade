@@ -9,11 +9,11 @@ div.col-lg-12.col-md-12.dm-table-container
             th 
         tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText')
             td.dm-table-blue
-                p {{event.title}}
+                p(ui-sref='index.event({id: event._id})') {{event.title}}
             td
                 p {{event.date | amCalendar}}
             td.dm-table-green
-                p.green {{event.technology}}
+                p.green(ui-sref='index.technology({name: event.technology})') {{event.technology}}
             td.dm-table-blue
                 p(ui-sref='index.devhero({id: event.trainer.userId})') {{event.trainer.name}}
             td.dm-table-avatars 

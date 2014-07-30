@@ -33,6 +33,7 @@ module.exports = function(app) {
 
     var events = require('../app/controllers/events');
     app.get('/api/events/:type', authenticated, events.list);
+    app.get('/api/event/:id', authenticated, events.get);
 
     var player = require('../app/controllers/player');
     app.get('/api/player/:id/:training', authenticated, player.userSaves);

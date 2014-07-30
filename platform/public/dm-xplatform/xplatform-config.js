@@ -12,7 +12,9 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-table/dm-xplatform-table',
     'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
     'xplatform/controllers/dm-xplatform-message/dm-xplatform-message',
-    'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream'
+    'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream',
+    'xplatform/controllers/dm-xplatform-event/dm-xplatform-event',
+    'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -91,6 +93,49 @@ require(['angular',
                     };
                 }
             });
+            
+            $stateProvider.state('index.event', {
+                url: '/event/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-event/dm-xplatform-event.html',
+                        controller: 'dmXplatformEvent'
+                    }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 10,
+                        right: 0
+                    };
+                }
+            });
+            
+            
+            $stateProvider.state('index.technology', {
+                url: '/technology/:name',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology.html',
+                        controller: 'dmXplatformTechnology'
+                    }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 10,
+                        right: 0
+                    };
+                }
+            }); 
             
             $stateProvider.state('index.devhero', {
                 url: '/devhero/:id',
