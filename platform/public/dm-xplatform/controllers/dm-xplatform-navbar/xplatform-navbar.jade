@@ -30,7 +30,7 @@
                     img(src="static/images/navbar/ico_msg.png")
                     span.badge.badge-notification 7
             li
-                img.avatar-holder(gravatar-src="navbar.user.email", gravatar-size="30")
+                img.avatar-holder(gravatar-src="navbar.user.email", gravatar-size="30", ui-sref='index.devhero({id: navbar.user._id})')
             li
                 a.ng-cloak(ui-sref="index.devhero({id: navbar.user._id})")
                     | {{navbar.user.name}}
@@ -40,8 +40,11 @@
                         span.glyphicon.glyphicon-cog
                     ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
                         li(role='presentation')
+                            a(ui-sref='index.profile', role='menuitem', tabindex='-1')
+                                | Edytuj profil
+                        li(role='presentation')
                             a(href="/logout", role='menuitem', tabindex='-1')
-                                | Logout
+                                | Wyloguj
 
 
 

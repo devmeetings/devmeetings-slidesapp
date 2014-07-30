@@ -14,7 +14,9 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-message/dm-xplatform-message',
     'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream',
     'xplatform/controllers/dm-xplatform-event/dm-xplatform-event',
-    'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology'
+    'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology',
+    'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
+    'xplatform/controllers/dm-xplatform-options/dm-xplatform-options'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -183,6 +185,31 @@ require(['angular',
                 }
             });
             
+            $stateProvider.state('index.profile', {
+                url: '/profile',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile.html',
+                        controller: 'dmXplatformProfile'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-options/dm-xplatform-options.html',
+                        controller: 'dmXplatformObserved'
+                    }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Edycja profilu',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 8,
+                        mid: 4,
+                        right: 0
+                    };
+                }
+            });
 
             $stateProvider.state('index.player', {
                 url: '/player/:id',
