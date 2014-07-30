@@ -50,8 +50,8 @@ require(['angular',
                 },
                 onEnter: function ($rootScope) {
                     $rootScope.xplatformData.navbar = {
-                        showTitle: false,
-                        title: '',
+                        showTitle: true,
+                        title: 'Stream',
                         searchText: ''
                     };
                     $rootScope.xplatformData.columns = {
