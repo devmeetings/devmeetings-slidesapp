@@ -46,6 +46,10 @@ require(['angular',
                     mid: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream.html',
                         controller: 'dmXplatformStream'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
+                        controller: 'dmXplatformObserved'
                     }
                 },
                 onEnter: function ($rootScope) {
@@ -56,8 +60,8 @@ require(['angular',
                     };
                     $rootScope.xplatformData.columns = {
                         left: 2,
-                        mid: 10,
-                        right: 0
+                        mid: 7,
+                        right: 3
                     };
                 }
             });
@@ -95,6 +99,10 @@ require(['angular',
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                         controller: 'dmXplatformDevhero'
                     },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream.html',
+                        controller: 'dmXplatformStream'
+                    },
                     right: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
                         controller: 'dmXplatformObserved'
@@ -103,8 +111,8 @@ require(['angular',
                 onEnter: function ($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 4,
-                        mid: 4,
-                        right: 4
+                        mid: 5,
+                        right: 3
                     };
                 }
             });

@@ -1,10 +1,13 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var Activity = {
+var Activity = new Schema({
     owner: {
         name: {
-            type: String,
+            type: String
+        },
+        mail: {
+            type: String    
         },
         userId: {
             type: Schema.Types.ObjectId,
@@ -22,4 +25,6 @@ var Activity = {
     data: {
         type: Schema.Types.Mixed      
     }
-};
+});
+
+module.exports = mongoose.model('activity', Activity);

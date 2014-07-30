@@ -53,6 +53,10 @@ module.exports = function(app) {
     app.post('/api/observes', authenticated, observes.observe);
     app.delete('/api/observes/:id', authenticated, observes.unobserve);
 
+    var streams = require('../app/controllers/streams');
+    app.get('/api/streams', authenticated, streams.all);
+    app.get('/api/streams/:id', authenticated, streams.get);
+
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
