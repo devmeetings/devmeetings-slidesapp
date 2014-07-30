@@ -6,13 +6,13 @@
             span.icon-bar
             span.icon-bar
 
-    .navbar-center.input-search(ng-if="!navbar.showTitle")
+    .navbar-center.input-search(ng-if="!xplatformData.navbar.showTitle")
         img.ico-search(src="static/images/navbar/ico_search.png")
-        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='navbar.searchText')
+        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='xpaltformData.navbar.searchText')
         img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
-    .navbar-center(ng-if="navbar.showTitle")
+    .navbar-center(ng-if="xplatformData.navbar.showTitle")
         span.nav-title
-            | {{navbar.title}}
+            | {{xplatformData.navbar.title}}
 
     .collapse.navbar-collapse.navbar-inverse-collapse
         ul.nav.navbar-nav.navbar-left
@@ -32,7 +32,7 @@
             li
                 img.avatar-holder(gravatar-src="navbar.user.email", gravatar-size="30")
             li
-                a.ng-cloak(ui-sref="navbar.index.devhero({id: navbar.user._id})")
+                a.ng-cloak(ui-sref="index.devhero({id: navbar.user._id})")
                     | {{navbar.user.name}}
             li
                 .dropdown
@@ -43,5 +43,5 @@
                             a(href="/logout", role='menuitem', tabindex='-1')
                                 | Logout
 
-div(ui-view='content')
+
 

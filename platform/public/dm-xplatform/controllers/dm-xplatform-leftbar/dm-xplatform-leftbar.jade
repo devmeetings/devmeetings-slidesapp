@@ -1,4 +1,4 @@
 .list-group
-    a.list-group-item(ng-repeat='section in sections', ui-sref='navbar.index.menu({type: section.sref})', ui-sref-active='dm-index-active')
+    a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}', ui-sref-active='dm-index-active')
         | {{section.title}}
         .dm-xplatform-bottomstripe

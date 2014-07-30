@@ -1,17 +1,18 @@
 define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformLeftbar', ['$scope', function ($scope) {
         
-        $scope.navbar.showTitle = false;
-        
         $scope.sections = [{
+            title: 'Stream',
+            sref: 'index.stream'
+        },{
             title: 'Szkolenia na żywo',
-            sref: 'live'
+            sref: 'index.menu({type: "live"})'
         }, {
             title: 'Szkolenia online',
-            sref: 'online'
+            sref: 'index.menu({type: "online"})'
         }, {
             title: 'Videoszkolenia',
-            sref: 'video'
+            sref: 'index.menu({type: "video"})'
         }];  
 
     }]);

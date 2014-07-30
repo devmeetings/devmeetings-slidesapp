@@ -16,18 +16,13 @@ require(['angular',
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
-            $stateProvider.state('navbar', {
+
+            $stateProvider.state('index', {
                 views: {
                     navbar: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-navbar/xplatform-navbar.html',
                         controller: 'XplatformNavbarCtrl'
-                    }
-                }
-            });
-
-            $stateProvider.state('navbar.index', {
-                url: '/index',
-                views: {
+                    },
                     content: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-index/xplatform-index.html',
                         controller: 'XplatformIndexCtrl'
@@ -35,13 +30,40 @@ require(['angular',
                 },
                 onEnter: function ($rootScope) {
                     $rootScope.xplatformData = {
+                        navbar: {},
                         columns: {}
                     };
                 }
             });
            
-            $stateProvider.state('navbar.index.menu', {
-                url: '/:type',
+            $stateProvider.state('index.stream', {
+                url: '/stream',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream.html',
+                        controller: 'dmXplatformStream'
+                    }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: false,
+                        title: '',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 10,
+                        right: 0
+                    };
+                }
+            });
+            
+            $stateProvider.state('index.menu', {
+                url: '/training/:type',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
@@ -53,6 +75,11 @@ require(['angular',
                     }
                 },
                 onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: false,
+                        title: '',
+                        searchText: ''
+                    };
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 10,
@@ -61,7 +88,7 @@ require(['angular',
                 }
             });
             
-            $stateProvider.state('navbar.index.devhero', {
+            $stateProvider.state('index.devhero', {
                 url: '/devhero/:id',
                 views: {
                     left: {
@@ -82,7 +109,7 @@ require(['angular',
                 }
             });
 
-            $stateProvider.state('navbar.index.message', {
+            $stateProvider.state('index.message', {
                 url: '/message/:id',
                 views: {
                     left: {
@@ -104,7 +131,7 @@ require(['angular',
             });
             
 
-            $stateProvider.state('navbar.player', {
+            $stateProvider.state('index.player', {
                 url: '/player/:id',
                 views: {
                     content: {
@@ -114,7 +141,7 @@ require(['angular',
                 }
             });
 
-            $stateProvider.state('navbar.player.chapter', {
+            $stateProvider.state('index.player.chapter', {
                 url: '/:index',
                 views: {
                     chapter: {
@@ -125,9 +152,8 @@ require(['angular',
             });
 
             $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
-            //$urlRouterProvider.otherwise('/player/53ce34758fb745d156d54301/0');
-            $urlRouterProvider.when('/index', '/live');
-            $urlRouterProvider.otherwise('/index/live');
+            $urlRouterProvider.when('/', '/stream');
+            $urlRouterProvider.otherwise('/stream');
         }
     ]);
     bootstrap('xplatform');
