@@ -11,7 +11,8 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
     'xplatform/controllers/dm-xplatform-table/dm-xplatform-table',
     'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
-    'xplatform/controllers/dm-xplatform-message/dm-xplatform-message'
+    'xplatform/controllers/dm-xplatform-message/dm-xplatform-message',
+    'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
