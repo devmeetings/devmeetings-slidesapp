@@ -1,6 +1,16 @@
-.col-md-offset-1.col-md-10
-    h1 Hello Stream
+.col-md-offset-1.col-md-10.dm-xplatform-stream
     .list-group
-        a.list-group-item(ng-repeat='activity in stream.result')
-            pre.
+        a.list-group-item(ng-repeat='activity in stream.result', ng-init='details = detailsForActivity(activity)')
+            img(gravatar-src='activity.owner.mail', gravatar-size='30', ui-sref='index.devhero({id: activity.owner.userId})')
+            span.dm-stream-blue(ui-sref='index.devhero({id: activity.owner.userId})') {{activity.owner.name}}&nbsp;
+            span {{details.text}}&nbsp;
+            span.dm-stream-green {{details.title}}
+            //p.dm-stream-endorse
+                span
+                    i.fa.fa-beer
+                    | Polej piwo!
+            div
+                div
+
+            //pre.
                 {{activity | json }}
