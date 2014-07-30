@@ -1,5 +1,5 @@
 define(['angular', '_', 'angular-gravatar', 'xplatform/xplatform-app', 'slider/slider'], function (angular, _, angularGravatar, xplatformApp, slider) {
-    xplatformApp.controller('dmXplatformDevhero', ['$scope', '$stateParams', 'dmUser', 'dmObserve', function ($scope, $stateParams, dmUser, dmObserve) {
+    xplatformApp.controller('dmXplatformDevhero', ['$scope', '$stateParams', 'dmUser', 'dmObserve', 'dmStream', function ($scope, $stateParams, dmUser, dmObserve, dmStream) {
         var userId = $stateParams.id;
         $scope.xplatformData.navbar.showTitle = true;
         $scope.xplatformData.navbar.title = '';
@@ -15,11 +15,13 @@ define(['angular', '_', 'angular-gravatar', 'xplatform/xplatform-app', 'slider/s
         $scope.observe = function () {
             dmObserve.observe($scope.user._id, $scope.user.name, $scope.user.email);
             $scope.canBeObserved = false;
+            dmStream.markNeedUpdate();
         };
 
         $scope.unobserve = function () {
             dmObserve.unobserve($scope.user._id);
             $scope.canBeObserved = true;
+            dmStream.markNeedUpdate();
         };
 
     }]);

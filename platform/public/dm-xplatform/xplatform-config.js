@@ -110,8 +110,8 @@ require(['angular',
                 },
                 onEnter: function ($rootScope) {
                     $rootScope.xplatformData.columns = {
-                        left: 4,
-                        mid: 5,
+                        left: 3,
+                        mid: 6,
                         right: 3
                     };
                 }

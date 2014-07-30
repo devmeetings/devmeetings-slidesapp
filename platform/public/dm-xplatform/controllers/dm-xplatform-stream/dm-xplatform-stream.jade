@@ -1,2 +1,6 @@
 .col-md-offset-1.col-md-10
     h1 Hello Stream
+    .list-group
+        a.list-group-item(ng-repeat='activity in stream.result')
+            pre.
+                {{activity | json }}

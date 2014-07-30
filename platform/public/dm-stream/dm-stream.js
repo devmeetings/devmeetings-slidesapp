@@ -21,11 +21,13 @@ angular.module('dm-stream', []).factory('dmStream', ['$http', '$q', function ($h
         getUserStream: function (id) {
             var ustream = $q.defer();
             $http.get('/api/streams/' + id).success(function (stream) {
-                ustream.resolve(stream);
+                ustream.resolve({
+                    result: stream
+                });
             });
             return ustream.promise;
         },
-        markNeedUpdate: function (id) {
+        markNeedUpdate: function () {
             needUpdate = true; 
         }
     };
