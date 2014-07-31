@@ -1,5 +1,7 @@
 'use strict'
 angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http, $q) {
+    var data = {}; 
+    var result;
     var cache = {};
 
     return {
@@ -8,12 +10,35 @@ angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http,
                 return cache[id].promise;
             }
     
-            var result = $q.defer();
-            cache[id] = result;
+            var defer = $q.defer();
+            cache[id] = defer;
             $http.get('/api/users/' + id).success(function (user) {
-                result.resolve(user);
+                defer.resolve(user);
             });
             
+            return defer.promise;
+        },
+        saveCurrentUser: function (user) {
+            $http.put('/api/users', user).success(function () {
+
+            });
+
+            var defer = $q.defer();
+            defer.resolve(user);
+            cache[user._id] = defer;
+
+            data.result = user;
+        },
+        getCurrentUser: function () {
+            if (result) {
+                return result.promise;
+            }
+
+            result = $q.defer();
+            $http.get('/api/users').success(function (user) {
+                data.result = user;
+                result.resolve(data);
+            });
             return result.promise;
         }
     };

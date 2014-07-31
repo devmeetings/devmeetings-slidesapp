@@ -13,6 +13,33 @@ var Users = {
             }
             res.send(user);
         });
+    }, 
+    edit: function (req, res) {
+        var userId = req.user._id.toString();
+        delete req.body._id;
+
+        User.findByIdAndUpdate(userId, req.body, {}, function (err, user) {
+            if (err) {
+                console.error(err);
+                res.send(400);
+                return;
+            }
+            res.send(200);
+        });
+    },
+    current: function (req, res) {
+        var userId = req.user._id.toString();
+        User.findOne({
+            _id: userId
+        }, function (err, user) {
+            if (err) {
+                console.error(err);
+                res.send(400);
+                return;
+            }
+            res.send(user);
+        });
+    
     }
 };
 

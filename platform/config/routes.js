@@ -48,6 +48,8 @@ module.exports = function(app) {
 
     var users = require('../app/controllers/users');
     app.get('/api/users/:id', authenticated, users.get);
+    app.put('/api/users', authenticated, users.edit);
+    app.get('/api/users', authenticated, users.current);
 
     var observes = require('../app/controllers/observes');
     app.get('/api/observes',  authenticated, observes.get);

@@ -5,12 +5,12 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             title: 'Stream',
             sref: 'index.stream'
         },{
-            title: 'Szkolenia na żywo',
+        /*    title: 'Szkolenia na żywo',
             sref: 'index.menu({type: "live"})'
         }, {
             title: 'Szkolenia online',
             sref: 'index.menu({type: "online"})'
-        }, {
+        }, { */
             title: 'Videoszkolenia',
             sref: 'index.menu({type: "video"})'
         }];  

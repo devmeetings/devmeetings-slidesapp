@@ -5,7 +5,7 @@ exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
         if (err) {
             console.error(err);
-            res.send(404, err);
+            res.send(400, err);
             return;
         }
         res.send(decks);
@@ -16,7 +16,7 @@ exports.create = function(req, res) {
     DeckModel.create(req.body, function (err){
         if (err){
             console.error(err);
-            res.send(404, err);
+            res.send(400, err);
             return;
         }   
         var decks = Array.prototype.slice.call(arguments, 1);
@@ -27,7 +27,7 @@ exports.create = function(req, res) {
 exports.delete = function(req, res) {
     DeckModel.findByIdAndRemove(req.params.id, function(err, deck) {
         if (err) {
-            res.send(404, err);
+            res.send(400, err);
             return;
         }
         res.send(200);
@@ -42,9 +42,8 @@ exports.edit = function(req, res) {
         upsert: true
     }, function(err, deck) {
         if (err) {
-            console.log(req.body);
             console.error(err);
-            res.send(404, err);
+            res.send(400, err);
             return;
         }
         res.send(200);

@@ -8,7 +8,7 @@
 
     .navbar-center.input-search(ng-if="!xplatformData.navbar.showTitle")
         img.ico-search(src="static/images/navbar/ico_search.png")
-        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='xpaltformData.navbar.searchText')
+        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='xplatformData.navbar.searchText')
         img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
     .navbar-center(ng-if="xplatformData.navbar.showTitle")
         span.nav-title
@@ -30,10 +30,10 @@
                     img(src="static/images/navbar/ico_msg.png")
                     span.badge.badge-notification 7
             li
-                img.avatar-holder(gravatar-src="navbar.user.email", gravatar-size="30", ui-sref='index.devhero({id: navbar.user._id})')
+                img.avatar-holder(gravatar-src="navbar.user.result.email", gravatar-size="30", ui-sref='index.devhero({id: navbar.user.result._id})')
             li
-                a.ng-cloak(ui-sref="index.devhero({id: navbar.user._id})")
-                    | {{navbar.user.name}}
+                a.ng-cloak(ui-sref="index.devhero({id: navbar.user.result._id})")
+                    | {{navbar.user.result.name}}
             li
                 .dropdown
                     #dropdownNav.dropdown-toggle(type='button', data-toggle='dropdown')
