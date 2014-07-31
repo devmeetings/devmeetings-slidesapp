@@ -1,5 +1,18 @@
 var xml = require("node-xml/lib/node-xml"),
-    _ = require('lodash');
+    _ = require('lodash'),
+    program = require('commander'),
+    fs = require('fs');
+
+
+program
+    .option('-f, --file [type]', 'XML File')
+    .option('-o, --output [type]', 'Output file')
+    .parse(process.argv);
+
+if (!program.file || !program.output) {
+    console.log('You must provide both params');
+    process.exit();
+}
 
 var video = {
     source: {},
@@ -36,10 +49,13 @@ var parser = new xml.SaxParser(function(cb) {
     });
 
     cb.onEndDocument(function() {
-        console.log(video);
+        //console.log(video);
+        fs.writeFile(program.output, JSON.stringify(video, undefined, 2), function (err) {
+            console.log('output saved to: ', program.output);
+        });
     });
 });
 
-parser.parseFile("./test/test0.xml");
+parser.parseFile(program.file);
 
 
