@@ -39,7 +39,9 @@ var parser = new xml.SaxParser(function(cb) {
 
         if (elem === 'StitchedMedia') {
             var map = attributesToMap(attrs);
-            video.stitch = map;
+            if (video.chapters.length === 0) {
+                video.stitch = map;
+            }
         }
 
         if (elem === 'ScreenVMFile') {
@@ -50,12 +52,42 @@ var parser = new xml.SaxParser(function(cb) {
 
     cb.onEndDocument(function() {
         //console.log(video);
-        fs.writeFile(program.output, JSON.stringify(video, undefined, 2), function (err) {
-            console.log('output saved to: ', program.output);
-        });
+        //fs.writeFile(program.output, JSON.stringify(video, undefined, 2), function (err) {
+            //console.log('output saved to: ', program.output);
+        //});
+        parseImportantData(video);
     });
 });
 
 parser.parseFile(program.file);
+
+var parseImportantData = function (data) {
+    var frameRegexp = /[^0-9]./;
+    var framesPerSecond = parseInt(data.source.editRate.replace(frameRegexp, ''));
+    var frameStart = parseInt(data.stitch.mediaStart.replace(frameRegexp, ''));
+    var frameDuration = parseInt(data.stitch.duration);
+
+    var secondStart = frameStart / framesPerSecond;
+    var secondDuration = frameDuration / framesPerSecond;
+
+    console.log('start:         ' + secondStart + 's , ' + frameStart % framesPerSecond);
+    console.log('duration:      ' + secondDuration + 's , ' + frameDuration % framesPerSecond); 
+    console.log('');
+    console.log('');
+
+    _.forEach(data.chapters, function (chapter) {
+        var chapterStartFrame = parseInt(chapter.mediaStart.replace(frameRegexp, ''));
+        var chapterDurationFrame = parseInt(chapter.duration);
+
+        var chapterStartSecond = chapterStartFrame / framesPerSecond;
+        var chapterDurationSecond = chapterDurationFrame / framesPerSecond;
+
+        console.log('start:         ' + chapterStartSecond + 's , ' + chapterStartFrame % framesPerSecond);
+        console.log('duration:      ' + chapterDurationSecond + 's , ' + chapterDurationFrame % framesPerSecond);
+        console.log('');
+
+    });
+
+};
 
 
