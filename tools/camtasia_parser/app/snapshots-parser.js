@@ -26,22 +26,25 @@ var parseImportantData = function (data) {
             duration: chapterDurationSecond
         };
     });
-
+    return result;
 };
 
 var isImportantSlide = function (importantData, slide) {        
     var result = false;
-    if (var i = 0; i < importantData.chapters.length && result === false && slide.timestamp <= importantData.chapters[i].start ; i++) {
+    var slideSecond = slide.timestamp / 1000;
+    for (var i = 0; i < importantData.chapters.length && result === false; i++) {
         var chapter = importantData.chapters[i];
-        result = slide.timestamp > chapter.start && slide.timestamp < (chapter.start + chapter.duration);
+        result = slideSecond > chapter.start && slideSecond < (chapter.start + chapter.duration);
     }
     return result;
 };
 
 var reduceSnapshots = function (snapshots) {
+
+    var time = 2 * 60 * 60 * 1000; // 2 hours     
     return _.reduce(snapshots, function (acc, elem) {
         var last = _.last(acc);
-        if (last !== undefined) {            // ignore date ?
+        if (last !== undefined && elem.timestamp < last.timestamp + time) {            // ignore date ?
             last.timestamp = elem.timestamp; // is it still necessary? 
             last.slides = last.slides.concat(JSON.parse(LZString.decompressFromBase64(elem.data)));
         } else {
@@ -51,13 +54,15 @@ var reduceSnapshots = function (snapshots) {
                 timestamp: elem.timestamp,
                 slides: JSON.parse(LZString.decompressFromBase64(elem.data))
             };
+            console.log(elem.timestamp);
             acc.push(last);
         }
         return acc;
-    });
+    }, []);
 };
 
 
+var keysToTrim = ['live-save', 'toolbar', 'commit'];
 var snapshotTrimmer = function (object) {
     var keys = _.keys(object);
     for (var i = 0; i < keys.length; i++){
@@ -80,11 +85,11 @@ var produceFinalSnaps = function (snaps, importantData, timeoffset) {
 
         snap.slides = _.filter(snap.slides, function (slide) {
             return isImportantSlide(importantData, slide);
-        };
+        });
 
         var date = new Date(snap.timestamp);
         var dateString = date.toDateString();
-        var title = snap.slides[0].code.title;
+        var title = snap.slides.length > 0 ? snap.slides[0].code.title : 'no slides';
         return {
             slides: snap.slides,
            slideId: snap.slideId,
@@ -102,8 +107,7 @@ var SnapshotsParser = {
         var snaps = reduceSnapshots(snapshots);
         snapshotTrimmer(snaps);
         var finalSnaps = produceFinalSnaps(snaps, importantData, timeoffset);
-        result.resolve(promise);
-
+        result.resolve(finalSnaps);
 
         return result.promise;
     }

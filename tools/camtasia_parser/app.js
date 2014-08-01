@@ -29,6 +29,9 @@ MongoBridge(db).then(function (bridge) {
     return SnapshotsParser.prepareRecordings(results[0], results[1], timeoffset);
 }).then(function (recordings) {
     return mongoBridge.saveRecordings(recordings); 
+}).done(function () {
+    console.log('success!');
+    process.exit(); 
 });
 
 

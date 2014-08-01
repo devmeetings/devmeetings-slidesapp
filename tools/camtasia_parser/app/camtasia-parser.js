@@ -1,5 +1,6 @@
 var Q = require('q'),
-    xml = require('node-xml');
+    xml = require('node-xml'),
+    _ = require('lodash');
 
 
 var attributesToMap = function (attrs) {
