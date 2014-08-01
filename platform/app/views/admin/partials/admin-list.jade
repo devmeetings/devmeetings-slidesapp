@@ -25,6 +25,9 @@ mixin slideCell(trashAction)
         li.list-group-item.hover-trigger(ng-repeat="deck in decks")
           a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
             span.glyphicon.glyphicon-trash
+          a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}")
+            span.fa.fa-external-link
+          span &nbsp;
           a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
             {{ deck.title }}
     .panel-footer

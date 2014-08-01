@@ -33,6 +33,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 scope: {},
                 templateUrl: path + '/fiddleOutput.html',
                 link: function(scope, element) {
+                    var $iframe = element.find('iframe');
+                    $iframe.on('load', _.debounce(function() {
+                        sliderPlugins.trigger('slide.slide-fiddle.output', $iframe[0].contentWindow.document);
+                    }, 500));
                     sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.throttle(function(fiddle) {
                         var isPure = false;
                         var wrapWithForwarder = function(code) {
@@ -55,7 +59,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             htmlCode = cssCode + htmlCode;
                         }
 
-                        element.find('iframe')[0].src = "/api/static?p=" + btoa(htmlCode);
+                        $iframe[0].src = "/api/static?p=" + btoa(htmlCode);
 
 
                     }, EXECUTION_DELAY));
