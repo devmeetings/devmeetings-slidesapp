@@ -13,7 +13,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
             var exists = function(selector, noOfChildren) {
                 var $els = innerDocument.querySelectorAll(selector);
                 if (noOfChildren) {
-                    return $els.length === noOfChildren
+                    return $els.length === noOfChildren;
                 }
                 return $els.length > 0;
             };
