@@ -1,11 +1,11 @@
-define(['module', '_', 'slider/slider.plugins', 'services/SlideLiveSave'], function(module, _, sliderPlugins, SlideLiveSave) {
+define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/SlideLiveSave'], function(module, _, angular, howler, sliderPlugins, SlideLiveSave) {
     var path = sliderPlugins.extractPath(module);
 
     var THROTTLE_SAVING = 1000;
 
     sliderPlugins.registerPlugin('slide.toolbar', 'live-save', 'slide-live-save', 5000).directive('slideLiveSave', [
-        'SlideLiveSave', 'localStorageService',
-        function(SlideLiveSave, localStorageService) {
+        'SlideLiveSave', 'localStorageService', '$timeout',
+        function(SlideLiveSave, localStorageService, $timeout) {
             return {
                 restrict: 'E',
                 scope: {
@@ -15,7 +15,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/SlideLiveSave'], funct
                 templateUrl: path + '/slide-live-save.html',
                 link: function(scope, element) {
                     scope.recording = localStorageService.get('dev.recording') === 'true';
-                
+
                     var updateSlide = _.throttle(function(newSlide) {
                         if (scope.recording) {
                             SlideLiveSave.save(newSlide);
@@ -32,6 +32,45 @@ define(['module', '_', 'slider/slider.plugins', 'services/SlideLiveSave'], funct
                             updateSlide(scope.slide);
                         }
                     });
+
+                    var sound = new howler.Howl({
+                        urls: [path + '/firetruck-short.wav']
+                    });
+
+
+                    // Start rec button
+                    scope.maxWaitTime = 5000;
+                    scope.startingRecording = function() {
+                        scope.waitTime = 0;
+                        scope.recording = true;
+
+                        var currentSlide = angular.copy(scope.slide);
+                        var startTime = new Date();
+                        var endTime = new Date(startTime.getTime() + scope.maxWaitTime);
+
+                        scope.waiting = startTime;
+                        currentSlide.recordingStarted = startTime;
+                        SlideLiveSave.save(currentSlide);
+                        sound.play();
+
+                        function updateTime(force) {
+                            if (scope.waiting !== startTime) {
+                                return;
+                            }
+
+                            var curTime = new Date().getTime();
+                            scope.waitTime = curTime - startTime.getTime();
+
+                            if (curTime < endTime.getTime()) {
+                                $timeout(updateTime, 5);
+                            } else {
+                                scope.waiting = false;
+                                scope.waitTime = 0;
+                            }
+                        }
+                        updateTime(true);
+                    };
+
                 }
             };
         }
