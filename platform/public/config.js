@@ -8,7 +8,7 @@ require.config({
         "xplatform": "../dm-xplatform",
         "dm-admin": "../dm-admin",
         "jquery": "../components/jquery/dist/jquery",
-        "jquery-ui": "../components/jquery-ui/jquery-ui",
+        "jquery-ui": "../components/jquery-ui/ui/jquery-ui",
         "angular": "../components/angular/angular",
         "angular-sanitize": "../components/angular-sanitize/angular-sanitize",
         "angular-ui-sortable": "../components/angular-ui-sortable/sortable",
@@ -37,11 +37,11 @@ require.config({
         "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
         "coffee": "../components/coffee-script/extras/coffee-script",
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
-        "dm-video" : "../dm-video/dm-video",
-        "dm-training" : "../dm-training/dm-training",
-        "dm-user" : "../dm-user/dm-user",
-        "dm-observe" : "../dm-observe/dm-observe",
-        "dm-stream" : "../dm-stream/dm-stream"
+        "dm-video": "../dm-video/dm-video",
+        "dm-training": "../dm-training/dm-training",
+        "dm-user": "../dm-user/dm-user",
+        "dm-observe": "../dm-observe/dm-observe",
+        "dm-stream": "../dm-stream/dm-stream"
     },
     "map": {
         "*": {
@@ -129,17 +129,17 @@ require.config({
         "dm-video": {
             "deps": ["angular", "video-js-youtube", "_"]
         },
-        "dm-training" : {
-            "deps" :["angular", "_"]
+        "dm-training": {
+            "deps": ["angular", "_"]
         },
-        "dm-user" : {
-            "deps" :["angular"]
+        "dm-user": {
+            "deps": ["angular"]
         },
-        "dm-observe" : {
-            "deps" :["angular", "_"]
+        "dm-observe": {
+            "deps": ["angular", "_"]
         },
-        "dm-stream" : {
-            "deps" :["angular"]
+        "dm-stream": {
+            "deps": ["angular"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]

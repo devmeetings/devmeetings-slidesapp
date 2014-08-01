@@ -1,7 +1,0 @@
-.slide-stream
-  .list-group
-    .list-group-item(ng-repeat="item in stream|orderBy:'timestamp':true", ng-class="{'new': isNew}")
-      div(ng-if="item.type === 'commit' || item.type ==='created' ")
-        span.text-muted(am-time-ago="item.timestamp")
-        |  
-        a(href="/slides/{{item.data}}") {{ item.message }}
