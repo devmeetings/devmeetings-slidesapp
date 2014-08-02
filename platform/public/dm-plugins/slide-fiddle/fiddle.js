@@ -19,7 +19,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
 
         $window.addEventListener('message', listener);
         scope.$on('$destroy', function() {
-
             $window.removeEventListener('message', listener);
         });
     };
@@ -45,7 +44,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
     };
 
 
-    var safeApply = function (fn) {
+    var safeApply = function(fn) {
         var phase = this.$root.$$phase;
 
         if (phase == '$apply' || phase == '$digest') {
@@ -83,6 +82,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             editor.getSession().setMode("ace/mode/" + e.getAttribute('data-mode'));
                             var content = e.getAttribute('data-content');
 
+                            var shouldTriggerEvent = false;
+
                             var updateScopeLater = _.throttle(function() {
                                 safeApply.call(scope, function() {
                                     scope.fiddle[content] = editor.getValue();
@@ -92,7 +93,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                         firstVisibleRow: editor.getFirstVisibleRow(),
                                         lastVisibleRow: editor.getLastVisibleRow()
                                     };
-                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
+                                    // Do not trigger events if only cursor position changes
+                                    if (shouldTriggerEvent) {
+                                        sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
+                                    }
+                                    shouldTriggerEvent = false;
                                 });
                             }, 100, {
                                 leading: false,
@@ -109,11 +114,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             editor.on('change', function() {
                                 var newValue = editor.getValue();
                                 if (scope.fiddle[content] !== newValue) {
+                                    shouldTriggerEvent = true;
                                     updateScopeLater();
                                 }
                             });
-                            
-                            editor.getSession().getSelection().on('changeCursor', function () {
+
+                            editor.getSession().getSelection().on('changeCursor', function() {
                                 updateScopeLater();
                             });
 

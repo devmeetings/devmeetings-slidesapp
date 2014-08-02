@@ -97,6 +97,22 @@ define([], [{
     "name": "HTML",
     "title": "Slide with HTML and CSS"
 }, {
+    "name": "AngularJS Fiddle",
+    "microtasks": [{
+        "fiddle": "exists('h2')",
+        "description": "Create <code>h2</code> element"
+    }, {
+        "fiddle": "exists('ul > li', 3)",
+        "description": "Create exactly 3 <code>lis</code> inside <code>ul</code>"
+    }],
+    "fiddle": {
+        "size": "xl",
+        "active": "html",
+        "js": "var app = angular.module('app', []);\n\napp.controller('MainCtrl', ['$scope', function($scope) {\n    \n    $scope.name = 'AngularJS';\n    \n}]);",
+        "html": "<!DOCTYPE html>\n<html ng-app=\"app\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>AngularJS</title>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <link href=\"//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css\" rel=\"stylesheet\">\n  </head>\n  <body>\n  \n    <div class=\"container main-container\" role=\"main\" ng-controller=\"MainCtrl\">\n      <h1>Hello {{ name }}!</h1>\n    </div>\n    \n    <script src=\"//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js\"></script>\n    <script src=\"//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js\"></script>\n    <script src=\"//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.js\"></script>\n    <script src=\"//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js\"></script>\n    \n    <script src=\"//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.js\"></script>\n    <script src=\"//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js\"></script>\n    \n    <script src=\"//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-animate.js\"></script>\n    <script src=\"//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-cookies.js\"></script>\n  </body>\n</html>",
+        "css": ""
+    }
+}, {
     "code": "var array = [1, 2, 3, [4, 5]];\n",
     "jsrunner": true,
     "monitor": "array",
