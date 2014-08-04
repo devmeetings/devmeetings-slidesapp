@@ -57,7 +57,8 @@ define(['angular',
             };
 
             $scope.state.onRightButtonPressed = function () {
-                $scope.state.startSecond = $scope.state.currentSecond + 15;
+                //$scope.state.startSecond = $scope.state.currentSecond + 15;
+                $scope.state.startSecond = $scope.chapter.videodata.timestamp  + $scope.state.length - 5;
             };
 
 
@@ -193,7 +194,8 @@ define(['angular',
                 });
 
                 modalInstance.result.then( function (next) {
-                    modalIsOpened = false;
+                    modalIsOpened = false; 
+                    $http.post('/api/event/' + $stateParams.event);
                     if (!next) {
                         return;
                     }
@@ -201,11 +203,16 @@ define(['angular',
                     $scope.state.isPlaying = false;
                     $scope.state.currentSecond = 0; //reset timer
 
+                    $state.go('index.menu', {
+                        type: 'video'
+                    });
+                    /*
                     $timeout(function () {
                         $state.go('navbar.player.chapter', {
                             index: parseInt(chapterIndex) + 1
                         });
                     }, 500);
+                    */
                 });
 
             });

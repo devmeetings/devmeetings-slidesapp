@@ -110,19 +110,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 editor.clearSelection();
                                 var selection = editor.getSelection();
                                 selection.moveCursorToPosition(scope.fiddle.aceOptions.cursorPosition);
-                                var range = scope.fiddle.aceOptions.selectionRange;                                   
-                                console.log('start', range.start);
-                                console.log('end', range.end);
-                                selection.setSelectionRange(range, false);
-                                console.log('first row:', scope.fiddle.aceOptions.firstVisibleRow);
+                                //var range = scope.fiddle.aceOptions.selectionRange;                                   
+                                //selection.setSelectionRange(range, false);
                                 editor.scrollToRow(scope.fiddle.aceOptions.firstVisibleRow);
                             };
 
                             scope.$watch('fiddle.' + content, function() {
                                 if (editor.getValue() !== scope.fiddle[content]) {
+                                    scope.active = content;
                                     reloadFiddle();
                                 }
                             });
+                            
+
 
 
                             editor.on('change', function() {
@@ -141,6 +141,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
                             });
                         });
+                    });
+                    scope.$watch('fiddle.active', function (newVal, oldVal) {
+                                 
                     });
 
                     handleListeners(scope, $window);

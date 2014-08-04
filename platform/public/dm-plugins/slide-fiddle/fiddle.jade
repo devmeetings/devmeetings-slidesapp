@@ -1,9 +1,9 @@
 mixin tabHeader(name, displayName)
-  li(ng-class="{'active': fiddle.active === '#{name}' }", ng-show="fiddle.#{name} !== undefined")
-    a.pointer(ng-click="fiddle.active = '#{name}'") #{displayName}
+  li(ng-class="{'active': active === '#{name}' }", ng-show="fiddle.#{name} !== undefined")
+    a.pointer(ng-click="active = '#{name}'") #{displayName}
 
 mixin tabContent(name, mode)
-  .tab-pane.fade(ng-class="{'active in': fiddle.active === '#{name}' }")
+  .tab-pane.fade(ng-class="{'active in': active === '#{name}' }")
     .editor(class="editor-#{name} editor-{{ fiddle.size}}", data-mode="#{mode}", data-content="#{name}")
 .row
   div(ng-class="{'col-sm-12': fiddle.hideOutput, 'col-sm-6': !fiddle.hideOutput }")

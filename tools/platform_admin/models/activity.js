@@ -20,6 +20,7 @@ var Activity = new Schema({
                 'deck.start',
                 'deck.finish',
                 'slide.enter',
+                'video.enter',
                 'microtask.done']
     },
     data: {

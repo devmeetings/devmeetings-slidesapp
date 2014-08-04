@@ -11,7 +11,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             title: 'Szkolenia online',
             sref: 'index.menu({type: "online"})'
         }, { */
-            title: 'Videoszkolenia',
+            title: 'Tutoriale',
             sref: 'index.menu({type: "video"})'
         }];  
 

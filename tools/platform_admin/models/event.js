@@ -8,6 +8,10 @@ var Event = new Schema({
         enum: ['live', 'online', 'video'],
         default: 'live'
     },
+    trainingId: {
+        type: Schema.Types.ObjectId, 
+        ref: 'training'
+    },
     technology: String,
     date: Date,
     description: String,

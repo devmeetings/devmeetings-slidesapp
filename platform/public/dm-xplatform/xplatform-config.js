@@ -59,7 +59,7 @@ require(['angular',
                 onEnter: function ($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
-                        title: 'Stream',
+                        title: 'News Feed',
                         searchText: ''
                     };
                     $rootScope.xplatformData.columns = {
@@ -84,8 +84,8 @@ require(['angular',
                 },
                 onEnter: function ($rootScope) {
                     $rootScope.xplatformData.navbar = {
-                        showTitle: false,
-                        title: '',
+                        showTitle: true,
+                        title: 'Tutoriale',
                         searchText: ''
                     };
                     $rootScope.xplatformData.columns = {
@@ -212,12 +212,19 @@ require(['angular',
             });
 
             $stateProvider.state('index.player', {
-                url: '/player/:id',
+                url: '/player/:event/:id',
                 views: {
-                    content: {
+                    left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
                         controller: 'dmXplatformPlayer'
                     }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 12,
+                        mid: 0,
+                        right: 0
+                    };
                 }
             });
 

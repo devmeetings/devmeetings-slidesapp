@@ -11,15 +11,21 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
             element.removeClass();
             element.addClass(className);
             element.addClass(col);
+
+            if (width === 0) {
+                element.css('height', '0px');
+            } else {
+                element.css('height', '100%');
+            }
         }
 
-        var reload = function () {
+        var reloadCols = function () {
             changeWidthTo('dm-xplatform-index-left', $scope.xplatformData.columns.left);
             changeWidthTo('dm-xplatform-index-mid', $scope.xplatformData.columns.mid);
             changeWidthTo('dm-xplatform-index-right', $scope.xplatformData.columns.right);
         };
 
-        $scope.$watch('xplatformData.columns', reload);
+        $scope.$watch('xplatformData.columns', reloadCols);
     
     }]); 
 });

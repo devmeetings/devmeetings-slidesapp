@@ -2,15 +2,16 @@ div.col-lg-12.col-md-12.dm-table-container
     table.table.dm-table
         tr
             th Temat szkolenia
-            th Data
+            //-th Data
             th Technologia
             th Trener
             th Uczestnicy
-            th 
+            //-th 
         tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText')
             td.dm-table-blue
-                p(ui-sref='index.event({id: event._id})') {{event.title}}
-            td
+                p(ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})') {{event.title}}
+                //-(ui-sref='index.event({id: event._id})') {{event.title}}
+            //td
                 p {{event.date | amCalendar}}
             td.dm-table-green
                 p.green(ui-sref='index.technology({name: event.technology})') {{event.technology}}
@@ -20,6 +21,6 @@ div.col-lg-12.col-md-12.dm-table-container
                 div 
                     img(ng-repeat='user in event.people | limitTo: 3', gravatar-src='user.mail', gravatar-size='25', ui-sref='index.devhero({id: user.userId})')
                     span(ng-if='event.people.length > 3') + {{event.people.length - 3}}
-            td.dm-table-green 
+            //-td.dm-table-green 
                 p(ng-if='!isRegistered(event)', ng-click='register(event)') Zapisz się
                 p.green(ng-if='isRegistered(event)') Zapisano
