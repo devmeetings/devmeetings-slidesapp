@@ -9,10 +9,10 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
 
-    var rjsOptimizationModule = function(module) {
+    var rjsOptimizationModule = function(path, module) {
         return {
             options: {
-                baseUrl: "public/dm-slider",
+                baseUrl: path, 
                 mainConfigFile: "public/config.js",
                 findNestedDependencies: true,
                 name: module, // assumes a production build using almond
@@ -145,9 +145,10 @@ module.exports = function(grunt) {
             }
         },
         requirejs: {
-            deck: rjsOptimizationModule("slider-deck"),
-            slide: rjsOptimizationModule("slider-slide"),
-            trainer: rjsOptimizationModule("slider-trainer")
+            deck: rjsOptimizationModule('public/dm-slider', "slider-deck"),
+            slide: rjsOptimizationModule('public/dm-slider', "slider-slide"),
+            trainer: rjsOptimizationModule('public/dm-slider', "slider-trainer"),
+            xplatform: rjsOptimizationModule('public/dm-xplatform', 'xplatform-config')
 
             //, TODO!!!
             //index: rjsOptimizationModule("slider-index")
