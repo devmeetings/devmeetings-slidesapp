@@ -46,7 +46,6 @@ require(['angular',
                 url: '/player/:id',
                 views: {
                     content: {
-                        //templateUrl: '/static/dm-xplatform/player/xplatform-player.html',
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
                         controller: 'dmXplatformPlayer'
                     }

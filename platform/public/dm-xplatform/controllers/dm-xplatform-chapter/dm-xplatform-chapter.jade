@@ -1,3 +1,3 @@
 .player-wrapper
-    dm-video(dm-height='state.videoHeight', dm-auto-height='state.autoHeight', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying', ng-class='{"player-hide": !state.isPlaying}')
-    plugins-loader(namespace="'slide'", context="recordingPlayer.slide", ng-class='{"player-hide": state.isPlaying}')
+    dm-video.player-hide(dm-height='state.videoHeight', dm-auto-height='state.autoHeight', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying')
+    plugins-loader(namespace="'slide'", context="recordingPlayer.slide")

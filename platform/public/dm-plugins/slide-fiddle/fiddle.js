@@ -99,12 +99,26 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 trailing: true
                             });
 
+                            var reloadFiddle = function () {
+
+                                editor.setValue(scope.fiddle[content]);
+                                editor.clearSelection();
+                                var selection = editor.getSelection();
+                                selection.moveCursorToPosition(scope.fiddle.aceOptions.cursorPosition);
+                                var range = scope.fiddle.aceOptions.selectionRange;                                   
+                                console.log('start', range.start);
+                                console.log('end', range.end);
+                                selection.setSelectionRange(range, false);
+                                console.log('first row:', scope.fiddle.aceOptions.firstVisibleRow);
+                                editor.scrollToRow(scope.fiddle.aceOptions.firstVisibleRow);
+                            };
+
                             scope.$watch('fiddle.' + content, function() {
                                 if (editor.getValue() !== scope.fiddle[content]) {
-                                    editor.setValue(scope.fiddle[content]);
-                                    editor.clearSelection();
+                                    reloadFiddle();
                                 }
                             });
+
 
                             editor.on('change', function() {
                                 var newValue = editor.getValue();
@@ -113,9 +127,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 }
                             });
                             
-                            editor.getSession().getSelection().on('changeCursor', function () {
-                                updateScopeLater();
-                            });
+                            //editor.getSession().getSelection().on('changeCursor', function () {
+                                //updateScopeLater();
+                            //});
 
                             sliderPlugins.onLoad(function() {
                                 sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
