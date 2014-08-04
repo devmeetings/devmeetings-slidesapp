@@ -6,10 +6,11 @@ block content
             .col-md-6.col-md-offset-3
                 form.well(action="/auth/login", method="post")
                     .form-group.text-right
-                        p.small
+                        p
                             | Don't have an account yet?
                             |   
-                            a.text-muted(href="/registration") Create new!
+                            a.text-muted.text-primary(href="/registration") 
+                                strong Sign up now!
                     hr
                     .form-group
                         label.form-label Email

@@ -23,8 +23,11 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             'slide.enter' : {
                 text: 'rozpoczął rozwiązywanie rozwiazywanie zadań na slajdzie'
             },
-            'video.enter' : {
-                text: 'video ogląda szkolenie video'
+            'video.start' : {
+                text: 'rozpoczął tutorial'
+            },
+            'video.done' : {
+                text: 'ukończył tutorial'
             },
             'microtask.done' : {
                 text: 'ukończył microzadanie'
@@ -32,7 +35,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         };
 
         $scope.detailsForActivity = function (activity) {
-            var det = details[activity.type];
+            var det = angular.copy(details[activity.type]);
             det.title = activity.data.title; 
             return det;
         };

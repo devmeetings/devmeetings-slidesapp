@@ -2,7 +2,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
     xplatformApp.controller('dmXplatformLeftbar', ['$scope', function ($scope) {
         
         $scope.sections = [{
-            title: 'Stream',
+            title: 'News feed',
             sref: 'index.stream'
         },{
         /*    title: 'Szkolenia na żywo',
@@ -14,6 +14,8 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             title: 'Tutoriale',
             sref: 'index.menu({type: "video"})'
         }];  
+
+        var element = $('[class*="dm-xplatform-index-left"]').css('background-color', 'rgb(33,33,33)');
 
     }]);
 });

@@ -25,7 +25,16 @@ var Event = new Schema({
         }
     },
     peopleLimit: Number,
-    people: [{
+    peopleStarted: [{
+        mail: {
+            type: String      
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
+    }],
+    peopleFinished: [{
         mail: {
             type: String      
         },

@@ -41,7 +41,7 @@ require(['angular',
             });
            
             $stateProvider.state('index.stream', {
-                url: '/stream',
+                url: '/newsfeed',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
@@ -225,6 +225,11 @@ require(['angular',
                         mid: 0,
                         right: 0
                     };
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Tutorial',
+                        searchText: ''
+                    };
                 }
             });
 
@@ -239,8 +244,8 @@ require(['angular',
             });
 
             $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
-            $urlRouterProvider.when('/', '/stream');
-            $urlRouterProvider.otherwise('/stream');
+            $urlRouterProvider.when('/', '/newsfeed');
+            $urlRouterProvider.otherwise('/newsfeed');
         }
     ]);
     bootstrap('xplatform');

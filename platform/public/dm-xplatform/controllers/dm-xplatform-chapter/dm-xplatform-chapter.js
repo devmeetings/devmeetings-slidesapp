@@ -19,6 +19,7 @@ define(['angular',
                 $scope.recordingPlayer.player.goToSecond(($scope.state.currentSecond - $scope.chapter.videodata.timestamp) + $scope.chapter.videodata.recordingTime);
             };
             
+            $http.post('/api/event/start/' + $stateParams.event);
 
             $scope.modalData = {
                //saveTitle
@@ -57,8 +58,8 @@ define(['angular',
             };
 
             $scope.state.onRightButtonPressed = function () {
-                //$scope.state.startSecond = $scope.state.currentSecond + 15;
-                $scope.state.startSecond = $scope.chapter.videodata.timestamp  + $scope.state.length - 5;
+                $scope.state.startSecond = $scope.state.currentSecond + 15;
+                //$scope.state.startSecond = $scope.chapter.videodata.timestamp  + $scope.state.length - 5;
             };
 
 
@@ -195,7 +196,7 @@ define(['angular',
 
                 modalInstance.result.then( function (next) {
                     modalIsOpened = false; 
-                    $http.post('/api/event/' + $stateParams.event);
+                    $http.post('/api/event/done/' + $stateParams.event);
                     if (!next) {
                         return;
                     }
