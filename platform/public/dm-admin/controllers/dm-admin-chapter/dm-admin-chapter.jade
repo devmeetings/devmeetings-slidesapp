@@ -32,6 +32,7 @@
                                 | recording
                             .col-lg-10.col-md-10
                                 select.form-control(ng-model='select.recording', ng-options='recording.title group by recording.group for recording in recordings')
+                                span.help-block  {{select.recording._id}}
                         .form-group
                             label.col-lg-2.col-mg-2(control-label)
                                 | timestamp

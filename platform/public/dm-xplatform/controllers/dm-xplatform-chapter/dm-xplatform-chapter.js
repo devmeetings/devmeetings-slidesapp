@@ -48,30 +48,16 @@ define(['angular',
             // implement state interface
             
             $scope.state.onLeftButtonPressed = function () {
-                if (chapterIndex === 0) {
-                    return;
+                var sec = Math.max($scope.state.currentSecond - 15, $scope.chapter.videodata.timestamp);
+                if ($scope.state.startSecond === sec) {
+                    $scope.state.startSecond = sec + 1;
+                } else {
+                    $scope.state.startSecond = sec;
                 }
-                $scope.state.isPlaying = false;
-                $scope.state.currentSecond = 0; //reset timer
-
-                $timeout(function () {
-                    $state.go('navbar.player.chapter', {
-                        index: parseInt(chapterIndex) - 1
-                    });
-                }, 500);
             };
 
             $scope.state.onRightButtonPressed = function () {
-                //$scope.state.startSecond = $scope.chapter.videodata.timestamp + $scope.state.length - 5; 
-                
-                $scope.state.isPlaying = false;
-                $scope.state.currentSecond = 0; //reset timer
-
-                $timeout(function () {
-                    $state.go('navbar.player.chapter', {
-                        index: parseInt(chapterIndex) + 1
-                    });
-                }, 500);
+                $scope.state.startSecond = $scope.state.currentSecond + 15;
             };
 
 
