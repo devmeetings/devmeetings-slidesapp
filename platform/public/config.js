@@ -48,7 +48,8 @@ require.config({
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
         "dm-observe": "../dm-observe/dm-observe",
-        "dm-stream": "../dm-stream/dm-stream"
+        "dm-stream": "../dm-stream/dm-stream",
+        "dm-mongotime": "../dm-mongotime/dm-mongotime"
     },
     "map": {
         "*": {
@@ -147,6 +148,9 @@ require.config({
         },
         "dm-stream": {
             "deps": ["angular"]
+        },
+        "dm-mongotime" : {
+            "deps": ["angular"] 
         },
         "angular-hotkeys": {
             "deps": ["angular"]

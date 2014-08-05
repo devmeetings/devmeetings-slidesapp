@@ -1,5 +1,12 @@
-.list-group
-    a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}', ui-sref-active='dm-index-active')
-        | {{section.title}}
-        .dm-xplatform-bottomstripe
-        .dm-xplatform-bottomstripe
+.col-md-12.dm-leftbar-container
+    div 
+        p 
+            img(gravatar-src='user.result.email', gravatar-size='35')
+        p.dm-leftbar-name
+            strong {{user.result.name}} 
+        button.btn.btn-xs.btn-warning(ui-sref='index.profile') Uzupełnij BIO
+    .list-group
+        a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}', ui-sref-active='dm-index-active')
+            | {{section.title}}
+            .dm-xplatform-bottomstripe
+            .dm-xplatform-bottomstripe
