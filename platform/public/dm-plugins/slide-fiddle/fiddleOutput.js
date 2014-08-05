@@ -62,7 +62,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         $iframe[0].src = "/api/static?p=" + btoa(htmlCode);
 
 
-                    }, EXECUTION_DELAY));
+                    }, EXECUTION_DELAY, {
+                        leading: false,
+                        trailing: true
+                    }));
                 }
             };
         }

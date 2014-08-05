@@ -57,8 +57,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
     };
 
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 5000).directive('slideFiddle', [
-        '$timeout', '$window',
-        function($timeout, $window) {
+        '$timeout', '$window', '$rootScope',
+        function($timeout, $window, $rootScope) {
             return {
                 restrict: 'E',
                 scope: {
@@ -105,9 +105,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             });
 
                             var reloadFiddle = function () {
-
-                                editor.setValue(scope.fiddle[content]);
-                                editor.clearSelection();
                                 var selection = editor.getSelection();
                                 selection.moveCursorToPosition(scope.fiddle.aceOptions.cursorPosition);
                                 //var range = scope.fiddle.aceOptions.selectionRange;                                   
@@ -118,7 +115,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                             scope.$watch('fiddle.' + content, function() {
                                 if (editor.getValue() !== scope.fiddle[content]) {
                                     scope.active = content;
-                                    reloadFiddle();
+                                    editor.setValue(scope.fiddle[content]);
+                                    editor.clearSelection();
+                                    if (!$rootScope.modes.isSliderMode) {
+                                        reloadFiddle();
+                                    }
                                 }
                             });
                             
@@ -133,17 +134,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 }
                             });
                             
-                            //editor.getSession().getSelection().on('changeCursor', function () {
-                                //updateScopeLater();
-                            //});
+                            if ($rootScope.modes.isSliderMode) {
+                                editor.getSession().getSelection().on('changeCursor', function () {
+                                    updateScopeLater();
+                                });
+                            }
 
                             sliderPlugins.onLoad(function() {
                                 sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
                             });
                         });
-                    });
-                    scope.$watch('fiddle.active', function (newVal, oldVal) {
-                                 
                     });
 
                     handleListeners(scope, $window);

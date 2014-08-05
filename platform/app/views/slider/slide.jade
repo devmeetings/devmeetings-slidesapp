@@ -1,16 +1,17 @@
 extends ../layouts/main
 
 append scripts
-  script.
-    window.slideId = "#{slide}";
-  script(src='/static/components/requirejs/require.js')
-  script(src='/static/config.js')
-  script(src='#{jsModulesPath}/dm-slider/slider-slide.js?v=#{cacheBustingVersion}')
+    script.
+        window.slideId = "#{slide}";
+    script(src='/static/components/requirejs/require.js')
+    script(src='/static/config.js')
+    script(src='#{jsModulesPath}/dm-slider/slider-slide.js?v=#{cacheBustingVersion}')
 
 block content
-  div(ng-init="$root.modes.isEditMode=#{editMode}")
-  .container-fluid.full-height(ng-controller="SlideCtrl")
-    .row.full-height
-      .col-lg-12.full-height
-        plugins-loader(namespace="'slide'", context="slide.content")
-        plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
+    div(ng-init="$root.modes.isEditMode=#{editMode}")
+        div(ng-init="$root.modes.isSliderMode=true")
+        .container-fluid.full-height(ng-controller="SlideCtrl")
+            .row.full-height
+                .col-lg-12.full-height
+                    plugins-loader(namespace="'slide'", context="slide.content")
+                    plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
