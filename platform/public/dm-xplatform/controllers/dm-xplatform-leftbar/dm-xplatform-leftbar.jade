@@ -4,8 +4,8 @@
             img.dm-leftbar-link(gravatar-src='user.result.email', gravatar-size='35', ui-sref='index.devhero({id: user.result._id})')
         p.dm-leftbar-link.dm-leftbar-name(ui-sref='index.devhero({id: user.result._id})')
             strong {{user.result.name}} 
-        button.btn.btn-xs.btn-warning(ng-if='user.result.bio.length === 0', ui-sref='index.profile') Uzupełnij BIO
-        p.dm-leftbar-link(ng-if='user.result.bio.length !== 0', ui-sref='index.profile') Edytuj profil
+        button.btn.btn-xs.btn-warning(ng-if='user.result.bio === undefined || user.result.bio.length === 0', ui-sref='index.profile') Uzupełnij BIO
+        p.dm-leftbar-link(ng-if='user.result.bio !== undefined && user.result.bio.length !== 0', ui-sref='index.profile') Edytuj profil
     .list-group
         a.list-group-item(ng-repeat='section in sections', ui-sref='{{section.sref}}', ui-sref-active='dm-index-active')
             | {{section.title}}
