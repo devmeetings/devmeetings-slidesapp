@@ -32,7 +32,8 @@
     "roundrobin": "~1.0.0",
     "lz-string": "~1.3.3",
     "bcrypt": "~0.7.8",
-    "express-mailer": "~0.2.3"
+    "express-mailer": "~0.2.3",
+    "grunt-contrib-jade": "~0.12.0"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

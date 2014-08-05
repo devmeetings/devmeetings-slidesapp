@@ -65,6 +65,15 @@ module.exports = function(grunt) {
                 }
             }
         },
+        jade: {
+            compile: {
+                files: [{
+                    expand: true,
+                    ext: ".html",
+                    src: ["public/**/*.jade", "!public/components/**"]
+                }]
+            }
+        },
         watch: {
             options: {
                 spawn: false
@@ -199,7 +208,7 @@ module.exports = function(grunt) {
     grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'requirejs']);
     grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent']);
     grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
-    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'optimize']);
+    grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'jade', 'optimize']);
 
     grunt.registerTask('default', ['serve']);
 };
