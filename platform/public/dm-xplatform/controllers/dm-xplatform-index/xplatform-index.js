@@ -12,11 +12,12 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
             element.addClass(className);
             element.addClass(col);
 
-            if (width === 0) {
+            /*if (width === 0) {
                 element.css('height', '0px');
             } else {
                 element.css('height', '100%');
-            }
+            }*/
+            element.toggle(width !== 0);
         }
 
         var reloadCols = function () {

@@ -71,7 +71,7 @@ require(['angular',
             });
             
             $stateProvider.state('index.menu', {
-                url: '/training/:type',
+                url: '/tutorials/:type',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
@@ -244,8 +244,8 @@ require(['angular',
             });
 
             $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
-            $urlRouterProvider.when('/', '/newsfeed');
-            $urlRouterProvider.otherwise('/newsfeed');
+            $urlRouterProvider.when('/', '/tutorials/video');
+            $urlRouterProvider.otherwise('/tutorials/video');
         }
     ]);
     bootstrap('xplatform');
