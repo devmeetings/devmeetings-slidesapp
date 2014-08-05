@@ -28,13 +28,11 @@ module.exports = function(io, sessionConfig) {
 
     io.on('connection', function(socket) {
         var l = log(socket, "main");
-        l("New client connected: " + socket.handshake.user.name);
 
         // Join deck room
         var deck = socket.manager.handshaken[socket.id].query.deck;
 
         if (!deck) {
-            l("Connected without deck query.");
             socket.disconnect();
             return;
         }
@@ -49,7 +47,6 @@ module.exports = function(io, sessionConfig) {
 
         // Disconnection
         socket.on('disconnect', function() {
-            l("Client disconnected");
 
             socket.get('clientData', function(err, data) {
                 socket.leave(data.deck);

@@ -3,6 +3,13 @@ require.config({
     "paths": {
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
+        
+        //deprectated
+        "slider": "../dm-slider/slider",
+        "services": "../dm-slider/services",
+        "utils": "../dm-slider/utils",
+        "directives" : "../dm-slider/directives",
+        
         "require": "../../require",
         "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",

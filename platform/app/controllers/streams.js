@@ -30,7 +30,7 @@ var Streams = {
         var observedId = req.params.id;
         Activity.find({
             'owner.userId' : observedId
-        }).sort({_id:1}).limit(50).exec().then(function (activities) {
+        }).sort({_id:-1}).limit(50).exec().then(function (activities) {
             res.send(activities);
         });
     }
