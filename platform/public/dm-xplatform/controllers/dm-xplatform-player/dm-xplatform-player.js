@@ -24,12 +24,15 @@ define(['angular',
                 //player
                 //slide
             };
+            
+            var element = $('[class*="dm-xplatform-index-left"]').css('background-color', 'rgb(6,6,6)');
+
 
             var trainingId = $stateParams.id;
             dmTrainings.getTrainingWithId(trainingId).then( function (training) {
                 $scope.training = training;
-                $scope.navbar.title = 'Podstawy JavaScript';// training.title;
-                $scope.navbar.showTitle = true;
+                //$scope.navbar.title = 'Podstawy JavaScript';// training.title;
+                //$scope.navbar.showTitle = true;
             });
             
             $scope.goToChapter = function (index) {
@@ -37,7 +40,7 @@ define(['angular',
                 $scope.state.currentSecond = 0;
                 
                 $timeout(function () {
-                    $state.go('navbar.player.chapter', {index: index});
+                    $state.go('index.player.chapter', {index: index});
                 }, 500);
             };
 

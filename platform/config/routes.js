@@ -32,10 +32,10 @@ module.exports = function(app) {
     app.get('/api/recordings/:id', authenticated, recordings.get);
 
     var events = require('../app/controllers/events');
-    app.get('/api/events', authenticated, events.list);
-
-    var dashboard = require('../app/controllers/dashboard');
-    app.get('/api/dashboard', authenticated, dashboard.list);
+    app.get('/api/events/:type', authenticated, events.list);
+    app.get('/api/event/:id', authenticated, events.get);
+    app.post('/api/event/done/:id', authenticated, events.done);
+    app.post('/api/event/start/:id', authenticated, events.start);
 
     var player = require('../app/controllers/player');
     app.get('/api/player/:id/:training', authenticated, player.userSaves);
@@ -47,6 +47,20 @@ module.exports = function(app) {
     app.get('/api/trainings/:id', authenticated, trainings.get);
     app.put('/api/trainings/:id', authenticated, trainings.edit);
     app.delete('/api/trainings/:id', authenticated, trainings.delete);
+
+    var users = require('../app/controllers/users');
+    app.get('/api/users/:id', authenticated, users.get);
+    app.put('/api/users', authenticated, users.edit);
+    app.get('/api/users', authenticated, users.current);
+
+    var observes = require('../app/controllers/observes');
+    app.get('/api/observes',  authenticated, observes.get);
+    app.post('/api/observes', authenticated, observes.observe);
+    app.delete('/api/observes/:id', authenticated, observes.unobserve);
+
+    var streams = require('../app/controllers/streams');
+    app.get('/api/streams', authenticated, streams.all);
+    app.get('/api/streams/:id', authenticated, streams.get);
 
 
     var req = require('../app/controllers/require');

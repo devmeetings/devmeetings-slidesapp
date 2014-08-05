@@ -19,6 +19,10 @@
     text-align: center;
     margin: auto;
     height:100%;
+
+    .nav-title {
+        color: #5aabcb;
+    }
 }
 .navbar-brand {
   float: none;
@@ -90,14 +94,24 @@
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    margin: 5px 12px 0px;
+    margin: 10px 12px 0px;
+    cursor: pointer;
 }
 
 
 
-ul.nav.navbar-nav.navbar-right .dropdown {
-    cursor: pointer;
-    margin: 0 12px;
+ul.nav.navbar-nav.navbar-right {
+    .dropdown {
+        cursor: pointer;
+        margin: 0 12px;
+
+        ul {
+            border-radius: 0px;
+            a:hover {
+                background-color: rgb(60,60,60);
+            }
+        }
+    }
 }
 
 ul.nav.navbar-nav.navbar-right .dropdown .glyphicon {

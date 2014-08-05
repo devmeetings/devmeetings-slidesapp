@@ -1,4 +1,28 @@
-.col-md-12
-  h1
-    | Hello Devhero!
+.col-md-12.dm-devhero-container
+    .col-md-12
+        p.dm-devhero-name
+            {{user.name}}
+        p
+            img(gravatar-src='user.email', gravatar-size='90')
+        //-p.dm-devhero-info Mentor
+        //-p.dm-devhero-info Wroclaw
+        //-p.dm-devhero-info devhero.org
+    .col-md-12.dm-devhero-buttons
+        button.btn(ng-if='canBeObserved', ng-click='observe()') Obserwuj
+        button.btn(ng-if='!canBeObserved', ng-click='unobserve()') Zrezygnuj
+        //-button.btn(ui-sref='index.message({id: user._id})') Wiadomosc
+    .col-md-12
+        //-p Przebyte szkolenia
+            span.pull-right 26 
+        //-p Mikrozadania
+            span.pull-right 288
+        //-p Obserwuje
+            span.pull-right 58
+        //-p Obserwowany
+            span.pull-right 369
+        .dm-devhero-separator 
+        p BIO
+        span.dm-devhero-bio {{user.bio || "-"}}
+        .dm-devhero-separator
+        //p Social
 

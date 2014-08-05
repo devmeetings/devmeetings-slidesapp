@@ -51,9 +51,9 @@ define(['_', 'slider/slider.plugins'], function(_, sliderPlugins) {
                             return;
                         }
 
-                        if (index > 0) {
-                            index -= 1;
-                        }
+                        //if (index > 0) {
+                        //    index -= 1;
+                        //}
                         currentTime = getTime(index);
                         currentSnapIdx = index;
                         callback(getCode(index));

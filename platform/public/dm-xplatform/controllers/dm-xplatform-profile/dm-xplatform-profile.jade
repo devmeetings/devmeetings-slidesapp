@@ -1,0 +1,21 @@
+.col-md-offset-2.col-md-8.dm-xplatform-profile
+    form.form-horizontal
+        fieldset
+            .form-group
+                span.col-md-2(control-label) Nazwa
+                .col-md-10
+                    input.form-control(type='text', ng-model='editedUser.name')
+            .form-group
+                span.col-md-2(control-label) Email
+                .col-md-10
+                    input.form-control(type='text', ng-model='editedUser.email')
+            .form-group
+                span.col-md-2(control-label) BIO
+                .col-md-10
+                    textarea.form-control(rows='3', ng-model='editedUser.bio')
+            .form-group
+                .col-md-offset-2.col-md-10
+                    button.btn.pull-right(ng-click='save()') Zapisz
+                    button.btn.pull-right(ng-click='cancel()') Anuluj
+
+

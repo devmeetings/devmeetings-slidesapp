@@ -1,47 +1,50 @@
 .navbar.navbar-inverse.xplatform-navbar(role='navigation')
-  .navbar-header
-    button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
-      span.sr-only Toggle navigation
-      span.icon-bar
-      span.icon-bar
-      span.icon-bar
+    .navbar-header
+        button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
 
-  .navbar-center.input-search(ng-if="!navbar.showTitle")
-    img.ico-search(src="static/images/navbar/ico_search.png")
-    input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...')
-    img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
-  .navbar-center(ng-if="navbar.showTitle")
-    span.nav-title
-      | {{navbar.title}}
+    .navbar-center.input-search(ng-if="!xplatformData.navbar.showTitle")
+        img.ico-search(src="static/images/navbar/ico_search.png")
+        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='xplatformData.navbar.searchText')
+        img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
+    .navbar-center(ng-if="xplatformData.navbar.showTitle")
+        span.nav-title
+            | {{xplatformData.navbar.title}}
 
-  .collapse.navbar-collapse.navbar-inverse-collapse
-    ul.nav.navbar-nav.navbar-left
-      li
-        a(href='#')
-           img(src="static/images/navbar/xplatform_logo.png")
+    .collapse.navbar-collapse.navbar-inverse-collapse
+        ul.nav.navbar-nav.navbar-left
+            li
+                a(href='#')
+                    img(src="static/images/navbar/xplatform_logo.png")
 
-    ul.nav.navbar-nav.navbar-right
-      //-li
-        a(href='#')
-          img(src="static/images/navbar/ico_bell.png")
-          span.badge.badge-notification 3
-      //-li
-        a(href='#')
-          img(src="static/images/navbar/ico_msg.png")
-          span.badge.badge-notification 7
-      li
-        img.avatar-holder(gravatar-src="navbar.user.email", gravatar-size="40")
-      li
-        a.ng-cloak(ui-sref="navbar.devhero")
-          | {{navbar.user.name}}
-      li
-        .dropdown
-          #dropdownNav.dropdown-toggle(type='button', data-toggle='dropdown')
-              span.glyphicon.glyphicon-cog
-            ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
-              li(role='presentation')
-                a(href="/logout", role='menuitem', tabindex='-1')
-                  | Logout
+        ul.nav.navbar-nav.navbar-right
+            //li
+                a(href='#')
+                    img(src="static/images/navbar/ico_bell.png")
+                    span.badge.badge-notification 3
+            //li
+                a(href='#')
+                    img(src="static/images/navbar/ico_msg.png")
+                    span.badge.badge-notification 7
+            li
+                img.avatar-holder(gravatar-src="navbar.user.result.email", gravatar-size="30", ui-sref='index.devhero({id: navbar.user.result._id})')
+            li
+                a.ng-cloak(ui-sref="index.devhero({id: navbar.user.result._id})")
+                    | {{navbar.user.result.name}}
+            li
+                .dropdown
+                    #dropdownNav.dropdown-toggle(type='button', data-toggle='dropdown')
+                        span.glyphicon.glyphicon-cog
+                    ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
+                        li(role='presentation')
+                            a(ui-sref='index.profile', role='menuitem', tabindex='-1')
+                                | Edytuj profil
+                        li(role='presentation')
+                            a(href="/logout", role='menuitem', tabindex='-1')
+                                | Wyloguj
 
 
-div(ui-view='content')
+

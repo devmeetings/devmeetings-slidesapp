@@ -1,0 +1,19 @@
+{
+  "name": "camtasia_parser",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-xml": "~1.0.2",
+    "lodash": "~2.4.1",
+    "commander": "~2.3.0",
+    "mongodb": "~1.4.7",
+    "lz-string": "~1.3.3",
+    "q": "~1.0.1"
+  }
+}

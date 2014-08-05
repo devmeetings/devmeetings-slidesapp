@@ -24,7 +24,11 @@ MongoClient.connect(config.db, function (err, db) {
         throw err;
     }
 
-    db.collection('snapshots').find().toArray( function (err, results) {
+    db.collection('snapshots').find({
+        timestamp: {
+            $gte: 1406745240000
+        }
+    }).toArray( function (err, results) {
 
         var sortedResults = _.sortBy(results, function (elem) {
             return elem.timestamp;
@@ -66,7 +70,7 @@ MongoClient.connect(config.db, function (err, db) {
                 slideId: snap.slideId,
                 group: dateString,
                 date: date,
-                title: title ? title : ""
+                title: 'angular_no_sound2' // title ? title : ""
             }
         });
 

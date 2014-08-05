@@ -1,49 +1,33 @@
 define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app', 'slider/slider', 'utils/ExtractPath'], function (module, angular, _, angularDeckgrid, xplatformApp, slider, ExtractPath) {
 
     var path = ExtractPath(module);
-   
-
-    /*angular.module('xplatform').controller('XplatformDeckgridCtrl', function($scope, $transclude) {
-        this.renderElement = $transclude;
-    }).directive('xplatformDeckgrid', [ function () {
-        return {
-            restrict: 'E',
-            scope: {
-                title: '=',
-                elements: '='
-            },
-            replace: true,
-            transclude: true,
-            templateUrl: path + '/xplatform-deckgrid.html',
-            controller: 'XplatformDeckgridCtrl'
-        }
-    }]).directive('xplatformDeckgridItem', [ function () {
-        return {
-            restrict: 'E',
-            require: '^xplatformDeckgrid',
-            link: function(scope, element, attrs, controller) {
-                controller.renderElement(scope, function (dom) {
-                    element.append(dom);
-                });
-            }
-        }
-    }]);*/
-    
     
     angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+        var className = '.dm-xplatform-index';
 
-        $scope.navbar.showTitle = false;
+        var changeWidthTo = function (className, width) {
+            var col = 'col-md-' + width;
+            var element = $('[class*="' + className + '"]');
+            element.removeClass();
+            element.addClass(className);
+            element.addClass(col);
 
-        $scope.sections = [
-            'Szkolenia na żywo',
-            'Szkolenia online',
-            'Videoszkolenia'
-        ];  
+            /*if (width === 0) {
+                element.css('height', '0px');
+            } else {
+                element.css('height', '100%');
+            }*/
+            element.toggle(width !== 0);
+        }
 
-        /*$http.get('/api/dashboard').success( function (dashboard) {
-            $scope.dashboard = dashboard; 
-        });*/
+        var reloadCols = function () {
+            changeWidthTo('dm-xplatform-index-left', $scope.xplatformData.columns.left);
+            changeWidthTo('dm-xplatform-index-mid', $scope.xplatformData.columns.mid);
+            changeWidthTo('dm-xplatform-index-right', $scope.xplatformData.columns.right);
+        };
 
+        $scope.$watch('xplatformData.columns', reloadCols);
+    
     }]); 
 });
 

@@ -1,6 +1,6 @@
-mixin tabHeader(name)
+mixin tabHeader(name, displayName)
   li(ng-class="{'active': active === '#{name}' }", ng-show="fiddle.#{name} !== undefined")
-    a(ng-click="active = '#{name}'") #{name}
+    a.pointer(ng-click="active = '#{name}'") #{displayName}
 
 mixin tabContent(name, mode)
   .tab-pane.fade(ng-class="{'active in': active === '#{name}' }")
@@ -8,10 +8,10 @@ mixin tabContent(name, mode)
 .row
   div(ng-class="{'col-sm-12': fiddle.hideOutput, 'col-sm-6': !fiddle.hideOutput }")
     ul.nav.nav-tabs
-      mixin tabHeader('js')
-      mixin tabHeader('coffee')
-      mixin tabHeader('css')
-      mixin tabHeader('html')  
+      mixin tabHeader('js', 'main.js')
+      mixin tabHeader('coffee', 'main.coffee')
+      mixin tabHeader('css', 'styles.css')
+      mixin tabHeader('html', 'index.html')  
     .tab-content
       mixin tabContent('js', 'javascript')
       mixin tabContent('coffee', 'coffee')

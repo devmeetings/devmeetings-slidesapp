@@ -1,0 +1,10 @@
+.col-md-12.dm-xplatform-observed
+    div.dm-observed-title
+        | Osoby, które śledzisz
+    .list-group
+        a.list-group-item(ng-repeat='user in observed', ui-sref='index.devhero({id: user.userId})')
+            img(gravatar-size='25', gravatar-src='user.mail')
+            span
+                | {{user.name}}
+            div
+                div
