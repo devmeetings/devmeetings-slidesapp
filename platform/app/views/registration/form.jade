@@ -8,7 +8,8 @@ block content
                     .form-group
                         h2= title
                     .form-group
-                        .alert-error #{message}
+                        .alert-error
+                            strong #{message}
                     .form-group
                         label.form-label Username
                         input.form-control(type="text", name="username", required=true)

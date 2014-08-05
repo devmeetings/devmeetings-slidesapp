@@ -29,11 +29,11 @@ exports.register = function(req, res, next, app) {
     };
 
     User.findOne({
-        email: userData.email,
-        type: 'local'
+        email: userData.email
     }).count(function(err, count) {
         if (count > 0) {
             res.render('registration/form', {
+                cacheBustingVersion: req.cacheBustingVersion,
                 message: 'User already exist'
             });
             return;
