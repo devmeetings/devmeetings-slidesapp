@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformProfile', ['$scope', '$stateParams', 'dmUser', function ($scope, $stateParams, dmUser) {
+    xplatformApp.controller('dmXplatformProfile', ['$scope', '$stateParams', '$state', 'dmUser', function ($scope, $stateParams, $state, dmUser) {
         dmUser.getCurrentUser().then(function (data) {
             $scope.userData = data;
             $scope.editedUser  = angular.copy(data.result);
@@ -11,6 +11,10 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
 
         $scope.save = function () {
             dmUser.saveCurrentUser($scope.editedUser);
+            $state.go('index.devhero', {
+                id: $scope.userData.result._id
+            });
+            
         };
 
     }]);
