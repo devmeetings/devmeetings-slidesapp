@@ -12,11 +12,11 @@ module.exports = function(grunt) {
     var rjsOptimizationModule = function(path, module) {
         return {
             options: {
-                baseUrl: path, 
+                baseUrl: 'public/' + path, 
                 mainConfigFile: "public/config.js",
                 findNestedDependencies: true,
                 name: module, // assumes a production build using almond
-                out: "public/bin/" + module + ".js",
+                out: "public/bin/" + path + '/' +  module + ".js",
                 paths: {
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
@@ -145,13 +145,10 @@ module.exports = function(grunt) {
             }
         },
         requirejs: {
-            deck: rjsOptimizationModule('public/dm-slider', "slider-deck"),
-            slide: rjsOptimizationModule('public/dm-slider', "slider-slide"),
-            trainer: rjsOptimizationModule('public/dm-slider', "slider-trainer"),
-            xplatform: rjsOptimizationModule('public/dm-xplatform', 'xplatform-config')
-
-            //, TODO!!!
-            //index: rjsOptimizationModule("slider-index")
+            deck: rjsOptimizationModule('dm-slider', "slider-deck"),
+            slide: rjsOptimizationModule('dm-slider', "slider-slide"),
+            trainer: rjsOptimizationModule('dm-slider', "slider-trainer"),
+            xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform')
         }
     });
 

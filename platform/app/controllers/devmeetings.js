@@ -4,7 +4,8 @@ var Devmeetings = {
             title: 'Xplatform',
             withInspectlet: req.withInspectlet,
             withGoogleAnalytics: req.withGoogleAnalytics,
-            cacheBustingVersion: req.cacheBustingVersion
+            cacheBustingVersion: req.cacheBustingVersion,
+            jsModulesPath: req.jsModulesPath
         });
     },
     admin: function(req, res) {
@@ -12,7 +13,8 @@ var Devmeetings = {
             title: 'Admin',
             withInspectlet: req.withInspectlet,
             withGoogleAnalytics: req.withGoogleAnalytics,
-            cacheBustingVersion: req.cacheBustingVersion
+            cacheBustingVersion: req.cacheBustingVersion,
+            jsModulesPath: req.jsModulesPath
         });
     }
 };

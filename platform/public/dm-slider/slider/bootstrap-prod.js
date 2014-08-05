@@ -1,10 +1,10 @@
 define(['angular', 'slider/slider.plugins'], function(angular, sliderPlugins) {
 
-    return function() {
-
+    return function(module) {
+        module = module || 'slider';
         require("<plugins>", function() {
 
-            angular.bootstrap(document, ["slider"]);
+            angular.bootstrap(document, [module]);
 
             // TODO shitty
             setTimeout(function() {
