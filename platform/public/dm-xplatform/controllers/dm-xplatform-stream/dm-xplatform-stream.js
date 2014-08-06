@@ -1,5 +1,7 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformStream', ['$scope', '$stateParams', 'dmStream', function ($scope, $stateParams, dmStream) {
+define(['angular',
+        'xplatform/xplatform-app'
+], function (angular, xplatformApp) {
+    xplatformApp.controller('dmXplatformStream', ['$scope', '$stateParams', '$modal', 'dmStream', function ($scope, $stateParams, $modal, dmStream) {
         if ($stateParams.id) {
             dmStream.getUserStream($stateParams.id).then(function (data) {
                 $scope.stream = data;
@@ -40,5 +42,6 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             return det;
         };
 
+        
     }]);
 });
