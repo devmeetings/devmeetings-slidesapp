@@ -32,6 +32,9 @@ var Event = new Schema({
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'user'
+        },
+        name: {
+            type: String      
         }
     }],
     peopleFinished: [{
@@ -41,6 +44,9 @@ var Event = new Schema({
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'user'
+        },
+        name: {
+            type: String      
         }
     }]
 });

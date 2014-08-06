@@ -34,7 +34,8 @@ var addToPeopleArray = function (req, res, peopleName, activityName) {
 
         event[peopleName].push({
             userId: userId, 
-            mail: user.email
+            mail: user.email,
+            name: user.name
         });
 
         event.markModified(peopleName);
