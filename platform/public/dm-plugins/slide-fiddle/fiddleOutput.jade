@@ -1,1 +1,10 @@
+input.form-control(
+	type="text", 
+	ng-show="fiddle.url && urlEdit", 
+	ng-model="fiddle.url.hash", 
+	ng-blur="urlEdit=false")
+p.text-muted.text-monospace.cursor-pointer.pointer(
+	ng-click="urlEdit = true", 
+	ng-show="fiddle.url && !urlEdit") 
+	| {{ '#' + fiddle.url.hash }}
 iframe.iframe-fiddle-output
