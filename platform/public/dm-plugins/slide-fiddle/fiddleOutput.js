@@ -15,9 +15,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     };
 
 
-    sliderPlugins.directive('slideFiddleOutput', ['$location',
+    sliderPlugins.directive('slideFiddleOutput', ['$location', '$timeout',
 
-        function($location) {
+        function($location, $timeout) {
 
             var host = "http://" + $location.host() + ":" + $location.port();
 
@@ -30,7 +30,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
             return {
                 restrict: 'E',
-                scope: {},
+                scope: {
+                    fiddle: '=data'
+                },
                 templateUrl: path + '/fiddleOutput.html',
                 link: function(scope, element) {
                     var $iframe = element.find('iframe');
@@ -59,13 +61,36 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             htmlCode = cssCode + htmlCode;
                         }
 
-                        $iframe[0].src = "/api/static?p=" + btoa(htmlCode);
-
+                        var hash = (scope.fiddle.url ? scope.fiddle.url.hash : '');
+                        $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + hash;
 
                     }, EXECUTION_DELAY, {
                         leading: false,
                         trailing: true
                     }));
+
+
+                    // URL support
+                    scope.$watch('fiddle.url.hash', function(){
+                        $iframe[0].contentWindow.location.hash = scope.fiddle.url.hash;
+                    });
+
+                    var updatingUrl = true;
+                    scope.$watch('fiddle.url', function(val) {
+                        if (!val) {
+                            updatingUrl = false;
+                            return;
+                        }
+                        updatingUrl = true;
+                        (function updateUrl() {
+                            scope.fiddle.url.hash = $iframe[0].contentWindow.location.hash.toString().replace('#', '');
+
+                            if (updatingUrl) {
+                                $timeout(updateUrl, 600);  
+                            }
+                        }());
+
+                    });
                 }
             };
         }
