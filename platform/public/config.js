@@ -49,7 +49,8 @@ require.config({
         "dm-user": "../dm-user/dm-user",
         "dm-observe": "../dm-observe/dm-observe",
         "dm-stream": "../dm-stream/dm-stream",
-        "dm-mongotime": "../dm-mongotime/dm-mongotime"
+        "dm-mongotime": "../dm-mongotime/dm-mongotime",
+        "dm-gravatar": "../dm-gravatar/dm-gravatar"
     },
     "map": {
         "*": {
@@ -150,6 +151,9 @@ require.config({
             "deps": ["angular"]
         },
         "dm-mongotime" : {
+            "deps": ["angular"] 
+        },
+        "dm-gravatar" : {
             "deps": ["angular"] 
         },
         "angular-hotkeys": {

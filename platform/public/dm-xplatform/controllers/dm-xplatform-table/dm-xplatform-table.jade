@@ -11,5 +11,5 @@ div.col-lg-12.col-md-12.dm-table-container
                 p.green {{event.technology}}
             td.dm-table-avatars 
                 div 
-                    img(ng-repeat='user in event.peopleFinished | limitTo: 4', gravatar-src='user.mail', gravatar-size='25', ui-sref='index.devhero({id: user.userId})')
+                    img(ng-repeat='user in event.peopleFinished | limitTo: 4', ng-src='{{user.avatar | dmGravatar:25}}', ui-sref='index.devhero({id: user.userId})')
                     span(ng-if='event.peopleFinished.length > 4', ng-click='showUsers(event.peopleFinished)') + {{event.peopleFinished.length - 4}}

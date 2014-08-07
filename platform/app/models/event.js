@@ -26,27 +26,27 @@ var Event = new Schema({
     },
     peopleLimit: Number,
     peopleStarted: [{
-        mail: {
-            type: String      
-        },
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'user'
         },
         name: {
             type: String      
+        },
+        avatar: {
+            type: String        
         }
     }],
     peopleFinished: [{
-        mail: {
-            type: String      
-        },
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'user'
         },
         name: {
             type: String      
+        },
+        avatar: {
+            type: String        
         }
     }]
 });

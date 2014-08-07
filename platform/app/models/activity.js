@@ -6,12 +6,12 @@ var Activity = new Schema({
         name: {
             type: String
         },
-        mail: {
-            type: String    
-        },
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'user'
+        },
+        avatar: {
+            type: String        
         }
     },
     type: {
