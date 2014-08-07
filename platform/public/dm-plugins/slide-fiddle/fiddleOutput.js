@@ -39,6 +39,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     $iframe.on('load', _.debounce(function() {
                         sliderPlugins.trigger('slide.slide-fiddle.output', $iframe[0].contentWindow.document);
                     }, 500));
+
+                    var getHash = function() {
+                        if (scope.fiddle.url) {
+                            return scope.fiddle.url.hash;
+                        }
+                        return '';
+                    };
+
                     sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.throttle(function(fiddle) {
                         var isPure = false;
                         var wrapWithForwarder = function(code) {
@@ -61,8 +69,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             htmlCode = cssCode + htmlCode;
                         }
 
-                        var hash = (scope.fiddle.url ? scope.fiddle.url.hash : '');
-                        $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + hash;
+                        $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + getHash();
 
                     }, EXECUTION_DELAY, {
                         leading: false,
