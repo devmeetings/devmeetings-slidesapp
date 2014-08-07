@@ -3,7 +3,7 @@
         p.dm-devhero-name
             {{user.name}}
         p
-            img(gravatar-src='user.email', gravatar-size='90')
+            img(ng-src='{{user.avatar | dmGravatar:90}}')
         //-p.dm-devhero-info Mentor
         //-p.dm-devhero-info Wroclaw
         //-p.dm-devhero-info devhero.org

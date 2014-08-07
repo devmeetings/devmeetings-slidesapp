@@ -46,14 +46,14 @@ angular.module('dm-observe', []).factory('dmObserve', ['$http', '$q', function (
             resolveCanBeObserved(can, id);
             return can.promise;
         },
-        observe: function (id, name, mail) {
+        observe: function (id, name, avatar) {
             $http.post('/api/observes', {
                 id: id
             });
             data.result.observed.push({
                 userId: id,
                 name: name,
-                mail: mail
+                avatar: avatar
             });
         },
         unobserve: function (id) {

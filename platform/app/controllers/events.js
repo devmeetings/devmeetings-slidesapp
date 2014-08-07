@@ -2,8 +2,7 @@ var Event = require('../models/event'),
     User = require('../models/user'),
     Activity = require('../models/activity'),
     _ = require('lodash'),
-    Q = require('q'),
-    Gravatar = require('gravatar');
+    Q = require('q');
     
 
 
@@ -36,7 +35,7 @@ var addToPeopleArray = function (req, res, peopleName, activityName) {
         event[peopleName].push({
             userId: userId, 
             name: user.name,
-            avatar: Gravatar.url(user.email)
+            avatar: user.avatar 
         });
 
         event.markModified(peopleName);

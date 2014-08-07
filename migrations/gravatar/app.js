@@ -80,7 +80,38 @@ connectToMongo().then(function (mongoDb) {
             }
         }, {
             multi: true
-        }, function (err, event) {
+        }, function (err, activity) {
+            if (err) {
+                throw err;
+            }
+        });
+
+        db.collection('observes').update({
+            'observed.userId' : user._id
+        }, {
+            $set: {
+                'observed.$.avatar' : gravatar.url(user.email)
+            },
+            $unset: {
+                'observed.$.mail' : ''
+            }
+        }, {
+            multi: true
+        }, function (err, obseve) {
+            if (err) {
+                throw err;
+            }
+        });
+
+        db.collection('users').update({
+            '_id': user._id
+        }, {
+            $set: {
+                'avatar': gravatar.url(user.email)
+            }
+        }, {
+            multi: true
+        }, function (err, user) {
             if (err) {
                 throw err;
             }
