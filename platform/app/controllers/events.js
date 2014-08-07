@@ -50,7 +50,7 @@ var addToPeopleArray = function (req, res, peopleName, activityName) {
                 owner: {
                     userId: userId,
                     name: user.name,
-                    avatar: Gravatar.url(user.email)
+                    avatar: user.avatar
                 },
                 type: activityName,
                 data: {

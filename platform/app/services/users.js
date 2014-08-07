@@ -70,8 +70,7 @@ exports.findByUserId = function(id, collback) {
  */
 exports.findOrCreate = function(user, callback) {
     UserModel.findOne({
-        userId: user.userId,
-        type: user.type
+        email: user.email
     }).exec().then(function(dbUser) {
         if (dbUser) {
             return callback(null, dbUser);

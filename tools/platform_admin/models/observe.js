@@ -16,6 +16,9 @@ var Observe = new Schema({
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'user'
+        },
+        avatar: {
+            type: String        
         }
     }]
 });
