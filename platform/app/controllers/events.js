@@ -34,8 +34,8 @@ var addToPeopleArray = function (req, res, peopleName, activityName) {
 
         event[peopleName].push({
             userId: userId, 
-            mail: user.email,
-            name: user.name
+            name: user.name,
+            avatar: user.avatar 
         });
 
         event.markModified(peopleName);
@@ -48,9 +48,9 @@ var addToPeopleArray = function (req, res, peopleName, activityName) {
 
             Activity.create({
                 owner: {
+                    userId: userId,
                     name: user.name,
-                    mail: user.email,
-                    userId: userId
+                    avatar: user.avatar
                 },
                 type: activityName,
                 data: {

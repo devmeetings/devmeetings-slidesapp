@@ -48,9 +48,9 @@ var Observes = {
             }
 
             observe.observed.push({
+                userId: observedId,
                 name: user.name,
-                mail: user.email,
-                userId: observedId
+                avatar: user.avatar
             });
 
             observe.markModified('observed');

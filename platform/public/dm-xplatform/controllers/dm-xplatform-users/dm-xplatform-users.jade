@@ -3,7 +3,7 @@
 .modal-body.dm-users
     .list-group
         a.list-group-item(ng-repeat='user in users | orderBy: "name"', ng-click='showUser(user)') 
-            img(gravatar-src='user.mail', gravatar-size='35')
+            img(ng-src='user.avatar | dmGravatar:35')
             span(ng-if='user.name') {{user.name}}
             span(ng-if='!user.name') NO NAME
 .modal-footer.dm-users-footer

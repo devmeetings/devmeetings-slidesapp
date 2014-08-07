@@ -30,7 +30,7 @@
                     img(src="static/images/navbar/ico_msg.png")
                     span.badge.badge-notification 7
             li
-                img.avatar-holder(gravatar-src="navbar.user.result.email", gravatar-size="30", ui-sref='index.devhero({id: navbar.user.result._id})')
+                img.avatar-holder(ng-src='{{navbar.user.result.avatar | dmGravatar:30}}', ui-sref='index.devhero({id: navbar.user.result._id})')
             li
                 a.ng-cloak(ui-sref="index.devhero({id: navbar.user.result._id})")
                     | {{navbar.user.result.name}}

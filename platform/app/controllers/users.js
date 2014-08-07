@@ -5,12 +5,7 @@ var Users = {
         var userId = req.params.id;
         User.findOne({
             _id: userId
-        }, function (err, user) {
-            if (err) {
-                console.error(err);
-                res.send(400);
-                return;
-            }
+        }).select('name avatar bio').exec().then(function (user) { 
             res.send(user);
         });
     }, 

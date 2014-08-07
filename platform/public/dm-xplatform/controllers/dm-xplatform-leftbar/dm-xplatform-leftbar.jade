@@ -1,7 +1,7 @@
 .col-md-12.dm-leftbar-container
     div 
         p 
-            img.dm-leftbar-link(gravatar-src='user.result.email', gravatar-size='35', ui-sref='index.devhero({id: user.result._id})')
+            img.dm-leftbar-link(ng-src='{{user.result.avatar | dmGravatar:35}}', ui-sref='index.devhero({id: user.result._id})')
         p.dm-leftbar-link.dm-leftbar-name(ui-sref='index.devhero({id: user.result._id})')
             strong {{user.result.name}} 
         button.btn.btn-xs.btn-warning(ng-if='user.result.bio === undefined || user.result.bio.length === 0', ui-sref='index.profile') Uzupełnij BIO

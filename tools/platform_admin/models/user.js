@@ -36,5 +36,8 @@ module.exports = mongoose.model('user', new mongoose.Schema({
     },
     bio: {
         type: String     
+    },
+    avatar: {
+        type: String        
     }
 }));

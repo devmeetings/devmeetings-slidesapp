@@ -1,6 +1,7 @@
 var User = require('../models/user'),
     passport = require('passport'),
-    mailer = require('../services/mailer');
+    mailer = require('../services/mailer'),
+    gravatar = require('gravatar');
 
 /**
  * Registration form view
@@ -25,7 +26,8 @@ exports.register = function(req, res, next, app) {
     var userData = {
         email: req.body.email || null,
         name: req.body.username || null,
-        password: req.body.password || null
+        password: req.body.password || null,
+        avatar: gravatar.url(req.body.email)
     };
 
     User.findOne({
