@@ -30,6 +30,7 @@ process.on('message', function(msg) {
     };
 
     vm.runInNewContext(obj.code, {
+        Buffer: Buffer,
         console: {
             log: function() {
                 var args = [].slice.call(arguments);
