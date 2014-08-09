@@ -47,6 +47,7 @@ connection.then(function(conn) {
                     port: port,
                     worker: worker,
                     timeout: setTimeout(function(){
+                        delete workers[msg.client];
                         worker.destroy();
                     }, 900000)
                 };
