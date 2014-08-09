@@ -1,7 +1,7 @@
 define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
     'use strict';
 
-    var EXECUTION_DELAY = 300;
+    var EXECUTION_DELAY = 1000;
 
     var path = sliderPlugins.extractPath(module);
 

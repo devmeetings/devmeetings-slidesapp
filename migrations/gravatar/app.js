@@ -120,6 +120,6 @@ connectToMongo().then(function (mongoDb) {
     });
 }).done(function () {
     console.log('done');
-    process.exit();
+    //process.exit();
 });
 

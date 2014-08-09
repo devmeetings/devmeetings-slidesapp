@@ -1,6 +1,7 @@
 var requireWhitelist = ['express', 'http', 'path', 'vm', 'cors',
     'crypto', 'net', 'https', 'util', 'url', 'zlib', 'tty',
-    'socket.io', 'connect', 'concat-stream', 'websocket', 'npmlog', 'semver'
+    'socket.io', 'connect', 'concat-stream', 'websocket', 'npmlog', 'semver',
+    'events', 'stream', 'domain', 'fs'
 ];
 
 
