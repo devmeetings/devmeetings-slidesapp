@@ -65,6 +65,20 @@ module.exports = {
                 "label": "NodeExecutor [prod]"
             }
         },
+        "expressExecutor": {
+            "name": "expressExecutor",
+            "path": xplatformDir + "executors/expressExecutor",
+            "options": {
+                "startFile": "app.js",
+                "logName": "exec-express.log",
+                "env": ""
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-warning",
+                "label": "ExpressExecutor [prod]"
+            }
+        },
         "javaExecutor": {
             "name": "javaExecutor",
             "path": xplatformDir + "executors/javaExecutor",

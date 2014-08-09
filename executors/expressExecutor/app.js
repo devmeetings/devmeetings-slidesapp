@@ -1,15 +1,15 @@
 #!/usr/local/bin/node
 
-var Queue = 'run_express';
-var ReplyQueue = 'run_replies';
+var Queue = 'exec_expressjs';
 
 console.log("Connecting to RabbitMQ");
 
 
 var cluster = require('cluster');
 var amqp = require('amqplib');
+var host = process.env.RABBITMQ_HOST || "localhost";
 
-var connection = amqp.connect('amqp://localhost');
+var connection = amqp.connect('amqp://' + host);
 
 cluster.setupMaster({
     exec: "runner.js",
@@ -33,30 +33,44 @@ connection.then(function(conn) {
             console.log("[*] Waiting for messages.");
             ch.consume(qok.queue, function(msg2) {
                 var msg = JSON.parse(msg2.content);
+                var port = 9000 + Math.floor(Math.random() * 5000);
 
                 if (workers[msg.client]) {
-                    workers[msg.client].destroy();
+                    port = workers[msg.client].port;
+                    clearTimeout(workers[msg.client].timeout);
+                    workers[msg.client].worker.destroy();
                 }
 
                 console.log("  Forking new worker", msg);
                 var worker = cluster.fork();
-                workers[msg.client] = worker;
+                workers[msg.client] = {
+                    port: port,
+                    worker: worker,
+                    timeout: setTimeout(function(){
+                        worker.destroy();
+                    }, 900000)
+                };
 
-                var replied = false;
+                var acked = false;
                 var reply = function(thing) {
-                    if (replied) {
-                        return;
+                    if (!acked) {
+                        ch.ack(msg2);
+                        acked = true;
                     }
-                    replied = true;
+                    thing.port = port;
+                    
                     console.log("Replying", thing, msg2.properties.correlationId);
-                    ch.ack(msg2);
-                    ch.sendToQueue(ReplyQueue, new Buffer(JSON.stringify(thing)), {
+                    ch.sendToQueue(msg2.properties.replyTo, 
+                        new Buffer(JSON.stringify(thing)), {
                         correlationId: msg2.properties.correlationId
                     });
                 };
                 worker.on("exit", function() {
-                    console.log("death");
+                    if (acked) {
+                        return;
+                    }
                     reply({
+                        success: false,
                         errors: ['Worker is dead']
                     });
                 });
@@ -64,7 +78,10 @@ connection.then(function(conn) {
                     // prepare reply
                     reply(rep);
                 });
-                worker.send(msg2.content.toString()); //Send the code to run for the worker
+                worker.send({
+                    msg: msg,
+                    port: port
+                }); //Send the code to run for the worker
             });
         });
     });

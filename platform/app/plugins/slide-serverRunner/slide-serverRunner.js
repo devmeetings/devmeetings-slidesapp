@@ -1,6 +1,7 @@
 var uuid = require('node-uuid');
 var when = require('when');
 var defer = when.defer;
+var _ = require('lodash');
 
 var Workers = null;
 
@@ -33,17 +34,25 @@ exports.init = function(config) {
                 return connection.then(function(conn) {
 
                     return conn.createChannel().then(function(ch) {
-                        var answer = defer();
                         var corrId = uuid();
 
-                        answers[corrId] = answer;
+                        answers[corrId] = {
+                            callback: callback
+                        };
+
+                        var closeChannelLater = _.debounce(function(id){
+                            delete answers[id];
+                            ch.close();
+                        }, 10000);
 
                         var maybeAnswer = function(msg) {
                             var id = msg.properties.correlationId;
                             if (answers[id]) {
+                                ch.ack(msg);
                                 var response = JSON.parse(msg.content.toString());
-                                answers[id].resolve(response);
-                                delete answers[id];
+                                answers[id].callback(response);
+                                closeChannelLater(id);
+                                //delete answers[id];
                             }
                         };
 
@@ -66,13 +75,10 @@ exports.init = function(config) {
                                 correlationId: corrId,
                                 replyTo: queue
                             });
-                            return answer.promise;
                         });
 
-                        return ok.then(function(res) {
-                            ch.close();
-                            callback(res);
-                        });
+                        return ok;
+
                     }, console.error);
                 });
             }
@@ -83,11 +89,11 @@ exports.init = function(config) {
 
 exports.onSocket = function(log, socket, io) {
 
-    socket.on('serverRunner.code.run', function(data, callback) {
+    socket.on('serverRunner.code.run', function(data) {
 
         console.log(data);
         Workers.send('exec_' + data.runner, data, function(response) {
-            callback(response);
+            socket.emit('serverRunner.code.result', response);
         });
 
     });

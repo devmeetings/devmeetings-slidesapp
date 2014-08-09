@@ -8,6 +8,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 4000).directive('slideServerRunner', [
         'Sockets',
         function(Sockets) {
+
+            var updateScope = function(data) {};
+            Sockets.on('serverRunner.code.result', function(data) {
+                updateScope(data);
+            });
+
+
             return {
                 restrict: 'E',
                 scope: {
@@ -16,6 +23,18 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 },
                 templateUrl: path + '/slide-serverRunner.html',
                 link: function(scope, element) {
+                    updateScope = function(data) {
+                        scope.$apply(function() {
+                            scope.success = data.success;
+                            scope.errors = data.errors || "";
+                            scope.stacktrace = data.stacktrace;
+                        });
+
+                        if (data.success) {
+                            sliderPlugins.trigger('slide.jsonOutput.display', data.result);
+                        }
+                    };
+
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
 
                         var code = codeEditor.getValue();
@@ -23,16 +42,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         Sockets.emit('serverRunner.code.run', {
                             runner: scope.runner,
                             code: code
-                        }, function(data) {
-                            scope.$apply(function() {
-                                scope.success = data.success;
-                                scope.errors = data.errors || "";
-                                scope.stacktrace = data.stacktrace;
-                            });
-
-                            if (data.success) {
-                                sliderPlugins.trigger('slide.jsonOutput.display', data.result);
-                            }
                         });
 
                     }, EXECUTION_DELAY));

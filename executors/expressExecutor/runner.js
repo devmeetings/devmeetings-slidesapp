@@ -1,9 +1,12 @@
-var requireWhitelist = ['express', 'http', 'path'];
+var requireWhitelist = ['express', 'http', 'path', 
+    'crypto', 'net', 'https', 'util', 'url', 'zlib', 'tty',
+    'socket.io', 'connect', 'concat-stream', 'websocket', 'npmlog', 'semver'
+    ];
 
 //The runner.js is ran in a separate process and just listens for the message which contains code to be executed
 process.on('message', function(msg) {
     try {
-        var obj = JSON.parse(msg);
+        var obj = msg.msg;
 
         var vm = require("vm");
 
@@ -14,6 +17,7 @@ process.on('message', function(msg) {
                     var args = [].slice.call(arguments);
                     output.push(args);
                     console.log.apply(console, args);
+                    asyncReply();
                 }
             },
             require: function(module) {
@@ -24,20 +28,24 @@ process.on('message', function(msg) {
             },
             process: {
                 env: {
-                    PORT: obj.port
+                    PORT: msg.port
                 }
             },
+            setTimeout: setTimeout,
             __dirname: __dirname
         });
-        setTimeout(function() {
+
+        // Shitty - handle async?
+        var asyncReply = function() {
             process.send({
-                ok: true,
-                result: JSON.stringify(output, null, 2)
+                success: true,
+                result: output
             }); //Send the finished message to the parent process
-        }, 50);
+        };
+
     } catch (e) {
         process.send({
-            ok: false,
+            success: false,
             errors: [e.toString()]
         });
     }

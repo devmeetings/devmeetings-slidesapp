@@ -7,7 +7,6 @@ process.on('message', function(msg) {
 
         var vm = require("vm");
 
-        console.log(obj.code);
         var output = [];
         vm.runInNewContext(obj.code, {
             console: {
