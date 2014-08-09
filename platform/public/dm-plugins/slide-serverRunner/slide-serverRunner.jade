@@ -1,4 +1,4 @@
 div
   .errors.alert.alert-danger(ng-show="!success")
-    {{ errors }}
-    pre(ng-if="stacktrace") {{ stacktrace | json }}
+    {{ errors.join("\n") }}
+    pre(ng-if="stacktrace") {{ stacktrace.join("\n") }}

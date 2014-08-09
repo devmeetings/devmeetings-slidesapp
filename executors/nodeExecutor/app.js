@@ -34,26 +34,28 @@ connection.then(function(conn) {
                 var worker = cluster.fork();
                 var timer = 0;
 
-                var replied = false;
+                var acked = false;
                 var reply = function(thing) {
-                    if (replied) {
-                        return;
+                    if (!acked) {
+                        ch.ack(msg);
+                        acked = true;
                     }
-                    replied = true;
-                    ch.ack(msg);
+
                     ch.sendToQueue(msg.properties.replyTo, new Buffer(JSON.stringify(thing)), {
                         correlationId: msg.properties.correlationId
                     });
                 };
                 worker.on("message", function(rep) {
                     clearTimeout(timer); //The worker responded in under 5 seconds, clear the timeout
-                    console.log(rep);
                     // prepare reply
                     reply(rep);
                     worker.destroy(); //Don't leave him hanging 
                 });
                 worker.on("exit", function() {
                     clearTimeout(timer); //The worker responded in under 5 seconds, clear the timeout
+                    if (acked) {
+                        return;
+                    }
                     reply({
                         success: false,
                         errors: ["Worker exited"]

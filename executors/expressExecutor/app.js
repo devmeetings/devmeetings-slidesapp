@@ -71,7 +71,8 @@ connection.then(function(conn) {
                     }
                     reply({
                         success: false,
-                        errors: ['Worker is dead']
+                        errors: ['Worker is dead'],
+                        args: arguments
                     });
                 });
                 worker.on("message", function(rep) {

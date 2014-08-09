@@ -32,6 +32,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         if (data.success) {
                             sliderPlugins.trigger('slide.jsonOutput.display', data.result);
+                        } else {
+                            sliderPlugins.trigger('slide.jsonOutput.display', data.errors);
                         }
                     };
 
