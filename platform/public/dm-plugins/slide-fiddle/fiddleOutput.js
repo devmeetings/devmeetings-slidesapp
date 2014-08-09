@@ -15,9 +15,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     };
 
 
-    sliderPlugins.directive('slideFiddleOutput', ['$location', '$timeout',
+    sliderPlugins.directive('slideFiddleOutput', ['$location', '$timeout', 'Sockets',
 
-        function($location, $timeout) {
+        function($location, $timeout, Sockets) {
 
             var host = "http://" + $location.host() + ":" + $location.port();
 
@@ -27,6 +27,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             var commonJs = [
                 '<script src="https://code.jquery.com/jquery.js"></script>'
             ].join("\n");
+
+            var serverPort = 0;
+            Sockets.on('serverRunner.code.result', function(data) {
+                serverPort = data.port || 0;
+            });
 
             return {
                 restrict: 'E',
@@ -61,7 +66,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             return 'try { ' + code + ';window.parent.postMessage({type:"fiddle-error", msg: ""}, "' + host + '");}' +
                                 'catch (e) { console.error(e); window.parent.postMessage({type: "fiddle-error", msg: e.message}, "' + host + '"); }';
                         };
-                        var jsCode = (isPure ? '' : commonJs) + "<script>" + wrapWithForwarder(fixOneLineComments(fiddle.js)) + "</script>";
+                        var fiddleJsCode = "window.port = " + serverPort +";" + fiddle.js;
+                        var jsCode = (isPure ? '' : commonJs) + "<script>" + wrapWithForwarder(fixOneLineComments(fiddleJsCode)) + "</script>";
                         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(fiddle.css) + "</style>";
                         var htmlCode = fiddle.html;
 
