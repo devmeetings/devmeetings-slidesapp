@@ -31,7 +31,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             var serverPort = 0;
             Sockets.on('serverRunner.code.result', function(data) {
                 serverPort = data.port || 0;
+                refreshPage();
             });
+            var refreshPage = function(){};
 
             return {
                 restrict: 'E',
@@ -49,6 +51,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         }
                     }, 500));
 
+                    refreshPage = function() {
+                        $iframe[0].src = "" + $iframe[0].src;
+                    };
+
                     var getHash = function() {
                         if (scope.fiddle.url) {
                             return scope.fiddle.url.hash;
@@ -56,7 +62,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         return '';
                     };
 
-                    sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.throttle(function(fiddle) {
+                    var refreshFiddle = function(fiddle) {
                         if (fiddle.url && fiddle.url.address) {
                             return;
                         }
@@ -85,6 +91,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         $iframe.removeClass('fiddle-pure');
                         $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + getHash();
+                    };
+
+                    sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.throttle(function(fiddle) {
+                        refreshFiddle(fiddle);
                     }, EXECUTION_DELAY, {
                         leading: false,
                         trailing: true
@@ -102,7 +112,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     });
 
                     scope.updateAddress = _.debounce(function(){
-                        var address = scope.fiddle.url.addressTemp;
+                        var address = scope.fiddle.url.addressTemp.replace(':port', ':' + serverPort);
                         scope.lastAddressTemp = address;
                         // /costam
                         // index.html#/costam
@@ -126,6 +136,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         }
                         scope.$apply(function(){
                             _.extend(scope.fiddle.url, url);
+                            refreshFiddle(scope.fiddle);
                         });
                     }, 500);
 
@@ -138,7 +149,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         scope.lastAddressTemp = scope.fiddle.url.addressTemp;
                         updatingUrl = true;
                         (function updateUrl() {
-
                             if (!scope.fiddle.url.address && scope.fiddle.url.addressTemp === scope.lastAddressTemp) {
                                 var hash = $iframe[0].contentWindow.location.hash.toString().replace('#', '');
                                 scope.fiddle.url.hash = hash;
