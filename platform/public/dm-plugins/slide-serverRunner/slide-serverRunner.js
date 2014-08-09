@@ -41,6 +41,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         var code = codeEditor.getValue();
 
+                        sliderPlugins.trigger('slide.serverRunner.code.run');
                         Sockets.emit('serverRunner.code.run', {
                             runner: scope.runner,
                             code: code

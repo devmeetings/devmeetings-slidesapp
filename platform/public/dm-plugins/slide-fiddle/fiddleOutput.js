@@ -31,9 +31,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             var serverPort = 0;
             Sockets.on('serverRunner.code.result', function(data) {
                 serverPort = data.port || 0;
-                refreshPage();
             });
-            var refreshPage = function(){};
 
             return {
                 restrict: 'E',
@@ -51,9 +49,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         }
                     }, 500));
 
-                    refreshPage = function() {
+                    var refreshPage = function() {
                         $iframe[0].src = "" + $iframe[0].src;
                     };
+                    sliderPlugins.listen(scope, 'slide.serverRunner.code.run', refreshPage);
 
                     var getHash = function() {
                         if (scope.fiddle.url) {
