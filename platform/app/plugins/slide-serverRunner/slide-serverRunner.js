@@ -43,7 +43,7 @@ exports.init = function(config) {
                         var closeChannelLater = _.debounce(function(id){
                             delete answers[id];
                             ch.close();
-                        }, 10000);
+                        }, 900000);
 
                         var maybeAnswer = function(msg) {
                             var id = msg.properties.correlationId;

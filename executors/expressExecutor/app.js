@@ -70,10 +70,11 @@ connection.then(function(conn) {
                     if (acked) {
                         return;
                     }
+                    ch.ack(msg2);
+                    acked = true;
                     reply({
-                        success: false,
-                        errors: ['Worker is dead'],
-                        args: arguments
+                        success: true,
+                        result: []
                     });
                 });
                 worker.on("message", function(rep) {

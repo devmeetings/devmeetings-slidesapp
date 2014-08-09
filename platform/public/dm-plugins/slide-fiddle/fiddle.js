@@ -27,7 +27,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
         return _.extend({
             js: '',
             css: '',
-            html: '<html><head></head><body></body></html'
+            html: '<html><head></head><body></body></html>'
         }, scope.fiddle);
     };
 
@@ -37,7 +37,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
         }
 
         var keys = _.keys(scope.fiddle);
-        return _.find(['js', 'coffee', 'css', 'html'], function(key) {
+        return _.find(['js', 'coffee', 'css', 'html', 'server'], function(key) {
             return _.contains(keys, key);
         });
 
@@ -56,7 +56,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
         }
     };
 
-    sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 5000).directive('slideFiddle', [
+    sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 3900).directive('slideFiddle', [
         '$timeout', '$window', '$rootScope',
         function($timeout, $window, $rootScope) {
             return {

@@ -37,7 +37,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 link: function(scope, element) {
                     var $iframe = element.find('iframe');
                     $iframe.on('load', _.debounce(function() {
-                        sliderPlugins.trigger('slide.slide-fiddle.output', $iframe[0].contentWindow.document);
+                        try {
+                            sliderPlugins.trigger('slide.slide-fiddle.output', $iframe[0].contentWindow.document);
+                        } catch(e) {
+                            // Just swallow exceptions about CORS
+                        }
                     }, 500));
 
                     var getHash = function() {
@@ -48,6 +52,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     };
 
                     sliderPlugins.listen(scope, 'slide.slide-fiddle.change', _.throttle(function(fiddle) {
+                        if (fiddle.url && fiddle.url.address) {
+                            return;
+                        }
+
                         var isPure = false;
                         var wrapWithForwarder = function(code) {
                             return 'try { ' + code + ';window.parent.postMessage({type:"fiddle-error", msg: ""}, "' + host + '");}' +
@@ -69,8 +77,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             htmlCode = cssCode + htmlCode;
                         }
 
+                        $iframe.removeClass('fiddle-pure');
                         $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + getHash();
-
                     }, EXECUTION_DELAY, {
                         leading: false,
                         trailing: true
@@ -82,21 +90,59 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         $iframe[0].contentWindow.location.hash = scope.fiddle.url.hash;
                     });
 
+                    scope.$watch('fiddle.url.address', function(){
+                        $iframe.addClass('fiddle-pure');
+                        $iframe[0].src = scope.fiddle.url.address;
+                    });
+
+                    scope.updateAddress = _.debounce(function(){
+                        var address = scope.fiddle.url.addressTemp;
+                        scope.lastAddressTemp = address;
+                        // /costam
+                        // index.html#/costam
+                        // http://google.pl
+                        if (!address) {
+                            return;
+                        }
+
+                        var url = {
+                            address: null,
+                            hash: ''
+                        };
+
+                        if (address.indexOf('index.html') === 0) {
+                            var arr = address.split('#');
+                            url.hash = arr[1] || '';
+                        } else if (address.indexOf('/') === 0) {
+                            url.hash = address;
+                        } else {
+                            url.address = address;
+                        }
+                        scope.$apply(function(){
+                            _.extend(scope.fiddle.url, url);
+                        });
+                    }, 500);
+
                     var updatingUrl = true;
                     scope.$watch('fiddle.url', function(val) {
                         if (!val) {
                             updatingUrl = false;
                             return;
                         }
+                        scope.lastAddressTemp = scope.fiddle.url.addressTemp;
                         updatingUrl = true;
                         (function updateUrl() {
-                            scope.fiddle.url.hash = $iframe[0].contentWindow.location.hash.toString().replace('#', '');
+
+                            if (!scope.fiddle.url.address && scope.fiddle.url.addressTemp === scope.lastAddressTemp) {
+                                var hash = $iframe[0].contentWindow.location.hash.toString().replace('#', '');
+                                scope.fiddle.url.hash = hash;
+                                scope.fiddle.url.addressTemp = 'index.html#' + hash;
+                            }
 
                             if (updatingUrl) {
                                 $timeout(updateUrl, 600);  
                             }
                         }());
-
                     });
                 }
             };

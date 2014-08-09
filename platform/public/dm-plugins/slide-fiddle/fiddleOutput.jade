@@ -1,5 +1,6 @@
 input.form-control(
 	type="text", 
 	ng-show="fiddle.url", 
-	ng-model="fiddle.url.hash")
+	ng-model="fiddle.url.addressTemp",
+	ng-change="updateAddress()")
 iframe.iframe-fiddle-output

@@ -9,6 +9,7 @@
     "amqplib": "^0.1.2",
     "concat-stream": "~1.4.5",
     "connect": "^3.1.0",
+    "cors": "^2.4.1",
     "express": "^3.16.3",
     "jade": "*",
     "npmlog": "~0.0.6",

@@ -56,9 +56,11 @@ connection.then(function(conn) {
                     if (acked) {
                         return;
                     }
+                    ch.ack(msg);
+                    acked = true;
                     reply({
-                        success: false,
-                        errors: ["Worker exited"]
+                        success: true,
+                        result: []
                     });
                 });
                 timer = setTimeout(function() {

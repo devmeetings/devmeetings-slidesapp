@@ -11,12 +11,15 @@ mixin tabContent(name, mode)
       mixin tabHeader('js', 'main.js')
       mixin tabHeader('coffee', 'main.coffee')
       mixin tabHeader('css', 'styles.css')
-      mixin tabHeader('html', 'index.html')  
+      mixin tabHeader('html', 'index.html')
+      mixin tabHeader('server', 'server.js')
     .tab-content
       mixin tabContent('js', 'javascript')
       mixin tabContent('coffee', 'coffee')
       mixin tabContent('css', 'css')
       mixin tabContent('html', 'html')
+      .tab-pane.fade(ng-if="fiddle.server", ng-class="{'active in': active === 'server' }")
+        slide-code(context="fiddle", data="fiddle.server")
     .errors.alert.alert-danger.errors-fiddle
       {{ errors }}
   .col-sm-6(ng-class="{ 'hidden': fiddle.hideOutput }")
