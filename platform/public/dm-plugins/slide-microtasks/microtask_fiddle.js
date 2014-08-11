@@ -22,7 +22,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
                 var $els = innerDocument.querySelectorAll(selector);
                 var i;
                 for (i=0;i<$els.length;++i) {
-                    if ($els[i].innerHTML.search(test) !== -1) {
+                    if ($els[i].innerHTML.search(text) !== -1) {
                         return true;
                     }
                 }
