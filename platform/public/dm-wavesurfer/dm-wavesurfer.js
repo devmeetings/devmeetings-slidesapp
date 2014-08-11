@@ -1,5 +1,5 @@
 'use strict';
-angular.module('dm-wavesurfer', []).directive('dmWavesurfer', [function () {
+angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', function ($timeout) {
     
     var wavesurfer = Object.create(WaveSurfer);
     
@@ -17,48 +17,52 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', [function () {
         link: function (scope, element) {
             var options = {
                 container: element[0], 
-                waveColor: 'red',
-                progressColor: 'rgba(255,0,0,1)',
+                waveColor: 'rgb(37,37,37)',
+                progressColor: '#5aabcb', 
                 loaderColor: 'purple',
-                cursorColor: 'rgba(0,255,0,1)',
+                cursorColor: '#5aabcb',
                 selectionColor: 'rgba(110,110,110,1)',
                 markerWidth: 2,
                 minPxPerSec: 10,
                 scrollParent: true,
-                height: 200
+                height: 100
             };
 
             wavesurfer.init(options);
 
-            scope.watch('dmSrc', function () {
-                if (scope.dmSrc === '' || !scope.dmSrc) {
-                    return;
-                }
+            //scope.watch('dmSrc', function () {
+                //if (scope.dmSrc === '' || !scope.dmSrc) {
+                    //return;
+                //}
 
                 //wavesurfer.load(scope.dmSrc);
                 wavesurfer.load('/static/example.ogg');
-            });
+            //});
 
             wavesurfer.on('ready', function () {
+                
+                var checkPlaying = function () {
+                    scope.dmIsPlaying ? wavesurfer.play() : wavesurfer.pause();
+                };
+
                 wavesurfer.seekAndCenter(scope.dmStartSecond);
                 scope.$watch('dmStartSecond', function () {
                     if (!scope.dmStartSecond) {
                         return;
                     }
                     wavesurfer.seekAndCenter(scope.dmStartSecond / wavesurfer.getDuration());
+                    checkPlaying();
                 });
 
                 scope.$watch('dmIsPlaying', function () {
-                    if (scope.isPlaying) {
-                        wavesurfer.play();
-                    } else {
-                        wavesurfer.pause();
-                    }
+                    checkPlaying();
                 });
             });
 
             wavesurfer.on('progress', function (progress) {
-                scope.dmCurrentSecond = wavesurfer.getCurrentTime();
+                $timeout(function () {
+                    scope.dmCurrentSecond = wavesurfer.getCurrentTime();
+                });
             });
         
         }
