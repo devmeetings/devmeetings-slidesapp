@@ -6,7 +6,7 @@ define(['angular',
 
 
             $scope.state = {
-                isPlaying: false, 
+                isPlaying: true, 
                 currentSecond: 0,
                 startSecond: 0,
                 videoHeight: 850,
