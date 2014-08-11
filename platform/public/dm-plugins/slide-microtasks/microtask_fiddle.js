@@ -18,10 +18,19 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
                 return $els.length > 0;
             };
 
-            var result = evalAssertion(task.fiddle, ["document", 'exists'], [innerDocument, exists]);
+            var verify = function() {
 
-            if (result) {
-                markTaskCompleted();
+                var result = evalAssertion(task.fiddle, ["document", 'exists'], [innerDocument, exists]);
+                if (result) {
+                    markTaskCompleted();
+                }
+                return result;
+            };
+
+            var result = verify();
+            if (!result) {
+                // Try one more time after few seconds (maybe angular is still loading)
+                setTimeout(verify, 1000);
             }
         }, EXECUTION_DELAY));
 
