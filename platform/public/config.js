@@ -44,13 +44,15 @@ require.config({
         "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
         "coffee": "../components/coffee-script/extras/coffee-script",
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
+        "wavesurfer": "../components/wavesurfer.js/build/wavesurfer.min",
         "dm-video": "../dm-video/dm-video",
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
         "dm-observe": "../dm-observe/dm-observe",
         "dm-stream": "../dm-stream/dm-stream",
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
-        "dm-gravatar": "../dm-gravatar/dm-gravatar"
+        "dm-gravatar": "../dm-gravatar/dm-gravatar",
+        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer"
     },
     "map": {
         "*": {
@@ -155,6 +157,9 @@ require.config({
         },
         "dm-gravatar" : {
             "deps": ["angular"] 
+        },
+        "dm-wavesurfer" : {
+            "deps": ["angular", "wavesurfer"] 
         },
         "angular-hotkeys": {
             "deps": ["angular"]
