@@ -1,6 +1,6 @@
 //-.player-top-bottombar(style="width:{{state.activeChapterPercentage}}%")
 .player-bottombar-wave
-    dm-wavesurfer(dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying')
+    dm-wavesurfer(dm-scroll='false', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying')
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
     .navbar-header
