@@ -25,7 +25,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
         htmlCode = replaceOrAppend(htmlCode, '</body>', jsCode);
         htmlCode = replaceOrAppend(htmlCode, '</head>', cssCode);
-        
+
         return htmlCode;
     };
 
@@ -105,11 +105,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
 
                     // URL support
-                    scope.$watch('fiddle.url.hash', function(){
+                    scope.$watch('fiddle.url.hash', function() {
+                        if (!scope.fiddle.url) {
+                            return;
+                        }
                         $iframe[0].contentWindow.location.hash = scope.fiddle.url.hash;
                     });
 
-                    scope.$watch('fiddle.url.address', function(){
+                    scope.$watch('fiddle.url.address', function(newVal, oldVal){
+                        if (!scope.fiddle.url) {
+                            return;
+                        }
                         $iframe.addClass('fiddle-pure');
                         $iframe[0].src = scope.fiddle.url.address;
                     });
