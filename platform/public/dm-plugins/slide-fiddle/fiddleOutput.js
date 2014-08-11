@@ -14,6 +14,21 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         });
     };
 
+    var injectDataToHtmlCode = function(htmlCode, jsCode, cssCode) {
+
+        var replaceOrAppend = function(htmlCode, tag, code) {
+            if (htmlCode.search(tag)) {
+                return htmlCode.replace(tag, code + tag);
+            }
+            return htmlCode + code;
+        };
+
+        htmlCode = replaceOrAppend(htmlCode, '</body>', jsCode);
+        htmlCode = replaceOrAppend(htmlCode, '</head>', cssCode);
+
+        return htmlCode;
+    };
+
 
     sliderPlugins.directive('slideFiddleOutput', ['$location', '$timeout', 'Sockets',
 
@@ -43,7 +58,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     var $iframe = element.find('iframe');
                     $iframe.on('load', _.debounce(function() {
                         try {
-                            sliderPlugins.trigger('slide.slide-fiddle.output', $iframe[0].contentWindow.document);
+                            var contentWindow = $iframe[0].contentWindow;
+                            sliderPlugins.trigger('slide.slide-fiddle.output', contentWindow.document, contentWindow);
                         } catch(e) {
                             // Just swallow exceptions about CORS
                         }
@@ -74,19 +90,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         var fiddleJsCode = "window.port = " + serverPort +";" + fiddle.js;
                         var jsCode = (isPure ? '' : commonJs) + "<script>" + wrapWithForwarder(fixOneLineComments(fiddleJsCode)) + "</script>";
                         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(fiddle.css) + "</style>";
-                        var htmlCode = fiddle.html;
+                        var htmlCode = injectDataToHtmlCode(fiddle.html, jsCode, cssCode);
 
-
-                        if (htmlCode.search("</body>")) {
-                            htmlCode = htmlCode.replace("</body>", jsCode + "</body>");
-                        } else {
-                            htmlCode += jsCode;
-                        }
-                        if (htmlCode.search("</head>")) {
-                            htmlCode = htmlCode.replace("</head>", cssCode + "</head>");
-                        } else {
-                            htmlCode = cssCode + htmlCode;
-                        }
 
                         $iframe.removeClass('fiddle-pure');
                         $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + getHash();
@@ -101,11 +106,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
 
                     // URL support
-                    scope.$watch('fiddle.url.hash', function(){
+                    scope.$watch('fiddle.url.hash', function() {
+                        if (!scope.fiddle.url) {
+                            return;
+                        }
                         $iframe[0].contentWindow.location.hash = scope.fiddle.url.hash;
                     });
 
-                    scope.$watch('fiddle.url.address', function(){
+                    scope.$watch('fiddle.url.address', function(newVal, oldVal){
+                        if (!scope.fiddle.url) {
+                            return;
+                        }
                         $iframe.addClass('fiddle-pure');
                         $iframe[0].src = scope.fiddle.url.address;
                     });
@@ -125,14 +136,20 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             hash: ''
                         };
 
-                        if (address.indexOf('index.html') === 0) {
-                            var arr = address.split('#');
-                            url.hash = arr[1] || '';
-                        } else if (address.indexOf('/') === 0) {
-                            url.hash = address;
-                        } else {
-                            url.address = address;
-                        }
+                        var parseAddress = function(url, address) {
+                            if (address.indexOf('index.html') === 0) {
+                                var arr = address.split('#');
+                                url.hash = arr[1] || '';
+                            } else if (address.indexOf('/') === 0) {
+                                url.hash = address;
+                            } else {
+                                url.address = address;
+                            }
+                        };
+
+                        parseAddress(url, address);
+
+                        
                         scope.$apply(function(){
                             _.extend(scope.fiddle.url, url);
                             refreshFiddle(scope.fiddle);

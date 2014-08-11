@@ -6,7 +6,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
     Plugins.registerPlugin('microtask.runner', 'fiddle', function(taskData, registerPlugin, listenPlugin, markTaskCompleted) {
         var task = taskData.task;
 
-        listenPlugin('slide.slide-fiddle.output', _.throttle(function(innerDocument) {
+        listenPlugin('slide.slide-fiddle.output', _.throttle(function(innerDocument, innerWindow) {
             if (task.completed) {
                 return;
             }
@@ -18,10 +18,30 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
                 return $els.length > 0;
             };
 
-            var result = evalAssertion(task.fiddle, ["document", 'exists'], [innerDocument, exists]);
+            var contains = function(selector, text) {
+                var $els = innerDocument.querySelectorAll(selector);
+                var i;
+                for (i=0;i<$els.length;++i) {
+                    if ($els[i].innerHTML.search(text) !== -1) {
+                        return true;
+                    }
+                }
+                return false;
+            };
 
-            if (result) {
-                markTaskCompleted();
+            var verify = function() {
+
+                var result = evalAssertion(task.fiddle, ['window', 'document', 'exists', 'contains'], [innerWindow, innerDocument, exists, contains]);
+                if (result) {
+                    markTaskCompleted();
+                }
+                return result;
+            };
+
+            var result = verify();
+            if (!result) {
+                // Try one more time after few seconds (maybe angular is still loading)
+                setTimeout(verify, 1000);
             }
         }, EXECUTION_DELAY));
 
