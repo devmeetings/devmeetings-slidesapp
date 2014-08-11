@@ -75,10 +75,8 @@
                 fieldset
                     .form-group
                         .col-lg-12
-                            button.btn.btn-primary.pull-right(type='button')
+                            button.btn.btn-primary.pull-right(type='button', ng-click='videopreview.isPlaying = !videopreview.isPlaying')
                                 | Play
-                            button.btn.btn-default.pull-right(type='button')
-                                | Reload
             p.col-lg-12.col-md-12
                 | current-second: {{videopreview.currentSecond | number:2}}
             p.col-lg-12.col-md-12
@@ -86,11 +84,9 @@
             p.col-lg-12.col-md-12
                 | length: {{recordingPlayer.length}}
             .col-lg-12.col-md-12
-                dm-video(dm-height='300', dm-controls, dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond', dm-is-Playing='videopreview.isPlaying')
-            .col-lg-12.col-md-12
                 plugins-loader(namespace="'slide'", context="recordingPlayer.slide")
-                pre.
-                    {{recordingPlayer.slide|json}}
+            .col-lg-12.col-md-12
+                dm-wavesurfer(dm-scroll='true', dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond', dm-is-playing='videopreview.isPlaying')
 
 
 

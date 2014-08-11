@@ -10,7 +10,7 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             dmCurrentSecond: '=',
             dmStartSecond: '=',
             dmIsPlaying: '=',
-            dmHeight: '@'
+            dmScroll: '@'
         },
         replace: true,
         templateUrl: '/static/dm-wavesurfer/dm-wavesurfer.html',
@@ -24,20 +24,21 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                 selectionColor: 'rgba(110,110,110,1)',
                 markerWidth: 2,
                 minPxPerSec: 10,
-                scrollParent: true,
+                scrollParent: scope.dmScroll === 'true' ? true : false,
                 height: 100
             };
 
+
             wavesurfer.init(options);
 
-            //scope.watch('dmSrc', function () {
-                //if (scope.dmSrc === '' || !scope.dmSrc) {
-                    //return;
-                //}
+            scope.$watch('dmSrc', function () {
+                if (scope.dmSrc === '' || !scope.dmSrc) {
+                    return;
+                }
 
-                //wavesurfer.load(scope.dmSrc);
-                wavesurfer.load('/static/example.ogg');
-            //});
+                wavesurfer.load(scope.dmSrc);
+                //wavesurfer.load('/static/example.ogg');
+            });
 
             wavesurfer.on('ready', function () {
                 
