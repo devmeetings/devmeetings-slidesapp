@@ -17,6 +17,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
                 }
                 return $els.length > 0;
             };
+
             var contains = function(selector, text) {
                 var $els = innerDocument.querySelectorAll(selector);
                 var i;
@@ -30,7 +31,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
 
             var verify = function() {
 
-                var result = evalAssertion(task.fiddle, ['window', 'document', 'exists'], [innerWindow, innerDocument, exists]);
+                var result = evalAssertion(task.fiddle, ['window', 'document', 'exists', 'contains'], [innerWindow, innerDocument, exists, contains]);
                 if (result) {
                     markTaskCompleted();
                 }
