@@ -17,6 +17,16 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
                 }
                 return $els.length > 0;
             };
+            var contains = function(selector, text) {
+                var $els = innerDocument.querySelectorAll(selector);
+                var i;
+                for (i=0;i<$els.length;++i) {
+                    if ($els[i].innerHTML.search(test) !== -1) {
+                        return true;
+                    }
+                }
+                return false;
+            };
 
             var verify = function() {
 
