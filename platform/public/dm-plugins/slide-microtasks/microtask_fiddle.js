@@ -6,7 +6,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
     Plugins.registerPlugin('microtask.runner', 'fiddle', function(taskData, registerPlugin, listenPlugin, markTaskCompleted) {
         var task = taskData.task;
 
-        listenPlugin('slide.slide-fiddle.output', _.throttle(function(innerDocument) {
+        listenPlugin('slide.slide-fiddle.output', _.throttle(function(innerDocument, innerWindow) {
             if (task.completed) {
                 return;
             }
@@ -20,7 +20,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
 
             var verify = function() {
 
-                var result = evalAssertion(task.fiddle, ["document", 'exists'], [innerDocument, exists]);
+                var result = evalAssertion(task.fiddle, ['window', 'document', 'exists'], [innerWindow, innerDocument, exists]);
                 if (result) {
                     markTaskCompleted();
                 }
