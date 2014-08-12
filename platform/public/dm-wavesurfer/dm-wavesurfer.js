@@ -66,12 +66,19 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             });
 
             (function () {
+                var $progress = element[0].querySelector('.progress');
+                var $progressBar = element[0].querySelector('.progress-bar');
+                var $wave = element[0].querySelector('wave');
+
                 var showProgress = function (percent) {
-                    console.log(percent, element); 
+                    $progress.style.display = 'block';
+                    $wave.style.display = 'none';
+                    $progressBar.style.width = percent + '%';
                 };
 
                 var hideProgress = function () {
-                
+                    $progress.style.display = 'none';
+                    $wave.style.display = 'block';
                 };
 
                 wavesurfer.on('loading', showProgress);
