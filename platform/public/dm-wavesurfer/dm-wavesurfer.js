@@ -70,6 +70,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                 var $progressBar = element[0].querySelector('.progress-bar');
                 var $wave = element[0].querySelector('wave');
 
+                $progress.style.margin = '0px 0px 50px 0px';
+                $progress.style['border-radius'] = '0px';
+
                 var showProgress = function (percent) {
                     $progress.style.display = 'block';
                     $wave.style.display = 'none';
