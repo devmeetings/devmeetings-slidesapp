@@ -65,6 +65,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                 });
             });
         
+            scope.$on('$destroy', function () {
+                wavesurfer.destroy();
+            });
         }
     }
 }]);
