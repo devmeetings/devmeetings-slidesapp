@@ -7,6 +7,7 @@ require(['angular',
         'dm-admin/controllers/dm-admin-decks/dm-admin-decks',
         'dm-admin/controllers/dm-admin-chapters/dm-admin-chapters',
         'dm-admin/controllers/dm-admin-chapter/dm-admin-chapter',
+        'dm-admin/controllers/dm-admin-waves/dm-admin-waves',
         'directives/plugins-loader'
 ], function (angular, angularRouter, bootstrap, adminApp, adminSlider) {
     adminApp.config(['$stateProvider', '$urlRouterProvider',
@@ -63,6 +64,18 @@ require(['angular',
                     }
                 }
             });
+
+            $stateProvider.state('index.waves', {
+                url: '/waves',
+                views: {
+                    content: {
+                        templateUrl: getControllerTemplate('dm-admin-waves'),
+                        controller: 'dmAdminWaves'
+                    }
+                }
+            });
+
+
 
             $urlRouterProvider.otherwise('');
         }

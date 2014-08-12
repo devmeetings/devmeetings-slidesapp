@@ -11,8 +11,8 @@ angular.module('dm-video', []).directive('dmVideo', ['$timeout',
                 dmVideoLength: '=',
                 dmControls: '@',
                 dmHeight: '@',
-                dmAutoHeight: '=',
-                delay: '='
+                dmAutoHeight: '='
+               
             },
             template: '<div><video class="video-js vjs-default-skin" preload="auto" width="100%" autoplay="autoplay">'
             + '</video></div>',
