@@ -33,10 +33,13 @@ module.exports = function(app, config) {
             }
             return next();
         });
-        app.use(stream(config.root + '/public'));
-        app.use(config.staticsPath, function(req, res, next) {
-            res.stream(req.url);
-        });
+        app.use(config.staticsPath, express.static(config.root + '/public'));
+        //app.use(stream(config.root + '/public'), {
+            //cache: false
+        //});
+        //app.use(config.staticsPath, function(req, res, next) {
+            //res.stream(req.url);
+        //});
         app.set('port', config.port);
         app.set('views', config.root + '/app/views');
         app.set('view engine', 'jade');

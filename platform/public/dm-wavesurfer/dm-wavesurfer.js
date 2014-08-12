@@ -64,6 +64,21 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                     scope.dmCurrentSecond = wavesurfer.getCurrentTime();
                 });
             });
+
+            (function () {
+                var showProgress = function (percent) {
+                    console.log(percent, element); 
+                };
+
+                var hideProgress = function () {
+                
+                };
+
+                wavesurfer.on('loading', showProgress);
+                wavesurfer.on('ready', hideProgress);
+                wavesurfer.on('destroy', hideProgress);
+                wavesurfer.on('error', hideProgress);
+            }());
         
             scope.$on('$destroy', function () {
                 wavesurfer.destroy();

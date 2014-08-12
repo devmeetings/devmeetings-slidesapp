@@ -110,6 +110,11 @@ module.exports = function(app) {
     app.get('/admin_old', authenticated, admin.index);
     app.get('/admin_old/partials/:name', authenticated, admin.partials);
 
+    var editor = require('../app/controllers/editor');
+    app.get('/editor/soundslist', authenticated, editor.soundsList);
+    app.get('/editor/reclist', authenticated, editor.recList);
+
+
 
     var plugins = require('./plugins');
     plugins.invokePlugins('initApi', ['/api/', app, authenticated]);
