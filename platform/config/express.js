@@ -1,6 +1,8 @@
 var express = require('express'),
     passport = require('passport'),
     lessMiddleware = require('less-middleware'),
+    expressWinston = require('express-winston'),
+    Graylog2 = require('winston-graylog2').Graylog2,
     path = require('path');
 
 var MongoStore = require('connect-mongo')(express);
@@ -35,7 +37,17 @@ module.exports = function(app, config) {
         app.set('views', config.root + '/app/views');
         app.set('view engine', 'jade');
         app.use(express.favicon(config.root + '/public/img/favicon.ico'));
-        app.use(express.logger('dev'));
+        app.use(express.logger(config.logger));
+        if (config.graylog) {
+            app.use(expressWinston.logger({
+                transports: [
+                    new Graylog2({
+                        graylogHost: config.graylog.host,
+                        graylogPort: config.graylog.port
+                    })
+                ]
+            }));
+        }
         app.use(sessionConfig.cookieParser());
         app.use(express.bodyParser());
         app.use(express.session(sessionConfig));

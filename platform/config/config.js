@@ -25,7 +25,9 @@ var config = {
             secret: "c2cb2cebdccca68ed630a061436ba012"
         },
         db: 'mongodb://' + mongoHost + '/platform-development',
-        queue: rabbitHost
+        queue: rabbitHost,
+        graylog: false,
+        logger: 'dev'
     },
 
     test: {
@@ -45,7 +47,9 @@ var config = {
         },
         realmUrl: realmUrl || 'http://xplatform.org:2000',
         db: 'mongodb://' + mongoHost + '/platform-test',
-        queue: rabbitHost
+        queue: rabbitHost,
+        graylog: false,
+        logger: 'dev'
     },
 
     staging: {
@@ -67,7 +71,12 @@ var config = {
         },
         realmUrl: realmUrl || 'http://jsintro.xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-staging',
-        queue: rabbitHost
+        queue: rabbitHost,
+        graylog: {
+            host: 'pinkiepie.todr.me',
+            port: 1782
+        },
+        logger: 'dev'
     },
 
     production: {
@@ -89,7 +98,12 @@ var config = {
         },
         realmUrl: realmUrl || 'http://xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-production',
-        queue: rabbitHost
+        queue: rabbitHost,
+        graylog: {
+            host: 'pinkiepie.todr.me',
+            port: 1782
+        },
+        logger: 'prod'
     }
 };
 
