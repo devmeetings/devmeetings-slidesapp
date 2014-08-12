@@ -37,7 +37,6 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                 }
 
                 wavesurfer.load(scope.dmSrc);
-                //wavesurfer.load('/static/example.ogg');
             });
 
             wavesurfer.on('ready', function () {
