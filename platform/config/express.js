@@ -3,7 +3,8 @@ var express = require('express'),
     lessMiddleware = require('less-middleware'),
     expressWinston = require('express-winston'),
     Graylog2 = require('winston-graylog2').Graylog2,
-    path = require('path');
+    path = require('path'),
+    stream = require('connect-stream');
 
 var MongoStore = require('connect-mongo')(express);
 
@@ -32,7 +33,10 @@ module.exports = function(app, config) {
             }
             return next();
         });
-        app.use(config.staticsPath, express.static(config.root + '/public'));
+        app.use(stream(config.root + '/public'));
+        app.use(config.staticsPath, function(req, res, next) {
+            res.stream(req.url);
+        });
         app.set('port', config.port);
         app.set('views', config.root + '/app/views');
         app.set('view engine', 'jade');
