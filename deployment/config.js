@@ -44,6 +44,7 @@ module.exports = {
                 "cmd": "bash",
                 "startFile": "run.sh",
                 "logName": "formage.log",
+                "env": "NODE_ENV=\"production\""
             },
             "btn": {
                 "class": "btn-inverse",
