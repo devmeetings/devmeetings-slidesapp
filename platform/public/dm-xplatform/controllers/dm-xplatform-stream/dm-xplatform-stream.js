@@ -31,8 +31,8 @@ define(['angular',
             'video.done' : {
                 text: 'ukończył tutorial'
             },
-            'microtask.done' : {
-                text: 'ukończył microzadanie'
+            'task.done' : {
+                text: 'ukończył zadanie'
             }
         };
 

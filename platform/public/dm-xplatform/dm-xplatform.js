@@ -213,7 +213,7 @@ require(['angular',
             });
 
             $stateProvider.state('index.task', {
-                url: '/task/:id',
+                url: '/task/:event/:id',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',

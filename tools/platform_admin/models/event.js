@@ -23,9 +23,18 @@ var Event = new Schema({
         name: {
             type: String      
         },
-        done: {
-            type: Boolean  
-        }
+        peopleFinished: [{
+            userId: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            name: {
+                type: String      
+            },
+            avatar: {
+                type: String        
+            }
+        }]
     }],
     trainer: {
         name: {
