@@ -11,4 +11,4 @@ SlideSchema.virtual('date')
         return this._id.getTimestamp();
     });
 
-module.exports = mongoose.model('Slide', SlideSchema);
+module.exports = mongoose.model('slide', SlideSchema);

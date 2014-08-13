@@ -1,4 +1,3 @@
 div
-  .errors.alert.alert-danger(ng-show="!success")
-    {{ errors.join("\n") }}
-    pre(ng-if="stacktrace") {{ stacktrace.join("\n") }}
+    .errors.alert.alert-danger(ng-show="!success") {{ errors.join("\n") }}
+        pre(ng-if="stacktrace") {{ stacktrace.join("\n") }}

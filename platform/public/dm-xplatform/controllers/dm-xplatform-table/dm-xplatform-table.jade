@@ -5,10 +5,14 @@ div.col-lg-12.col-md-12.dm-table-container
             th Technologia
             th Ukonczyli tutorial 
         tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
-            td.dm-table-blue
-                p(ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})') {{event.title}}
-            td.dm-table-green
-                p.green {{event.technology}}
+            td
+                .dm-table-slides 
+                    span(ng-repeat='slide in event.slides', ui-sref='index.task({id: slide.slideId, event: event._id})')
+                        i.fa.fa-circle-o.dm-table-gray(ng-if='!slideIsFinished(slide, user)')
+                        i.fa.fa-circle.dm-table-green(ng-if='slideIsFinished(slide, user)')
+                p.dm-table-blue(ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})') {{event.title}}
+            td
+                p.dm-table-green {{event.technology}}
             td.dm-table-avatars 
                 div 
                     img(ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', ng-src='{{user.avatar | dmGravatar:25}}', ui-sref='index.devhero({id: user.userId})')

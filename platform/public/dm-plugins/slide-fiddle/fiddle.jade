@@ -20,7 +20,6 @@ mixin tabContent(name, mode)
       mixin tabContent('html', 'html')
       .tab-pane.fade(ng-if="fiddle.server", ng-class="{'active in': active === 'server' }")
         slide-code(context="fiddle", data="fiddle.server")
-    .errors.alert.alert-danger.errors-fiddle
-      {{ errors }}
+    .errors.alert.alert-danger.errors-fiddle {{ errors }}
   .col-sm-6(ng-class="{ 'hidden': fiddle.hideOutput }")
     slide-fiddle-output(data="fiddle")

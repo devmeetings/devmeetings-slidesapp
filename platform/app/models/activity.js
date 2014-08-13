@@ -22,7 +22,7 @@ var Activity = new Schema({
                 'slide.enter',
                 'video.start',
                 'video.done',
-                'microtask.done']
+                'task.done']
     },
     data: {
         type: Schema.Types.Mixed      

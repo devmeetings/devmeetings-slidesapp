@@ -15,6 +15,27 @@ var Event = new Schema({
     technology: String,
     date: Date,
     description: String,
+    slides: [{
+        slideId: {
+            type: Schema.Types.ObjectId,
+            ref: 'slide'
+        },
+        name: {
+            type: String      
+        },
+        peopleFinished: [{
+            userId: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            name: {
+                type: String      
+            },
+            avatar: {
+                type: String        
+            }
+        }]
+    }],
     trainer: {
         name: {
             type: String      

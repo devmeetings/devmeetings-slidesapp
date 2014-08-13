@@ -106,6 +106,71 @@ var Events = {
 
     done: function (req, res) {
         addToPeopleArray(req, res, 'peopleFinished', 'video.done');
+    },
+
+    task_done: function (req, res) {
+        var userId = req.user._id;
+        var eventId = req.params.id;
+        var slideId = req.params.slide;
+
+        var eventPromise = Event.findOne({
+            _id: eventId,
+            'slides.slideId': slideId
+        }).exec();
+
+        var userPromise = User.findOne({
+            _id: userId
+        }).exec();
+
+        Q.all([eventPromise, userPromise]).then(function (results) {
+            var event = results[0];
+            var user = results[1];
+            var slide = _.find(event.slides, function (slide) {
+                return slide.slideId.toString() === slideId;
+            });
+
+            if (!event) {
+                return 400;
+            }
+
+            var exists = _.find(slide.peopleFinished, function (person) {
+                return person.userId.toString() === userId;
+            });
+
+            if (exists) {
+                return 200;
+            }
+
+            slide.peopleFinished.push({
+                userId: userId,
+                name: user.name,
+                avatar: user.avatar
+            });
+
+            event.markModified('slides');
+            return Q.ninvoke(event, 'save').then(function () {
+                return Q.ninvoke(Activity, 'create', {
+                    owner: {
+                        userId: userId, 
+                        name: user.name,
+                        avatar: user.avatar
+                    },
+                    type: 'task.done',
+                    data: {
+                        title: slide.name,
+                        eventId: event._id,
+                        linkId: slideId
+                    }
+                }).then( function (activity) {
+                    return 200;
+                });
+            });
+        }).then(function(code){
+            res.send(code);
+        }).fail(function (err) {
+            res.send(400);
+        });
+
     }
 };
 

@@ -16,6 +16,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-event/dm-xplatform-event',
     'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology',
     'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
+    'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
     'xplatform/controllers/dm-xplatform-options/dm-xplatform-options'
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
@@ -206,6 +207,28 @@ require(['angular',
                     $rootScope.xplatformData.columns = {
                         left: 8,
                         mid: 4,
+                        right: 0
+                    };
+                }
+            });
+
+            $stateProvider.state('index.task', {
+                url: '/task/:event/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
+                        controller: 'dmXplatformSlide'
+                    }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Slide',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 12,
+                        mid: 0,
                         right: 0
                     };
                 }
