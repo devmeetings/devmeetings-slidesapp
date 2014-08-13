@@ -36,6 +36,20 @@ module.exports = {
                 "label": "XPlatform [staging]"
             }
         },
+        "formage": {
+            "name": "formage",
+            "path": xplatformDir + "../devmeetings-slidesapp/tools/platform_admin",
+            "options": {
+                "buildGrunt": false,
+                "cmd": "bash",
+                "startFile": "run.sh",
+                "logName": "formage.log"
+            },
+            "btn": {
+                "class": "btn-inverse",
+                "label": "Formage [prod]"
+            }
+        },
         "xplatform-prod": {
             "name": "xplatform-prod",
             "path": xplatformDir + "platform",
