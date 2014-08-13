@@ -43,7 +43,7 @@ module.exports = {
                 "buildGrunt": false,
                 "cmd": "bash",
                 "startFile": "run.sh",
-                "logName": "formage.log"
+                "logName": "formage.log",
             },
             "btn": {
                 "class": "btn-inverse",
@@ -138,9 +138,10 @@ module.exports = {
 
         var startFile = env.options.startFile;
         var cmd = env.options.cmd ? "-c " + env.options.cmd : "";
+        var extraEnv = env.options.env || "";
 
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
-        commands.addBash(env.options.env + " forever --uid " + env.name + " " + cmd + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
+        commands.addBash(extraEnv + " forever --uid " + env.name + " " + cmd + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
     }
 
 };
