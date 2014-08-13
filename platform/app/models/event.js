@@ -15,6 +15,18 @@ var Event = new Schema({
     technology: String,
     date: Date,
     description: String,
+    slides: [{
+        slideId: {
+            type: Schema.Types.ObjectId,
+            ref: 'slide'
+        },
+        name: {
+            type: String      
+        },
+        done: {
+            type: Boolean  
+        }
+    }],
     trainer: {
         name: {
             type: String      

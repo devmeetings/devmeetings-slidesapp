@@ -13,4 +13,4 @@ DeckSchema.virtual('date')
         return this._id.getTimestamp();
     });
 
-module.exports = mongoose.model('Deck', DeckSchema);
+module.exports = mongoose.model('deck', DeckSchema);
