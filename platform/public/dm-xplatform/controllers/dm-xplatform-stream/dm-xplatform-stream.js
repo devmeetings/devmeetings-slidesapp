@@ -12,34 +12,41 @@ define(['angular',
             });
         }
 
-        var details = {
-            'event.signup' : {
-                text: 'weźmie udział w szkoleniu'
-            },
-            'deck.start' : {
-                text: 'rozpoczął kurs'
-            },
-            'deck.finish' : {
-                text: 'zakończył kurs'
-            },
-            'slide.enter' : {
-                text: 'rozpoczął rozwiązywanie rozwiazywanie zadań na slajdzie'
-            },
+        var detailsGroup = {
             'video.start' : {
-                text: 'rozpoczął tutorial'
+                getText: function () {
+                    'rozpoczął tutorial'
+                },
+                getLink: function(event, link) {
+                    return 'index.player.chapter({id: "' + link + '", index: "0", event: "' + event + '"})';
+                }
             },
             'video.done' : {
-                text: 'ukończył tutorial'
+                getText: function () {
+                    'ukończył tutorial'
+                },
+                getLink: function(event, link) {
+                    return 'index.player.chapter({id: "' + link + '", index: "0", event: "' + event + '"})';
+                }
             },
             'task.done' : {
-                text: 'ukończył zadanie'
+                getText: function () {
+                    return 'ukończył zadanie'
+                },
+                getLink: function(event, link) {
+                    return 'index.task({id: "' + link + '", event: "' + event + '"})'; 
+                }
             }
         };
 
         $scope.detailsForActivity = function (activity) {
-            var det = angular.copy(details[activity.type]);
-            det.title = activity.data.title; 
-            return det;
+            var det = detailsGroup[activity.type];
+            var details = {
+                title: activity.data.title,
+                text: det.getText(),
+                link: det.getLink(activity.data.eventId, activity.data.linkId)
+            };
+            return details;
         };
 
         

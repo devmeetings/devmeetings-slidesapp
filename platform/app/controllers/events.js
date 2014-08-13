@@ -148,7 +148,7 @@ var Events = {
             });
 
             event.markModified('slides');
-            return Q.ninvoke(event, 'save').then(function (event) {
+            return Q.ninvoke(event, 'save').then(function () {
                 return Q.ninvoke(Activity, 'create', {
                     owner: {
                         userId: userId, 
@@ -157,7 +157,7 @@ var Events = {
                     },
                     type: 'task.done',
                     data: {
-                        title: event.title,
+                        title: slide.name,
                         eventId: event._id,
                         linkId: slideId
                     }

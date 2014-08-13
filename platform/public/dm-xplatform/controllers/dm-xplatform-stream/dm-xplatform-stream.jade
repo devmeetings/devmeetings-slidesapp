@@ -4,7 +4,7 @@
             img(ng-src='{{activity.owner.avatar | dmGravatar: 30}}', ui-sref='index.devhero({id: activity.owner.userId})')
             span.dm-stream-blue(ui-sref='index.devhero({id: activity.owner.userId})') {{activity.owner.name}}&nbsp;
             span {{details.text}}&nbsp;
-            span.dm-stream-green(ui-sref='index.player.chapter({id: activity.data.linkId, index: "0", event: activity.data.eventId})') {{details.title}}    
+            span.dm-stream-green(ui-sref='{{details.link}}') {{details.title}}
             p.dm-stream-time(am-time-ago='{{activity._id | dmMongotime}}')
             div
                 div
