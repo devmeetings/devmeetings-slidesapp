@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 cp -rf ../../platform/app/models .
-node app.js
+NODE_ENV=$NODE_ENV node app.js
 
