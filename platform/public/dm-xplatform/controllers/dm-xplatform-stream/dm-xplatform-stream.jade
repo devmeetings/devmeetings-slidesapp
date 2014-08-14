@@ -1,10 +1,10 @@
 .col-md-offset-1.col-md-10.dm-xplatform-stream
     .list-group
-        a.list-group-item(ng-repeat='activity in stream.result', ng-init='details = detailsForActivity(activity)')
+        .list-group-item(ng-repeat='activity in stream.result', ng-init='details = detailsForActivity(activity)')
             img(ng-src='{{activity.owner.avatar | dmGravatar: 30}}', ui-sref='index.devhero({id: activity.owner.userId})')
-            span.dm-stream-blue(ui-sref='index.devhero({id: activity.owner.userId})') {{activity.owner.name}}&nbsp;
+            a.dm-stream-blue(ui-sref='index.devhero({id: activity.owner.userId})') {{activity.owner.name}}&nbsp;
             span {{details.text}}&nbsp;
-            span.dm-stream-green(ui-sref='{{details.link}}') {{details.title}}
+            a.dm-stream-green(ui-sref='{{details.link}}') {{details.title}}
             p.dm-stream-time(am-time-ago='{{activity._id | dmMongotime}}')
             div
                 div
