@@ -15,7 +15,7 @@ define(['angular',
         var detailsGroup = {
             'video.start' : {
                 getText: function () {
-                    'rozpoczął tutorial'
+                    return 'rozpoczął tutorial'
                 },
                 getLink: function(event, link) {
                     return 'index.player.chapter({id: "' + link + '", index: "0", event: "' + event + '"})';
@@ -23,7 +23,7 @@ define(['angular',
             },
             'video.done' : {
                 getText: function () {
-                    'ukończył tutorial'
+                    return 'ukończył tutorial'
                 },
                 getLink: function(event, link) {
                     return 'index.player.chapter({id: "' + link + '", index: "0", event: "' + event + '"})';
