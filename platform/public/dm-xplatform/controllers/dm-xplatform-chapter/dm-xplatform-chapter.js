@@ -20,6 +20,9 @@ define(['angular',
             };
             
             $http.post('/api/event/start/' + $stateParams.event);
+            $http.get('/api/event/first_task/' + $stateParams.event).success(function (slideId) {
+                $scope.nextSlideId = slideId;
+            });
 
             $scope.modalData = {
                //saveTitle
@@ -189,7 +192,13 @@ define(['angular',
                     size: 'sm',
                     resolve: {
                         title: function () {
-                           return angular.copy($scope.chapter.title);    
+                            return angular.copy($scope.chapter.title);    
+                        },
+                        slideId: function () {
+                            return $scope.nextSlideId; 
+                        },
+                        eventId: function () {
+                            return $stateParams.event;         
                         }
                     }
                 });

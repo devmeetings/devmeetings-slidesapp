@@ -188,7 +188,7 @@ var Events = {
             if (!slide) {
                 return res.send(200);
             }
-            res.send(slide.slideId);
+            res.send(slide.slideId.toString());
 
 
         }, function (err) {
