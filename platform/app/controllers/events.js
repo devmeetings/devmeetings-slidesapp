@@ -125,13 +125,14 @@ var Events = {
         Q.all([eventPromise, userPromise]).then(function (results) {
             var event = results[0];
             var user = results[1];
-            var slide = _.find(event.slides, function (slide) {
-                return slide.slideId.toString() === slideId;
-            });
-
+           
             if (!event) {
                 return 400;
             }
+            
+            var slide = _.find(event.slides, function (slide) {
+                return slide.slideId.toString() === slideId;
+            });
 
             var exists = _.find(slide.peopleFinished, function (person) {
                 return person.userId.toString() === userId;
@@ -171,6 +172,28 @@ var Events = {
             res.send(400);
         });
 
+    },
+
+    first_task: function (req, res) {
+        var eventId = req.params.id;
+    
+        Event.findOne({
+            _id: eventId,
+        }).exec().then(function (event) {
+            if (!event) {
+                return res.send(400);
+            }
+
+            var slide = _.first(event.slides);
+            if (!slide) {
+                return res.send(200);
+            }
+            res.send(slide.slideId);
+
+
+        }, function (err) {
+            res.send(400);
+        });
     }
 };
 
