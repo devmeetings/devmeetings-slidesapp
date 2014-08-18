@@ -2,7 +2,6 @@ var express = require('express'),
     passport = require('passport'),
     lessMiddleware = require('less-middleware'),
     expressWinston = require('express-winston'),
-    Graylog2 = require('winston-graylog2').Graylog2,
     path = require('path'),
     stream = require('connect-stream');
 
@@ -35,10 +34,10 @@ module.exports = function(app, config) {
         });
         app.use(config.staticsPath, express.static(config.root + '/public'));
         //app.use(stream(config.root + '/public'), {
-            //cache: false
+        //cache: false
         //});
         //app.use(config.staticsPath, function(req, res, next) {
-            //res.stream(req.url);
+        //res.stream(req.url);
         //});
         app.set('port', config.port);
         app.set('views', config.root + '/app/views');
@@ -46,6 +45,8 @@ module.exports = function(app, config) {
         app.use(express.favicon(config.root + '/public/img/favicon.ico'));
         app.use(express.logger(config.logger));
         if (config.graylog) {
+            var Graylog2 = require('winston-graylog2').Graylog2;
+
             app.use(expressWinston.logger({
                 transports: [
                     new Graylog2({

@@ -1,0 +1,251 @@
+.login-holder {
+	width: 400px;
+	height: 231px;
+	background: #262626;
+	margin: 100px auto 0;
+	-webkit-border-radius: @border-radius;
+	-moz-border-radius: @border-radius;
+	border-radius: @border-radius;
+	border: 1px solid #000000;
+}
+.login-padding {
+	padding: 15px 20px 0;
+}
+
+.login-header {
+	font-size: 18px;
+	color: #5aabcb;
+	font-weight: @weight-regular;
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+
+.registration-holder a,
+.registration-holder a:hover {
+	font-size: 14px;
+	font-weight: @weight-regular;
+	color: @color-white70;
+	text-decoration: none;
+}
+
+
+
+.form-login {
+	display: inline-block;
+	height: 25px;
+	background: transparent;
+	padding: 0 33px;
+	outline: none;
+	border-bottom: 1px solid #515151;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	color: @color-white100;
+}
+
+.form-login:focus {
+	border-color: #515151;
+	border-bottom: 1px solid #515151;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.form-login::-webkit-input-placeholder {
+   color: @color-white70;
+}
+.form-login:-moz-placeholder { 
+   color: @color-white70;
+}
+.form-login::-moz-placeholder { 
+   color: @color-white70; 
+}
+.form-login:-ms-input-placeholder {  
+   color: @color-white70;  
+}
+
+
+
+
+
+
+.ico-holder {
+	position: relative;
+}
+.ico-sub {
+	position: absolute;
+}
+.ico-user {
+	top: 3px;
+	left: 10px;
+}
+.ico-password {
+	top: 3px;
+	left: 10px;
+}
+
+.password-forgot {
+	font-size: 12px;
+	font-weight: @weight-regular;
+	color: #6e6e6e;
+	position: absolute;
+	top: -22px;
+	right: 0px;
+}
+
+.password-forgot a,
+.password-forgot a:hover {
+	color: #6e6e6e;
+	text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+/* ----- CHECKBOX */
+.checkbox-option ul {
+	padding-top: 0px;
+	padding-left: 0;
+	list-style: none;
+}
+.checkbox-option ul li {
+	padding-top: 5px;
+}
+
+.checkbox-option input[type="checkbox"] {
+    display: none;
+}
+.checkbox-option input[type="checkbox"] + label span {
+    display:inline-block;
+    width: 12px;
+    height: 12px;
+    position: relative;
+    top: -2px;
+    margin-right: 5px;
+    vertical-align: middle;
+    background: url('../images/login/checkbox.png') no-repeat;
+    cursor: pointer;
+}
+.checkbox-option input[type="checkbox"]:checked + label span {
+    background: url('../images/login/checkbox_checked.png') no-repeat;
+}
+.checkbox-option label {
+	font-size: 12px;
+	font-weight: @weight-regular;
+	line-height: 20px;
+	color: @color-white60;
+	cursor: pointer;
+}
+
+
+
+
+.btn-log {
+	width: 160px;
+	height: 32px;
+	background: #5aabcb;
+	font-size: 14px;
+	font-weight: @weight-regular;
+	line-height: 16px;
+	color: @color-white100;
+	outline: 0;
+	border: 0;
+}
+.btn-log:focus,
+.btn-log:active {
+	outline: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+
+
+
+.gp-auth-holder {
+	width: 133px;
+	height: 40px;
+	float: left;
+	position: relative;
+	left: -1px;
+	background: #d73d32;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
+}
+.fb-auth-holder {
+	width: 133px;
+	height: 40px;
+	float: left;
+	background: #44619d;
+}
+.gith-auth-holder {
+	width: 132px;
+	height: 40px;
+	float: left;
+	position: relative;
+	right: -1px;
+	background: #707070;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+
+.gp-auth-holder a,
+.fb-auth-holder a,
+.gith-auth-holder a,
+.gp-auth-holder a:hover,
+.fb-auth-holder a:hover,
+.gith-auth-holder a:hover {
+	padding-left: 30px;
+	font-size: 13px;
+	font-weight: @weight-regular;
+	line-height: 38px;
+	color: @color-white100;
+	text-decoration: none;
+}
+
+
+.gp-auth-holder img {
+	padding-right: 5px;
+}
+.fb-auth-holder img {
+	padding-right: 8px;
+	margin-bottom: 3px;
+}
+.gith-auth-holder img {
+	padding-right: 1px;
+	margin-bottom: 3px;
+	margin-left: -5px;
+}
+
+
+
+html,body  {
+	height: 100%;
+}
+body {
+	background: #ffffff;
+	font-family: @fontfamily-OpenSans;
+}
+
+
+
+	// background: #000000 url('../images/login/bck.jpg') center center no-repeat;
+	//  -webkit-background-size: cover;
+ //    -moz-background-size: cover;
+ //    -o-background-size: cover;
+ //    background-size: cover;
