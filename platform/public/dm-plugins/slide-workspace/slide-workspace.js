@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output'], function(module, _, sliderPlugins, ace) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
@@ -28,6 +28,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                     var applyChangesLater = _.debounce(function() {
                         scope.$apply();
                     }, 2000);
+                    var triggerChangeLater = _.throttle(function() {
+                        sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
+                    }, 1500, {
+                        leading: false,
+                        trailing: true
+                    });
 
                     editor.on('change', function() {
                         syncEditorContent(editor, scope.activeTab);
@@ -55,6 +61,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                             return;
                         }
                         updateEditorContent(editor, scope.activeTab);
+                        triggerChangeLater();
                     });
                     // TODO [ToDr] activeTab.editor
 
