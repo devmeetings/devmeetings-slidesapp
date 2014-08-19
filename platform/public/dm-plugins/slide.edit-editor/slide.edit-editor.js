@@ -24,6 +24,7 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                     editor.setTheme('ace/theme/todr');
                     editor.getSession().setMode('ace/mode/json');
                     editor.setValue(JSON.stringify(scope.slide, null, 2));
+                    editor.clearSelection();
 
                     var updateSlideContent = function() {
                         var value = editor.getValue();
@@ -37,7 +38,10 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                         });
                     };
 
-                    var updateSlideContentThrottled = _.throttle(updateSlideContent, UPDATE_THROTTLE_TIME);
+                    var updateSlideContentThrottled = _.throttle(updateSlideContent, UPDATE_THROTTLE_TIME, {
+                        leading: false,
+                        trailing: true
+                    });
                     editor.on('change', updateSlideContentThrottled);
 
                     scope.$watch('slide', _.throttle(function(newSlide, oldSlide) {
@@ -54,7 +58,10 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
 
                         if (editorContentFormatted !== slideString) {
                             editor.off('change', updateSlideContentThrottled);
+                            var cursorPosition = editor.getCursorPosition();
                             editor.setValue(slideString);
+                            editor.clearSelection();
+                            editor.moveCursorToPosition(cursorPosition);
                             editor.on('change', updateSlideContentThrottled);
                         }
 
