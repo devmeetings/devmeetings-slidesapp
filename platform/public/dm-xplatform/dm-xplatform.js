@@ -17,7 +17,10 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology',
     'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
     'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
-    'xplatform/controllers/dm-xplatform-options/dm-xplatform-options'
+    'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
+    'xplatform/controllers/dm-xplatform-paypagedesc/dm-xplatform-paypagedesc',
+    'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
+
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -33,14 +36,14 @@ require(['angular',
                         controller: 'XplatformIndexCtrl'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData = {
                         navbar: {},
                         columns: {}
                     };
                 }
             });
-           
+
             $stateProvider.state('index.stream', {
                 url: '/newsfeed',
                 views: {
@@ -57,7 +60,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'News Feed',
@@ -70,7 +73,7 @@ require(['angular',
                     };
                 }
             });
-            
+
             $stateProvider.state('index.menu', {
                 url: '/tutorials/:type',
                 views: {
@@ -83,7 +86,7 @@ require(['angular',
                         controller: 'dmXplatformTable'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'Tutoriale',
@@ -96,7 +99,7 @@ require(['angular',
                     };
                 }
             });
-            
+
             $stateProvider.state('index.event', {
                 url: '/event/:id',
                 views: {
@@ -109,7 +112,7 @@ require(['angular',
                         controller: 'dmXplatformEvent'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 10,
@@ -117,8 +120,8 @@ require(['angular',
                     };
                 }
             });
-            
-            
+
+
             $stateProvider.state('index.technology', {
                 url: '/technology/:name',
                 views: {
@@ -131,15 +134,15 @@ require(['angular',
                         controller: 'dmXplatformTechnology'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 10,
                         right: 0
                     };
                 }
-            }); 
-            
+            });
+
             $stateProvider.state('index.devhero', {
                 url: '/devhero/:id',
                 views: {
@@ -156,7 +159,32 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 3,
+                        mid: 6,
+                        right: 3
+                    };
+                }
+            });
+
+            $stateProvider.state('index.paypage', {
+                url: '/paypage/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
+                        controller: 'dmXplatformDevhero'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypagedesc/dm-xplatform-paypagedesc.html',
+                        controller: 'dmXplatformPaypagedesc'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
+                    }
+                },
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 3,
                         mid: 6,
@@ -177,7 +205,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 8,
                         mid: 4,
@@ -185,7 +213,7 @@ require(['angular',
                     };
                 }
             });
-            
+
             $stateProvider.state('index.profile', {
                 url: '/profile',
                 views: {
@@ -198,7 +226,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'Edycja profilu',
@@ -220,7 +248,7 @@ require(['angular',
                         controller: 'dmXplatformSlide'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'Slide',
@@ -242,7 +270,7 @@ require(['angular',
                         controller: 'dmXplatformPlayer'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 12,
                         mid: 0,
