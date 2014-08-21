@@ -18,7 +18,8 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
     'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
     'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
-    'xplatform/controllers/dm-xplatform-paypagedesc/dm-xplatform-paypagedesc',
+    'xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc',
+    'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
     'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
 
 ], function(angular, angularRouter, bootstrap, xplatformApp) {
@@ -168,20 +169,41 @@ require(['angular',
                 }
             });
 
-            $stateProvider.state('index.paypage', {
-                url: '/paypage/:id',
+            $stateProvider.state('index.courses', {
+                url: '/courses',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                         controller: 'dmXplatformDevhero'
                     },
                     mid: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypagedesc/dm-xplatform-paypagedesc.html',
-                        controller: 'dmXplatformPaypagedesc'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.html',
+                        controller: 'dmXplatformWorkshoplist'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.columns = {
+                        left: 3,
+                        mid: 9,
+                        right: 0
+                    };
+                }
+            });
+
+            $stateProvider.state('index.coursesDesc', {
+                url: '/courses/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
+                        controller: 'dmXplatformDevhero'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
+                        controller: 'dmXplatformWorkshopdesc'
                     },
                     right: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
-                        controller: 'dmXplatformPaypageprice'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypage/dm-xplatform-paypage.html',
+                        controller: 'dmXplatformPaypage'
                     }
                 },
                 onEnter: function($rootScope) {
