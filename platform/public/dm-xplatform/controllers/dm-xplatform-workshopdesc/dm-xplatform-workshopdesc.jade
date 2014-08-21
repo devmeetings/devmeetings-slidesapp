@@ -1,17 +1,16 @@
 .col-md-12
 
     .dm-workshopdesc-container
-
         .row
             .col-md-12
-                img.img-responsive.displayed(src="static/images/workshopdesc/jsprog.jpg")
+                img.img-responsive.displayed(ng-src="{{course.image}}")
 
         .row
             .col-md-12
                 .dm-title
                     h4 
-                     | JavaScript dla Programistów
+                     | {{course.title}}
                 .dm-workshopdesc-separator         
-                p 
-                 | Warsztaty dla developerów Javy, PHP, Ruby i innych języków, którzy generują kod HTML na serwerze, a chcieliby pisać szybkie i nowoczesne web aplikacje (tzw. Single Page Apps) przy pomocy JavaScriptu.
+                p(marked="course.description")
+                    {{course.description}}
                 

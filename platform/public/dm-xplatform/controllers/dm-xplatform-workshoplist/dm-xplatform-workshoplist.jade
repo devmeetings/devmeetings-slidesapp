@@ -8,107 +8,16 @@
 						| Dostępne kursy
 
 
-			.col-md-4.col-sm-4
+			.col-md-4.col-sm-4(ng-repeat="cours in courses")
 				.workshoplist-col
 					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/angular_ember_backbone.jpg")
+						img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
+						
 					.workshopdesc-detailsholder
 						br
 						.workshoplist-details
 							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
+								a(ui-sref='index.coursesDesc({id: cours.id})')
+									| {{cours.title}}
 								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/angular_forms.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/mongodb.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/mongodb+elastic.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/reactjs_flux.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/teaser_ampersandjs.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/teaser_erlang.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
-
-			.col-md-4.col-sm-4
-				.workshoplist-col
-					.workshoplist-thumb
-						img.img-responsive.workshoplist-img(src="static/images/workshopdesc/teaser_ocaml.jpg")
-					.workshopdesc-detailsholder
-						br
-						.workshoplist-details
-							h4
-								a(href='https://www.facebook.com/media/set/?set=a.213760888644610.53558.151035771583789&type=3', target='_blank')
-									| OpenGL pod iOS
-								p
-									| Warsztaty, na których budowaliśmy grę pod iOS przy pomocy biblioteki OpenGL ES.
+									| {{cours.description}}

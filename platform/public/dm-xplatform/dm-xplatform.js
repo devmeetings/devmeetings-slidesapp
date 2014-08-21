@@ -202,8 +202,8 @@ require(['angular',
                         controller: 'dmXplatformWorkshopdesc'
                     },
                     right: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypage/dm-xplatform-paypage.html',
-                        controller: 'dmXplatformPaypage'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
                     }
                 },
                 onEnter: function($rootScope) {

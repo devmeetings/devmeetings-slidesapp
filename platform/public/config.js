@@ -3,13 +3,13 @@ require.config({
     "paths": {
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
-        
+
         //deprectated
         "slider": "../dm-slider/slider",
         "services": "../dm-slider/services",
         "utils": "../dm-slider/utils",
-        "directives" : "../dm-slider/directives",
-        
+        "directives": "../dm-slider/directives",
+
         "require": "../../require",
         "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",
@@ -52,7 +52,9 @@ require.config({
         "dm-stream": "../dm-stream/dm-stream",
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
-        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer"
+        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
+        "angular-marked": "../components/angular-marked/angular-marked",
+        "marked": "../components/marked/lib/marked"
     },
     "map": {
         "*": {
@@ -125,6 +127,9 @@ require.config({
         "angular-moment": {
             "deps": ["angular", "moment"]
         },
+        "angular-marked": {
+            "deps": ["angular", "../marked-wrapper"]
+        },
         "angular-local-storage": {
             "deps": ["angular"]
         },
@@ -152,14 +157,14 @@ require.config({
         "dm-stream": {
             "deps": ["angular"]
         },
-        "dm-mongotime" : {
-            "deps": ["angular"] 
+        "dm-mongotime": {
+            "deps": ["angular"]
         },
-        "dm-gravatar" : {
-            "deps": ["angular"] 
+        "dm-gravatar": {
+            "deps": ["angular"]
         },
-        "dm-wavesurfer" : {
-            "deps": ["angular", "wavesurfer"] 
+        "dm-wavesurfer": {
+            "deps": ["angular", "wavesurfer"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]
