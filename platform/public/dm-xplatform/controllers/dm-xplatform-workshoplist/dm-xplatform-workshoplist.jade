@@ -16,7 +16,7 @@
 						| Dostępne kursy
 			.col-md-4.col-sm-4(ng-repeat="cours in courses|filter:filter.by")
 				.workshoplist-col
-					.workshoplist-icon.text-success(ng-if="cours.isReady")
+					.workshoplist-icon.text-success(ng-if="cours.isReady", tooltip="Ten kurs jest już dostępny na platformie!")
 						span.fa.fa-check-circle
 					.workshoplist-thumb
 						a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="!cours.isReady")
