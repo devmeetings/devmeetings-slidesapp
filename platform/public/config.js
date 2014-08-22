@@ -1,6 +1,7 @@
 require.config({
     "baseUrl": "/static/dm-slider",
     "paths": {
+        "templates": "../bin/templates",
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
 
@@ -65,6 +66,9 @@ require.config({
         }
     },
     "shim": {
+        "templates": {
+            "deps": ['slider/slider']
+        },
         "jquery": {
             "exports": "$"
         },

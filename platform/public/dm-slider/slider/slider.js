@@ -1,4 +1,5 @@
-define(['angular', './slider.plugins',
+define(['angular',
+        './slider.plugins',
         "angular-bootstrap", "angular-animate", "angular-touch", "angular-slider", 'angular-ui-sortable',
         'angular-moment', 'angular-local-storage', 'angular-contenteditable', 'angulartics-ga'
     ],

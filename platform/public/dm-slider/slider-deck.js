@@ -1,4 +1,5 @@
 require([
+    'templates',
     "slider/slider",
     "slider/slider.plugins",
     "slider/bootstrap",

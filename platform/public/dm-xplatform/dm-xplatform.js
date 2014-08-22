@@ -1,4 +1,5 @@
 require(['angular',
+    'templates',
     'angular-ui-router',
     'slider/bootstrap',
     'xplatform/xplatform-app',
@@ -22,7 +23,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
     'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
 
-], function(angular, angularRouter, bootstrap, xplatformApp) {
+], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
 

@@ -2,8 +2,8 @@ extends ../layouts/main
 
 append scripts
     script(src='/static/components/requirejs/require.js')
-    script(src='/static/config.js')
-    script(src='#{jsModulesPath}/dm-xplatform/dm-xplatform.js')
+    script(src='/static/config.js?v=#{cacheBustingVersion}')
+    script(src='#{jsModulesPath}/dm-xplatform/dm-xplatform#{cacheBustingVersion}.js')
 
 block content
     div(ui-view='navbar')
