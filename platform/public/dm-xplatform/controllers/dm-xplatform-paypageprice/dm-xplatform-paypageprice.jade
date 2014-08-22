@@ -4,13 +4,23 @@
 		.col-md-12
 			.paypageprice-progress-holder
 				.progress
-					.progress-bar.progress-bar-success.progress-bar-striped(role='progressbar', aria-valuenow='60', aria-valuemin='0', aria-valuemax='100', style='width: 60%;')
-						| 60%
+					.progress-bar.progress-bar-success.progress-bar-striped(role='progressbar', 
+						aria-valuenow='{{course.progressbarValue}}', aria-valuemin='0', aria-valuemax='100', style='width: {{course.progressbarValue}}%;')
+						| {{course.progressbarValue}}
 
 
 		.col-md-12.paypageprice-radio-holder
 			| Tak, chcę ten kurs zapłacę za niego:
 			.form-group
+				.checkbox-option.pull-left
+					ul
+						li
+							input#rememberMe(type='checkbox')
+								label(for='rememberMe')
+									span
+										| Zapamiętaj mnie
+
+
 				.col-md-12
 					.radio
 						label(for='radios-1')

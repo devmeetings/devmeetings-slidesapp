@@ -2,14 +2,7 @@ define(['angular', 'xplatform/xplatform-app', 'xplatform/courses'], function(ang
     xplatformApp.controller('dmXplatformWorkshopdesc', ['$scope', '$stateParams', 'Courses',
         function($scope, $stateParams, Courses) {
 
-            $scope.courses = Courses.courses;
-
-
-            $scope.id = $stateParams.id;
-
-            $scope.course = $scope.courses.filter(function(x) {
-                return x.id == $stateParams.id;
-            })[0];
+            $scope.course = Courses.getCourseById($stateParams.id);
 
         }
     ]);
