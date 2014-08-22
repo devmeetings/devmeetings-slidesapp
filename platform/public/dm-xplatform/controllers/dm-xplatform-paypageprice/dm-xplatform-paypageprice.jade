@@ -16,22 +16,36 @@
 				.row
 					.col-md-12.btn-group
 						.btn-group-sm
-							button.btn.btn-primary.col-md-4
+							button.btn.btn-primary.col-md-4(
+								ng-class="{active: price===10}",
+								analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.10",
+								analytics-value="10", ng-click="price=10")
 								| 10 PLN
 						.btn-group-sm
-							button.btn.btn-primary.col-md-4.col-md-offset-2
+							button.btn.btn-primary.col-md-4.col-md-offset-2(
+								ng-class="{active: price===25}",
+								analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.25", 
+								analytics-value="25", ng-click="price=25")
 								| 25 PLN
 
 					.col-md-12.btn-group
-						.btn-group-sm
+						.btn-group-sm(
+								ng-class="{active: price===50}",
+								analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.50", 
+								analytics-value="50",ng-click="price=50")
 							button.btn.btn-primary.col-md-4
 								| 50 PLN
-						.btn-group-sm
+						.btn-group-sm(
+								ng-class="{active: price===100}",
+								analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.100", 
+								analytics-value="100",ng-click="price=100")
 							button.btn.btn-primary.col-md-4.col-md-offset-2
 								| 100 PLN
 
 							
 				.row
 					.col-md-12
-						button.btn.btn-success.btn-lg(type='button') 
+						button.btn.btn-success.btn-lg(type='button',
+							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="pay", analytics-value="{{price}}"
+							) 
 							| Ok
