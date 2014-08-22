@@ -5,8 +5,8 @@ define(['angular', 'xplatform/xplatform-app', 'xplatform/courses'], function(ang
                 by: ''
             };
 
-            $scope.courses = Courses.courses;
-            var f = function(name, val) {
+        $scope.courses = Courses.courses;
+        var f = function(name, val) {
                 return {
                     name: name,
                     value: val

@@ -8,7 +8,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 })[0];
             },
             courses: [{
-                id: 'erlang',
+                id: 'erlangoo',
                 tags: ['erlang', 'functional', 'oo'],
                 title: 'Podstawy Erlanga dla obiektowców',
                 description: '- Wstęp z języka Erlang dla programistów języków obiektowych.\n' +
@@ -20,7 +20,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/teaser_erlang.jpg",
                 progressbarValue: 10
             }, {
-                id: 2,
+                id: 'erlangnode',
                 title: 'Erlang dla node’owców',
                 tags: ['erlang', 'functional', 'node', 'js'],
                 description: '- W jaki sposób przenieść aplikację nodejs do Erlanga.\n' +
@@ -29,7 +29,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/jsprog.jpg",
                 progressbarValue: 20
             }, {
-                id: 3,
+                id: 'jsre',
                 tags: ['js', 'functional', 'events', 'ramda', 'web'],
                 title: 'Functional Reactive Programming w JS',
                 description: '- Wstęp do programowania funkcyjnego\n' +
@@ -39,7 +39,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/jsprog.jpg",
                 progressbarValue: 30
             }, {
-                id: 4,
+                id: 'haskell',
                 tags: ['haskell', 'functional', 'js'],
                 title: 'Haskell dla JavaScriptowców Funkcyjnych',
                 description: '- Dogłębne zrozumienie koncepcji dostępnych w JS na przykładzie języka Haskell\n' +
@@ -48,7 +48,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/jsprog.jpg",
                 progressbarValue: 40
             }, {
-                id: 5,
+                id: 'ocaml',
                 tags: ['ocaml', 'functional', 'js'],
                 title: 'Programowanie funkcyjne w Ocaml',
                 description: '- Czym jest Ocaml?\n' +
@@ -58,7 +58,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/teaser_ocaml.jpg",
                 progressbarValue: 50
             }, {
-                id: 6,
+                id: 'angularnobackend',
                 tags: ['angular', 'backend', 'js', 'production', 'api', 'web', 'spa'],
                 title: 'Pisanie bezbackendowych apek w AngularJS',
                 description: 'Czy potrzebujemy backendu? W jaki sposób możemy pisać aplikacje webowe z wykorzystaniem API udostępnianych przez zewnętrzne serwisy.\n' +
@@ -69,14 +69,14 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/angular_services.jpg",
                 progressbarValue: 60
             }, {
-                id: 7,
+                id: 'rwdcommerce',
                 title: 'Responsywne e-sklepy',
                 tags: ['rwd', 'css', 'ecommerce', 'web', 'less', 'sass', 'js'],
                 description: 'RWD dla sklepów internetowych. Szczegółowa analiza rozwiązań na podstawie rzeczywistych przykładów i ich wpływ na konwersję.\n',
                 image: "static/images/workshopdesc/rwd_commerce.jpg",
                 progressbarValue: 70
             }, {
-                id: 8,
+                id: 'reactflux',
                 title: 'React + FLUX',
                 tags: ['react', 'mvc', 'flux', 'js', 'web'],
                 description: '- Jaki problem rozwiązuje React?\n' +
@@ -85,7 +85,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/reactjs_flux.jpg",
                 progressbarValue: 80
             }, {
-                id: 9,
+                id: 'backbone',
                 tags: ['backbone', 'web', 'js', 'production', 'spa', 'mvc'],
                 title: 'Backbone.js - produkcyjne pisanie SPA',
                 description: 'Jak wygląda “produkcyjna” praca w Backbone.js? \n' +
@@ -96,7 +96,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/jsprog.jpg",
                 progressbarValue: 90
             }, {
-                id: 10,
+                id: 'ampersand',
                 tags: ['ampersand', 'backbone', 'react', 'web', 'mvc', 'js'],
                 title: 'Ampersand.js - następca Backbone’a?',
                 description: 'Opis frameworku Ampersand.js.\n' +
@@ -106,7 +106,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/teaser_ampersandjs.jpg",
                 progressbarValue: 100
             }, {
-                id: 11,
+                id: 'ember',
                 tags: ['ember', 'angular', 'backbone', 'js', 'web', 'mvc'],
                 title: 'Ember.js vs AngularJS vs Backbone.js',
                 description: 'Którego frameworku użyć w kolejnym projekcie? A może React?\n' +
@@ -116,7 +116,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 progressbarValue: 44
 
             }, {
-                id: 12,
+                id: 'mongodb',
                 title: 'MongoDB + Elasticsearch',
                 tags: ['mongodb', 'db', 'elasticsearch', 'nosql'],
                 description: '- Czym są bazy NoSQL\n' +
@@ -125,7 +125,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/mongodb+elastic.jpg",
                 progressbarValue: 78
             }, {
-                id: 13,
+                id: 'apachecassandra',
                 tags: ['nosql', 'db', 'cassandra'],
                 title: 'Modelowanie danych dla Apache Cassandra',
                 description: 'Jak wygląda modelowanie danych dla Cassandry? Czym różni się Cassandra od MongoDB.\n' +
@@ -133,7 +133,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/jsprog.jpg",
                 progressbarValue: 93
             }, {
-                id: 14,
+                id: 'neo4j',
                 tags: ['db', 'nosql', 'neo4j'],
                 title: 'Neo4J - wprowadzenie do grafowych baz danych',
                 description: '\n',
