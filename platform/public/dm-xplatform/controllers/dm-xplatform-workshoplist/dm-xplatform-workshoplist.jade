@@ -16,6 +16,8 @@
 						| Dostępne kursy
 			.col-md-4.col-sm-4(ng-repeat="cours in courses|filter:filter.by")
 				.workshoplist-col
+					.workshoplist-icon.text-success(ng-if="cours.isReady")
+						span.fa.fa-check-circle
 					.workshoplist-thumb
 						a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="!cours.isReady")
 							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
