@@ -1,0 +1,29 @@
+.col-md-12
+
+	.dm-workshoplist-container
+		.row
+			.col-md-12
+				.input-group.input-group-sm
+					input.form-control(type="text", ng-model="filter.by")
+		.row
+			.col-md-12
+				.btn-group.btn-group-justified
+					.btn-group(ng-repeat="f in filters")
+						button.btn.btn-default.btn-xs(ng-class="{active: filter.by === f.value}", ng-click="filter.by=f.value") {{ f.name }}
+			.col-md-12
+				.dm-title
+					h4 
+						| Dostępne kursy
+			.col-md-4.col-sm-4(ng-repeat="cours in courses|filter:filter.by")
+				.workshoplist-col
+					.workshoplist-thumb
+						a(ui-sref='index.coursesDesc({id: cours.id})')
+							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
+						
+					.workshopdesc-detailsholder
+						.workshoplist-details
+							h4
+								a(ui-sref='index.coursesDesc({id: cours.id})')
+									| {{cours.title}}
+							p
+								| {{ cours.description.substr(0, 100) }}...

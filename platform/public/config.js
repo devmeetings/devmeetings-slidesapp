@@ -47,6 +47,8 @@ require.config({
         "wavesurfer": "../components/wavesurfer.js/build/wavesurfer.min",
         "angulartics": "../components/angulartics/dist/angulartics.min",
         "angulartics-ga": "../components/angulartics/dist/angulartics-ga.min",
+        "angular-marked": "../components/angular-marked/angular-marked",
+        "marked": "../components/marked/lib/marked",
         "dm-video": "../dm-video/dm-video",
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
@@ -54,7 +56,7 @@ require.config({
         "dm-stream": "../dm-stream/dm-stream",
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
-        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
+        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer"
     },
     "map": {
         "*": {
@@ -126,6 +128,9 @@ require.config({
         },
         "angular-moment": {
             "deps": ["angular", "moment"]
+        },
+        "angular-marked": {
+            "deps": ["angular", "../marked-wrapper"]
         },
         "angular-local-storage": {
             "deps": ["angular"]

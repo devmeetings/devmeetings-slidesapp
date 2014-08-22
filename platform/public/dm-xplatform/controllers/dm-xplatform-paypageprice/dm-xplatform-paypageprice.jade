@@ -1,0 +1,37 @@
+.col-md-12.dm-paypageprice-container
+
+	.row
+		.col-md-12
+			.paypageprice-progress-holder
+				.progress
+					.progress-bar.progress-bar-success.progress-bar-striped(role='progressbar', 
+						aria-valuenow='{{course.progressbarValue}}', aria-valuemin='0', aria-valuemax='100', style='width: {{course.progressbarValue}}%;')
+						| {{course.progressbarValue}}
+
+
+		.col-md-12.paypageprice-radio-holder
+			| Tak, chcę ten kurs zapłacę za niego:
+			.btn-toolbar(role='toolbar')
+
+				.row
+					.col-md-12.btn-group
+						.btn-group-sm
+							button.btn.btn-primary.col-md-4
+								| 10 PLN
+						.btn-group-sm
+							button.btn.btn-primary.col-md-4.col-md-offset-2
+								| 25 PLN
+
+					.col-md-12.btn-group
+						.btn-group-sm
+							button.btn.btn-primary.col-md-4
+								| 50 PLN
+						.btn-group-sm
+							button.btn.btn-primary.col-md-4.col-md-offset-2
+								| 100 PLN
+
+							
+				.row
+					.col-md-12
+						button.btn.btn-success.btn-lg(type='button') 
+							| Ok
