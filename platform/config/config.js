@@ -69,7 +69,7 @@ var config = {
             id: 503641503100997,
             secret: "2161dca6f444c60837e0d7578f0a8a53"
         },
-        realmUrl: realmUrl || 'http://jsintro.xplatform.org',
+        realmUrl: realmUrl || 'http://staging.xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-staging',
         queue: rabbitHost,
         graylog: {
