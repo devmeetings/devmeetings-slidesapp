@@ -35,6 +35,7 @@
 							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
 					.workshopdesc-detailsholder
 						.workshoplist-details
+							.workshoplist-details-shadow
 							h4
 								a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="!cours.isReady",
 									analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")

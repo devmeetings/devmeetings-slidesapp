@@ -20,6 +20,7 @@
         bottom: 140px;
         right: 9px;
         font-size: 4em;
+        z-index: 10;
     }
 }
 
@@ -42,9 +43,23 @@
     background: #212121;
     height: 140px;
     text-align: left;
+    overflow-y: hidden;
+    position: relative;
 }
 .workshoplist-details {
     padding: 15px 20px 0;
+
+    .workshoplist-details-shadow {
+        box-shadow: 0 -15px 16px #212121 inset;
+        opacity: 0.7;
+        height: 20px;
+        bottom: 0;
+        position: absolute;
+        z-index: 10;
+        display: block;
+        left: 0;
+        right: 0;
+    }
 }
 .workshoplist-details h4 {
     margin: 0;
