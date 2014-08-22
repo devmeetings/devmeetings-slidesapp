@@ -7,13 +7,24 @@ div.col-lg-12.col-md-12.dm-table-container
         tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
             td
                 .dm-table-slides 
-                    a(ng-repeat='slide in event.slides', ui-sref='index.task({id: slide.slideId, event: event._id})')
+                    a(ng-repeat='slide in event.slides', 
+                        ui-sref='index.task({id: slide.slideId, event: event._id})', 
+                        analytics-on='click', analytics-event='table.microtask', analytics-label="{{slide.slideId}}", analytics-category="{{event.title}}")
                         i.fa.fa-circle-o.dm-table-gray(ng-if='!slideIsFinished(slide, user)')
                         i.fa.fa-circle.dm-table-green(ng-if='slideIsFinished(slide, user)')
-                a.dm-table-blue(ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})') {{event.title}}
+                a.dm-table-blue(
+                    ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
+                    analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
             td
                 a.dm-table-green {{event.technology}}
             td.dm-table-avatars 
                 div 
-                    img(ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', ng-src='{{user.avatar | dmGravatar:25}}', ui-sref='index.devhero({id: user.userId})')
-                    span(ng-if='event.peopleFinished.length > 4', ng-click='showUsers(event.peopleFinished)') + {{event.peopleFinished.length - 4}}
+                    img(
+                        ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', 
+                        ng-src='{{user.avatar | dmGravatar:25}}', 
+                        ui-sref='index.devhero({id: user.userId})',
+                        analytics-on='click', analytics-event='table.user', analytics-category="{{event.title}}", analytics-label="{{user.userId}}")
+                    span(ng-if='event.peopleFinished.length > 4', 
+                        ng-click='showUsers(event.peopleFinished)', 
+                        analytics-on='click', analytics-event='table.showMore', analytics-category="{{event.title}}"
+                        ) + {{event.peopleFinished.length - 4}}
