@@ -29,17 +29,17 @@
 								| 25 PLN
 
 					.col-md-12.btn-group
-						.btn-group-sm(
+						.btn-group-sm
+							button.btn.btn-primary.col-md-4(
 								ng-class="{active: price===50}",
 								analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.50", 
 								analytics-value="50",ng-click="price=50")
-							button.btn.btn-primary.col-md-4
 								| 50 PLN
-						.btn-group-sm(
+						.btn-group-sm
+							button.btn.btn-primary.col-md-4.col-md-offset-2(
 								ng-class="{active: price===100}",
 								analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.100", 
 								analytics-value="100",ng-click="price=100")
-							button.btn.btn-primary.col-md-4.col-md-offset-2
 								| 100 PLN
 
 							
