@@ -3,8 +3,11 @@
 	.dm-workshoplist-container
 		.row
 			.col-md-12
-				.input-group.input-group-sm
-					input.form-control(type="text", ng-model="filter.by")
+				.form-group
+					.ico-holder
+						img.ico-sub.ico-search-course(src='static/images/navbar/ico_search.png')
+					input.form-control.form-login(type="text", ng-model="filter.by", placeholder="wpisz kurs")
+
 		.row
 			.col-md-12
 				.btn-group.btn-group-justified
