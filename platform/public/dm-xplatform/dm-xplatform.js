@@ -182,6 +182,11 @@ require(['angular',
                     }
                 },
                 onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Kursy',
+                        searchText: ''
+                    };
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 10,
@@ -207,6 +212,11 @@ require(['angular',
                     }
                 },
                 onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Kursy',
+                        searchText: ''
+                    };
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 7,

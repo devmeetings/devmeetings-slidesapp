@@ -8,7 +8,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 })[0];
             },
             courses: [{
-                id: 'erlangoo',
+                id: 'erlang-oo',
                 tags: ['erlang', 'functional', 'oo'],
                 title: 'Podstawy Erlanga dla obiektowców',
                 description: '- Wstęp z języka Erlang dla programistów języków obiektowych.\n' +
@@ -20,7 +20,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/teaser_erlang.jpg",
                 progressbarValue: 10
             }, {
-                id: 'erlangnode',
+                id: 'erlang-node',
                 title: 'Erlang dla node’owców',
                 tags: ['erlang', 'functional', 'node', 'js'],
                 description: '- W jaki sposób przenieść aplikację nodejs do Erlanga.\n' +
@@ -58,7 +58,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/teaser_ocaml.jpg",
                 progressbarValue: 50
             }, {
-                id: 'angularnobackend',
+                id: 'angular-nobackend',
                 tags: ['angular', 'backend', 'js', 'production', 'api', 'web', 'spa'],
                 title: 'Pisanie bezbackendowych apek w AngularJS',
                 description: 'Czy potrzebujemy backendu? W jaki sposób możemy pisać aplikacje webowe z wykorzystaniem API udostępnianych przez zewnętrzne serwisy.\n' +
@@ -69,14 +69,14 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/angular_services.jpg",
                 progressbarValue: 60
             }, {
-                id: 'rwdcommerce',
+                id: 'rwd-ecommerce',
                 title: 'Responsywne e-sklepy',
                 tags: ['rwd', 'css', 'ecommerce', 'web', 'less', 'sass', 'js'],
                 description: 'RWD dla sklepów internetowych. Szczegółowa analiza rozwiązań na podstawie rzeczywistych przykładów i ich wpływ na konwersję.\n',
                 image: "static/images/workshopdesc/rwd_commerce.jpg",
                 progressbarValue: 70
             }, {
-                id: 'reactflux',
+                id: 'react-flux',
                 title: 'React + FLUX',
                 tags: ['react', 'mvc', 'flux', 'js', 'web'],
                 description: '- Jaki problem rozwiązuje React?\n' +
@@ -125,7 +125,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 image: "static/images/workshopdesc/mongodb+elastic.jpg",
                 progressbarValue: 78
             }, {
-                id: 'apachecassandra',
+                id: 'cassandra',
                 tags: ['nosql', 'db', 'cassandra'],
                 title: 'Modelowanie danych dla Apache Cassandra',
                 description: 'Jak wygląda modelowanie danych dla Cassandry? Czym różni się Cassandra od MongoDB.\n' +
