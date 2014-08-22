@@ -173,8 +173,8 @@ require(['angular',
                 url: '/courses',
                 views: {
                     left: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
-                        controller: 'dmXplatformDevhero'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
                     },
                     mid: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.html',
@@ -183,8 +183,8 @@ require(['angular',
                 },
                 onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
-                        left: 3,
-                        mid: 9,
+                        left: 2,
+                        mid: 10,
                         right: 0
                     };
                 }
@@ -194,8 +194,8 @@ require(['angular',
                 url: '/courses/:id',
                 views: {
                     left: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
-                        controller: 'dmXplatformDevhero'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
                     },
                     mid: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
@@ -208,8 +208,8 @@ require(['angular',
                 },
                 onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
-                        left: 3,
-                        mid: 6,
+                        left: 2,
+                        mid: 7,
                         right: 3
                     };
                 }

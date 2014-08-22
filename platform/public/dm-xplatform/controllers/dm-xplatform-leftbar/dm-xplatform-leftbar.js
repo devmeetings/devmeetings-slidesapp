@@ -1,19 +1,21 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformLeftbar', ['$scope', 'dmUser', function ($scope, dmUser) {
-        
-        $scope.sections = [{
-            title: 'Tutoriale',
-            sref: 'index.menu({type: "video"})'
-        },{
-            title: 'News feed',
-            sref: 'index.stream'
-        }];  
+define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
+    xplatformApp.controller('dmXplatformLeftbar', ['$scope', 'dmUser',
+        function($scope, dmUser) {
 
-        dmUser.getCurrentUser().then(function (data) {
-            $scope.user = data;
-        });
+            $scope.sections = [{
+                title: 'Kursy',
+                sref: 'index.courses'
+            }, {
+                title: 'News feed',
+                sref: 'index.stream'
+            }];
 
-        var element = $('[class*="dm-xplatform-index-left"]').css('background-color', 'rgb(33,33,33)');
+            dmUser.getCurrentUser().then(function(data) {
+                $scope.user = data;
+            });
 
-    }]);
+            var element = $('[class*="dm-xplatform-index-left"]').css('background-color', 'rgb(33,33,33)');
+
+        }
+    ]);
 });

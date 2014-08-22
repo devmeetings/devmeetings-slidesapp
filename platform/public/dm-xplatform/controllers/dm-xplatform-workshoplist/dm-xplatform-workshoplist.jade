@@ -17,13 +17,16 @@
 			.col-md-4.col-sm-4(ng-repeat="cours in courses|filter:filter.by")
 				.workshoplist-col
 					.workshoplist-thumb
-						a(ui-sref='index.coursesDesc({id: cours.id})')
+						a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="!cours.isReady")
 							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
-						
+						a(ui-sref='index.menu({type: "video"})', ng-if="cours.isReady")
+							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
 					.workshopdesc-detailsholder
 						.workshoplist-details
 							h4
-								a(ui-sref='index.coursesDesc({id: cours.id})')
+								a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="!cours.isReady")
+									| {{cours.title}}
+								a(ui-sref='index.menu({type: "video"})', ng-if="cours.isReady")
 									| {{cours.title}}
 							p
 								| {{ cours.description.substr(0, 100) }}...
