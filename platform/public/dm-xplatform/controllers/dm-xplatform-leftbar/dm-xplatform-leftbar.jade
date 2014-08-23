@@ -6,10 +6,12 @@
             strong {{user.result.name}} 
         button.btn.btn-xs.btn-warning(
             ng-if='user.result.bio === undefined || user.result.bio.length === 0', ui-sref='index.profile',
+            analytics-category='menu',
             analytics-on='click', analytics-event='left.fillBio'
             ) Uzupełnij BIO
         p.dm-leftbar-link(
-            ng-if='user.result.bio !== undefined && user.result.bio.length !== 0', ui-sref='index.profile', 
+            ng-if='user.result.bio !== undefined && user.result.bio.length !== 0', ui-sref='index.profile',
+            analytics-category='menu',
             analytics-on='click', analytics-event='left.editProfile'
             ) Edytuj profil
     .list-group

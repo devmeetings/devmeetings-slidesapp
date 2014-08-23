@@ -7,8 +7,12 @@
         //-p.dm-devhero-info Wroclaw
         //-p.dm-devhero-info devhero.org
     .col-md-12.dm-devhero-buttons
-        button.btn(ng-if='canBeObserved', ng-click='observe()', analytics-on='click', analytics-event='devhero.observe') Obserwuj
-        button.btn(ng-if='!canBeObserved', ng-click='unobserve()', analytics-on='click', analytics-event='devhero.unobserve') Zrezygnuj
+        button.btn(ng-if='canBeObserved', ng-click='observe()', 
+            analytics-category='devhero',
+            analytics-on='click', analytics-event='devhero.observe') Obserwuj
+        button.btn(ng-if='!canBeObserved', ng-click='unobserve()',
+            analytics-category='devhero', 
+            analytics-on='click', analytics-event='devhero.unobserve') Zrezygnuj
         //-button.btn(ui-sref='index.message({id: user._id})') Wiadomosc
     .col-md-12
         //-p Przebyte szkolenia
