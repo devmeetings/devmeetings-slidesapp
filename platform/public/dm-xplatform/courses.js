@@ -22,6 +22,8 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 progressbarValue: 100
             }, {
                 id: 'angular-directives',
+                order: -1,
+                status: 'captured',
                 image: img('angular_directives')
             }, {
                 id: 'ember',
@@ -34,19 +36,26 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 progressbarValue: 44
             }, {
                 id: 'angular-forms',
+                order: -1,
+                status: 'captured',
                 image: img('angular_forms')
             }, {
                 id: 'angular-intro',
+                order: -2,
                 tags: ['js', 'angular', 'web'],
                 title: 'AngularJS - podstawy',
-                isReady: true,
+                status: 'ready',
                 description: '',
                 image: img('angular_intro')
             }, {
                 id: 'angular-route',
+                order: -1,
+                status: 'captured',
                 image: img('angular_route')
             }, {
                 id: 'angular-services',
+                order: -1,
+                status: 'captured',
                 image: img('angular_services')
             }, {
                 id: 'angular-nobackend',
