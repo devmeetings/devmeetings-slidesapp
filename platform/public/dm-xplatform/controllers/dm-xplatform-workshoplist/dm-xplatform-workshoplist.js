@@ -5,13 +5,7 @@ define(['angular', 'xplatform/xplatform-app', 'xplatform/courses'], function(ang
                 by: ''
             };
 
-            $scope.courses = [{
-                tags: ['js', 'angular', 'web'],
-                title: 'AngularJS - podstawy',
-                isReady: true,
-                description: '',
-                image: 'static/images/workshopdesc/jsprog.jpg'
-            }].concat(Courses.courses);
+            $scope.courses = Courses.courses;
             var f = function(name, val) {
                 return {
                     name: name,
