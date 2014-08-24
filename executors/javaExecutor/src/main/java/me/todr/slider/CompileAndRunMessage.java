@@ -31,7 +31,7 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 		ObjectNode map = objectMapper.createObjectNode();
 		// Read JSON
 		JsonNode readTree = objectMapper.readTree(message);
-		String name = "TestClass";
+		String name = "Main";
 		String code = readTree.get("code").asText();
 
 		// Compile code
