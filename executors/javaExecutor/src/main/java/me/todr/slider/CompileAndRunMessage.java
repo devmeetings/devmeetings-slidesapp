@@ -1,6 +1,7 @@
 package me.todr.slider;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -41,7 +42,7 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 				watch.elapsed(TimeUnit.MICROSECONDS)));
 		// Something went wrong
 		if (clazz == null) {
-			putErrors(map, compile.getErrors());
+			putArray("errors", map, compile.getErrors());
 			return objectMapper.writeValueAsBytes(map);
 		}
 		watch.reset().start();
@@ -50,7 +51,7 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 			String output = javaRunner.run(compile);
 
 			map.put("success", true);
-			map.put("result", output);
+			putArray("result", map, Arrays.asList(output.split("\n")));
 		} catch (JavaRunnerException e) {
 			map.put("success", false);
 			map.withArray("errors").add(e.getCause().toString());
@@ -63,8 +64,9 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 		return objectMapper.writeValueAsBytes(map);
 	}
 
-	private static void putErrors(ObjectNode object, Collection<String> errors) {
-		ArrayNode array = object.withArray("errors");
+	private static void putArray(String prop, ObjectNode object,
+			Collection<String> errors) {
+		ArrayNode array = object.withArray(prop);
 		for (String e : errors) {
 			array.add(e);
 		}
