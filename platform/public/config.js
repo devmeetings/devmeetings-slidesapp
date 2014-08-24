@@ -106,7 +106,8 @@ require.config({
             "exports": "ace"
         },
         "ace-languageTools": {
-            "deps": ["ace"]
+            "deps": ["ace"],
+            "exports": "ace"
         },
         "ace-emmet": {
             "deps": ["ace"]
