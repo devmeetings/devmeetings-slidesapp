@@ -114,7 +114,7 @@ module.exports = {
             "name": "pythonExecutor",
             "path": xplatformDir + "executors/pythonExecutor",
             "options": {
-                "cmd": "bash",
+                "cmd": "python",
                 "startFile": "app.py",
                 "logName": "exec-python.log",
                 "noNpm": true,
