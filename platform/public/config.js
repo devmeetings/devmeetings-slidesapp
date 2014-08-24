@@ -22,7 +22,7 @@ require.config({
         "restangular": "../components/restangular/dist/restangular",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
-        "ace": "../components/ace-builds/src-noconflict/ace",
+        "ace": ":empty", //Already loaded
         "ace_languageTools": "../components/ace-builds/src-noconflict/ext-language_tools",
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
