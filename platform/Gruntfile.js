@@ -12,16 +12,15 @@ module.exports = function(grunt) {
     var rjsOptimizationModule = function(path, module) {
         return {
             options: {
-                baseUrl: 'public/' + path, 
+                baseUrl: 'public/' + path,
                 mainConfigFile: "public/config.js",
                 findNestedDependencies: true,
                 name: module, // assumes a production build using almond
-                out: "public/bin/" + path + '/' +  module + ".js",
+                out: "public/bin/" + path + '/' + module + ".js",
                 paths: {
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
-                    "socket.io": "empty:",
-                    "ace": "empty:"
+                    "socket.io": "empty:"
                 },
                 optimize: "none"
             }
