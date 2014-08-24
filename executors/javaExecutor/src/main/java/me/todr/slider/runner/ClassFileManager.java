@@ -2,6 +2,7 @@ package me.todr.slider.runner;
 
 import java.io.IOException;
 import java.security.SecureClassLoader;
+import java.util.Map;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
@@ -9,21 +10,24 @@ import javax.tools.JavaFileObject;
 import javax.tools.JavaFileObject.Kind;
 import javax.tools.StandardJavaFileManager;
 
+import com.google.common.collect.Maps;
+
 class ClassFileManager extends
 		ForwardingJavaFileManager<StandardJavaFileManager> {
 	/**
 	 * Instance of JavaClassObject that will store the compiled bytecode of our
 	 * class
 	 */
-	private JavaClassObject jclassObject;
+	private final Map<String, JavaClassObject> jclassObjects;
 
 	/**
 	 * Will initialize the manager with the specified standard java file manager
-	 * 
+	 *
 	 * @param standardManger
 	 */
 	public ClassFileManager(StandardJavaFileManager standardManager) {
 		super(standardManager);
+		jclassObjects = Maps.newHashMap();
 	}
 
 	/**
@@ -38,14 +42,15 @@ class ClassFileManager extends
 			@Override
 			protected Class<?> findClass(String name)
 					throws ClassNotFoundException {
-				byte[] b = jclassObject.getBytes();
+
+				byte[] b = jclassObjects.get(name).getBytes();
 				return super.defineClass(name, b, 0, b.length);
 			}
 		};
 	}
 
 	public boolean hasClass() {
-		return jclassObject != null;
+		return !jclassObjects.isEmpty();
 	}
 
 	/**
@@ -55,7 +60,8 @@ class ClassFileManager extends
 	@Override
 	public JavaFileObject getJavaFileForOutput(Location location,
 			String className, Kind kind, FileObject sibling) throws IOException {
-		jclassObject = new JavaClassObject(className, kind);
+		JavaClassObject jclassObject = new JavaClassObject(className, kind);
+		jclassObjects.put(className, jclassObject);
 		return jclassObject;
 	}
 }

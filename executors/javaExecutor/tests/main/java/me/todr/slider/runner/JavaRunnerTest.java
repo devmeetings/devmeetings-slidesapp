@@ -28,7 +28,7 @@ public class JavaRunnerTest {
 		String string = getTestClass();
 
 		// when
-		CompilerOutput clazz = cut.compile("TestClass", string);
+		CompilerOutput clazz = cut.compile("Main", string);
 
 		// then
 		assertThat(clazz).isNotNull();
@@ -39,7 +39,7 @@ public class JavaRunnerTest {
 	public void shouldRunCompiledClass() throws JavaRunnerException {
 		// given
 		String string = getTestClass();
-		CompilerOutput clazz = cut.compile("TestClass", string);
+		CompilerOutput clazz = cut.compile("Main", string);
 
 		// when
 		String output = cut.run(clazz);
@@ -48,10 +48,33 @@ public class JavaRunnerTest {
 		assertThat(output).isEqualTo("xyz\n");
 	}
 
+	@Test
+	public void shouldCompileInnerClasses() throws JavaRunnerException {
+		// given
+		StringBuilder code = new StringBuilder();
+		code.append("public class Main {\n");
+		code.append("public static class Inner {\n");
+		code.append("@java.lang.Override\n");
+		code.append("public String toString() { return \"Hello\"; }\n");
+		code.append("}\n");
+		code.append("public static void main() {\n");
+		code.append("System.out.println(\"xyz\");");
+		code.append("System.out.println(new Inner());");
+		code.append("}\n");
+		code.append("}");
+		String string = code.toString();
+		CompilerOutput clazz = cut.compile("Main", string);
+
+		// when
+		String output = cut.run(clazz);
+
+		// then
+		assertThat(output).isEqualTo("xyz\nHello\n");
+	}
+
 	private String getTestClass() {
-		StringBuilder stringBuilder = new StringBuilder();
-		StringBuilder code = stringBuilder;
-		code.append("public class TestClass {\n");
+		StringBuilder code = new StringBuilder();
+		code.append("public class Main {\n");
 		code.append("public static void main() {\n");
 		code.append("System.out.println(\"xyz\");");
 		code.append("}\n");
