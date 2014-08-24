@@ -114,8 +114,8 @@ module.exports = {
             "name": "pythonExecutor",
             "path": xplatformDir + "executors/pythonExecutor",
             "options": {
-                "cmd": "python",
-                "startFile": "app.py",
+                "cmd": "bash",
+                "startFile": "run",
                 "logName": "exec-python.log",
                 "noNpm": true,
                 "env": ""
@@ -159,6 +159,7 @@ module.exports = {
 
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
         commands.addBash(extraEnv + " forever --uid " + env.name + " " + cmd + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
+        commands.addBash("tail ~/.forever/" + env.options.logName);
     }
 
 };
