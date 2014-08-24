@@ -226,6 +226,31 @@ require(['angular',
                 }
             });
 
+            $stateProvider.state('index.paymentThanks', {
+                url: '/thanks',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks.html'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Dzięki!',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 0,
+                        right: 10
+                    };
+                }
+            });
+
             $stateProvider.state('index.message', {
                 url: '/message/:id',
                 views: {

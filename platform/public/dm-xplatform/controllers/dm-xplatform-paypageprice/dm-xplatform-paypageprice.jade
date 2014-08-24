@@ -47,6 +47,7 @@
 				.row
 					.col-md-12
 						button.btn.btn-success.btn-lg.btn-ok.btn-block(
+							ui-sref="index.paymentThanks",
 							ng-show="course.price",
 							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="pay", analytics-value="{{course.price}}"
 							) 
@@ -57,6 +58,7 @@
 			h3 Albo wolę wykupić abonament
 			h4 w którym będę miał dostęp do wszystkich kursów za
 			button.btn-lg.btn-block.btn-default.btn-abo(
+				ui-sref="index.paymentThanks",
 				ng-class="{'btn-success': !course.price || over}"
 				ng-mouseenter="over=1", ng-mouseleave="over=0"
 				analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="abo.pay", analytics-value="40")
