@@ -2,6 +2,7 @@ package me.todr.slider.runner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
@@ -17,6 +18,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
 public class JavaRunner {
+
+	@SuppressWarnings("unchecked")
+	private static Class<String[]> stringArrayClass = (Class<String[]>) new String[] {}
+	.getClass();
 
 	public CompilerOutput compile(String name, String code) {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -58,6 +63,18 @@ public class JavaRunner {
 		return new CompilerOutput(errors.build());
 	}
 
+	private void invokeMainMethod(Class<?> clazz) throws NoSuchMethodException,
+	SecurityException, IllegalAccessException,
+	IllegalArgumentException, InvocationTargetException {
+		try {
+			Method method = clazz.getMethod("main");
+			method.invoke(null);
+		} catch (NoSuchMethodException e) {
+			Method method = clazz.getMethod("main", stringArrayClass);
+			method.invoke(null, new Object[] { new String[] {} });
+		}
+	}
+
 	public String run(CompilerOutput clazz) throws JavaRunnerException {
 		Preconditions.checkNotNull(clazz);
 
@@ -67,8 +84,7 @@ public class JavaRunner {
 
 			System.setOut(new PrintStream(stream));
 			Class<?> clazz1 = clazz.getClazz();
-			Method method = clazz1.getMethod("main");
-			method.invoke(null);
+			invokeMainMethod(clazz1);
 
 			return stream.toString("utf8");
 		} catch (Exception e) {

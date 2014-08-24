@@ -25,7 +25,7 @@ public class JavaRunnerTest {
 			throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException {
 		// given
-		String string = getTestClass();
+		String string = getTestClass("");
 
 		// when
 		CompilerOutput clazz = cut.compile("Main", string);
@@ -38,8 +38,21 @@ public class JavaRunnerTest {
 	@Test
 	public void shouldRunCompiledClass() throws JavaRunnerException {
 		// given
-		String string = getTestClass();
+		String string = getTestClass("");
 		CompilerOutput clazz = cut.compile("Main", string);
+
+		// when
+		String output = cut.run(clazz);
+
+		// then
+		assertThat(output).isEqualTo("xyz\n");
+	}
+
+	@Test
+	public void shouldHandleStandardMainMethod() throws JavaRunnerException {
+		// given
+		String classStr = getTestClass("String[] args");
+		CompilerOutput clazz = cut.compile("Main", classStr);
 
 		// when
 		String output = cut.run(clazz);
@@ -72,10 +85,10 @@ public class JavaRunnerTest {
 		assertThat(output).isEqualTo("xyz\nHello\n");
 	}
 
-	private String getTestClass() {
+	private String getTestClass(String args) {
 		StringBuilder code = new StringBuilder();
 		code.append("public class Main {\n");
-		code.append("public static void main() {\n");
+		code.append("public static void main(" + args + ") {\n");
 		code.append("System.out.println(\"xyz\");");
 		code.append("}\n");
 		code.append("}");
