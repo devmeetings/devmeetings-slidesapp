@@ -30,7 +30,7 @@ define([], [{
     "commit": true,
     "stream": true
 }, {
-    "code": "import java.util.Random;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class TestClass {\n\n  public static int rand() {\n    return new Random().nextInt();\n  }\n  \n  public static String main() {\n    final StringBuilder builder = new StringBuilder();\n    \n    // Java 8!\n    List features = Arrays.asList(\"Lambds\", \"Def6ault Method\", \"Stream API\", \"Date and Time API\");\n    features.forEach(n -> builder.append(n +  \" \"));\n    \n    builder.append(rand());\n    return builder.toString();\n  }\n  \n}",
+    "code": "import java.util.Random;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class Main {\n\n  public static int rand() {\n    return new Random().nextInt();\n  }\n  \n  public static void main() {\n    final StringBuilder builder = new StringBuilder();\n    \n    // Java 8!\n    List features = Arrays.asList(\"Lambds\", \"Def6ault Method\", \"Stream API\", \"Date and Time API\");\n    features.forEach(n -> builder.append(n +  \" \"));\n    \n    builder.append(rand());\n    System.out.println(builder.toString());\n  }\n  \n}",
     "serverRunner": "java",
     "title": "Java runner / server runner",
     "notes": "",

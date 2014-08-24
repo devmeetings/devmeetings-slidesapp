@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace-languageTools'], function(module, _, sliderPlugins, ace) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
@@ -78,8 +78,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                         element.find('.editor').each(function() {
                             var e = this;
                             var editor = ace.edit(e);
+                            var mode = e.getAttribute('data-mode');
                             editor.setTheme("ace/theme/" + EDITOR_THEME);
-                            editor.getSession().setMode("ace/mode/" + e.getAttribute('data-mode'));
+                            editor.setOptions({
+                                enableBasicAutocompletion: true,
+                                enableSnippets: true,
+                                enableLiveAutocompletion: false
+                            });
+                            editor.getSession().setMode("ace/mode/" + mode);
                             var content = e.getAttribute('data-content');
 
                             var shouldTriggerEvent = false;
@@ -104,7 +110,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                 trailing: true
                             });
 
-                            var reloadFiddle = function () {
+                            var reloadFiddle = function() {
                                 var selection = editor.getSelection();
                                 selection.moveCursorToPosition(scope.fiddle.aceOptions.cursorPosition);
                                 //var range = scope.fiddle.aceOptions.selectionRange;                                   
@@ -122,7 +128,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                     }
                                 }
                             });
-                            
+
 
 
 
@@ -133,9 +139,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput'], functi
                                     updateScopeLater();
                                 }
                             });
-                            
+
                             if ($rootScope.modes.isSliderMode) {
-                                editor.getSession().getSelection().on('changeCursor', function () {
+                                editor.getSession().getSelection().on('changeCursor', function() {
                                     updateScopeLater();
                                 });
                             }

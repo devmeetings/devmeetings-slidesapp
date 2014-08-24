@@ -3,13 +3,13 @@ require.config({
     "paths": {
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
-        
+
         //deprectated
         "slider": "../dm-slider/slider",
         "services": "../dm-slider/services",
         "utils": "../dm-slider/utils",
-        "directives" : "../dm-slider/directives",
-        
+        "directives": "../dm-slider/directives",
+
         "require": "../../require",
         "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",
@@ -23,6 +23,9 @@ require.config({
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
+        "ace-languageTools": "../components/ace-builds/src-noconflict/ext-language_tools",
+        "ace-emmet": "../components/ace-builds/src-noconflict/ext-emmet",
+
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
@@ -102,6 +105,12 @@ require.config({
             "deps": [],
             "exports": "ace"
         },
+        "ace-languageTools": {
+            "deps": ["ace"]
+        },
+        "ace-emmet": {
+            "deps": ["ace"]
+        },
         "angular-animate": {
             "deps": ["angular"],
             "exports": "angular"
@@ -152,14 +161,14 @@ require.config({
         "dm-stream": {
             "deps": ["angular"]
         },
-        "dm-mongotime" : {
-            "deps": ["angular"] 
+        "dm-mongotime": {
+            "deps": ["angular"]
         },
-        "dm-gravatar" : {
-            "deps": ["angular"] 
+        "dm-gravatar": {
+            "deps": ["angular"]
         },
-        "dm-wavesurfer" : {
-            "deps": ["angular", "wavesurfer"] 
+        "dm-wavesurfer": {
+            "deps": ["angular", "wavesurfer"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]
