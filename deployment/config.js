@@ -110,6 +110,22 @@ module.exports = {
                 "label": "JavaExecutor [prod]"
             }
         },
+        "pythonExecutor": {
+            "name": "pythonExecutor",
+            "path": xplatformDir + "executors/pythonExecutor",
+            "options": {
+                "cmd": "bash",
+                "startFile": "app.py",
+                "logName": "exec-python.log",
+                "noNpm": true,
+                "env": ""
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-warning",
+                "label": "PythonExecutor [prod]"
+            }
+        },
         "deployment-app": {
             "name": "deployment-app",
             "path": xplatformDir + "../deployment-app",

@@ -36,9 +36,15 @@ define([], [{
     "notes": "",
     "monitor": true,
     "id": "exec-java",
-    "name": "Java runner",
-    "commit": true,
-    "stream": true
+    "name": "Java runner"
+}, {
+    "code": "print('Hello %s' % python)",
+    "serverRunner": "python",
+    "title": "Python runner / server runner",
+    "notes": "",
+    "monitor": true,
+    "id": "exec-python",
+    "name": "Python runner"
 }, {
     "microtasks": [{
         "description": "Change <code>foo</code> to append \"x\" instead of prepending anything.",
