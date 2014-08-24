@@ -56,7 +56,7 @@ module.exports = function(app) {
     app.get('/api/users', authenticated, users.current);
 
     var observes = require('../app/controllers/observes');
-    app.get('/api/observes',  authenticated, observes.get);
+    app.get('/api/observes', authenticated, observes.get);
     app.post('/api/observes', authenticated, observes.observe);
     app.delete('/api/observes/:id', authenticated, observes.unobserve);
 
@@ -84,6 +84,8 @@ module.exports = function(app) {
     app.post('/auth/login', passport.authenticate('local', redirections));
     app.get('/auth/google', passport.authenticate('google'));
     app.get('/auth/google/return', passport.authenticate('google', redirections));
+    app.get('/auth/github', passport.authenticate('github'));
+    app.get('/auth/github/callback', passport.authenticate('github', redirections));
     app.get('/auth/facebook', passport.authenticate('facebook', {
         scope: ['email']
     }));
@@ -97,7 +99,7 @@ module.exports = function(app) {
     // registration
     var registration = require('../app/controllers/registration');
     app.get('/registration', registration.form);
-    app.post('/registration', function(req, res, next){
+    app.post('/registration', function(req, res, next) {
         registration.register(req, res, next, app);
     });
 
