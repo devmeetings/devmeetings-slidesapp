@@ -24,8 +24,6 @@ require.config({
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
         "ace-languageTools": "../components/ace-builds/src-noconflict/ext-language_tools",
-        "ace-emmet": "../components/ace-builds/src-noconflict/ext-emmet",
-
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
@@ -65,6 +63,7 @@ require.config({
     },
     "shim": {
         "jquery": {
+            "deps": ["ace"], // trying to overcome wrong loading order
             "exports": "$"
         },
         "jquery-ui": {
@@ -108,9 +107,6 @@ require.config({
         "ace-languageTools": {
             "deps": ["ace"],
             "exports": "ace"
-        },
-        "ace-emmet": {
-            "deps": ["ace"]
         },
         "angular-animate": {
             "deps": ["angular"],
