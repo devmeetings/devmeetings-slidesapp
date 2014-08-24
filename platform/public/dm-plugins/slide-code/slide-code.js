@@ -1,4 +1,4 @@
-define(['_', 'slider/slider.plugins', 'ace', 'ace-languageTools'], function(_, sliderPlugins, ace) {
+define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, sliderPlugins, ace) {
 
     var EDITOR_THEME = 'todr';
 

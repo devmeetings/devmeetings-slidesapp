@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace-languageTools'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_languageTools'], function(module, _, sliderPlugins, ace) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
