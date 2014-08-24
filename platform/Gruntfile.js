@@ -20,7 +20,9 @@ module.exports = function(grunt) {
                 paths: {
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
-                    "socket.io": "empty:"
+                    "socket.io": "empty:",
+                    "ace": "empty:",
+                    "ace_languageTools": "empty:"
                 },
                 optimize: "none"
             }
