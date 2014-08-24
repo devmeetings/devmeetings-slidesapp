@@ -1,5 +1,8 @@
 package me.todr.slider.runner;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
 import javax.tools.Diagnostic;
@@ -9,6 +12,7 @@ import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
 import javax.tools.ToolProvider;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
@@ -52,5 +56,25 @@ public class JavaRunner {
 			}
 		}
 		return new CompilerOutput(errors.build());
+	}
+
+	public String run(CompilerOutput clazz) throws JavaRunnerException {
+		Preconditions.checkNotNull(clazz);
+
+		PrintStream currentStream = System.out;
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		try {
+
+			System.setOut(new PrintStream(stream));
+			Class<?> clazz1 = clazz.getClazz();
+			Method method = clazz1.getMethod("main");
+			method.invoke(null);
+
+			return stream.toString("utf8");
+		} catch (Exception e) {
+			throw new JavaRunnerException(e);
+		} finally {
+			System.setOut(currentStream);
+		}
 	}
 }

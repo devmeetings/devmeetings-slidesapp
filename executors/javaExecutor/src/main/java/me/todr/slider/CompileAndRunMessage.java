@@ -1,7 +1,5 @@
 package me.todr.slider;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -9,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import me.todr.slider.runner.CompilerOutput;
 import me.todr.slider.runner.JavaRunner;
+import me.todr.slider.runner.JavaRunnerException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,19 +47,13 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 		watch.reset().start();
 		// Invoke method
 		try {
-			Method method = clazz.getMethod("main");
-			Object invoke = method.invoke(null);
-			if (invoke != null) {
-				byte[] bytes = invoke.toString().getBytes();
-				map.put("success", true);
-				map.put("result", new String(bytes));
-			} else {
-				map.put("success", false);
-				map.withArray("errors").add("method main returned null");
-			}
-		} catch (InvocationTargetException e) {
+			String output = javaRunner.run(compile);
+
+			map.put("success", true);
+			map.put("result", output);
+		} catch (JavaRunnerException e) {
 			map.put("success", false);
-			map.withArray("errors").add(e.getTargetException().toString());
+			map.withArray("errors").add(e.getCause().toString());
 		} catch (Exception e) {
 			map.put("success", false);
 			map.withArray("errors").add(e.toString());
