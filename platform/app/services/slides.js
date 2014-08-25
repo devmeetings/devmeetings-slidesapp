@@ -18,6 +18,7 @@ var Slides = {
     },
 
     upsertSlide: function(slideId, slide) {
+        delete slide._id;
         return SlideModel.findByIdAndUpdate(slideId, slide, {
             upsert: true
         }).exec();

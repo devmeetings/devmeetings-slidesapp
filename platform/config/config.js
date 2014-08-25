@@ -24,6 +24,10 @@ var config = {
             id: 1431694133754278,
             secret: "c2cb2cebdccca68ed630a061436ba012"
         },
+        github: {
+            clientId: '106ca39a17b1ca369f6f',
+            clientSecret: 'accf1a3f361eec1902172ce287acf46a34423cc2'
+        },
         db: 'mongodb://' + mongoHost + '/platform-development',
         queue: rabbitHost,
         graylog: false,
@@ -44,6 +48,10 @@ var config = {
         fb: {
             id: 1431694133754278,
             secret: "c2cb2cebdccca68ed630a061436ba012"
+        },
+        github: {
+            clientId: '81c1de02cccf83b4a849',
+            clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
         realmUrl: realmUrl || 'http://xplatform.org:2000',
         db: 'mongodb://' + mongoHost + '/platform-test',
@@ -68,6 +76,10 @@ var config = {
         fb: {
             id: 503641503100997,
             secret: "2161dca6f444c60837e0d7578f0a8a53"
+        },
+        github: {
+            clientId: '9bc4587bb4a474187812',
+            clientSecret: '676949bd66e064f68b8bd5a6367b61e3cd4bc7be'
         },
         realmUrl: realmUrl || 'http://staging.xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-staging',
@@ -95,6 +107,10 @@ var config = {
         fb: {
             id: 1431693610420997,
             secret: "c91cb7f914ed25e7d67e1278484f5979"
+        },
+        github: {
+            clientId: '81c1de02cccf83b4a849',
+            clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
         realmUrl: realmUrl || 'http://xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-production',

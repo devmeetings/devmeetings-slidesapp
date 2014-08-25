@@ -24,6 +24,7 @@ require.config({
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
+        "ace_languageTools": "../components/ace-builds/src-noconflict/ext-language_tools",
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
@@ -109,6 +110,9 @@ require.config({
         "ace": {
             "deps": [],
             "exports": "ace"
+        },
+        "ace_languageTools": {
+            "deps": ["ace"]
         },
         "angular-animate": {
             "deps": ["angular"],

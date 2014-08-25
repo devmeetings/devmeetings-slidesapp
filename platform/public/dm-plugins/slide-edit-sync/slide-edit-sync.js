@@ -2,7 +2,7 @@ define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function(_, sli
 
     var EXECUTION_DELAY = 500;
 
-    sliderPlugins.registerPlugin('slide.edit', '*', 'slide-edit-sync' ).directive('slideEditSync', [
+    sliderPlugins.registerPlugin('slide.edit', '*', 'slide-edit-sync').directive('slideEditSync', [
 
         function() {
             return {
@@ -16,8 +16,8 @@ define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function(_, sli
         }
     ]).controller('SlideEditSyncController', ['$scope', 'Sockets', 'DeckAndSlides',
         function($scope, Sockets, DeckAndSlides) {
-        
-            $scope.$watch('slide', function (newSlide, oldSlide){
+
+            $scope.$watch('slide', function(newSlide, oldSlide) {
                 if (newSlide === undefined) {
                     return;
                 }

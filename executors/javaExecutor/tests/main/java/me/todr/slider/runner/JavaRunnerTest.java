@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.InvocationTargetException;
 
+import me.todr.slider.runner.CompilerOutput;
 import me.todr.slider.runner.JavaRunner;
+import me.todr.slider.runner.JavaRunnerException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,22 +25,75 @@ public class JavaRunnerTest {
 			throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException {
 		// given
-		StringBuilder stringBuilder = new StringBuilder();
-		StringBuilder code = stringBuilder;
-		code.append("public class TestClass {\n");
-		code.append("public static int main() {\n");
-		code.append("System.out.println(\"xyz\");");
-		code.append("return 5;");
-		code.append("}\n");
-		code.append("}");
+		String string = getTestClass("");
 
 		// when
-		CompilerOutput clazz = cut.compile("TestClass", code.toString());
+		CompilerOutput clazz = cut.compile("Main", string);
 
 		// then
 		assertThat(clazz).isNotNull();
 		assertThat(clazz.getClazz()).isNotNull();
-		assertThat(clazz.getClazz().getMethod("main").invoke(null))
-				.isEqualTo(5);
 	}
+
+	@Test
+	public void shouldRunCompiledClass() throws JavaRunnerException {
+		// given
+		String string = getTestClass("");
+		CompilerOutput clazz = cut.compile("Main", string);
+
+		// when
+		String output = cut.run(clazz);
+
+		// then
+		assertThat(output).isEqualTo("xyz\n");
+	}
+
+	@Test
+	public void shouldHandleStandardMainMethod() throws JavaRunnerException {
+		// given
+		String classStr = getTestClass("String[] args");
+		CompilerOutput clazz = cut.compile("Main", classStr);
+
+		// when
+		String output = cut.run(clazz);
+
+		// then
+		assertThat(output).isEqualTo("xyz\n");
+	}
+
+	@Test
+	public void shouldCompileInnerClasses() throws JavaRunnerException {
+		// given
+		StringBuilder code = new StringBuilder();
+		code.append("public class Main {\n");
+		code.append("public static class Inner {\n");
+		code.append("@java.lang.Override\n");
+		code.append("public String toString() { return \"Hello\"; }\n");
+		code.append("}\n");
+		code.append("public static void main() {\n");
+		code.append("System.out.println(\"xyz\");");
+		code.append("System.out.println(new Inner());");
+		code.append("}\n");
+		code.append("}");
+		String string = code.toString();
+		CompilerOutput clazz = cut.compile("Main", string);
+
+		// when
+		String output = cut.run(clazz);
+
+		// then
+		assertThat(output).isEqualTo("xyz\nHello\n");
+	}
+
+	private String getTestClass(String args) {
+		StringBuilder code = new StringBuilder();
+		code.append("public class Main {\n");
+		code.append("public static void main(" + args + ") {\n");
+		code.append("System.out.println(\"xyz\");");
+		code.append("}\n");
+		code.append("}");
+		String string = code.toString();
+		return string;
+	}
+
 }

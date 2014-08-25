@@ -21,7 +21,8 @@ module.exports = function(grunt) {
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
-                    "ace": "empty:"
+                    "ace": "empty:",
+                    "ace_languageTools": "empty:"
                 },
                 optimize: "none"
             }

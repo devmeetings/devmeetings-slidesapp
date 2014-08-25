@@ -1,4 +1,4 @@
-define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
+define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, sliderPlugins, ace) {
 
     var EDITOR_THEME = 'todr';
 
@@ -23,8 +23,8 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
         leading: false,
         trailing: true
     });
-    
-    var safeApply = function (fn) {
+
+    var safeApply = function(fn) {
         var phase = this.$root.$$phase;
 
         if (phase == '$apply' || phase == '$digest') {
@@ -69,6 +69,11 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                     $timeout(function() {
                         editor = ace.edit(element[0].childNodes[0]);
                         editor.setTheme("ace/theme/" + EDITOR_THEME);
+                        editor.setOptions({
+                            enableBasicAutocompletion: true,
+                            enableSnippets: true,
+                            enableLiveAutocompletion: false,
+                        });
 
                         scope.$watch('code.mode', function() {
                             editor.getSession().setMode('ace/mode/' + scope.code.mode);
@@ -78,8 +83,8 @@ define(['_', 'slider/slider.plugins', 'ace'], function(_, sliderPlugins, ace) {
                             triggerCodeChange(scope, scope.code, ev, editor);
                         });
 
-                        editor.getSession().getSelection().on('changeCursor', function () {
-                            triggerCursorChange(scope, scope.code, editor);            
+                        editor.getSession().getSelection().on('changeCursor', function() {
+                            triggerCursorChange(scope, scope.code, editor);
                         });
 
                         scope.$watch('code.content', function(content) {
