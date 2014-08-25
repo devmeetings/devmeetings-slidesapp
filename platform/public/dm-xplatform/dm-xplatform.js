@@ -228,7 +228,7 @@ require(['angular',
             });
 
             $stateProvider.state('index.paymentThanks', {
-                url: '/thanks/:id',
+                url: '/thanks/:id/:price/:subscription',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
