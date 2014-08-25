@@ -1,7 +1,6 @@
 var express = require('express'),
     passport = require('passport'),
     lessMiddleware = require('less-middleware'),
-    expressWinston = require('express-winston'),
     path = require('path'),
     stream = require('connect-stream');
 
@@ -45,8 +44,9 @@ module.exports = function(app, config) {
         app.use(express.favicon(config.root + '/public/img/favicon.ico'));
         app.use(express.logger(config.logger));
         if (config.graylog) {
-            var Graylog2 = require('winston-graylog2').Graylog2;
 
+            var expressWinston = require('express-winston'),
+                Graylog2 = require('winston-graylog2').Graylog2;
             app.use(expressWinston.logger({
                 transports: [
                     new Graylog2({

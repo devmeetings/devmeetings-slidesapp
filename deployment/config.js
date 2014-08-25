@@ -110,6 +110,22 @@ module.exports = {
                 "label": "JavaExecutor [prod]"
             }
         },
+        "pythonExecutor": {
+            "name": "pythonExecutor",
+            "path": xplatformDir + "executors/pythonExecutor",
+            "options": {
+                "cmd": "bash",
+                "startFile": "run",
+                "logName": "exec-python.log",
+                "noNpm": true,
+                "env": ""
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-warning",
+                "label": "PythonExecutor [prod]"
+            }
+        },
         "deployment-app": {
             "name": "deployment-app",
             "path": xplatformDir + "../deployment-app",
@@ -143,6 +159,7 @@ module.exports = {
 
         commands.addBash("(forever stop " + env.name + " || true)", "Stopping service " + env.name);
         commands.addBash(extraEnv + " forever --uid " + env.name + " " + cmd + " -l " + env.options.logName + " -a start " + startFile, "Starting service " + env.name);
+        commands.addBash("tail ~/.forever/" + env.options.logName);
     }
 
 };

@@ -1,0 +1,54 @@
+.col-md-12
+
+	.dm-workshoplist-container
+		.row
+			.col-md-12
+				.form-group
+					.ico-holder
+						img.ico-sub.ico-search-course(
+							src='static/images/navbar/ico_search.png')
+					input.form-control.form-login(
+						type="text", ng-model="filter.by", placeholder="angular, web, rwd")
+
+		.row
+			.col-md-12
+				.btn-group.btn-group-justified
+					.btn-group(ng-repeat="f in filters")
+						button.btn.btn-default.btn-xs(
+							ng-class="{active: filter.by === f.value}", ng-click="filter.by=f.value",
+							analytics-category='courses',
+							analytics-on="click", analytics-event="courses.changeFilter", analytics-label="{{f.name}}") 
+							| {{ f.name }}
+			.col-md-12
+				.dm-title
+					h4 
+						| Dostępne kursy
+			.col-md-4.col-sm-4(ng-repeat="cours in courses|filter:filter.by|orderBy:'order'")
+				.workshoplist-col
+					.workshoplist-icon.text-success(ng-if="cours.status==='ready'", tooltip="Ten kurs jest już dostępny na platformie!")
+						span.fa.fa-check-circle
+					.workshoplist-icon.text-muted(ng-if="cours.status==='captured'", tooltip="Ten kurs jest już nagrany. W najbliższym czasie pojawi się na platformie.")
+						span.fa.fa-question-circle
+					.workshoplist-thumb
+						a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="cours.status!=='ready'",
+							analytics-category='courses',
+							analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
+							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
+						a(ui-sref='index.menu({type: "video"})', ng-if="cours.status==='ready'",
+							analytics-category='courses',
+							analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
+							img.img-responsive.workshoplist-img(ng-src="{{cours.image}}")
+					.workshopdesc-detailsholder
+						.workshoplist-details
+							.workshoplist-details-shadow
+							h4
+								a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="cours.status!=='ready'",
+									analytics-category='courses',
+									analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
+									| {{cours.title}}
+								a(ui-sref='index.menu({type: "video"})', ng-if="cours.status==='ready'",
+									analytics-category='courses',
+									analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
+									| {{cours.title}}
+							p
+								| {{ cours.description.substr(0, 100) }}...

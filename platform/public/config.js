@@ -1,15 +1,16 @@
 require.config({
     "baseUrl": "/static/dm-slider",
     "paths": {
+        "templates": "../bin/templates",
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
-        
+
         //deprectated
         "slider": "../dm-slider/slider",
         "services": "../dm-slider/services",
         "utils": "../dm-slider/utils",
-        "directives" : "../dm-slider/directives",
-        
+        "directives": "../dm-slider/directives",
+
         "require": "../../require",
         "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",
@@ -23,6 +24,7 @@ require.config({
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "angular-bootstrap": "../components/angular-bootstrap/ui-bootstrap-tpls",
         "ace": "../components/ace-builds/src-noconflict/ace",
+        "ace_languageTools": "../components/ace-builds/src-noconflict/ext-language_tools",
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
@@ -45,6 +47,10 @@ require.config({
         "coffee": "../components/coffee-script/extras/coffee-script",
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
         "wavesurfer": "../components/wavesurfer.js/build/wavesurfer.min",
+        "angulartics": "../components/angulartics/dist/angulartics.min",
+        "angulartics-ga": "../components/angulartics/dist/angulartics-ga.min",
+        "angular-marked": "../components/angular-marked/angular-marked",
+        "marked": "../components/marked/lib/marked",
         "dm-video": "../dm-video/dm-video",
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
@@ -61,6 +67,9 @@ require.config({
         }
     },
     "shim": {
+        "templates": {
+            "deps": ['slider/slider']
+        },
         "jquery": {
             "exports": "$"
         },
@@ -102,6 +111,9 @@ require.config({
             "deps": [],
             "exports": "ace"
         },
+        "ace_languageTools": {
+            "deps": ["ace"]
+        },
         "angular-animate": {
             "deps": ["angular"],
             "exports": "angular"
@@ -125,11 +137,20 @@ require.config({
         "angular-moment": {
             "deps": ["angular", "moment"]
         },
+        "angular-marked": {
+            "deps": ["angular", "../marked-wrapper"]
+        },
         "angular-local-storage": {
             "deps": ["angular"]
         },
         "angular-contenteditable": {
             "deps": ["angular"]
+        },
+        "angulartics": {
+            "deps": ["angular"]
+        },
+        "angulartics-ga": {
+            "deps": ["angulartics"]
         },
         "lz-string": {
             "exports": "LZString"
@@ -152,14 +173,14 @@ require.config({
         "dm-stream": {
             "deps": ["angular"]
         },
-        "dm-mongotime" : {
-            "deps": ["angular"] 
+        "dm-mongotime": {
+            "deps": ["angular"]
         },
-        "dm-gravatar" : {
-            "deps": ["angular"] 
+        "dm-gravatar": {
+            "deps": ["angular"]
         },
-        "dm-wavesurfer" : {
-            "deps": ["angular", "wavesurfer"] 
+        "dm-wavesurfer": {
+            "deps": ["angular", "wavesurfer"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]

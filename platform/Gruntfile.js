@@ -12,16 +12,17 @@ module.exports = function(grunt) {
     var rjsOptimizationModule = function(path, module) {
         return {
             options: {
-                baseUrl: 'public/' + path, 
+                baseUrl: 'public/' + path,
                 mainConfigFile: "public/config.js",
                 findNestedDependencies: true,
                 name: module, // assumes a production build using almond
-                out: "public/bin/" + path + '/' +  module + ".js",
+                out: "public/bin/" + path + '/' + module + "-" + version + ".js",
                 paths: {
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
-                    "ace": "empty:"
+                    "ace": "empty:",
+                    "ace_languageTools": "empty:"
                 },
                 optimize: "none"
             }
@@ -72,6 +73,37 @@ module.exports = function(grunt) {
                     ext: ".html",
                     src: ["public/**/*.jade", "!public/components/**"]
                 }]
+            }
+        },
+        ngtemplates: {
+            main: {
+                options: {
+                    module: 'slider',
+                    htmlmin: {
+                        collapseBooleanAttributes: true,
+                        collapseWhitespace: true,
+                        removeAttributeQuotes: false,
+                        removeComments: true,
+                        removeEmptyAttributes: true,
+                        removeScriptTypeAttributes: true,
+                        removeStyleLinkTypeAttributes: true
+                    },
+                    prefix: '/static',
+                    bootstrap: function(module, script) {
+                        return [
+                            "define(['slider/slider'], function(slider) {",
+                            "slider.run(['$templateCache', function($templateCache){",
+                            script,
+                            "}]);",
+                            "});"
+                        ].join("\n");
+                    },
+                    url: function(url) {
+                        return url.replace('public/', '');
+                    }
+                },
+                src: ['public/**/*.html', '!public/components/**'],
+                dest: 'public/bin/templates.js'
             }
         },
         watch: {
@@ -205,7 +237,7 @@ module.exports = function(grunt) {
         grunt.task.run('serve');
     });
 
-    grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'requirejs']);
+    grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'ngtemplates', 'requirejs']);
     grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent']);
     grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
     grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'jade', 'optimize']);

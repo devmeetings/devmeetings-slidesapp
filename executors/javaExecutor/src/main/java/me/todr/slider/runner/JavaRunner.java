@@ -1,5 +1,9 @@
 package me.todr.slider.runner;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
 import javax.tools.Diagnostic;
@@ -9,10 +13,15 @@ import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
 import javax.tools.ToolProvider;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
 public class JavaRunner {
+
+	@SuppressWarnings("unchecked")
+	private static Class<String[]> stringArrayClass = (Class<String[]>) new String[] {}
+	.getClass();
 
 	public CompilerOutput compile(String name, String code) {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -52,5 +61,36 @@ public class JavaRunner {
 			}
 		}
 		return new CompilerOutput(errors.build());
+	}
+
+	private void invokeMainMethod(Class<?> clazz) throws NoSuchMethodException,
+	SecurityException, IllegalAccessException,
+	IllegalArgumentException, InvocationTargetException {
+		try {
+			Method method = clazz.getMethod("main");
+			method.invoke(null);
+		} catch (NoSuchMethodException e) {
+			Method method = clazz.getMethod("main", stringArrayClass);
+			method.invoke(null, new Object[] { new String[] {} });
+		}
+	}
+
+	public String run(CompilerOutput clazz) throws JavaRunnerException {
+		Preconditions.checkNotNull(clazz);
+
+		PrintStream currentStream = System.out;
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		try {
+
+			System.setOut(new PrintStream(stream));
+			Class<?> clazz1 = clazz.getClazz();
+			invokeMainMethod(clazz1);
+
+			return stream.toString("utf8");
+		} catch (Exception e) {
+			throw new JavaRunnerException(e);
+		} finally {
+			System.setOut(currentStream);
+		}
 	}
 }

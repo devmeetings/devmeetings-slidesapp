@@ -5,10 +5,10 @@
     p
         | Właśnie ukonćzyłeś {{content.title}}
 .modal-footer
-    button.btn.btn-default(ng-click='cancel()')
+    button.btn.btn-default(ng-click='cancel()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.stay')
         | Pozostań
-    button.btn.btn-default(ng-click='ok()')
+    button.btn.btn-default(ng-click='ok()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.menu')
         | Menu
-    button.btn.btn-success(ng-click='task()')
+    button.btn.btn-success(ng-click='task()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.task')
         | Rozwiąż zadanie
 

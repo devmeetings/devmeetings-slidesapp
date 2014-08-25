@@ -1,4 +1,5 @@
 require(['angular',
+    'templates',
     'angular-ui-router',
     'slider/bootstrap',
     'xplatform/xplatform-app',
@@ -17,8 +18,14 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology',
     'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
     'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
-    'xplatform/controllers/dm-xplatform-options/dm-xplatform-options'
-], function(angular, angularRouter, bootstrap, xplatformApp) {
+    'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
+    'xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc',
+    'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
+    'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
+    'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks',
+    'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
+
+], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
 
@@ -33,14 +40,14 @@ require(['angular',
                         controller: 'XplatformIndexCtrl'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData = {
                         navbar: {},
                         columns: {}
                     };
                 }
             });
-           
+
             $stateProvider.state('index.stream', {
                 url: '/newsfeed',
                 views: {
@@ -57,7 +64,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'News Feed',
@@ -70,7 +77,7 @@ require(['angular',
                     };
                 }
             });
-            
+
             $stateProvider.state('index.menu', {
                 url: '/tutorials/:type',
                 views: {
@@ -83,7 +90,7 @@ require(['angular',
                         controller: 'dmXplatformTable'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'Tutoriale',
@@ -96,7 +103,7 @@ require(['angular',
                     };
                 }
             });
-            
+
             $stateProvider.state('index.event', {
                 url: '/event/:id',
                 views: {
@@ -109,7 +116,7 @@ require(['angular',
                         controller: 'dmXplatformEvent'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 10,
@@ -117,8 +124,8 @@ require(['angular',
                     };
                 }
             });
-            
-            
+
+
             $stateProvider.state('index.technology', {
                 url: '/technology/:name',
                 views: {
@@ -131,15 +138,15 @@ require(['angular',
                         controller: 'dmXplatformTechnology'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 2,
                         mid: 10,
                         right: 0
                     };
                 }
-            }); 
-            
+            });
+
             $stateProvider.state('index.devhero', {
                 url: '/devhero/:id',
                 views: {
@@ -156,7 +163,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 3,
                         mid: 6,
@@ -164,6 +171,149 @@ require(['angular',
                     };
                 }
             });
+
+            $stateProvider.state('index.courses', {
+                url: '/courses',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.html',
+                        controller: 'dmXplatformWorkshoplist'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Kursy',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 10,
+                        right: 0
+                    };
+                }
+            });
+
+            $stateProvider.state('index.coursesDesc', {
+                url: '/courses/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
+                        controller: 'dmXplatformWorkshopdesc'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Kursy',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 7,
+                        right: 3
+                    };
+                }
+            });
+
+            $stateProvider.state('index.paymentThanks', {
+                url: '/thanks/:id/:price/:subscription',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks.html',
+                        controller: 'dmXplatformPaypagethanks'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Dzięki!',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 0,
+                        right: 10
+                    };
+                }
+            });
+
+            $stateProvider.state('index.paymentInfo', {
+                url: '/info/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-info/dm-xplatform-info.html',
+                        controller: 'dmXplatformInfo'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Info',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 7,
+                        right: 3
+                    };
+                }
+            });
+
+            $stateProvider.state('index.paymentSubscription', {
+                url: '/subscription/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'      
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Abonament',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 7,
+                        right: 3
+                    };
+                }
+            });
+
+
 
             $stateProvider.state('index.message', {
                 url: '/message/:id',
@@ -177,7 +327,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 8,
                         mid: 4,
@@ -185,7 +335,7 @@ require(['angular',
                     };
                 }
             });
-            
+
             $stateProvider.state('index.profile', {
                 url: '/profile',
                 views: {
@@ -198,7 +348,7 @@ require(['angular',
                         controller: 'dmXplatformObserved'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'Edycja profilu',
@@ -220,7 +370,7 @@ require(['angular',
                         controller: 'dmXplatformSlide'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
                         title: 'Slide',
@@ -242,7 +392,7 @@ require(['angular',
                         controller: 'dmXplatformPlayer'
                     }
                 },
-                onEnter: function ($rootScope) {
+                onEnter: function($rootScope) {
                     $rootScope.xplatformData.columns = {
                         left: 12,
                         mid: 0,
@@ -267,8 +417,8 @@ require(['angular',
             });
 
             $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
-            $urlRouterProvider.when('/', '/tutorials/video');
-            $urlRouterProvider.otherwise('/tutorials/video');
+            $urlRouterProvider.when('/', '/courses');
+            $urlRouterProvider.otherwise('/courses');
         }
     ]);
     bootstrap('xplatform');

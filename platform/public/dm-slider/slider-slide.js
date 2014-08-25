@@ -1,10 +1,11 @@
 require([
+    'templates',
     "slider/slider",
     "slider/slider.plugins",
     "slider/bootstrap",
     "services/DeckAndSlides",
     "directives/plugins-loader",
-], function(slider, sliderPlugins, bootstrap) {
+], function(templates, slider, sliderPlugins, bootstrap) {
 
     slider.controller('SlideCtrl', ['$rootScope', '$scope', '$window', '$http', 'Sockets', 'DeckAndSlides',
         function($rootScope, $scope, $window, $http, Sockets, DeckAndSlides) {

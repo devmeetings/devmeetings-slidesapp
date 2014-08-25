@@ -33,7 +33,7 @@ nav.navbar.navbar-default.navbar-slides(role='navigation')
         mixin slidesMixin() 
       ul.nav.navbar-nav.nav-slides(ng-if="!$root.modes.isEditMode", ng-model="slides")
         mixin slidesMixin()
-    ul.nav.navbar-nav(ng-if="$root.modes.isEditMode")
+    ul.nav.nav-new-slide.cursor-pointer(ng-if="$root.modes.isEditMode")
       li
         a(ng-click="addSlide()")
           span.glyphicon.glyphicon-plus
