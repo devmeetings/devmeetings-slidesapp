@@ -22,6 +22,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc',
     'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
     'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
+    'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks',
 
 ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
@@ -227,14 +228,15 @@ require(['angular',
             });
 
             $stateProvider.state('index.paymentThanks', {
-                url: '/thanks',
+                url: '/thanks/:id',
                 views: {
                     left: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
                         controller: 'dmXplatformLeftbar'
                     },
                     right: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks.html'
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks.html',
+                        controller: 'dmXplatformPaypagethanks'
                     }
                 },
                 onEnter: function($rootScope) {
