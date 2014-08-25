@@ -1,70 +1,74 @@
 .col-md-12.dm-paypageprice-container
 
-	.row
-		.col-md-12
-			.paypageprice-progress-holder
-				h3 Stan zbiórki
-				.progress
-					.progress-bar.progress-bar-success.progress-bar-striped(role='progressbar', 
-						aria-valuenow='{{course.progressbarValue}}', aria-valuemin='0', aria-valuemax='100', style='width: {{course.progressbarValue}}%;')
-						| {{course.progressbarValue}}%
+    .row
+        .col-md-12
+            h3 Tak, potrzebuję tego kursu!
+            span
+                | Ten kurs jeszcze nie jest gotowy.
+                //| Przygotujemy go i udostępnimy jeśli
+                    | uda nam się zebrać środki na jego wydanie
+                    | lub wystarczająco dużo osób wykupi
+                    | abonament do platformy.
+        .col-md-12
+            .paypageprice-progress-holder
+                hr
+                h3 Stan zbiórki
+                .progress
+                    .progress-bar.progress-bar-success.progress-bar-striped(role='progressbar', 
+                        aria-valuenow='{{course.progressbarValue}}', aria-valuemin='0', aria-valuemax='100', style='width: {{course.progressbarValue}}%;')
+                        | {{course.progressbarValue}}%
 
 
-		.col-md-12.paypageprice-radio-holder
-			h3 Tak, potrzebuję tego kursu!
-			h4 Zapłacę za niego:
-			.btn-toolbar.prices(role='toolbar')
+        .col-md-12.paypageprice-radio-holder
+            span Wspieram przygotowanie tego kursu:
+            .btn-toolbar.prices(role='toolbar')
 
-				.row
-					.col-xs-6
-						button.btn.btn-default.btn-block(
-							ng-class="{'btn-primary active': course.price===10}",
-							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.10",
-							analytics-value="10", ng-click="course.price=10")
-							| 10 PLN
-					.col-xs-6
-						button.btn.btn-default.btn-block(
-							ng-class="{'btn-primary active': course.price===25}",
-							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.25", 
-							analytics-value="25", ng-click="course.price=25")
-							| 25 PLN
-				.row
-				.row
-					.col-xs-6
-						button.btn.btn-default.btn-block(
-							ng-class="{'btn-primary active': course.price===50}",
-							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.50", 
-							analytics-value="50",ng-click="course.price=50")
-							| 50 PLN
-					.col-xs-6
-						button.btn.btn-default.btn-block(
-							ng-class="{'btn-primary active': course.price===100}",
-							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.100", 
-							analytics-value="100", ng-click="course.price=100")
-							| 100 PLN
-
-							
-				.row
-					.col-md-12
-						button.btn.btn-success.btn-lg.btn-ok.btn-block(
-                                                        ui-sref="index.paymentThanks({id: course.id, price: course.price, subscription: 'false'})",
-							ng-show="course.price",
-							analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="pay", analytics-value="{{course.price}}"
-							) 
-							span(ng-show="course.price")
-								span.fa.fa-money
-								|  Płacę {{course.price}} PLN
-			hr
-			h3 Albo wolę wykupić abonament
-			h4 w którym będę miał dostęp do wszystkich kursów za
-			button.btn-lg.btn-block.btn-default.btn-abo(
+                .col-xs-6.pay-left
+                    button.btn.btn-default.btn-block(
+                        ng-class="{'btn-primary active': course.price===10}",
+                        analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.10",
+                        analytics-value="10", ng-click="course.price=10")
+                        | 10 PLN
+                .col-xs-6.pay-right
+                    button.btn.btn-default.btn-block(
+                        ng-class="{'btn-primary active': course.price===25}",
+                        analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.25", 
+                        analytics-value="25", ng-click="course.price=25")
+                        | 25 PLN
+                .col-xs-6.pay-left
+                    button.btn.btn-default.btn-block(
+                        ng-class="{'btn-primary active': course.price===50}",
+                        analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.50", 
+                        analytics-value="50",ng-click="course.price=50")
+                        | 50 PLN
+                .col-xs-6.pay-right
+                    button.btn.btn-default.btn-block(
+                        ng-class="{'btn-primary active': course.price===100}",
+                        analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="change.100", 
+                        analytics-value="100", ng-click="course.price=100")
+                        | 100 PLN
+                .col-md-12.pay-mid
+                    button.btn.btn-success.btn-lg.btn-ok.btn-block(
+                        ui-sref="index.paymentThanks({id: course.id, price: course.price, subscription: 'false'})",
+                        ng-show="course.price",
+                        analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="pay", analytics-value="{{course.price}}"
+                        ) 
+                        span(ng-show="course.price")
+                            span.fa.fa-money
+                            |  Płacę {{course.price}} PLN
+                a.text-muted.cursor-pointer.pull-right(
+                    analytics-on="click", analytics-category="payment.{{corse.title}}", analytics-event="abo.more", ui-sref='index.paymentInfo({id: course.id})') Więcej informacji...
+            hr
+            h3 Albo kupuję abonament do całej platformy
+            span w ramach którego będę miał dostęp do wszystkich kursów za
+            button.btn.btn-lg.btn-block.btn-abo(
                                 ui-sref="index.paymentThanks({id: course.id, price: '40', subscription: 'true'})",
-				ng-class="{'btn-success': !course.price || over}"
-				ng-mouseenter="over=1", ng-mouseleave="over=0"
-				analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="abo.pay", analytics-value="40")
-				span.fa.fa-calendar
-				|  40 zł / miesiąc
-			a.text-muted.cursor-pointer.pull-right(
-				analytics-on="click", analytics-category="payment.{{corse.title}}", analytics-event="abo.more") Dowiedz się więcej...
+                ng-class="{'btn-success': !course.price || over, 'btn-default' : course.price && !over}"
+                ng-mouseenter="over=1", ng-mouseleave="over=0"
+                analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="abo.pay", analytics-value="40")
+                span.fa.fa-calendar
+                |  40 zł / miesiąc
+            a.text-muted.cursor-pointer.pull-right(
+                analytics-on="click", analytics-category="payment.{{corse.title}}", analytics-event="abo.more", ui-sref='index.paymentSubscription({id: course.id})') Więcej informacji...
 
-							
+                            

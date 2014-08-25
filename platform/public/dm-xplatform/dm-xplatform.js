@@ -253,6 +253,66 @@ require(['angular',
                 }
             });
 
+            $stateProvider.state('index.paymentInfo', {
+                url: '/info/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-info/dm-xplatform-info.html'      
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Info',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 7,
+                        right: 3
+                    };
+                }
+            });
+
+            $stateProvider.state('index.paymentSubscription', {
+                url: '/subscription/:id',
+                views: {
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
+                        controller: 'dmXplatformLeftbar'
+                    },
+                    mid: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'      
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
+                        controller: 'dmXplatformPaypageprice'
+                    }
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'Abonament',
+                        searchText: ''
+                    };
+                    $rootScope.xplatformData.columns = {
+                        left: 2,
+                        mid: 7,
+                        right: 3
+                    };
+                }
+            });
+
+
+
             $stateProvider.state('index.message', {
                 url: '/message/:id',
                 views: {
