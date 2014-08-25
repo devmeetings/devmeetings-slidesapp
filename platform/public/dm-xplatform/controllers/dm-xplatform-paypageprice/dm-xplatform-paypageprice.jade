@@ -62,12 +62,12 @@
             h3 Albo kupuję abonament do całej platformy
             span w ramach którego będę miał dostęp do wszystkich kursów za
             button.btn.btn-lg.btn-block.btn-abo(
-                                ui-sref="index.paymentThanks({id: course.id, price: '40', subscription: 'true'})",
+                ui-sref="index.paymentThanks({id: course.id, price: '30', subscription: 'true'})",
                 ng-class="{'btn-success': !course.price || over, 'btn-default' : course.price && !over}"
                 ng-mouseenter="over=1", ng-mouseleave="over=0"
-                analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="abo.pay", analytics-value="40")
+                analytics-on="click", analytics-category="payment.{{course.title}}", analytics-event="abo.pay", analytics-value="30")
                 span.fa.fa-calendar
-                |  40 zł / miesiąc
+                |  30 zł / miesiąc
             a.text-muted.cursor-pointer.pull-right(
                 analytics-on="click", analytics-category="payment.{{corse.title}}", analytics-event="abo.more", ui-sref='index.paymentSubscription({id: course.id})') Więcej informacji...
 
