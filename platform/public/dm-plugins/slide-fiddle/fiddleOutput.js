@@ -60,7 +60,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         try {
                             var contentWindow = $iframe[0].contentWindow;
                             sliderPlugins.trigger('slide.slide-fiddle.output', contentWindow.document, contentWindow);
-                        } catch(e) {
+                        } catch (e) {
                             // Just swallow exceptions about CORS
                         }
                     }, 500));
@@ -87,7 +87,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             return 'try { ' + code + ';window.parent.postMessage({type:"fiddle-error", msg: ""}, "' + host + '");}' +
                                 'catch (e) { console.error(e); window.parent.postMessage({type: "fiddle-error", msg: e.message}, "' + host + '"); }';
                         };
-                        var fiddleJsCode = "window.port = " + serverPort +";" + fiddle.js;
+                        var fiddleJsCode = "window.port = " + serverPort + ";" + fiddle.js;
                         var jsCode = (isPure ? '' : commonJs) + "<script>" + wrapWithForwarder(fixOneLineComments(fiddleJsCode)) + "</script>";
                         var cssCode = (isPure ? '' : commonCss) + "<style>" + fixOneLineComments(fiddle.css) + "</style>";
                         var htmlCode = injectDataToHtmlCode(fiddle.html, jsCode, cssCode);
@@ -113,7 +113,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         $iframe[0].contentWindow.location.hash = scope.fiddle.url.hash;
                     });
 
-                    scope.$watch('fiddle.url.address', function(newVal, oldVal){
+                    scope.$watch('fiddle.url.address', function(newVal, oldVal) {
                         if (!scope.fiddle.url) {
                             return;
                         }
@@ -121,7 +121,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         $iframe[0].src = scope.fiddle.url.address;
                     });
 
-                    scope.updateAddress = _.debounce(function(){
+                    scope.updateAddress = _.debounce(function() {
                         var address = scope.fiddle.url.addressTemp.replace(':port', ':' + serverPort);
                         scope.lastAddressTemp = address;
                         // /costam
@@ -149,8 +149,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                         parseAddress(url, address);
 
-                        
-                        scope.$apply(function(){
+
+                        scope.$apply(function() {
                             _.extend(scope.fiddle.url, url);
                             refreshFiddle(scope.fiddle);
                         });
@@ -172,7 +172,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             }
 
                             if (updatingUrl) {
-                                $timeout(updateUrl, 600);  
+                                $timeout(updateUrl, 600);
                             }
                         }());
                     });
