@@ -9,7 +9,7 @@ require([
     "directives/plugins-loader",
     "directives/splitter",
     "directives/sidebar-control/sidebar-control"
-], function(slider, sliderPlugins, bootstrap) {
+], function(templates, slider, sliderPlugins, bootstrap) {
     slider.controller('SliderCtrl', ['$rootScope', '$scope', 'DeckAndSlides',
 
         function($rootScope, $scope, DeckAndSlides) {
