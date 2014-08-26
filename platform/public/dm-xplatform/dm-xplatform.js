@@ -24,6 +24,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
     'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks',
     'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
+    'xplatform/controllers/dm-xplatform-microtask/dm-xplatform-microtask',
 
 ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
@@ -292,7 +293,7 @@ require(['angular',
                         controller: 'dmXplatformLeftbar'
                     },
                     mid: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'      
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'
                     },
                     right: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
@@ -365,9 +366,13 @@ require(['angular',
             $stateProvider.state('index.task', {
                 url: '/task/:event/:id',
                 views: {
-                    left: {
+                    mid: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                         controller: 'dmXplatformSlide'
+                    },
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-microtask/dm-xplatform-microtask.html',
+                        controller: 'dmXplatformMicrotask'
                     }
                 },
                 onEnter: function($rootScope) {
@@ -377,9 +382,9 @@ require(['angular',
                         searchText: ''
                     };
                     $rootScope.xplatformData.columns = {
-                        left: 12,
-                        mid: 0,
-                        right: 0
+                        left: 0,
+                        mid: 9,
+                        right: 3
                     };
                 }
             });
