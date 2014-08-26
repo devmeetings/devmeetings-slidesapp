@@ -38,6 +38,8 @@ angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http,
             $http.get('/api/users').success(function (user) {
                 data.result = user;
                 result.resolve(data);
+            }).error(function (data, status) {
+                result.reject(status);
             });
             return result.promise;
         }

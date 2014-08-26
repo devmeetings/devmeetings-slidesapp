@@ -26,6 +26,19 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
 
 ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
+
+    xplatformApp.run(['$rootScope', '$state', function ($rootScope, $state) {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
+            if (toState.anonymous) { // or is authenticated
+                return;
+            }
+
+            event.preventDefault();  
+            $state.go('index.login');
+            
+        });
+    }]);
+
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
 
@@ -48,7 +61,48 @@ require(['angular',
                 }
             });
 
+            $stateProvider.state('index.login', {
+                anonymous: true,
+                url: '/login',
+                views: {
+                    
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'News Feed',
+                        searchText: ''
+                    },
+                    $rootScope.xplatformData.columns = {
+                        left: 12,
+                        mid: 0,
+                        right: 0
+                    }
+                }
+            });
+
+            $stateProvider.state('index.register', {
+                anonymous: true,
+                url: '/register',
+                views: {
+                    
+                },
+                onEnter: function($rootScope) {
+                    $rootScope.xplatformData.navbar = {
+                        showTitle: true,
+                        title: 'News Feed',
+                        searchText: ''
+                    },
+                    $rootScope.xplatformData.columns = {
+                        left: 12,
+                        mid: 0,
+                        right: 0
+                    }
+                }
+            });
+
             $stateProvider.state('index.stream', {
+                anonymous: true,
                 url: '/newsfeed',
                 views: {
                     left: {
@@ -173,6 +227,7 @@ require(['angular',
             });
 
             $stateProvider.state('index.courses', {
+                anonymous: true,
                 url: '/courses',
                 views: {
                     left: {

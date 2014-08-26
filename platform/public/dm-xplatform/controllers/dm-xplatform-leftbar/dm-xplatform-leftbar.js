@@ -12,6 +12,8 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
 
             dmUser.getCurrentUser().then(function(data) {
                 $scope.user = data;
+            }, function (err) {
+            
             });
 
             var element = $('[class*="dm-xplatform-index-left"]').css('background-color', 'rgb(33,33,33)');

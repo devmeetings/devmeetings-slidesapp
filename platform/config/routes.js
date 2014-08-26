@@ -1,6 +1,6 @@
 var passport = require('passport');
 
-var authenticated = function loggedIn(req, res, next) {
+var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
     if (req.user) {
         if (req.session.redirect_to) {
             var redirect = req.session.redirect_to;
@@ -9,11 +9,16 @@ var authenticated = function loggedIn(req, res, next) {
             return;
         }
         next();
-    } else {
+    } else if (shouldRedirect) {
         req.session.redirect_to = req.url;
         res.redirect('/login');
+    } else {
+        res.send(401);
     }
 };
+
+apiAuthenticated = shouldBeAuthenticated.bind(null, false);
+authenticated = shouldBeAuthenticated.bind(null, true);
 
 module.exports = function(app) {
     var slides = require('../app/controllers/slides');
@@ -51,9 +56,9 @@ module.exports = function(app) {
     app.delete('/api/trainings/:id', authenticated, trainings.delete);
 
     var users = require('../app/controllers/users');
-    app.get('/api/users/:id', authenticated, users.get);
-    app.put('/api/users', authenticated, users.edit);
-    app.get('/api/users', authenticated, users.current);
+    app.get('/api/users/:id', apiAuthenticated, users.get);
+    app.put('/api/users', apiAuthenticated, users.edit);
+    app.get('/api/users', apiAuthenticated, users.current);
 
     var observes = require('../app/controllers/observes');
     app.get('/api/observes', authenticated, observes.get);
@@ -61,17 +66,17 @@ module.exports = function(app) {
     app.delete('/api/observes/:id', authenticated, observes.unobserve);
 
     var streams = require('../app/controllers/streams');
-    app.get('/api/streams', authenticated, streams.all);
-    app.get('/api/streams/:id', authenticated, streams.get);
+    app.get('/api/streams', apiAuthenticated, streams.all);
+    app.get('/api/streams/:id', apiAuthenticated, streams.get);
 
     var payments = require('../app/controllers/payments');
     app.post('/api/payments/:course/:price/:subscription', authenticated, payments.pay);
 
     var req = require('../app/controllers/require');
-    app.get('/require/decks/:id/slides.js', authenticated, req.getDeckSlides);
-    app.get('/require/decks/:id.js', authenticated, req.getDeck);
-    app.get('/require/plugins/paths.js', authenticated, req.pluginsPaths);
-    app.get('/require/slides/:id.js', authenticated, req.getSlide);
+    app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
+    app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
+    app.get('/require/plugins/paths.js', req.pluginsPaths);
+    app.get('/require/slides/:id.js', apiAuthenticated, req.getSlide);
 
     //login
     var login = require('../app/controllers/login');
@@ -95,8 +100,9 @@ module.exports = function(app) {
 
     //xplatform
     var devmeetings = require('../app/controllers/devmeetings');
-    app.get('/', authenticated, devmeetings.xplatform);
+    //app.get('/', authenticated, devmeetings.xplatform);
     app.get('/admin', authenticated, devmeetings.admin);
+    app.get('/', devmeetings.xplatform);
 
     // registration
     var registration = require('../app/controllers/registration');
