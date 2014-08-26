@@ -133,6 +133,7 @@ require(['angular',
             });
 
             $stateProvider.state('index.menu', {
+                anonymous: true,
                 url: '/tutorials/:type',
                 views: {
                     left: {
@@ -254,6 +255,7 @@ require(['angular',
             });
 
             $stateProvider.state('index.coursesDesc', {
+                anonymous: true,
                 url: '/courses/:id',
                 views: {
                     left: {
