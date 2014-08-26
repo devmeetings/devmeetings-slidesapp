@@ -28,30 +28,33 @@ require(['angular',
     ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
         xplatformApp.run(['$rootScope', '$state', '$modal', 'dmUser',
-                function($rootScope, $state, $modal, dmUser) {
-                    $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
-                            if (toState.anonymous || dmUser.isLoggedIn()) {
-                                return;
-                            }
-
-                            event.preventDefault();
-
-                            if (!dmUser.isLoaded()) {
-                                $state.go('index.courses');
-                                return;
-                            }
-
-                            if (toState.anonymousForceRegister) {
-
-                                $modal.open({
-                                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
-                                    size: 'sm'
-                                });
-
-
-                            });
+            function($rootScope, $state, $modal, dmUser) {
+                $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+                    if (toState.anonymous || dmUser.isLoggedIn()) {
+                        return;
                     }
-                ]);
+
+                    event.preventDefault();
+
+                    if (!dmUser.isLoaded()) {
+                        $state.go('index.courses');
+                        return;
+                    }
+
+                    if (toState.anonymousForceRegister) {
+                        $modal.open({
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
+                            size: 'sm'
+                        });
+                        return;
+                    }
+                    
+                    $modal.open({
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
+                        size: 'sm'
+                    });
+                });
+            }]);
 
             xplatformApp.config(['$stateProvider', '$urlRouterProvider',
                 function($stateProvider, $urlRouterProvider) {
