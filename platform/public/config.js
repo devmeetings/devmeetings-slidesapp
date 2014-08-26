@@ -1,7 +1,7 @@
 require.config({
     "baseUrl": "/static/dm-slider",
     "paths": {
-        "templates": "../bin/templates",
+        "templates": "../templates",
         "slider/bootstrap": "slider/bootstrap-dev",
         "decks": "../../decks",
 

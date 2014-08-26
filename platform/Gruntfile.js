@@ -18,6 +18,7 @@ module.exports = function(grunt) {
                 name: module, // assumes a production build using almond
                 out: "public/bin/" + path + '/' + module + "-" + version + ".js",
                 paths: {
+                    "templates": "../bin/templates",
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
