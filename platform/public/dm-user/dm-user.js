@@ -3,6 +3,7 @@ angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http,
     var data = {}; 
     var result;
     var cache = {};
+    var loaded = false;
 
     return {
         getUserWithId: function (id) {
@@ -38,10 +39,18 @@ angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http,
             $http.get('/api/users').success(function (user) {
                 data.result = user;
                 result.resolve(data);
+                loaded = true;
             }).error(function (data, status) {
                 result.reject(status);
+                loaded = true;
             });
             return result.promise;
+        },
+        isLoaded: function () {
+            return loaded;        
+        },
+        isLoggedIn: function () {
+            return data.result !== undefined;
         }
     };
 }]);
