@@ -27,30 +27,32 @@ require(['angular',
 
 ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
-    xplatformApp.run(['$rootScope', '$state', '$modal', function ($rootScope, $state, $modal) {
-        $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
-            if (toState.anonymous) { // or is authenticated
-                return;
-            }
+    xplatformApp.run(['$rootScope', '$state', '$modal',
+        function($rootScope, $state, $modal) {
+            $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+                if (toState.anonymous) { // or is authenticated
+                    return;
+                }
 
-            event.preventDefault();  
-          
-            if (toState.anonymousForceRegister) {
+                event.preventDefault();
+
+                if (toState.anonymousForceRegister) {
+                    $modal.open({
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
+                        size: 'lg'
+                    });
+                    return;
+                }
+
                 $modal.open({
-                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
+                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
                     size: 'sm'
                 });
-                return;
-            }
 
-            $modal.open({
-                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
-                size: 'sm'
+
             });
-
-            
-        });
-    }]);
+        }
+    ]);
 
     xplatformApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
@@ -367,7 +369,7 @@ require(['angular',
                         controller: 'dmXplatformLeftbar'
                     },
                     mid: {
-                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'      
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'
                     },
                     right: {
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
