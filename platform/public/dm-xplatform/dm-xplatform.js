@@ -70,7 +70,7 @@ require(['angular',
                 onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
-                        title: 'News Feed',
+                        title: 'Zaloguj',
                         searchText: ''
                     },
                     $rootScope.xplatformData.columns = {
@@ -90,7 +90,7 @@ require(['angular',
                 onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
                         showTitle: true,
-                        title: 'News Feed',
+                        title: 'Zarejestruj',
                         searchText: ''
                     },
                     $rootScope.xplatformData.columns = {
