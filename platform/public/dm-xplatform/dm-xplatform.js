@@ -65,7 +65,9 @@ require(['angular',
                 anonymous: true,
                 url: '/login',
                 views: {
-                    
+                    left: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html'
+                    }
                 },
                 onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
@@ -85,7 +87,9 @@ require(['angular',
                 anonymous: true,
                 url: '/register',
                 views: {
-                    
+                    right: {
+                        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html'
+                    }
                 },
                 onEnter: function($rootScope) {
                     $rootScope.xplatformData.navbar = {
@@ -94,9 +98,9 @@ require(['angular',
                         searchText: ''
                     },
                     $rootScope.xplatformData.columns = {
-                        left: 12,
+                        left: 0,
                         mid: 0,
-                        right: 0
+                        right: 12
                     }
                 }
             });

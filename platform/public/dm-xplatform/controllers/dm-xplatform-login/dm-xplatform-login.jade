@@ -1,0 +1,34 @@
+.container
+    .login-holder
+        form(action="/auth/login", method="post")
+            .col-md-12
+                .login-header Logowanie
+                .form-group
+                    .ico-holder
+                        img.ico-sub.ico-user(src='static/images/login/ico_user.png')
+                    input.form-control.form-login(type="email", name="email", placeholder="e-mail")
+
+                .form-group
+                    .ico-holder
+                        img.ico-sub.ico-password(src='static/images/login/ico_password.png')
+                    input.form-control.form-login(type="password", name="password", placeholder="hasło")
+                .form-group
+                    .checkbox-option.pull-left
+                        ul
+                    button.btn.btn-log.pull-right(type="submit")
+                        | Zaloguj
+
+            .row
+                .auth-holder.col-md-12
+                    a(href="/auth/google")
+                        .gp-auth-holder.col-md-4
+                            img(src='static/images/login/ico_googleplus.png')
+                            | logowanie
+                    a(href="/auth/facebook")
+                        .fb-auth-holder.col-md-4
+                            img(src='static/images/login/ico_facebook.png')
+                            | logowanie 
+                    a(href="/auth/github")
+                        .gith-auth-holder.col-md-4
+                            img(src='static/images/login/ico_github.png')
+                            | logowanie 
