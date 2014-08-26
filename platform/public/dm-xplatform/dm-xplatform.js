@@ -334,6 +334,7 @@ require(['angular',
                     });
 
                     $stateProvider.state('index.paymentInfo', {
+                        anonymous: true,
                         url: '/info/:id',
                         views: {
                             left: {
@@ -364,6 +365,7 @@ require(['angular',
                     });
 
                     $stateProvider.state('index.paymentSubscription', {
+                        anonymous: true,
                         url: '/subscription/:id',
                         views: {
                             left: {
