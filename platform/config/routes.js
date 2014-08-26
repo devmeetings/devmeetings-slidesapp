@@ -72,6 +72,10 @@ module.exports = function(app) {
     var payments = require('../app/controllers/payments');
     app.post('/api/payments/:course/:price/:subscription', authenticated, payments.pay);
 
+    var snapshots = require('../app/controllers/snapshots');
+    app.get('/api/snapshots/:startTime?', authenticated, snapshots.list);
+    app.post('/api/snapshots/:startTime?', authenticated, snapshots.import);
+
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
