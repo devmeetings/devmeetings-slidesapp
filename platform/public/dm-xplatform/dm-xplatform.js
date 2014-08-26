@@ -27,14 +27,27 @@ require(['angular',
 
 ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
-    xplatformApp.run(['$rootScope', '$state', function ($rootScope, $state) {
+    xplatformApp.run(['$rootScope', '$state', '$modal', function ($rootScope, $state, $modal) {
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
             if (toState.anonymous) { // or is authenticated
                 return;
             }
 
             event.preventDefault();  
-            $state.go('index.login');
+          
+            if (toState.anonymousForceRegister) {
+                $modal.open({
+                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
+                    size: 'sm'
+                });
+                return;
+            }
+
+            $modal.open({
+                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
+                size: 'sm'
+            });
+
             
         });
     }]);
@@ -62,7 +75,7 @@ require(['angular',
             });
 
             $stateProvider.state('index.login', {
-                anonymous: true,
+                anonymous: false,
                 url: '/login',
                 views: {
                     left: {
@@ -84,7 +97,8 @@ require(['angular',
             });
 
             $stateProvider.state('index.register', {
-                anonymous: true,
+                anonymous: false,
+                anonymousForceRegister: true,
                 url: '/register',
                 views: {
                     right: {

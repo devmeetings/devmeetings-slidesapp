@@ -1,8 +1,11 @@
-.container
+.modal-body
     .login-holder
         form(action="/auth/login", method="post")
             .col-md-12
                 .login-header Logowanie
+                    span.login-switch.pull-right
+                        a(href="/registration") 
+                            | Rejestracja
                 .form-group
                     .ico-holder
                         img.ico-sub.ico-user(src='static/images/login/ico_user.png')
@@ -12,7 +15,7 @@
                     .ico-holder
                         img.ico-sub.ico-password(src='static/images/login/ico_password.png')
                     input.form-control.form-login(type="password", name="password", placeholder="hasło")
-                .form-group
+ 
                     .checkbox-option.pull-left
                         ul
                     button.btn.btn-log.pull-right(type="submit")

@@ -1,8 +1,11 @@
-.container
+.modal-body
     .registration-holder
         form(action="/registration", method="post")
             .col-md-12
                 .registration-header Rejestracja
+                    span.login-switch.pull-right
+                        a(href="/login") 
+                            | Logowanie
 
                 .form-group
                     .alert-error
