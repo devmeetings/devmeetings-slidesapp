@@ -15,7 +15,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.Lists;
 
 final class CompileAndRunMessage implements Callable<byte[]> {
 	private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -41,16 +44,17 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 		Class<?> clazz = compile.getClazz();
 		System.out.println(MessageFormat.format("  Compilation: {0}us",
 				watch.elapsed(TimeUnit.MICROSECONDS)));
+
 		// Something went wrong
 		if (clazz == null) {
 			putArray("errors", map, compile.getErrors());
 			return objectMapper.writeValueAsBytes(map);
 		}
 		watch.reset().start();
+
 		// Invoke method
 		try {
 			String output = javaRunner.run(compile);
-
 			map.put("success", true);
 			putArray("result", map, Arrays.asList(output.split("\n")));
 		} catch (JavaRunnerException e) {
@@ -59,6 +63,17 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 		} catch (JavaRunnerUsersException e) {
 			map.put("success", false);
 			map.withArray("errors").add(e.getCause().toString());
+
+			StackTraceElement[] stackTrace = e.getStackTrace();
+			String stack = Joiner.on('\n').join(
+					Lists.transform(Arrays.asList(stackTrace),
+							new Function<StackTraceElement, String>() {
+						@Override
+						public String apply(StackTraceElement input) {
+							return input.toString();
+						}
+					}));
+			map.put("stacktrace", stack);
 		} catch (Exception e) {
 			map.put("success", false);
 			map.withArray("errors").add(e.toString());
