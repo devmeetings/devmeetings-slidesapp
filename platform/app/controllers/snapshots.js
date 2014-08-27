@@ -3,19 +3,20 @@ var MongoBridge = require('../services/raw-mongo-bridge');
 var SnapshotsParser = require('../services/snapshots-parser');
 
 
-function findSnapshots(connection, startTime, endTime, offset, title) {
+function findSnapshots(connection, startTime, endTime, offset, groupTime, title) {
     return connection.then(function(mongo) {
         return mongo.getSnapshots(startTime, endTime);
     }).then(function(snaps) {
-        return SnapshotsParser.prepareRecordings(false, snaps, offset, title);
+        return SnapshotsParser.prepareRecordings(false, snaps, offset, groupTime, title);
     });
 }
 
 function parseParams(req) {
     var startTime = new Date(req.params.startTime).getTime(),
         endTime = new Date(req.query.endTime || (startTime ? startTime + 1000 * 3600 * 24 : Date.now())).getTime(),
-        offset = parseInt(req.query.offset || 0, 10),
+        offset = parseInt(req.query.offset, 10) || 0,
         showLast = !!req.query.showLast,
+        groupTime = parseInt(req.query.groupTime, 10) || 60 * 2,
         title = req.query.title || "";
 
     return {
@@ -23,13 +24,14 @@ function parseParams(req) {
         endTime: endTime,
         offset: offset,
         showLast: showLast,
-        title: title
+        title: title,
+        groupTime: groupTime * 1000 * 60
     };
 }
 
 exports.list = function(req, res) {
     var params = parseParams(req);
-    findSnapshots(MongoBridge(config.db), params.startTime, params.endTime, params.offset, params.title)
+    findSnapshots(MongoBridge(config.db), params.startTime, params.endTime, params.offset, params.groupTime, params.title)
         .then(function(recordings) {
             res.send({
                 startTime: new Date(params.startTime),

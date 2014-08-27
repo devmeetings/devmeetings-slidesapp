@@ -16,23 +16,49 @@ var isChapterSlide = function(chapters, slide) {
     return result;
 };
 
-var reduceSnapshots = function(snapshots, title) {
+var oldSchoolReduce = function(snapshots, groupTime, title) {
+
+    var createNewGroup = function(snap) {
+        return {
+            slideId: snap.code.slideId,
+            userId: '',
+            timestamp: snap.timestamp,
+            title: title + " (" + (snap.code.title || snap.code.name) + ")",
+            slides: [snap]
+        };
+    };
+
+    return snapshots.reduce(function(acc, snap) {
+        if (acc.last && snap.timestamp < acc.last.timestamp + groupTime) {
+            acc.last.slides.push(snap);
+        } else {
+            // start new group
+            acc.last = createNewGroup(snap);
+            acc.groups.push(acc.last);
+        }
+        return acc;
+    }, {
+        groups: [],
+        last: null
+    }).groups;
+};
+
+var reduceSnapshots = function(snapshots, groupTime, title) {
     var allSnaps = _.reduce(snapshots, function(acc, elem) {
         return acc.concat(JSON.parse(LZString.decompressFromBase64(elem.data)));
     }, []);
-
     var allSnapsGroupped = allSnaps.reduce(function(data, snap) {
-        if (snap.code.recordingStarted) {
+        if (snap.code.recordingStarted || !data.last) {
             data.last = {
                 slideId: snap.code.slideId,
                 // TODO [ToDr] we don't know user!
                 userId: '',
-                timestamp: snap.code.recordingStarted,
+                timestamp: snap.code.recordingStarted || snap.timestamp,
                 title: title + " (" + (snap.code.title || snap.code.name) + ")",
                 slides: [snap]
             };
             data.groups.push(data.last);
-        } else if (data.last) {
+        } else {
             data.last.slides.push(snap);
         }
         return data;
@@ -46,7 +72,10 @@ var reduceSnapshots = function(snapshots, title) {
         return x.slides.length > 1;
         //return true;
     });
-    return groups;
+
+    // In first group we have to do some old school grouping
+    var moreGroups = oldSchoolReduce(groups[0].slides, groupTime, title);
+    return moreGroups.concat(groups);
 };
 
 
@@ -92,9 +121,9 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset) {
 };
 
 var SnapshotsParser = {
-    prepareRecordings: function(chapters, snapshots, timeoffset, title) {
+    prepareRecordings: function(chapters, snapshots, timeoffset, groupTime, title) {
         var result = Q.defer();
-        var snaps = reduceSnapshots(snapshots, title);
+        var snaps = reduceSnapshots(snapshots, groupTime, title);
         snapshotTrimmer(snaps);
         var finalSnaps = produceFinalSnaps(snaps, chapters, timeoffset);
         result.resolve(finalSnaps);
