@@ -93,7 +93,14 @@ function cutoutSlides(slides, from, to) {
     var after = slides.filter(function(x) {
         return x.timestamp >= to;
     });
-
+    // Fix timestamps
+    var first = after[0];
+    if (first) {
+        after = after.map(function(x) {
+            x.timestamp -= to - from;
+            return x;
+        });
+    }
     return before.concat(after);
 }
 
