@@ -55,7 +55,7 @@ exports.list = function(req, res) {
 exports.import = function(req, res) {
     var params = parseParams(req);
     var connection = MongoBridge(config.db);
-    findSnapshots(connection, params.startTime, params.endTime, params.offset, params.title)
+    findSnapshots(connection, params.startTime, params.endTime, params.offset, params.groupTime, params.title)
         .then(function(recordings) {
             connection.then(function(mongo) {
                 mongo.saveRecordings(recordings).then(function() {
