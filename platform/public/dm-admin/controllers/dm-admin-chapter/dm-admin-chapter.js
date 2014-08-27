@@ -106,6 +106,7 @@ define(['angular',
                 }
 
                 $scope.chapter.videodata.recording = newRecording._id;
+                $scope.chapter.videodata.timestamp = $scope.chapter.videodata.timestamp || 0;
                 $scope.recordingPlayer.player = RecordingsPlayerFactory($scope.select.recording, function(slide, wholeSlide) {
                     $scope.recordingPlayer.slide = slide;
                 });
