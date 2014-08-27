@@ -1,62 +1,55 @@
-.col-lg-12.col-md-12.dm-admin-div
+.col-md-4.dm-admin-div
     .panel
         .panel-heading
             h2 {{chapter.title}}
         .panel-body
             form.form-horizontal.col-lg-12.col-md-12
-                fieldset.col-lg-8.col-md-8
+                fieldset
                     .form-group
-                        label.col-lg-2.col-md-2(control-label)
+                        label
                             | Title
-                        .col-lg-10.col-md-10
-                            input.form-control(type='text', ng-model='chapter.title')
+                        input.form-control.input-sm(type='text', ng-model='chapter.title')
                     .form-group
-                        label.col-lg-2.col-md-2(control-label)
+                        label
                             | Mode
-                        .col-lg-10.col-md-10
-                            select.form-control(ng-model='chapter.mode')
+                        select.form-control.input-sm(ng-model='chapter.mode')
                                 option video
                                 option task
             .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "video"')
-                h4 videodata
+                h4 Sound
                 form.form-horizontal.col-lg-8.col-md-8
                     fieldset
                         .form-group
-                            label.col-lg-2.col-md-2(control-label)
+                            label.control-label
                                 | url
-                            .col-lg-10.col-md-10
-                                input.form-control(type='text', ng-model='chapter.videodata.url')
+                            input.form-control.input-sm(type='text', ng-model='chapter.videodata.url')
                         .form-group
-                            label.col-lg-2.col-md-2(control-label)
-                                | recording
-                            .col-lg-10.col-md-10
-                                select.form-control(ng-model='select.recording', ng-options='recording.title group by recording.group for recording in recordings')
+                            label
+                                | Code recording
+                            .control-group
+                                select.form-control.input-sm(ng-model='select.recording', ng-options='recording.title group by recording.group for recording in recordings')
                                 span.help-block  {{select.recording._id}}
                         .form-group
-                            label.col-lg-2.col-mg-2(control-label)
-                                | timestamp
-                            .col-lg-10.col-md-10
-                                input.form-control(type='number', ng-model='chapter.videodata.timestamp')
+                            label
+                                | When should code start
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.timestamp')
                         .form-group
-                            label.col-lg-2.col-mg-2(control-label)
-                                | recording time
-                            .col-lg-10.col-md-10
-                                input.form-control(type='number', ng-model='chapter.videodata.recordingTime')
+                            label
+                                | When should audio start
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.recordingTime')
                         .form-group
-                            label.col-lg-2.col-mg-2(control-label)
-                                | length 
-                            .col-lg-10.col-md-10
-                                input.form-control(type='number', ng-model='chapter.videodata.length')
+                            label
+                                | When should the whole thing end
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.length')
 
             .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "task"')
                 h4 taskdata
                 form.form-horizontal.col-lg-8.col-md-8
                     fieldset
                         .form-group
-                            label.col-lg-2.col-md-2(control-label)
+                            label
                                 | slide
-                            .col-lg-10.col-md-10
-                                textarea.form-control(rows='3', ng-model='chapter.taskdata.slide')
+                            textarea.form-control.input-sm(rows='3', ng-model='chapter.taskdata.slide')
 
             .col-lg-12.col-md-12
                 form.form-horizontal.col-lg-8.col-md-8
@@ -67,25 +60,25 @@
                                     | Submit
                                 button.btn.btn-default.pull-right(type='button', ng-click='cancelSaveChapter()')
                                     | Cancel
-        .panel-footer
-            h1
-                | preview
-            form.form-horizontal.col-lg-8.col-md-8
-                fieldset
-                    .form-group
-                        .col-lg-12
-                            button.btn.btn-primary.pull-right(type='button', ng-click='videopreview.isPlaying = !videopreview.isPlaying')
-                                | Play
-            p.col-lg-12.col-md-12
-                | current-second: {{videopreview.currentSecond | number:2}}
-            p.col-lg-12.col-md-12
-                | numberOfSlides: {{recordingPlayer.numberOfSlides }}
-            p.col-lg-12.col-md-12
-                | length: {{recordingPlayer.length}}
-            .col-lg-12.col-md-12
-                plugins-loader(namespace="'slide'", context="recordingPlayer.slide")
-            .col-lg-12.col-md-12
-                dm-wavesurfer(dm-scroll='true', dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond', dm-is-playing='videopreview.isPlaying')
+.col-md-8
+    h1
+        | preview
+    form.form-horizontal.col-md-8
+        fieldset
+            .form-group
+                .col-lg-12
+                    button.btn.btn-primary.pull-right(type='button', ng-click='videopreview.isPlaying = !videopreview.isPlaying')
+                        | Play
+    p.col-lg-12.col-md-12
+        | current-second: {{videopreview.currentSecond | number:2}}
+    p.col-lg-12.col-md-12
+        | numberOfSlides: {{recordingPlayer.numberOfSlides }}
+    p.col-lg-12.col-md-12
+        | length: {{recordingPlayer.length}}
+    .col-lg-12.col-md-12
+        plugins-loader(namespace="'slide'", context="recordingPlayer.slide")
+    .col-lg-12.col-md-12
+        dm-wavesurfer(dm-scroll='true', dm-src='videopreview.src', dm-start-second='videopreview.startSecond', dm-current-second='videopreview.currentSecond', dm-is-playing='videopreview.isPlaying')
 
 
 

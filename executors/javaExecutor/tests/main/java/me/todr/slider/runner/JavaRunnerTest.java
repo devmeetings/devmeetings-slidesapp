@@ -4,10 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.InvocationTargetException;
 
-import me.todr.slider.runner.CompilerOutput;
-import me.todr.slider.runner.JavaRunner;
-import me.todr.slider.runner.JavaRunnerException;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +32,8 @@ public class JavaRunnerTest {
 	}
 
 	@Test
-	public void shouldRunCompiledClass() throws JavaRunnerException {
+	public void shouldRunCompiledClass() throws JavaRunnerException,
+	JavaRunnerUsersException {
 		// given
 		String string = getTestClass("");
 		CompilerOutput clazz = cut.compile("Main", string);
@@ -45,11 +42,12 @@ public class JavaRunnerTest {
 		String output = cut.run(clazz);
 
 		// then
-		assertThat(output).isEqualTo("xyz\n");
+		assertThat(output).isEqualTo("xyz\nxyz\n");
 	}
 
 	@Test
-	public void shouldHandleStandardMainMethod() throws JavaRunnerException {
+	public void shouldHandleStandardMainMethod() throws JavaRunnerException,
+	JavaRunnerUsersException {
 		// given
 		String classStr = getTestClass("String[] args");
 		CompilerOutput clazz = cut.compile("Main", classStr);
@@ -58,11 +56,12 @@ public class JavaRunnerTest {
 		String output = cut.run(clazz);
 
 		// then
-		assertThat(output).isEqualTo("xyz\n");
+		assertThat(output).isEqualTo("xyz\nxyz\n");
 	}
 
 	@Test
-	public void shouldCompileInnerClasses() throws JavaRunnerException {
+	public void shouldCompileInnerClasses() throws JavaRunnerException,
+	JavaRunnerUsersException {
 		// given
 		StringBuilder code = new StringBuilder();
 		code.append("public class Main {\n");
@@ -85,11 +84,33 @@ public class JavaRunnerTest {
 		assertThat(output).isEqualTo("xyz\nHello\n");
 	}
 
+	@Test(expected = JavaRunnerUsersException.class)
+	public void shouldThrowUsersCodeException() throws JavaRunnerException,
+			JavaRunnerUsersException {
+		// given
+		StringBuilder code = new StringBuilder();
+		code.append("public class Main {\n");
+		code.append("public static void main() {\n");
+		code.append("int x = 3 * 8; if (x == 3*8) { throw new RuntimeException(); }");
+		code.append("}\n");
+		code.append("}");
+		String string = code.toString();
+		CompilerOutput clazz = cut.compile("Main", string);
+		System.out.println(clazz.getErrors());
+
+		// when
+		cut.run(clazz);
+
+		// then
+		assertThat(true).isEqualTo(false).as("Should throw Exception");
+	}
+
 	private String getTestClass(String args) {
 		StringBuilder code = new StringBuilder();
 		code.append("public class Main {\n");
 		code.append("public static void main(" + args + ") {\n");
 		code.append("System.out.println(\"xyz\");");
+		code.append("System.err.println(\"xyz\");");
 		code.append("}\n");
 		code.append("}");
 		String string = code.toString();

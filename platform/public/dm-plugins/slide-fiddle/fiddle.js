@@ -95,7 +95,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
                                     scope.fiddle[content] = editor.getValue();
                                     scope.fiddle.aceOptions = {
                                         cursorPosition: editor.getCursorPosition(),
-                                        selectionRange: editor.getSelectionRange(),
+                                        selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
                                         firstVisibleRow: editor.getFirstVisibleRow(),
                                         lastVisibleRow: editor.getLastVisibleRow()
                                     };

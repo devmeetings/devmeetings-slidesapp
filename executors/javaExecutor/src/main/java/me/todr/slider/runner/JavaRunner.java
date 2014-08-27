@@ -21,7 +21,7 @@ public class JavaRunner {
 
 	@SuppressWarnings("unchecked")
 	private static Class<String[]> stringArrayClass = (Class<String[]>) new String[] {}
-	.getClass();
+			.getClass();
 
 	public CompilerOutput compile(String name, String code) {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -63,34 +63,58 @@ public class JavaRunner {
 		return new CompilerOutput(errors.build());
 	}
 
-	private void invokeMainMethod(Class<?> clazz) throws NoSuchMethodException,
-	SecurityException, IllegalAccessException,
-	IllegalArgumentException, InvocationTargetException {
+	private void invokeMainMethod(Class<?> clazz) throws JavaRunnerException,
+	JavaRunnerUsersException, NoSuchMethodException, SecurityException {
 		try {
 			Method method = clazz.getMethod("main");
-			method.invoke(null);
+			try {
+				method.invoke(null);
+			} catch (IllegalAccessException | IllegalArgumentException e) {
+				// Rethrow our errors
+				throw new JavaRunnerException(e);
+			} catch (InvocationTargetException e) {
+				// Return exception from users code
+				throw new JavaRunnerUsersException(e.getCause());
+			}
 		} catch (NoSuchMethodException e) {
-			Method method = clazz.getMethod("main", stringArrayClass);
-			method.invoke(null, new Object[] { new String[] {} });
+			// Try out with main with arguments
+			try {
+				Method method = clazz.getMethod("main", stringArrayClass);
+				method.invoke(null, new Object[] { new String[] {} });
+			} catch (IllegalAccessException | IllegalArgumentException e1) {
+				// Rethrow class errors
+				throw new JavaRunnerException(e1);
+			} catch (InvocationTargetException ex) {
+				// Users exceptions
+				throw new JavaRunnerUsersException(ex.getCause());
+			}
 		}
 	}
 
-	public String run(CompilerOutput clazz) throws JavaRunnerException {
+	public String run(CompilerOutput clazz) throws JavaRunnerException,
+			JavaRunnerUsersException {
 		Preconditions.checkNotNull(clazz);
 
 		PrintStream currentStream = System.out;
+		PrintStream currentErr = System.err;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		try {
 
-			System.setOut(new PrintStream(stream));
+			PrintStream printStream = new PrintStream(stream);
+			System.setOut(printStream);
+			System.setErr(printStream);
 			Class<?> clazz1 = clazz.getClazz();
 			invokeMainMethod(clazz1);
 
 			return stream.toString("utf8");
+		} catch (JavaRunnerException | JavaRunnerUsersException e) {
+			// Rethrow
+			throw e;
 		} catch (Exception e) {
 			throw new JavaRunnerException(e);
 		} finally {
 			System.setOut(currentStream);
+			System.setErr(currentErr);
 		}
 	}
 }
