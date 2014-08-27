@@ -321,8 +321,8 @@ require(['angular',
                                 searchText: ''
                             };
                             $rootScope.xplatformData.columns = {
-                                left: 2,
-                                mid: 7,
+                                left: 0,
+                                mid: 9,
                                 right: 3
                             };
                         }
