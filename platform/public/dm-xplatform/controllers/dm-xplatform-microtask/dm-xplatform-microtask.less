@@ -5,38 +5,71 @@
 
 
 .microtask-col {
-    padding: 20px 0;
-    height: 92px;
+    padding: 20px 6px;
+    min-height: 92px;
+    border-bottom: 1px solid #181818;
+}
+
+.microtask-border {
+    border-top: 1px solid #272727;
+    height: 1px;
 }
 
 .microtask-img {
     float: left;
-    padding-top: 30px;
+    padding-top: 7px;
+    padding-right: 10px;
 }
 .microtask-content {
-    float: left;
-}     
-.microtask-desc {
-    float: left;
-}                        
-.microtask-user {
-    float: left;
-}
+    opacity: 0.4;
+}       
 
-.microtask-users img {
-    border: 2px solid #2f2f2f;
+
+.microtask-desc {
+    text-decoration: line-through;
+}  
+.microtask-desc code {
+    background: #2d2d2d;
+    color: #878787;
+}                        
+.microtask-user img {
+    border: 1px solid #414141;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    margin-right: 3px;
+    margin-top: 5px;
 }
 .microtask-user-amount {
     display: inline-block;
     background: #303030;
-    width: 30px;
-    height: 30px;
-    color: #464646;
+    height: 27px;
+    line-height: 25px;
+    padding: 0 6px;
+    color: #414141;
     text-align: center;
-    line-height: 30px;
     font-size: 14px;
     font-weight: @weight-semibold;
+    margin-right: 5px;
+    border: 1px solid #414141;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
+
+.microtask-user-done {
+    display: inline-block;
+    font-size: 10px;
+}
+
+
+
+.microtask-active.microtask-col {
+    background: #2d2222; 
+}
+.microtask-active .microtask-content {
+    opacity: 1;
+}
+.microtask-active .microtask-desc {
+    text-decoration: none;
+} 
