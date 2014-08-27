@@ -81,6 +81,10 @@ define(['angular',
                 goToSecond();
             });
 
+            $http.get('/editor/soundslist').success(function(sounds) {
+                $scope.sounds = sounds;
+            });
+
             $http.get('/api/recordings').success(function(recordings) {
                 $scope.recordings = recordings;
                 setupRecordings();

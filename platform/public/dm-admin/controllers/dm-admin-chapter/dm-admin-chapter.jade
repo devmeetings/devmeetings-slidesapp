@@ -21,8 +21,9 @@
                     fieldset
                         .form-group
                             label.control-label
-                                | url
-                            input.form-control.input-sm(type='text', ng-model='chapter.videodata.url')
+                                | 
+                            select.form-control(ng-model='chapter.videodata.url', ng-options='sound for sound in sounds')
+                            {{ chapter.videodata.url }}
                         .form-group
                             label
                                 | Code recording
