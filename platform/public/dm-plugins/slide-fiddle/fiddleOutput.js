@@ -82,7 +82,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             return;
                         }
 
-                        var isPure = false;
+                        var isPure = fiddle.isPure;
                         var wrapWithForwarder = function(code) {
                             return 'try { ' + code + ';window.parent.postMessage({type:"fiddle-error", msg: ""}, "' + host + '");}' +
                                 'catch (e) { console.error(e); window.parent.postMessage({type: "fiddle-error", msg: e.message}, "' + host + '"); }';
@@ -93,7 +93,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         var htmlCode = injectDataToHtmlCode(fiddle.html, jsCode, cssCode);
 
 
-                        $iframe.removeClass('fiddle-pure');
+                        $iframe.toggleClass('fiddle-pure', isPure);
                         $iframe[0].src = "/api/static?p=" + btoa(htmlCode) + '#' + getHash();
                     };
 
