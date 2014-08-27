@@ -122,6 +122,28 @@ require(['angular',
                         }
                     });
 
+                    $stateProvider.state('index.privacy', {
+                        anonymous: true,
+                        url: '/privacy',
+                        views: {
+                            left: {
+                                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-privacy/dm-xplatform-privacy.html'      
+                            }
+                        },
+                        onEnter: function($rootScope) {
+                            $rootScope.xplatformData.navbar = {
+                                title: 'Polityka prywatności',
+                                showTitle: true,
+                                searchText: ''
+                            },
+                            $rootScope.xplatformData.columns = {
+                                left: 12,
+                                mid: 0,
+                                right: 0
+                            }
+                        }
+                    });
+
                     $stateProvider.state('index.stream', {
                         anonymous: true,
                         url: '/newsfeed',
