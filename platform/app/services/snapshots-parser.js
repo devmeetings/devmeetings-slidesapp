@@ -16,7 +16,7 @@ var isChapterSlide = function(chapters, slide) {
     return result;
 };
 
-var reduceSnapshots = function(snapshots) {
+var reduceSnapshots = function(snapshots, title) {
     var allSnaps = _.reduce(snapshots, function(acc, elem) {
         return acc.concat(JSON.parse(LZString.decompressFromBase64(elem.data)));
     }, []);
@@ -28,7 +28,7 @@ var reduceSnapshots = function(snapshots) {
                 // TODO [ToDr] we don't know user!
                 userId: '',
                 timestamp: snap.code.recordingStarted,
-                title: snap.code.title || snap.code.name,
+                title: title + " (" + (snap.code.title || snap.code.name) + ")",
                 slides: [snap]
             };
             data.groups.push(data.last);
@@ -43,7 +43,8 @@ var reduceSnapshots = function(snapshots) {
 
     var groups = allSnapsGroupped.groups.filter(function(x) {
         // Remove multiple starts
-        return x.slides.length > 2;
+        return x.slides.length > 1;
+        //return true;
     });
     return groups;
 };
@@ -91,9 +92,9 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset) {
 };
 
 var SnapshotsParser = {
-    prepareRecordings: function(chapters, snapshots, timeoffset) {
+    prepareRecordings: function(chapters, snapshots, timeoffset, title) {
         var result = Q.defer();
-        var snaps = reduceSnapshots(snapshots);
+        var snaps = reduceSnapshots(snapshots, title);
         snapshotTrimmer(snaps);
         var finalSnaps = produceFinalSnaps(snaps, chapters, timeoffset);
         result.resolve(finalSnaps);
