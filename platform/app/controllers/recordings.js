@@ -42,7 +42,7 @@ var Recordings = {
                 chapters: recording.chapters
             };
             // Split slides
-            var slides = splitSlides(recording.slides, cut);
+            var slides = splitSlides(recording.slides, cut * 1000);
             recording.slides = slides.before;
             newModel.slides = slides.after;
 
