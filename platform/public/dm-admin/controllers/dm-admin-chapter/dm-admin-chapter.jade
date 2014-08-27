@@ -31,12 +31,13 @@
                                 span.help-block  {{select.recording._id}}
                         .form-group
                             label
-                                | When should code start
+                                | When should audio start
                             input.form-control.input-sm(type='number', ng-model='chapter.videodata.timestamp')
                         .form-group
                             label
-                                | When should audio start
+                                | When should code start
                             input.form-control.input-sm(type='number', ng-model='chapter.videodata.recordingTime')
+                            button.btn-btn-xs.btn-default(ng-click="cut(select.recording, chapter.videodata.recordingTime)") Cut
                         .form-group
                             label
                                 | When should the whole thing end
