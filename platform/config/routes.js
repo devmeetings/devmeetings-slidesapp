@@ -66,7 +66,7 @@ module.exports = function(app) {
     app.delete('/api/observes/:id', authenticated, observes.unobserve);
 
     var streams = require('../app/controllers/streams');
-    app.get('/api/streams', apiAuthenticated, streams.all);
+    app.get('/api/streams', streams.all);
     app.get('/api/streams/:id', apiAuthenticated, streams.get);
 
     var payments = require('../app/controllers/payments');

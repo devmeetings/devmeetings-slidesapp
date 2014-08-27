@@ -4,7 +4,7 @@ var _ = require('lodash'),
 
 var Streams = {
     all: function (req, res) {
-        var observer = req.user._id.toString();
+        //var observer = req.user._id.toString();
 
         Activity.find({}).sort({_id:-1}).limit(50).exec().then(function (activities) {
             res.send(activities);
