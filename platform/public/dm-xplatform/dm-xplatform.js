@@ -26,12 +26,13 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
-
-    ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
-
-        xplatformApp.run(['$rootScope', '$state', '$modal', 'dmUser',
-            function($rootScope, $state, $modal, dmUser) {
-                $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+        'xplatform/controllers/dm-xplatform-microtask/dm-xplatform-microtask'],
+        function(angular, templates, angularRouter, bootstrap, xplatformApp) { 
+            
+            xplatformApp.run(['$rootScope', '$state', '$modal', 'dmUser',
+                function($rootScope, $state, $modal, dmUser) {
+                    
+                    $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
                     if (toState.anonymous || dmUser.isLoggedIn()) {
                         return;
                     }
@@ -223,7 +224,6 @@ require(['angular',
                         }
                     });
 
-
                     $stateProvider.state('index.technology', {
                         url: '/technology/:name',
                         views: {
@@ -353,7 +353,7 @@ require(['angular',
                             };
                         }
                     });
-
+                        
                     $stateProvider.state('index.paymentInfo', {
                         anonymous: true,
                         url: '/info/:id',
@@ -522,5 +522,6 @@ require(['angular',
                     $urlRouterProvider.when('/', '/courses');
                     $urlRouterProvider.otherwise('/courses');
                 }
-            ]); bootstrap('xplatform');
-        });
+            ]);
+    bootstrap('xplatform');    
+});
