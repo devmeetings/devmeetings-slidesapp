@@ -35,6 +35,7 @@ module.exports = function(app) {
     var recordings = require('../app/controllers/recordings');
     app.get('/api/recordings', authenticated, recordings.list);
     app.get('/api/recordings/:id', authenticated, recordings.get);
+    app.post('/api/recordings/:id/split/:time', authenticated, recordings.split);
 
     var events = require('../app/controllers/events');
     app.get('/api/events/:type', events.list);
