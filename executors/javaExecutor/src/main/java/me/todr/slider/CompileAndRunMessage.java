@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import me.todr.slider.runner.CompilerOutput;
 import me.todr.slider.runner.JavaRunner;
 import me.todr.slider.runner.JavaRunnerException;
+import me.todr.slider.runner.JavaRunnerUsersException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,6 +54,9 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 			map.put("success", true);
 			putArray("result", map, Arrays.asList(output.split("\n")));
 		} catch (JavaRunnerException e) {
+			map.put("success", false);
+			map.withArray("errors").add(e.getCause().toString());
+		} catch (JavaRunnerUsersException e) {
 			map.put("success", false);
 			map.withArray("errors").add(e.getCause().toString());
 		} catch (Exception e) {
