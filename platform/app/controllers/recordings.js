@@ -53,8 +53,49 @@ var Recordings = {
                 res.send(400, err);
             });
         });
+    },
+    cutout: function(req, res) {
+        var from = req.params.from * 1000;
+        var to = req.params.to * 1000;
+
+        RecordingModel.findOne({
+            _id: req.params.id
+        }, function(err, recording) {
+            if (err) {
+                throw err;
+            }
+            var newModel = {
+                title: recording.title + " backup",
+                group: recording.group,
+                date: recording.date,
+                videoUrl: recording.videoUrl,
+                timeOffset: recording.timeOffset,
+                slideId: recording.slideId,
+                chapters: recording.chapters,
+                slides: recording.slides.slice()
+            };
+            recording.slides = cutoutSlides(recording.slides, from, to);
+            recording.save();
+            RecordingModel.create(newModel).then(function(newModel) {
+                res.send(newModel);
+            }).then(null, function(err) {
+                res.send(400, err);
+            });
+        });
     }
 };
+
+function cutoutSlides(slides, from, to) {
+    var before = slides.filter(function(x) {
+        return x.timestamp <= from;
+    });
+
+    var after = slides.filter(function(x) {
+        return x.timestamp >= to;
+    });
+
+    return before.concat(after);
+}
 
 
 function splitSlides(slides, split) {

@@ -36,6 +36,7 @@ module.exports = function(app) {
     app.get('/api/recordings', authenticated, recordings.list);
     app.get('/api/recordings/:id', authenticated, recordings.get);
     app.post('/api/recordings/:id/split/:time', authenticated, recordings.split);
+    app.post('/api/recordings/:id/cutout/:from/:to', authenticated, recordings.cutout);
 
     var events = require('../app/controllers/events');
     app.get('/api/events/:type', events.list);

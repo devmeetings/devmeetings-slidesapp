@@ -85,14 +85,25 @@ define(['angular',
                 $scope.sounds = sounds;
             });
 
-            $http.get('/api/recordings').success(function(recordings) {
-                $scope.recordings = recordings;
-                setupRecordings();
-            });
+            function refreshRecordings() {
+                $http.get('/api/recordings').success(function(recordings) {
+                    $scope.recordings = recordings;
+                    setupRecordings();
+                });
+            }
+            refreshRecordings();
 
-            $scope.cut = function(recording, time) {
+            $scope.split = function(recording, time) {
                 $http.post('/api/recordings/' + recording._id + '/split/' + time).success(function() {
                     alert('Cutted - reload');
+                    refreshRecordings();
+                });
+            };
+            $scope.cut = {};
+            $scope.cutout = function(recording, from, to) {
+                $http.post('/api/recordings/' + recording._id + '/cutout/' + from + '/' + to).success(function() {
+                    alert('Cutted out - reload');
+                    refreshRecordings();
                 });
             };
 
