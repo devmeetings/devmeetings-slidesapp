@@ -40,7 +40,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
         safeApply.call(scope, function() {
             code.aceOptions = {
                 cursorPosition: editor.getCursorPosition(),
-                selectionRange: editor.getSelectionRange(),
+                selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
                 firstVisibleRow: editor.getFirstVisibleRow(),
                 lastVisibleRow: editor.getLastVisibleRow()
             };
