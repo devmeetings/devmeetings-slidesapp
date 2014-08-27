@@ -21,8 +21,9 @@
                     fieldset
                         .form-group
                             label.control-label
-                                | url
-                            input.form-control.input-sm(type='text', ng-model='chapter.videodata.url')
+                                | 
+                            select.form-control(ng-model='chapter.videodata.url', ng-options='sound for sound in sounds')
+                            {{ chapter.videodata.url }}
                         .form-group
                             label
                                 | Code recording
@@ -31,16 +32,23 @@
                                 span.help-block  {{select.recording._id}}
                         .form-group
                             label
-                                | When should code start
-                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.timestamp')
+                                | When should audio start
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.timestamp', step="10")
                         .form-group
                             label
-                                | When should audio start
-                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.recordingTime')
+                                | When should code start
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.recordingTime', step="20")
+                            button.btn-btn-xs.btn-default(ng-click="split(select.recording, chapter.videodata.recordingTime)") Split
                         .form-group
                             label
                                 | When should the whole thing end
-                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.length')
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.length', step="10")
+
+                        .form-group
+                            label Cutout recording
+                            input.form-control.input-sm(type="number", ng-model="cut.start", step="10", placeholder="start")
+                            input.form-control.input-sm(type="number", ng-model="cut.end", step="10", placeholder="end")
+                            button.btn.btn-xs.btn-default(ng-click="cutout(select.recording, cut.start, cut.end)") Cutout
 
             .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "task"')
                 h4 taskdata
