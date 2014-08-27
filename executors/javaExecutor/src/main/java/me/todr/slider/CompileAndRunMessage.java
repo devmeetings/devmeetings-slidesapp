@@ -62,17 +62,18 @@ final class CompileAndRunMessage implements Callable<byte[]> {
 			map.withArray("errors").add(e.getCause().toString());
 		} catch (JavaRunnerUsersException e) {
 			map.put("success", false);
-			map.withArray("errors").add(e.getCause().toString());
+			Throwable originalException = e.getCause();
+			map.withArray("errors").add(originalException.toString());
 
-			StackTraceElement[] stackTrace = e.getStackTrace();
+			StackTraceElement[] stackTrace = originalException.getStackTrace();
 			String stack = Joiner.on('\n').join(
 					Lists.transform(Arrays.asList(stackTrace),
 							new Function<StackTraceElement, String>() {
-						@Override
-						public String apply(StackTraceElement input) {
-							return input.toString();
-						}
-					}));
+								@Override
+								public String apply(StackTraceElement input) {
+									return input.toString();
+								}
+							}));
 			map.put("stacktrace", stack);
 		} catch (Exception e) {
 			map.put("success", false);
