@@ -8,11 +8,11 @@
                     .form-group
                         label
                             | Title
-                        input.form-control(type='text', ng-model='chapter.title')
+                        input.form-control.input-sm(type='text', ng-model='chapter.title')
                     .form-group
                         label
                             | Mode
-                        select.form-control(ng-model='chapter.mode')
+                        select.form-control.input-sm(ng-model='chapter.mode')
                                 option video
                                 option task
             .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "video"')
@@ -22,25 +22,25 @@
                         .form-group
                             label.control-label
                                 | url
-                            input.form-control(type='text', ng-model='chapter.videodata.url')
+                            input.form-control.input-sm(type='text', ng-model='chapter.videodata.url')
                         .form-group
                             label
                                 | Code recording
                             .control-group
-                                select.form-control(ng-model='select.recording', ng-options='recording.title group by recording.group for recording in recordings')
+                                select.form-control.input-sm(ng-model='select.recording', ng-options='recording.title group by recording.group for recording in recordings')
                                 span.help-block  {{select.recording._id}}
                         .form-group
                             label
                                 | When should code start
-                            input.form-control(type='number', ng-model='chapter.videodata.timestamp')
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.timestamp')
                         .form-group
                             label
                                 | When should audio start
-                            input.form-control(type='number', ng-model='chapter.videodata.recordingTime')
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.recordingTime')
                         .form-group
                             label
                                 | When should the whole thing end
-                            input.form-control(type='number', ng-model='chapter.videodata.length')
+                            input.form-control.input-sm(type='number', ng-model='chapter.videodata.length')
 
             .col-lg-12.col-md-12.dm-admin-div(ng-if='chapter.mode === "task"')
                 h4 taskdata
@@ -49,7 +49,7 @@
                         .form-group
                             label
                                 | slide
-                            textarea.form-control(rows='3', ng-model='chapter.taskdata.slide')
+                            textarea.form-control.input-sm(rows='3', ng-model='chapter.taskdata.slide')
 
             .col-lg-12.col-md-12
                 form.form-horizontal.col-lg-8.col-md-8
