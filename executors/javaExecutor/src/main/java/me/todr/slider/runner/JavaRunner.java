@@ -60,7 +60,7 @@ public class JavaRunner {
 	}
 
 	private void invokeMainMethod(Class<?> clazz) throws JavaRunnerException,
-	JavaRunnerUsersException, NoSuchMethodException, SecurityException {
+			JavaRunnerUsersException, NoSuchMethodException, SecurityException {
 		try {
 			Method method = clazz.getMethod("main");
 			invokeMain(method, new Object[] {});
@@ -85,7 +85,7 @@ public class JavaRunner {
 	}
 
 	public String run(CompilerOutput clazz) throws JavaRunnerException,
-			JavaRunnerUsersException {
+	JavaRunnerUsersException {
 		Preconditions.checkNotNull(clazz);
 
 		PrintStream currentStream = System.out;
