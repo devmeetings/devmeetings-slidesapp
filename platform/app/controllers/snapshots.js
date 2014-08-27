@@ -41,9 +41,12 @@ exports.list = function(req, res) {
                         rec.lastSlide = last;
                     }
                     rec.slides = rec.slides.length;
+                    rec.time = last.timestamp / 1000 / 60 + " min";
                     return rec;
                 })
             });
+        }).fail(function(err) {
+            res.send(400, err);
         });
 };
 
@@ -57,5 +60,7 @@ exports.import = function(req, res) {
                     res.send(200);
                 });
             });
+        }).fail(function(err) {
+            res.send(400, err);
         });
 };
