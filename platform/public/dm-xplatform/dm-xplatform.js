@@ -24,6 +24,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
         'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks',
         'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
+        'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
+        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
 
     ], function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -39,6 +41,7 @@ require(['angular',
                     if (toState.anonymousForceRegister) {
                         $modal.open({
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
+                            controller: 'dmXplatformRegister',
                             size: 'sm'
                         });
                         return;
@@ -46,6 +49,7 @@ require(['angular',
                     
                     $modal.open({
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
+                        controller: 'dmXplatformLogin',
                         size: 'sm'
                     });
                 });
