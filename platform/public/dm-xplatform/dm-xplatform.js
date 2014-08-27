@@ -36,11 +36,6 @@ require(['angular',
 
                     event.preventDefault();
 
-                    if (!dmUser.isLoaded()) {
-                        $state.go('index.courses');
-                        return;
-                    }
-
                     if (toState.anonymousForceRegister) {
                         $modal.open({
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',

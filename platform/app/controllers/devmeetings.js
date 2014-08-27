@@ -5,7 +5,8 @@ var Devmeetings = {
             withInspectlet: req.withInspectlet,
             withGoogleAnalytics: req.withGoogleAnalytics,
             cacheBustingVersion: req.cacheBustingVersion,
-            jsModulesPath: req.jsModulesPath
+            jsModulesPath: req.jsModulesPath,
+            isLoggedIn: req.user !== undefined
         });
     },
     admin: function(req, res) {
