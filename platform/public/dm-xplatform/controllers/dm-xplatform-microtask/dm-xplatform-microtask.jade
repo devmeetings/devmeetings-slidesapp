@@ -1,75 +1,7 @@
 .col-md-12
-    dm-microtask
-    //dm-microtask(dm-finished='false')
-
-    .row.microtask-holder
-        .microtask-col
-            .microtask-img
-                img(src="static/images/microtask/mt_completed.png")
-
-        .microtask-content 
-            .microtask-desc
-                | Przypisz tytuł zadania do zmiennej 
-                code title
-            .microtask-user 
-                img(src="static/images/microtask/mt_user.png") 
-                img(src="static/images/microtask/mt_user.png") 
-                img(src="static/images/microtask/mt_user.png") 
-                span.microtask-user-amount +2
-                span.microtask-user-done
-                    | 10 znajomych zrobiło zadanie
-    .row.microtask-border-up
-    .row.microtask-border-down
-
-
-
-    .row.microtask-holder
-        .microtask-col
-            .microtask-img
-                img(src="static/images/microtask/mt_completed.png")
-
-        .microtask-content 
-            .microtask-desc
-                | Zapisz wartość, która leży pod kluczem 
-                code 0
-                | do zmiennej
-            .microtask-user 
-                img(src="static/images/microtask/mt_user.png") 
-                img(src="static/images/microtask/mt_user.png") 
-                img(src="static/images/microtask/mt_user.png") 
-                span.microtask-user-amount +2
-                span.microtask-user-done
-                    | 2 znajomych zrobiło zadanie
-    .row.microtask-border-up
-    .row.microtask-border-down
-
-
-
-    .row.microtask-holder.microtask-active
-        .microtask-col
-            .microtask-img
-                img(src="static/images/microtask/mt_star.png")
-
-        .microtask-content 
-            .microtask-desc
-                | Zapisz wartość, która leży pod kluczem 
-                code 0
-                | do zmiennej
-            .microtask-user 
-                img(src="static/images/microtask/mt_user.png") 
-                img(src="static/images/microtask/mt_user.png") 
-                img(src="static/images/microtask/mt_user.png") 
-                span.microtask-user-amount +2
-                span.microtask-user-done
-                    | 2 znajomych zrobiło zadanie
-    .row.microtask-border-up
-    .row.microtask-border-down
-
-
-
-
-
-
+    .row
+        dm-microtask(dm-finished='false', dm-text='"dodaj klase `deprecated` do HTML"')
+        dm-microtask(dm-finished='true', dm-text='"przypisz tytuł do zmiennej `title`"')
 
     .row.microtask-info-holder
         .microtask-col

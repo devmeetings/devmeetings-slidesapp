@@ -1,12 +1,10 @@
-.row.microtask-holder(ng-class='{"microtask-active": !ngFinished}')
+.microtask-holder(ng-class='{"microtask-active": !dmFinished}')
     .microtask-col
         .microtask-img
-            img(src="static/images/microtask/mt_completed.png")
+            img(ng-src='{{taskImage}}')
 
     .microtask-content 
-        .microtask-desc
-            | Przypisz tytuł zadania do zmiennej 
-            code title
+        .microtask-desc(marked='dmText')
         .microtask-user 
             img(src="static/images/microtask/mt_user.png") 
             img(src="static/images/microtask/mt_user.png") 
@@ -14,5 +12,5 @@
             span.microtask-user-amount +2
             span.microtask-user-done
                 | 10 znajomych zrobiło zadanie
-.row.microtask-border-up
-.row.microtask-border-down
+.microtask-border-up
+.microtask-border-down
