@@ -16,10 +16,11 @@ exports.onSocket = function(log, socket, io) {
                 ok: true,
                 hash: hash
             });
-        }, function() {
+        }, function(err) {
 
             ack({
-                ok: false
+                ok: false,
+                err: err
             });
         });
     });

@@ -1,8 +1,3 @@
-
-
-mixin tabContent(name, mode)
-  .tab-pane.fade(ng-class="{'active in': active === '#{name}' }")
-    .editor(class="editor-#{name} editor-{{ fiddle.size}}", data-mode="#{mode}", data-content="#{name}")
 .row.slide-workspace
   div(ng-class="{'col-sm-12': hideOutput, 'col-sm-6': !hideOutput }")
     ul.nav.nav-tabs
@@ -14,7 +9,7 @@ mixin tabContent(name, mode)
 
     .tab-content
       .tab-pane.active.fade.in
-        .editor(class="editor-{{ workspace.size || 'md' }}")
+        .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
     .errors.alert.alert-danger.errors-fiddle {{ errors }}
 
   .col-sm-6(ng-class="{ 'hidden': hideOutput }")
