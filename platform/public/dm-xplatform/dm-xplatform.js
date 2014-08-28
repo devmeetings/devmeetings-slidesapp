@@ -43,7 +43,8 @@ require(['angular',
                         $modal.open({
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
                             controller: 'dmXplatformRegister',
-                            size: 'sm'
+                            size: 'sm',
+                            windowClass: 'login-modal'
                         });
                         return;
                     }
@@ -51,7 +52,8 @@ require(['angular',
                     $modal.open({
                         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html',
                         controller: 'dmXplatformLogin',
-                        size: 'sm'
+                        size: 'sm',
+                        windowClass: 'login-modal'
                     });
                 });
             }]);
@@ -301,10 +303,6 @@ require(['angular',
                         anonymous: true,
                         url: '/courses/:id',
                         views: {
-                            left: {
-                                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                                controller: 'dmXplatformLeftbar'
-                            },
                             mid: {
                                 templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
                                 controller: 'dmXplatformWorkshopdesc'
