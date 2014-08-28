@@ -8,7 +8,7 @@ exports.onSocket = function(log, socket, io) {
         var files = getFiles(data);
         var hash = calculateHash(files);
 
-        var upsert = Workspaces.upsertWorkspace(hash, files, socket.handshake.user.userId);
+        var upsert = Workspaces.upsertWorkspace(hash, files, socket.handshake.user._id);
 
         upsert.then(function(obj) {
 
