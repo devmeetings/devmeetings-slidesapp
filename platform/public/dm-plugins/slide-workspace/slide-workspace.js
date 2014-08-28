@@ -15,12 +15,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 },
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
-                    $window.__addWorkspaceTab = function(name) {
-                        $scope.$apply(function() {
-                            $scope.workspace.tabs[name] = {
-                                "content": ""
-                            };
-                        });
+                    // This is temporary hack!
+                    scope.insertTab = function() {
+                        var name = $window.prompt("Tab name - separate extension with |");
+                        if (!name) {
+                            return;
+                        }
+                        scope.workspace.tabs[name] = {
+                            "content": ""
+                        };
                     };
 
                     // Editor

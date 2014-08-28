@@ -3,7 +3,9 @@ var Workspace = require('../models/workspace');
 
 function updateAccessTimes(workspace, userId) {
     workspace.lastAccessTime = new Date();
-    workspace.accessedBy.push(userId);
+    if (workspace.accessedBy.indexOf(userId) === -1) {
+        workspace.accessedBy.push(userId);
+    }
     return workspace.save();
 }
 

@@ -6,6 +6,8 @@
         ng-class="{'active': workspace.active === tabName }"
         )
         a.pointer(ng-click="workspace.active = tabName") {{ tabName.replace('|', '.') }}
+      li.add-tab
+        a.pointer(ng-click="insertTab()") +
 
     .tab-content
       .tab-pane.active.fade.in
