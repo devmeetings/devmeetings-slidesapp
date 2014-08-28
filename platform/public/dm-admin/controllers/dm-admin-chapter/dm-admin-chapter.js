@@ -81,14 +81,29 @@ define(['angular',
                 goToSecond();
             });
 
-            $http.get('/api/recordings').success(function(recordings) {
-                $scope.recordings = recordings;
-                setupRecordings();
+            $http.get('/editor/soundslist').success(function(sounds) {
+                $scope.sounds = sounds;
             });
 
-            $scope.cut = function(recording, time) {
+            function refreshRecordings() {
+                $http.get('/api/recordings').success(function(recordings) {
+                    $scope.recordings = recordings;
+                    setupRecordings();
+                });
+            }
+            refreshRecordings();
+
+            $scope.split = function(recording, time) {
                 $http.post('/api/recordings/' + recording._id + '/split/' + time).success(function() {
                     alert('Cutted - reload');
+                    refreshRecordings();
+                });
+            };
+            $scope.cut = {};
+            $scope.cutout = function(recording, from, to) {
+                $http.post('/api/recordings/' + recording._id + '/cutout/' + from + '/' + to).success(function() {
+                    alert('Cutted out - reload');
+                    refreshRecordings();
                 });
             };
 
@@ -102,6 +117,7 @@ define(['angular',
                 }
 
                 $scope.chapter.videodata.recording = newRecording._id;
+                $scope.chapter.videodata.timestamp = $scope.chapter.videodata.timestamp || 0;
                 $scope.recordingPlayer.player = RecordingsPlayerFactory($scope.select.recording, function(slide, wholeSlide) {
                     $scope.recordingPlayer.slide = slide;
                 });

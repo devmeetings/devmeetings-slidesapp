@@ -44,6 +44,7 @@ module.exports = function(app, config) {
         app.use(express.favicon(config.root + '/public/img/favicon.ico'));
         app.use(express.logger(config.logger));
         if (config.graylog) {
+
             var expressWinston = require('express-winston'),
                 Graylog2 = require('winston-graylog2').Graylog2;
             app.use(expressWinston.logger({

@@ -12,12 +12,6 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
                 element.removeClass();
                 element.addClass(className);
                 element.addClass(col);
-
-                /*if (width === 0) {
-                element.css('height', '0px');
-            } else {
-                element.css('height', '100%');
-            }*/
                 element.toggle(width !== 0);
             }
 

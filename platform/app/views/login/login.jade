@@ -2,28 +2,41 @@ extends ../layouts/main
 
 block content
     .container
-        .row
-            .col-md-6.col-md-offset-3
-                form.well(action="/auth/login", method="post")
-                    .form-group.text-right
-                        p
-                            | Don't have an account yet?
-                            |   
-                            a.text-primary(href="/registration") 
-                                strong Sign up now!
-                    hr
+        .login-holder
+            form(action="/auth/login", method="post")
+                .col-md-12
+                    .login-header
+                        | Logowanie
+                        span.login-switch.pull-right
+                            a(href="/registration") 
+                                | Rejestracja
+
                     .form-group
-                        label.form-label Email
-                        input.form-control(type="email", name="email")
+                        .ico-holder
+                            img.ico-sub.ico-user(src='static/images/login/ico_user.png')
+                        input.form-control.form-login(type="email", name="email", placeholder="e-mail")
+
                     .form-group
-                        label.form-label Password
-                        input.form-control(type="password", name="password")
-                    hr
-                    .form-group.text-center
-                        button.btn.btn-lg.btn-primary(type="submit") Log in
-                        a.btn.btn-lg.btn-primary(href="/auth/google")
-                            span.fa.fa-google-plus-square
-                        a.btn.btn-lg.btn-primary(href="/auth/facebook")
-                            span.fa.fa-facebook-square
-                        a.btn.btn-lg.btn-primary(href="/auth/github")
-                            span.fa.fa-github-square
+                        .ico-holder
+                            img.ico-sub.ico-password(src='static/images/login/ico_password.png')
+                        input.form-control.form-login(type="password", name="password", placeholder="hasło")
+                    .form-group
+                        .checkbox-option.pull-left
+                            ul
+                        button.btn.btn-log.pull-right(type="submit")
+                            | Zaloguj
+
+                .row
+                    .auth-holder.col-md-12
+                        a(href="/auth/google")
+                            .gp-auth-holder.col-md-4
+                                img(src='static/images/login/ico_googleplus.png')
+                                | logowanie
+                        a(href="/auth/facebook")
+                            .fb-auth-holder.col-md-4
+                                img(src='static/images/login/ico_facebook.png')
+                                | logowanie 
+                        a(href="/auth/github")
+                            .gith-auth-holder.col-md-4
+                                img(src='static/images/login/ico_github.png')
+                                | logowanie 

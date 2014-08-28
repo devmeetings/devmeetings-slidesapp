@@ -2,23 +2,31 @@ extends ../layouts/main
 
 block content
     .container
-        .row
-            .col-md-6.col-md-offset-3
-                form.well(action="/registration", method="post")
-                    .form-group
-                        h2= title
+        .registration-holder
+            form(action="/registration", method="post")
+                .col-md-12
+                    .registration-header
+                        | Rejestrajca
+                        span.login-switch.pull-right
+                            a(href="/login") 
+                                | Logowanie
+
                     .form-group
                         .alert-error
                             strong #{message}
                     .form-group
-                        label.form-label Username
-                        input.form-control(type="text", name="username", required=true)
+                        .ico-holder
+                            img.ico-sub.ico-user(src='static/images/login/ico_user.png')
+                        input.form-control.form-login(type="text", name="username", placeholder="nazwa użytkownika", required=true)
                     .form-group
-                        label.form-label Email
-                        input.form-control(type="email", name="email", required=true)
+                        .ico-holder
+                            img.ico-sub.ico-user(src='static/images/login/ico_user.png')
+                        input.form-control.form-login(type="email", name="email", placeholder="e-mail", required=true)
                     .form-group
-                        label.form-label Password
-                        input.form-control(type="password", name="password", required=true)
-                    hr
-                    .form-group.text-center
-                        button.btn.btn-lg.btn-primary(type="submit") Create
+                        .ico-holder
+                            img.ico-sub.ico-password(src='static/images/login/ico_password.png')
+                        input.form-control.form-login(type="password", name="password", placeholder="hasło", required=true)
+                
+                .row
+                    .col-md-12.text-center.btn-send-holder
+                        button.btn.btn-reg(type="submit") Zarejestruj

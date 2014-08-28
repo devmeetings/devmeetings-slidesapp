@@ -4,27 +4,9 @@ var _ = require('lodash'),
 
 var Streams = {
     all: function (req, res) {
-        var observer = req.user._id.toString();
-
         Activity.find({}).sort({_id:-1}).limit(50).exec().then(function (activities) {
             res.send(activities);
         });
-        /*
-        Observe.findOne({
-            observer: observer
-        }).exec().then(function (observe) {
-            if (!observe) {
-                res.send([]);
-                return;
-            }
-            return Activity.find({
-                'owner.userId' : {
-                    $in: _.pluck(observe.observed, 'userId')
-                }
-            }).sort({_id:-1}).limit(50).exec();
-        }).then(function (activities) {
-            res.send(activities);
-        });*/
     },
     get: function (req, res) {
         var observedId = req.params.id;

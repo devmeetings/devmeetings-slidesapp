@@ -1,5 +1,5 @@
 .col-md-12.dm-leftbar-container
-    div 
+    .profile-info(ng-if='user')
         p 
             img.dm-leftbar-link(ng-src='{{user.result.avatar | dmGravatar:35}}', ui-sref='index.devhero({id: user.result._id})')
         p.dm-leftbar-link.dm-leftbar-name(ui-sref='index.devhero({id: user.result._id})')
