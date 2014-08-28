@@ -15,6 +15,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 },
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
+                    $window.__addWorkspaceTab = function(name) {
+                        $scope.$apply(function() {
+                            $scope.workspace.tabs[name] = {
+                                "content": ""
+                            };
+                        });
+                    };
+
                     // Editor
                     var $e = element.find('.editor');
                     var editor = ace.edit($e[0]);
