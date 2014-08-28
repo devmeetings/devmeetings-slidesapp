@@ -1,54 +1,101 @@
 .col-md-12
-    .row
-        .col-md-12.microtask-holder
-            .microtask-col.row
-                .microtask-img
-                    img(src="static/images/microtask/mt_completed.png")
-                .microtask-content
-                    .microtask-desc
-                        | Przypisz tytuł zadania do zmiennej 
-                        code title
-                    .microtask-user
-                        img(src="static/images/microtask/mt_user.png") 
-                        img(src="static/images/microtask/mt_user.png") 
-                        img(src="static/images/microtask/mt_user.png") 
-                        .microtask-user-amount +2
-                        span.microtask-user-done
-                            | 10 znajomych zrobiło zadanie
+    .row.microtask-holder
+        .microtask-col
+            .microtask-img
+                img(src="static/images/microtask/mt_completed.png")
+
+        .microtask-content 
+            .microtask-desc
+                | Przypisz tytuł zadania do zmiennej 
+                code title
+            .microtask-user 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                span.microtask-user-amount +2
+                span.microtask-user-done
+                    | 10 znajomych zrobiło zadanie
+    .row.microtask-border-up
+    .row.microtask-border-down
 
 
-            .microtask-border.row
-            .microtask-col.row
-                .microtask-img
-                    img(src="static/images/microtask/mt_completed.png")
-                .microtask-content
-                    .microtask-desc
-                        | Zapisz wartość, która leży pod kluczem 
-                        code 0
-                        | do zmiennej
-                        code five
-                    .microtask-user
-                        img(src="static/images/microtask/mt_user.png") 
-                        img(src="static/images/microtask/mt_user.png") 
-                        img(src="static/images/microtask/mt_user.png") 
-                        .microtask-user-amount +2
-                        span.microtask-user-done
-                            | 10 znajomych zrobiło zadanie
+
+    .row.microtask-holder
+        .microtask-col
+            .microtask-img
+                img(src="static/images/microtask/mt_completed.png")
+
+        .microtask-content 
+            .microtask-desc
+                | Zapisz wartość, która leży pod kluczem 
+                code 0
+                | do zmiennej
+            .microtask-user 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                span.microtask-user-amount +2
+                span.microtask-user-done
+                    | 2 znajomych zrobiło zadanie
+    .row.microtask-border-up
+    .row.microtask-border-down
 
 
-            .microtask-border.row
-            .microtask-col.row.microtask-active
-                .microtask-img
-                    img(src="static/images/microtask/mt_star.png")
-                .microtask-content
-                    .microtask-desc 
-                        | Zapisz wartość, która leży pod kluczem 
-                        code 0
-                        | do zmiennej
-                        code five
-                    .microtask-user
-                        img(src="static/images/microtask/mt_user.png") 
-                        img(src="static/images/microtask/mt_user.png") 
-                        .microtask-user-amount +2
-                        span.microtask-user-done
-                            | 2 znajomych zrobiło zadanie
+
+    .row.microtask-holder.microtask-active
+        .microtask-col
+            .microtask-img
+                img(src="static/images/microtask/mt_star.png")
+
+        .microtask-content 
+            .microtask-desc
+                | Zapisz wartość, która leży pod kluczem 
+                code 0
+                | do zmiennej
+            .microtask-user 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                span.microtask-user-amount +2
+                span.microtask-user-done
+                    | 2 znajomych zrobiło zadanie
+    .row.microtask-border-up
+    .row.microtask-border-down
+
+
+
+
+
+
+
+    .row.microtask-info-holder
+        .microtask-col
+            .microtask-img
+                img(src="static/images/microtask/info_user.png")
+
+        .microtask-content
+            .microtask-desc-info
+                span.text-info Marek Kotewicz 
+                | ukończył 
+                a.text-primary(href="aaa") #2 
+                | mikrozadanie w 
+                a.text-primary(href="aaa") Obiekty 
+                |21 minut temu
+    .microtask-border-info
+
+
+
+    .row.microtask-info-holder
+        .microtask-col
+            .microtask-img
+                img(src="static/images/microtask/info_user.png")
+
+        .microtask-content
+            .microtask-desc-info
+                span.text-info Marek Kotewicz 
+                | ukończył 
+                a.text-primary(href="aaa") #2 
+                | mikrozadanie w 
+                a.text-primary(href="aaa") Obiekty 
+                |21 minut temu
+    .microtask-border-info

@@ -1,32 +1,30 @@
-.dm-microtask-container {
-    padding: 10px 30px 30px 30px;
-    margin: 0 auto;
+.microtask-holder {
+    display: table;
+    height: auto;
+    padding: 15px;
 }
-
-
 .microtask-col {
-    padding: 20px 6px;
-    min-height: 92px;
-    border-bottom: 1px solid #181818;
+    display: table-cell;
+    vertical-align: middle;
 }
-
-.microtask-border {
+.microtask-border-up {
+    border-top: 1px solid #181818;
+    height: 1px;
+}
+.microtask-border-down {
     border-top: 1px solid #272727;
     height: 1px;
 }
 
-.microtask-img {
-    float: left;
-    padding-top: 7px;
-    padding-right: 10px;
-}
+
+
 .microtask-content {
     opacity: 0.4;
+    margin-left: 12px;
 }       
-
-
 .microtask-desc {
     text-decoration: line-through;
+    margin-bottom: 5px;
 }  
 .microtask-desc code {
     background: #2d2d2d;
@@ -38,7 +36,6 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
     margin-right: 3px;
-    margin-top: 5px;
 }
 .microtask-user-amount {
     display: inline-block;
@@ -58,18 +55,36 @@
 }
 
 .microtask-user-done {
-    display: inline-block;
     font-size: 10px;
 }
 
 
 
-.microtask-active.microtask-col {
+
+
+.microtask-holder.microtask-active {
     background: #2d2222; 
 }
 .microtask-active .microtask-content {
     opacity: 1;
 }
-.microtask-active .microtask-desc {
+.microtask-active .microtask-content .microtask-desc {
     text-decoration: none;
 } 
+
+
+
+
+
+.microtask-info-holder {
+    display: table;
+    height: auto;
+    padding: 15px;
+}
+.microtask-border-info {
+    border-top: 1px solid #252525;
+    height: 1px;
+}
+.microtask-info-content {
+    margin-left: 12px;
+}    
