@@ -41,20 +41,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     }, 2000);
                     var triggerChangeLater = _.throttle(function() {
                         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
+                        triggerSave();
                     }, 1500, {
                         leading: false,
                         trailing: true
                     });
+                    var triggerSave = _.throttle(function() {
+                        sliderPlugins.trigger('slide.save');
+                    }, 20);
 
                     editor.on('change', function() {
                         syncEditorContent(editor, scope.activeTab);
-
+                        triggerSave();
                         applyChangesLater();
                     });
 
                     editor.getSession().getSelection().on('changeCursor', function() {
                         scope.activeTab.editor = scope.activeTab.editor || {};
                         syncEditorOptions(editor, scope.activeTab.editor);
+                        triggerSave();
 
                         applyChangesLater();
                     });
@@ -88,6 +93,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         updateMode(editor, active, tab.mode);
                         updateEditorContent(editor, tab);
                         updateEditorOptions(editor, tab);
+                        triggerSave();
                     });
 
                     handleErrorListeners(scope, $window);

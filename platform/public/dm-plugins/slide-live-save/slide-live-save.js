@@ -1,7 +1,7 @@
 define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/SlideLiveSave'], function(module, _, angular, howler, sliderPlugins, SlideLiveSave) {
     var path = sliderPlugins.extractPath(module);
 
-    var THROTTLE_SAVING = 1000;
+    var THROTTLE_SAVING = 500;
 
     sliderPlugins.registerPlugin('slide.toolbar', 'live-save', 'slide-live-save', 5000).directive('slideLiveSave', [
         'SlideLiveSave', 'localStorageService', '$timeout',
@@ -26,6 +26,12 @@ define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/S
                     });
 
                     scope.$watch('slide', updateSlide, true);
+                    sliderPlugins.listen(scope, 'slide.save', function() {
+                        if (scope.recording) {
+                            SlideLiveSave.save(scope.slide);
+                        }
+                    });
+
                     scope.$watch('recording', function(newVal) {
                         if (newVal !== undefined) {
                             localStorageService.set('dev.recording', newVal);
