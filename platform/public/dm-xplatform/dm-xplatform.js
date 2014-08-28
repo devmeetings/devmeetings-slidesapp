@@ -303,10 +303,6 @@ require(['angular',
                         anonymous: true,
                         url: '/courses/:id',
                         views: {
-                            left: {
-                                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                                controller: 'dmXplatformLeftbar'
-                            },
                             mid: {
                                 templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
                                 controller: 'dmXplatformWorkshopdesc'
