@@ -3,9 +3,6 @@
         p.dm-devhero-name {{user.name}}
         p
             img(ng-src='{{user.avatar | dmGravatar:90}}')
-        //-p.dm-devhero-info Mentor
-        //-p.dm-devhero-info Wroclaw
-        //-p.dm-devhero-info devhero.org
     .col-md-12.dm-devhero-buttons
         button.btn(ng-if='canBeObserved', ng-click='observe()', 
             analytics-category='devhero',
@@ -13,19 +10,9 @@
         button.btn(ng-if='!canBeObserved', ng-click='unobserve()',
             analytics-category='devhero', 
             analytics-on='click', analytics-event='devhero.unobserve') Zrezygnuj
-        //-button.btn(ui-sref='index.message({id: user._id})') Wiadomosc
     .col-md-12
-        //-p Przebyte szkolenia
-            span.pull-right 26 
-        //-p Mikrozadania
-            span.pull-right 288
-        //-p Obserwuje
-            span.pull-right 58
-        //-p Obserwowany
-            span.pull-right 369
         .dm-devhero-separator 
         p BIO
-        span.dm-devhero-bio {{user.bio || "-"}}
+        .dm-devhero-bio(marked='user.bio || "-"')
         .dm-devhero-separator
-        //p Social
 

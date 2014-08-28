@@ -19,10 +19,6 @@ import com.google.common.collect.ImmutableList.Builder;
 
 public class JavaRunner {
 
-	@SuppressWarnings("unchecked")
-	private static Class<String[]> stringArrayClass = (Class<String[]>) new String[] {}
-			.getClass();
-
 	public CompilerOutput compile(String name, String code) {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		ClassFileManager fileManager = new ClassFileManager(
@@ -64,35 +60,32 @@ public class JavaRunner {
 	}
 
 	private void invokeMainMethod(Class<?> clazz) throws JavaRunnerException,
-	JavaRunnerUsersException, NoSuchMethodException, SecurityException {
+			JavaRunnerUsersException, NoSuchMethodException, SecurityException {
 		try {
 			Method method = clazz.getMethod("main");
-			try {
-				method.invoke(null);
-			} catch (IllegalAccessException | IllegalArgumentException e) {
-				// Rethrow our errors
-				throw new JavaRunnerException(e);
-			} catch (InvocationTargetException e) {
-				// Return exception from users code
-				throw new JavaRunnerUsersException(e.getCause());
-			}
+			invokeMain(method, new Object[] {});
 		} catch (NoSuchMethodException e) {
 			// Try out with main with arguments
-			try {
-				Method method = clazz.getMethod("main", stringArrayClass);
-				method.invoke(null, new Object[] { new String[] {} });
-			} catch (IllegalAccessException | IllegalArgumentException e1) {
-				// Rethrow class errors
-				throw new JavaRunnerException(e1);
-			} catch (InvocationTargetException ex) {
-				// Users exceptions
-				throw new JavaRunnerUsersException(ex.getCause());
-			}
+			Method method = clazz.getMethod("main", String[].class);
+			invokeMain(method, new Object[] { new String[] {} });
+		}
+	}
+
+	private void invokeMain(Method method, Object[] args)
+			throws JavaRunnerException, JavaRunnerUsersException {
+		try {
+			method.invoke(null, args);
+		} catch (IllegalAccessException | IllegalArgumentException e) {
+			// Rethrow our errors
+			throw new JavaRunnerException(e);
+		} catch (InvocationTargetException e) {
+			// Return exception from users code
+			throw new JavaRunnerUsersException(e.getCause());
 		}
 	}
 
 	public String run(CompilerOutput clazz) throws JavaRunnerException,
-			JavaRunnerUsersException {
+	JavaRunnerUsersException {
 		Preconditions.checkNotNull(clazz);
 
 		PrintStream currentStream = System.out;

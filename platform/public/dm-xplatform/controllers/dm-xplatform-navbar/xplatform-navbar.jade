@@ -31,19 +31,25 @@
                 a(href='#')
                     img(src="static/images/navbar/ico_msg.png")
                     span.badge.badge-notification 7
-            li
+            li(ng-if='user')
                 img.avatar-holder(
-                    ng-src='{{navbar.user.result.avatar | dmGravatar:30}}', 
-                    ui-sref='index.devhero({id: navbar.user.result._id})',
+                    ng-src='{{user.result.avatar | dmGravatar:30}}', 
+                    ui-sref='index.devhero({id: user.result._id})',
                     analytics-category='menu',
-                    analytics-on='click', analytics-event='navbar.profile.photo')
-            li
+                    analytics-on='click', analytics-event='profile.photo')
+            li(ng-if='user')
                 a.ng-cloak(
-                    ui-sref="index.devhero({id: navbar.user.result._id})", 
+                    ui-sref="index.devhero({id: user.result._id})", 
                     analytics-category='menu',
                     analytics-on='click', analytics-event='navbar.profile.text')
-                    | {{navbar.user.result.name}}
-            li
+                    | {{user.result.name}}
+            li(ng-if='!user')
+                a.ng-cloak
+                    button.btn.btn-xs.btn-primary(ui-sref='index.register') Zarejestruj
+            li(ng-if='!user')
+                a.ng-cloak
+                    button.btn.btn-xs.btn-success(ui-sref='index.login') Zaloguj
+            li(ng-if='user')
                 .dropdown
                     #dropdownNav.dropdown-toggle(type='button', data-toggle='dropdown')
                         span.glyphicon.glyphicon-cog

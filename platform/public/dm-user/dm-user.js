@@ -1,5 +1,5 @@
 'use strict'
-angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http, $q) {
+angular.module('dm-user', []).factory('dmUser', ['$rootScope', '$http', '$q', function ($rootScope, $http, $q) {
     var data = {}; 
     var result;
     var cache = {};
@@ -38,8 +38,15 @@ angular.module('dm-user', []).factory('dmUser', ['$http', '$q', function ($http,
             $http.get('/api/users').success(function (user) {
                 data.result = user;
                 result.resolve(data);
+                $rootScope.isLoggedIn = true;
+            }).error(function (data, status) {
+                result.reject(status);
+                $rootScope.isLoggedIn = false;
             });
             return result.promise;
+        },
+        isLoggedIn: function () {
+            return $rootScope.isLoggedIn; 
         }
     };
 }]);

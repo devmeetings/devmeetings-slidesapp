@@ -15,6 +15,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 },
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
+                    // This is temporary hack!
+                    scope.insertTab = function() {
+                        var name = $window.prompt("Tab name - separate extension with |");
+                        if (!name) {
+                            return;
+                        }
+                        scope.workspace.tabs[name] = {
+                            "content": ""
+                        };
+                    };
+
                     // Editor
                     var $e = element.find('.editor');
                     var editor = ace.edit($e[0]);
@@ -30,20 +41,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     }, 2000);
                     var triggerChangeLater = _.throttle(function() {
                         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
+                        triggerSave();
                     }, 1500, {
                         leading: false,
                         trailing: true
                     });
+                    var triggerSave = _.throttle(function() {
+                        sliderPlugins.trigger('slide.save');
+                    }, 20);
 
                     editor.on('change', function() {
                         syncEditorContent(editor, scope.activeTab);
-
+                        triggerSave();
                         applyChangesLater();
                     });
 
                     editor.getSession().getSelection().on('changeCursor', function() {
                         scope.activeTab.editor = scope.activeTab.editor || {};
                         syncEditorOptions(editor, scope.activeTab.editor);
+                        triggerSave();
 
                         applyChangesLater();
                     });
@@ -58,6 +74,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                     scope.$watch('activeTab.content', function(content) {
                         if (!content) {
+                            return;
+                        }
+                        if (editor.getValue() === content) {
                             return;
                         }
                         updateEditorContent(editor, scope.activeTab);
@@ -77,6 +96,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         updateMode(editor, active, tab.mode);
                         updateEditorContent(editor, tab);
                         updateEditorOptions(editor, tab);
+                        triggerSave();
                     });
 
                     handleErrorListeners(scope, $window);
@@ -95,7 +115,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
     function syncEditorOptions(editor, options) {
         options.cursorPosition = editor.getCursorPosition();
-        options.selectionRange = editor.getSelectionRange().toString();
+        options.selectionRange = JSON.parse(JSON.stringify(editor.getSelectionRange()));
         options.firstVisibleRow = editor.getFirstVisibleRow();
         options.lastVisibleRow = editor.getLastVisibleRow();
     }
