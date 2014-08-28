@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Scheme = mongoose.Schema;
+    Schema = mongoose.Schema;
 
 var Payment = new Schema({
     user: {
