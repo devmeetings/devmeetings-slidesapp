@@ -77,7 +77,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             return;
                         }
 
-                        updateEditorContent(editor, scope.activeTab);
+                        //updateEditorContent(editor, scope.activeTab);
                         triggerChangeLater();
                     });
                     // TODO [ToDr] activeTab.editor
