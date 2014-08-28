@@ -95,7 +95,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
     function syncEditorOptions(editor, options) {
         options.cursorPosition = editor.getCursorPosition();
-        options.selectionRange = editor.getSelectionRange().toString();
+        options.selectionRange = JSON.parse(JSON.stringify(editor.getSelectionRange()));
         options.firstVisibleRow = editor.getFirstVisibleRow();
         options.lastVisibleRow = editor.getLastVisibleRow();
     }
