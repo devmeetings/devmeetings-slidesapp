@@ -1,4 +1,6 @@
 .col-xs-9(ng-init='$root.modes.isTaskMode=true')
     plugins-loader(namespace="'slide'", context="slide.content")
-.col-xs-3(ng-init='$root.modes.isTaskMode=true')
+.col-xs-3.full-height(ng-init='$root.modes.isTaskMode=true')
+    .row.dm-slide-right
+        plugins-loader(namespace="'slide.sidebar'", context="slide.content")
 

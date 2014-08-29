@@ -1,4 +1,4 @@
-.microtasks
+//-.microtasks
   .microtask.alert.hidden-sm.hidden-xs(ng-repeat="task in microtasks", 
     tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="left",
     ng-class="{'alert-danger': !taskMeta[task.description].completed, 'alert-success': taskMeta[task.description].completed }")
@@ -16,3 +16,21 @@
       span.glyphicon.glyphicon-ok(ng-show="taskMeta[task.description].completed")
       span.glyphicon.glyphicon-question-sign.text-warning(ng-show="!taskMeta[task.description].completed")
 
+div(ng-repeat='task in microtasks')
+    .microtask-holder(ng-class='{"microtask-active": !taskMeta[task.description].completed}')
+        .microtask-col
+            .microtask-img
+                img(ng-if='taskMeta[task.description].completed', src='/static/images/microtask/mt_completed.png')
+                img(ng-if='!taskMeta[task.description].completed', src='/static/images/microtask/mt_star.png')
+
+        .microtask-content 
+            .microtask-desc(marked='task.description')
+            .microtask-user 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                img(src="static/images/microtask/mt_user.png") 
+                span.microtask-user-amount +2
+                span.microtask-user-done
+                    | 10 znajomych zrobiło zadanie
+    .microtask-border-up
+    .microtask-border-down
