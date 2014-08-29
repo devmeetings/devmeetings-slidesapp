@@ -25,8 +25,7 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks',
         'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
-        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
-        'xplatform/controllers/dm-xplatform-microtask/dm-xplatform-microtask'
+        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -470,10 +469,6 @@ require(['angular',
                         mid: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-microtask/dm-xplatform-microtask.html',
-                            controller: 'dmXplatformMicrotask'
                         }
                     },
                     onEnter: function($rootScope) {
