@@ -25,7 +25,8 @@ div(ng-repeat='task in microtasks')
 
         .microtask-content 
             .microtask-desc(marked='task.description')
-            .microtask-user 
+            plugins-loader(namespace="'microtask'", context='taskMeta[task.description]')
+            //-.microtask-user 
                 img(src="static/images/microtask/mt_user.png") 
                 img(src="static/images/microtask/mt_user.png") 
                 img(src="static/images/microtask/mt_user.png") 
