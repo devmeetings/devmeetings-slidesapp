@@ -484,8 +484,8 @@ require(['angular',
                         };
                         $rootScope.xplatformData.columns = {
                             left: 0,
-                            mid: 9,
-                            right: 3
+                            mid: 12,
+                            right: 0
                         };
                     }
                 });
