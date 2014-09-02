@@ -157,12 +157,13 @@ function parseToRawRecordings(recordings) {
 }
 
 function convertRawRecordings(slides) {
-    var getData = function(slide) {
-        return [
-            slide.recordingStarted ? "--------- Start ---------" : "Group: " + slide.meta.group,
-            "Title: " + slide.meta.title,
-            "ID: " + slide._id,
-        ];
+    var getData = function(slide, last) {
+
+        var id = "ID: " + slide._id;
+        if (last && slide.meta.group !== last.meta.group) {
+            return [slide.meta.group, id];
+        }
+        return [id];
     };
     // Convert to SRT
     var srt = slides.reduce(function(data, slide) {
@@ -180,7 +181,7 @@ function convertRawRecordings(slides) {
         data.slides.push({
             from: data.last.timestamp,
             to: slide.timestamp - 1,
-            data: calculateDiff(data.last, slide).concat(getData(slide))
+            data: calculateDiff(data.last, slide).concat(getData(slide, data.last))
         });
 
         data.last = slide;
@@ -240,10 +241,7 @@ function asSrt(data) {
         //time
         buffer.push(formatTime(entry.from) + " --> " + formatTime(entry.to));
         // data
-        buffer.push.apply(buffer, entry.data.map(function(x) {
-            // Support Camtasia linebreaks.
-            return x + "[br]";
-        }));
+        buffer.push(entry.data.join("[br]"));
         // empty entry
         buffer.push("");
 
