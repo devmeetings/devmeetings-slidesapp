@@ -36,6 +36,17 @@ var MongoBridge = function(dbpath) {
                     recs.resolve(inserted);
                 });
                 return recs.promise;
+            },
+            getRawRecordings: function(group) {
+                return Q.ninvoke(db.collection('raw_recordings').find({
+                    'meta.group': group
+                }), 'toArray');
+            },
+            getRawRecordingsGroups: function() {
+                return Q.ninvoke(db.collection('raw_recordings'), 'distinct', 'meta.group');
+            },
+            saveRawRecordings: function(recordings) {
+                return Q.ninvoke(db.collection('raw_recordings'), 'insert', recordings);
             }
         });
     });
