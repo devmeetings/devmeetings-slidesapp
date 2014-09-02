@@ -10,7 +10,7 @@ define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins'], function
                     scope.$watch('microtask.completed', function (completed) {
                         if (completed) {
                             if ($rootScope.modes.isTaskMode) {
-                                $http.post('/api/event/task_done/' + $stateParams.event + '/' + $stateParams.id);
+                                $http.post('/api/event/task_done/' + $stateParams.event + '/' + scope.microtask.taskName);
                             }
                         }
                     });

@@ -38,7 +38,8 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
                             }
 
                             var meta = {
-                                completed: false
+                                completed: false,
+                                taskName: task.taskName
                             };
                             scope.taskMeta[task.description] = meta;
 

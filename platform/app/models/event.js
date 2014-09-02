@@ -16,6 +16,9 @@ var Event = new Schema({
     date: Date,
     description: String,
     slides: [{
+        task: {
+            type: String    
+        },
         slideId: {
             type: Schema.Types.ObjectId,
             ref: 'slide'

@@ -5,6 +5,15 @@ var Event = require('../models/event'),
     Q = require('q');
     
 
+var onError = function (res) {
+    return function (err) {
+        console.error(err);
+        res.send(400);
+    };
+};
+
+var onDone = function () {
+};
 
 var addToPeopleArray = function (req, res, peopleName, activityName) {
 
@@ -89,16 +98,12 @@ var Events = {
     },
     get: function (req, res) {
         var id = req.params.id;
-        Event.findOne({
-            _id :id
-        }, function (err, event) {
-            if (err) {
-                console.error(err);
-                res.send(400);
-                return;
-            }
-            res.send(event);
-        });
+        
+        Q.ninvoke(Event.findOne({
+            _id: id
+        }), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
     },
     start: function (req, res) {
         addToPeopleArray(req, res, 'peopleStarted', 'video.start');
@@ -108,73 +113,54 @@ var Events = {
         addToPeopleArray(req, res, 'peopleFinished', 'video.done');
     },
 
-    task_done: function (req, res) {
+    taskDone: function (req, res) {
         var userId = req.user._id;
-        var eventId = req.params.id;
-        var slideId = req.params.slide;
+        var event = req.params.event;
+        var task = req.params.task;
 
-        var eventPromise = Event.findOne({
-            _id: eventId,
-            'slides.slideId': slideId
-        }).exec();
-
-        var userPromise = User.findOne({
-            _id: userId
-        }).exec();
-
-        Q.all([eventPromise, userPromise]).then(function (results) {
-            var event = results[0];
-            var user = results[1];
-           
-            if (!event) {
-                return 400;
-            }
-            
-            var slide = _.find(event.slides, function (slide) {
-                return slide.slideId.toString() === slideId;
-            });
-
-            var exists = _.find(slide.peopleFinished, function (person) {
-                return person.userId.toString() === userId;
-            });
-
-            if (exists) {
-                return 200;
-            }
-
-            slide.peopleFinished.push({
-                userId: userId,
-                name: user.name,
-                avatar: user.avatar
-            });
-
-            event.markModified('slides');
-            return Q.ninvoke(event, 'save').then(function () {
-                return Q.ninvoke(Activity, 'create', {
-                    owner: {
-                        userId: userId, 
-                        name: user.name,
-                        avatar: user.avatar
-                    },
-                    type: 'task.done',
-                    data: {
-                        title: slide.name,
-                        eventId: event._id,
-                        linkId: slideId
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event,
+            slides: {
+                $elemMatch: {
+                    //slideId: slideId,
+                    task: task, // TODO
+                    'peopleFinished.userId': {
+                        $ne: userId
                     }
-                }).then( function (activity) {
-                    return 200;
-                });
-            });
-        }).then(function(code){
-            res.send(code);
-        }).fail(function (err) {
-            res.send(400);
-        });
+                }
+            }
+        }, {
+            $push: {
+                'slides.$.peopleFinished': {
+                    userId: userId,
+                    name: req.user.name,
+                    avatar: req.user.avatar
+                }
+            }
+        }), 'exec').then(function (event) {
+            if (!event) {
+                return;
+            }
 
+            return Q.ninvoke(Activity, 'create', {
+                owner: {
+                    userId: userId,
+                    name: req.user.name,
+                    avatar: req.user.avatar
+                },
+                type: 'task.done',
+                data: {
+                    title: slide.name,
+                    eventId: event._id,
+                    linkId: slideId
+                }
+            });
+        }).then(function () {
+            res.send(200); 
+        }).fail(onError(res)).done(onDone);
     },
 
-    first_task: function (req, res) {
+    firstTask: function (req, res) {
         var eventId = req.params.id;
     
         Event.findOne({
@@ -194,7 +180,19 @@ var Events = {
         }, function (err) {
             res.send(400);
         });
+    },
+
+    eventWithTask: function (req, res) {
+        var event = req.params.event;
+        var task = req.params.task;
+        Q.ninvoke(Event.findOne({
+            _id: event,
+            'slides.task': task
+        }).populate('slides.slideId').select('slides'), 'exec').then(function(event) {
+            res.send(event);
+        }).fail(onError(res)).done(onDone);
     }
+
 };
 
 module.exports = Events;

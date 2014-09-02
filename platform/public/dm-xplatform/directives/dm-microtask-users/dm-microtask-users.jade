@@ -1,7 +1,5 @@
 .microtask-user 
-    img(src="static/images/microtask/mt_user.png") 
-    img(src="static/images/microtask/mt_user.png") 
-    img(src="static/images/microtask/mt_user.png") 
-    span.microtask-user-amount +2
-    span.microtask-user-done
-        | 10 znajomych zrobiło zadanie
+    img(ng-repeat='user in people | limitTo: 3', ng-src='{{user.avatar | dmGravatar:25}}') 
+    span.microtask-user-amount(ng-if='people.length > 3') + {{people.length - 3}}
+    span.microtask-user-done(ng-if='people.length') zrobili to zadanie
+    span.microtask-user-done(ng-if='!people || people.length === 0') Nikt nie zrobił tego zadania.

@@ -8,7 +8,7 @@ div.col-lg-12.col-md-12.dm-table-container
             td
                 .dm-table-slides 
                     a(ng-repeat='slide in event.slides', 
-                        ui-sref='index.task({id: slide.slideId, event: event._id})', 
+                        ui-sref='index.task({task: slide.task, event: event._id})', 
                         analytics-on='click', analytics-event='table.microtask', analytics-label="{{slide.slideId}}", analytics-category="{{event.title}}")
                         i.fa.fa-circle-o.dm-table-gray(ng-if='!slideIsFinished(slide, user)')
                         i.fa.fa-circle.dm-table-green(ng-if='slideIsFinished(slide, user)')
