@@ -176,8 +176,7 @@ function convertRawRecordings(slides) {
         data.slides.push({
             from: data.last.timestamp,
             to: slide.timestamp - 1,
-            //data: calculateDiff(data.last, slide).concat(getData(slide))
-            data: getData(slide)
+            data: calculateDiff(data.last, slide).concat(getData(slide))
         });
 
         data.last = slide;
