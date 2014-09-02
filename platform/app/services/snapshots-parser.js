@@ -43,7 +43,10 @@ var oldSchoolReduce = function(snapshots, groupTime, title) {
     }).groups;
 };
 
-var reduceSnapshots = function(snapshots, groupTime, title) {
+var reduceSnapshots = function(snapshots, options) {
+    var groupTime = options.groupTime;
+    var title = options.title;
+
     var allSnaps = _.reduce(snapshots, function(acc, elem) {
         return acc.concat(JSON.parse(LZString.decompressFromBase64(elem.data)));
     }, []);
@@ -73,9 +76,12 @@ var reduceSnapshots = function(snapshots, groupTime, title) {
         //return true;
     });
 
-    // In first group we have to do some old school grouping
-    var moreGroups = oldSchoolReduce(groups[0].slides, groupTime, title);
-    return moreGroups.concat(groups);
+    if (options.oldSchool) {
+        // In first group we have to do some old school grouping
+        var moreGroups = oldSchoolReduce(groups[0].slides, groupTime, title);
+        return moreGroups.concat(groups);
+    }
+    return groups;
 };
 
 
@@ -92,7 +98,7 @@ var snapshotTrimmer = function(object) {
     }
 };
 
-var produceFinalSnaps = function(snaps, chapters, timeoffset) {
+var produceFinalSnaps = function(snaps, chapters, timeoffset, group) {
     return _.map(snaps, function(snap) {
         var beginTime = snap.slides[0].timestamp;
         _.forEach(snap.slides, function(slide) {
@@ -113,7 +119,7 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset) {
         return {
             slides: snap.slides,
             slideId: snap.slideId,
-            group: title + " " + niceDate,
+            group: group ? group : title + " " + niceDate,
             date: date,
             title: title
         };
@@ -121,11 +127,11 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset) {
 };
 
 var SnapshotsParser = {
-    prepareRecordings: function(chapters, snapshots, timeoffset, groupTime, title) {
+    prepareRecordings: function(chapters, snapshots, options) {
         var result = Q.defer();
-        var snaps = reduceSnapshots(snapshots, groupTime, title);
+        var snaps = reduceSnapshots(snapshots, options);
         snapshotTrimmer(snaps);
-        var finalSnaps = produceFinalSnaps(snaps, chapters, timeoffset);
+        var finalSnaps = produceFinalSnaps(snaps, chapters, options.timeoffset, options.group);
         result.resolve(finalSnaps);
 
         return result.promise;

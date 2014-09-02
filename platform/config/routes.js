@@ -77,6 +77,10 @@ module.exports = function(app) {
     var snapshots = require('../app/controllers/snapshots');
     app.get('/api/snapshots/:startTime?', authenticated, snapshots.list);
     app.post('/api/snapshots/:startTime?', authenticated, snapshots.import);
+    app.put('/api/snapshots/:startTime?', authenticated, snapshots.convert);
+
+    app.get('/api/rawRecordings', authenticated, snapshots.getRawRecordingsGroups);
+    app.get('/api/rawRecordings/:group', authenticated, snapshots.getRawRecordings);
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
