@@ -101,7 +101,7 @@ exports.convert = function(req, res) {
         return connection.then(function(mongo) {
             return mongo.saveRawRecordings(rawRecordings);
         }).then(function() {
-            res.send(200, rawRecordings);
+            res.send(200);
         });
     }).fail(function(err) {
         console.error(err);
