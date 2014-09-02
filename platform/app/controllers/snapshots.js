@@ -223,6 +223,8 @@ function calculateDiff(prev, current) {
         if (part.removed) {
             return "[-] " + part.value;
         }
+    }).map(function(txt) {
+        return txt.replace(/\n/g, ' ');
     });
 }
 
