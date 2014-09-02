@@ -117,6 +117,7 @@ exports.getRawRecordings = function(req, res) {
         if (!req.query.format || req.query.format === 'json') {
             res.send(recordings);
         } else {
+            res.set('Content-Type', 'text/plain');
             res.send(convertRawRecordings(recordings, req.query.format));
         }
     }).fail(function(err) {
