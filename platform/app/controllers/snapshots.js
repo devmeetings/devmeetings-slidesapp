@@ -225,7 +225,7 @@ function calculateDiff(prev, current) {
         }
     }).map(function(txt) {
         return txt.replace(/\n/g, ' ');
-    });
+    }).slice(0, 6); //Take only few first entries
 }
 
 function asSrt(data) {
