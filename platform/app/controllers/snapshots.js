@@ -172,7 +172,7 @@ function convertRawRecordings(slides) {
         }
 
         // Skip very small diffs
-        if (data.last.timestamp === slide.timestamp - 1) {
+        if (data.last.timestamp <= slide.timestamp - 1) {
             return data;
         }
 
