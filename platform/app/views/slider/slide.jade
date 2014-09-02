@@ -8,10 +8,13 @@ append scripts
     script(src='#{jsModulesPath}/dm-slider/slider-slide#{cacheBustingVersion}.js')
 
 block content
-    div(ng-init="$root.modes.isEditMode=#{editMode}")
+    .full-height(ng-init="$root.modes.isEditMode=#{editMode}")
         div(ng-init="$root.modes.isSliderMode=true")
-        .container-fluid(ng-controller="SlideCtrl")
+        .col-xs-12.full-height(ng-controller="SlideCtrl")
             .row.full-height
-                .col-lg-12.full-height
+                .col-xs-9.dm-slide-left
                     plugins-loader(namespace="'slide'", context="slide.content")
                     plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
+                .col-xs-3.full-height(ng-init='$root.modes.isTaskMode=true')
+                    .row.dm-slide-right
+                        plugins-loader(namespace="'slide.sidebar'", context="slide.content")

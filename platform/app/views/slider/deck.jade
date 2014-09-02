@@ -1,20 +1,21 @@
 extends ../layouts/main
 
 append scripts
-  script.
-    window.slides = "#{slides}";
-  script(src='/static/components/requirejs/require.js')
-  script(src='/static/config.js?v=#{cacheBustingVersion}')
-  script(src='#{jsModulesPath}/dm-slider/slider-deck#{cacheBustingVersion}.js')
+    script.
+        window.slides = "#{slides}";
+    script(src='/static/components/requirejs/require.js')
+    script(src='/static/config.js?v=#{cacheBustingVersion}')
+    script(src='#{jsModulesPath}/dm-slider/slider-deck#{cacheBustingVersion}.js')
 
 block title
-  title {{ title }} - #{title}
+    title {{ title }} - #{title}
 
 block content
-  div(ng-init="$root.modes.isEditMode=#{editMode}")
-  div.full-height(ng-controller="SliderCtrl")
-    splitter
-      section(class="col-sm-12")
-        plugins-loader(namespace="'deck.slides'", context="deckSlides")
-        plugins-loader(namespace="'deck'", context="deck")
-        plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck")  
+    div(ng-init="$root.modes.isEditMode=#{editMode}")
+    div.full-height(ng-controller="SliderCtrl")
+        .col-sm-12
+            .row
+                plugins-loader(namespace="'deck.slides'", context="deckSlides")
+                plugins-loader(namespace="'deck'", context="deck")
+                plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck")  
+

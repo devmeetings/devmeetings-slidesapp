@@ -17,7 +17,7 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
     };
     /* jshint ignore:end */
 
-    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
+    sliderPlugins.registerPlugin('slide.sidebar', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
 
         function() {
             return {
@@ -38,7 +38,8 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
                             }
 
                             var meta = {
-                                completed: false
+                                completed: false,
+                                taskName: task.taskName
                             };
                             scope.taskMeta[task.description] = meta;
 
