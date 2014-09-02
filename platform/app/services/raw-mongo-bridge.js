@@ -40,6 +40,8 @@ var MongoBridge = function(dbpath) {
             getRawRecordings: function(group) {
                 return Q.ninvoke(db.collection('raw_recordings').find({
                     'meta.group': group
+                }).sort({
+                    timestamp: 1
                 }), 'toArray');
             },
             getRawRecordingsGroups: function() {

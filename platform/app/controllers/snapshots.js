@@ -159,10 +159,9 @@ function parseToRawRecordings(recordings) {
 function convertRawRecordings(slides) {
     var getData = function(slide) {
         return [
-            slide._id,
-            slide.recordingStarted ? "--------- Start ---------" : "Date: " + slide.meta.date,
-            "Group: " + slide.meta.group,
+            slide.recordingStarted ? "--------- Start ---------" : "Group: " + slide.meta.group,
             "Title: " + slide.meta.title,
+            "ID: " + slide._id,
         ];
     };
     // Convert to SRT
@@ -175,8 +174,8 @@ function convertRawRecordings(slides) {
         // Print previous slide
         data.slides.push({
             from: data.last.timestamp,
-            to: slide.timestamp,
-            data: getData(slide).concat(calculateDiff(data.last, slide))
+            to: slide.timestamp - 1,
+            data: calculateDiff(data.last, slide).concat(getData(slide))
         });
 
         data.last = slide;
@@ -218,14 +217,15 @@ function calculateDiff(prev, current) {
         return parseFloat(part.value) + "" !== part.value;
     }).map(function(part) {
         if (part.added) {
-            return "[+] " + part.value;
+            return "(+) " + part.value;
         }
         if (part.removed) {
-            return "[-] " + part.value;
+            return "(-) " + part.value;
         }
     }).map(function(txt) {
-        return txt.replace(/\n/g, ' ');
-    });
+        // Only few first characters
+        return txt.replace(/\n/g, ' ').substr(0, 80);
+    }).slice(0, 6); //Take only few first entries
 }
 
 function asSrt(data) {
@@ -235,7 +235,10 @@ function asSrt(data) {
         //time
         buffer.push(formatTime(entry.from) + " --> " + formatTime(entry.to));
         // data
-        buffer.push.apply(buffer, entry.data);
+        buffer.push.apply(buffer, entry.data.map(function(x) {
+            // Support Camtasia linebreaks.
+            return x + "[br]";
+        }));
         // empty entry
         buffer.push("");
 
@@ -243,13 +246,19 @@ function asSrt(data) {
     }, []).join("\n");
 }
 
+function pad(val, len) {
+    var x = "00000000";
+    val = "" + val;
+    return x.substr(0, len - val.length) + val;
+}
+
 function formatTime(timestamp) {
-    var ms = timestamp % 1000;
+    var ms = pad(timestamp % 1000, 3);
     timestamp = parseInt(timestamp / 1000, 10);
-    var s = timestamp % 60;
+    var s = pad(timestamp % 60, 2);
     timestamp = parseInt(timestamp / 60, 10);
-    var min = timestamp % 60;
+    var min = pad(timestamp % 60, 2);
     timestamp = parseInt(timestamp / 60, 10);
-    var hours = timestamp % 24;
+    var hours = pad(timestamp % 24, 2);
     return [hours, min, s].join(':') + ',' + ms;
 }
