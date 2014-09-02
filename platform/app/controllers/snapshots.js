@@ -224,7 +224,8 @@ function calculateDiff(prev, current) {
             return "[-] " + part.value;
         }
     }).map(function(txt) {
-        return txt.replace(/\n/g, ' ');
+        // Only few first characters
+        return txt.replace(/\n/g, ' ').substr(0, 30);
     }).slice(0, 6); //Take only few first entries
 }
 
