@@ -176,7 +176,8 @@ function convertRawRecordings(slides) {
         data.slides.push({
             from: data.last.timestamp,
             to: slide.timestamp - 1,
-            data: calculateDiff(data.last, slide).concat(getData(slide))
+            //data: calculateDiff(data.last, slide).concat(getData(slide))
+            data: getData(slide)
         });
 
         data.last = slide;
@@ -225,7 +226,7 @@ function calculateDiff(prev, current) {
         }
     }).map(function(txt) {
         // Only few first characters
-        return txt.replace(/\n/g, ' ').substr(0, 30);
+        return txt.replace(/\n/g, ' ').substr(0, 80);
     }).slice(0, 6); //Take only few first entries
 }
 
