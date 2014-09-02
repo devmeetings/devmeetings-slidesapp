@@ -10,8 +10,8 @@ div.col-lg-12.col-md-12.dm-table-container
                     a(ng-repeat='slide in event.slides', 
                         ui-sref='index.task({slide: slide.slideId, event: event._id})', 
                         analytics-on='click', analytics-event='table.microtask', analytics-label="{{slide.slideId}}", analytics-category="{{event.title}}")
-                        i.fa.fa-circle-o.dm-table-gray(ng-if='!slideIsFinished(slide, user)')
-                        i.fa.fa-circle.dm-table-green(ng-if='slideIsFinished(slide, user)')
+                        img.dm-microtask(ng-if='!slideIsFinished(slide, user)', src='/static/images/microtask/mt_star.png')
+                        img.dm-microtask(ng-if='slideIsFinished(slide, user)', src='/static/images/microtask/mt_completed.png')
                 a.dm-table-blue(
                     ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
                     analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
