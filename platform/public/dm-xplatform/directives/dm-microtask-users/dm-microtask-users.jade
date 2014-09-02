@@ -1,5 +1,5 @@
 .microtask-user 
-    img.dm-cursor(ng-repeat='user in people | limitTo: 3', ng-src='{{user.avatar | dmGravatar:25}}', ui-sref='index.devhero({id: user.userId})') 
+    img.dm-cursor(ng-repeat='user in people.slice().reverse() | limitTo: 3', ng-src='{{user.avatar | dmGravatar:25}}', ui-sref='index.devhero({id: user.userId})') 
     span.dm-cursor.microtask-user-amount(ng-if='people.length > 3', ng-click='showUsers(people)') + {{people.length - 3}}
     span.microtask-user-done(ng-if='people.length') zrobili to zadanie
     span.microtask-user-done(ng-if='!people || people.length === 0') Nikt nie zrobił tego zadania.
