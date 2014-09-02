@@ -159,10 +159,10 @@ function parseToRawRecordings(recordings) {
 function convertRawRecordings(slides) {
     var getData = function(slide) {
         return [
-            slide._id,
             slide.recordingStarted ? "--------- Start ---------" : "Date: " + slide.meta.date,
             "Group: " + slide.meta.group,
             "Title: " + slide.meta.title,
+            "ID: " + slide._id,
         ];
     };
     // Convert to SRT
@@ -175,8 +175,8 @@ function convertRawRecordings(slides) {
         // Print previous slide
         data.slides.push({
             from: data.last.timestamp,
-            to: slide.timestamp,
-            data: getData(slide).concat(calculateDiff(data.last, slide))
+            to: slide.timestamp - 1,
+            data: calculateDiff(data.last, slide).concat(getData(slide))
         });
 
         data.last = slide;
