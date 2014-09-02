@@ -10,7 +10,7 @@ define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins',
                 templateUrl: '/static/dm-xplatform/directives/dm-microtask-users/dm-microtask-users.html',
                 link: function (scope, element) {
             
-                    dmTasks.getEventWithTask().then(function (event) {
+                    dmTasks.getEventWithSlide().then(function (event) {
                         var result = _.find(event.slides, function (task) {
                             return task.task === scope.microtask.taskName;
                         });

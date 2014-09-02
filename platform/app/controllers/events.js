@@ -122,8 +122,7 @@ var Events = {
             _id: event,
             slides: {
                 $elemMatch: {
-                    //slideId: slideId,
-                    task: task, // TODO
+                    task: task,
                     'peopleFinished.userId': {
                         $ne: userId
                     }
@@ -137,10 +136,14 @@ var Events = {
                     avatar: req.user.avatar
                 }
             }
-        }), 'exec').then(function (event) {
+        }).lean(), 'exec').then(function (event) {
             if (!event) {
                 return;
             }
+
+            var result = _.find(event.slides, function (slide) {
+                return slide.task === task;
+            });
 
             return Q.ninvoke(Activity, 'create', {
                 owner: {
@@ -150,9 +153,9 @@ var Events = {
                 },
                 type: 'task.done',
                 data: {
-                    title: slide.name,
+                    title: result.task,
                     eventId: event._id,
-                    linkId: slideId
+                    linkId: result.slideId
                 }
             });
         }).then(function () {
@@ -182,12 +185,12 @@ var Events = {
         });
     },
 
-    eventWithTask: function (req, res) {
+    eventWithSlide: function (req, res) {
         var event = req.params.event;
-        var task = req.params.task;
+        var slide = req.params.slide;
         Q.ninvoke(Event.findOne({
             _id: event,
-            'slides.task': task
+            'slides.slideId': slide
         }).populate('slides.slideId').select('slides'), 'exec').then(function(event) {
             res.send(event);
         }).fail(onError(res)).done(onDone);

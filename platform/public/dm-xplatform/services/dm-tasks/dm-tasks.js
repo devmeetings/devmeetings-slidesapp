@@ -3,13 +3,13 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         var result;
             
         return {
-            getEventWithTask: function (event, task, force) {
+            getEventWithSlide: function (event, slide, force) {
                 if (result && !force) {
                     return result.promise;
                 }
                 
                 result = $q.defer();
-                $http.get('/api/eventWithTask/' + event + '/' + task).success(function (data) {
+                $http.get('/api/event_with_slide/' + event + '/' + slide).success(function (data) {
                     result.resolve(data);
                 });
 

@@ -45,7 +45,7 @@ module.exports = function(app) {
     app.post('/api/event/start/:id', authenticated, events.start);
     app.post('/api/event/task_done/:event/:task', authenticated, events.taskDone);
     app.get('/api/event/first_task/:id', authenticated, events.firstTask);
-    app.get('/api/eventWithTask/:event/:task', authenticated, events.eventWithTask);
+    app.get('/api/event_with_slide/:event/:slide', authenticated, events.eventWithSlide);
 
     var player = require('../app/controllers/player');
     app.get('/api/player/:id/:training', authenticated, player.userSaves);
