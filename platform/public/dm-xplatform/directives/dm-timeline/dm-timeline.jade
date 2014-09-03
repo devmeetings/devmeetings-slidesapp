@@ -9,6 +9,7 @@
 
 .dm-timeline-point.info-color(ng-repeat='snippet in snippets',
     style='left: {{snippet.timestamp / length * 100}}%',
-    tooltip-html-unsafe='Tomek radzi!',
+    tooltip-html-unsafe='{{snippet.title + "<br/>" + snippet.timestamp + " sekunda"}}',
     ng-if='snippet.timestamp')
-    i.fa.fa-quote-left.dm-timeline-image
+    i.fa.fa-quote-left.dm-timeline-snippet
+
