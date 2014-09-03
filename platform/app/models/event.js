@@ -39,6 +39,11 @@ var Event = new Schema({
             }
         }]
     }],
+    snippets: [{
+        title: String,
+        timestamp: Number,
+        markdown: String
+    }],
     trainer: {
         name: {
             type: String      

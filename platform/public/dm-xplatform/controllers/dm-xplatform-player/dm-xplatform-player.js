@@ -1,7 +1,8 @@
 define(['angular',
         '_',
         'xplatform/xplatform-app',
-        'xplatform/directives/dm-timeline/dm-timeline'
+        'xplatform/directives/dm-timeline/dm-timeline',
+        'xplatform/directives/dm-snippet/dm-snippet'
 ], function (angular, _, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q','dmTrainings', 'dmUser',
         function ($scope, $timeout, $state, $stateParams, $http, $q, dmTrainings, dmUser) {
@@ -51,6 +52,7 @@ define(['angular',
             $q.all([dmUser.getCurrentUser(), $http.get('/api/event_with_training/' + $stateParams.event)]).then(function (results) {
                 $scope.user = results[0];
                 buildPoints(results[1].data);
+                $scope.snippets = results[1].data.snippets;
             });
 
             $scope.pointSelected = function (point) {

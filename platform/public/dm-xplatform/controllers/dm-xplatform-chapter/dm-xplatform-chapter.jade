@@ -1,17 +1,8 @@
 .col-xs-9.dm-slide-left
     plugins-loader(namespace="'slide'", context="recordingPlayer.slide", mode="player")
-    include ../dm-xplatform-player/dm-xplatform-player-bottombar.jade
 .col-xs-3.full-height
     .row.dm-slide-right 
-        div(tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="bottom", ng-repeat='test in [1,2]')
-            .microtask-info 
-                p
-                    span.label.label-primary Bootstrap
-                p Użyto klasy col-xs-6 do tego, żeby utworzyć kolumnę na połowę szerokości ekranu (6 z 12).
-                p Dokumentacja do kolumn:&nbsp;
-                    a Link
-            
-                    
-            .microtask-border-up
-            .microtask-border-down
+        div(ng-repeat='snippet in snippets.slice().reverse()')
+            dm-snippet(snippet='snippet', current-time='state.currentSecond')
+include ../dm-xplatform-player/dm-xplatform-player-bottombar.jade
 

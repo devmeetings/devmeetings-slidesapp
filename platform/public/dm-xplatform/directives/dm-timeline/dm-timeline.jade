@@ -1,4 +1,3 @@
-//-.dm-timeline
 .dm-timeline-point.star-color(ng-repeat='point in points', 
     style='left: {{point.timestamp / length * 100}}%',
     ng-class='{"completed-color": point.done}',
@@ -6,3 +5,8 @@
     tooltip-html-unsafe='{{point.task + "<br/>" + point.timestamp + " sekunda"}}')
     img.dm-timeline-image(ng-if='!point.done', src='/static/images/microtask/mt_star.png')
     img.dm-timeline-image(ng-if='point.done', src='/static/images/microtask/mt_completed.png')
+
+.dm-timeline-point.star-color(ng-repeat='snippet in snippets',
+    style='left: {{snippet.timestamp / length * 100}}%',
+    tooltip-html-unsafe='Tomek radzi!')
+    img.dm-timeline-image(src='/static/images/microtask/mt_user.png')

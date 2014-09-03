@@ -16,12 +16,13 @@ define(['angular',
     'dm-stream',
     'dm-mongotime',
     'dm-gravatar',
-    'dm-wavesurfer'
+    'dm-wavesurfer',
+    'angular-animate'
 ], function(angular, angularRouter, angularDeckgrid, angularGravatar, angularSlider, angularMoment, angularHotkeys, angularBootstrap, slider) {
 
     return angular.module('xplatform', [
         'slider', 'slider.plugins', 'ui.gravatar', 'ui.router', 'ui.bootstrap',
         'akoenig.deckgrid', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'hc.marked',
-        'dm-video', 'dm-training', 'dm-user', 'dm-observe', 'dm-stream', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer'
+        'dm-video', 'dm-training', 'dm-user', 'dm-observe', 'dm-stream', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'ngAnimate'
     ]);
 });
