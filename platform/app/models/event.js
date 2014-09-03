@@ -23,7 +23,7 @@ var Event = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'slide'
         },
-        second: {
+        timestamp: {
             type: Number      
         },
         peopleFinished: [{

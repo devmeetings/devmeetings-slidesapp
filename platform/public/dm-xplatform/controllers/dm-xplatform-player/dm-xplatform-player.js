@@ -3,8 +3,8 @@ define(['angular',
         'xplatform/xplatform-app',
         'xplatform/directives/dm-timeline/dm-timeline'
 ], function (angular, _, xplatformApp) {   
-    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', 'dmTrainings',
-        function ($scope, $timeout, $state, $stateParams, $http, dmTrainings) {
+    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q','dmTrainings', 'dmUser',
+        function ($scope, $timeout, $state, $stateParams, $http, $q, dmTrainings, dmUser) {
 
 
             $scope.state = {
@@ -33,18 +33,31 @@ define(['angular',
 
             var trainingId = $stateParams.id;
 
-            $http.get('/api/event_with_training/' + $stateParams.event).success(function (event) {
+            var buildPoints = function (event) {
                 $scope.points = _.map(event.slides, function (task) {
                     return {
-                        done: false,
-                        second: task.second
+                        done: !!_.find(task.peopleFinished, {
+                            userId: $scope.user.result._id
+                        }),
+                        timestamp: task.timestamp,
+                        event: $stateParams.event,
+                        slide: task.slideId,
+                        task: task.task
                     }
                 });
                 $scope.training = event.trainingId;
+            };
+
+            $q.all([dmUser.getCurrentUser(), $http.get('/api/event_with_training/' + $stateParams.event)]).then(function (results) {
+                $scope.user = results[0];
+                buildPoints(results[1].data);
             });
-            
+
             $scope.pointSelected = function (point) {
-            
+                $state.go('index.task', {
+                    slide: point.slide,
+                    event: point.event
+                });
             };
             
             $scope.goToChapter = function (index) {
