@@ -11,7 +11,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 restrict: 'E',
                 scope: {
                     workspace: '=data',
-                    slide: '=context'
+                    slide: '=context',
+                    mode: '@'
                 },
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
@@ -77,10 +78,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             return;
                         }
 
-                        //updateEditorContent(editor, scope.activeTab);
+                        if (scope.mode === 'player') {
+                            updateEditorContent(editor, scope.activeTab);
+                        }
                         triggerChangeLater();
                     });
-                    // TODO [ToDr] activeTab.editor
+
+                    if (scope.mode === 'player') {
+                        scope.$watch('activeTab.editor', function() {
+                            updateEditorOptions(editor, scope.activeTab);
+                        });
+                        scope.$watch('workspace', function() {
+                            var ws = scope.workspace;
+                            scope.activeTab = ws.tabs[ws.active];
+                        });
+                    }
 
                     // Tab switch
                     scope.$watch('workspace.active', function() {
@@ -93,7 +105,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         var tab = scope.activeTab;
                         updateMode(editor, active, tab.mode);
                         updateEditorContent(editor, tab);
-                        updateEditorOptions(editor, tab);
                         triggerSave();
                     });
 
@@ -120,19 +131,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
     function updateEditorContent(editor, tab) {
         editor.setValue(tab.content);
-        editor.clearSelection();
+        updateEditorOptions(editor, tab);
     }
 
     function updateEditorOptions(editor, tab) {
-        if (!tab.editor) {
+        if (!tab || !tab.editor) {
             return;
         }
-        var selection = editor.getSelection();
-        selection.moveCursorToPosition(tab.editor.cursorPosition);
-
-        //var range = tab.editor.selectionRange;
-        //selection.setSelectionRange(range, false);
         editor.scrollToRow(tab.editor.firstVisibleRow);
+
+        var selection = editor.getSelection();
+        var range = tab.editor.selectionRange;
+        selection.setSelectionRange(range, false);
     }
 
     function updateMode(editor, name, givenMode) {
