@@ -97,7 +97,7 @@ var snapshotTrimmer = function(object) {
 };
 
 var produceFinalSnaps = function(snaps, chapters, timeoffset, group) {
-    return _.map(snaps, function(snap) {
+    return _.map(snaps, function(snap, v) {
         var beginTime = snap.slides[0].timestamp;
         _.forEach(snap.slides, function(slide) {
             slide.timestamp -= beginTime;
@@ -116,7 +116,7 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset, group) {
         console.log("Found recording: " + title, niceDate);
         return {
             slides: snap.slides,
-            group: group ? group : title + " " + niceDate,
+            group: group ? group + "-" + v : title + " " + niceDate,
             date: date,
             title: title
         };
