@@ -34,7 +34,7 @@ define(['angular',
                     return 'ukończył zadanie'
                 },
                 getLink: function(event, link) {
-                    return 'index.task({id: "' + link + '", event: "' + event + '"})'; 
+                    return 'index.task({slide: "' + link + '", event: "' + event + '"})'; 
                 }
             }
         };
