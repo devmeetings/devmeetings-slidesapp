@@ -22,21 +22,21 @@ authenticated = shouldBeAuthenticated.bind(null, true);
 
 module.exports = function(app) {
     var slides = require('../app/controllers/slides');
-    app.get('/api/slides', authenticated, slides.list);
-    app.post('/api/slides', authenticated, slides.create);
-    app.get('/api/slides/:id', authenticated, slides.get);
+    app.get('/api/slides', apiAuthenticated, slides.list);
+    app.post('/api/slides', apiAuthenticated, slides.create);
+    app.get('/api/slides/:id', apiAuthenticated, slides.get);
 
     var decks = require('../app/controllers/decks');
-    app.get('/api/decks', authenticated, decks.list);
-    app.post('/api/decks', authenticated, decks.create);
-    app.delete('/api/decks/:id', authenticated, decks.delete);
-    app.put('/api/decks/:id', authenticated, decks.edit);
+    app.get('/api/decks', apiAuthenticated, decks.list);
+    app.post('/api/decks', apiAuthenticated, decks.create);
+    app.delete('/api/decks/:id', apiAuthenticated, decks.delete);
+    app.put('/api/decks/:id', apiAuthenticated, decks.edit);
 
     var recordings = require('../app/controllers/recordings');
-    app.get('/api/recordings', authenticated, recordings.list);
-    app.get('/api/recordings/:id', authenticated, recordings.get);
-    app.post('/api/recordings/:id/split/:time', authenticated, recordings.split);
-    app.post('/api/recordings/:id/cutout/:from/:to', authenticated, recordings.cutout);
+    app.get('/api/recordings', apiAuthenticated, recordings.list);
+    app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
+    app.post('/api/recordings/:id/split/:time', apiAuthenticated, recordings.split);
+    app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, recordings.cutout);
 
     var events = require('../app/controllers/events');
     app.get('/api/events/:type', events.list);
@@ -49,15 +49,18 @@ module.exports = function(app) {
     app.get('/api/event_with_training/:event', authenticated, events.eventWithTraining);
 
     var player = require('../app/controllers/player');
-    app.get('/api/player/:id/:training', authenticated, player.userSaves);
-    app.post('/api/player', authenticated, player.save);
+    app.get('/api/player/:id/:training', apiAuthenticated, player.userSaves);
+    app.post('/api/player', apiAuthenticated, player.save);
 
     var trainings = require('../app/controllers/trainings');
-    app.get('/api/trainings', authenticated, trainings.list);
-    app.post('/api/trainings', authenticated, trainings.create);
-    app.get('/api/trainings/:id', authenticated, trainings.get);
-    app.put('/api/trainings/:id', authenticated, trainings.edit);
-    app.delete('/api/trainings/:id', authenticated, trainings.delete);
+    app.get('/api/trainings', apiAuthenticated, trainings.list);
+    app.post('/api/trainings', apiAuthenticated, trainings.create);
+    app.get('/api/trainings/:id', apiAuthenticated, trainings.get);
+    app.put('/api/trainings/:id', apiAuthenticated, trainings.edit);
+    app.delete('/api/trainings/:id', apiAuthenticated, trainings.delete);
+
+    var uploadTraining = require('../app/controllers/uploadTraining');
+    app.post('/uploadTraining', authenticated, uploadTraining.upload);
 
     var users = require('../app/controllers/users');
     app.get('/api/users/:id', apiAuthenticated, users.get);
@@ -65,24 +68,24 @@ module.exports = function(app) {
     app.get('/api/users', apiAuthenticated, users.current);
 
     var observes = require('../app/controllers/observes');
-    app.get('/api/observes', authenticated, observes.get);
-    app.post('/api/observes', authenticated, observes.observe);
-    app.delete('/api/observes/:id', authenticated, observes.unobserve);
+    app.get('/api/observes', apiAuthenticated, observes.get);
+    app.post('/api/observes', apiAuthenticated, observes.observe);
+    app.delete('/api/observes/:id', apiAuthenticated, observes.unobserve);
 
     var streams = require('../app/controllers/streams');
     app.get('/api/streams', streams.all);
     app.get('/api/streams/:id', apiAuthenticated, streams.get);
 
     var payments = require('../app/controllers/payments');
-    app.post('/api/payments/:course/:price/:subscription', authenticated, payments.pay);
+    app.post('/api/payments/:course/:price/:subscription', apiAuthenticated, payments.pay);
 
     var snapshots = require('../app/controllers/snapshots');
-    app.get('/api/snapshots/:startTime?', authenticated, snapshots.list);
-    app.post('/api/snapshots/:startTime?', authenticated, snapshots.import);
-    app.put('/api/snapshots/:startTime?', authenticated, snapshots.convert);
+    app.get('/api/snapshots/:startTime?', apiAuthenticated, snapshots.list);
+    app.post('/api/snapshots/:startTime?', apiAuthenticated, snapshots.import);
+    app.put('/api/snapshots/:startTime?', apiAuthenticated, snapshots.convert);
 
-    app.get('/api/rawRecordings', authenticated, snapshots.getRawRecordingsGroups);
-    app.get('/api/rawRecordings/:group', authenticated, snapshots.getRawRecordings);
+    app.get('/api/rawRecordings', apiAuthenticated, snapshots.getRawRecordingsGroups);
+    app.get('/api/rawRecordings/:group', apiAuthenticated, snapshots.getRawRecordings);
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);

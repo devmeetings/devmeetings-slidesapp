@@ -20,7 +20,6 @@ var oldSchoolReduce = function(snapshots, groupTime, title) {
 
     var createNewGroup = function(snap) {
         return {
-            slideId: snap.code.slideId,
             userId: '',
             timestamp: snap.timestamp,
             title: title + " (" + (snap.code.title || snap.code.name) + ")",
@@ -53,7 +52,6 @@ var reduceSnapshots = function(snapshots, options) {
     var allSnapsGroupped = allSnaps.reduce(function(data, snap) {
         if (snap.code.recordingStarted || !data.last) {
             data.last = {
-                slideId: snap.code.slideId,
                 // TODO [ToDr] we don't know user!
                 userId: '',
                 timestamp: snap.code.recordingStarted || snap.timestamp,
@@ -99,7 +97,7 @@ var snapshotTrimmer = function(object) {
 };
 
 var produceFinalSnaps = function(snaps, chapters, timeoffset, group) {
-    return _.map(snaps, function(snap) {
+    return _.map(snaps, function(snap, v) {
         var beginTime = snap.slides[0].timestamp;
         _.forEach(snap.slides, function(slide) {
             slide.timestamp -= beginTime;
@@ -118,8 +116,7 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset, group) {
         console.log("Found recording: " + title, niceDate);
         return {
             slides: snap.slides,
-            slideId: snap.slideId,
-            group: group ? group : title + " " + niceDate,
+            group: group ? group + "-" + v : title + " " + niceDate,
             date: date,
             title: title
         };

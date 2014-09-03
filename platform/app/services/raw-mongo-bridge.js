@@ -1,5 +1,6 @@
 var Q = require('q'),
-    MongoClient = require('mongodb').MongoClient;
+    MongoClient = require('mongodb').MongoClient,
+    ObjectId = require('mongodb').ObjectID;
 
 
 var MongoBridge = function(dbpath) {
@@ -42,6 +43,15 @@ var MongoBridge = function(dbpath) {
                     'meta.group': group
                 }).sort({
                     timestamp: 1
+                }), 'toArray');
+            },
+            getRawRecordingsByIds: function(ids) {
+                return Q.ninvoke(db.collection('raw_recordings').find({
+                    _id: {
+                        "$in": ids.map(function(x) {
+                            return new ObjectId(x);
+                        })
+                    }
                 }), 'toArray');
             },
             getRawRecordingsGroups: function() {

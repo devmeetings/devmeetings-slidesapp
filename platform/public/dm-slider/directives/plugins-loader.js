@@ -24,12 +24,13 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                 restrict: 'E',
                 scope: {
                     namespace: '=',
-                    context: '='
+                    context: '=',
+                    mode: '@'
                 },
                 template: '',
                 controller: ['$scope', '$element', '$rootScope',
                     function($scope, $element, $rootScope) {
-                        var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context"></<%= pluginName%>>');
+                        var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context" mode="{{ mode }}"></<%= pluginName%>>');
 
                         var childScope = $scope.$new();
 
@@ -41,7 +42,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                             $element.empty();
                             childScope.$destroy();
                             childScope = $scope.$new();
-                            
+
                             var pluginTpl = function(plugin) {
                                 return tpl({
                                     pluginName: plugin.plugin,

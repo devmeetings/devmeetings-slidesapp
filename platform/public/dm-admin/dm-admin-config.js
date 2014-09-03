@@ -1,22 +1,23 @@
 require(['angular',
-        'angular-ui-router',
-        'slider/bootstrap',
-        'dm-admin/dm-admin-app',
-        'dm-admin/controllers/dm-admin-slider/dm-admin-slider',
-        'dm-admin/controllers/dm-admin-trainings/dm-admin-trainings',
-        'dm-admin/controllers/dm-admin-decks/dm-admin-decks',
-        'dm-admin/controllers/dm-admin-chapters/dm-admin-chapters',
-        'dm-admin/controllers/dm-admin-chapter/dm-admin-chapter',
-        'dm-admin/controllers/dm-admin-waves/dm-admin-waves',
-        'directives/plugins-loader'
-], function (angular, angularRouter, bootstrap, adminApp, adminSlider) {
+    'angular-ui-router',
+    'slider/bootstrap',
+    'dm-admin/dm-admin-app',
+    'dm-admin/controllers/dm-admin-slider/dm-admin-slider',
+    'dm-admin/controllers/dm-admin-trainings/dm-admin-trainings',
+    'dm-admin/controllers/dm-admin-decks/dm-admin-decks',
+    'dm-admin/controllers/dm-admin-chapters/dm-admin-chapters',
+    'dm-admin/controllers/dm-admin-chapter/dm-admin-chapter',
+    'dm-admin/controllers/dm-admin-waves/dm-admin-waves',
+    'dm-admin/controllers/dm-admin-upload/dm-admin-upload',
+    'directives/plugins-loader'
+], function(angular, angularRouter, bootstrap, adminApp, adminSlider) {
     adminApp.config(['$stateProvider', '$urlRouterProvider',
-        function ($stateProvider, $urlRouterProvider) {
-        
-            var getControllerTemplate = function (name) {
+        function($stateProvider, $urlRouterProvider) {
+
+            var getControllerTemplate = function(name) {
                 return '/static/dm-admin/controllers/' + name + '/' + name + '.html';
             };
-            
+
             $stateProvider.state('index', {
                 url: '',
                 templateUrl: getControllerTemplate('dm-admin-slider'),
@@ -43,6 +44,16 @@ require(['angular',
                     }
                 }
             });
+
+            $stateProvider.state('index.upload', {
+                url: '/upload',
+                views: {
+                    content: {
+                        templateUrl: getControllerTemplate('dm-admin-upload'),
+                        controller: 'dmAdminUpload'
+                    }
+                }
+            })
 
 
             $stateProvider.state('index.trainings.chapters', {

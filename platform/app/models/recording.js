@@ -5,14 +5,6 @@ var Recording = new Schema({
     title: String,
     group: String,
     date: Date,
-    videoUrl: String,
-    timeOffset: Number,
-    slideId: String,
-    chapters: [{
-        timestamp: Number,
-        end: Number,
-        name: String
-    }],
     slides: {
         type: [Schema.Types.Mixed],
         editable: false
@@ -20,8 +12,7 @@ var Recording = new Schema({
 });
 
 Recording.formage = {
-    list: ['date', 'title', 'videoUrl']
+    list: ['date', 'title']
 };
 
 module.exports = mongoose.model('recording', Recording);
-
