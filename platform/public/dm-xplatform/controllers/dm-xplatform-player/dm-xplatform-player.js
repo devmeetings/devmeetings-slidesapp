@@ -1,5 +1,6 @@
 define(['angular',
-        'xplatform/xplatform-app'
+        'xplatform/xplatform-app',
+        'xplatform/directives/dm-timeline/dm-timeline'
 ], function (angular, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', 'dmTrainings',
         function ($scope, $timeout, $state, $stateParams, dmTrainings) {
