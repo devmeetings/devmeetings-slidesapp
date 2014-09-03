@@ -35,11 +35,7 @@ var Recordings = {
             var newModel = {
                 title: recording.title + " from " + cut,
                 group: recording.group,
-                date: recording.date,
-                videoUrl: recording.videoUrl,
-                timeOffset: recording.timeOffset,
-                slideId: recording.slideId,
-                chapters: recording.chapters
+                date: recording.date
             };
             // Split slides
             var slides = splitSlides(recording.slides, cut * 1000);
@@ -68,10 +64,6 @@ var Recordings = {
                 title: recording.title + " backup",
                 group: recording.group,
                 date: recording.date,
-                videoUrl: recording.videoUrl,
-                timeOffset: recording.timeOffset,
-                slideId: recording.slideId,
-                chapters: recording.chapters,
                 slides: recording.slides.slice()
             };
             recording.slides = cutoutSlides(recording.slides, from, to);
