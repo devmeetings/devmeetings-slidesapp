@@ -1,7 +1,7 @@
-.dm-timeline
-    .dm-timeline-point.star-color(ng-repeat='point in points', 
-        style='left: {{point.second / length * 100}}%',
-        ng-class='{"completed-color": point.done}',
-        ng-click='callback()')
-        img.dm-timeline-image(ng-if='!point.done', src='/static/images/microtask/mt_star.png')
-        img.dm-timeline-image(ng-if='point.done', src='/static/images/microtask/mt_completed.png')
+//-.dm-timeline
+.dm-timeline-point.star-color(ng-repeat='point in points', 
+    style='left: {{point.second / length * 100}}%',
+    ng-class='{"completed-color": point.done}',
+    ng-click='callback()')
+    img.dm-timeline-image(ng-if='!point.done', src='/static/images/microtask/mt_star.png')
+    img.dm-timeline-image(ng-if='point.done', src='/static/images/microtask/mt_completed.png')

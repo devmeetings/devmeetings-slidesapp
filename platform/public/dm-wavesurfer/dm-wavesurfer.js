@@ -10,7 +10,8 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             dmCurrentSecond: '=',
             dmStartSecond: '=',
             dmIsPlaying: '=',
-            dmScroll: '@'
+            dmScroll: '@',
+            dmDuration: '='
         },
         replace: true,
         templateUrl: '/static/dm-wavesurfer/dm-wavesurfer.html',
@@ -40,6 +41,7 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             });
 
             wavesurfer.on('ready', function () {
+                scope.dmDuration = wavesurfer.getDuration();
                 
                 var checkPlaying = function () {
                     scope.dmIsPlaying ? wavesurfer.play() : wavesurfer.pause();

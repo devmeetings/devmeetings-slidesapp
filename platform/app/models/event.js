@@ -23,8 +23,8 @@ var Event = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'slide'
         },
-        name: {
-            type: String      
+        second: {
+            type: Number      
         },
         peopleFinished: [{
             userId: {

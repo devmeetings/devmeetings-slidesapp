@@ -194,6 +194,15 @@ var Events = {
         }).populate('slides.slideId').select('slides'), 'exec').then(function(event) {
             res.send(event);
         }).fail(onError(res)).done(onDone);
+    },
+
+    eventWithTraining: function (req, res) {
+        var event = req.params.event;
+        Q.ninvoke(Event.findOne({
+            _id: event
+        }).populate('trainingId').select('trainingId slides').lean(), 'exec').then(function (event) {
+            res.send(event);
+        }).fail(onError(res)).done(onDone);
     }
 
 };
