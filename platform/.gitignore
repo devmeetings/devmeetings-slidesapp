@@ -6,6 +6,7 @@
 /public/css/style-*.css
 /.rebooted
 /.version
+**/*.ogg
 
 # Created by http://www.gitignore.io
 
