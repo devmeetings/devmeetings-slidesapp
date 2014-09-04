@@ -29,6 +29,7 @@ define(['angular',
                 }).result.then(function () {
                     if (newSnippet) {
                         $http.post('/api/add_event_snippet/' + $stateParams.event, snippet).then(function (data) {
+                            $scope.snippets = $scope.snippets || [];
                             $scope.snippets.push(data.data);
                         });
                     } else {
