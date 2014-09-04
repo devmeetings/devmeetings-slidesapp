@@ -2,7 +2,7 @@ define(['angular',
         '_',
         'xplatform/xplatform-app',
         'xplatform/directives/dm-timeline/dm-timeline',
-        'xplatform/directives/dm-snippet/dm-snippet'
+        'xplatform/directives/dm-sidebar/dm-sidebar'
 ], function (angular, _, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q','dmTrainings', 'dmUser',
         function ($scope, $timeout, $state, $stateParams, $http, $q, dmTrainings, dmUser) {
@@ -34,8 +34,8 @@ define(['angular',
 
             var trainingId = $stateParams.id;
 
-            var buildPoints = function (event) {
-                $scope.points = _.map(event.slides, function (task) {
+            var buildTasks = function (event) {
+                $scope.tasks = _.map(event.slides, function (task) {
                     return {
                         done: !!_.find(task.peopleFinished, {
                             userId: $scope.user.result._id
@@ -43,7 +43,9 @@ define(['angular',
                         timestamp: task.timestamp,
                         event: $stateParams.event,
                         slide: task.slideId,
-                        task: task.task
+                        task: task.task,
+                        people: task.peopleFinished,
+                        markdown: task.markdown
                     }
                 });
                 $scope.training = event.trainingId;
@@ -51,7 +53,7 @@ define(['angular',
 
             $q.all([dmUser.getCurrentUser(), $http.get('/api/event_with_training/' + $stateParams.event)]).then(function (results) {
                 $scope.user = results[0];
-                buildPoints(results[1].data);
+                buildTasks(results[1].data);
                 $scope.snippets = results[1].data.snippets;
             });
 

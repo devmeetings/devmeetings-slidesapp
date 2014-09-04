@@ -26,6 +26,9 @@ var Event = new Schema({
         timestamp: {
             type: Number      
         },
+        markdown: {
+            type: String        
+        },
         peopleFinished: [{
             userId: {
                 type: Schema.Types.ObjectId,
