@@ -103,9 +103,6 @@ define(['angular',
 
             User.getUserData(function (user) {
                 $scope.userId = user._id;
-                $http.get('/api/player/' + $scope.userId + '/' + trainingId).success(function (files) {
-                    $scope.files = files;
-                });
             });
 
             $scope.state.onOpenFile = function () {

@@ -57,8 +57,6 @@ module.exports = function(app) {
     app.delete('/api/delete_event_task/:event/:task', authenticated, events.deleteEventTask);
 
     var player = require('../app/controllers/player');
-    app.get('/api/player/:id/:training', apiAuthenticated, player.userSaves);
-    app.post('/api/player', apiAuthenticated, player.save);
 
     var trainings = require('../app/controllers/trainings');
     app.get('/api/trainings', apiAuthenticated, trainings.list);
