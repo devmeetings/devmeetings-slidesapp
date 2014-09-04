@@ -4,10 +4,12 @@ div(ng-repeat='snippet in snippets.concat(tasks) | orderBy: "-timestamp"')
             p
                 span.label.label-primary {{snippet.title}} 
             div(marked='snippet.markdown')
-        i.fa.fa-edit.fa-2x(ng-if='$root.editMode', ng-click='editMethod(snippet, "snippet")')
-        i.fa.fa-trash-o.fa-2x(ng-if='$root.editMode', ng-click='deleteMethod(snippet, "snippet")')
+        span.fa.fa-edit.fa-2x(ng-if='$root.editMode', ng-click='editMethod(snippet, "snippet")')
+        span.fa.fa-trash-o.fa-2x(ng-if='$root.editMode', ng-click='deleteMethod(snippet, "snippet")')
         .microtask-border-up
         .microtask-border-down
     div.animate(ng-if='snippet.task && (snippet.timestamp <= currentTime || snippet.hover)')
         plugins-loader(namespace='"slide.sidebar"', context='{microtasks: [snippet.task], workspace: context.workspace}')
+        span.fa.fa-edit.fa-2x(ng-if='$root.editMode', ng-click='editMethod(snippet, "task")')
+        span.fa.fa-trash-o.fa-2x(ng-if='$root.editMode', ng-click='deleteMethod(snippet, "task")')
 

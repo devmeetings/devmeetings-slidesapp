@@ -247,6 +247,50 @@ var Events = {
         }).lean(), 'exec').then(function (event) {
             res.send(200);
         }).fail(onError(res)).done(onDone);
+    },
+    addEventTask: function (req, res) {
+        var event = req.params.event;
+
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event
+        },{
+            $push: {
+                tasks: req.body 
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200, event.tasks[event.tasks.length - 1]);
+        }).fail(onError(res)).done(onDone);
+    }, 
+    editEventTask: function (req, res) {
+        var event = req.params.event;
+        var task = req.params.task;
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event,
+            'task._id': task 
+        },{
+            $set: {
+                'task.$.title': req.body.title,
+                'task.$.timestamp': req.body.timestamp,
+                'task.$.task': req.body.task
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
+    deleteEventTask: function (req, res) {
+        var event = req.params.event;
+        var task = req.params.task;
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event
+        }, {
+            $pull: {
+                tasks: {
+                    _id: task
+                }
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
     }
 
 };

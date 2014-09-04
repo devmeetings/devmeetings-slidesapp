@@ -28,12 +28,23 @@ define(['angular',
                     }
                 }).result.then(function () {
                     if (newSnippet) {
-                        $http.post('/api/add_event_snippet/' + $stateParams.event, snippet).then(function (data) {
-                            $scope.snippets = $scope.snippets || [];
-                            $scope.snippets.push(data.data);
-                        });
+                        if (type === 'snippet') {
+                            $http.post('/api/add_event_snippet/' + $stateParams.event, snippet).then(function (data) {
+                                $scope.snippets = $scope.snippets || [];
+                                $scope.snippets.push(data.data);
+                            });
+                        } else if (type === 'task') {
+                            $http.post('/api/add_event_task/' + $stateParams.event, snippet).then(function (data) {
+                                $scope.tasks = $scope.tasks || [];
+                                $scope.tasks.push(data.data);
+                            });
+                        }
                     } else {
-                        $http.put('/api/edit_event_snippet/' + $stateParams.event + '/' + snippet._id, snippet);
+                        if (type === 'snippet') {
+                            $http.put('/api/edit_event_snippet/' + $stateParams.event + '/' + snippet._id, snippet);
+                        } else if (type === 'task') {
+                            $http.put('/api/edit_event_task/' + $stateParams.event + '/' + snippet._id, snippet); 
+                        }
                     }
                 });
             };
@@ -43,8 +54,10 @@ define(['angular',
                     var index = $scope.snippets.indexOf(snippet);
                     $scope.snippets.splice(index, 1);
                     $http.delete('/api/delete_event_snippet/' + $stateParams.event + '/' + snippet._id);
-                } else if (type === 'microtask') {
-                    
+                } else if (type === 'task') {
+                    var index = $scope.tasks.indexOf(snippet);
+                    $scope.tasks.splice(index, 1);
+                    $http.delete('/api/delete_event_task/' + $stateParams.event + '/' + snippet._id);
                 }
             };
 

@@ -52,6 +52,10 @@ module.exports = function(app) {
     app.put('/api/edit_event_snippet/:event/:snippet', authenticated, events.editEventSnippet);
     app.delete('/api/delete_event_snippet/:event/:snippet', authenticated, events.deleteEventSnippet);
 
+    app.post('/api/add_event_task/:event', authenticated, events.addEventTask);
+    app.put('/api/edit_event_task/:event/:task', authenticated, events.editEventTask);
+    app.delete('/api/delete_event_task/:event/:task', authenticated, events.deleteEventTask);
+
     var player = require('../app/controllers/player');
     app.get('/api/player/:id/:training', apiAuthenticated, player.userSaves);
     app.post('/api/player', apiAuthenticated, player.save);
