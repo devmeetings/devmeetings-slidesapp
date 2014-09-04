@@ -44,7 +44,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     var triggerChangeLater = _.throttle(function() {
                         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
                         triggerSave();
-                    }, 1500, {
+                    }, 1000, {
                         leading: false,
                         trailing: true
                     });
@@ -52,6 +52,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     var triggerSave = _.throttle(function() {
                         sliderPlugins.trigger('slide.save');
                     }, 20);
+
+                    ///
 
                     editor.on('change', function() {
                         syncEditorContent(editor, scope.activeTab);
@@ -132,19 +134,39 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
     }
 
     function updateEditorContent(editor, tab) {
-        editor.setValue(tab.content);
+        // Remember cursor
+        var pos = editor.getSelectionRange();
+        editor.setValue(tab.content, -1);
+        // Restore cursor
+        editor.getSelection().setSelectionRange(pos, false);
+        // Handle scrolling
         updateEditorOptions(editor, tab);
     }
 
-    function updateEditorOptions(editor, tab) {
+    function updateEditorSelection(editor, tab, lastRow) {
+        var selection = editor.getSelection();
+        var range = tab.editor.selectionRange;
+        // TODO [ToDr] Trying to remove strange flickering
+        if (range.start.row < lastRow) {
+            selection.setSelectionRange(range, false);
+        }
+    }
+
+    function updateEditorScroll(editor, tab) {
+        var bottomRow = editor.getLastVisibleRow();
+        var newBottomRow = tab.editor.lastVisibleRow;
+
+        if (bottomRow < newBottomRow) {
+            editor.scrollToRow(newBottomRow);
+        }
+    }
+
+    function updateEditorOptions(ed, tab) {
         if (!tab || !tab.editor) {
             return;
         }
-        editor.scrollToRow(tab.editor.firstVisibleRow);
-
-        var selection = editor.getSelection();
-        var range = tab.editor.selectionRange;
-        selection.setSelectionRange(range, false);
+        var bottomRow = updateEditorScroll(ed, tab);
+        updateEditorSelection(ed, tab, bottomRow);
     }
 
     function updateMode(editor, name, givenMode) {
