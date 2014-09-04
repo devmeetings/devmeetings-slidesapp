@@ -7,9 +7,16 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                 tasks: '=',
                 currentTime: '=',
                 editMethod: '=',
-                deleteMethod: '='
+                deleteMethod: '=',
+                context: '='
             },
-            templateUrl: '/static/dm-xplatform/directives/dm-sidebar/dm-sidebar.html'
+            templateUrl: '/static/dm-xplatform/directives/dm-sidebar/dm-sidebar.html',
+            link: function (scope) {
+                scope.$watch('context', function () {
+                    scope.a;  
+                    
+                });
+            }
         };
     }]);
 });

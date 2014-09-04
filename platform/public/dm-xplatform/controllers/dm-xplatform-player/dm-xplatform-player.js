@@ -74,27 +74,10 @@ define(['angular',
 
             var trainingId = $stateParams.id;
 
-            var buildTasks = function (event) {
-                $scope.tasks = _.map(event.slides, function (task) {
-                    return {
-                        done: !!_.find(task.peopleFinished, {
-                            userId: $scope.user.result._id
-                        }),
-                        timestamp: task.timestamp,
-                        event: $stateParams.event,
-                        slide: task.slideId,
-                        task: task.task,
-                        people: task.peopleFinished,
-                        markdown: task.markdown
-                    }
-                });
-                $scope.training = event.trainingId;
-            };
-
             $q.all([dmUser.getCurrentUser(), $http.get('/api/event_with_training/' + $stateParams.event)]).then(function (results) {
                 $scope.user = results[0];
-                buildTasks(results[1].data);
                 $scope.snippets = results[1].data.snippets;
+                $scope.tasks = results[1].data.tasks;
             });
 
             $scope.pointSelected = function (point) {

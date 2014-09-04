@@ -2,6 +2,6 @@
     plugins-loader(namespace="'slide'", context="recordingPlayer.slide", mode="player")
 .col-xs-2.full-height
     .row.dm-slide-right 
-        dm-sidebar(snippets='snippets', tasks='tasks', current-time='state.currentSecond', edit-method='editSnippet', delete-method='deleteSnippet')
+        dm-sidebar(context='recordingPlayer.slide', snippets='snippets', tasks='tasks', current-time='state.currentSecond', edit-method='editSnippet', delete-method='deleteSnippet') 
 include ../dm-xplatform-player/dm-xplatform-player-bottombar.jade
 

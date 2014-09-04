@@ -47,6 +47,12 @@ var Event = new Schema({
         timestamp: Number,
         markdown: String
     }],
+    tasks: [{
+        title: String,
+        task: Schema.Types.Mixed,
+        timestamp: Number,
+        people: []
+    }],
     trainer: {
         name: {
             type: String      

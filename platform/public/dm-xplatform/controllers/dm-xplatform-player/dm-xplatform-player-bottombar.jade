@@ -1,6 +1,6 @@
 .player-bottombar-wave
     dm-wavesurfer(dm-scroll='false', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying', dm-duration='state.audioDuration')
-    dm-timeline(points='tasks', callback='pointSelected', length='state.audioDuration', snippets='snippets')
+    dm-timeline(callback='pointSelected', length='state.audioDuration', snippets='snippets', tasks='tasks')
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
     .navbar-header

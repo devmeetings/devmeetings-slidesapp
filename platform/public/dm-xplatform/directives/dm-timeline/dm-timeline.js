@@ -3,10 +3,10 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         return {
             restrict: 'E',
             scope: {
-                points: '=',
                 snippets: '=',
                 length: '=',
-                callback: '='
+                callback: '=',
+                tasks: '='
             },
             //replace: true,
             templateUrl: '/static/dm-xplatform/directives/dm-timeline/dm-timeline.html',

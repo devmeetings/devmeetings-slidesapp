@@ -1,7 +1,7 @@
-.dm-timeline-point.star-color(ng-repeat='point in points', 
+.dm-timeline-point.star-color(ng-repeat='point in tasks', 
     style='left: {{point.timestamp / length * 100}}%',
     ng-class='{"completed-color": point.done}',
-    tooltip-html-unsafe='{{point.task + "<br/>" + point.timestamp + " sekunda"}}',
+    tooltip-html-unsafe='{{point.title + "<br/>" + point.timestamp + " sekunda"}}',
     ng-if='point.timestamp',
     ng-mouseenter='point.hover = true',
     ng-mouseleave='point.hover = false')

@@ -1,4 +1,3 @@
-
 div(ng-repeat='snippet in snippets.concat(tasks) | orderBy: "-timestamp"')
     div.animate(ng-if='!snippet.task && (snippet.timestamp <= currentTime || snippet.hover)')
         .microtask-info(ng-class='{"microtask-info-hover": snippet.hover}')
@@ -10,23 +9,5 @@ div(ng-repeat='snippet in snippets.concat(tasks) | orderBy: "-timestamp"')
         .microtask-border-up
         .microtask-border-down
     div.animate(ng-if='snippet.task && (snippet.timestamp <= currentTime || snippet.hover)')
-        .microtask-holder(ng-class='{"microtask-active": !snippet.done, "microtask-holder-hover": snippet.hover}')
-            .microtask-col
-                img.microtask-img(ng-if='snippet.done', src='/static/images/microtask/mt_completed.png')
-                img.microtask-img(ng-if='!snippet.done', src='/static/images/microtask/mt_star.png')
+        plugins-loader(namespace='"slide.sidebar"', context='{microtasks: [snippet.task], workspace: context.workspace}')
 
-            .microtask-content 
-                .microtask-desc(marked='snippet.markdown')
-                .microtask-user 
-                    img.dm-cursor(ng-repeat='user in snippet.people.slice().reverse() | limitTo: 3', ng-src='{{user.avatar | dmGravatar:25}}', ui-sref='index.devhero({id: user.userId})') 
-                    span.dm-cursor.microtask-user-amount(ng-if='snippet.people.length > 3', ng-click='showUsers(snippet.people)') + {{people.length - 3}}
-                    span.microtask-user-done(ng-if='snippet.people.length') zrobili to zadanie
-                    span.microtask-user-done(ng-if='!snippet.people || snippet.people.length === 0') Nikt nie zrobił tego zadania.
-                
-        i.fa.fa-edit.fa-2x(ng-if='$root.editMode', ng-click='editMethod(snippet, "microtask")')
-        i.fa.fa-trash-o.fa-2x(ng-if='$root.editMode', ng-click='deleteMethod(snippet, "mirotask")')
-        .microtask-border-up
-        .microtask-border-down
-        
-        
-    

@@ -200,7 +200,7 @@ var Events = {
         var event = req.params.event;
         Q.ninvoke(Event.findOne({
             _id: event
-        }).populate('trainingId').select('trainingId slides snippets').lean(), 'exec').then(function (event) {
+        }).populate('trainingId').select('trainingId slides snippets tasks').lean(), 'exec').then(function (event) {
             res.send(event);
         }).fail(onError(res)).done(onDone);
     },
