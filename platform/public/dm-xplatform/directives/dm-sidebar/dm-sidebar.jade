@@ -10,9 +10,8 @@ div(ng-repeat='snippet in snippets.concat(tasks) | orderBy: "-timestamp"')
     div.animate(ng-if='snippet.task && (snippet.timestamp <= currentTime || snippet.hover)')
         .microtask-holder(ng-class='{"microtask-active": !snippet.done, "microtask-holder-hover": snippet.hover}')
             .microtask-col
-                .microtask-img
-                    img(ng-if='snippet.done', src='/static/images/microtask/mt_completed.png')
-                    img(ng-if='!snippet.done', src='/static/images/microtask/mt_star.png')
+                img.microtask-img(ng-if='snippet.done', src='/static/images/microtask/mt_completed.png')
+                img.microtask-img(ng-if='!snippet.done', src='/static/images/microtask/mt_star.png')
 
             .microtask-content 
                 .microtask-desc(marked='snippet.markdown')
