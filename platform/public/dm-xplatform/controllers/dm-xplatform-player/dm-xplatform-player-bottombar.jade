@@ -1,5 +1,6 @@
 .player-bottombar-wave
-    dm-wavesurfer(dm-scroll='false', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying')
+    dm-wavesurfer(dm-scroll='false', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying', dm-duration='state.audioDuration')
+    dm-timeline(points='points', callback='pointSelected', length='state.audioDuration', snippets='snippets')
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
     .navbar-header
@@ -8,18 +9,6 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
             span.icon-bar
             span.icon-bar
     .navbar-collapse.collapse.navbar-inverse-collapse
-        //-ul.player-list.player-left
-            li
-                button.btn.dropdown-toggle(type="button", ng-click="state.onOpenFile()")
-                    i.fa.fa-folder-open
-            li(ng-show="!state.isPlaying")
-                button.btn(type="button", ng-click="state.onSaveFile()")
-                    i.fa.fa-save
-        //-ul.player-list.player-right
-            li
-                button.btn(type="button", ng-click="state.onRestart()")
-                    i.fa.fa-smile-o
-                    | &nbsp Restart 
         .navbar-left.player-center
             a.navbar-brand
                 span.fa.fa-step-backward.cursor-pointer(

@@ -23,8 +23,8 @@ var Event = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'slide'
         },
-        name: {
-            type: String      
+        timestamp: {
+            type: Number      
         },
         peopleFinished: [{
             userId: {
@@ -38,6 +38,11 @@ var Event = new Schema({
                 type: String        
             }
         }]
+    }],
+    snippets: [{
+        title: String,
+        timestamp: Number,
+        markdown: String
     }],
     trainer: {
         name: {

@@ -1,3 +1,8 @@
-.player-wrapper
+.col-xs-9.dm-slide-left
     plugins-loader(namespace="'slide'", context="recordingPlayer.slide", mode="player")
-    include ../dm-xplatform-player/dm-xplatform-player-bottombar.jade
+.col-xs-3.full-height
+    .row.dm-slide-right 
+        div(ng-repeat='snippet in snippets.slice().reverse()')
+            dm-snippet(snippet='snippet', current-time='state.currentSecond')
+include ../dm-xplatform-player/dm-xplatform-player-bottombar.jade
+
