@@ -1,18 +1,20 @@
 .row.slide-workspace
-  div(ng-class="{'col-sm-12': hideOutput, 'col-sm-6': !hideOutput }")
-    ul.nav.nav-tabs
-      li(
-        ng-repeat="(tabName, tab) in workspace.tabs",
-        ng-class="{'active': workspace.active === tabName }"
-        )
-        a.pointer(ng-click="workspace.active = tabName") {{ tabName.replace('|', '.') }}
-      li.add-tab
-        a.pointer(ng-click="insertTab()") +
+    div(ng-class="{'col-sm-12': hideOutput, 'col-sm-6': !hideOutput }")
+        .row
+            ul.nav.nav-tabs
+                li.workspace-tab(
+                    ng-repeat="(tabName, tab) in workspace.tabs",
+                    ng-class="{'workspace-tab-active': workspace.active === tabName }")
+                    a.pointer(ng-click="workspace.active = tabName") {{ tabName.replace('|', '.') }}
+                li.add-tab
+                    a.pointer(ng-click="insertTab()") +
 
-    .tab-content
-      .tab-pane.active.fade.in
-        .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
-    .errors.alert.alert-danger.errors-fiddle {{ errors }}
+            .tab-content
+                .tab-pane.active.fade.in
+                    .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
+                .errors.alert.alert-danger.errors-fiddle {{ errors }}
 
-  .col-sm-6(ng-class="{ 'hidden': hideOutput }")
-    slide-workspace-output
+    .col-sm-6(ng-class="{ 'hidden': hideOutput }")
+        .row
+            slide-workspace-output
+
