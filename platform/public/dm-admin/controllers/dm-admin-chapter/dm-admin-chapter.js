@@ -118,12 +118,15 @@ define(['angular',
 
                 $scope.chapter.videodata.recording = newRecording._id;
                 $scope.chapter.videodata.timestamp = $scope.chapter.videodata.timestamp || 0;
-                $scope.recordingPlayer.player = RecordingsPlayerFactory($scope.select.recording, function(slide, wholeSlide) {
-                    $scope.recordingPlayer.slide = slide;
-                });
-                $scope.recordingPlayer.numberOfSlides = $scope.select.recording.slides.length;
-                $scope.recordingPlayer.length = $scope.recordingPlayer.player.length();
 
+                // Download specific recording
+                $http.get('/api/recordings/' + newRecording._id).success(function(rec) {
+                    $scope.recordingPlayer.player = RecordingsPlayerFactory(rec, function(slide, wholeSlide) {
+                        $scope.recordingPlayer.slide = slide;
+                    });
+                    $scope.recordingPlayer.numberOfSlides = rec.slides.length;
+                    $scope.recordingPlayer.length = $scope.recordingPlayer.player.length();
+                });
             });
         }
     ]);

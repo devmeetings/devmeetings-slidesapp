@@ -2,7 +2,7 @@ var RecordingModel = require('../models/recording');
 
 var Recordings = {
     list: function(req, res) {
-        RecordingModel.find({}, function(err, recordings) {
+        RecordingModel.find({}, '_id title group date', function(err, recordings) {
             if (err) {
                 console.error(err);
                 res.send(404, err);
