@@ -43,18 +43,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
 
     };
 
+    var triggerSaveEventLater = _.throttle(function() {
+        sliderPlugins.trigger('slide.save');
+    }, 20);
 
-    var safeApply = function(fn) {
-        var phase = this.$root.$$phase;
-
-        if (phase == '$apply' || phase == '$digest') {
-            if (fn && (typeof(fn) === 'function')) {
-                fn();
-            }
-        } else {
-            this.$apply(fn);
-        }
-    };
 
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 3900).directive('slideFiddle', [
         '$timeout', '$window', '$rootScope',
@@ -70,6 +62,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
                     if (!scope.fiddle) {
                         return;
                     }
+
+                    var updateScopeLater = _.throttle(function() {
+                        scope.$apply();
+                    }, 100, {
+                        leading: false,
+                        trailing: true
+                    });
 
                     scope.active = getActive(scope);
 
@@ -90,25 +89,22 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
 
                             var shouldTriggerEvent = false;
 
-                            var updateScopeLater = _.throttle(function() {
-                                safeApply.call(scope, function() {
-                                    scope.fiddle[content] = editor.getValue();
-                                    scope.fiddle.aceOptions = {
-                                        cursorPosition: editor.getCursorPosition(),
-                                        selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
-                                        firstVisibleRow: editor.getFirstVisibleRow(),
-                                        lastVisibleRow: editor.getLastVisibleRow()
-                                    };
-                                    // Do not trigger events if only cursor position changes
-                                    if (shouldTriggerEvent) {
-                                        sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
-                                    }
-                                    shouldTriggerEvent = false;
-                                });
-                            }, 100, {
-                                leading: false,
-                                trailing: true
-                            });
+                            var updateScope = function() {
+                                scope.fiddle[content] = editor.getValue();
+                                scope.fiddle.aceOptions = {
+                                    cursorPosition: editor.getCursorPosition(),
+                                    selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
+                                    firstVisibleRow: editor.getFirstVisibleRow(),
+                                    lastVisibleRow: editor.getLastVisibleRow()
+                                };
+                                // Do not trigger events if only cursor position changes
+                                if (shouldTriggerEvent) {
+                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
+                                }
+                                shouldTriggerEvent = false;
+                                updateScopeLater();
+                                triggerSaveEventLater();
+                            };
 
                             var reloadFiddle = function() {
                                 var selection = editor.getSelection();
@@ -136,13 +132,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
                                 var newValue = editor.getValue();
                                 if (scope.fiddle[content] !== newValue) {
                                     shouldTriggerEvent = true;
-                                    updateScopeLater();
+                                    updateScope();
                                 }
                             });
 
                             if ($rootScope.modes.isSliderMode) {
                                 editor.getSession().getSelection().on('changeCursor', function() {
-                                    updateScopeLater();
+                                    updateScope();
                                 });
                             }
 

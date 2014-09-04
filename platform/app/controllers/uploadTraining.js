@@ -25,12 +25,15 @@ exports.upload = function(req, res) {
         captions = _.values(captions);
         // convert captions to recordings
         var slides = captions.map(function(caption) {
-            var id = idPattern.exec(caption.text)[1];
+            var idData = idPattern.exec(caption.text);
+            var id = idData ? idData[1] : null;
 
             return {
                 timestamp: caption.startTime,
                 snapshotId: id
             };
+        }).filter(function(x) {
+            return x.snapshotId !== null;
         });
 
 
@@ -84,7 +87,10 @@ exports.upload = function(req, res) {
 
             return Q.all([audio, training]);
         }).then(function(data) {
-            res.send(data[1]);
+            var training = data[1];
+            console.log(training);
+            // Redirect
+            res.redirect('/admin#/trainings/' + training._id + '/0');
         });
     }).done(null, function(err) {
         console.error(err);

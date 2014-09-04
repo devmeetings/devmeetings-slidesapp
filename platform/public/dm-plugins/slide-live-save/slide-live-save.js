@@ -1,7 +1,7 @@
 define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/SlideLiveSave'], function(module, _, angular, howler, sliderPlugins, SlideLiveSave) {
     var path = sliderPlugins.extractPath(module);
 
-    var THROTTLE_SAVING = 500;
+    var THROTTLE_SAVING = 300;
 
     sliderPlugins.registerPlugin('slide.toolbar', 'live-save', 'slide-live-save', 5000).directive('slideLiveSave', [
         'SlideLiveSave', 'localStorageService', '$timeout',
