@@ -2,6 +2,23 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
 
     var EDITOR_THEME = 'todr';
 
+    var throttleOptions = {
+        leading: false,
+        trailing: true
+    };
+
+    var updateScopeLater = _.throttle(function(scope) {
+        scope.$apply();
+    }, 200, throttleOptions);
+
+    var triggerEventLater = _.throttle(function(scope, code, ev, editor) {
+        sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
+    }, 100, throttleOptions);
+
+    var triggerSaveEventLater = _.throttle(function() {
+        sliderPlugins.trigger('slide.save');
+    }, 20);
+
 
     var getCodeData = function(code) {
         if (!_.isObject(code)) {
@@ -14,41 +31,24 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
         return code;
     };
 
-    var triggerCodeChange = _.throttle(function(scope, code, ev, editor) {
-        scope.$apply(function() {
-            code.content = editor.getValue();
-        });
-        sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
-    }, 100, {
-        leading: false,
-        trailing: true
-    });
 
-    var safeApply = function(fn) {
-        var phase = this.$root.$$phase;
-
-        if (phase == '$apply' || phase == '$digest') {
-            if (fn && (typeof(fn) === 'function')) {
-                fn();
-            }
-        } else {
-            this.$apply(fn);
-        }
+    var triggerCodeChange = function(scope, code, ev, editor) {
+        code.content = editor.getValue();
+        updateScopeLater(scope);
+        triggerEventLater(scope, code, ev, editor);
+        triggerSaveEventLater();
     };
 
-    var triggerCursorChange = _.throttle(function(scope, code, editor) {
-        safeApply.call(scope, function() {
-            code.aceOptions = {
-                cursorPosition: editor.getCursorPosition(),
-                selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
-                firstVisibleRow: editor.getFirstVisibleRow(),
-                lastVisibleRow: editor.getLastVisibleRow()
-            };
-        });
-    }, 100, {
-        leading: false,
-        trailing: true
-    });
+    var triggerCursorChange = function(scope, code, editor) {
+        code.aceOptions = {
+            cursorPosition: editor.getCursorPosition(),
+            selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
+            firstVisibleRow: editor.getFirstVisibleRow(),
+            lastVisibleRow: editor.getLastVisibleRow()
+        };
+        updateScopeLater(scope);
+        triggerSaveEventLater();
+    };
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
         '$timeout',

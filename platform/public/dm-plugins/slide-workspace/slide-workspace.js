@@ -40,6 +40,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     var applyChangesLater = _.debounce(function() {
                         scope.$apply();
                     }, 2000);
+
                     var triggerChangeLater = _.throttle(function() {
                         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
                         triggerSave();
@@ -47,6 +48,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         leading: false,
                         trailing: true
                     });
+
                     var triggerSave = _.throttle(function() {
                         sliderPlugins.trigger('slide.save');
                     }, 20);
