@@ -5,7 +5,9 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             scope: {
                 snippets: '=',
                 tasks: '=',
-                currentTime: '='
+                currentTime: '=',
+                editMethod: '=',
+                deleteMethod: '='
             },
             templateUrl: '/static/dm-xplatform/directives/dm-sidebar/dm-sidebar.html'
         };

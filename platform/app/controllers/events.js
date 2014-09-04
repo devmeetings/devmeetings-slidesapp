@@ -203,6 +203,50 @@ var Events = {
         }).populate('trainingId').select('trainingId slides snippets').lean(), 'exec').then(function (event) {
             res.send(event);
         }).fail(onError(res)).done(onDone);
+    },
+    addEventSnippet: function (req, res) {
+        var event = req.params.event;
+
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event
+        },{
+            $push: {
+                snippets: req.body 
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200, event.snippets[event.snippets.length - 1]);
+        }).fail(onError(res)).done(onDone);
+    }, 
+    editEventSnippet: function (req, res) {
+        var event = req.params.event;
+        var snippet = req.params.snippet;
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event,
+            'snippets._id': snippet
+        },{
+            $set: {
+                'snippets.$.title': req.body.title,
+                'snippets.$.timestamp': req.body.timestamp,
+                'snippets.$.markdown': req.body.markdown
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
+    deleteEventSnippet: function (req, res) {
+        var event = req.params.event;
+        var snippet = req.params.snippet;
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event
+        }, {
+            $pull: {
+                snippets: {
+                    _id: snippet        
+                }
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
     }
 
 };

@@ -1,0 +1,16 @@
+.modal-header
+    h1 {{editedContentType}}
+.modal-body
+    form(ng-submit='done()')
+        .form-group
+            label.control-label timestamp
+            input.form-control(type='number', ng-model='editedContent.timestamp')
+        .form-group(ng-if='editedContentType === "snippet"')
+            label.control-label title
+            input.form-control(type='text', ng-model='editedContent.title')
+        .form-group
+            label.control-label markdown
+            textarea.form-control(rows='5', ng-model='editedContent.markdown')
+        .form-group
+            button.btn.btn-default(type='submit') Done
+

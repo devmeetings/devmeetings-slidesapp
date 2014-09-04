@@ -5,6 +5,8 @@ div(ng-repeat='snippet in snippets.concat(tasks) | orderBy: "-timestamp"')
             p
                 span.label.label-primary {{snippet.title}} 
             div(marked='snippet.markdown')
+        i.fa.fa-edit.fa-2x(ng-if='$root.editMode', ng-click='editMethod(snippet, "snippet")')
+        i.fa.fa-trash-o.fa-2x(ng-if='$root.editMode', ng-click='deleteMethod(snippet, "snippet")')
         .microtask-border-up
         .microtask-border-down
     div.animate(ng-if='snippet.task && (snippet.timestamp <= currentTime || snippet.hover)')
@@ -21,6 +23,8 @@ div(ng-repeat='snippet in snippets.concat(tasks) | orderBy: "-timestamp"')
                     span.microtask-user-done(ng-if='snippet.people.length') zrobili to zadanie
                     span.microtask-user-done(ng-if='!snippet.people || snippet.people.length === 0') Nikt nie zrobił tego zadania.
                 
+        i.fa.fa-edit.fa-2x(ng-if='$root.editMode', ng-click='editMethod(snippet, "microtask")')
+        i.fa.fa-trash-o.fa-2x(ng-if='$root.editMode', ng-click='deleteMethod(snippet, "mirotask")')
         .microtask-border-up
         .microtask-border-down
         

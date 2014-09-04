@@ -48,6 +48,10 @@ module.exports = function(app) {
     app.get('/api/event_with_slide/:event/:slide', authenticated, events.eventWithSlide);
     app.get('/api/event_with_training/:event', authenticated, events.eventWithTraining);
 
+    app.post('/api/add_event_snippet/:event', authenticated, events.addEventSnippet);
+    app.put('/api/edit_event_snippet/:event/:snippet', authenticated, events.editEventSnippet);
+    app.delete('/api/delete_event_snippet/:event/:snippet', authenticated, events.deleteEventSnippet);
+
     var player = require('../app/controllers/player');
     app.get('/api/player/:id/:training', apiAuthenticated, player.userSaves);
     app.post('/api/player', apiAuthenticated, player.save);

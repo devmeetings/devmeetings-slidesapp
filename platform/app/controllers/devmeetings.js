@@ -2,6 +2,7 @@ var Devmeetings = {
     xplatform: function(req, res) {
         res.render('dm-xplatform/dm-xplatform', {
             title: 'Xplatform',
+            editMode: req.query.edit,
             withInspectlet: req.withInspectlet,
             withGoogleAnalytics: req.withGoogleAnalytics,
             cacheBustingVersion: req.cacheBustingVersion,

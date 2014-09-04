@@ -2,11 +2,50 @@ define(['angular',
         '_',
         'xplatform/xplatform-app',
         'xplatform/directives/dm-timeline/dm-timeline',
-        'xplatform/directives/dm-sidebar/dm-sidebar'
+        'xplatform/directives/dm-sidebar/dm-sidebar',
+        'xplatform/controllers/dm-xplatform-edit-snippet/dm-xplatform-edit-snippet'
 ], function (angular, _, xplatformApp) {   
-    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q','dmTrainings', 'dmUser',
-        function ($scope, $timeout, $state, $stateParams, $http, $q, dmTrainings, dmUser) {
+    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q', '$modal', 'dmTrainings', 'dmUser',
+        function ($scope, $timeout, $state, $stateParams, $http, $q, $modal, dmTrainings, dmUser) {
 
+            $scope.editSnippet = function (snippet, type) {
+                var newSnippet = !snippet;
+                snippet = snippet || {
+                    timestamp: $scope.state.currentSecond | 0,
+                    markdown: ''
+                };               
+                $modal.open({
+                    templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-edit-snippet/index.html',
+                    size: 'sm',
+                    controller: 'dmXplatformEditSnippet',
+                    resolve: {
+                        editedContent: function () {
+                            return snippet;
+                        }, 
+                        editedContentType: function () {
+                            return type;
+                        }
+                    }
+                }).result.then(function () {
+                    if (newSnippet) {
+                        $http.post('/api/add_event_snippet/' + $stateParams.event, snippet).then(function (data) {
+                            $scope.snippets.push(data.data);
+                        });
+                    } else {
+                        $http.put('/api/edit_event_snippet/' + $stateParams.event + '/' + snippet._id, snippet);
+                    }
+                });
+            };
+
+            $scope.deleteSnippet = function (snippet, type) {
+                if (type === 'snippet') {
+                    var index = $scope.snippets.indexOf(snippet);
+                    $scope.snippets.splice(index, 1);
+                    $http.delete('/api/delete_event_snippet/' + $stateParams.event + '/' + snippet._id);
+                } else if (type === 'microtask') {
+                    
+                }
+            };
 
             $scope.state = {
                 audioDuration: 0,

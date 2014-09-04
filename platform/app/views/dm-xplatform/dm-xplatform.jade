@@ -6,6 +6,6 @@ append scripts
     script(src='#{jsModulesPath}/dm-xplatform/dm-xplatform#{cacheBustingVersion}.js')
 
 block content
-    .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}')
+    .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
         div(ui-view='navbar')
         .content-height(ui-view='content')
