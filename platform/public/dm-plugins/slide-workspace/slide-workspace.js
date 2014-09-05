@@ -170,8 +170,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         }
     }
 
-    function updateEditorScroll(editor, tab) {
-        var bottomRow = editor.getLastVisibleRow();
+    function updateEditorScroll(editor, tab, bottomRow) {
         var newBottomRow = tab.editor.lastVisibleRow;
 
         if (bottomRow < newBottomRow) {
@@ -184,8 +183,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         if (!tab || !tab.editor) {
             return;
         }
-        var bottomRow = updateEditorScroll(ed, tab);
+        var bottomRow = editor.getLastVisibleRow();
         updateEditorSelection(ed, tab, bottomRow);
+        updateEditorScroll(ed, tab, bottomRow);
     }
 
     function updateMode(editor, name, givenMode) {
