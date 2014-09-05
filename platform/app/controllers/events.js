@@ -266,12 +266,12 @@ var Events = {
         var task = req.params.task;
         Q.ninvoke(Event.findOneAndUpdate({
             _id: event,
-            'task._id': task 
+            'tasks._id': task 
         },{
             $set: {
-                'task.$.title': req.body.title,
-                'task.$.timestamp': req.body.timestamp,
-                'task.$.task': req.body.task
+                'tasks.$.title': req.body.title,
+                'tasks.$.timestamp': req.body.timestamp,
+                'tasks.$.task': req.body.task
             }
         }).lean(), 'exec').then(function (event) {
             res.send(200);

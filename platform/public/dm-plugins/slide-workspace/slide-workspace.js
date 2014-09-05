@@ -117,9 +117,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         triggerSave();
                     });
 
+
                     // Update from togetherJS
                     sliderPlugins.listen(scope, 'slide.slide-workspace.update', function(workspace) {
                         scope.activeTab = workspace.tabs[workspace.active];
+                        updateEditorContent(editor, scope.activeTab);
+                    });
+
+                    scope.$on('reload.workspace', function() {
+                        var ws = scope.workspace;
+                        scope.activeTab = ws.tabs[ws.active];
                         updateEditorContent(editor, scope.activeTab);
                     });
 

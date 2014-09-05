@@ -3,4 +3,20 @@
 .col-xs-3.full-height(ng-init='$root.modes.isTaskMode=true')
     .row.dm-slide-right
         plugins-loader(namespace="'slide.sidebar'", context="slide.content")
+        .list-group
+            a.list-group-item.clearfix.no-border-radius
+                form.form-horizontal
+                    fieldset
+                        .form-group
+                            .col-xs-2
+                                button.btn.btn-sm.btn-primary(type='button', ng-click='saveSlide()') Save
+                            .col-xs-10
+                                input.form-control.input-sm(type='text', ng-model='saveTitle')
+
+
+            a.list-group-item.clearfix.no-border-radius(ng-repeat='save in saves | orderBy: "-timestamp"')   
+                button.btn.btn-sm.btn-primary.pull-right(type='button', ng-click='openSave(save)') open
+                span
+                    strong {{save.title}} &nbsp;
+                span(am-time-ago='{{save.timestamp}}')
 
