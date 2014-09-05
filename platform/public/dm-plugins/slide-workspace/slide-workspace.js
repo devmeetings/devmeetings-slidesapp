@@ -183,7 +183,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         if (!tab || !tab.editor) {
             return;
         }
-        var bottomRow = editor.getLastVisibleRow();
+        var bottomRow = ed.getLastVisibleRow();
         updateEditorSelection(ed, tab, bottomRow);
         updateEditorScroll(ed, tab, bottomRow);
     }
