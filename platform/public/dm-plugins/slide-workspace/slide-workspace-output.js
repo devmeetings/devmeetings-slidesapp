@@ -24,6 +24,16 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                     scope.$watch('contentUrl', function(hash) {
                         element.find('iframe')[0].src = '/api/page/' + hash + "/";
                     });
+
+                    var $iframe = element.find('iframe');
+                    $iframe.on('load', _.debounce(function() {
+                        try {
+                            var contentWindow = $iframe[0].contentWindow;
+                            sliderPlugins.trigger('slide.fiddle.output', contentWindow.document, contentWindow);
+                        } catch (e) {
+                            // Just swallow exceptions about CORS
+                        }
+                    }, 500));
                 }
             };
         }
