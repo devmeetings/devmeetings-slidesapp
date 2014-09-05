@@ -56,7 +56,9 @@ module.exports = function(app) {
     app.put('/api/edit_event_task/:event/:task', authenticated, events.editEventTask);
     app.delete('/api/delete_event_task/:event/:task', authenticated, events.deleteEventTask);
 
-    var player = require('../app/controllers/player');
+    var slidesaves = require('../app/controllers/slidesaves');
+    app.get('/api/slidesaves/:event/:slide', authenticated, slidesaves.get);
+    app.post('/api/slidesaves', authenticated, slidesaves.create);
 
     var trainings = require('../app/controllers/trainings');
     app.get('/api/trainings', apiAuthenticated, trainings.list);
