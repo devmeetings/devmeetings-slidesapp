@@ -161,7 +161,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         updateEditorOptions(editor, tab);
     }
 
-    function updateEditorSelection(editor, tab, lastRow) {
+    function updateEditorSelection(editor, tab) {
+        var lastRow = editor.getLastVisibleRow();
         var selection = editor.getSelection();
         var range = tab.editor.selectionRange;
         // TODO [ToDr] Trying to remove strange flickering
@@ -170,12 +171,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         }
     }
 
-    function updateEditorScroll(editor, tab, bottomRow) {
+    function updateEditorScroll(editor, tab) {
         var newBottomRow = tab.editor.lastVisibleRow;
-
-        if (bottomRow < newBottomRow) {
-            editor.scrollToRow(newBottomRow);
-        }
+        editor.scrollToRow(newBottomRow);
         return newBottomRow;
     }
 
@@ -183,9 +181,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         if (!tab || !tab.editor) {
             return;
         }
-        var bottomRow = ed.getLastVisibleRow();
-        updateEditorSelection(ed, tab, bottomRow);
-        updateEditorScroll(ed, tab, bottomRow);
+        updateEditorSelection(ed, tab);
+        updateEditorScroll(ed, tab);
     }
 
     function updateMode(editor, name, givenMode) {
