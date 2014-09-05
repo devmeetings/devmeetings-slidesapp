@@ -52,6 +52,9 @@ define(['angular',
 
         $scope.openSave = function (save) {
             $scope.slide = save.slide;
+            $timeout(function () {
+                $scope.$broadcast('reload.workspace');
+            }, 100);
         };
 
     }]);

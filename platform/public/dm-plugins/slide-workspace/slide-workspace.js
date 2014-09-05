@@ -112,6 +112,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         triggerSave();
                     });
 
+                    scope.$on('reload.workspace', function () {
+                        var ws = scope.workspace;
+                        scope.activeTab = ws.tabs[ws.active];
+                        updateEditorContent(editor, scope.activeTab);
+                    });
+
                     handleErrorListeners(scope, $window);
 
                     $timeout(function() {
