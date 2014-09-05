@@ -58,7 +58,8 @@ require.config({
         "dm-stream": "../dm-stream/dm-stream",
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
-        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer"
+        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
+        "togetherjs": "../components/togetherjs/index"
     },
     "map": {
         "*": {

@@ -39,12 +39,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                     var applyChangesLater = _.debounce(function() {
                         scope.$apply();
-                    }, 2000);
+                    }, 500);
 
                     var triggerChangeLater = _.throttle(function() {
                         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
                         triggerSave();
-                    }, 1000, {
+                    }, 700, {
                         leading: false,
                         trailing: true
                     });
@@ -99,6 +99,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     }
 
                     // Tab switch
+                    var fromTogether = false;
                     scope.$watch('workspace.active', function() {
                         var ws = scope.workspace;
                         var active = ws.active;
@@ -108,8 +109,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         }
                         var tab = scope.activeTab;
                         updateMode(editor, active, tab.mode);
-                        updateEditorContent(editor, tab);
+
+                        if (!fromTogether) {
+                            updateEditorContent(editor, tab);
+                            fromTogether = false;
+                        }
                         triggerSave();
+                    });
+
+                    // Update from togetherJS
+                    sliderPlugins.listen(scope, 'slide.slide-workspace.update', function(workspace) {
+                        scope.activeTab = workspace.tabs[workspace.active];
+                        updateEditorContent(editor, scope.activeTab);
                     });
 
                     handleErrorListeners(scope, $window);
