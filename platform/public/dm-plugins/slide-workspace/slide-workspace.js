@@ -159,7 +159,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         if (bottomRow < newBottomRow) {
             editor.scrollToRow(newBottomRow);
         }
-        return bottomRow;
+        return newBottomRow;
     }
 
     function updateEditorOptions(ed, tab) {
