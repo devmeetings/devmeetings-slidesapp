@@ -59,7 +59,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     $iframe.on('load', _.debounce(function() {
                         try {
                             var contentWindow = $iframe[0].contentWindow;
-                            sliderPlugins.trigger('slide.slide-fiddle.output', contentWindow.document, contentWindow);
+                            sliderPlugins.trigger('slide.fiddle.output', contentWindow.document, contentWindow);
                         } catch (e) {
                             // Just swallow exceptions about CORS
                         }
