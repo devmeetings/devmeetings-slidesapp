@@ -1,21 +1,21 @@
-define(['module', 'slider/slider.plugins', 'togetherjs'], function(module, sliderPlugins, togetherjs) {
+define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    var TogetherJS = window.TogetherJS;
-
-    TogetherJS.config('siteName', 'XPlatform.org');
-    TogetherJS.config('toolName', 'Share!');
-    TogetherJS.config('suppressJoinConfirmation', true);
-    TogetherJS.config('suppressInvite', true);
-    TogetherJS.config('includeHashInUrl', true);
-    TogetherJS.config('disableWebRTC', true);
-    TogetherJS.config('cloneClicks', false);
-    TogetherJS.config('ignoreForms', true);
-    TogetherJS.config('ignoreMessages', true);
+    window.TogetherJSConfig_autoStart = false;
+    window.TogetherJSConfig_siteName = 'XPlatform.org';
+    window.TogetherJSConfig_toolName = 'Share!';
+    window.TogetherJSConfig_suppressJoinConfirmation = true;
+    window.TogetherJSConfig_suppressInvite = true;
+    window.TogetherJSConfig_includeHashInUrl = true;
+    window.TogetherJSConfig_disableWebRTC = true;
+    window.TogetherJSConfig_cloneClicks = false;
+    window.TogetherJSConfig_ignoreForms = true;
+    window.TogetherJSConfig_ignoreMessages = true;
 
     sliderPlugins.registerPlugin('slide', 'togetherjs', 'slide-togetherjs', 10000).directive('slideTogetherjs', ['$window',
 
         function($window) {
+            var together = 'togetherjs';
 
             return {
                 restrict: 'E',
@@ -34,24 +34,29 @@ define(['module', 'slider/slider.plugins', 'togetherjs'], function(module, slide
                         }
 
                         selfUpdate = true;
-                        TogetherJS.send({
-                            type: "workspace",
-                            workspace: workspace
-                        });
+                        if (window.TogetherJS) {
+                            TogetherJS.send({
+                                type: "workspace",
+                                workspace: workspace
+                            });
+                        }
                     }, true);
 
-                    TogetherJS.hub.on('workspace', function(data) {
-                        if (!data.sameUrl) {
-                            return;
-                        }
+                    // Load async
+                    require([together], function() {
+                        TogetherJS.hub.on('workspace', function(data) {
+                            if (!data.sameUrl) {
+                                return;
+                            }
 
-                        backUpdate = true;
-                        scope.$apply(function() {
-                            scope.slide.workspace = data.workspace;
+                            backUpdate = true;
+                            scope.$apply(function() {
+                                scope.slide.workspace = data.workspace;
+                            });
+                            sliderPlugins.trigger('slide.slide-workspace.update', data.workspace);
                         });
-                        sliderPlugins.trigger('slide.slide-workspace.update', data.workspace);
+                        TogetherJS.reinitialize();
                     });
-                    TogetherJS.reinitialize();
                 }
             };
         }
