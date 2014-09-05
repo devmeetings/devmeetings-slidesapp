@@ -51,7 +51,7 @@ define(['angular',
         };
 
         $scope.openSave = function (save) {
-            $scope.slide = save.slide;
+            $scope.slide = angular.copy(save.slide);
             $timeout(function () {
                 $scope.$broadcast('reload.workspace');
             }, 100);
