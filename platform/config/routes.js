@@ -84,9 +84,6 @@ module.exports = function(app) {
     app.get('/api/streams', streams.all);
     app.get('/api/streams/:id', apiAuthenticated, streams.get);
 
-    var payments = require('../app/controllers/payments');
-    app.post('/api/payments/:course/:price/:subscription', apiAuthenticated, payments.pay);
-
     var snapshots = require('../app/controllers/snapshots');
     app.get('/api/snapshots/:startTime?', apiAuthenticated, snapshots.list);
     app.post('/api/snapshots/:startTime?', apiAuthenticated, snapshots.import);

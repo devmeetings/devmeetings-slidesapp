@@ -428,3 +428,4 @@ require(['angular',
         ]);
         bootstrap('xplatform');
     });
+
