@@ -21,9 +21,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
         'xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc',
         'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
-        'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice',
-        'xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks',
-        'xplatform/controllers/dm-xplatform-info/dm-xplatform-info',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register'
     ],
@@ -307,10 +304,6 @@ require(['angular',
                         mid: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
                             controller: 'dmXplatformWorkshopdesc'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
-                            controller: 'dmXplatformPaypageprice'
                         }
                     },
                     onEnter: function($rootScope) {
@@ -326,95 +319,6 @@ require(['angular',
                         };
                     }
                 });
-
-                $stateProvider.state('index.paymentThanks', {
-                    url: '/thanks/:id/:price/:subscription',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypagethanks.html',
-                            controller: 'dmXplatformPaypagethanks'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Dzięki!',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 0,
-                            right: 10
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.paymentInfo', {
-                    anonymous: true,
-                    url: '/info/:id',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-info/dm-xplatform-info.html',
-                            controller: 'dmXplatformInfo'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
-                            controller: 'dmXplatformPaypageprice'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Info',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 7,
-                            right: 3
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.paymentSubscription', {
-                    anonymous: true,
-                    url: '/subscription/:id',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-subscription/dm-xplatform-subscription.html'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-paypageprice/dm-xplatform-paypageprice.html',
-                            controller: 'dmXplatformPaypageprice'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Abonament',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 7,
-                            right: 3
-                        };
-                    }
-                });
-
-
 
                 $stateProvider.state('index.message', {
                     url: '/message/:id',
