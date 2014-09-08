@@ -41,8 +41,6 @@ require.config({
         "moment": "../components/moment/moment",
         "angular-moment": "../components/angular-moment/angular-moment",
         "angular-local-storage": "../components/angular-local-storage/angular-local-storage",
-        "video-js": "../components/video.js/dist/video-js/video",
-        "video-js-youtube": "../components/videojs-youtube/src/youtube",
         "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
         "coffee": "../components/coffee-script/extras/coffee-script",
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
@@ -51,7 +49,6 @@ require.config({
         "angulartics-ga": "../components/angulartics/dist/angulartics-ga.min",
         "angular-marked": "../components/angular-marked/angular-marked",
         "marked": "../components/marked/lib/marked",
-        "dm-video": "../dm-video/dm-video",
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
         "dm-observe": "../dm-observe/dm-observe",
@@ -155,12 +152,6 @@ require.config({
         },
         "lz-string": {
             "exports": "LZString"
-        },
-        "video-js-youtube": {
-            "deps": ["video-js"]
-        },
-        "dm-video": {
-            "deps": ["angular", "video-js-youtube", "_"]
         },
         "dm-training": {
             "deps": ["angular", "_"]
