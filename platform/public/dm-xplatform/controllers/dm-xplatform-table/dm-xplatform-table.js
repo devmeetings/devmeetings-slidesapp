@@ -6,11 +6,10 @@ define(['angular',
         ], function (angular, _, xplatformApp) {
     xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$q', '$stateParams', '$modal', 'dmUser', 'Courses',
         function ($scope, $http, $q, $stateParams, $modal, dmUser, Courses) {
-
-            $scope.course = Courses.getCourseById('angular-intro');
-
-
+            
             var type = $stateParams.type;
+           
+            $scope.course = Courses.getCourseById(type);
             
             $http.get('/api/events/' + type).success(function (events) {
                 $scope.events = events;

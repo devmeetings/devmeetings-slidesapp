@@ -19,7 +19,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
         'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
         'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
-        'xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc',
         'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register'
@@ -178,7 +177,7 @@ require(['angular',
 
                 $stateProvider.state('index.menu', {
                     anonymous: true,
-                    url: '/tutorials/:type',
+                    url: '/courses/:type',
                     views: {
                         left: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
@@ -192,7 +191,7 @@ require(['angular',
                     onEnter: function($rootScope) {
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
-                            title: 'Tutoriale',
+                            title: 'Kursy',
                             searchText: ''
                         };
                         $rootScope.xplatformData.columns = {
@@ -293,29 +292,6 @@ require(['angular',
                             left: 2,
                             mid: 10,
                             right: 0
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.coursesDesc', {
-                    anonymous: true,
-                    url: '/courses/:id',
-                    views: {
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshopdesc/dm-xplatform-workshopdesc.html',
-                            controller: 'dmXplatformWorkshopdesc'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Kursy',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 0,
-                            mid: 9,
-                            right: 3
                         };
                     }
                 });

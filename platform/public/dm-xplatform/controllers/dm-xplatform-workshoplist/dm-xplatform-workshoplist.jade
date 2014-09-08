@@ -17,11 +17,7 @@
 						.workshoplist-details
 							.workshoplist-details-shadow
 							h4
-								a(ui-sref='index.coursesDesc({id: cours.id})', ng-if="cours.status!=='ready'",
-									analytics-category='courses',
-									analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
-									| {{cours.title}}
-								a(ui-sref='index.menu({type: "video"})', ng-if="cours.status==='ready'",
+								a(ui-sref='index.menu({type: cours.id})', ng-if="cours.status==='ready'",
 									analytics-category='courses',
 									analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
 									| {{cours.title}}
