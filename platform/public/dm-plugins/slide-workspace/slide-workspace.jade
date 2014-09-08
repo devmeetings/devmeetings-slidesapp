@@ -9,7 +9,7 @@
                 li.add-tab
                     a.pointer(ng-click="insertTab()") +
 
-            .tab-content.full-height
+            .tab-content
                 .tab-pane.active.fade.in.scrollable-container
                     .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
                 .errors.alert.alert-danger.errors-fiddle {{ errors }}
