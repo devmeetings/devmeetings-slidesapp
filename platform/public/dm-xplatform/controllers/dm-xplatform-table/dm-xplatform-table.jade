@@ -1,30 +1,46 @@
-div.col-lg-12.col-md-12.dm-table-container
-    table.table.dm-table
-        tr
-            th Temat szkolenia
-            th Technologia
-            th Ukonczyli tutorial 
-        tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
-            td
-                .dm-table-slides 
-                    a(ng-repeat='slide in event.slides', 
-                        ui-sref='index.task({slide: slide.slideId, event: event._id})', 
-                        analytics-on='click', analytics-event='table.microtask', analytics-label="{{slide.slideId}}", analytics-category="{{event.title}}")
-                        img.dm-microtask(ng-if='!slideIsFinished(slide, user)', src='/static/images/microtask/mt_star.png')
-                        img.dm-microtask(ng-if='slideIsFinished(slide, user)', src='/static/images/microtask/mt_completed.png')
-                a.dm-table-blue(
-                    ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
-                    analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
-            td
-                a.dm-table-green {{event.technology}}
-            td.dm-table-avatars 
-                div 
-                    img(
-                        ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', 
-                        ng-src='{{user.avatar | dmGravatar:25}}', 
-                        ui-sref='index.devhero({id: user.userId})',
-                        analytics-on='click', analytics-event='table.user', analytics-category="{{event.title}}", analytics-label="{{user.userId}}")
-                    span(ng-if='event.peopleFinished.length > 4', 
-                        ng-click='showUsers(event.peopleFinished)', 
-                        analytics-on='click', analytics-event='table.showMore', analytics-category="{{event.title}}"
-                        ) + {{event.peopleFinished.length - 4}}
+.col-xs-12.dm-table-container
+    .row
+        .col-xs-12
+            h1 {{course.title}}
+    .row
+        .col-xs-12
+            img.img-responsive.displayed.course-image(ng-src="{{course.image}}")
+    .row
+        .col-xs-12
+            .course-description(marked="course.description")
+
+    .row
+        .col-xs-12
+            .course-table
+                table.table.dm-table
+                    tr
+                        th Temat szkolenia
+                        th Technologia
+                        th Ukonczyli tutorial 
+                    tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
+                        td
+                            .dm-table-slides 
+                                a(ng-repeat='slide in event.slides', 
+                                    ui-sref='index.task({slide: slide.slideId, event: event._id})', 
+                                    analytics-on='click', analytics-event='table.microtask', analytics-label="{{slide.slideId}}", analytics-category="{{event.title}}")
+                                    img.dm-microtask(ng-if='!slideIsFinished(slide, user)', src='/static/images/microtask/mt_star.png')
+                                    img.dm-microtask(ng-if='slideIsFinished(slide, user)', src='/static/images/microtask/mt_completed.png')
+                            a.dm-table-blue(
+                                ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
+                                analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
+                        td
+                            a.dm-table-green {{event.technology}}
+                        td.dm-table-avatars 
+                            div 
+                                img(
+                                    ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', 
+                                    ng-src='{{user.avatar | dmGravatar:25}}', 
+                                    ui-sref='index.devhero({id: user.userId})',
+                                    analytics-on='click', analytics-event='table.user', analytics-category="{{event.title}}", analytics-label="{{user.userId}}")
+                                span(ng-if='event.peopleFinished.length > 4', 
+                                    ng-click='showUsers(event.peopleFinished)', 
+                                    analytics-on='click', analytics-event='table.showMore', analytics-category="{{event.title}}"
+                                    ) + {{event.peopleFinished.length - 4}}
+    .row
+        .col-xs-12
+            .course-empty

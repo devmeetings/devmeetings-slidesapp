@@ -1,10 +1,15 @@
 define(['angular',
         '_',
         'xplatform/xplatform-app',
-        'xplatform/controllers/dm-xplatform-users/dm-xplatform-users'
+        'xplatform/controllers/dm-xplatform-users/dm-xplatform-users',
+        'xplatform/courses'
         ], function (angular, _, xplatformApp) {
-    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$q', '$stateParams', '$modal', 'dmUser',
-        function ($scope, $http, $q, $stateParams, $modal, dmUser) {
+    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$q', '$stateParams', '$modal', 'dmUser', 'Courses',
+        function ($scope, $http, $q, $stateParams, $modal, dmUser, Courses) {
+
+            $scope.course = Courses.getCourseById('angular-intro');
+
+
             var type = $stateParams.type;
             
             $http.get('/api/events/' + type).success(function (events) {
