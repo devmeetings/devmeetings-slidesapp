@@ -25,16 +25,23 @@ require(['angular',
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
-        xplatformApp.run(['$rootScope', '$state', '$modal', 'dmUser',
-            function($rootScope, $state, $modal, dmUser) {
+        xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser',
+            function($rootScope, $state, $modal, $location, dmUser) {
 
                 $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+                    if (toState.name === 'redirect') {
+                        var destination = localStorage['redirectUrl'] || '/';
+                        window.location.href = destination;
+                        return;
+                    }
+
                     if (toState.anonymous || dmUser.isLoggedIn()) {
                         return;
                     }
 
                     event.preventDefault();
 
+                    localStorage['redirectUrl'] = $location.$$absUrl;
                     if (toState.anonymousForceRegister) {
                         $modal.open({
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',
@@ -57,6 +64,10 @@ require(['angular',
 
         xplatformApp.config(['$stateProvider', '$urlRouterProvider',
             function($stateProvider, $urlRouterProvider) {
+            
+                $stateProvider.state('redirect', {
+                    url: '/redirect'
+                });
 
                 $stateProvider.state('index', {
                     views: {

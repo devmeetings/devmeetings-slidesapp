@@ -105,9 +105,10 @@ module.exports = function(app) {
 
     //auth
     var redirections = {
-        successRedirect: '/',
+        successRedirect: '/#/redirect',
         failureRedirect: '/login'
     };
+
     app.post('/auth/login', passport.authenticate('local', redirections));
     app.get('/auth/google', passport.authenticate('google'));
     app.get('/auth/google/return', passport.authenticate('google', redirections));
