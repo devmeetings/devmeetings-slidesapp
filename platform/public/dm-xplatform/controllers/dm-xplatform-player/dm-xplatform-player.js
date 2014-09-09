@@ -7,6 +7,8 @@ define(['angular',
 ], function (angular, _, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q', '$modal', 'dmTrainings', 'dmUser',
         function ($scope, $timeout, $state, $stateParams, $http, $q, $modal, dmTrainings, dmUser) {
+            
+            $scope.showRight = true;
 
             $scope.editSnippet = function (snippet, type) {
                 var newSnippet = !snippet;
