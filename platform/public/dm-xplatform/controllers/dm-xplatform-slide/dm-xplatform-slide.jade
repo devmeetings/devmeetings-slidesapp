@@ -1,5 +1,5 @@
 .col-xs-9.dm-slide-left(ng-init='$root.modes.isTaskMode=true')
-    plugins-loader.full-height(namespace="'slide'", context="slide.content")
+    plugins-loader.full-height(namespace="'slide'", context="slide.slide")
 .col-xs-3.full-height(ng-init='$root.modes.isTaskMode=true')
     .row.dm-slide-right
         plugins-loader(namespace="'slide.sidebar'", context="slide.content")
@@ -15,7 +15,8 @@
 
 
             a.list-group-item.clearfix.no-border-radius(ng-repeat='save in saves | orderBy: "-timestamp"')   
-                button.btn.btn-sm.btn-primary.pull-right(type='button', ng-click='openSave(save)') open
+                button.btn.btn-sm.btn-primary.pull-right(type='button', ui-sref='index.task({slide: save._id})', ui-sref-active='btn-default') open
+                button.btn.btn-sm.btn-danger.pull-right(type='button', ng-click='deleteSave(save)') delete
                 span
                     strong {{save.title}} &nbsp;
                 span(am-time-ago='{{save.timestamp}}')

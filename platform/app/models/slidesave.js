@@ -6,10 +6,6 @@ var Slidesave = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    event: {
-        type: Schema.Types.ObjectId,
-        ref: 'event'
-    }, 
     slide: {
         type: Schema.Types.Mixed
     },
@@ -18,3 +14,4 @@ var Slidesave = new Schema({
 });
 
 module.exports = mongoose.model('slidesave', Slidesave);
+

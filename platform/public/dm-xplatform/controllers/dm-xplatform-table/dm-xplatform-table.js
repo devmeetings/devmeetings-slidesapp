@@ -4,8 +4,8 @@ define(['angular',
         'xplatform/controllers/dm-xplatform-users/dm-xplatform-users',
         'xplatform/courses'
         ], function (angular, _, xplatformApp) {
-    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$q', '$stateParams', '$modal', 'dmUser', 'Courses',
-        function ($scope, $http, $q, $stateParams, $modal, dmUser, Courses) {
+    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$state', '$q', '$stateParams', '$modal', 'dmUser', 'Courses',
+        function ($scope, $http, $state, $q, $stateParams, $modal, dmUser, Courses) {
             
             var type = $stateParams.type;
            
@@ -22,6 +22,14 @@ define(['angular',
             $scope.slideIsFinished = function (slide, user) {
                 return user && !!_.find(slide.peopleFinished, {
                     userId: user.result._id
+                });
+            };
+
+            $scope.createWorkspace = function () {
+                $http.post('/api/slidesave_from_slide/' + $scope.course.basicWorkspace).success(function (data) {
+                    $state.go('index.task', {
+                        slide: data.slidesave
+                    });
                 });
             };
 

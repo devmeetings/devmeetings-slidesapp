@@ -8,6 +8,10 @@
     .row
         .col-xs-12
             .course-description(marked="course.description")
+    .row
+        .col-xs-12
+            h5 
+                a(ng-click='createWorkspace()') CREATE WORKSPACE
 
     .row
         .col-xs-12
@@ -19,12 +23,6 @@
                         th Ukonczyli tutorial 
                     tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
                         td
-                            .dm-table-slides 
-                                a(ng-repeat='slide in event.slides', 
-                                    ui-sref='index.task({slide: slide.slideId, event: event._id})', 
-                                    analytics-on='click', analytics-event='table.microtask', analytics-label="{{slide.slideId}}", analytics-category="{{event.title}}")
-                                    img.dm-microtask(ng-if='!slideIsFinished(slide, user)', src='/static/images/microtask/mt_star.png')
-                                    img.dm-microtask(ng-if='slideIsFinished(slide, user)', src='/static/images/microtask/mt_completed.png')
                             a.dm-table-blue(
                                 ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
                                 analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}

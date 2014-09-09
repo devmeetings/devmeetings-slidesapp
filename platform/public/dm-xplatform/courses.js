@@ -21,6 +21,7 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 tags: ['js', 'angular', 'web'],
                 title: 'Wprowadzenie do AngularJS',
                 status: 'ready',
+                basicWorkspace: '5409bac7835735722abc77b0',
                 description: multiline(function() {
                     /*-
 Podstawy AngularJS
