@@ -10,17 +10,21 @@
             .course-description(marked="course.description")
     .row
         .col-xs-12
-            h5 
-                a(ng-click='createWorkspace()') CREATE WORKSPACE
+            .course-workspace
+                h5 Workspace
+                hr
+                a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
+                p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
+                    a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
 
     .row
         .col-xs-12
             .course-table
                 table.table.dm-table
                     tr
-                        th Temat szkolenia
-                        th Technologia
-                        th Ukonczyli tutorial 
+                        th: h5 Temat szkolenia
+                        th: h5 Technologia
+                        th: h5 Ukonczyli tutorial 
                     tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
                         td
                             a.dm-table-blue(

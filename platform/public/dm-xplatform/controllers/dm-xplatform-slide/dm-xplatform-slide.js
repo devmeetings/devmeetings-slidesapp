@@ -17,6 +17,9 @@ define(['angular',
                 return save;
             });
             $scope.slide = results[1].data;
+            $scope.userSlide = $scope.saves.filter(function (save) {
+                return $scope.slide._id === save._id;
+            }).length > 0;
         });
 
         $scope.deleteSave = function (save) {
@@ -26,6 +29,7 @@ define(['angular',
                 });
             })
         };
+
 
         $scope.saveSlide = function () {
             var save = {

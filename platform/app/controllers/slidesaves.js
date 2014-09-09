@@ -63,6 +63,7 @@ var Slidesaves = {
 
         delete req.body._id;
         Q.ninvoke(Slidesave.findOneAndUpdate({
+            user: req.user._id,
             _id: slide
         }, req.body).lean(), 'exec').then(function (slidesave) {
             res.send(200);

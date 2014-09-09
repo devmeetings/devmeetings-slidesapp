@@ -15,6 +15,10 @@ define(['angular',
                 $scope.events = events;
             });
 
+            $http.get('/api/slidesaves').success(function (slidesaves) {
+                $scope.slidesaves = slidesaves;
+            });
+
             dmUser.getCurrentUser().then(function (user) {
                 $scope.user = user;
             });
@@ -26,6 +30,11 @@ define(['angular',
             };
 
             $scope.createWorkspace = function () {
+                if (!$scope.user) {
+                    $state.go('index.login'); 
+                    return;
+                }
+
                 $http.post('/api/slidesave_from_slide/' + $scope.course.basicWorkspace).success(function (data) {
                     $state.go('index.task', {
                         slide: data.slidesave

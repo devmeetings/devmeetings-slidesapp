@@ -4,6 +4,10 @@
     .row.dm-slide-right
         plugins-loader(namespace="'slide.sidebar'", context="slide.content")
         .list-group
+            .list-group-item(ng-if='!userSlide')
+                .alert.alert-danger
+                    h4 Uwaga
+                    p Ten slajd nie należy do Ciebie. Wciśnij save, aby zapisać zmiany.
             a.list-group-item.clearfix.no-border-radius
                 form.form-horizontal
                     fieldset
@@ -11,7 +15,7 @@
                             .col-xs-2
                                 button.btn.btn-sm.btn-primary(type='button', ng-click='saveSlide()') Save
                             .col-xs-10
-                                input.form-control.input-sm(type='text', ng-model='saveTitle')
+                                input.form-control.input-sm(type='text', ng-model='saveTitle', placeholder='tytuł')
 
 
             a.list-group-item.clearfix.no-border-radius(ng-repeat='save in saves | orderBy: "-timestamp"')   

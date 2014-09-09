@@ -24,7 +24,8 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 basicWorkspace: '5409bac7835735722abc77b0',
                 description: multiline(function() {
                     /*-
-Podstawy AngularJS
+<h5>Podstawy AngularJS</h5>
+<hr></hr>
 
 * Expressions
 * Kontrolery
