@@ -24,3 +24,8 @@
                     a(ui-sref='index.task({slide: save._id})', ui-sref-active='active') {{save.title}} &nbsp;
                 span(am-time-ago='{{save.timestamp}}')
 
+        span.fa.fa-weixin.fa-2x.dm-chat-icon(ng-click='showChat = !showChat')
+.col-md-offset-6.col-md-3(ng-show='showChat')
+    .row
+        iframe.dm-chat-iframe(src='http://localhost:9000')
+
