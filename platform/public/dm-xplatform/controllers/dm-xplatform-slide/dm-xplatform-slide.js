@@ -2,11 +2,11 @@ define(['angular',
         '_',
         'xplatform/xplatform-app',
         'directives/plugins-loader',
-        //'xplatform/directives/dm-microtask-users/dm-microtask-users',
-        //'xplatform/directives/dm-microtask-done/dm-microtask-done',
         'xplatform/services/dm-tasks/dm-tasks'
         ], function (angular, _, xplatformApp, pluginsLoader) {
     xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$stateParams', '$state', '$http', '$timeout', 'dmUser', 'dmTasks', function ($scope, $q, $stateParams, $state, $http, $timeout, dmUser, dmTasks) {
+
+        $scope.slideId = $stateParams.slide;
 
         var allPromise = $http.get('/api/slidesaves');
         var currentPromise = $http.get('/api/slidesaves/' + $stateParams.slide);
@@ -22,7 +22,8 @@ define(['angular',
             }).length > 0;
         });
 
-        $scope.deleteSave = function (save) {
+        $scope.deleteSave = function (save, $event) {
+            $event.stopPropagation();
             $http.delete('/api/slidesaves/' + save._id).then(function () {
                 _.remove($scope.saves, function (elem) {
                     return elem._id === save._id;

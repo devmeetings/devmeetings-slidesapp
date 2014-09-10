@@ -18,10 +18,9 @@
                                 input.form-control.input-sm(type='text', ng-model='saveTitle', placeholder='tytuł')
 
 
-            a.list-group-item.clearfix.no-border-radius(ng-repeat='save in saves | orderBy: "-timestamp"')   
-                button.btn.btn-sm.btn-primary.pull-right(type='button', ui-sref='index.task({slide: save._id})', ui-sref-active='btn-default') open
-                button.btn.btn-sm.btn-danger.pull-right(type='button', ng-click='deleteSave(save)') delete
-                span
-                    strong {{save.title}} &nbsp;
+            .list-group-item.clearfix.no-border-radius(ng-repeat='save in saves | orderBy: "-timestamp"', ng-class='{"dm-slide-active": slideId === save._id}')
+                button.btn.btn-sm.btn-danger.pull-right(type='button', ng-click='deleteSave(save, $event)') delete
+                p
+                    a(ui-sref='index.task({slide: save._id})', ui-sref-active='active') {{save.title}} &nbsp;
                 span(am-time-ago='{{save.timestamp}}')
 
