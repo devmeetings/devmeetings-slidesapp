@@ -25,7 +25,7 @@
                 span(am-time-ago='{{save.timestamp}}')
 
         span.fa.fa-weixin.fa-2x.dm-chat-icon(ng-click='showChat = !showChat')
-.col-md-offset-6.col-md-3(ng-show='showChat')
+.col-md-offset-6.col-md-3(ng-if='user', ng-show='showChat')
     .row
-        iframe.dm-chat-iframe(src='http://0.0.0.0:9000/#/?autologin=true&host=irc.freenode.org&port=6667&nick=debris&realname=debris&join=#shout-irc')
+        dm-xplatform-chat(name='{{user.result.name}}')
 

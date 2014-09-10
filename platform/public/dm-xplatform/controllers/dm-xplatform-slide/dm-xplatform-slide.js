@@ -4,6 +4,30 @@ define(['angular',
         'directives/plugins-loader',
         'xplatform/services/dm-tasks/dm-tasks'
         ], function (angular, _, xplatformApp, pluginsLoader) {
+
+    xplatformApp.directive('dmXplatformChat', [function () {
+        
+        return {
+            restrict: 'E',
+            scope: {
+                name: '@'       
+            },
+            replace: true,
+            template: '<iframe class="dm-chat-iframe"></iframe>',
+            link: function (scope, element) {
+            
+                scope.$watch('name', function () {
+                    if (!scope.name) {
+                        return;
+                    }
+
+                    var name = encodeURI(scope.name.replace(/ /g, ''));
+                    element[0].src = 'http://0.0.0.0:9000/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#shout-irc';
+                });
+            }
+        }
+    }]);
+
     xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$stateParams', '$state', '$http', '$timeout', 'dmUser', 'dmTasks', function ($scope, $q, $stateParams, $state, $http, $timeout, dmUser, dmTasks) {
 
         $scope.slideId = $stateParams.slide;
@@ -30,6 +54,10 @@ define(['angular',
                 });
             })
         };
+
+        dmUser.getCurrentUser().then(function (user) {
+            $scope.user = user;
+        });
 
 
         $scope.saveSlide = function () {
