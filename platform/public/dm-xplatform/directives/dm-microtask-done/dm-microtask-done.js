@@ -7,10 +7,11 @@ define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins'], function
                     microtask: '=context'
                 },
                 link: function (scope, element) {
-                    scope.$watch('microtask.completed', function (completed) {
+                    scope.$watch('microtask.meta.completed', function (completed) {
                         if (completed) {
+                            scope.microtask.slide.snippet.done = true; 
                             if ($rootScope.modes.isTaskMode) {
-                                $http.post('/api/event/task_done/' + $stateParams.event + '/' + scope.microtask.taskName);
+                                //$http.post('/api/event/task_done/' + $stateParams.event + '/' + scope.microtask.taskName);
                             }
                         }
                     });

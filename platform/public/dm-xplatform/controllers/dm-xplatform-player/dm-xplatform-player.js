@@ -3,6 +3,7 @@ define(['angular',
         'xplatform/xplatform-app',
         'xplatform/directives/dm-timeline/dm-timeline',
         'xplatform/directives/dm-sidebar/dm-sidebar',
+        'xplatform/directives/dm-microtask-done/dm-microtask-done',
         'xplatform/controllers/dm-xplatform-edit-snippet/dm-xplatform-edit-snippet'
 ], function (angular, _, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$q', '$modal', 'dmTrainings', 'dmUser',
