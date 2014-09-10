@@ -22,7 +22,7 @@ define(['angular',
                     }
 
                     var name = encodeURI(scope.name.replace(/ /g, ''));
-                    element[0].src = 'http://xplatform.org:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#shout-irc';
+                    element[0].src = 'http://xplatform.org:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
                 });
             }
         }
