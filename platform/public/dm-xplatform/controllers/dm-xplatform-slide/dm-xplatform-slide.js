@@ -24,11 +24,11 @@ define(['angular',
 
                     var name = encodeURI(scope.name.replace(/ /g, ''));
                     //element[0].src = 'http://localhost:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
-                    element[0].src = 'http://xplatform:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
+                    element[0].src = 'http://xplatform.org:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
                 });
 
                 sliderPlugins.listen(scope, 'slide.share', function (message) {
-                    element[0].contentWindow.postMessage(message, 'http://xplatform:8001');
+                    element[0].contentWindow.postMessage(message, 'http://xplatform.org:8001');
                 });
             }
         }
