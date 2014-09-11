@@ -2,8 +2,9 @@ define(['angular',
         '_',
         'xplatform/xplatform-app',
         'directives/plugins-loader',
+        'slider/slider.plugins',
         'xplatform/services/dm-tasks/dm-tasks'
-        ], function (angular, _, xplatformApp, pluginsLoader) {
+        ], function (angular, _, xplatformApp, pluginsLoader, sliderPlugins) {
 
     xplatformApp.directive('dmXplatformChat', [function () {
         
@@ -22,7 +23,11 @@ define(['angular',
                     }
 
                     var name = encodeURI(scope.name.replace(/ /g, ''));
-                    element[0].src = 'http://xplatform.org:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
+                    element[0].src = 'http://localhost:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
+                });
+
+                sliderPlugins.listen(scope, 'slide.share', function (message) {
+                    element[0].contentWindow.postMessage(message, 'http://localhost:8001');
                 });
             }
         }
@@ -59,6 +64,10 @@ define(['angular',
             $scope.user = user;
         });
 
+
+        $scope.share = function (save) {
+            sliderPlugins.trigger('slide.share', location.origin + '/#/task/' + save._id);
+        };
 
         $scope.saveSlide = function () {
             var save = {
