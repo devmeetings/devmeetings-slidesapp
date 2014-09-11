@@ -10,7 +10,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
             span.icon-bar
     .navbar-collapse.collapse.navbar-inverse-collapse
         ul.player-list.player-right
-            li(ng-if='editMode') {{state.currentSecond | number: 1}}
+            li {{state.currentSecond | number: 1}}
             li(ng-if='editMode')
                 button.btn(type='button', ng-click='editSnippet(fasle, "snippet")')
                     i.fa.fa-file-text
