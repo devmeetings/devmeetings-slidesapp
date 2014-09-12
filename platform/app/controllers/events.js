@@ -291,6 +291,21 @@ var Events = {
         }).lean(), 'exec').then(function (event) {
             res.send(200);
         }).fail(onError(res)).done(onDone);
+    },
+
+    changeVisibility: function (req, res) {
+        var event = req.params.event;
+        var visible = req.params.visible === 'true' ? true : false;
+
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event
+        }, {
+            $set: {
+                visible: visible
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
     }
 
 };
