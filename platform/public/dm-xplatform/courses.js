@@ -36,6 +36,12 @@ define(['xplatform/xplatform-app'], function(xplatformApp) {
                 }),
                 progressbarValue: 100,
                 image: img('angular_intro')
+            },{
+                id: 'live',
+                order: 0,
+                title: 'Angular Live',
+                basicWorkspace: '540594775abf354c52c8fd7a',
+                image: img('angular_forms')
             }]
         }
     });
