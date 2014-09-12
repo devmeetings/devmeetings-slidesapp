@@ -38,8 +38,10 @@ define(['angular',
                     $state.go('index.login'); 
                     return;
                 }
+            
+                var basic = $scope.course && $scope.course.basicWorkspace ? $scope.course.basicWorkspace : '540594775abf354c52c8fd7a';
 
-                $http.post('/api/slidesave_from_slide/' + $scope.course.basicWorkspace).success(function (data) {
+                $http.post('/api/slidesave_from_slide/' + basic).success(function (data) {
                     $state.go('index.task', {
                         slide: data.slidesave
                     });
