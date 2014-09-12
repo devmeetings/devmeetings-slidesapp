@@ -192,6 +192,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         var currentViewportSize = editor.getLastVisibleRow() - editor.getFirstVisibleRow();
         // Scale viewport
         var scaledRowDiff = (selectionRow - firstRow) * currentViewportSize / originalViewportSize;
+        // Make sure that selection is at most few lines from the bottom
+        scaledRowDiff = Math.min(scaledRowDiff, currentViewportSize - 3);
+
         // Now it should be ok
         editor.scrollToRow(Math.floor(selectionRow - scaledRowDiff));
     }
