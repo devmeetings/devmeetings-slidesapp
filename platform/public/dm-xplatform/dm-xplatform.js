@@ -190,10 +190,6 @@ require(['angular',
                     anonymous: true,
                     url: '/courses/:type',
                     views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
                         mid: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-table/dm-xplatform-table.html',
                             controller: 'dmXplatformTable'
@@ -206,8 +202,8 @@ require(['angular',
                             searchText: ''
                         };
                         $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 10,
+                            left: 0,
+                            mid: 12,
                             right: 0
                         };
                     }
@@ -284,10 +280,6 @@ require(['angular',
                     anonymous: true,
                     url: '/courses',
                     views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
                         mid: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.html',
                             controller: 'dmXplatformWorkshoplist'
@@ -300,8 +292,8 @@ require(['angular',
                             searchText: ''
                         };
                         $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 10,
+                            left: 0,
+                            mid: 12,
                             right: 0
                         };
                     }

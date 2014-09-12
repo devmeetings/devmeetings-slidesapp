@@ -1,48 +1,80 @@
-.col-xs-12.dm-table-container
-    .row
-        .col-xs-12
-            h1 {{course.title}}
-    .row
-        .col-xs-12
-            img.img-responsive.displayed.course-image(ng-src="{{course.image}}")
-    .row
-        .col-xs-12
-            .course-description(marked="course.description")
-    .row
-        .col-xs-12
-            .course-workspace
-                h5 Workspace
-                hr
-                a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
-                p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
-                    a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
+.container
+    .col-xs-12.dm-table-container
+        .row
+            .col-xs-12
+                h1 {{course.title}}
+        .row
+            .col-md-4
+                .course-background
+                    h4 Twój Workspace
+                    hr
+                    h5 Tutaj rozwijasz swój projekt DevMeetingowy.
+                    p Projekty na DevMeetingu implementujemy na platformie. Poniższa ikonka kieruje Cię do Twojego prywatnego workspace'a, w którym rozwijasz projekt.
+                    p
+                        a.btn.course-button
+                            &nbsp;
+                            span.fa.fa-wrench
+                            &nbsp;
+                    hr
+                    a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
+                    p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
+                        a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
+            .col-md-4
+                .course-background
+                    h4 Mentor
+                    hr
+                    h5 Mentor czeka na Twoje pytania na TeamSpeak'u!
+                    ul.course-list
+                        li Zainstaluj klienta TeamSpeak, do pobrania pod 
+                            a(href='http://www.teamspeak.com', target='_blank') http://www.teamspeak.com 
+                        li Skonfiguruj TeamSpeak w trybie "Push-To-Talk" (Preferences...)
+                        li Połącz się z serwerem: 
+                            code 62.67.42.152:9214
+                            | &nbsp;(hasło: 
+                            code devmeetings123
+                            | )
+                    p
+                        a.btn.course-button
+                            &nbsp;
+                            span.fa.fa-comments-o
+                            &nbsp;
+            .col-md-4
+                .course-background
+                    h4 Ranking
+                    hr
+                    h5 Status realizacji zadań - aktualizowany przez Was!
+                    p
+                        a.btn.course-button
+                            &nbsp;
+                            span.fa.fa-bar-chart
+                            &nbsp;
 
-    .row
-        .col-xs-12
-            .course-table
-                table.table.dm-table
-                    tr
-                        th: h5 Temat szkolenia
-                        th: h5 Technologia
-                        th: h5 Ukonczyli tutorial 
-                    tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
-                        td
-                            a.dm-table-blue(
-                                ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
-                                analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
-                        td
-                            a.dm-table-green {{event.technology}}
-                        td.dm-table-avatars 
-                            div 
-                                img(
-                                    ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', 
-                                    ng-src='{{user.avatar | dmGravatar:25}}', 
-                                    ui-sref='index.devhero({id: user.userId})',
-                                    analytics-on='click', analytics-event='table.user', analytics-category="{{event.title}}", analytics-label="{{user.userId}}")
-                                span(ng-if='event.peopleFinished.length > 4', 
-                                    ng-click='showUsers(event.peopleFinished)', 
-                                    analytics-on='click', analytics-event='table.showMore', analytics-category="{{event.title}}"
-                                    ) + {{event.peopleFinished.length - 4}}
-    .row
-        .col-xs-12
-            .course-empty
+        .row
+            .col-xs-12
+                .course-background
+                    table.table.dm-table
+                        tr
+                            th: h5 Temat szkolenia
+                            th: h5 Technologia
+                            th: h5 Ukonczyli tutorial 
+                        tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
+                            td
+                                a.dm-table-blue(
+                                    ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
+                                    analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
+                            td
+                                a.dm-table-green {{event.technology}}
+                            td.dm-table-avatars 
+                                div 
+                                    img(
+                                        ng-repeat='user in event.peopleFinished.slice().reverse() | limitTo: 4', 
+                                        ng-src='{{user.avatar | dmGravatar:25}}', 
+                                        ui-sref='index.devhero({id: user.userId})',
+                                        analytics-on='click', analytics-event='table.user', analytics-category="{{event.title}}", analytics-label="{{user.userId}}")
+                                    span(ng-if='event.peopleFinished.length > 4', 
+                                        ng-click='showUsers(event.peopleFinished)', 
+                                        analytics-on='click', analytics-event='table.showMore', analytics-category="{{event.title}}"
+                                        ) + {{event.peopleFinished.length - 4}}
+        .row
+            .col-xs-12
+                .course-empty

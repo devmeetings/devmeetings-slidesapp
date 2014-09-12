@@ -22,7 +22,7 @@ var Slidesaves = {
             var toInsert = {
                 user: req.user._id,
                 slide: slide.content,
-                title: 'default slide',
+                title: 'default workspace',
                 timestamp: new Date()
             };
             return Q.ninvoke(Slidesave, 'create', toInsert);
