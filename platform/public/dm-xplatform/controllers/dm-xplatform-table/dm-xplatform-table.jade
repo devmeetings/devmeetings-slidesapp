@@ -34,7 +34,7 @@
                             code devmeetings123
                             | )
                     p
-                        a.btn.course-button
+                        a.btn.course-button(href='http://www.teamspeak.com', target='_blank')
                             &nbsp;
                             span.fa.fa-comments-o
                             &nbsp;
@@ -54,16 +54,20 @@
                 .course-background
                     table.table.dm-table
                         tr
-                            th: h5 Temat szkolenia
-                            th: h5 Technologia
+                            th(ng-if='editMode')
+                                h5 Visible
+                            th: h5 Tutorial
+                            th: h5 Zadanie 
                             th: h5 Ukonczyli tutorial 
-                        tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"')
+                        tr(ng-repeat='event in events | filter: xplatformData.navbar.searchText | orderBy: "title"', ng-if='event.visible || editMode' )
+                            td(ng-if='editMode')
+                                input(type='checkbox', ng-model='event.visible', ng-change='visibilityChanged(event)')
                             td
                                 a.dm-table-blue(
                                     ui-sref='index.player.chapter({id: event.trainingId, index: "0", event: event._id})', 
                                     analytics-on='click', analytics-event='table.tutorial', analytics-category="{{event.title}}") {{event.title}}
                             td
-                                a.dm-table-green {{event.technology}}
+                                a.dm-table-green(ng-if='event.taskUrl', href='{{event.taskUrl}}', target='_blank') Zadanie {{$index + 1}}
                             td.dm-table-avatars 
                                 div 
                                     img(

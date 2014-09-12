@@ -16,6 +16,7 @@ var Event = new Schema({
     date: Date,
     description: String,
     visible: Boolean,
+    taskUrl: String,
     slides: [{
         task: {
             type: String    

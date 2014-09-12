@@ -7,6 +7,10 @@ define(['angular',
     xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$state', '$q', '$stateParams', '$modal', 'dmUser', 'Courses',
         function ($scope, $http, $state, $q, $stateParams, $modal, dmUser, Courses) {
             
+            $scope.visibilityChanged = function (event) {
+                $http.post('/api/change_event_visibility/' + event._id + '/' + event.visible);
+            };
+
             var type = $stateParams.type;
            
             $scope.course = Courses.getCourseById(type);
