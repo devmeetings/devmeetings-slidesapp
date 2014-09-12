@@ -22,6 +22,9 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                     });
 
                     scope.$watch('contentUrl', function(hash) {
+                        if (!hash || hash === 'waiting') {
+                            return;
+                        }
                         element.find('iframe')[0].src = '/api/page/' + hash + "/";
                     });
 

@@ -4,6 +4,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
     var EDITOR_THEME = 'todr';
     var path = sliderPlugins.extractPath(module);
 
+
+
+    var applyChangesLater = _.debounce(function(scope) {
+        scope.$apply();
+    }, 500);
+
+    var triggerChangeLater = _.throttle(function(scope) {
+        sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
+        triggerSave();
+    }, 700, {
+        leading: false,
+        trailing: true
+    });
+
+    var triggerSave = _.throttle(function() {
+        sliderPlugins.trigger('slide.save');
+    }, 20);
+
+
     sliderPlugins.registerPlugin('slide', 'workspace', 'slide-workspace', 3900).directive('slideWorkspace', [
         '$timeout', '$window', '$rootScope',
         function($timeout, $window, $rootScope) {
@@ -44,21 +63,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         editor.getSession().setUseWrapMode(true);
 
 
-                        var applyChangesLater = _.debounce(function() {
-                            scope.$apply();
-                        }, 500);
 
-                        var triggerChangeLater = _.throttle(function() {
-                            sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
-                            triggerSave();
-                        }, 700, {
-                            leading: false,
-                            trailing: true
-                        });
 
-                        var triggerSave = _.throttle(function() {
-                            sliderPlugins.trigger('slide.save');
-                        }, 20);
+
+
 
                         ///
 
@@ -71,7 +79,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             }
                             syncEditorContent(editor, scope.activeTab);
                             triggerSave();
-                            applyChangesLater();
+                            applyChangesLater(scope);
                         });
 
                         editor.getSession().getSelection().on('changeCursor', function() {
@@ -81,7 +89,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             scope.activeTab.editor = scope.activeTab.editor || {};
                             syncEditorOptions(editor, scope.activeTab.editor);
                             triggerSave();
-                            applyChangesLater();
+                            applyChangesLater(scope);
                         });
 
                         // Active tab
@@ -100,7 +108,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             if (scope.mode === 'player') {
                                 updateEditorContent(editor, scope.activeTab);
                             }
-                            triggerChangeLater();
+                            triggerChangeLater(scope);
                         });
 
                         if (scope.mode === 'player') {
