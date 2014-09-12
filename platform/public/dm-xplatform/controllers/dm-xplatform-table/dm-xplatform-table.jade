@@ -11,13 +11,19 @@
                     h5 Tutaj rozwijasz swój projekt DevMeetingowy.
                     p Projekty na DevMeetingu implementujemy na platformie. Poniższa ikonka kieruje Cię do Twojego prywatnego workspace'a, w którym rozwijasz projekt.
                     p
-                        a.btn.course-button
-                            &nbsp;
-                            span.fa.fa-wrench
-                            &nbsp;
-                    hr
-                    a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
-                    p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
+                        .dropdown
+                            .btn.course-button.dropdown-toggle(type='button', data-toggle='dropdown')
+                                &nbsp;
+                                span.fa.fa-wrench
+                                &nbsp;
+                            ul.dropdown-menu(role='menu')
+                                li(role='presentation') 
+                                    a(ng-click='createWorkspace()') Stwórz Workspace
+                                li.divider(ng-if='slidesaves.length > 0')
+                                li(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
+                                    a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
+                    //-a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
+                    //-p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
                         a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
             .col-md-4
                 .course-background
