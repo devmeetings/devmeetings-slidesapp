@@ -41,6 +41,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         if (!name) {
                             return;
                         }
+                        name = name.replace(/\\./g, '|');
                         scope.workspace.tabs[name] = {
                             "content": ""
                         };
@@ -62,16 +63,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         editor.getSession().setUseSoftTabs(true);
                         editor.getSession().setUseWrapMode(true);
 
-
-
-
-
-
-
                         ///
 
                         // TODO [ToDr] When changing tabs cursor synchronization is triggered like crazy.
                         var disableSync = false;
+
+                        function withoutSync(call) {
+                            disableSync = true;
+                            call();
+                            disableSync = false;
+                        }
 
                         editor.on('change', function() {
                             if (disableSync) {
@@ -106,14 +107,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             }
 
                             if (scope.mode === 'player') {
-                                updateEditorContent(editor, scope.activeTab);
+                                withoutSync(function() {
+                                    updateEditorContent(editor, scope.activeTab);
+                                });
                             }
                             triggerChangeLater(scope);
                         });
 
                         if (scope.mode === 'player') {
                             scope.$watch('activeTab.editor', function() {
-                                updateEditorOptions(editor, scope.activeTab);
+                                withoutSync(function() {
+                                    updateEditorOptions(editor, scope.activeTab);
+                                });
                             });
                             scope.$watch('workspace', function() {
                                 var ws = scope.workspace;
@@ -123,20 +128,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                         // Tab switch
                         scope.$watch('workspace.active', function() {
-                            disableSync = true;
-                            var ws = scope.workspace;
-                            var active = ws.active;
-                            scope.activeTab = ws.tabs ? ws.tabs[active] : null;
-                            if (!scope.activeTab) {
-                                disableSync = false;
-                                return;
-                            }
+                            withoutSync(function() {
+                                var ws = scope.workspace;
+                                var active = ws.active;
+                                scope.activeTab = ws.tabs ? ws.tabs[active] : null;
+                                if (!scope.activeTab) {
+                                    return;
+                                }
 
-                            var tab = scope.activeTab;
-                            updateMode(editor, active, tab.mode);
-                            updateEditorContent(editor, tab, true);
-                            triggerSave();
-                            disableSync = false;
+                                var tab = scope.activeTab;
+                                updateMode(editor, active, tab.mode);
+                                updateEditorContent(editor, tab, true);
+                                triggerSave();
+                            });
                         });
 
                         handleErrorListeners(scope, $window);
@@ -180,9 +184,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
     }
 
     function updateEditorScroll(editor, tab) {
-        var newBottomRow = tab.editor.lastVisibleRow;
-        editor.scrollToRow(newBottomRow);
-        return newBottomRow;
+        var firstRow = tab.editor.firstVisibleRow;
+        // Now check if our selection is still visilbe
+        var selectionRow = tab.editor.selectionRange.start.row;
+        // Get rows diff
+        var originalViewportSize = tab.editor.lastVisibleRow - firstRow;
+        var currentViewportSize = editor.getLastVisibleRow() - editor.getFirstVisibleRow();
+        // Scale viewport
+        var scaledRowDiff = (selectionRow - firstRow) * currentViewportSize / originalViewportSize;
+        // Make sure that selection is at most few lines from the bottom
+        scaledRowDiff = Math.min(scaledRowDiff, currentViewportSize - 3);
+
+        // Now it should be ok
+        editor.scrollToRow(Math.floor(selectionRow - scaledRowDiff));
     }
 
     function updateEditorOptions(ed, tab, forceUpdateCursor) {
