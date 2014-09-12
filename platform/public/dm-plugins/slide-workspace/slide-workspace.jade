@@ -1,6 +1,6 @@
-.row.slide-workspace
-    div(ng-class="{'col-sm-12': hideOutput, 'col-sm-6': !hideOutput }")
-        .row
+.row.slide-workspace.full-height
+    .full-height(ng-class="{'col-sm-12': hideOutput, 'col-sm-6': !hideOutput }")
+        .row.full-height
             ul.nav.nav-tabs
                 li.workspace-tab(
                     ng-repeat="(tabName, tab) in workspace.tabs",
@@ -10,11 +10,11 @@
                     a.pointer(ng-click="insertTab()") +
 
             .tab-content
-                .tab-pane.active.fade.in
+                .tab-pane.active.fade.in.scrollable-container
                     .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
                 .errors.alert.alert-danger.errors-fiddle {{ errors }}
 
-    .col-sm-6(ng-class="{ 'hidden': hideOutput }")
-        .row
-            slide-workspace-output
+    .col-sm-6.full-height(ng-class="{ 'hidden': hideOutput }")
+        .row.full-height
+            slide-workspace-output.full-height
 

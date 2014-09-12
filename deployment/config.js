@@ -51,6 +51,34 @@ module.exports = {
                 "label": "Formage [prod]"
             }
         },
+        "tired-admin": {
+            "name": "tired-admin",
+            "path": xplatformDir + "../tired-admin/",
+            "options": {
+                "buildGrunt": false,
+                "startFile": "app.js",
+                "logName": "tired-admin.log",
+                "env": "NODE_ENV=\"production\""
+            },
+            "btn": {
+                "class": "btn-default",
+                "label": "Tired-admin [prod]"
+            }
+        },
+        "shout": {
+            "name": "shout",
+            "path": xplatformDir + "../shout/",
+            "options": {
+                "buildGrunt": false,
+                "startFile": "index.js",
+                "logName": "shout.log",
+                "env": "NODE_ENV=\"production\""
+            },
+            "btn": {
+                "class": "btn-default",
+                "label": "Shout [prod]"
+            }
+        },
         "xplatform-prod": {
             "name": "xplatform-prod",
             "path": xplatformDir + "platform",

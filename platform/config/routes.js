@@ -57,8 +57,12 @@ module.exports = function(app) {
     app.delete('/api/delete_event_task/:event/:task', authenticated, events.deleteEventTask);
 
     var slidesaves = require('../app/controllers/slidesaves');
-    app.get('/api/slidesaves/:event/:slide', authenticated, slidesaves.get);
-    app.post('/api/slidesaves', authenticated, slidesaves.create);
+    app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
+    app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
+    app.post('/api/slidesaves', apiAuthenticated, slidesaves.create);
+    app.post('/api/slidesave_from_slide/:slide', apiAuthenticated, slidesaves.slidesaveFromSlide);
+    app.put('/api/slidesaves/:slide', apiAuthenticated, slidesaves.edit);
+    app.delete('/api/slidesaves/:slide', apiAuthenticated, slidesaves.delete);
 
     var trainings = require('../app/controllers/trainings');
     app.get('/api/trainings', apiAuthenticated, trainings.list);
@@ -84,9 +88,6 @@ module.exports = function(app) {
     app.get('/api/streams', streams.all);
     app.get('/api/streams/:id', apiAuthenticated, streams.get);
 
-    var payments = require('../app/controllers/payments');
-    app.post('/api/payments/:course/:price/:subscription', apiAuthenticated, payments.pay);
-
     var snapshots = require('../app/controllers/snapshots');
     app.get('/api/snapshots/:startTime?', apiAuthenticated, snapshots.list);
     app.post('/api/snapshots/:startTime?', apiAuthenticated, snapshots.import);
@@ -108,9 +109,10 @@ module.exports = function(app) {
 
     //auth
     var redirections = {
-        successRedirect: '/',
+        successRedirect: '/#/redirect',
         failureRedirect: '/login'
     };
+
     app.post('/auth/login', passport.authenticate('local', redirections));
     app.get('/auth/google', passport.authenticate('google'));
     app.get('/auth/google/return', passport.authenticate('google', redirections));

@@ -67,6 +67,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         triggerSave();
 
                         applyChangesLater();
+                        //sliderPlugins.trigger('slide.selection-share', 'mouse!');
                     });
 
                     // Active tab

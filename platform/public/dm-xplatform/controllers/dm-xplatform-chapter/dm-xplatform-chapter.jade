@@ -1,7 +1,7 @@
-.col-xs-10.dm-slide-left
+.dm-player-content-left(ng-class='{"col-xs-10": showRight, "col-xs-12": !showRight}')
     plugins-loader(namespace="'slide'", context="recordingPlayer.slide", mode="player")
-.col-xs-2.full-height
-    .row.dm-slide-right 
+.dm-player-content-right(ng-class='{"col-xs-2": showRight}')
+    .row.full-height
         dm-sidebar(context='recordingPlayer.slide', snippets='snippets', tasks='tasks', current-time='state.currentSecond', edit-method='editSnippet', delete-method='deleteSnippet') 
 include ../dm-xplatform-player/dm-xplatform-player-bottombar.jade
 

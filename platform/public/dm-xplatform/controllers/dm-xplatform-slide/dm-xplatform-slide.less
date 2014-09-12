@@ -11,3 +11,65 @@
 .no-border-radius {
     border-radius: 0px !important;
 }
+
+.dm-slide-active {
+    background-color: rgb(55,55,55);
+}
+
+.dm-slide-saves {
+    height: 200px;
+    overflow-y: auto;
+    margin: 0;
+}
+
+.dm-chat-iframe {
+    width: 100%;
+    height: calc(~"100% - 200px");
+}
+
+.dm-chat-icon {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.dm-slide-panel {
+    position: absolute;
+    overflow-y: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(31,31,31);
+}
+
+.dm-slide-share {
+    cursor: pointer;
+}
+
+.dm-slide-trash {
+    display: none;  
+    cursor: pointer;
+}
+
+.dm-slide-cell:hover {
+    .dm-slide-trash {
+        display: inline-block;
+    }
+}
+
+.dm-slide-toolbar {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    background-color: rgb(31,31,31);
+    border-top-left-radius: 25px;
+}
+
+.dm-slide-show {
+    width: 50px;
+    top: 15px;
+    right: 5px;
+    position: absolute;
+}

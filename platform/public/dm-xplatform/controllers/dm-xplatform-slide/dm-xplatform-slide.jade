@@ -1,22 +1,31 @@
-.col-xs-9.dm-slide-left(ng-init='$root.modes.isTaskMode=true')
-    plugins-loader(namespace="'slide'", context="slide.content")
-.col-xs-3.full-height(ng-init='$root.modes.isTaskMode=true')
-    .row.dm-slide-right
-        plugins-loader(namespace="'slide.sidebar'", context="slide.content")
-        .list-group
+.col-xs-12.dm-slide-left(ng-init='$root.modes.isTaskMode=true')
+    plugins-loader.full-height(namespace="'slide'", context="slide.slide")
+.col-xs-offset-9.col-xs-3.dm-slide-panel(ng-show='showSidebar', ng-init='$root.modes.isTaskMode=true')
+    .row.full-height
+        //-plugins-loader(namespace="'slide.sidebar'", context="slide.content")
+        .list-group.dm-slide-saves
+            .list-group-item(ng-if='userSlide === false')
+                .alert.alert-danger
+                    h4 Uwaga
+                    p Ten slajd nie należy do Ciebie. Wciśnij save, aby zapisać zmiany.
             a.list-group-item.clearfix.no-border-radius
                 form.form-horizontal
                     fieldset
                         .form-group
                             .col-xs-2
                                 button.btn.btn-sm.btn-primary(type='button', ng-click='saveSlide()') Save
-                            .col-xs-10
-                                input.form-control.input-sm(type='text', ng-model='saveTitle')
+                            .col-xs-8
+                                input.form-control.input-sm(type='text', ng-model='saveTitle', placeholder='tytuł')
 
 
-            a.list-group-item.clearfix.no-border-radius(ng-repeat='save in saves | orderBy: "-timestamp"')   
-                button.btn.btn-sm.btn-primary.pull-right(type='button', ng-click='openSave(save)') open
-                span
-                    strong {{save.title}} &nbsp;
+            .list-group-item.clearfix.no-border-radius.dm-slide-cell(ng-repeat='save in saves | orderBy: "-timestamp"', ng-class='{"dm-slide-active": slideId === save._id}')
+                span.fa.fa-trash-o.fa-3x.text-danger.pull-right.dm-slide-trash(ng-click='deleteSave(save, $event)')
+                span.fa.fa-share.fa-3x.text-primary.pull-left.dm-slide-share(ng-click='share(save)')
+                p
+                    a(ui-sref='index.task({slide: save._id})', ui-sref-active='active') {{save.title}} &nbsp;
                 span(am-time-ago='{{save.timestamp}}')
+        dm-xplatform-chat(ng-if='user', name='{{user.result.name}}')
+.dm-slide-show 
+    span.fa.fa-indent.fa-2x(ng-click='showSidebar = !showSidebar')
+
 

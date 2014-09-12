@@ -7,7 +7,7 @@ div(ng-repeat='task in microtasks',
 
         .microtask-content 
             .microtask-desc(marked='task.description')
-            plugins-loader(namespace="'microtask'", context='taskMeta[task.description]')
+                plugins-loader(namespace="'microtask'", context='{slide: slide, task: task, meta: taskMeta[task.description]}')
             
     .microtask-border-up
     .microtask-border-down
