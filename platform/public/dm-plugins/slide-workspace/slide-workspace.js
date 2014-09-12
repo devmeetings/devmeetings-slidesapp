@@ -28,114 +28,113 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     };
 
                     // Editor
+                    /* 
+                     * [ToDr] Not sure why we need to introduce timeout here,
+                     * But when there is no timeout syntax highlighting doesnt work after loading editor
+                     * for the second time.
+                     */
+
                     var $e = element.find('.editor');
-                    var editor = ace.edit($e[0]);
-                    editor.setTheme('ace/theme/' + EDITOR_THEME);
-                    editor.setValue("");
-                    editor.getSession().setTabSize(4);
-                    editor.getSession().setUseSoftTabs(true);
-                    editor.getSession().setUseWrapMode(true);
+                    $timeout(function() {
+                        var editor = ace.edit($e[0]);
+                        editor.setTheme('ace/theme/' + EDITOR_THEME);
+                        editor.setValue("");
+                        editor.getSession().setTabSize(4);
+                        editor.getSession().setUseSoftTabs(true);
+                        editor.getSession().setUseWrapMode(true);
 
 
-                    var applyChangesLater = _.debounce(function() {
-                        scope.$apply();
-                    }, 500);
+                        var applyChangesLater = _.debounce(function() {
+                            scope.$apply();
+                        }, 500);
 
-                    var triggerChangeLater = _.throttle(function() {
-                        sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
-                        triggerSave();
-                    }, 700, {
-                        leading: false,
-                        trailing: true
-                    });
+                        var triggerChangeLater = _.throttle(function() {
+                            sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
+                            triggerSave();
+                        }, 700, {
+                            leading: false,
+                            trailing: true
+                        });
 
-                    var triggerSave = _.throttle(function() {
-                        sliderPlugins.trigger('slide.save');
-                    }, 20);
+                        var triggerSave = _.throttle(function() {
+                            sliderPlugins.trigger('slide.save');
+                        }, 20);
 
-                    ///
+                        ///
 
-                    editor.on('change', function() {
-                        syncEditorContent(editor, scope.activeTab);
-                        triggerSave();
-                        applyChangesLater();
-                    });
+                        // TODO [ToDr] When changing tabs cursor synchronization is triggered like crazy.
+                        var disableSync = false;
 
-                    editor.getSession().getSelection().on('changeCursor', function() {
-                        scope.activeTab.editor = scope.activeTab.editor || {};
-                        syncEditorOptions(editor, scope.activeTab.editor);
-                        triggerSave();
+                        editor.on('change', function() {
+                            if (disableSync) {
+                                return;
+                            }
+                            syncEditorContent(editor, scope.activeTab);
+                            triggerSave();
+                            applyChangesLater();
+                        });
 
-                        applyChangesLater();
-                        //sliderPlugins.trigger('slide.selection-share', 'mouse!');
-                    });
+                        editor.getSession().getSelection().on('changeCursor', function() {
+                            if (disableSync) {
+                                return;
+                            }
+                            scope.activeTab.editor = scope.activeTab.editor || {};
+                            syncEditorOptions(editor, scope.activeTab.editor);
+                            triggerSave();
+                            applyChangesLater();
+                        });
 
-                    // Active tab
-                    scope.$watch('activeTab.mode', function(mode) {
-                        if (!mode) {
-                            return;
-                        }
-                        updateMode(editor, scope.workspace.active, mode);
-                    });
+                        // Active tab
+                        scope.$watch('activeTab.mode', function(mode) {
+                            if (!mode) {
+                                return;
+                            }
+                            updateMode(editor, scope.workspace.active, mode);
+                        });
 
-                    scope.$watch('activeTab.content', function(content) {
-                        if (!content) {
-                            return;
-                        }
+                        scope.$watch('activeTab.content', function(content) {
+                            if (!content) {
+                                return;
+                            }
+
+                            if (scope.mode === 'player') {
+                                updateEditorContent(editor, scope.activeTab);
+                            }
+                            triggerChangeLater();
+                        });
 
                         if (scope.mode === 'player') {
-                            updateEditorContent(editor, scope.activeTab);
+                            scope.$watch('activeTab.editor', function() {
+                                updateEditorOptions(editor, scope.activeTab);
+                            });
+                            scope.$watch('workspace', function() {
+                                var ws = scope.workspace;
+                                scope.activeTab = ws.tabs[ws.active];
+                            });
                         }
-                        triggerChangeLater();
-                    });
 
-                    if (scope.mode === 'player') {
-                        scope.$watch('activeTab.editor', function() {
-                            updateEditorOptions(editor, scope.activeTab);
-                        });
-                        scope.$watch('workspace', function() {
+                        // Tab switch
+                        scope.$watch('workspace.active', function() {
+                            disableSync = true;
                             var ws = scope.workspace;
-                            scope.activeTab = ws.tabs[ws.active];
+                            var active = ws.active;
+                            scope.activeTab = ws.tabs ? ws.tabs[active] : null;
+                            if (!scope.activeTab) {
+                                disableSync = false;
+                                return;
+                            }
+
+                            var tab = scope.activeTab;
+                            updateMode(editor, active, tab.mode);
+                            updateEditorContent(editor, tab, true);
+                            triggerSave();
+                            disableSync = false;
                         });
-                    }
 
-                    // Tab switch
-                    var fromTogether = false;
-                    scope.$watch('workspace.active', function() {
-                        var ws = scope.workspace;
-                        var active = ws.active;
-                        scope.activeTab = ws.tabs ? ws.tabs[active] : null;
-                        if (!scope.activeTab) {
-                            return;
-                        }
-                        var tab = scope.activeTab;
-                        updateMode(editor, active, tab.mode);
+                        handleErrorListeners(scope, $window);
 
-                        if (!fromTogether) {
-                            updateEditorContent(editor, tab);
-                            fromTogether = false;
-                        }
-                        triggerSave();
-                    });
-
-
-                    // Update from togetherJS
-                    sliderPlugins.listen(scope, 'slide.slide-workspace.update', function(workspace) {
-                        scope.activeTab = workspace.tabs[workspace.active];
-                        updateEditorContent(editor, scope.activeTab);
-                    });
-
-                    scope.$on('reload.workspace', function() {
-                        var ws = scope.workspace;
-                        scope.activeTab = ws.tabs[ws.active];
-                        updateEditorContent(editor, scope.activeTab);
-                    });
-
-                    handleErrorListeners(scope, $window);
-
-                    $timeout(function() {
                         editor.resize();
-                    }, 1000);
+                    }, 200);
                 }
             };
         }
@@ -152,22 +151,22 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         options.lastVisibleRow = editor.getLastVisibleRow();
     }
 
-    function updateEditorContent(editor, tab) {
+    function updateEditorContent(editor, tab, forceUpdateCursor) {
         // Remember cursor
         var pos = editor.getSelectionRange();
         editor.setValue(tab.content, -1);
         // Restore cursor
         editor.getSelection().setSelectionRange(pos, false);
         // Handle scrolling
-        updateEditorOptions(editor, tab);
+        updateEditorOptions(editor, tab, forceUpdateCursor);
     }
 
-    function updateEditorSelection(editor, tab) {
+    function updateEditorSelection(editor, tab, forceUpdateCursor) {
         var lastRow = editor.getLastVisibleRow();
         var selection = editor.getSelection();
         var range = tab.editor.selectionRange;
         // TODO [ToDr] Trying to remove strange flickering
-        if (range.start.row < lastRow) {
+        if (forceUpdateCursor || range.start.row < lastRow) {
             selection.setSelectionRange(range, false);
         }
     }
@@ -178,11 +177,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         return newBottomRow;
     }
 
-    function updateEditorOptions(ed, tab) {
+    function updateEditorOptions(ed, tab, forceUpdateCursor) {
         if (!tab || !tab.editor) {
             return;
         }
-        updateEditorSelection(ed, tab);
+        updateEditorSelection(ed, tab, forceUpdateCursor);
         updateEditorScroll(ed, tab);
     }
 
