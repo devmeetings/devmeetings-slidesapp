@@ -23,7 +23,7 @@ define(['angular',
                     }
 
                     var name = encodeURI(scope.name.replace(/[^0-9a-zA-Z]/g, '_'));
-                    var host = 'Burstfire.UK.EU.GameSurge.net';
+                    var host = 'irc.quakenet.org';
                     //element[0].src = 'http://localhost:8001/#/?autologin=true&host=irc.freenode.org&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
                     element[0].src = 'http://xplatform.org:8001/#/?autologin=true&host=' + host + '&port=6667&nick=' + name + '&realname=' + name + '&join=#xplatform-irc';
                 });
