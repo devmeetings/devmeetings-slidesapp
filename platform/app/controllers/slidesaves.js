@@ -81,9 +81,9 @@ var Slidesaves = {
 
     lastSlides: function (req, res) {
         
-        Q.ninvoke(Slidesave, find({
-        }).populate('user', 'name email _id').select('user title timestamp').lean(), 'exec').then(function (slidesave) {
-            res.send(200); 
+        Q.ninvoke(Slidesave.find({
+        }).populate('user', 'name avatar _id').select('user title timestamp slide').limit(40).lean(), 'exec').then(function (slidesaves) {
+            res.send(slidesaves); 
         }).fail(onError(res)).done(onDone);
     }
 };

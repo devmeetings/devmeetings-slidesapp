@@ -66,6 +66,8 @@ module.exports = function(app) {
     app.put('/api/slidesaves/:slide', apiAuthenticated, slidesaves.edit);
     app.delete('/api/slidesaves/:slide', apiAuthenticated, slidesaves.delete);
 
+    app.get('/api/last_slidesaves', apiAuthenticated, slidesaves.lastSlides);
+
     var trainings = require('../app/controllers/trainings');
     app.get('/api/trainings', apiAuthenticated, trainings.list);
     app.post('/api/trainings', apiAuthenticated, trainings.create);
