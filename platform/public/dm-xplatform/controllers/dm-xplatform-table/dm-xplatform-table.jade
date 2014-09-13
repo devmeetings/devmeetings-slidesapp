@@ -4,7 +4,7 @@
             .col-xs-12
                 h1 {{course.title}}
         .row
-            .col-md-4
+            .col-md-6
                 .course-background
                     h4 Twój Workspace
                     hr
@@ -25,7 +25,7 @@
                     //-a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
                     //-p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
                         a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
-            .col-md-4
+            //-.col-md-6
                 .course-background
                     h4 Mentor
                     hr
@@ -44,7 +44,7 @@
                             &nbsp;
                             span.fa.fa-comments-o
                             &nbsp;
-            .col-md-4
+            .col-md-6
                 .course-background
                     h4 Ranking
                     hr
