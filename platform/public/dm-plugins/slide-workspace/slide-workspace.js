@@ -41,7 +41,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         if (!name) {
                             return;
                         }
-                        name = name.replace(/\\./g, '|');
+                        name = name.replace(/\./g, '|');
                         scope.workspace.tabs[name] = {
                             "content": ""
                         };

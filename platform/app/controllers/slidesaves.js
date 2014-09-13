@@ -77,6 +77,14 @@ var Slidesaves = {
         }).lean(), 'exec').then(function (slidesave) {
             res.send(200);
         }).fail(onError(res)).done(onDone);
+    },
+
+    lastSlides: function (req, res) {
+        
+        Q.ninvoke(Slidesave, find({
+        }).populate('user', 'name email _id').select('user title timestamp').lean(), 'exec').then(function (slidesave) {
+            res.send(200); 
+        }).fail(onError(res)).done(onDone);
     }
 };
 
