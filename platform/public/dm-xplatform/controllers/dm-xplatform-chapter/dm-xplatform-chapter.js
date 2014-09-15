@@ -1,9 +1,7 @@
 define(['angular',
         'xplatform/xplatform-app',
         'directives/plugins-loader',
-        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-save',
         'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next',
-        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-open',
         'services/RecordingsPlayerFactory'
 ], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformChapter', ['$scope', '$state', '$stateParams', '$timeout', '$http', '$modal', 'dmTrainings', 'RecordingsPlayerFactory', 'User',
