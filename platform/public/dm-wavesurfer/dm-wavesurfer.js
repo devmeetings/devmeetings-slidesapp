@@ -20,6 +20,10 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             }];
             var ready = false;
             var audio = element.find('audio')[0];
+        
+            scope.$watch('dmSrc', function () {
+                audio.src = scope.dmSrc;
+            });
            
             audio.addEventListener('progress', function () {
                 scope.$apply(function () {

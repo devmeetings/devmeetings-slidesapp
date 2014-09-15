@@ -1,5 +1,5 @@
 .dm-wavesurfer(ng-click='waveClicked($event)')
-    audio(src='http://xplatform.org/static/sounds/angular-total-01.ogg')
+    audio
     .dm-wavesurfer-range(
         ng-repeat='range in ranges',
         style='left: {{(range.start / dmDuration) * 100 }}%; width: {{(range.end - range.start) / dmDuration * 100}}%')
