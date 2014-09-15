@@ -2,8 +2,8 @@
     audio
     .dm-wavesurfer-range(
         ng-repeat='range in ranges',
-        style='left: {{(range.start / dmDuration) * 100 }}%; width: {{(range.end - range.start) / dmDuration * 100}}%')
+        style='left: {{(range.start / duration) * 100 }}%; width: {{(range.end - range.start) / dmDuration * 100}}%')
     .dm-wavesurfer-position(
-        style='width: {{(dmCurrentSecond / dmDuration) * 100}}%;'
+        style='width: {{(dmCurrentSecond / duration) * 100}}%;'
         )
 
