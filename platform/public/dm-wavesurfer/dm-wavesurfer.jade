@@ -1,9 +1,6 @@
 .dm-wavesurfer(ng-click='waveClicked($event)')
     audio
-    .dm-wavesurfer-range(
-        ng-repeat='range in ranges',
-        style='left: {{(range.start / duration) * 100 }}%; width: {{(range.end - range.start) / dmDuration * 100}}%')
+    .dm-wavesurfer-range(ng-repeat='style in styles', ng-style='style')
     .dm-wavesurfer-position(
-        style='width: {{(dmCurrentSecond / duration) * 100}}%;'
-        )
+        ng-style='positionStyle')
 

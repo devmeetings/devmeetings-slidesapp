@@ -14,10 +14,14 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
         replace: true,
         templateUrl: '/static/dm-wavesurfer/dm-wavesurfer.html',
         link: function (scope, element, attrs) {
-            scope.ranges = [{
-                start: 0,
-                end: 0
+            scope.styles = [{
+                left: 0,
+                width: 0
             }];
+            scope.positionStyle = {
+                width: 0
+            };
+
             scope.duration = 0;
 
             var ready = false;
@@ -29,17 +33,24 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
            
             audio.addEventListener('progress', function () {
                 scope.$apply(function () {
+                
                     for (var i = 0; i < audio.buffered.length; i++) {
-                        if (scope.ranges[i]) {
-                            scope.ranges[i].start = audio.buffered.start(i);
-                            scope.ranges[i].end = audio.buffered.end(i);
-                            continue; 
+                        var start =  audio.buffered.start(i);
+                        var end = audio.buffered.end(i);
+                        var left = start / audio.duration * 100 + '%';
+                        var width = (end - start) / audio.duration * 100 + '%';
+
+                        if (scope.styles[i]) {
+                            scope.styles[i].left = left;
+                            scope.styles[i].width = width;
+                            continue;
                         }
-                        scope.ranges.push({
-                            start: audio.buffered.start(i),
-                            end: audio.buffered.end(i)
+                        scope.styles.push({
+                            left: left,
+                            width: width
                         });
                     }
+
                 });
             }, false);
 
@@ -59,9 +70,14 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                 audio.play();
             }, false);
 
+            var updatePosition = function () {
+                scope.positionStyle.width = (audio.currentTime / audio.duration) * 100 + '%';
+            };
+
             audio.addEventListener('timeupdate', function () {
                 scope.$apply(function () {
                     scope.dmCurrentSecond = audio.currentTime;
+                    updatePosition();
                 });
             });
 
@@ -101,6 +117,7 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
                 var position = clickX / width;
                 audio.currentTime = position * audio.duration;
                 scope.dmCurrentSecond = audio.currentTime;
+                updatePosition();
             };
         }
     }

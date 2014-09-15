@@ -29,7 +29,6 @@ define(['angular',
                //openTitle
             };
 
-
             dmTrainings.getTrainingWithId(trainingId).then (function (training) {
                 $scope.chapter = training.chapters[chapterIndex];
                 $scope.state.startSecond = $scope.chapter.videodata.timestamp;
