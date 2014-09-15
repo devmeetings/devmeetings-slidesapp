@@ -152,37 +152,17 @@ define(['angular',
 
             };
 
-
-            var modalIsOpened = false;
-            
             $scope.$watch('state.currentSecond', function (newVal) {
                 if ($scope.state.chapterId !== chapterIndex) {
                     return;
                 }
                 
                 goToSecond();
-                
-                if (!$scope.chapter || !$scope.chapter.videodata) {
-                    return;
-                }
-                
-                if (!$scope.state.isPlaying) {
-                    return;
-                }
+               
+            });
 
-                var remaining = $scope.state.length - ($scope.state.currentSecond - $scope.chapter.videodata.timestamp);
-                if (remaining > 0) {
-                    return;
-                }
-
-                if (modalIsOpened) {
-                    return;
-                }
-
-                modalIsOpened = true;
-
-                $scope.state.isPlaying = false;
-
+            $scope.onEnd = function () {
+                //$scope.state.isPlaying = false;
                 var modalInstance = $modal.open({
                     templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next.html',
                     controller: 'dmXplatformChapterNext',
@@ -213,16 +193,8 @@ define(['angular',
                     $state.go('index.menu', {
                         type: 'video'
                     });
-                    /*
-                    $timeout(function () {
-                        $state.go('navbar.player.chapter', {
-                            index: parseInt(chapterIndex) + 1
-                        });
-                    }, 500);
-                    */
                 });
-
-            });
+            };
         }
     ]);
 });

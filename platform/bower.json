@@ -36,7 +36,6 @@
     "coffee-script": "~1.7.1",
     "jquery-ui": "~1.11.0",
     "angular-contenteditable": "~0.3.7",
-    "wavesurfer.js": "~0.2.1",
     "angulartics": "~0.16.4",
     "angular-marked": "Hypercubed/angular-marked#~0.0.12"
   }

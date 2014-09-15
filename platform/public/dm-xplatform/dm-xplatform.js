@@ -21,10 +21,7 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
         'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
-        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
-        'xplatform/controllers/dm-xplatform-whatsup/dm-xplatform-whatsup'
-
-
+        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -401,17 +398,6 @@ require(['angular',
                             controller: 'dmXplatformChapter'
                         }
                     }
-                });
-
-                $stateProvider.state('index.whatsup', {
-                    url: '/whatsup',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-whatsup/index.html',
-                            controller: 'dmXplatformWhatsup' 
-                        }
-                    }
-
                 });
 
                 $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');

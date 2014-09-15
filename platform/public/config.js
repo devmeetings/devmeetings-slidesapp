@@ -44,7 +44,6 @@ require.config({
         "angular-hotkeys": "../components/angular-hotkeys/build/hotkeys",
         "coffee": "../components/coffee-script/extras/coffee-script",
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
-        "wavesurfer": "../components/wavesurfer.js/build/wavesurfer.min",
         "angulartics": "../components/angulartics/dist/angulartics.min",
         "angulartics-ga": "../components/angulartics/dist/angulartics-ga.min",
         "angular-marked": "../components/angular-marked/angular-marked",
@@ -171,7 +170,7 @@ require.config({
             "deps": ["angular"]
         },
         "dm-wavesurfer": {
-            "deps": ["angular", "wavesurfer"]
+            "deps": ["angular"]
         },
         "angular-hotkeys": {
             "deps": ["angular"]
