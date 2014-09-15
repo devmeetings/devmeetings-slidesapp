@@ -13,11 +13,13 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
         },
         replace: true,
         templateUrl: '/static/dm-wavesurfer/dm-wavesurfer.html',
-        link: function (scope, element) {
+        link: function (scope, element, attrs) {
             scope.ranges = [{
                 start: 0,
                 end: 0
             }];
+            scope.duration = 0;
+
             var ready = false;
             var audio = element.find('audio')[0];
         
@@ -43,6 +45,11 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
 
             audio.addEventListener('durationchange', function () {
                 scope.$apply(function () {
+                    scope.duration = audio.duration;
+
+                    if (!attrs.dmDuration) {
+                        return;
+                    }
                     scope.dmDuration = audio.duration;
                 });
             }, false);
@@ -65,6 +72,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             });
 
             var onPlayPause = function () {
+                if (!attrs.dmIsPlaying) {
+                    return;
+                }
                 scope.$apply(function () {
                     scope.dmIsPlaying = !audio.paused;
                 });
@@ -87,9 +97,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
 
             scope.waveClicked = function (event) {
                 var width = parseInt(element.css('width').replace(/px/, ''));
-                var clickX = event.pageX;
+                var clickX = event.clientX - element.offset().left;
                 var position = clickX / width;
-                audio.currentTime = position * scope.dmDuration;
+                audio.currentTime = position * audio.duration;
                 scope.dmCurrentSecond = audio.currentTime;
             };
         }
