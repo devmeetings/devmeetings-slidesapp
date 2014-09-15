@@ -1,3 +1,9 @@
-.dm-waveform
-    .progress.progress-striped.active
-        .progress-bar
+.dm-wavesurfer(ng-click='waveClicked($event)')
+    audio(src='http://xplatform.org/static/sounds/angular-total-01.ogg')
+    .dm-wavesurfer-range(
+        ng-repeat='range in ranges',
+        style='left: {{(range.start / dmDuration) * 100 }}%; width: {{(range.end - range.start) / dmDuration * 100}}%')
+    .dm-wavesurfer-position(
+        style='width: {{(dmCurrentSecond / dmDuration) * 100}}%;'
+        )
+

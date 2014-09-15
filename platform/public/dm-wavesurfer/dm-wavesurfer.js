@@ -11,90 +11,87 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             dmStartSecond: '=',
             dmIsPlaying: '=',
             dmScroll: '@',
-            dmDuration: '='
+            dmDuration: '=',
+            dmOnEnd: '='
         },
         replace: true,
         templateUrl: '/static/dm-wavesurfer/dm-wavesurfer.html',
         link: function (scope, element) {
-            var options = {
-                container: element[0], 
-                waveColor: 'rgb(37,37,37)',
-                progressColor: '#5aabcb', 
-                loaderColor: 'purple',
-                cursorColor: '#5aabcb',
-                selectionColor: 'rgba(110,110,110,1)',
-                markerWidth: 2,
-                minPxPerSec: 10,
-                scrollParent: scope.dmScroll === 'true' ? true : false,
-                height: 100
+            scope.ranges = [{
+                start: 0,
+                end: 0
+            }];
+            var ready = false;
+            var audio = element.find('audio')[0];
+           
+            audio.addEventListener('progress', function () {
+                scope.$apply(function () {
+                    for (var i = 0; i < audio.buffered.length; i++) {
+                        if (scope.ranges[i]) {
+                            scope.ranges[i].start = audio.buffered.start(i);
+                            scope.ranges[i].end = audio.buffered.end(i);
+                            continue; 
+                        }
+                        scope.ranges.push({
+                            start: audio.buffered.start(i),
+                            end: audio.buffered.end(i)
+                        });
+                    }
+                });
+            }, false);
+
+            audio.addEventListener('durationchange', function () {
+                scope.$apply(function () {
+                    scope.dmDuration = audio.duration;
+                });
+            }, false);
+
+            audio.addEventListener('canplay', function (data) {
+                ready = true;
+                audio.play();
+            }, false);
+
+            audio.addEventListener('timeupdate', function () {
+                scope.$apply(function () {
+                    scope.dmCurrentSecond = audio.currentTime;
+                });
+            });
+
+            audio.addEventListener('ended', function () {
+                scope.$apply(function () {
+                    scope.dmOnEnd();
+                });
+            });
+
+            var onPlayPause = function () {
+                scope.$apply(function () {
+                    scope.dmIsPlaying = !audio.paused;
+                });
             };
 
+            audio.addEventListener('play', onPlayPause);
+            audio.addEventListener('pause', onPlayPause);
 
-            wavesurfer.init(options);
 
-            scope.$watch('dmSrc', function () {
-                if (scope.dmSrc === '' || !scope.dmSrc) {
+            scope.$watch('dmIsPlaying', function () {
+                scope.dmIsPlaying ? audio.play() : audio.pause();
+            });
+
+            scope.$watch('dmStartSecond', function () {
+                if (!ready) {
                     return;
                 }
-
-                wavesurfer.load(scope.dmSrc);
+                audio.currentTime = scope.dmStartSecond;
             });
 
-            wavesurfer.on('ready', function () {
-                scope.dmDuration = wavesurfer.getDuration();
-                
-                var checkPlaying = function () {
-                    scope.dmIsPlaying ? wavesurfer.play() : wavesurfer.pause();
-                };
-
-                wavesurfer.seekAndCenter(scope.dmStartSecond);
-                scope.$watch('dmStartSecond', function () {
-                    if (!scope.dmStartSecond) {
-                        return;
-                    }
-                    wavesurfer.seekAndCenter(scope.dmStartSecond / wavesurfer.getDuration());
-                    checkPlaying();
-                });
-
-                scope.$watch('dmIsPlaying', function () {
-                    checkPlaying();
-                });
-            });
-
-            wavesurfer.on('progress', function (progress) {
-                $timeout(function () {
-                    scope.dmCurrentSecond = wavesurfer.getCurrentTime();
-                });
-            });
-
-            (function () {
-                var $progress = element[0].querySelector('.progress');
-                var $progressBar = element[0].querySelector('.progress-bar');
-                var $wave = element[0].querySelector('wave');
-
-                $progress.style.margin = '0px 0px 50px 0px';
-                $progress.style['border-radius'] = '0px';
-
-                var showProgress = function (percent) {
-                    $progress.style.display = 'block';
-                    $wave.style.display = 'none';
-                    $progressBar.style.width = percent + '%';
-                };
-
-                var hideProgress = function () {
-                    $progress.style.display = 'none';
-                    $wave.style.display = 'block';
-                };
-
-                wavesurfer.on('loading', showProgress);
-                wavesurfer.on('ready', hideProgress);
-                wavesurfer.on('destroy', hideProgress);
-                wavesurfer.on('error', hideProgress);
-            }());
-        
-            scope.$on('$destroy', function () {
-                wavesurfer.destroy();
-            });
+            scope.waveClicked = function (event) {
+                var width = parseInt(element.css('width').replace(/px/, ''));
+                var clickX = event.pageX;
+                var position = clickX / width;
+                audio.currentTime = position * scope.dmDuration;
+                scope.dmCurrentSecond = audio.currentTime;
+            };
         }
     }
 }]);
+

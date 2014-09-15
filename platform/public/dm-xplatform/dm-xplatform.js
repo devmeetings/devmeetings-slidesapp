@@ -22,7 +22,7 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
-        'xplatform/controllers/dm-xplatform-whatsup/dm-xplatform-whatsup'
+        //'xplatform/controllers/dm-xplatform-whatsup/dm-xplatform-whatsup'
 
 
     ],
@@ -408,7 +408,7 @@ require(['angular',
                     views: {
                         left: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-whatsup/index.html',
-                            controller: 'dmXplatformWhatsup' 
+                            //controller: 'dmXplatformWhatsup' 
                         }
                     }
 
