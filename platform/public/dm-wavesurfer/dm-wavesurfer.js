@@ -1,8 +1,5 @@
 'use strict';
 angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', function ($timeout) {
-    
-    var wavesurfer = Object.create(WaveSurfer);
-    
     return {
         restrict: 'E',
         scope: {
