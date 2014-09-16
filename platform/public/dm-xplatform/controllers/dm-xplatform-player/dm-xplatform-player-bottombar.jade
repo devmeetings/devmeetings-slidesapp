@@ -26,7 +26,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
                     i.fa.fa-indent(ng-if='showRight')
         .navbar-left
             a.navbar-brand
-                span.cursor-pointer(ng-click="changeRate()", tooltip="Change speed to {{nextRate}}")
+                span.cursor-pointer(ng-click="changeRate()", tooltip="Change speed to {{nextRate}}", tooltip-placement="right")
                     | {{state.playbackRate | number:1 }}x
 
         .navbar-left.player-center
