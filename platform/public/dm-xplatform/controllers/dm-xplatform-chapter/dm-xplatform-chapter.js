@@ -102,8 +102,9 @@ define(['angular',
                 });
             };
 
-            $scope.state.playbackRate = 0.5;
+            
             var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+            $scope.state.playbackRate = rates[0];
             $scope.changeRate = function() {
                 var nextRate = rates.indexOf($scope.state.playbackRate) + 1;
                 nextRate = nextRate % rates.length;

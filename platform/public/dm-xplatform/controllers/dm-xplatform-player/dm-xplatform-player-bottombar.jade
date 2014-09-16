@@ -24,7 +24,7 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
         .navbar-left
             a.navbar-brand
                 span.cursor-pointer(ng-click="changeRate()", tooltip="Change speed to {{nextRate}}")
-                    | {{state.playbackRate}}x
+                    | {{state.playbackRate | number:1 }}x
 
         .navbar-left.player-center
             a.navbar-brand
