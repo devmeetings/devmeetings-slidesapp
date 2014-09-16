@@ -3,11 +3,16 @@
         .row.full-height
             ul.nav.nav-tabs
                 li.workspace-tab(
-                    ng-repeat="(tabName, tab) in workspace.tabs",
+                    ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
                     ng-class="{'workspace-tab-active': workspace.active === tabName }")
-                    a.pointer(ng-click="workspace.active = tabName") {{ tabName.replace('|', '.') }}
+                    a.cursor-pointer(ng-click="workspace.active = tabName") {{ tabName.replace('|', '.') }}
+                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete file", tooltip-placement="right")
+                        | x
+                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit file name", tooltip-placement="right")
+                        span.fa.fa-pencil
                 li.add-tab
-                    a.pointer(ng-click="insertTab()") +
+                    a.cursor-pointer(ng-click="insertTab()")
+                        | +
 
             .tab-content
                 .tab-pane.active.fade.in.scrollable-container

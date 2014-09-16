@@ -22,6 +22,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         sliderPlugins.trigger('slide.save');
     }, 20);
 
+    sliderPlugins.filter('objectKeys', function() {
+        return function(object) {
+            return Object.keys(object);
+        };
+    });
+
 
     sliderPlugins.registerPlugin('slide', 'workspace', 'slide-workspace', 3900).directive('slideWorkspace', [
         '$timeout', '$window', '$rootScope',
@@ -36,15 +42,50 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
                     // This is temporary hack!
-                    scope.insertTab = function() {
-                        var name = $window.prompt("Tab name - separate extension with |");
+                    function promptForName(old) {
+                        var name = $window.prompt("Insert new filename", old.replace(/\|/g, '.'));
                         if (!name) {
                             return;
                         }
-                        name = name.replace(/\./g, '|');
+                        return name.replace(/\./g, '|');
+                    }
+
+                    function deleteTabAndFixActive(tabName, newName) {
+                        var ws = scope.workspace;
+                        delete ws.tabs[tabName];
+                        if (ws.active === tabName) {
+                            ws.active = newName || Object.keys(ws.tabs)[0];
+                        }
+                    }
+
+                    scope.insertTab = function() {
+                        var name = promptForName();
+                        if (!name) {
+                            return;
+                        }
                         scope.workspace.tabs[name] = {
                             "content": ""
                         };
+                    };
+                    scope.removeTab = function(tabName) {
+                        var sure = $window.confirm("Sure to remove the file?");
+                        if (!sure) {
+                            return;
+                        }
+                        deleteTabAndFixActive(tabName);
+                    };
+                    scope.editTabName = function(tabName) {
+                        var newName = promptForName(tabName);
+                        if (!newName) {
+                            return;
+                        }
+                        var ws = scope.workspace;
+                        ws.tabs[newName] = ws.tabs[tabName];
+                        deleteTabAndFixActive(tabName, newName);
+                    };
+
+                    scope.tabsOrdering = function(tab) {
+                        return getExtension(tab);
                     };
 
                     // Editor
@@ -62,6 +103,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         editor.getSession().setTabSize(4);
                         editor.getSession().setUseSoftTabs(true);
                         editor.getSession().setUseWrapMode(true);
+                        editor.setOptions({
+                            enableBasicAutocompletion: true,
+                            enableSnippets: true,
+                            enableLiveAutocompletion: false
+                        });
 
                         ///
 
@@ -207,6 +253,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         updateEditorScroll(ed, tab);
     }
 
+    function getExtension(name) {
+        return name.split('|')[1];
+    }
+
     function updateMode(editor, name, givenMode) {
         var modesMap = {
             'js': 'javascript'
@@ -216,7 +266,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         if (givenMode) {
             mode = givenMode;
         } else {
-            mode = name.split('|')[1] || "text";
+            mode = getExtension(name) || "text";
             mode = modesMap[mode] || mode;
         }
         editor.getSession().setMode("ace/mode/" + mode);
