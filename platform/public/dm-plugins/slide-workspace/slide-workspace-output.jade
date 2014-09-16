@@ -3,4 +3,7 @@ input.form-control(
 	ng-show="fiddle.url", 
 	ng-model="fiddle.url.addressTemp",
 	ng-change="updateAddress()")
+
+a.btn.btn-default.btn-xs.output-new-window(ng-href="/api/page/{{ contentUrl }}/", target="_blank", tooltip="Open your page in new window")
+	span.fa.fa-external-link
 iframe.iframe-fiddle-output.scrollable-container
