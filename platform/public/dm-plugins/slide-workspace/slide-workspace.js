@@ -54,7 +54,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                     // This is temporary hack!
                     function promptForName(old) {
-                        var name = $window.prompt("Insert new filename", old.replace(/\|/g, '.'));
+                        var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : undefined);
                         if (!name) {
                             return;
                         }
