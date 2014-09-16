@@ -16,6 +16,7 @@ define(['angular',
                 }
                 $scope.recordingPlayer.player.goToSecond(($scope.state.currentSecond - $scope.chapter.videodata.timestamp) + $scope.chapter.videodata.recordingTime);
             };
+
             
             $http.post('/api/event/start/' + $stateParams.event);
             $http.get('/api/event/first_task/' + $stateParams.event).success(function (slideId) {
@@ -102,6 +103,18 @@ define(['angular',
                     });
                 });
             };
+
+            
+            var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+            $scope.state.playbackRate = rates[0];
+            $scope.changeRate = function() {
+                var nextRate = rates.indexOf($scope.state.playbackRate) + 1;
+                nextRate = nextRate % rates.length;
+                $scope.nextRate = rates[(nextRate + 1) % rates.length];
+                $scope.state.playbackRate = rates[nextRate];
+            };
+            $scope.changeRate();
+
         }
     ]);
 });

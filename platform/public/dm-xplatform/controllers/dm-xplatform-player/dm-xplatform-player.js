@@ -77,7 +77,8 @@ define(['angular',
                 onRightButtonPressed: undefined,
                 onSaveFile: undefined,
                 onOpenFile: undefined,
-                activeChapterPercentage: 0
+                activeChapterPercentage: 0,
+                playbackRate: 1.0
             };
             
             $scope.recordingPlayer = {

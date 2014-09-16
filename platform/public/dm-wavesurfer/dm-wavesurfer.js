@@ -9,7 +9,8 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             dmIsPlaying: '=',
             dmScroll: '@',
             dmDuration: '=',
-            dmOnEnd: '='
+            dmOnEnd: '=',
+            dmPlaybackRate: '='
         },
         replace: true,
         templateUrl: '/static/dm-wavesurfer/dm-wavesurfer.html',
@@ -26,6 +27,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
 
             var ready = false;
             var audio = element.find('audio')[0];
+            scope.$watch('dmPlaybackRate', function(){
+                audio.playbackRate = scope.dmPlaybackRate || 1.0;
+            });
         
             scope.$watch('dmSrc', function () {
                 audio.src = scope.dmSrc;

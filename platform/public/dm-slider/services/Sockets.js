@@ -6,7 +6,8 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid', 's
             _socket: null,
 
             _initialize: function() {
-                this._socket = io.connect('http://' + $location.host() + "/?deck=" + deckId);
+                var protocol = $location.protocol();
+                this._socket = io.connect(protocol+'://' + $location.host() + "/?deck=" + deckId);
                 var s = this._socket;
                 this.emit = s.emit.bind(s);
                 this.on = s.on.bind(s);
