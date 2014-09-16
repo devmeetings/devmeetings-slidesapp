@@ -14,8 +14,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
         'xplatform/controllers/dm-xplatform-message/dm-xplatform-message',
         'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream',
-        'xplatform/controllers/dm-xplatform-event/dm-xplatform-event',
-        'xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology',
         'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
         'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
         'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
@@ -204,48 +202,6 @@ require(['angular',
                         $rootScope.xplatformData.columns = {
                             left: 0,
                             mid: 12,
-                            right: 0
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.event', {
-                    url: '/event/:id',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-event/dm-xplatform-event.html',
-                            controller: 'dmXplatformEvent'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 10,
-                            right: 0
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.technology', {
-                    url: '/technology/:name',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-technology/dm-xplatform-technology.html',
-                            controller: 'dmXplatformTechnology'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 10,
                             right: 0
                         };
                     }
