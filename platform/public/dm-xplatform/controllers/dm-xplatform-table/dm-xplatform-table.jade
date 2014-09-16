@@ -22,28 +22,6 @@
                                 li.divider(ng-if='slidesaves.length > 0')
                                 li(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
                                     a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
-                    //-a.dm-cursor(ng-click='createWorkspace()', ng-if='!(slidesaves.length > 0)') CREATE WORKSPACE
-                    //-p(ng-repeat='slide in slidesaves | orderBy: "-timestamp"') 
-                        a.dm-cursor(ui-sref='index.task({slide: slide._id})') {{slide.title}}
-            //-.col-md-6
-                .course-background
-                    h4 Mentor
-                    hr
-                    h5 Mentor czeka na Twoje pytania na TeamSpeak'u!
-                    ul.course-list
-                        li Zainstaluj klienta TeamSpeak, do pobrania pod 
-                            a(href='http://www.teamspeak.com', target='_blank') http://www.teamspeak.com 
-                        li Skonfiguruj TeamSpeak w trybie "Push-To-Talk" (Preferences...)
-                        li Połącz się z serwerem: 
-                            code 62.67.42.152:9214
-                            | &nbsp;(hasło: 
-                            code devmeetings123
-                            | )
-                    p
-                        a.btn.course-button(href='http://www.teamspeak.com', target='_blank')
-                            &nbsp;
-                            span.fa.fa-comments-o
-                            &nbsp;
             .col-md-6
                 .course-background
                     h4 Ranking
