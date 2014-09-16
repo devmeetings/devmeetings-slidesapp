@@ -1,12 +1,14 @@
-.modal-header
-    h1
-        | Gratulacje
-.modal-body
+.modal-body.clearfix
+    h4 Gratulacje  
+    hr
+    p.pull-right
+        a.btn.course-button.course-button-small(ng-click='ok()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.menu')
+            &nbsp;
+            span.fa.fa-arrow-right
+            &nbsp;
     p
-        | Właśnie ukonćzyłeś {{content.title}}
-.modal-footer
-    button.btn.btn-default(ng-click='cancel()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.stay')
-        | Pozostań
-    button.btn.btn-default(ng-click='ok()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.menu')
-        | Menu
+        a.btn.course-button.course-button-small(ng-click='cancel()', analytics-category='{{content.title}}', analytics-on='click', analytics-event='finished.stay')
+            &nbsp;
+            span.fa.fa-repeat
+            &nbsp;
 
