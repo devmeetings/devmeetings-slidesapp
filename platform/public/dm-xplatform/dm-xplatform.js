@@ -19,7 +19,10 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
         'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
-        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register'
+        'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
+        'xplatform/controllers/dm-xplatform-spaceleft/dm-xplatform-spaceleft',
+        'xplatform/controllers/dm-xplatform-spaceright/dm-xplatform-spaceright',
+        'xplatform/controllers/dm-xplatform-space/dm-xplatform-space'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -353,6 +356,27 @@ require(['angular',
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter.html',
                             controller: 'dmXplatformChapter'
                         }
+                    }
+                });
+
+                $stateProvider.state('index.space', {
+                    url: '/:space',
+                    views: {
+                        mid: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-space/dm-xplatform-space.html',
+                            controller: 'dmXplatformSpace'
+                        },
+                    },
+                    onEnter: function ($rootScope) {
+                        $rootScope.xplatformData.columns = {
+                            left: 0,
+                            mid: 12,
+                            right: 0
+                        };
+                        $rootScope.xplatformData.navbar = {
+                            showTitle: true,
+                            title: 'Tutorial'
+                        };
                     }
                 });
 

@@ -1,0 +1,42 @@
+.dm-spacesidebar(ng-style='{"width": left.current}')
+    a.btn.pull-right(ng-click='left.current = left.current === left.max ? left.min : left.max')
+        span.fa.fa-align-justify
+.dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
+    .col-xs-12
+        .row
+            h1 Hello World
+.dm-spacesidebar(ng-style='{"width": right.current}')
+    a.btn.pull-left.dm-space-toggle(ng-click='toggleRight()')
+        span.fa.fa-align-justify
+    tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
+        tab(heading='Stream', active='tabs.stream', select='toggleRight(true)')
+            tab-heading
+                span.fa.fa-newspaper-o
+            .col-xs-12
+                .well Look, I'm in a well!
+            .col-xs-12
+                .well Look, I'm in a well!
+            .col-xs-12
+                .well Look, I'm in a well!
+            .col-xs-12
+                .well Look, I'm in a well!
+        tab(heading='Issues', active='tabs.issues', select='toggleRight(true)')
+            tab-heading
+                span.fa.fa-warning
+            .col-xs-12
+                h5 Gdzie umieszczać script?
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
+                button.btn.btn-primary.btn-sm Pomagam
+                hr
+            .col-xs-12
+                h5 Gdzie umieszczać script?
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
+                button.btn.btn-primary.btn-sm Pomagam
+                hr
+        tab(heading='Chat', active='tabs.chat', select='toggleRight(true)')
+            tab-heading
+                span.fa.fa-wechat
+        tab(heading='Docs', active='tabs.docs', select='toggleRight(true)')
+            tab-heading
+                span.fa.fa-paperclip
+

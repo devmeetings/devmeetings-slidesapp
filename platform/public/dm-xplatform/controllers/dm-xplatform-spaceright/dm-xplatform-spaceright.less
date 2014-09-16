@@ -1,0 +1,36 @@
+.dm-spaceright-tab {
+    overflow-y: auto;
+    height: 100%;
+    li {
+        width: 70px;
+        text-align: center;
+        margin: 0;
+        a {
+            border-radius: 0;
+            margin: 0;
+            border: 0;
+            cursor: pointer;
+        }
+    }
+
+    li a:hover {
+        background-color: rgb(110,110,110);
+    }
+
+    li.active a,
+    li.active a:hover {
+        background-color: rgb(160,160,160);
+        border: 0;
+    }
+
+    .tab-content {
+        height: calc(~"100% - 40px");
+        overflow-y: auto;
+        padding-top: 1em;
+
+        .tab-pane {
+            height: 100%;
+        }
+    }
+
+}

@@ -12,7 +12,7 @@ define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app',
                 element.removeClass();
                 element.addClass(className);
                 element.addClass(col);
-                element.toggle(width !== 0);
+                element.toggle(width != 0);
             }
 
             var reloadCols = function() {

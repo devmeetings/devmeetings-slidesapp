@@ -66,6 +66,8 @@ define(['angular',
                 $scope.userId = user._id;
             });
 
+            $scope.$watch('state.currentSecond', goToSecond);
+
             $scope.onEnd = function () {
                 var modalInstance = $modal.open({
                     templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter-next.html',
