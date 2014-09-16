@@ -41,6 +41,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 },
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
+                    scope.output = {
+                        show: false,
+                        sideBySide: true
+                    };
+                    scope.$watch('output.sideBySide', function() {
+                        scope.output.show = false;
+                        // Refresh view
+                        triggerChangeLater(scope);
+                    });
+
+
                     // This is temporary hack!
                     function promptForName(old) {
                         var name = $window.prompt("Insert new filename", old.replace(/\|/g, '.'));

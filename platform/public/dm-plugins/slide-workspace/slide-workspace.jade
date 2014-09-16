@@ -1,11 +1,17 @@
 .row.slide-workspace.full-height
-    .full-height(ng-class="{'col-sm-12': hideOutput, 'col-sm-6': !hideOutput }")
+    .full-height(ng-class="{'col-sm-12': !output.sideBySide, 'col-sm-6': output.sideBySide, 'side-by-side': output.sideBySide }")
         .row.full-height
             ul.nav.nav-tabs
+                li.workspace-tab.workspace-tab-output.pull-left(
+                    ng-if="!output.sideBySide", ng-class="{'workspace-tab-active': output.show}")
+                    a.cursor-pointer(ng-click="output.show = true")
+                        | Preview
                 li.workspace-tab(
                     ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
-                    ng-class="{'workspace-tab-active': workspace.active === tabName }")
-                    a.cursor-pointer(ng-click="workspace.active = tabName") {{ tabName.replace('|', '.') }}
+                    ng-class="{'workspace-tab-active': workspace.active === tabName && !output.show }")
+                    a.cursor-pointer(
+                        ng-click="workspace.active = tabName;output.show = false") 
+                        | {{ tabName.replace('|', '.') }}
                     a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete file", tooltip-placement="right")
                         | x
                     a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit file name", tooltip-placement="right")
@@ -13,13 +19,18 @@
                 li.add-tab
                     a.cursor-pointer(ng-click="insertTab()")
                         | +
+                li.workspace-tab.workspace-sidebyside.pull-right
+                    a.cursor-pointer(ng-click="output.sideBySide = !output.sideBySide")
+                        span.fa.fa-arrows-h
 
-            .tab-content
+            .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container
                     .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
                 .errors.alert.alert-danger.errors-fiddle {{ errors }}
+            .tab-content(ng-show="output.show", ng-if="!output.sideBySide")
+                slide-workspace-output.full-height    
 
-    .col-sm-6.full-height(ng-class="{ 'hidden': hideOutput }")
+    .col-sm-6.full-height(ng-if="output.sideBySide")
         .row.full-height
             slide-workspace-output.full-height
 

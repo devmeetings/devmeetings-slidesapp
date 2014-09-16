@@ -21,11 +21,29 @@
             font-size: 7px;
             font-weight: normal;
         }
-
         &:hover {
             .workspace-tab-close, .workspace-tab-edit {
                 opacity: 0.7;
             }
+        }
+    }
+
+    .workspace-sidebyside {
+            margin-right: 60px;
+    }
+    .side-by-side {
+        .workspace-sidebyside {
+            margin-right: 0;
+        }
+    }
+
+
+    .workspace-tab-output a {
+        border: 1px solid #222;
+        background-color: #777;
+
+        :hover {
+            background-color: #555;
         }
     }
 
@@ -44,5 +62,17 @@
 .scrollable-container {
     height: 100%;
     overflow-y: auto;
+}
+
+.output-new-window {
+    position: absolute;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    opacity: 0.1;
+
+    &:hover {
+        opacity: 1.0;
+    }
 }
 
