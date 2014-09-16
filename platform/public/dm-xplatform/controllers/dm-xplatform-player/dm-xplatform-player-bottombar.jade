@@ -1,5 +1,5 @@
 .player-bottombar-wave
-    dm-wavesurfer(dm-on-end='onEnd', dm-scroll='false', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying', dm-duration='state.audioDuration')
+    dm-wavesurfer(dm-on-end='onEnd', dm-scroll='false', dm-src='chapter.videodata.url', dm-start-second='state.startSecond', dm-current-second='state.currentSecond', dm-is-Playing='state.isPlaying', dm-duration='state.audioDuration', dm-playback-rate="state.playbackRate")
     dm-timeline(callback='pointSelected', length='state.audioDuration', snippets='snippets', tasks='tasks')
 
 nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation")
@@ -21,6 +21,11 @@ nav.navbar.navbar-default.navbar-fixed-bottom.player-bottombar(role="navigation"
                 button.btn(type='button', ng-click='showRight = !showRight')
                     i.fa.fa-outdent(ng-if='!showRight')
                     i.fa.fa-indent(ng-if='showRight')
+        .navbar-left
+            a.navbar-brand
+                span.cursor-pointer(ng-click="changeRate()", tooltip="Change speed to {{nextRate}}")
+                    | {{state.playbackRate}}x
+
         .navbar-left.player-center
             a.navbar-brand
                 span.fa.fa-step-backward.cursor-pointer(
