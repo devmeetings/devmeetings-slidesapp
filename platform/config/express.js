@@ -16,6 +16,14 @@ module.exports = function(app, config) {
     });
 
     var sessionConfig = {
+        key: 'xplatform.sid',
+        cookie: { 
+            domain: config.cookieDomain,
+            path: '/', 
+            httpOnly: true, 
+            secure: config.cookieSecure || false, 
+            maxAge: null 
+        },
         secret: 'ImSecretAndIKnowIt',
         store: new MongoStore({
             url: config.db

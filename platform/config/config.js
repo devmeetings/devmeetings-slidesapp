@@ -19,6 +19,7 @@ var config = {
             name: 'platform'
         },
         port: 3000,
+        cookieDomain: undefined,
         realmUrl: realmUrl || 'http://localhost:3000',
         fb: {
             id: 1431694133754278,
@@ -53,6 +54,7 @@ var config = {
             clientId: '81c1de02cccf83b4a849',
             clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
+        cookieDomain: undefined,
         realmUrl: realmUrl || 'http://xplatform.org:2000',
         db: 'mongodb://' + mongoHost + '/platform-test',
         queue: rabbitHost,
@@ -81,6 +83,7 @@ var config = {
             clientId: '9bc4587bb4a474187812',
             clientSecret: '676949bd66e064f68b8bd5a6367b61e3cd4bc7be'
         },
+        cookieDomain: 'staging.xplatform.org',
         realmUrl: realmUrl || 'http://staging.xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-staging',
         queue: rabbitHost,
@@ -112,7 +115,9 @@ var config = {
             clientId: '81c1de02cccf83b4a849',
             clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
-        realmUrl: realmUrl || 'http://xplatform.org',
+        cookieDomain: 'xplatform.org',
+        cookieSecure: true,
+        realmUrl: realmUrl || 'https://xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-production',
         queue: rabbitHost,
         graylog: {
