@@ -1,58 +1,69 @@
-.dm-spacesidebar(ng-style='{"width": left.current}')
-    .col-sm-12
-        .row.clearfix
-            a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
+.col-sm-12.full-height
+    .row(ng-style='{"height": "calc(100% - " + bottombarHeight + ")"}')
+
+        .dm-spacesidebar(ng-style='{"width": left.current}')
+            .col-sm-12
+                .row.clearfix
+                    a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
+                        span.fa.fa-align-justify
+            div(ng-style='{"width": left.max, "clear": "both"}')
+                accordion.dm-space-accordion
+                    accordion-group
+                        accordion-heading
+                            .row
+                                .col-xs-12
+                                    a.btn.pull-left.dm-space-toggle
+                                        span.fa.fa-film
+                                    h5 Nagranie
+                        p Hello
+                        //-button.btn.btn-sm.btn-primary(ui-sref='index.space.player.chapter({event: "53dfb356870cd20000458e35", id: "53dfafcdf1b57bdd306f2176", index: "0"})') Player
+                        button.btn.btn-sm.btn-primary(ui-sref='index.space.player') Player
+                    accordion-group(ng-repeat='task in [1,2,3,4,5]')
+                        accordion-heading
+                            .row
+                                .col-xs-12
+                                    a.btn.pull-left.dm-space-toggle
+                                        span.fa.fa-pencil
+                                    h5 Zadanie {{$index}}
+                        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
+                        button.btn.btn-sm.btn-primary(ui-sref='index.space.task({slide: "5412e2d70938d40000b7e990"})') Workspace
+
+
+        .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
+            .col-xs-12.full-height
+                .row.full-height(ng-if='!showTutorial', ui-view='content')
+                .row.full-height(ng-if='showTutorial')
+                    | Hello World
+                    
+
+        .dm-spacesidebar(ng-style='{"width": right.current}')
+            a.btn.pull-left.dm-space-toggle(ng-click='toggleRight()')
                 span.fa.fa-align-justify
-    div(ng-style='{"width": left.max, "clear": "both"}')
-        accordion.dm-space-accordion
-            accordion-group(ng-repeat='task in [1,2,3,4,5]')
-                accordion-heading
-                    .row
-                        .col-xs-12
-                            a.btn.pull-left.dm-space-toggle
-                                span.fa.fa-tasks
-                            h5 Zadanie {{$index}}
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
-
-
-.dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
-    .col-xs-12.full-height
-        .row.full-height(ui-view='content')
-            
-
-.dm-spacesidebar(ng-style='{"width": right.current}')
-    a.btn.pull-left.dm-space-toggle(ng-click='toggleRight()')
-        span.fa.fa-align-justify
-    tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
-        tab(id='stream', active='tabs.stream', select='toggleRight(true)')
-            tab-heading
-                span.fa.fa-newspaper-o
-            .col-xs-12
-                .well Look, I'm in a well!
-            .col-xs-12
-                .well Look, I'm in a well!
-            .col-xs-12
-                .well Look, I'm in a well!
-            .col-xs-12
-                .well Look, I'm in a well!
-        tab(id='issues', active='tabs.issues', select='toggleRight(true)')
-            tab-heading
-                span.fa.fa-warning
-            .col-xs-12
-                h5 Gdzie umieszczać script?
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
-                button.btn.btn-primary.btn-sm Pomagam
-                hr
-            .col-xs-12
-                h5 Gdzie umieszczać script?
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
-                button.btn.btn-primary.btn-sm Pomagam
-                hr
-        tab(id='chat', active='tabs.chat', select='toggleRight(true)')
-            tab-heading
-                span.fa.fa-wechat
-            dm-xplatform-chat(name='TESTER')
-        tab(id='docs', active='tabs.docs', select='toggleRight(true)')
-            tab-heading
-                span.fa.fa-paperclip
+            tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
+                tab(id='stream', active='tabs.stream', select='toggleRight(true)')
+                    tab-heading
+                        span.fa.fa-newspaper-o
+                    .col-xs-12(ng-repeat='well in [1,2,3,4,5]')
+                        .well Look, I'm in a well!
+                tab(id='issues', active='tabs.issues', select='toggleRight(true)')
+                    tab-heading
+                        span.fa.fa-warning
+                    .col-xs-12
+                        h5 Gdzie umieszczać script?
+                        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
+                        button.btn.btn-primary.btn-sm Pomagam
+                        hr
+                    .col-xs-12
+                        h5 Gdzie umieszczać script?
+                        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
+                        button.btn.btn-primary.btn-sm Pomagam
+                        hr
+                tab(id='chat', active='tabs.chat', select='toggleRight(true)')
+                    tab-heading
+                        span.fa.fa-wechat
+                    dm-xplatform-chat(name='TESTER')
+                tab(id='docs', active='tabs.docs', select='toggleRight(true)')
+                    tab-heading
+                        span.fa.fa-paperclip
+    .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
 

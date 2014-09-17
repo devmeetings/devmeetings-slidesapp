@@ -22,7 +22,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
         'xplatform/controllers/dm-xplatform-spaceleft/dm-xplatform-spaceleft',
         'xplatform/controllers/dm-xplatform-spaceright/dm-xplatform-spaceright',
-        'xplatform/controllers/dm-xplatform-space/dm-xplatform-space'
+        'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
+        'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -380,12 +381,36 @@ require(['angular',
                     }
                 });
 
-                $stateProvider.state('index.space.content', {
+                $stateProvider.state('index.space.task', {
                     url: '/task/:slide',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.player', {
+                    url: '/player',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
+                            controller: 'dmXplatformPlayer'
+                        },
+                        bottombar: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline.html',
+                            controller: 'dmXplatformTimeline'
+                        }
+                    }
+                });
+                
+                $stateProvider.state('index.space.player.chapter', {
+                    url: '/:index',
+                    views: {
+                        chapter: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter.html',
+                            controller: 'dmXplatformChapter'
                         }
                     }
                 });

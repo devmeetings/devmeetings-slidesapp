@@ -1,6 +1,6 @@
 define(['angular', 'xplatform/xplatform-app',
         'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', function ($scope, $timeout) {
+    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', function ($scope, $timeout, $state) {
         $scope.left = {
             min: '50px',
             max: '200px',
@@ -13,6 +13,8 @@ define(['angular', 'xplatform/xplatform-app',
             current: '330px',
             opened: true
         };
+
+        $scope.bottombarHeight = '0px';
 
         $scope.tabs = {};
 
@@ -69,6 +71,13 @@ define(['angular', 'xplatform/xplatform-app',
                 });
             });
         };
+
+
+        $scope.state = $state;
+        $scope.$watch('state.current.name', function () {
+            $scope.showTutorial = $state.current.name === 'index.space';
+            $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '25px' : '0px';
+        });
     }]);
 });
 
