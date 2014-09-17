@@ -20,9 +20,7 @@ module.exports = function(app, config) {
         cookie: { 
             domain: config.cookieDomain,
             path: '/', 
-            httpOnly: true, 
-            proxy: config.cookieSecure || undefined, 
-            secure: config.cookieSecure || false, 
+            httpOnly: true,
             maxAge: null 
         },
         secret: 'ImSecretAndIKnowIt',
