@@ -21,6 +21,7 @@ module.exports = function(app, config) {
             domain: config.cookieDomain,
             path: '/', 
             httpOnly: true, 
+            proxy: config.cookieSecure || undefined, 
             secure: config.cookieSecure || false, 
             maxAge: null 
         },
