@@ -59,6 +59,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                 }
                 return states[event];
             }
-        }
+        };
     }]);
 });
+
