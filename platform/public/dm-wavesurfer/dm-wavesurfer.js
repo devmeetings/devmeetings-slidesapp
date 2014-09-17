@@ -70,6 +70,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             }, false);
 
             audio.addEventListener('canplay', function (data) {
+                if (!ready && scope.dmStartSecond) {
+                    audio.currentTime = scope.dmStartSecond; // start from last position
+                }
                 ready = true;
                 audio.play();
             }, false);

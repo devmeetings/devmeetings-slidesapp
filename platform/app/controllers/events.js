@@ -101,8 +101,8 @@ var Events = {
         
         Q.ninvoke(Event.findOne({
             _id: id
-        }), 'exec').then(function (event) {
-            res.send(200);
+        }).populate('trainingId').lean(), 'exec').then(function (event) {
+            res.send(event);
         }).fail(onError(res)).done(onDone);
     },
     start: function (req, res) {

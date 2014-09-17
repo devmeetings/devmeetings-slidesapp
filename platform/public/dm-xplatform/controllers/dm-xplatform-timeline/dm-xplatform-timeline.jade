@@ -3,12 +3,13 @@ a.btn.dm-timeline-button(ng-click='state.isPlaying = !state.isPlaying', tooltip=
     span.fa.fa-pause(ng-if='state.isPlaying')
 a.btn.dm-timeline-button(tooltip='Obecna sekunda', tooltip-placement='top')
     span {{state.currentSecond | number: 1}} 
-a.btn.dm-timeline-button(ng-click='changeRate()', tooltip='Zmień szybkość na {{nextRate}}', tooltip-placement='top')
-    span {{state.playbackRate | number: 1}}x
+a.btn.dm-timeline-button(ng-click='changeRate()', tooltip='Zmień szybkość na {{nextRate | number: 2}}', tooltip-placement='top')
+    span {{state.playbackRate | number: 2}}x
 .dm-timeline-wave
     dm-wavesurfer(
         dm-src='"https://xplatform.org/static/sounds/angular-total-01.ogg"',
         dm-is-playing='state.isPlaying',
         dm-current-second='state.currentSecond',
-        dm-playback-rate='state.playbackRate')
+        dm-playback-rate='state.playbackRate',
+        dm-start-second='state.startSecond')
 

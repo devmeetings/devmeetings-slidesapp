@@ -1,6 +1,7 @@
 define(['angular', 'xplatform/xplatform-app',
+        'xplatform/services/dm-events/dm-events',
         'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', function ($scope, $timeout, $state) {
+    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', 'dmEvents', function ($scope, $timeout, $state, $stateParams, dmEvents) {
         $scope.left = {
             min: '50px',
             max: '200px',
@@ -25,7 +26,6 @@ define(['angular', 'xplatform/xplatform-app',
             if (open === right.opened) {
                 return;
             }
-
 
             if (open) {
 
@@ -73,11 +73,19 @@ define(['angular', 'xplatform/xplatform-app',
         };
 
 
-        $scope.state = $state;
-        $scope.$watch('state.current.name', function () {
+        $scope.currentState = $state;
+        $scope.$watch('currentState.current.name', function () {
             $scope.showTutorial = $state.current.name === 'index.space';
             $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '25px' : '0px';
         });
+
+
+        dmEvents.getEvent($stateParams.event, true).then(function (data) {
+            
+            
+        }, function () {
+        });
+
     }]);
 });
 

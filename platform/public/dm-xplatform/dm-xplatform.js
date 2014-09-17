@@ -361,7 +361,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space', {
-                    url: '/:space',
+                    url: '/space/:event',
                     views: {
                         mid: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-space/dm-xplatform-space.html',
