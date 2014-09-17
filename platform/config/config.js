@@ -115,8 +115,7 @@ var config = {
             clientId: '81c1de02cccf83b4a849',
             clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
-        cookieDomain: 'xplatform.org:443',
-        cookieSecure: true,
+        cookieDomain: 'xplatform.org',
         realmUrl: realmUrl || 'https://xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-production',
         queue: rabbitHost,
