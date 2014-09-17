@@ -1,4 +1,5 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'xplatform/xplatform-app',
+        'xplatform/services/dm-events/dm-events'], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents', function ($scope, $stateParams, dmEvents) {
     
         dmEvents.getEvent($stateParams.event, false).then(function (data) {
