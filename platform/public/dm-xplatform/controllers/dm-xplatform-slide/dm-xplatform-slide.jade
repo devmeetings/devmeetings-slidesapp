@@ -1,6 +1,6 @@
 .col-xs-12.dm-slide-left(ng-init='$root.modes.isTaskMode=true')
     plugins-loader.full-height(namespace="'slide'", context="slide.slide")
-.col-xs-offset-9.col-xs-3.dm-slide-panel(ng-show='showSidebar', ng-init='$root.modes.isTaskMode=true')
+//-.col-xs-offset-9.col-xs-3.dm-slide-panel(ng-show='showSidebar', ng-init='$root.modes.isTaskMode=true')
     .row.full-height
         //-plugins-loader(namespace="'slide.sidebar'", context="slide.content")
         .list-group.dm-slide-saves
@@ -25,7 +25,7 @@
                     a(ui-sref='index.task({slide: save._id})', ui-sref-active='active') {{save.title}} &nbsp;
                 span(am-time-ago='{{save.timestamp}}')
         dm-xplatform-chat(ng-if='user', name='{{user.result.name}}')
-.dm-slide-show 
+//-.dm-slide-show 
     span.cursor-pointer.fa.fa-indent.fa-2x(ng-click='showSidebar = !showSidebar')
 
 

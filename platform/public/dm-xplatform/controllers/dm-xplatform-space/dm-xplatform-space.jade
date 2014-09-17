@@ -1,15 +1,30 @@
 .dm-spacesidebar(ng-style='{"width": left.current}')
-    a.btn.pull-right(ng-click='left.current = left.current === left.max ? left.min : left.max')
-        span.fa.fa-align-justify
+    .col-sm-12
+        .row.clearfix
+            a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
+                span.fa.fa-align-justify
+    div(ng-style='{"width": left.max, "clear": "both"}')
+        accordion.dm-space-accordion
+            accordion-group(ng-repeat='task in [1,2,3,4,5]')
+                accordion-heading
+                    .row
+                        .col-xs-12
+                            a.btn.pull-left.dm-space-toggle
+                                span.fa.fa-tasks
+                            h5 Zadanie {{$index}}
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
+
+
 .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
-    .col-xs-12
-        .row
-            h1 Hello World
+    .col-xs-12.full-height
+        .row.full-height(ui-view='content')
+            
+
 .dm-spacesidebar(ng-style='{"width": right.current}')
     a.btn.pull-left.dm-space-toggle(ng-click='toggleRight()')
         span.fa.fa-align-justify
     tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
-        tab(heading='Stream', active='tabs.stream', select='toggleRight(true)')
+        tab(id='stream', active='tabs.stream', select='toggleRight(true)')
             tab-heading
                 span.fa.fa-newspaper-o
             .col-xs-12
@@ -20,7 +35,7 @@
                 .well Look, I'm in a well!
             .col-xs-12
                 .well Look, I'm in a well!
-        tab(heading='Issues', active='tabs.issues', select='toggleRight(true)')
+        tab(id='issues', active='tabs.issues', select='toggleRight(true)')
             tab-heading
                 span.fa.fa-warning
             .col-xs-12
@@ -33,10 +48,11 @@
                 p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
                 button.btn.btn-primary.btn-sm Pomagam
                 hr
-        tab(heading='Chat', active='tabs.chat', select='toggleRight(true)')
+        tab(id='chat', active='tabs.chat', select='toggleRight(true)')
             tab-heading
                 span.fa.fa-wechat
-        tab(heading='Docs', active='tabs.docs', select='toggleRight(true)')
+            dm-xplatform-chat(name='TESTER')
+        tab(id='docs', active='tabs.docs', select='toggleRight(true)')
             tab-heading
                 span.fa.fa-paperclip
 

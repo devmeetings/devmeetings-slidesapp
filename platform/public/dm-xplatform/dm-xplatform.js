@@ -380,6 +380,16 @@ require(['angular',
                     }
                 });
 
+                $stateProvider.state('index.space.content', {
+                    url: '/task/:slide',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
+                            controller: 'dmXplatformSlide'
+                        }
+                    }
+                });
+
                 $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
                 $urlRouterProvider.when('/', '/courses');
                 $urlRouterProvider.otherwise('/courses');
