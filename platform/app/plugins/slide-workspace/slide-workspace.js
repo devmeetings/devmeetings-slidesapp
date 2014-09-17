@@ -27,12 +27,15 @@ exports.onSocket = function(log, socket, io) {
 };
 
 exports.initApi = function(prefix, app, authenticated) {
-    app.get(prefix + "page/:hash/:file?", authenticated, function(req, res) {
+    app.get(prefix + "page/:hash/:file?*", authenticated, function(req, res) {
         var file = req.params.file || "index.html";
-        var internalFile = getInternalFileName(file);
 
+        file = (req.params[0] ? file + req.params[0] : file);
+        
+        var internalFile = getInternalFileName(file);
+        
         Workspaces.findByHash(req.params.hash).then(function(workspace) {
-            console.dir(workspace);
+            console.dir(Object.keys(workspace.files));
             if (!workspace || !workspace.files[internalFile]) {
                 res.send(404);
                 return;
