@@ -23,7 +23,16 @@ var redirectIfNeeded = function(req, res, next) {
 
 var authenticateAsAnon = function(req, res, next) {
     if (req.query.anon) {
-        passport.authenticate('local')(req, res, next);
+        var users = require('../app/services/users');
+        users.findLocalUserByEmail('anon@todr.me', function(err, user) {
+            if (err) {
+                next(err);
+            } else if (user) {
+                req.login(user, next);
+            } else {
+                next();
+            }
+        });
     } else {
         next();
     }
@@ -154,9 +163,9 @@ module.exports = function(app) {
 
     //home route
     var slider = require('../app/controllers/slider');
-    app.get('/decks/:slides', authenticated, slider.deck);
+    app.get('/decks/:slides', authenticateAsAnon, authenticated, slider.deck);
     app.get('/decks/:slides/trainer', authenticated, slider.trainer);
-    app.get('/slides/:slide', authenticated, slider.slide);
+    app.get('/slides/:slide', authenticateAsAnon, authenticated, slider.slide);
 
     // Admin panel
     var admin = require('../app/controllers/admin');
