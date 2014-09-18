@@ -5,7 +5,7 @@
                 .col-md-4(ng-repeat="cours in courses | orderBy:'order'", ng-if='cours.visible || editMode')
                     .workshoplist-col
                         .workshoplist-thumb
-                            a(ui-sref='index.menu({type: cours.id})',
+                            a(ui-sref='index.space({event: cours._id})',
                                 analytics-category='courses',
                                 analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
                                 img.img-responsive(ng-src="{{cours.image}}")
@@ -13,7 +13,7 @@
                             .workshoplist-details
                                 .workshoplist-details-shadow
                                 h4
-                                    a(ui-sref='index.menu({type: cours.id})',
+                                    a(ui-sref='index.space({event: cours._id})',
                                         analytics-category='courses',
                                         analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
                                         | {{cours.title}}

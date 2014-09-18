@@ -1,11 +1,10 @@
 define(['angular',
         '_',
         'xplatform/xplatform-app',
-        'xplatform/controllers/dm-xplatform-users/dm-xplatform-users',
-        'xplatform/courses'
+        'xplatform/controllers/dm-xplatform-users/dm-xplatform-users'
         ], function (angular, _, xplatformApp) {
-    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$state', '$q', '$stateParams', '$modal', 'dmUser', 'Courses',
-        function ($scope, $http, $state, $q, $stateParams, $modal, dmUser, Courses) {
+    xplatformApp.controller('dmXplatformTable', ['$scope', '$http', '$state', '$q', '$stateParams', '$modal', 'dmUser',
+        function ($scope, $http, $state, $q, $stateParams, $modal, dmUser) {
             
             $scope.visibilityChanged = function (event) {
                 $http.post('/api/change_event_visibility/' + event._id + '/' + event.visible);
