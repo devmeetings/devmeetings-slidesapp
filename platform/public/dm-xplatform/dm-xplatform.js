@@ -19,8 +19,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
-        'xplatform/controllers/dm-xplatform-spaceleft/dm-xplatform-spaceleft',
-        'xplatform/controllers/dm-xplatform-spaceright/dm-xplatform-spaceright',
         'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
         'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline'
     ],
