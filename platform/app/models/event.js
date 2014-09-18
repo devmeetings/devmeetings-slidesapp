@@ -25,6 +25,8 @@ var Event = new Schema({
             ref: 'slide'
         }
     }],
+    image: String,
+    order: Number,
     technology: String,
     date: Date,
     description: String,

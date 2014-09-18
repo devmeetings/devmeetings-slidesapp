@@ -16,6 +16,12 @@ var onDone = function () {
 };
 
 var Events = {
+    all: function (req, res) {
+        Q.ninvoke(Event.find({}).select('title description image order visible').lean(), 'exec').then(function (events) {
+            res.send(events); 
+        }).fail(onError(res)).done(onDone);
+    },
+
     get: function (req, res) {
         var id = req.params.id;
         

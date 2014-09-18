@@ -35,6 +35,16 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         };
     
         return {
+            allEvents: function () {
+                var result = $q.defer();
+                $http.get('/api/events').then(function (data) {
+                    result.resolve(data.data);
+                }, function () {
+                    result.reject();
+                });
+
+                return result.promise;
+            },
             getEvent: function (event, download) {
                 var result = promises[event];
 
@@ -60,6 +70,9 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                     states[event] = {};
                 }
                 return states[event];
+            },
+            changeEventVisibility: function (event, visible) {
+                $http.post('/api/change_event_visibility/' + event + '/' + visible);
             }
         };
     }]);
