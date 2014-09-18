@@ -60,8 +60,8 @@ module.exports = function(app) {
     app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, recordings.cutout);
 
     var events = require('../app/controllers/events');
-    app.get('/api/events', authenticated, events.all);
-    app.get('/api/events/:id', authenticated, events.get);
+    app.get('/api/events', events.all);
+    app.get('/api/events/:id', apiAuthenticated, events.get);
 
     app.post('/api/add_event_snippet/:event', authenticated, events.addEventSnippet);
     app.put('/api/edit_event_snippet/:event/:snippet', authenticated, events.editEventSnippet);
