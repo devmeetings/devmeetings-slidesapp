@@ -19,6 +19,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             this.visible = options.visible;
             this.audios = options.audios;
             this.todos = options.todos;
+            this.chapters = options.chapters;
         };
 
         TransformedEvent.prototype.constructor = TransformedEvent;
@@ -28,7 +29,8 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                 title: data.title,  
                 visible: data.visible,
                 audios: data.audios,
-                todos: data.todos
+                todos: data.todos,
+                chapters: data.chapters
             });
         };
     

@@ -11,7 +11,8 @@ var Event = new Schema({
     chapters: [{
         title: String,
         audio: Schema.Types.ObjectId,
-        todos: [Schema.Types.ObjectId]
+        todos: [Schema.Types.ObjectId],
+        available: Boolean
     }],
     audios: [{
         title: String,
@@ -20,8 +21,7 @@ var Event = new Schema({
         recording: {
             type: Schema.Types.ObjectId,
             ref: 'recording'
-        },
-        available: Boolean
+        }
     }],
     todos: [{
         title: String,
@@ -29,8 +29,7 @@ var Event = new Schema({
         baseSlide: {
             type: Schema.Types.ObjectId,
             ref: 'slide'
-        },
-        available: Boolean
+        }
     }],
     snippets: [{
         title: String,

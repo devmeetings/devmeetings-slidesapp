@@ -1,6 +1,6 @@
-define(['angular', 'xplatform/xplatform-app',
+define(['angular', 'xplatform/xplatform-app', '_',
         'xplatform/services/dm-events/dm-events',
-        'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp) {
+        'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp, _) {
     xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', 'dmEvents', function ($scope, $timeout, $state, $stateParams, $http, dmEvents) {
         $scope.left = {
             min: '50px',
@@ -92,6 +92,22 @@ define(['angular', 'xplatform/xplatform-app',
                     slide: data.data.slidesave
                 });
             });
+        };
+
+        $scope.selectedAudio = function (audio) {
+            var index =_.findIndex($scope.event.audios, function (elem) {
+                return elem._id === audio;
+            });
+            $state.go('index.space.player', {
+                index: index
+            });
+        };
+
+        $scope.selectedTodo = function (todo) {
+            var todoObject = _.find($scope.event.todos, function (elem) {
+                return elem._id === todo;
+            });
+            $scope.openWorkspace(todoObject);
         };
 
     }]);
