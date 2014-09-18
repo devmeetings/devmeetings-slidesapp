@@ -2,4 +2,4 @@
     .row.full-height
         .col-xs-12.dm-slide-left
             plugins-loader(namespace="'slide'", context="slide.content", mode="player")
-            plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
+            plugins-loader(ng-if="$root.modes.isEditMode", namespace="'slide.edit'", context="slide.content")
