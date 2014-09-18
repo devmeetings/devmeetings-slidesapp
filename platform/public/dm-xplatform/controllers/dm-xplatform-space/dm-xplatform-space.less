@@ -31,8 +31,12 @@
         }
     }
 
+    li.active a,
+    li.active a:hover {
+        background-color: rgb(86,171,205);
+    }
+
     .tab-content {
-        /*padding-top: 1em;*/
         height: calc(~"100% - 42px");
         overflow-y: auto;
             
@@ -45,6 +49,12 @@
 .dm-space-toggle,
 .dm-spacesidebar-right.active li {
     width: 50px;
+    color: white;
+    border-radius: 0;
+}
+
+.dm-space-toggle:hover {
+    background-color: rgb(34,34,34); 
 }
 
 .dm-space-accordion {
@@ -53,7 +63,36 @@
         border-radius: 0;
         margin: 0;
         padding: 0;
-        /*border: 0;*/
+        border: 0;
     }
+    
+    .panel .panel-body {
+        button {
+            border-radius: 0;
+        }
+    }
+
+    .panel .panel-heading {
+        cursor: pointer;
+        a {
+            color: white;
+        }
+        
+        .background {
+            background-color: rgb(30,30,30);
+            -webkit-transition: background-color 0.25s ease;
+            transition: background-color 0.25s ease;
+        }
+
+        .background:hover {
+            background-color: rgb(34,34,34);
+        }
+
+        .active, 
+        .active:hover {
+            background-color: rgb(86,171,205);
+        }
+    }
+
 }
 

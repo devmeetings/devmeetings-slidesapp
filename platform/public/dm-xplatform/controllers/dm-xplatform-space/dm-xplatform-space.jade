@@ -8,10 +8,10 @@
                         span.fa.fa-align-justify
             div(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
-                    accordion-group(ng-repeat='audio in event.audios', is-disabled='!editMode && !audio.available')
+                    accordion-group(ng-repeat='audio in event.audios', is-disabled='!editMode && !audio.available', is-open='audio.isOpen')
                         accordion-heading
                             .row
-                                .col-xs-12
+                                .col-xs-12.background(ng-class='{"active": audio.isOpen}')
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-film(ng-if='audio.available')
                                         span.fa.fa-lock(ng-if='!audio.available')
@@ -20,10 +20,10 @@
                             input.pull-right(type='checkbox', ng-model='audio.available')
                         p {{audio.description}}
                         button.btn.btn-sm.btn-primary(ui-sref='index.space.player({index: $index})') Odtwórz
-                    accordion-group(ng-repeat='todo in event.todos', is-disabled='!editMode && !todo.available')
+                    accordion-group(ng-repeat='todo in event.todos', is-disabled='!editMode && !todo.available', is-open='todo.isOpen')
                         accordion-heading
                             .row
-                                .col-xs-12
+                                .col-xs-12.background(ng-class='{"active": todo.isOpen}')
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-pencil(ng-if='todo.available')
                                         span.fa.fa-lock(ng-if='!todo.available')
