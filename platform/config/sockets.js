@@ -21,7 +21,7 @@ module.exports = function(io, sessionConfig) {
 
     io.set('authorization', passportSocketIo.authorize({
         cookieParser: sessionConfig.cookieParser,
-        key: 'connect.sid', // the name of the cookie where express/connect stores its session_id
+        key: 'xplatform.sid', // the name of the cookie where express/connect stores its session_id
         secret: sessionConfig.secret, // the session_secret to parse the cookie
         store: sessionConfig.store, // we NEED to use a sessionstore. no memorystore please
     }));
