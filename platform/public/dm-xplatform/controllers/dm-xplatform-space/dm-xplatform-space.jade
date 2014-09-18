@@ -20,14 +20,14 @@
                             input.pull-right(type='checkbox', ng-model='audio.available')
                         p {{audio.description}}
                         button.btn.btn-sm.btn-primary(ui-sref='index.space.player({index: $index})') Odtwórz
-                    accordion-group(ng-repeat='todo in event.todos', is-disabled='true')
+                    accordion-group(ng-repeat='todo in event.todos', is-disabled='!editMode && !todo.available')
                         accordion-heading
                             .row
                                 .col-xs-12
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-pencil(ng-if='todo.available')
                                         span.fa.fa-lock(ng-if='!todo.available')
-                                    h5 {{todo.title}} + 
+                                    h5 {{todo.title}}
                         div(ng-if='editMode')
                             input.pull-right(type='checkbox', ng-model='todo.available')
                         p {{todo.description}}
