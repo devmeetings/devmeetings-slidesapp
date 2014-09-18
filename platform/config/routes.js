@@ -21,6 +21,14 @@ var redirectIfNeeded = function(req, res, next) {
     next();
 };
 
+var authenticateAsAnon = function(req, res, next) {
+    if (req.query.anon) {
+        passport.authenticate('local')(req, res, next);
+    } else {
+        next();
+    }
+};
+
 var apiAuthenticated = shouldBeAuthenticated.bind(null, false);
 var authenticated = shouldBeAuthenticated.bind(null, true);
 
