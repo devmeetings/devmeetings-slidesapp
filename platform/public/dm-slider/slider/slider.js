@@ -1,13 +1,14 @@
 define(['angular',
         './slider.plugins',
         "angular-bootstrap", "angular-animate", "angular-touch", "angular-slider", 'angular-ui-sortable',
-        'angular-moment', 'angular-local-storage', 'angular-contenteditable', 'angulartics-ga', 'angular-marked'
+        'angular-moment', 'angular-local-storage', 'angular-contenteditable', 'angulartics-ga', 'angular-marked',
+        'angular-hotkeys'
     ],
     function(angular) {
         var mod = angular.module('slider', [
             'slider.plugins', 'ui.bootstrap', 'ngAnimate',
             'vr.directives.slider', 'ui.sortable', 'angularMoment', 'LocalStorageModule', 'contenteditable',
-            'angulartics', 'angulartics.google.analytics', 'hc.marked'
+            'angulartics', 'angulartics.google.analytics', 'hc.marked', 'cfp.hotkeys'
         ]);
 
         mod.config(['$sceDelegateProvider',

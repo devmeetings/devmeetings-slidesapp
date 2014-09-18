@@ -29,6 +29,7 @@
                  }
              };
              $rootScope.$on('$locationChangeSuccess', updateCurrentSlide);
+             updateCurrentSlide();
 
              return csm;
          }
