@@ -7,7 +7,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-index/xplatform-index',
         'directives/plugins-loader',
         'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
-        'xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter',
         'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
         'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
         'xplatform/controllers/dm-xplatform-table/dm-xplatform-table',
@@ -347,16 +346,6 @@ require(['angular',
                             title: 'Tutorial',
                             searchText: ''
                         };
-                    }
-                });
-
-                $stateProvider.state('index.player.chapter', {
-                    url: '/:index',
-                    views: {
-                        chapter: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter.html',
-                            controller: 'dmXplatformChapter'
-                        }
                     }
                 });
 

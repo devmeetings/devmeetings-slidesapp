@@ -1,6 +1,7 @@
 define(['angular', 'xplatform/xplatform-app',
         'xplatform/services/dm-events/dm-events',
-        'xplatform/services/dm-recordings/dm-recordings'], function (angular, xplatformApp) {   
+        'xplatform/services/dm-recordings/dm-recordings',
+        'services/RecordingsPlayerFactory'], function (angular, xplatformApp) {   
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', 'dmEvents', 'dmRecordings', 'RecordingsPlayerFactory', function ($scope, $stateParams, dmEvents, dmRecordings, RecordingsPlayerFactory) {
             
         dmEvents.getEvent($stateParams.event, false).then(function (data) {
