@@ -19,7 +19,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         scope.slide = _.find(scope.deck.deckSlides, {
                             _id: activeSlideId
                         });
-                        if (!scope.slide) {
+                        if (!scope.slide && scope.deck.deckSlides) {
                             scope.slide = scope.deck.deckSlides[0];
                         }
                     };
