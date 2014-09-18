@@ -26,7 +26,8 @@
                                         span.fa.fa-pencil
                                     h5 {{todo.title}}
                         p {{todo.description}}
-                        button.btn.btn-sm.btn-primary(ui-sref='index.space.task({slide: "5412e2d70938d40000b7e990"})') Workspace
+                        //-button.btn.btn-sm.btn-primary(ui-sref='index.space.task({slide: "5412e2d70938d40000b7e990"})') Workspace
+                        button.btn.btn-sm.btn-primary(ng-click='openWorkspace(todo)') Wykonaj 
 
 
         .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')

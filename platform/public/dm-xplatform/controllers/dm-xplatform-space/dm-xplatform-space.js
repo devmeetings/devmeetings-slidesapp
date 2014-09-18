@@ -1,7 +1,7 @@
 define(['angular', 'xplatform/xplatform-app',
         'xplatform/services/dm-events/dm-events',
         'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', 'dmEvents', function ($scope, $timeout, $state, $stateParams, dmEvents) {
+    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', 'dmEvents', function ($scope, $timeout, $state, $stateParams, $http, dmEvents) {
         $scope.left = {
             min: '50px',
             max: '200px',
@@ -84,6 +84,14 @@ define(['angular', 'xplatform/xplatform-app',
             $scope.event = data;
         }, function () {
         });
+
+        $scope.openWorkspace = function (todo) {
+            $http.post('/api/base_slide/' + todo.baseSlide).then(function (data) {
+                $state.go('index.space.task', {
+                    slide: data.data.slidesave
+                });
+            });
+        };
 
     }]);
 });

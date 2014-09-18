@@ -17,6 +17,7 @@ var transformToSlidesave = function (slide, user) {
     return {
         user: user, 
         slide: slide.content,
+        baseSlide: slide._id,
         title: 'default workspace',
         timestamp: new Date()
     };
@@ -98,7 +99,9 @@ var Slidesaves = {
                 return Q.ninvoke(Slidesave, 'create', toInsert);
             });
         }).then(function (slidesave) {
-            res.send(slidesave);
+            res.send({
+                slidesave: slidesave._id
+            });
         }).fail(onError(res)).done(onDone);
     }
 

@@ -11,7 +11,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         /*
          * title: String,
          * visible: Boolean,
-         * audio: String,   (url)
+         * audios: Array,
          * recording: String    (mongod._id)
          */
         var TransformedEvent = function (options) {
