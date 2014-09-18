@@ -19,7 +19,7 @@
                         button.btn.btn-sm.btn-primary.col-xs-12(ng-click='selectedAudio(chapter.audio)') 
                             span.fa.fa-film.pull-left
                             | Odtwórz
-                        button.btn.btn-sm.btn-default.col-xs-12(ng-repeat='todo in chapter.todos track by $index', ng-click='selectedTodo(todo)')
+                        button.btn.btn-sm.btn-default.col-xs-12(ng-repeat='todo in chapter.todos track by $index', ui-sref='index.space.todo({todo: todo})')
                             span.fa.fa-pencil.pull-left
                             | Zadanie
 

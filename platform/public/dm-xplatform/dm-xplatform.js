@@ -20,7 +20,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
         'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
-        'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline'
+        'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline',
+        'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -374,6 +375,16 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.todo', {
+                    url: '/todo/:todo',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo.html',
+                            controller: 'dmXplatformTodo'
                         }
                     }
                 });

@@ -26,11 +26,12 @@ var Event = new Schema({
     todos: [{
         title: String,
         description: String,
-        baseSlide: {
-            type: Schema.Types.ObjectId,
-            ref: 'slide'
-        }
+        url: String
     }],
+    baseSlide: {
+        type: Schema.Types.ObjectId,
+        ref: 'slide'
+    },
     snippets: [{
         title: String,
         timestamp: Number,

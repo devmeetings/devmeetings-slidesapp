@@ -86,8 +86,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
         }, function () {
         });
 
-        $scope.openWorkspace = function (todo) {
-            $http.post('/api/base_slide/' + todo.baseSlide).then(function (data) {
+        $scope.openWorkspace = function () {
+            $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function (data) {
                 $state.go('index.space.task', {
                     slide: data.data.slidesave
                 });
@@ -104,10 +104,9 @@ define(['angular', 'xplatform/xplatform-app', '_',
         };
 
         $scope.selectedTodo = function (todo) {
-            var todoObject = _.find($scope.event.todos, function (elem) {
-                return elem._id === todo;
+            $state.go('index.space.todo', {
+                todo: todo
             });
-            $scope.openWorkspace(todoObject);
         };
 
     }]);
