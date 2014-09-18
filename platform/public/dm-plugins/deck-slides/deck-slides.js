@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$timeout', '$rootScope', 'CurrentSlideManagerForDeck', 'hotkeys',
-        function($timeout, $rootScope, CurrentSlideManagerForDeck, hotkeys) {
+        '$timeout', '$rootScope', '$location', 'CurrentSlideManagerForDeck', 'hotkeys',
+        function($timeout, $rootScope, $location, CurrentSlideManagerForDeck, hotkeys) {
 
             return {
                 restrict: 'E',
@@ -19,10 +19,19 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         scope.slide = _.find(scope.deck.deckSlides, {
                             _id: activeSlideId
                         });
+                        if (!scope.slide) {
+                            scope.slide = scope.deck.deckSlides[0];
+                        }
                     };
 
                     scope.csm = CurrentSlideManagerForDeck;
                     scope.$watch('csm.activeSlideId', onSlideChange);
+                    scope.$watch('slide._id', function(newId){
+                        if (!newId) {
+                            return;
+                        }
+                        $location.url(newId);
+                    });
 
 
                     function fixSlideIdx(idx, maxLength) {

@@ -2,13 +2,7 @@ var passport = require('passport');
 
 var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
     if (req.user) {
-        if (req.session.redirect_to) {
-            var redirect = req.session.redirect_to;
-            delete req.session.redirect_to;
-            res.redirect(redirect);
-            return;
-        }
-        next();
+        redirectIfNeeded(req, res, next);
     } else if (shouldRedirect) {
         req.session.redirect_to = req.url;
         res.redirect('/login');
@@ -17,8 +11,18 @@ var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
     }
 };
 
-apiAuthenticated = shouldBeAuthenticated.bind(null, false);
-authenticated = shouldBeAuthenticated.bind(null, true);
+var redirectIfNeeded = function(req, res, next) {
+    if (req.session.redirect_to) {
+        var redirect = req.session.redirect_to;
+        delete req.session.redirect_to;
+        res.redirect(redirect);
+        return;
+    }
+    next();
+};
+
+var apiAuthenticated = shouldBeAuthenticated.bind(null, false);
+var authenticated = shouldBeAuthenticated.bind(null, true);
 
 module.exports = function(app) {
     var slides = require('../app/controllers/slides');
@@ -131,7 +135,7 @@ module.exports = function(app) {
     var devmeetings = require('../app/controllers/devmeetings');
     //app.get('/', authenticated, devmeetings.xplatform);
     app.get('/admin', authenticated, devmeetings.admin);
-    app.get('/', devmeetings.xplatform);
+    app.get('/', redirectIfNeeded, devmeetings.xplatform);
 
     // registration
     var registration = require('../app/controllers/registration');
