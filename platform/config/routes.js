@@ -61,23 +61,23 @@ module.exports = function(app) {
 
     var events = require('../app/controllers/events');
     app.get('/api/events/:type', events.list);
-    app.get('/api/event/:id', authenticated, events.get);
-    app.post('/api/event/done/:id', authenticated, events.done);
-    app.post('/api/event/start/:id', authenticated, events.start);
-    app.post('/api/event/task_done/:event/:task', authenticated, events.taskDone);
-    app.get('/api/event/first_task/:id', authenticated, events.firstTask);
-    app.get('/api/event_with_slide/:event/:slide', authenticated, events.eventWithSlide);
-    app.get('/api/event_with_training/:event', authenticated, events.eventWithTraining);
+    app.get('/api/event/:id', apiAuthenticated, events.get);
+    app.post('/api/event/done/:id', apiAuthenticated, events.done);
+    app.post('/api/event/start/:id', apiAuthenticated, events.start);
+    app.post('/api/event/task_done/:event/:task', apiAuthenticated, events.taskDone);
+    app.get('/api/event/first_task/:id', apiAuthenticated, events.firstTask);
+    app.get('/api/event_with_slide/:event/:slide', apiAuthenticated, events.eventWithSlide);
+    app.get('/api/event_with_training/:event', apiAuthenticated, events.eventWithTraining);
 
-    app.post('/api/add_event_snippet/:event', authenticated, events.addEventSnippet);
-    app.put('/api/edit_event_snippet/:event/:snippet', authenticated, events.editEventSnippet);
-    app.delete('/api/delete_event_snippet/:event/:snippet', authenticated, events.deleteEventSnippet);
+    app.post('/api/add_event_snippet/:event', apiAuthenticated, events.addEventSnippet);
+    app.put('/api/edit_event_snippet/:event/:snippet', apiAuthenticated, events.editEventSnippet);
+    app.delete('/api/delete_event_snippet/:event/:snippet', apiAuthenticated, events.deleteEventSnippet);
 
-    app.post('/api/add_event_task/:event', authenticated, events.addEventTask);
-    app.put('/api/edit_event_task/:event/:task', authenticated, events.editEventTask);
-    app.delete('/api/delete_event_task/:event/:task', authenticated, events.deleteEventTask);
+    app.post('/api/add_event_task/:event', apiAuthenticated, events.addEventTask);
+    app.put('/api/edit_event_task/:event/:task', apiAuthenticated, events.editEventTask);
+    app.delete('/api/delete_event_task/:event/:task', apiAuthenticated, events.deleteEventTask);
 
-    app.post('/api/change_event_visibility/:event/:visible', authenticated, events.changeVisibility);
+    app.post('/api/change_event_visibility/:event/:visible', apiAuthenticated, events.changeVisibility);
     
     var slidesaves = require('../app/controllers/slidesaves');
     app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
