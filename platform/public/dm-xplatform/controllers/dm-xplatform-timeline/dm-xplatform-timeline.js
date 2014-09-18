@@ -6,7 +6,7 @@ define(['angular', 'xplatform/xplatform-app',
             $scope.audio = data.audios[$stateParams.index].src;
         });
 
-        $scope.state = dmEvents.getState();
+        $scope.state = dmEvents.getState($stateParams.event, $stateParams.index);
         
         $scope.$on('$destroy', function () {
             // next time we will be here, just continue

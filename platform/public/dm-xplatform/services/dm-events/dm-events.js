@@ -17,7 +17,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         var TransformedEvent = function (options) {
             this.title = options.title;
             this.visible = options.visible;
-            this.recording = options.recording;
+            //this.recording = options.recording;
             this.audios = options.audios;
             this.todos = options.todos;
         };
@@ -28,7 +28,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             return new TransformedEvent({
                 title: data.title,  
                 visible: data.visible,
-                recording: data.trainingId.chapters.length > 0 ? data.trainingId.chapters[0].videodata.recording : '',
+                //recording: data.trainingId.chapters.length > 0 ? data.trainingId.chapters[0].videodata.recording : '',
                 audios: data.audios,
                 todos: data.todos
             });
@@ -65,11 +65,12 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
 
                 return result.promise;
             },
-            getState: function (event) {
-                if (!states[event]) {
-                    states[event] = {};
+            getState: function (event, index) {
+                var key = event + 'index' + index;
+                if (!states[key]) {
+                    states[key] = {};
                 }
-                return states[event];
+                return states[key];
             },
             changeEventVisibility: function (event, visible) {
                 $http.post('/api/change_event_visibility/' + event + '/' + visible);

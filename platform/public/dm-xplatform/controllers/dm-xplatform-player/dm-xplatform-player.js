@@ -5,8 +5,8 @@ define(['angular', 'xplatform/xplatform-app',
     xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', 'dmEvents', 'dmRecordings', 'RecordingsPlayerFactory', function ($scope, $stateParams, dmEvents, dmRecordings, RecordingsPlayerFactory) {
             
         dmEvents.getEvent($stateParams.event, false).then(function (data) {
-            $scope.audio = data.audio;
-            return dmRecordings.getRecording(data.recording);
+            var audio = data.audios[$stateParams.index];
+            return dmRecordings.getRecording(audio.recording);
         }).then(function (recording) {
             $scope.recordingPlayer = RecordingsPlayerFactory(recording, function (slide) {
                 $scope.slide = slide;
@@ -21,7 +21,7 @@ define(['angular', 'xplatform/xplatform-app',
             $scope.recordingPlayer.goToSecond($scope.state.currentSecond);
         };
 
-        $scope.state = dmEvents.getState();
+        $scope.state = dmEvents.getState($stateParams.event, $stateParams.index);
 
         $scope.$watch('state.currentSecond', goToSecond);
 

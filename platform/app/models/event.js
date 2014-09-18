@@ -15,7 +15,12 @@ var Event = new Schema({
     audios: [{
         title: String,
         description: String,
-        src: String
+        src: String,
+        recording: {
+            type: Schema.Types.ObjectId,
+            ref: 'recording'
+        },
+        available: Boolean
     }],
     todos: [{
         title: String,
@@ -23,7 +28,8 @@ var Event = new Schema({
         baseSlide: {
             type: Schema.Types.ObjectId,
             ref: 'slide'
-        }
+        },
+        available: Boolean
     }],
     image: String,
     order: Number,
