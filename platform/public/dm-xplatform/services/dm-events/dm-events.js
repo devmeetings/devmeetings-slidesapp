@@ -47,7 +47,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                     return result.promise;
                 }
 
-                $http.get('/api/event/' + event).then(function (data) {
+                $http.get('/api/events/' + event).then(function (data) {
                     result.resolve(transform(data.data));
                 }, function () {
                     result.reject();

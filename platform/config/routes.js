@@ -39,14 +39,7 @@ module.exports = function(app) {
     app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, recordings.cutout);
 
     var events = require('../app/controllers/events');
-    app.get('/api/events/:type', events.list);
-    app.get('/api/event/:id', authenticated, events.get);
-    app.post('/api/event/done/:id', authenticated, events.done);
-    app.post('/api/event/start/:id', authenticated, events.start);
-    app.post('/api/event/task_done/:event/:task', authenticated, events.taskDone);
-    app.get('/api/event/first_task/:id', authenticated, events.firstTask);
-    app.get('/api/event_with_slide/:event/:slide', authenticated, events.eventWithSlide);
-    app.get('/api/event_with_training/:event', authenticated, events.eventWithTraining);
+    app.get('/api/events/:id', authenticated, events.get);
 
     app.post('/api/add_event_snippet/:event', authenticated, events.addEventSnippet);
     app.put('/api/edit_event_snippet/:event/:snippet', authenticated, events.editEventSnippet);
