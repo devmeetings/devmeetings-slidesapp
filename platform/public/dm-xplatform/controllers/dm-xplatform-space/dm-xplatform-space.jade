@@ -8,24 +8,24 @@
                         span.fa.fa-align-justify
             div(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
-                    accordion-group
+                    accordion-group(ng-repeat='audio in event.audios')
                         accordion-heading
                             .row
                                 .col-xs-12
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-film
-                                    h5 Nagranie
-                        p Hello
+                                    h5 {{audio.title}}
+                        p {{audio.description}}
                         //-button.btn.btn-sm.btn-primary(ui-sref='index.space.player.chapter({event: "53dfb356870cd20000458e35", id: "53dfafcdf1b57bdd306f2176", index: "0"})') Player
-                        button.btn.btn-sm.btn-primary(ui-sref='index.space.player') Player
-                    accordion-group(ng-repeat='task in [1,2,3,4,5]')
+                        button.btn.btn-sm.btn-primary(ui-sref='index.space.player({index: $index})') Odtwórz
+                    accordion-group(ng-repeat='todo in event.todos')
                         accordion-heading
                             .row
                                 .col-xs-12
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-pencil
-                                    h5 Zadanie {{$index}}
-                        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.
+                                    h5 {{todo.title}}
+                        p {{todo.description}}
                         button.btn.btn-sm.btn-primary(ui-sref='index.space.task({slide: "5412e2d70938d40000b7e990"})') Workspace
 
 

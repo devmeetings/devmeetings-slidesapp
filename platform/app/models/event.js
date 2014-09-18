@@ -12,6 +12,19 @@ var Event = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'training'
     },
+    audios: [{
+        title: String,
+        description: String,
+        src: String
+    }],
+    todos: [{
+        title: String,
+        description: String,
+        workspaceBase: {
+            type: Schema.Types.ObjectId,
+            ref: 'slide'
+        }
+    }],
     technology: String,
     date: Date,
     description: String,

@@ -81,8 +81,7 @@ define(['angular', 'xplatform/xplatform-app',
 
 
         dmEvents.getEvent($stateParams.event, true).then(function (data) {
-            
-            
+            $scope.event = data;
         }, function () {
         });
 

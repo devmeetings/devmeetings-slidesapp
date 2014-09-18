@@ -17,8 +17,9 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         var TransformedEvent = function (options) {
             this.title = options.title;
             this.visible = options.visible;
-            this.audio = options.audio;
             this.recording = options.recording;
+            this.audios = options.audios;
+            this.todos = options.todos;
         };
 
         TransformedEvent.prototype.constructor = TransformedEvent;
@@ -27,8 +28,9 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             return new TransformedEvent({
                 title: data.title,  
                 visible: data.visible,
-                audio: data.trainingId.chapters.length > 0 ? data.trainingId.chapters[0].videodata.url : '',
-                recording: data.trainingId.chapters.length > 0 ? data.trainingId.chapters[0].videodata.recording : ''
+                recording: data.trainingId.chapters.length > 0 ? data.trainingId.chapters[0].videodata.recording : '',
+                audios: data.audios,
+                todos: data.todos
             });
         };
     

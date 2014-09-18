@@ -392,7 +392,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.player', {
-                    url: '/player',
+                    url: '/player/:index',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
@@ -405,16 +405,6 @@ require(['angular',
                     }
                 });
                 
-                $stateProvider.state('index.space.player.chapter', {
-                    url: '/:index',
-                    views: {
-                        chapter: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-chapter/dm-xplatform-chapter.html',
-                            controller: 'dmXplatformChapter'
-                        }
-                    }
-                });
-
                 $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
                 $urlRouterProvider.when('/', '/courses');
                 $urlRouterProvider.otherwise('/courses');

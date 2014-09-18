@@ -3,7 +3,7 @@ define(['angular', 'xplatform/xplatform-app',
     xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents', function ($scope, $stateParams, dmEvents) {
     
         dmEvents.getEvent($stateParams.event, false).then(function (data) {
-            $scope.audio = data.audio;
+            $scope.audio = data.audios[$stateParams.index].src;
         });
 
         $scope.state = dmEvents.getState();

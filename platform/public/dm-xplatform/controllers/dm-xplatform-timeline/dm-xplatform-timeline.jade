@@ -7,7 +7,7 @@ a.btn.dm-timeline-button(ng-click='changeRate()', tooltip='Zmień szybkość na 
     span {{state.playbackRate | number: 2}}x
 .dm-timeline-wave
     dm-wavesurfer(
-        dm-src='"https://xplatform.org/static/sounds/angular-total-01.ogg"',
+        dm-src='audio',
         dm-is-playing='state.isPlaying',
         dm-current-second='state.currentSecond',
         dm-playback-rate='state.playbackRate',
