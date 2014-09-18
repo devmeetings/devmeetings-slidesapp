@@ -14,15 +14,20 @@ require([
 
         function($rootScope, $scope, DeckAndSlides) {
 
-            DeckAndSlides.inContextOf('deck').deck.then(function(deck) {
+            function updateDeck(deck) {
                 $scope.deck = deck;
-            });
+                $scope.deck.deckSlides = $scope.deckSlides;
+            }
+
+            DeckAndSlides.inContextOf('deck').deck.then(updateDeck);
+
             DeckAndSlides.inContextOf('deck').slides.then(function(deckSlides) {
                 $scope.deckSlides = deckSlides;
+                updateDeck($scope.deck || {});
             });
 
             $scope.$on('deck', function(ev, newDeck) {
-                $scope.deck = newDeck;
+                updateDeck($scope.deck);
             });
         }
     ]);

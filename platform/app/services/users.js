@@ -114,3 +114,10 @@ exports.verify = function(email, password, done) {
         });
     });
 };
+
+exports.findLocalUserByEmail = function(email, done) {
+    UserModel.findOne({
+        email: email,
+        type: 'local'
+    }, done);
+};

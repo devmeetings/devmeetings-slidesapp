@@ -45,11 +45,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         show: false,
                         sideBySide: true
                     };
-                    scope.$watch('output.sideBySide', function() {
-                        scope.output.show = false;
-                        // Refresh view
-                        triggerChangeLater(scope);
-                    });
 
 
                     // This is temporary hack!
@@ -118,6 +113,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             enableBasicAutocompletion: true,
                             enableSnippets: true,
                             enableLiveAutocompletion: false
+                        });
+
+                        scope.$watch('output.sideBySide', function() {
+                            scope.output.show = false;
+                            // Refresh view
+                            triggerChangeLater(scope);
+                            editor.resize();
                         });
 
                         ///

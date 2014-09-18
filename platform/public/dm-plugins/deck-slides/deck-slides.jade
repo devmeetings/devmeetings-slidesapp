@@ -1,3 +1,5 @@
-.section-slides.col-sm-12
+.section-slides.col-sm-12.full-height
     .row.full-height
-        iframe.iframe-slides.full-height(ng-src="{{ slideSource }}")
+        .col-xs-12.dm-slide-left
+            plugins-loader(namespace="'slide'", context="slide.content", mode="player")
+            plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
