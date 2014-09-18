@@ -255,7 +255,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         scaledRowDiff = Math.min(scaledRowDiff, currentViewportSize - 3);
 
         // Now it should be ok
-        editor.scrollToRow(Math.floor(selectionRow - scaledRowDiff));
+        editor.scrollToLine(Math.floor(selectionRow - scaledRowDiff), false, true);
     }
 
     function updateEditorOptions(ed, tab, forceUpdateCursor) {
