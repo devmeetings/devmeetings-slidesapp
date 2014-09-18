@@ -13,26 +13,28 @@ var onError = function (res) {
 var onDone = function () {
 };
 
+var transformToSlidesave = function (slide, user) {
+    return {
+        user: user, 
+        slide: slide.content,
+        title: 'default workspace',
+        timestamp: new Date()
+    };
+};
+
 var Slidesaves = {
     slidesaveFromSlide: function (req, res) {
         var slide = req.params.slide;
         Q.ninvoke(Slide.findOne({
             _id: slide
         }).lean(), 'exec').then(function (slide) {
-            var toInsert = {
-                user: req.user._id,
-                slide: slide.content,
-                title: 'default workspace',
-                timestamp: new Date()
-            };
+            var toInsert = transformToSlidesave(slide, req.user._id);
             return Q.ninvoke(Slidesave, 'create', toInsert);
         }).then(function (slidesave) {
             res.send({
                 slidesave: slidesave._id
             });
-        })
-        
-        .fail(onError(res)).done(onDone);
+        }).fail(onError(res)).done(onDone);
     },
     create: function (req, res) {
         req.body.user = req.user._id;
@@ -79,13 +81,27 @@ var Slidesaves = {
         }).fail(onError(res)).done(onDone);
     },
 
-    lastSlides: function (req, res) {
-        
-        Q.ninvoke(Slidesave.find({
-        }).populate('user', 'name avatar _id').select('user title timestamp slide').limit(40).lean(), 'exec').then(function (slidesaves) {
-            res.send(slidesaves); 
+    baseSlide: function (req, res) {
+        var slide = req.params.slide;
+
+        Q.ninvoke(Slidesave.findOne({
+            user: req.user._id,
+            baseSlide: slide
+        }).lean(), 'exec').then(function (slidesave) {
+            if (slidesave) {
+                return slidesave;
+            }
+            return Q.ninvoke(Slide.findOne({
+                _id: slide
+            }).lean(), 'exec').then(function (slide) {
+                var toInsert = transformToSlidesave(slide, req.user._id);
+                return Q.ninvoke(Slidesave, 'create', toInsert);
+            });
+        }).then(function (slidesave) {
+            res.send(slidesave);
         }).fail(onError(res)).done(onDone);
     }
+
 };
 
 

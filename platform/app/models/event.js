@@ -20,7 +20,7 @@ var Event = new Schema({
     todos: [{
         title: String,
         description: String,
-        workspaceBase: {
+        baseSlide: {
             type: Schema.Types.ObjectId,
             ref: 'slide'
         }
