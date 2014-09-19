@@ -8,6 +8,14 @@
                         span.fa.fa-align-justify
             div(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
+                    accordion-group(is-open='question.isOpen')
+                        accordion-heading
+                            .row(ui-sref='index.space({event: event._id})')
+                                .col-xs-12.background(ng-class='{"active": question.isOpen}')
+                                    a.btn.pull-left.dm-space-toggle
+                                        span.fa.fa-question-circle
+                                    h5 Intro
+
                     accordion-group(ng-repeat='i in event.iterations', is-open='isOpen', is-disabled='!editMode && i.status !== "available"')
                         accordion-heading
                             .row
@@ -16,6 +24,7 @@
                                         span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
                                         span.fa.fa-lock(ng-if='i.status != "available"')
                                     h5 {{i.title}}
+                        &nbsp;
                         button.btn.btn-sm.btn-primary.col-xs-12(ng-repeat='material in i.materials', ui-sref='index.space.player({iteration: $parent.$index, material: material._id})')
                             span.fa.fa-film.pull-left
                             | {{material.title}}
@@ -25,20 +34,70 @@
 
                     accordion-group(is-open='workspace.isOpen')
                         accordion-heading
-                            .row
+                            .row(ng-click='openWorkspace()')
                                 .col-xs-12.background(ng-class='{"active": workspace.isOpen}')
                                     a.btn.pull-left.dm-space-toggle
-                                        span.fa.fa-dot-circle-o
+                                        span.fa.fa-wrench
                                     h5 Workspace
-                        button.btn.btn-sm.btn-primary.col-xs-12(ng-click='openWorkspace()')
+                        //-button.btn.btn-sm.btn-primary.col-xs-12(ng-click='openWorkspace()')
                             span.fa.fa-file.pull-left
                             | Otwórz
+                    accordion-group(is-open='ranking.isOpen')
+                        accordion-heading
+                            .row
+                                .col-xs-12.background(ng-class='{"active": ranking.isOpen}')
+                                    a.btn.pull-left.dm-space-toggle
+                                        span.fa.fa-bar-chart
+                                    h5 Ranking
+
 
         .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
                 .row.full-height(ng-if='showTutorial')
-                    | Hello World
+                    .col-md-6
+                        .row
+                            .col-xs-12
+                                .course-background
+                                    h4 Szkolenie
+                                    hr
+                                    h5 Każde szkolenie składa się z Iteracji
+                                    p W każdej iteracji oglądasz przygotowany przez nas materiał oraz rozwiązujesz zadania.
+                                    p 
+                                        .btn.course-button
+                                            span.fa.fa-dot-circle-o
+                            .col-xs-12
+                                .course-background
+                                    h4 Twój Workspace
+                                    hr
+                                    h5 Tutaj rozwijasz swój projekt DevMeetingowy.
+                                    p Projekty na DevMeetingu implementujemy na platformie. Poniższa ikonka kieruje Cię do Twojego prywatnego workspace'a, w którym rozwijasz projekt.
+                                    p
+                                        .btn.course-button.dropdown-toggle(type='button', data-toggle='dropdown')
+                                            span.fa.fa-wrench
+
+                    .col-md-6
+                        .row
+                            .col-xs-12
+                                .course-background
+                                    h4 WIFI
+                                    hr
+                                    h5 WRO_GUEST
+                                    p 123123
+                                    p
+                                        .btn.course-button
+                                            span.fa.fa-wifi
+                            .col-xs-12
+                                .course-background
+                                    h4 Ranking
+                                    hr
+                                    h5 Status realizacji zadań - aktualizowany przez Was!
+                                    p
+                                        a.btn.course-button(href='https://docs.google.com/spreadsheets/d/1G1-j8UT5gGZQZ_DK8IYkkBrTZ7jr_22dIJmk529Swfw/edit#gid=0', target='_blank')
+                                            span.fa.fa-bar-chart
+
+
+
                     
 
         .dm-spacesidebar(ng-style='{"width": right.current}')
