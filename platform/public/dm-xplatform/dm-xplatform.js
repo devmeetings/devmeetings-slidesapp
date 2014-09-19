@@ -9,7 +9,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
         'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
         'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
-        'xplatform/controllers/dm-xplatform-table/dm-xplatform-table',
         'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
         'xplatform/controllers/dm-xplatform-message/dm-xplatform-message',
         'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream',
@@ -182,29 +181,6 @@ require(['angular',
                             left: 2,
                             mid: 7,
                             right: 3
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.menu', {
-                    anonymous: true,
-                    url: '/courses/:type',
-                    views: {
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-table/dm-xplatform-table.html',
-                            controller: 'dmXplatformTable'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Kursy',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 0,
-                            mid: 12,
-                            right: 0
                         };
                     }
                 });
