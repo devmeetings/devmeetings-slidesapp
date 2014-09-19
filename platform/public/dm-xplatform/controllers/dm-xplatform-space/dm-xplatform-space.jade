@@ -39,12 +39,9 @@
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-wrench
                                     h5 Workspace
-                        //-button.btn.btn-sm.btn-primary.col-xs-12(ng-click='openWorkspace()')
-                            span.fa.fa-file.pull-left
-                            | Otwórz
                     accordion-group(is-open='ranking.isOpen')
                         accordion-heading
-                            .row
+                            .row(ui-sref='index.space.ranking')
                                 .col-xs-12.background(ng-class='{"active": ranking.isOpen}')
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-bar-chart

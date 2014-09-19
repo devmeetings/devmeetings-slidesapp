@@ -20,7 +20,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
         'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
         'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline',
-        'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo'
+        'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo',
+        'xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -375,6 +376,16 @@ require(['angular',
                         bottombar: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline.html',
                             controller: 'dmXplatformTimeline'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.ranking', {
+                    url: '/ranking',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking.html',
+                            controller: 'dmXplatformRanking'
                         }
                     }
                 });
