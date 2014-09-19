@@ -380,7 +380,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.todo', {
-                    url: '/todo/:todo',
+                    url: '/todo/:iteration/:todo',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo.html',
@@ -390,7 +390,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.player', {
-                    url: '/player/:index',
+                    url: '/player/:iteration/:material',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',

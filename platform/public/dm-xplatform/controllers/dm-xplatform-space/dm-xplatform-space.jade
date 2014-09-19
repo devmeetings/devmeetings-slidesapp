@@ -8,7 +8,35 @@
                         span.fa.fa-align-justify
             div(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
-                    accordion-group(ng-repeat='chapter in event.chapters', is-disabled='!editMode && !chapter.available', is-open='chapter.isOpen')
+                    accordion-group(ng-repeat='i in event.iterations', is-open='isOpen')
+                        accordion-heading
+                            .row
+                                .col-xs-12.background(ng-class='{"active": isOpen}')
+                                    a.btn.pull-left.dm-space-toggle
+                                        span.fa.fa-dot-circle-o(ng-if='i.available')
+                                        span.fa.fa-lock(ng-if='!i.available')
+                                    h5 {{i.title}}
+                        button.btn.btn-sm.btn-primary.col-xs-12(ng-repeat='material in i.materials', ui-sref='index.space.player({iteration: $parent.$index, material: material._id})')
+                            span.fa.fa-film.pull-left
+                            | {{material.title}}
+                        button.btn.btn-sm.btn-default.col-xs-12(ng-repeat='task in i.tasks', ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
+                            span.fa.fa-pencil.pull-left
+                            | {{task.title}}
+
+                    accordion-group(is-open='workspace.isOpen')
+                        accordion-heading
+                            .row
+                                .col-xs-12.background(ng-class='{"active": workspace.isOpen}')
+                                    a.btn.pull-left.dm-space-toggle
+                                        span.fa.fa-dot-circle-o
+                                    h5 Workspace
+                        button.btn.btn-sm.btn-primary.col-xs-12(ng-click='openWorkspace()')
+                            span.fa.fa-file.pull-left
+                            | Otwórz
+                                        
+                        
+
+                    //-accordion-group(ng-repeat='chapter in event.chapters', is-disabled='!editMode && !chapter.available', is-open='chapter.isOpen')
                         accordion-heading
                             .row
                                 .col-xs-12.background(ng-class='{"active": chapter.isOpen}')

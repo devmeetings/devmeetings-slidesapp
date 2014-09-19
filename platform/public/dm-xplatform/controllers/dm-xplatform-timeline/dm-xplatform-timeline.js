@@ -1,12 +1,17 @@
-define(['angular', 'xplatform/xplatform-app',
-        'xplatform/services/dm-events/dm-events'], function (angular, xplatformApp) {
+define(['angular', 'xplatform/xplatform-app', '_',
+        'xplatform/services/dm-events/dm-events'], function (angular, xplatformApp, _) {
     xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents', function ($scope, $stateParams, dmEvents) {
     
         dmEvents.getEvent($stateParams.event, false).then(function (data) {
-            $scope.audio = data.audios[$stateParams.index].src;
+            //TODO move this below to service
+            var material = _.find(data.iterations[$stateParams.iteration].materials, function (elem) {
+                return elem._id === $stateParams.material;
+            });
+
+            $scope.audio = material.url;
         });
 
-        $scope.state = dmEvents.getState($stateParams.event, $stateParams.index);
+        $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);       
         
         $scope.$on('$destroy', function () {
             // next time we will be here, just continue

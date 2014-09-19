@@ -7,36 +7,38 @@ var Event = new Schema({
     order: Number,
     description: String,
     visible: Boolean,
+    
+    iterations: [{
+        title: String,
+        status: String,
+        materials: [{
+            title: String,
+            url: String,
+            material: {
+                type: Schema.Types.ObjectId,
+                ref: 'recording'
+            },
+            annotations: [{
+                title: String,
+                description: String,
+                timestamp: Number,
+                type: {
+                    type: String,
+                    enum: ['issue', 'task', 'comment']
+                }
+            }]
+        }],
+        tasks: [{
+            title: String,
+            url: String
+        }]
+    }],
 
-    chapters: [{
-        title: String,
-        audio: Schema.Types.ObjectId,
-        todos: [Schema.Types.ObjectId],
-        available: Boolean
-    }],
-    audios: [{
-        title: String,
-        description: String,
-        src: String,
-        recording: {
-            type: Schema.Types.ObjectId,
-            ref: 'recording'
-        }
-    }],
-    todos: [{
-        title: String,
-        description: String,
-        url: String
-    }],
     baseSlide: {
         type: Schema.Types.ObjectId,
         ref: 'slide'
-    },
-    snippets: [{
-        title: String,
-        timestamp: Number,
-        markdown: String
-    }]
+    }
+
 });
 
 module.exports = mongoose.model('event', Event);

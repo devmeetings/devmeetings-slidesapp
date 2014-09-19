@@ -6,34 +6,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         
         var states = {
         };
-
-
-        /*
-         * title: String,
-         * visible: Boolean,
-         * audios: Array,
-         * recording: String    (mongod._id)
-         */
-        var TransformedEvent = function (options) {
-            this.title = options.title;
-            this.visible = options.visible;
-            this.audios = options.audios;
-            this.todos = options.todos;
-            this.chapters = options.chapters;
-        };
-
-        TransformedEvent.prototype.constructor = TransformedEvent;
-
-        var transform = function (data) {
-            return new TransformedEvent({
-                title: data.title,  
-                visible: data.visible,
-                audios: data.audios,
-                todos: data.todos,
-                chapters: data.chapters
-            });
-        };
-    
+        
         return {
             allEvents: function () {
                 var result = $q.defer();
@@ -58,15 +31,15 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                 }
 
                 $http.get('/api/events/' + event).then(function (data) {
-                    result.resolve(transform(data.data));
+                    result.resolve(data.data);
                 }, function () {
                     result.reject();
                 });
 
                 return result.promise;
             },
-            getState: function (event, index) {
-                var key = event + 'index' + index;
+            getState: function (event, id) {
+                var key = event + 'index' + id;
                 if (!states[key]) {
                     states[key] = {};
                 }
