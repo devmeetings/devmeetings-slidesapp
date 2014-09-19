@@ -8,13 +8,13 @@
                         span.fa.fa-align-justify
             div(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
-                    accordion-group(ng-repeat='i in event.iterations', is-open='isOpen')
+                    accordion-group(ng-repeat='i in event.iterations', is-open='isOpen', is-disabled='!editMode && i.status !== "available"')
                         accordion-heading
                             .row
                                 .col-xs-12.background(ng-class='{"active": isOpen}')
                                     a.btn.pull-left.dm-space-toggle
-                                        span.fa.fa-dot-circle-o(ng-if='i.available')
-                                        span.fa.fa-lock(ng-if='!i.available')
+                                        span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
+                                        span.fa.fa-lock(ng-if='i.status != "available"')
                                     h5 {{i.title}}
                         button.btn.btn-sm.btn-primary.col-xs-12(ng-repeat='material in i.materials', ui-sref='index.space.player({iteration: $parent.$index, material: material._id})')
                             span.fa.fa-film.pull-left
@@ -33,53 +33,6 @@
                         button.btn.btn-sm.btn-primary.col-xs-12(ng-click='openWorkspace()')
                             span.fa.fa-file.pull-left
                             | Otwórz
-                                        
-                        
-
-                    //-accordion-group(ng-repeat='chapter in event.chapters', is-disabled='!editMode && !chapter.available', is-open='chapter.isOpen')
-                        accordion-heading
-                            .row
-                                .col-xs-12.background(ng-class='{"active": chapter.isOpen}')
-                                    a.btn.pull-left.dm-space-toggle
-                                        span.fa.fa-dot-circle-o(ng-if='chapter.available')
-                                        span.fa.fa-lock(ng-if='!chapter.available')
-                                    h5 {{chapter.title}}
-                        button.btn.btn-sm.btn-primary.col-xs-12(ng-click='selectedAudio(chapter.audio)') 
-                            span.fa.fa-film.pull-left
-                            | Odtwórz
-                        button.btn.btn-sm.btn-default.col-xs-12(ng-repeat='todo in chapter.todos track by $index', ui-sref='index.space.todo({todo: todo})')
-                            span.fa.fa-pencil.pull-left
-                            | Zadanie
-
-
-                    //-accordion-group(ng-repeat='audio in event.audios', is-disabled='!editMode && !audio.available', is-open='audio.isOpen')
-                        accordion-heading
-                            .row
-                                .col-xs-12.background(ng-class='{"active": audio.isOpen}')
-                                    a.btn.pull-left.dm-space-toggle
-                                        span.fa.fa-film(ng-if='audio.available')
-                                        span.fa.fa-lock(ng-if='!audio.available')
-                                    h5 {{audio.title}}
-                        div(ng-if='editMode')
-                            input.pull-right(type='checkbox', ng-model='audio.available')
-                        p {{audio.description}}
-                        button.btn.btn-sm.btn-primary(ui-sref='index.space.player({index: $index})') Odtwórz
-
-
-
-                    //-accordion-group(ng-repeat='todo in event.todos', is-disabled='!editMode && !todo.available', is-open='todo.isOpen')
-                        accordion-heading
-                            .row
-                                .col-xs-12.background(ng-class='{"active": todo.isOpen}')
-                                    a.btn.pull-left.dm-space-toggle
-                                        span.fa.fa-pencil(ng-if='todo.available')
-                                        span.fa.fa-lock(ng-if='!todo.available')
-                                    h5 {{todo.title}}
-                        div(ng-if='editMode')
-                            input.pull-right(type='checkbox', ng-model='todo.available')
-                        p {{todo.description}}
-                        button.btn.btn-sm.btn-primary(ng-click='openWorkspace(todo)') Wykonaj 
-
 
         .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
             .col-xs-12.full-height
