@@ -1,7 +1,7 @@
 define(['angular', 'xplatform/xplatform-app', '_',
         'xplatform/services/dm-events/dm-events',
         'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp, _) {
-    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', 'dmEvents', function ($scope, $timeout, $state, $stateParams, $http, dmEvents) {
+    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', 'dmEvents', 'dmUser', function ($scope, $timeout, $state, $stateParams, $http, dmEvents, dmUser) {
         $scope.left = {
             min: '50px',
             max: '200px',
@@ -79,10 +79,29 @@ define(['angular', 'xplatform/xplatform-app', '_',
             $scope.showTutorial = $state.current.name === 'index.space';
             $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '25px' : '0px';
         });
+        
+        var isTaskDone = function (task) {
+            var person = _.find($scope.event.ranking.people, function (p) {
+                return p.user === $scope.currentUserId;
+            });
+            return !!person.tasks[task._id];
+        };
 
+        var markTasks = function (event) {
+            event.iterations.forEach(function (i) {
+                i.tasks.forEach(function (task) {
+                    task.done = isTaskDone(task); 
+                    console.log(task.done);
+                });
+            });
+        };
 
         dmEvents.getEvent($stateParams.event, true).then(function (data) {
             $scope.event = data;
+            dmUser.getCurrentUser().then(function (data) { // Q All!
+                $scope.currentUserId = data.result._id; 
+                markTasks($scope.event);
+            });
         }, function () {
         });
 
@@ -108,6 +127,11 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 todo: todo
             });
         };
+
+        $scope.markTaskAsDone = function (task, done) {
+            dmEvents.eventTaskDone($scope.event._id, task._id, done);
+        };
+
 
     }]);
 });

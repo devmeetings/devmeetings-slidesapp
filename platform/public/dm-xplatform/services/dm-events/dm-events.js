@@ -47,6 +47,9 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             },
             changeEventVisibility: function (event, visible) {
                 $http.post('/api/change_event_visibility/' + event + '/' + visible);
+            },
+            eventTaskDone: function (event, task, done) {
+                $http.post('/api/event_task_done/' + event + '/' + task + '/' + done);               
             }
         };
     }]);

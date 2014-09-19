@@ -34,6 +34,18 @@ var Event = new Schema({
         }]
     }],
 
+    ranking: {
+        people: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            name: String,
+            avatar: String,
+            tasks: Schema.Types.Mixed
+        }]
+    },
+
     baseSlide: {
         type: Schema.Types.ObjectId,
         ref: 'slide'

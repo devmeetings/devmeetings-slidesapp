@@ -62,14 +62,15 @@ module.exports = function(app) {
     var events = require('../app/controllers/events');
     app.get('/api/events', events.all);
     app.get('/api/events/:id', apiAuthenticated, events.get);
+    app.post('/api/event_task_done/:event/:task/:done', apiAuthenticated, events.eventTaskDone);
 
-    app.post('/api/add_event_snippet/:event', apiAuthenticated, events.addEventSnippet);
-    app.put('/api/edit_event_snippet/:event/:snippet', apiAuthenticated, events.editEventSnippet);
-    app.delete('/api/delete_event_snippet/:event/:snippet', apiAuthenticated, events.deleteEventSnippet);
+    //app.post('/api/add_event_snippet/:event', apiAuthenticated, events.addEventSnippet);
+    //app.put('/api/edit_event_snippet/:event/:snippet', apiAuthenticated, events.editEventSnippet);
+    //app.delete('/api/delete_event_snippet/:event/:snippet', apiAuthenticated, events.deleteEventSnippet);
 
-    app.post('/api/add_event_task/:event', apiAuthenticated, events.addEventTask);
-    app.put('/api/edit_event_task/:event/:task', apiAuthenticated, events.editEventTask);
-    app.delete('/api/delete_event_task/:event/:task', apiAuthenticated, events.deleteEventTask);
+    //app.post('/api/add_event_task/:event', apiAuthenticated, events.addEventTask);
+    //app.put('/api/edit_event_task/:event/:task', apiAuthenticated, events.editEventTask);
+    //app.delete('/api/delete_event_task/:event/:task', apiAuthenticated, events.deleteEventTask);
 
     app.post('/api/change_event_visibility/:event/:visible', apiAuthenticated, events.changeVisibility);
     

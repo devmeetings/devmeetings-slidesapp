@@ -31,6 +31,45 @@ var Events = {
             res.send(event);
         }).fail(onError(res)).done(onDone);
     },
+        
+    eventTaskDone: function (req, res) {
+        var done = req.params.done === 'true' ? true : false;
+        var update = {};
+        if (done) {
+            update.$set = {};
+            update.$set['ranking.people.$.tasks.' + req.params.task] = true; 
+        } else {
+            update.$unset = {};
+            update.$unset['ranking.people.$.tasks.' + req.params.task] = '';
+        }
+
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: req.params.event,
+            'ranking.people.user': {
+                $ne: req.user._id
+            }
+        }, {
+            $push: {
+                'ranking.people': {
+                    user: req.user._id,
+                    name: req.user.name,
+                    avatar: req.user.avatar,
+                    tasks: {}
+                }
+            }
+        }).lean(), 'exec').then(function (event) {
+            return Q.ninvoke(Event.findOneAndUpdate({
+                _id: req.params.event,
+                'ranking.people.user': req.user._id
+            }, update).lean(), 'exec');
+        }).then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
+
+
+
+    
     
     addEventSnippet: function (req, res) {
         var event = req.params.event;
