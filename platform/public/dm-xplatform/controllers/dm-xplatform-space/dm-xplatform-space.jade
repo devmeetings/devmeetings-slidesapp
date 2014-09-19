@@ -6,7 +6,7 @@
                 .row.clearfix
                     a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
                         span.fa.fa-align-justify
-            div(ng-style='{"width": left.max, "clear": "both"}')
+            .dm-spacesidebar-left(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
                     accordion-group(is-open='question.isOpen')
                         accordion-heading
@@ -70,7 +70,7 @@
                                     h5 Tutaj rozwijasz swój projekt DevMeetingowy.
                                     p Projekty na DevMeetingu implementujemy na platformie. Poniższa ikonka kieruje Cię do Twojego prywatnego workspace'a, w którym rozwijasz projekt.
                                     p
-                                        .btn.course-button.dropdown-toggle(type='button', data-toggle='dropdown')
+                                        .btn.course-button
                                             span.fa.fa-wrench
 
                     .col-md-6
