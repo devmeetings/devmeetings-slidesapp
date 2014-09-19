@@ -24,13 +24,20 @@
                                         span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
                                         span.fa.fa-lock(ng-if='i.status != "available"')
                                     h5 {{i.title}}
-                        &nbsp;
-                        button.btn.btn-sm.btn-primary.col-xs-12(ng-repeat='material in i.materials', ui-sref='index.space.player({iteration: $parent.$index, material: material._id})')
+                        
+                        .col-xs-12 &nbsp;
+                        button.btn.btn-sm.btn-primary.col-xs-9(ng-repeat='material in i.materials', ui-sref='index.space.player({iteration: $parent.$index, material: material._id})')
                             span.fa.fa-film.pull-left
                             | {{material.title}}
-                        button.btn.btn-sm.btn-default.col-xs-12(ng-repeat='task in i.tasks', ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
-                            span.fa.fa-pencil.pull-left
-                            | {{task.title}}
+                        .col-xs-12
+                            .row(ng-repeat='task in i.tasks')
+                                button.btn.btn-sm.btn-default.col-xs-9(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
+                                    span.fa.fa-pencil.pull-left
+                                    | {{task.title}}
+                                .col-xs-3.dm-space-checkbox(ng-click='done = !done')
+                                    span.fa.fa-square-o(ng-if='!done')
+                                    span.fa.fa-check-square-o.text-success(ng-if='done')
+
 
                     accordion-group(is-open='workspace.isOpen')
                         accordion-heading
