@@ -1,0 +1,4 @@
+.list-group.dm-annos
+    .list-group-item.animate(ng-repeat='p in annotations | orderBy: "-timestamp"', ng-if='p.timestamp <= state.currentSecond')
+        h4 {{ p.title }}
+        div(marked='p.description')

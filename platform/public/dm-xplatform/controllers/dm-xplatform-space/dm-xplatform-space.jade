@@ -111,8 +111,8 @@
                 tab(id='stream', active='tabs.stream', select='toggleRight(true)')
                     tab-heading
                         span.fa.fa-newspaper-o
-                    .col-xs-12(ng-repeat='well in [1,2,3,4,5]')
-                        .well Look, I'm in a well!
+                    .col-xs-12.full-height
+                        .row.full-height(ui-view='first')
                 tab(id='issues', active='tabs.issues', select='toggleRight(true)')
                     tab-heading
                         span.fa.fa-warning

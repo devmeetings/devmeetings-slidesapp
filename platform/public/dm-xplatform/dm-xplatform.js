@@ -21,7 +21,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
         'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline',
         'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo',
-        'xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking'
+        'xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking',
+        'xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -376,6 +377,10 @@ require(['angular',
                         bottombar: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline.html',
                             controller: 'dmXplatformTimeline'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
