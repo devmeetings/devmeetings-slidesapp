@@ -5,11 +5,13 @@
             thead
                 tr
                     th #
+                    th Suma
                     th(ng-repeat='i in event.iterations', colspan='{{activeIteration === $index ? i.tasks.length : 1}}') {{i.title}}
             tbody
-                tr(ng-repeat='person in ranking.people')
+                tr(ng-repeat='person in ranking.people | keysLength: "tasks" ')
                     th {{person.name}}
-                    td(ng-repeat='i in event.iterations.slice(0, activeIteration)') {{personIterationCount(person, i)}}
+                    td {{person.tasks | keysLength}}
+                    td(ng-repeat='i in event.iterations.slice(0, activeIteration)') {{personIterationCount(person, i) + '/' + i.tasks.length}}
                     td(ng-repeat='task in event.iterations[activeIteration].tasks', ng-class='{"done-task": personDidTask(person, task)}') {{task.title}}
-                    td(ng-repeat='i in event.iterations.slice(activeIteration + 1, tasks.length)') {{personIterationCount(person, i)}}
+                    td(ng-repeat='i in event.iterations.slice(activeIteration + 1, tasks.length)') {{personIterationCount(person, i) + '/' + i.tasks.length}}
 

@@ -91,7 +91,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
             event.iterations.forEach(function (i) {
                 i.tasks.forEach(function (task) {
                     task.done = isTaskDone(task); 
-                    console.log(task.done);
                 });
             });
         };

@@ -22,8 +22,19 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             $scope.ranking = data.ranking;
             $scope.activeIteration = lastAvailableIteration(data);
         });
-
-            
     }]);
+    xplatformApp.filter('keysLength', function() {
+        return function (input, exp) {
+            if (!input) {
+                return 0;
+            }
+            if (exp) {
+                return _.sortBy(input, function (i) {
+                    return Object.keys(i[exp]).length;
+                });
+            }
+            return Object.keys(input).length;
+        };
+    });
 });
 
