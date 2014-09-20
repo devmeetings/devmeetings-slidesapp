@@ -1,17 +1,18 @@
 dm-timeline {
     position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 25px;
     left: 0;
-    right: 0;
-    height: 0;
-    bottom: 100px;
 }
 
 .dm-timeline-point {
-    position: absolute; 
+    position: absolute;
     width: 1px;
-    top: 0px;
-    height: 50px;
+    bottom: 0;
+    height: 100%;
     margin-left: -1px;
+    z-index: 10;
 }
 
 .star-color {
@@ -36,10 +37,9 @@ dm-timeline {
 }
 .dm-timeline-snippet {
     background-color: rgb(26,26,26);
-    font-size: 20px;
     position: relative;
     color: #5aabcb;
-    top: 14px;
-    left: -8px;
+    top: 4px;
+    left: -5px;
 }
 

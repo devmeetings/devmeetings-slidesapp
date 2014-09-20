@@ -24,7 +24,7 @@ var Event = new Schema({
                 timestamp: Number,
                 type: {
                     type: String,
-                    enum: ['issue', 'task', 'comment']
+                    enum: ['snippet', 'issue', 'task', 'comment']
                 }
             }]
         }],

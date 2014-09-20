@@ -1,5 +1,6 @@
 define(['angular', 'xplatform/xplatform-app', '_',
-        'xplatform/services/dm-events/dm-events'], function (angular, xplatformApp, _) {
+        'xplatform/services/dm-events/dm-events',
+        'xplatform/directives/dm-timeline/dm-timeline'], function (angular, xplatformApp, _) {
     xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents', function ($scope, $stateParams, dmEvents) {
     
         dmEvents.getEvent($stateParams.event, false).then(function (data) {
@@ -9,6 +10,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
             });
 
             $scope.audio = material.url;
+            $scope.annotations = material.annotations;
         });
 
         $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);       

@@ -5,11 +5,18 @@ a.btn.dm-timeline-button(tooltip='Obecna sekunda', tooltip-placement='top')
     span {{state.currentSecond | number: 1}} 
 a.btn.dm-timeline-button(ng-click='changeRate()', tooltip='Zmień szybkość na {{nextRate | number: 2}}', tooltip-placement='top')
     span {{state.playbackRate | number: 2}}x
-.dm-timeline-wave
+.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 275px)" : "calc(100% - 165px)"}')
+    dm-timeline(
+        length='state.duration', annotations='annotations')
     dm-wavesurfer(
         dm-src='audio',
         dm-is-playing='state.isPlaying',
         dm-current-second='state.currentSecond',
         dm-playback-rate='state.playbackRate',
-        dm-start-second='state.startSecond')
+        dm-start-second='state.startSecond',
+        dm-duration='state.duration')
+a.btn.dm-timeline-button(ng-if='editMode', tooltip='Dodaj snippet')
+    span.fa.fa-file
+a.btn.dm-timeline-button(ng-if='editMode', tooltip='Dodaj zadanie')
+    span.fa.fa-star-o
 
