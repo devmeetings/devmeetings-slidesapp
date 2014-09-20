@@ -24,6 +24,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         }
                     };
 
+                    scope.modes = $rootScope.modes;
                     scope.csm = CurrentSlideManagerForDeck;
                     scope.$watch('csm.activeSlideId', onSlideChange);
                     scope.$watch('slide._id', function(newId){
