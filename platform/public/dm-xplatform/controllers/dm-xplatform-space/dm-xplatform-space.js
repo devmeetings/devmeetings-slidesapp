@@ -84,7 +84,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
             var person = _.find($scope.event.ranking.people, function (p) {
                 return p.user === $scope.currentUserId;
             });
-            return !!person.tasks[task._id];
+            return person ? !!person.tasks[task._id] : false;
         };
 
         var markTasks = function (event) {

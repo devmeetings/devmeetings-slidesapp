@@ -50,6 +50,24 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             },
             eventTaskDone: function (event, task, done) {
                 $http.post('/api/event_task_done/' + event + '/' + task + '/' + done);               
+            },
+            getEventMaterial: function (event, iteration, material) {
+                return this.getEvent(event, false).then(function (data) {
+                    var result = _.find(data.iterations[iteration].materials, function (elem) {
+                        return elem._id === material;
+                    });
+            
+                    return $q.when(result);
+                });
+            },
+            getEventTask: function (event, iteration, task) {
+                return this.getEvent(event, false).then(function (data) {
+                    var result = _.find(data.iterations[iteration].tasks, function (elem) {
+                        return elem._id === task;
+                    });
+
+                    return $q.when(result);
+                });
             }
         };
     }]);

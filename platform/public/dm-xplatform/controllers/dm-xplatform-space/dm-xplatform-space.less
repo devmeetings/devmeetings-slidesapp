@@ -20,16 +20,18 @@
 
 .dm-spacesidebar-right {
     height: 100%;
-    
-    li {
-        width: 70px;
-        text-align: center;
-        a {
-            border: 0;
-            border-radius: 0;
-            margin: 0;
+   
+    .nav {
+        li {
+            width: 70px;
+            text-align: center;
+            a {
+                border: 0;
+                border-radius: 0;
+                margin: 0;
+            }
         }
-    }
+    }  
 
     li.active a,
     li.active a:hover {
@@ -102,6 +104,25 @@
             background-color: rgb(86,171,205);
         }
     }
-
 }
+
+.dm-space-questions {
+    position: relative;
+    height: calc(~"100% - 48px");
+    overflow-y: auto;
+
+    button {
+        border-radius: 0;
+    }
+}
+
+.dm-space-question-button {
+    position: absolute;
+    bottom: 10px;
+
+    > button {
+        border-radius: 0;
+    }
+}
+
 
