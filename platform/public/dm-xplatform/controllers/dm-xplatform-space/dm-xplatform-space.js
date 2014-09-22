@@ -1,7 +1,8 @@
 define(['angular', 'xplatform/xplatform-app', '_',
         'xplatform/services/dm-events/dm-events',
-        'xplatform/directives/dm-spacesidebar/dm-spacesidebar'], function (angular, xplatformApp, _) {
-    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', 'dmEvents', 'dmUser', function ($scope, $timeout, $state, $stateParams, $http, dmEvents, dmUser) {
+        'xplatform/directives/dm-spacesidebar/dm-spacesidebar',
+        'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload'], function (angular, xplatformApp, _) {
+    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$modal', 'dmEvents', 'dmUser', function ($scope, $timeout, $state, $stateParams, $http, $modal, dmEvents, dmUser) {
         $scope.left = {
             min: '50px',
             max: '200px',
@@ -139,7 +140,22 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
         $scope.removeIteration = function (iteration) {
             dmEvents.removeEventIteration($scope.event._id, iteration._id);
-        }
+        };
+
+        $scope.createMaterial = function (i) {
+            var modalInstance = $modal.open({
+                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',
+                controller: 'dmXplatformUpload',
+                resolve: {
+                    event: function () {
+                        return $scope.event;
+                    },
+                    iteration: function () {
+                        return i;           
+                    }
+                }
+            });
+        };
 
     }]);
 });

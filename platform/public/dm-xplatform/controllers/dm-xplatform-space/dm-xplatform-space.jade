@@ -31,6 +31,9 @@
                         button.btn.btn-sm.btn-primary.col-xs-9(ng-repeat='material in i.materials', ui-sref='index.space.player({iteration: $parent.$index, material: material._id})')
                             span.fa.fa-film.pull-left
                             | {{material.title}}
+                        button.btn.btn-sm.btn-default.col-xs-9(ng-if='editMode', ng-click='createMaterial(i)')
+                            span.fa.fa-plus.pull-left
+                            | Dodaj Audio
                         .col-xs-12
                             .row(ng-repeat='task in i.tasks')
                                 button.btn.btn-sm.btn-default.col-xs-9(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')

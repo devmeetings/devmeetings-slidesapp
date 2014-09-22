@@ -2,8 +2,17 @@ var Event = require('../models/event'),
     User = require('../models/user'),
     Activity = require('../models/activity'),
     _ = require('lodash'),
-    Q = require('q');
+    Q = require('q'),
+    srt = require('srt'),
+    path = require('path'),
+    fs = require('fs'),
+    config = require('../../config/config'),
+    Recording = require('../models/recording'),
+    MongoBridge = require('../services/raw-mongo-bridge');
     
+var soundsDir = path.join(__dirname, '..', '..', 'public', 'sounds');
+var soundsUrl = '/static/sounds/';
+var idPattern = /ID\: (.+)$/;
 
 var onError = function (res) {
     return function (err) {
@@ -120,9 +129,80 @@ var Events = {
             res.send(200);
         }).fail(onError(res)).done(onDone);
     },
+
     eventMaterialCreate: function (req, res) {
-                    
+        var title = req.body.title || 'no name';
+
+        Q.nfcall(srt, req.files.captions.path).then(function(captions) {
+            captions = _.values(captions);
+            // convert captions to recordings
+            var slides = captions.map(function(caption) {
+                var idData = idPattern.exec(caption.text);
+                var id = idData ? idData[1] : null;
+
+                return {
+                    timestamp: caption.startTime,
+                    snapshotId: id
+                };
+            }).filter(function(x) {
+                return x.snapshotId !== null;
+            });
+
+            // fetch appropriate slides
+            return MongoBridge(config.db).then(function(mongo) {
+                var toFetch = slides.map(function(s) {
+                    return s.snapshotId;
+                });
+                return mongo.getRawRecordingsByIds(toFetch);
+            }).then(function(recordings) {
+                // Create a set
+                var slideSet = recordings.reduce(function(acc, rec) {
+                    acc[rec._id] = rec;
+                    return acc;
+                }, {});
+            
+                
+                // map slides
+                var slidesContent = slides.map(function(slide) {
+                    var s = slideSet[slide.snapshotId];
+                    s.timestamp = slide.timestamp;
+                    return s;
+                });
+
+                // Create recording
+                return Q.ninvoke(Recording, 'create', {
+                    title: title,
+                    group: title,
+                    date: new Date(),
+                    slides: slidesContent
+                });
+            }).then(function(recording) {
+                // Rename audio
+                var audioPath = path.join(soundsDir, req.files.audio.name);
+                var audio = Q.ninvoke(fs, 'rename', req.files.audio.path, audioPath);
+        
+                var event = Q.ninvoke(Event.findOneAndUpdate({
+                    _id: req.params.event,
+                    'iterations._id': req.params.iteration
+                }, {
+                    $push: {
+                        'iterations.$.materials': {
+                            title: title,
+                            url: soundsUrl + req.files.audio.name,
+                            material: recording._id
+                        }
+                    }
+                }).lean(), 'exec');
+
+                return Q.all([audio, event]);
+            });
+            
+        }).then(function (data) {
+            res.redirect('/?edit=true#/space/' + req.params.event);
+        }).fail(onError(res)).done(onDone);
+
     }, 
+
     eventMaterialDelete: function (req, res) {
                          
     },
