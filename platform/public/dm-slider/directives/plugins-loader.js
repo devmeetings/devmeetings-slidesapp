@@ -35,7 +35,12 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                         var childScope = $scope.$new();
 
                         var refresh = function(newContext, oldContext) {
-                            if (!newContext || (newContext !== oldContext && hasSameKeys(newContext, oldContext))) {
+                            if (!newContext) {
+                                return;
+                            }
+                            if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
+                                // Just broadcast info about new context
+                                $scope.$broadcast('slide:update');
                                 return;
                             }
 

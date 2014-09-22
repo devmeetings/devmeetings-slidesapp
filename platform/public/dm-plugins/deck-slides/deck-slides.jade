@@ -1,5 +1,7 @@
 .section-slides.col-sm-12.full-height
     .row.full-height
-        .col-xs-12.dm-slide-left
-            plugins-loader(namespace="'slide'", context="slide.content", mode="player")
+        .dm-slide-left(ng-class="{'col-xs-9' : slide.content.sidebar, 'col-xs-12': !slide.content.sidebar }")
+            plugins-loader(namespace="'slide'", context="slide.content")
             plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
+        .col-xs-offset-9.col-xs-3.dm-slide-panel(ng-if="slide.content.sidebar")
+            plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content")

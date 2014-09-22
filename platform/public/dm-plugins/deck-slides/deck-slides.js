@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$timeout', '$rootScope', '$location', 'CurrentSlideManagerForDeck', 'hotkeys',
-        function($timeout, $rootScope, $location, CurrentSlideManagerForDeck, hotkeys) {
+        '$timeout', '$rootScope', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys',
+        function($timeout, $rootScope, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
 
             return {
                 restrict: 'E',
@@ -20,9 +20,13 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                             _id: activeSlideId
                         });
                         if (!scope.slide && scope.deck.deckSlides) {
-                            scope.slide = scope.deck.deckSlides[0];
+                            activateSlide(0);
                         }
                     };
+
+                    function activateSlide(idx) {
+                        scope.slide = scope.deck.deckSlides[idx];
+                    }
 
                     scope.modes = $rootScope.modes;
                     scope.csm = CurrentSlideManagerForDeck;
@@ -32,6 +36,12 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                             return;
                         }
                         $location.url(newId);
+                        //TODO [ToDr] Shitty as fuck!
+                        DeckAndSlides.slideId = newId;
+                    });
+
+                    scope.$on('slide', function(ev, slide_content) {
+                        scope.slide.content = slide_content;
                     });
 
 
@@ -52,7 +62,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         }).indexOf(scope.slide._id);
 
                         idx = fixSlideIdx(idx + diff, maxLength);
-                        scope.slide = scope.deck.deckSlides[idx];
+                        activateSlide(idx);
                     }
 
                     hotkeys.bindTo(scope).add({

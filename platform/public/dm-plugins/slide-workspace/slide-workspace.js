@@ -133,6 +133,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             disableSync = false;
                         }
 
+                        function refreshActiveTab() {
+                            var ws = scope.workspace;
+                            scope.activeTab = ws.tabs[ws.active];
+                        }
+
                         editor.on('change', function() {
                             if (disableSync) {
                                 return;
@@ -179,11 +184,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                                     updateEditorOptions(editor, scope.activeTab);
                                 });
                             });
-                            scope.$watch('workspace', function() {
-                                var ws = scope.workspace;
-                                scope.activeTab = ws.tabs[ws.active];
-                            });
+                            scope.$watch('workspace', refreshActiveTab);
                         }
+
+                        scope.$on('slide:update', refreshActiveTab);
 
                         // Tab switch
                         scope.$watch('workspace.active', function() {
