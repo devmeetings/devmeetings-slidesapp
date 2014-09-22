@@ -353,6 +353,10 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });

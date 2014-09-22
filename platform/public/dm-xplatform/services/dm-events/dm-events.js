@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
     xplatformApp.service('dmEvents', ['$http', '$q', function ($http, $q) {
    
         var promises = {
@@ -65,6 +65,17 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
                     var result = _.find(data.iterations[iteration].tasks, function (elem) {
                         return elem._id === task;
                     });
+
+                    return $q.when(result);
+                });
+            },
+            getAllAnnotations: function (event) {
+                return this.getEvent(event, false).then(function (data) {
+                    var result = _.reduce(data.iterations, function (acc, iteration) {
+                        return acc.concat(_.reduce(iteration.materials, function (subacc, material) {
+                            return subacc.concat(material.annotations);
+                        }, []));
+                    }, []);
 
                     return $q.when(result);
                 });

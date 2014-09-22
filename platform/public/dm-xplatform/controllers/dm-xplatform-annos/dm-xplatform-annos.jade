@@ -4,7 +4,7 @@
             input.input-sm.form-control(placeholder="Szukaj", ng-model='search.text')
     .row.dm-annos(ng-style='{"height": showSearch ? "calc(100% - 30px)" : "100%" }')
         .list-group
-            .list-group-item.animate(ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp"', ng-if='p.timestamp <= state.currentSecond')
+            .list-group-item.animate(ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp"', ng-if='showAll || p.timestamp <= state.currentSecond')
                 h4 {{ p.title }}
                 div(marked='p.description')
 
