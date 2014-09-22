@@ -59,13 +59,33 @@
         overflow: hidden;
     }
 
+    .frame-bottom {
+        opacity: 0.3;
+        z-index: 0;
+    }
 
+    .frame-top {
+        opacity: 1.0;
+        z-index: 2;
+    }
+
+}
+
+.slide-workspace-outputs {
+    position: relative;
+    display: block;
 }
 
 .iframe-fiddle-output {
     width: 100%;
     border: none;
     background: none;
+    position: absolute;
+    transition: opacity 0.4s;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 300px;
 }
 
 

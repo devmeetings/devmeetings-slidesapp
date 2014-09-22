@@ -13,7 +13,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
     var triggerChangeLater = _.throttle(function(scope) {
         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
         triggerSave();
-    }, 1000, {
+    }, 200, {
         leading: false,
         trailing: true
     });
