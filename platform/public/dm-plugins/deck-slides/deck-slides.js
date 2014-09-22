@@ -3,8 +3,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$timeout', '$rootScope', '$location', 'CurrentSlideManagerForDeck', 'hotkeys',
-        function($timeout, $rootScope, $location, CurrentSlideManagerForDeck, hotkeys) {
+        '$timeout', '$rootScope', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys',
+        function($timeout, $rootScope, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
 
             return {
                 restrict: 'E',
@@ -37,6 +37,12 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                             return;
                         }
                         $location.url(newId);
+                        //TODO [ToDr] Shitty as fuck!
+                        DeckAndSlides.slideId = newId;
+                    });
+
+                    scope.$on('slide', function(ev, slide_content) {
+                        scope.slide.content = slide_content;
                     });
 
 
