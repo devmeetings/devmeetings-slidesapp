@@ -45,12 +45,17 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         };
 
                         $http.post('/api/slides', newSlide).success(function(data, status) {
-                            scope.slides = scope.slides.concat({
+                            var newSlideData = [{
                                 content: newSlide,
                                 _id: data[0]
-                            });
-                            scope.deck.slides = scope.deck.slides.concat(data);
-                            $http.put('/api/decks/' + scope.deck._id, scope.deck);
+                            }];
+                            var deck = scope.deck;
+
+                            scope.slides = scope.slides.concat(newSlideData);
+                            deck.slides = deck.slides.concat(data);
+                            deck.deckSlides = deck.deckSlides.concat(newSlideData);
+                            
+                            $http.put('/api/decks/' + deck._id, deck);
                         });
                     };
                 }
