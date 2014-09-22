@@ -66,6 +66,67 @@ var Events = {
             res.send(200);
         }).fail(onError(res)).done(onDone);
     },
+    
+    changeVisibility: function (req, res) {
+        var event = req.params.event;
+        var visible = req.params.visible === 'true' ? true : false;
+
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: event
+        }, {
+            $set: {
+                visible: visible
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
+
+    delete: function (req, res) {
+        Q.ninvoke(Event.findOneAndRemove({
+            _id: req.params.event
+        }).lean(), 'exec').then(function () {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
+
+    create: function (req, res) {
+        Q.ninvoke(Event, 'create', req.body).then(function (event) {
+            res.send(event); 
+        }).fail(onError(res)).done(onDone);
+    },
+
+    eventIterationCreate: function (req, res) {
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: req.params.event
+        }, {
+            $push: {
+                iterations: req.body
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(event.iterations.pop());
+        }).fail(onError(res)).done(onDone);
+    },
+    eventIterationDelete: function (req, res) {
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: req.params.event
+        }, {
+            $pull: {
+                iterations: {
+                    _id: req.params.iteration            
+                }
+            }
+        }).lean(), 'exec').then(function (event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
+    eventMaterialCreate: function (req, res) {
+                    
+    }, 
+    eventMaterialDelete: function (req, res) {
+                         
+    },
+
 
 
 
@@ -158,22 +219,9 @@ var Events = {
         }).lean(), 'exec').then(function (event) {
             res.send(200);
         }).fail(onError(res)).done(onDone);
-    },
-
-    changeVisibility: function (req, res) {
-        var event = req.params.event;
-        var visible = req.params.visible === 'true' ? true : false;
-
-        Q.ninvoke(Event.findOneAndUpdate({
-            _id: event
-        }, {
-            $set: {
-                visible: visible
-            }
-        }).lean(), 'exec').then(function (event) {
-            res.send(200);
-        }).fail(onError(res)).done(onDone);
     }
+
+
 
 };
 

@@ -20,6 +20,8 @@
                         accordion-heading
                             .row
                                 .col-xs-12.background(ng-class='{"active": isOpen}')
+                                    a.btn.pull-right(ng-if='editMode', ng-click='removeIteration(i)')
+                                        span.fa.fa-trash.text-danger
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
                                         span.fa.fa-lock(ng-if='i.status != "available"')
@@ -38,6 +40,14 @@
                                     span.fa.fa-square-o(ng-if='!task.done')
                                     span.fa.fa-check-square-o.text-success(ng-if='task.done')
 
+
+                    accordion-group(ng-if='editMode', is-open='addIteration.isOpen')
+                        accordion-heading
+                            .row(ng-click='createIteration()')
+                                .col-xs-12.background(ng-class='{"active": addIteration.isOpen}')
+                                    a.btn.pull-left.dm-space-toggle
+                                        //-span.fa.fa-plus
+                                    h5 Dodaj Iteracje
 
                     accordion-group(is-open='workspace.isOpen')
                         accordion-heading

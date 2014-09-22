@@ -131,6 +131,15 @@ define(['angular', 'xplatform/xplatform-app', '_',
             dmEvents.eventTaskDone($scope.event._id, task._id, done);
         };
 
+        $scope.createIteration = function () {
+            dmEvents.createEventIteration($scope.event._id, {
+                title: 'new iteration'
+            });
+        };
+
+        $scope.removeIteration = function (iteration) {
+            dmEvents.removeEventIteration($scope.event._id, iteration._id);
+        }
 
     }]);
 });

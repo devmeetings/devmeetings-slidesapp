@@ -46,7 +46,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
                 return states[key];
             },
             changeEventVisibility: function (event, visible) {
-                $http.post('/api/change_event_visibility/' + event + '/' + visible);
+                $http.post('/api/event_visibility/' + event + '/' + visible);
             },
             eventTaskDone: function (event, task, done) {
                 $http.post('/api/event_task_done/' + event + '/' + task + '/' + done);               
@@ -79,6 +79,53 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
                     return $q.when(result);
                 });
+            },
+            removeEvent: function (event) {
+                var result = $q.defer(); 
+                $http.delete('/api/events/' + event).then(function () {
+                    result.resolve();
+                }, function () {
+                    result.reject();
+                });
+                return result.promise;
+            },
+            createEvent: function (event) {
+                var result = $q.defer();
+                $http.post('/api/events', event).then(function (data) {
+                    result.resolve(data.data);
+                }, function () {
+                    result.reject();
+                });
+                return result.promise;
+            },
+            createEventIteration: function (event, iteration) {
+                var result = $q.defer(); 
+                var that = this;
+                $http.post('/api/event_iteration/' + event, iteration).then(function (data) {
+                    var i = data.data;
+                    that.getEvent(event, false).then(function (eventObject) {
+                        eventObject.iterations.push(i);
+                        result.resolve(i);
+                    });
+                }, function () {
+                    result.reject();
+                });
+                return result.promise;
+            },
+            removeEventIteration: function (event, iteration) {
+                var result = $q.defer();
+                var that = this;
+                $http.delete('/api/event_iteration/' + event + '/' + iteration).then(function () {
+                    that.getEvent(event, false).then(function (eventObject) {
+                        _.remove(eventObject.iterations, function (i) {
+                            return i._id === iteration;
+                        });
+                        result.resolve();
+                    }, function () {
+                        result.reject();
+                    });
+                });
+                return result.promise;
             }
         };
     }]);
