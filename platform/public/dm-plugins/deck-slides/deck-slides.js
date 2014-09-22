@@ -20,9 +20,14 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                             _id: activeSlideId
                         });
                         if (!scope.slide && scope.deck.deckSlides) {
-                            scope.slide = scope.deck.deckSlides[0];
+                            activateSlide(0);
                         }
                     };
+
+                    function activateSlide(idx) {
+                        scope.slide = scope.deck.deckSlides[idx];
+                    }
+
 
                     scope.modes = $rootScope.modes;
                     scope.csm = CurrentSlideManagerForDeck;
@@ -52,7 +57,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         }).indexOf(scope.slide._id);
 
                         idx = fixSlideIdx(idx + diff, maxLength);
-                        scope.slide = scope.deck.deckSlides[idx];
+                        activateSlide(idx);
                     }
 
                     hotkeys.bindTo(scope).add({
