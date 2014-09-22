@@ -1,52 +1,57 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_languageTools'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(module, _, sliderPlugins, ace) {
     'use strict';
 
-    var EDITOR_THEME = 'todr';
     var path = sliderPlugins.extractPath(module);
 
+    function convertName(name) {
+        var sw = {
+            'html': 'index|html',
+            'js': 'main|js',
+            'css': 'styles|css',
+        };
+        return sw[name];
+    }
+    function getActive(fiddle) {
+        if (!fiddle[fiddle.active]) {
+          return convertName('html');  
+        }
+        return convertName(fiddle.active);
+    }
 
-    var handleListeners = function(scope, $window) {
-        // Errors forwarder
-        var listener = function(ev) {
-            var d = ev.data;
-            if (d.type !== 'fiddle-error') {
+    function convertTabs(fiddle) {
+        var tabs = {};
+        var files = ['html', 'css', 'js'];
+        var editor = fiddle.aceOptions;
+
+        files.map(function(f){
+            if (!fiddle[f]) {
                 return;
             }
-            scope.$apply(function() {
-                scope.errors = d.msg;
-            });
-        };
-
-        $window.addEventListener('message', listener);
-        scope.$on('$destroy', function() {
-            $window.removeEventListener('message', listener);
-        });
-    };
-
-    var fiddleCopy = function(scope) {
-        return _.extend({
-            js: '',
-            css: '',
-            html: '<html><head></head><body></body></html>'
-        }, scope.fiddle);
-    };
-
-    var getActive = function(scope) {
-        if (scope.fiddle.active) {
-            return scope.fiddle.active;
-        }
-
-        var keys = _.keys(scope.fiddle);
-        return _.find(['js', 'coffee', 'css', 'html', 'server'], function(key) {
-            return _.contains(keys, key);
+            var name = convertName(f);
+            tabs[name] = {
+                content: fiddle[f],
+                editor: editor
+            };
         });
 
-    };
+        [{
+            search: 'css',
+            from: '</head>',
+            to: '<link rel="stylesheet" src="style.css"></head>'
+        }, {
+            search: 'js',
+            from: '</body>',
+            to: '<script src="main.js"></script></body>'
+        }].map(function(f) {
+            if (!fiddle[f.search]) {
+                return;
+            }
+            var content = tabs['index|html'].content;
+            tabs['index|html'].content = content.replace(f.from, f.to);
+        });
 
-    var triggerSaveEventLater = _.throttle(function() {
-        sliderPlugins.trigger('slide.save');
-    }, 20);
-
+        return tabs;
+    }
 
     sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 3900).directive('slideFiddle', [
         '$timeout', '$window', '$rootScope',
@@ -55,7 +60,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
                 restrict: 'E',
                 scope: {
                     fiddle: '=data',
-                    slide: '=context'
+                    slide: '=context',
+                    mode: '@'
                 },
                 templateUrl: path + '/fiddle.html',
                 link: function(scope, element) {
@@ -63,92 +69,28 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './fiddleOutput', 'ace_la
                         return;
                     }
 
-                    var updateScopeLater = _.throttle(function() {
-                        scope.$apply();
-                    }, 100, {
-                        leading: false,
-                        trailing: true
+                    //convert fiddle into workspace
+                    scope.workspace = {
+                        active: getActive(scope.fiddle),
+                        tabs: convertTabs(scope.fiddle),
+                        size: scope.fiddle.size
+                    };
+
+
+                    scope.$watch('fiddle.active', function(){
+                        scope.workspace.active = getActive(scope.fiddle.active);   
                     });
 
-                    scope.active = getActive(scope);
+                    scope.$watch('fiddle.aceOptions', function(){
+                        var ws = scope.workspace;
+                        ws[ws.active].editor = scope.fiddle.aceOptions;
+                    });
 
-
-                    $timeout(function() {
-                        element.find('.editor').each(function() {
-                            var e = this;
-                            var editor = ace.edit(e);
-                            var mode = e.getAttribute('data-mode');
-                            editor.setTheme("ace/theme/" + EDITOR_THEME);
-                            editor.setOptions({
-                                enableBasicAutocompletion: true,
-                                enableSnippets: true,
-                                enableLiveAutocompletion: false
-                            });
-                            editor.getSession().setMode("ace/mode/" + mode);
-                            var content = e.getAttribute('data-content');
-
-                            var shouldTriggerEvent = false;
-
-                            var updateScope = function() {
-                                scope.fiddle[content] = editor.getValue();
-                                scope.fiddle.aceOptions = {
-                                    cursorPosition: editor.getCursorPosition(),
-                                    selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
-                                    firstVisibleRow: editor.getFirstVisibleRow(),
-                                    lastVisibleRow: editor.getLastVisibleRow()
-                                };
-                                // Do not trigger events if only cursor position changes
-                                if (shouldTriggerEvent) {
-                                    sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
-                                }
-                                shouldTriggerEvent = false;
-                                updateScopeLater();
-                                triggerSaveEventLater();
-                            };
-
-                            var reloadFiddle = function() {
-                                var selection = editor.getSelection();
-                                selection.moveCursorToPosition(scope.fiddle.aceOptions.cursorPosition);
-                                //var range = scope.fiddle.aceOptions.selectionRange;                                   
-                                //selection.setSelectionRange(range, false);
-                                editor.scrollToRow(scope.fiddle.aceOptions.firstVisibleRow);
-                            };
-
-                            scope.$watch('fiddle.' + content, function() {
-                                if (editor.getValue() !== scope.fiddle[content]) {
-                                    scope.active = content;
-                                    editor.setValue(scope.fiddle[content]);
-                                    editor.clearSelection();
-                                    if (!$rootScope.modes.isSliderMode) {
-                                        reloadFiddle();
-                                    }
-                                }
-                            });
-
-
-
-
-                            editor.on('change', function() {
-                                var newValue = editor.getValue();
-                                if (scope.fiddle[content] !== newValue) {
-                                    shouldTriggerEvent = true;
-                                    updateScope();
-                                }
-                            });
-
-                            if ($rootScope.modes.isSliderMode) {
-                                editor.getSession().getSelection().on('changeCursor', function() {
-                                    updateScope();
-                                });
-                            }
-
-                            sliderPlugins.onLoad(function() {
-                                sliderPlugins.trigger('slide.slide-fiddle.change', fiddleCopy(scope));
-                            });
+                    ['html', 'css', 'js'].map(function(x){
+                        scope.$watch('fiddle.'+x, function(){
+                            scope.workspace.tabs = convertTabs(scope.fiddle);
                         });
                     });
-
-                    handleListeners(scope, $window);
                 }
             };
         }

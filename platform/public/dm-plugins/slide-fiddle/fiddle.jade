@@ -1,25 +1,4 @@
-mixin tabHeader(name, displayName)
-  li(ng-class="{'active': active === '#{name}' }", ng-show="fiddle.#{name} !== undefined")
-    a.pointer(ng-click="active = '#{name}'") #{displayName}
-
-mixin tabContent(name, mode)
-  .tab-pane.fade(ng-class="{'active in': active === '#{name}' }")
-    .editor(class="editor-#{name} editor-{{ fiddle.size}}", data-mode="#{mode}", data-content="#{name}")
-.row
-  div(ng-class="{'col-sm-12': fiddle.hideOutput, 'col-sm-6': !fiddle.hideOutput }")
-    ul.nav.nav-tabs
-      mixin tabHeader('js', 'main.js')
-      mixin tabHeader('coffee', 'main.coffee')
-      mixin tabHeader('css', 'styles.css')
-      mixin tabHeader('html', 'index.html')
-      mixin tabHeader('server', 'server.js')
-    .tab-content
-      mixin tabContent('js', 'javascript')
-      mixin tabContent('coffee', 'coffee')
-      mixin tabContent('css', 'css')
-      mixin tabContent('html', 'html')
-      .tab-pane.fade(ng-if="fiddle.server", ng-class="{'active in': active === 'server' }")
-        slide-code(context="fiddle", data="fiddle.server")
-    .errors.alert.alert-danger.errors-fiddle {{ errors }}
-  .col-sm-6(ng-class="{ 'hidden': fiddle.hideOutput }")
-    slide-fiddle-output(data="fiddle")
+.row.full-height
+  div.col-sm-12.full-height
+    pre {{ fiddle }}
+    slide-workspace(data="workspace", context="slide", mode="{{mode}}")    }
