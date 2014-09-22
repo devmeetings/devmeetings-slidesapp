@@ -12,6 +12,7 @@ var plugins = fs.readdir(pluginsPath).then(function(files) {
             mod.name = pluginName;
             return mod;
         } catch (e) {
+            console.error(e);
             throw new Error('Cannot load plugin ' + pluginName);
         }
     }).filter(function(plugin) {
