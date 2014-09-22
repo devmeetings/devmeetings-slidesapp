@@ -3,13 +3,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
 
     var path = sliderPlugins.extractPath(module);
 
-    function getActive(active) {
+    function convertName(name) {
         var sw = {
             'html': 'index|html',
             'js': 'main|js',
             'css': 'styles|css',
         };
-        return sw[active || "html"];
+        return sw[name];
+    }
+    function getActive(fiddle) {
+        if (!fiddle[fiddle.active]) {
+          return convertName('html');  
+        }
+        return convertName(fiddle.active);
     }
 
     function convertTabs(fiddle) {
@@ -21,7 +27,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
             if (!fiddle[f]) {
                 return;
             }
-            var name = getActive(f);
+            var name = convertName(f);
             tabs[name] = {
                 content: fiddle[f],
                 editor: editor
@@ -65,10 +71,26 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
 
                     //convert fiddle into workspace
                     scope.workspace = {
-                        active: getActive(scope.fiddle.active),
+                        active: getActive(scope.fiddle),
                         tabs: convertTabs(scope.fiddle),
                         size: scope.fiddle.size
                     };
+
+
+                    scope.$watch('fiddle.active', function(){
+                        scope.workspace.active = getActive(scope.fiddle.active);   
+                    });
+
+                    scope.$watch('fiddle.aceOptions', function(){
+                        var ws = scope.workspace;
+                        ws[ws.active].editor = scope.fiddle.aceOptions;
+                    });
+
+                    ['html', 'css', 'js'].map(function(x){
+                        scope.$watch('fiddle.'+x, function(){
+                            scope.workspace.tabs = convertTabs(scope.fiddle);
+                        });
+                    });
                 }
             };
         }
