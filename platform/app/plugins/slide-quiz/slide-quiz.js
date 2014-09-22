@@ -28,12 +28,27 @@ exports.initApi = function(prefix, app, authenticated) {
             res.send(400, err);
         });
     });
+
+
+    app.get(prefix + "quizAnswers/:id", authenticated, function(req, res){
+        console.log(req.params.id);
+        QuizAnswers.getByQuizId(req.params.id).then(function(answers) {
+            res.send(answers);
+        }).then(null, function(err){
+            console.error(err);
+            res.send(400, err);
+        });
+    });
 };
 
 
 var QuizAnswer = require('../../models/quizanswer.js');
 var QuizAnswers = {
-
+    getByQuizId: function(quizId) {
+        return QuizAnswer.find({
+            quizId: quizId
+        }).exec();
+    },
     findById: function(id) {
         return QuizAnswer.findById(id).exec();
     },

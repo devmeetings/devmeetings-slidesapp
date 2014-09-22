@@ -26,12 +26,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                 link: function(scope, element) {
                 	var taskId = scope.quiz.taskId || "";
                 	scope.data = {};
-                	
+
                     scope.submit = function(description, email) {
                     	var nextSlideId = scope.quiz.nextSlideId;
                     	var lastId = store.get(scope.quiz.quizId);
 
                     	var answer = {
+                    		quizId: scope.quiz.quizId,
                     		taskId: taskId,
                     		slideId: DeckAndSlides.slideId,
                     		email: email,
