@@ -69,6 +69,7 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                         leading: false,
                         trailing: true
                     }), true);
+                
                 }
             };
         }
