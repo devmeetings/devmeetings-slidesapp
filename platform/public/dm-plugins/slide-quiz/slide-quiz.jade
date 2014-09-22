@@ -1,0 +1,34 @@
+mixin formGroup(formName, fieldName)
+  .form-group(ng-class='{\'has-success\': #{formName}.#{fieldName}.$valid && #{formName}.$dirty, \'has-error\': #{formName}.#{fieldName}.$invalid && #{formName}.$dirty}')
+    block
+
+div
+    div.alert.alert-info(ng-show="finished")
+        span Dziękujemy za udział w konkursie.
+    form(name="form", novalidate, ng-hide="finished")
+        div(ng-if="quiz.getEmail")
+            +formGroup('form', 'email')
+                label.control-label Twój adres e-mail
+                input.form-control(
+                    type="email", name="email", required, 
+                    ng-model="data.email", placeholder="Będziemy mogli się z Tobą skontaktować.")
+        +formGroup('form', 'description')
+            label.control-label Opis rozwiązania
+            textarea.form-control(required, name="description", 
+                ng-minlength="5", ng-model="data.description", 
+                placeholder="Opisz swoje rozwiązanie")
+        .form-group
+            button.btn.btn-success.btn-block(
+                ng-disabled="form.$invalid || sending", 
+                ng-click="submit(data.description, data.email)")
+                span(ng-show="sending")
+                    span.fa.fa-spin.fa-spinner
+
+                span(ng-show="quiz.nextSlideId && !sending")
+                    span Przejdź do kolejnego zadania
+                    span &nbsp;
+                    span.fa.fa-chevron-right
+                span(ng-hide="quiz.nextSlideId || sending")
+                    span Wyślij rozwiązania
+                    span &nbsp;
+                    span.fa.fa-upload
