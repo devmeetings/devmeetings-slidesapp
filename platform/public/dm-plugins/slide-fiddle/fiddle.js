@@ -89,8 +89,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
                     ['html', 'css', 'js'].map(function(x){
                         scope.$watch('fiddle.'+x, function(){
                             scope.workspace.tabs = convertTabs(scope.fiddle);
+                            scope.fiddle.active = x;
                             // If something's happens there it should be active (not sure if needed)
-                            scope.workspace.active = getActive(x);
+                            scope.workspace.active = getActive(scope.fiddle);
                         });
                     });
                 }
