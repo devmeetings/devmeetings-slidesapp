@@ -2,17 +2,17 @@
     h3 Zadaj pytanie
     hr
 
-    form
+    form(ng-submit='createQuestion()')
         .form-group
             label Tytuł
-            input.input-sm.form-control(type='text', required)
+            input.input-sm.form-control(ng-model='question.title', type='text', required)
         .form-group
             label Pytanie
-            textarea.input-sm.form-control(rows='3', required)
+            textarea.input-sm.form-control(ng-model='question.description', rows='3', required)
         .form-group
             .checkbox
                 label
-                    input(type='checkbox') 
-                    | Dołącz kopię kodu
+                    input(ng-model='question.anonymous', type='checkbox') 
+                    | Wyslij anonimowo
         button.btn.btn-sm.btn-primary(type='submit') Wyślij
 

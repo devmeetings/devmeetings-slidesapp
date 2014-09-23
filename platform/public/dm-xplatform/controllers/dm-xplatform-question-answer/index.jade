@@ -1,29 +1,19 @@
 .modal-body
     .panel.panel-default
         .panel-heading
-            h4 Gdzie umieszczać script?
-            p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
+            h4 {{question.title}}
+            p {{question.description}} 
 
-        //-.panel-body(ng-if='answers.length > 0')
-        .panel-body.dm-answers
+        .panel-body.dm-answers(ng-if='question.comments.length > 0')
             .row
                 .list-group
-                    .list-group-item
-                        p Lorem Ipsum
-                    .list-group-item
-                        p Lorem Ipsum
-                    .list-group-item
-                        p Lorem Ipsum
-                    .list-group-item
-                        p Lorem Ipsum
-                    .list-group-item
-                        p Lorem Ipsum
-                    .list-group-item
-                        p Lorem Ipsum
+                    .list-group-item(ng-repeat='comment in question.comments')
+                        p {{comment}}
+        
         .panel-footer
-            form
+            form(ng-submit='createComment()')
                 .form-group
-                    textarea.form-control(rows='3', requied)
+                    textarea.form-control(ng-model='comment.text', rows='3', requied)
                 button.btn.btn-sm.btn-primary(type='submit') Wyślij
                     
 

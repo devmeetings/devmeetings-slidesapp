@@ -1,10 +1,7 @@
 .list-group
-    .list-group-item
-        h4 Gdzie umieszczać script?
-        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
-        button.btn.btn-primary.btn-sm(ng-click='showAnswers()') Pomagam
-    .list-group-item
-        h4 Gdzie umieszczać script?
-        p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
-        button.btn.btn-primary.btn-sm(ng-click='showAnswers()') 8 odpowiedzi
+    .list-group-item(ng-repeat='question in questions | orderBy: "-timestamp"')
+        h4 {{question.title}}
+        p {{question.description}}
+        button.btn.btn-primary.btn-sm(ng-if='question.comments.length < 1', ng-click='showAnswers(question)') Pomagam
+        button.btn.btn-primary.btn-sm(ng-if='question.comments.length > 0', ng-click='showAnswers(question)') {{question.comments.length}} odpowiedzi
 
