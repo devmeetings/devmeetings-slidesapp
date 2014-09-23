@@ -108,7 +108,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         editor.setValue("");
                         editor.getSession().setTabSize(4);
                         editor.getSession().setUseSoftTabs(true);
-                        editor.getSession().setUseWrapMode(true);
+                        editor.getSession().setUseWrapMode(false);
                         editor.setOptions({
                             enableBasicAutocompletion: true,
                             enableSnippets: true,
