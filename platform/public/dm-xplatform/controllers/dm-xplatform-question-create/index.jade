@@ -1,0 +1,18 @@
+.modal-body
+    h3 Zadaj pytanie
+    hr
+
+    form
+        .form-group
+            label Tytuł
+            input.input-sm.form-control(type='text', required)
+        .form-group
+            label Pytanie
+            textarea.input-sm.form-control(rows='3', required)
+        .form-group
+            .checkbox
+                label
+                    input(type='checkbox') 
+                    | Dołącz kopię kodu
+        button.btn.btn-sm.btn-primary(type='submit') Wyślij
+

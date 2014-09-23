@@ -157,6 +157,14 @@ define(['angular', 'xplatform/xplatform-app', '_',
             });
         };
 
+        $scope.askQuestion = function () {
+            var modalInstance = $modal.open({
+                templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-question-create/index.html',
+                controller: 'dmXplatformQuestionCreate',
+                windowClass: 'dm-question-modal'
+            });
+        };
+
     }]);
 });
 

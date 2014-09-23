@@ -129,21 +129,12 @@
                 tab(id='issues', active='tabs.issues', select='toggleRight(true)')
                     tab-heading
                         span.fa.fa-warning
-        
                     .col-xs-12.dm-space-questions
-                        .row
-                            .list-group
-                                .list-group-item
-                                    h4 Gdzie umieszczać script?
-                                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
-                                    button.btn.btn-primary.btn-sm Pomagam
-                                .list-group-item
-                                    h4 Gdzie umieszczać script?
-                                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.
-                                    button.btn.btn-primary.btn-sm Pomagam
+                        .row(ui-view='second')
+                            
 
                     .col-xs-12.dm-space-question-button
-                        button.btn.btn-primary.col-xs-12 Zadaj pytanie
+                        button.btn.btn-primary.col-xs-12(ng-click='askQuestion()') Zadaj pytanie
 
 
                 tab(id='chat', active='tabs.chat', select='toggleRight(true)')

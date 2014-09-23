@@ -22,7 +22,10 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline',
         'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo',
         'xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking',
-        'xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos'
+        'xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos',
+        'xplatform/controllers/dm-xplatform-question/dm-xplatform-question',
+        'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
+        'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -357,6 +360,10 @@ require(['angular',
                         first: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
                             controller: 'dmXplatformAnnos'
+                        },
+                        second: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-question/index.html',
+                            controller: 'dmXplatformQuestion'
                         }
                     }
                 });
