@@ -9,6 +9,8 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
 
+    var version = generateAndSaveNewVersion('.version');
+
     var rjsOptimizationModule = function(path, module) {
         return {
             options: {
@@ -18,7 +20,7 @@ module.exports = function(grunt) {
                 name: module, // assumes a production build using almond
                 out: "public/bin/" + path + '/' + module + "-" + version + ".js",
                 paths: {
-                    "templates": "../bin/templates",
+                    "templates": "../bin/templates-"+version,
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
@@ -29,8 +31,6 @@ module.exports = function(grunt) {
             }
         };
     };
-
-    var version = generateAndSaveNewVersion('.version');
 
     grunt.initConfig({
         copy: {
@@ -104,7 +104,7 @@ module.exports = function(grunt) {
                     }
                 },
                 src: ['public/**/*.html', '!public/components/**'],
-                dest: 'public/bin/templates.js'
+                dest: 'public/bin/templates-'+version+'.js'
             }
         },
         watch: {

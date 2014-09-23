@@ -1,11 +1,12 @@
 mixin formGroup(formName, fieldName)
-  .form-group(ng-class='{\'has-success\': #{formName}.#{fieldName}.$valid && #{formName}.$dirty, \'has-error\': #{formName}.#{fieldName}.$invalid && #{formName}.$dirty}')
+  .form-group(ng-class='{\'has-success\': #{formName}.#{fieldName}.$valid && #{formName}.$dirty, \'has-error\': #{formName}.#{fieldName}.$invalid}')
     block
 
 div
     div.alert.alert-info(ng-show="finished")
         span Dziękujemy za udział w konkursie.
     form(name="form", novalidate, ng-hide="finished")
+
         div(ng-if="quiz.getEmail")
             +formGroup('form', 'email')
                 label.control-label Twój adres e-mail
@@ -16,7 +17,9 @@ div
             label.control-label Opis rozwiązania
             textarea.form-control(required, name="description", 
                 ng-minlength="5", ng-model="data.description", 
-                placeholder="Opisz swoje rozwiązanie")
+                placeholder="Opisz nam co było problemem i jak udało Ci się to rozwiązać, albo dlaczego nie udało Ci się go rozwiązać.")
+        progressbar(value="quiz.progress[0]", max="quiz.progress[1]", ng-if="quiz.progress", type="success")
+            | {{quiz.progress[0]}} / {{quiz.progress[1]}}
         .form-group
             button.btn.btn-success.btn-block(
                 ng-disabled="form.$invalid || sending", 

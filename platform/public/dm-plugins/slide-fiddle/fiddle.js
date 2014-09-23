@@ -83,7 +83,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
 
                     scope.$watch('fiddle.aceOptions', function(){
                         var ws = scope.workspace;
-                        ws[ws.active].editor = scope.fiddle.aceOptions;
+                        if (ws[ws.active]) {
+                            ws[ws.active].editor = scope.fiddle.aceOptions;
+                        }
                     });
 
                     ['html', 'css', 'js'].map(function(x){
