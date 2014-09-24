@@ -17,6 +17,9 @@ define(['module',
             }, {
                 title: 'Upload',
                 sref: 'index.upload'
+            }, {
+                title: 'Quiz',
+                sref: 'index.quiz'
             }];
         }
     ]);

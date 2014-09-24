@@ -9,6 +9,7 @@ require(['angular',
     'dm-admin/controllers/dm-admin-chapter/dm-admin-chapter',
     'dm-admin/controllers/dm-admin-waves/dm-admin-waves',
     'dm-admin/controllers/dm-admin-upload/dm-admin-upload',
+    'dm-admin/controllers/dm-admin-quiz/dm-admin-quiz',
     'directives/plugins-loader'
 ], function(angular, angularRouter, bootstrap, adminApp, adminSlider) {
     adminApp.config(['$stateProvider', '$urlRouterProvider',
@@ -53,7 +54,17 @@ require(['angular',
                         controller: 'dmAdminUpload'
                     }
                 }
-            })
+            });
+
+            $stateProvider.state('index.quiz', {
+                url: '/quiz',
+                views: {
+                    content: {
+                        templateUrl: getControllerTemplate('dm-admin-quiz'),
+                        controller: 'dmAdminQuiz'
+                    }
+                }
+            });
 
 
             $stateProvider.state('index.trainings.chapters', {
