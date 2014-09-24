@@ -8,4 +8,4 @@ a.btn.btn-default.btn-xs.output-new-window(ng-href="/api/page/{{ contentUrl }}/"
     span.fa.fa-external-link
 .slide-workspace-outputs.full-height
     iframe.iframe-fiddle-output.scrollable-container
-    iframe.iframe-fiddle-output.scrollable-container
+    iframe.iframe-fiddle-output.scrollable-container(ng-if="!workspace.singleOutput")
