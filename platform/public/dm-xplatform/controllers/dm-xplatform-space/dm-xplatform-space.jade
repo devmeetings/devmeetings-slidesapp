@@ -10,7 +10,7 @@
                 accordion.dm-space-accordion
                     accordion-group(is-open='question.isOpen')
                         accordion-heading
-                            .row(ui-sref='index.space({event: event._id})')
+                            .row(ui-sref='index.space.intro({event: event._id})')
                                 .col-xs-12.background(ng-class='{"active": question.isOpen}')
                                     a.btn.pull-left.dm-space-toggle
                                         span.fa.fa-question-circle
@@ -71,7 +71,7 @@
         .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
-                .row.full-height(ng-if='showTutorial')
+                //-.row.full-height(ng-if='showTutorial')
                     .col-md-6
                         .row
                             .col-xs-12

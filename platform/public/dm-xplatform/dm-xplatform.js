@@ -350,6 +350,19 @@ require(['angular',
                     }
                 });
 
+                $stateProvider.state('index.space.intro', {
+                    url: '/intro',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-intro/index.html',
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
+                        }
+                    }
+                });
+
                 $stateProvider.state('index.space.task', {
                     url: '/task/:slide',
                     views: {
@@ -370,6 +383,10 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo.html',
                             controller: 'dmXplatformTodo'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
@@ -398,6 +415,10 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking.html',
                             controller: 'dmXplatformRanking'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
