@@ -2,13 +2,9 @@ define(['angular',
         '_',
         'xplatform/xplatform-app',
         'directives/plugins-loader',
-        'slider/slider.plugins',
-        'xplatform/services/dm-tasks/dm-tasks'
-        ], function (angular, _, xplatformApp, pluginsLoader, sliderPlugins) {
+        ], function (angular, _, xplatformApp, pluginsLoader) {
 
-    xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$stateParams', '$state', '$http', '$timeout', 'dmUser', 'dmTasks', function ($scope, $q, $stateParams, $state, $http, $timeout, dmUser, dmTasks) {
-
-        $scope.showSidebar = true;
+    xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$stateParams', '$http', function ($scope, $q, $stateParams, $http) {
 
         $scope.slideId = $stateParams.slide;
 
@@ -25,38 +21,6 @@ define(['angular',
                 return $scope.slide._id === save._id;
             }).length > 0;
         });
-
-        $scope.deleteSave = function (save, $event) {
-            $event.stopPropagation();
-            $http.delete('/api/slidesaves/' + save._id).then(function () {
-                _.remove($scope.saves, function (elem) {
-                    return elem._id === save._id;
-                });
-            })
-        };
-
-        dmUser.getCurrentUser().then(function (user) {
-            $scope.user = user;
-        });
-
-
-        $scope.share = function (save) {
-            sliderPlugins.trigger('slide.share', location.origin + '/#/task/' + save._id);
-        };
-
-        $scope.saveSlide = function () {
-            var save = {
-                slide: angular.copy($scope.slide.slide),
-                timestamp: new Date(),
-                title: $scope.saveTitle
-            };
-
-            $http.post('/api/slidesaves', save).success(function (slidesave) {
-                save._id = slidesave.slidesave;
-                $scope.saves.push(save);
-            });
-            $http.saveTitle = '';
-        };
 
         var sendWithDebounce = _.debounce(function (slide) {
             $http.put('/api/slidesaves/' + slide._id, slide);
