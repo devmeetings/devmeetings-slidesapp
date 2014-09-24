@@ -1,7 +1,8 @@
 define(['angular', 'xplatform/xplatform-app', '_',
         'xplatform/services/dm-events/dm-events',
         'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload',
-        'xplatform/services/dm-questions/dm-questions'], function (angular, xplatformApp, _) {
+        'xplatform/services/dm-questions/dm-questions',
+        'xplatform/directives/dm-chat/dm-chat'], function (angular, xplatformApp, _) {
     xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', function ($scope, $timeout, $state, $stateParams, $http, $modal, dmEvents, dmUser, dmQuestions) {
         $scope.left = {
             min: '50px',
