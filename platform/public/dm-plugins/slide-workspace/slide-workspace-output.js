@@ -11,9 +11,6 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                 templateUrl: path + '/slide-workspace-output.html',
                 link: function(scope, element) {
 
-                    var $iframes = element.find('iframe');
-                    var currentFrame = 0;
-
                     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
                         scope.contentUrl = 'waiting';
                         Sockets.emit('slide.slide-workspace.change', workspace, function(contentUrl) {
@@ -24,10 +21,26 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                         });
                     });
 
+                    var currentFrame = 0;
+                    var $iframes = element.find('iframe');
+                    scope.$watch('contentUrl', function(hash) {
+                        if (!hash || hash === 'waiting') {
+                            return;
+                        }
+                        if (scope.workspace.singleOutput) {
+                            currentFrame = 0;
+                        }
+                        $iframes[currentFrame].src = '/api/page/' + hash + "/";
+                        swapFramesLater();
+                    });
+
                     var swapFramesLater = _.throttle(function() {
                         var oldFrame = currentFrame;
                         currentFrame += 1;
                         currentFrame = currentFrame % $iframes.length;
+                        if (scope.workspace.singleOutput) {
+                            currentFrame = 0;
+                        }
 
                         // Toggle classes
                         angular.element($iframes[currentFrame]).addClass('frame-bottom').removeClass('frame-top');
@@ -35,14 +48,6 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                     }, 500, {
                         leading: false,
                         trailing: true
-                    });
-
-                    scope.$watch('contentUrl', function(hash) {
-                        if (!hash || hash === 'waiting') {
-                            return;
-                        }
-                        $iframes[currentFrame].src = '/api/page/' + hash + "/";
-                        swapFramesLater();
                     });
 
                     angular.forEach($iframes, function(frame) {
