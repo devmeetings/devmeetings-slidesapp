@@ -2,28 +2,16 @@ define(['angular',
         '_',
         'xplatform/xplatform-app',
         'directives/plugins-loader',
+        'xplatform/services/dm-slidesaves/dm-slidesaves'
         ], function (angular, _, xplatformApp, pluginsLoader) {
+    xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$stateParams', 'dmSlidesaves', function ($scope, $q, $stateParams, dmSlidesaves) {
 
-    xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$stateParams', '$http', function ($scope, $q, $stateParams, $http) {
-
-        $scope.slideId = $stateParams.slide;
-
-        var allPromise = $http.get('/api/slidesaves');
-        var currentPromise = $http.get('/api/slidesaves/' + $stateParams.slide);
-
-        $q.all([allPromise, currentPromise]).then(function (results) {
-            $scope.saves = results[0].data.map(function (save) {
-                save.timestamp = new Date(save.timestamp);
-                return save;
-            });
-            $scope.slide = results[1].data;
-            $scope.userSlide = $scope.saves.filter(function (save) {
-                return $scope.slide._id === save._id;
-            }).length > 0;
+        dmSlidesaves.saveWithId($stateParams.slide).then(function (save) {
+            $scope.slide = save;
         });
-
+        
         var sendWithDebounce = _.debounce(function (slide) {
-            $http.put('/api/slidesaves/' + slide._id, slide);
+            dmSlidesaves.saveModified(slide);
         }, 200);
 
         $scope.$watch('slide', function () {
@@ -33,4 +21,5 @@ define(['angular',
         }, true);
     }]);
 });
+
 
