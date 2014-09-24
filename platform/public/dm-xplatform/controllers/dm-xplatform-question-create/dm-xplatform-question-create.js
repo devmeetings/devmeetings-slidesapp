@@ -10,6 +10,7 @@ define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questi
 
         $scope.createQuestion = function () {
             dmQuestions.createQuestion($scope.question);
+            $scope.$dismiss();
         };
 
     }]);

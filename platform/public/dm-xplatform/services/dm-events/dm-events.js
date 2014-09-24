@@ -71,8 +71,11 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             },
             getAllAnnotations: function (event) {
                 return this.getEvent(event, false).then(function (data) {
-                    var result = _.reduce(data.iterations, function (acc, iteration) {
+                    var result = _.reduce(data.iterations, function (acc, iteration, index) {
                         return acc.concat(_.reduce(iteration.materials, function (subacc, material) {
+                            material.annotations.forEach(function (anno) {
+                                anno.index = index;
+                            });
                             return subacc.concat(material.annotations);
                         }, []));
                     }, []);

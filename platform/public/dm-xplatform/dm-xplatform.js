@@ -360,10 +360,6 @@ require(['angular',
                         first: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
                             controller: 'dmXplatformAnnos'
-                        },
-                        second: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-question/index.html',
-                            controller: 'dmXplatformQuestion'
                         }
                     }
                 });

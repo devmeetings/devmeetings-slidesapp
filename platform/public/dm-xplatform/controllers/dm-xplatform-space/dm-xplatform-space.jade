@@ -130,8 +130,7 @@
                     tab-heading
                         span.fa.fa-warning
                     .col-xs-12.dm-space-questions
-                        .row(ui-view='second')
-                            
+                        .row(ng-controller='dmXplatformQuestion', ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"')
 
                     .col-xs-12.dm-space-question-button
                         button.btn.btn-primary.col-xs-12(ng-click='askQuestion()') Zadaj pytanie
