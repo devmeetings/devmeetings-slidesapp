@@ -71,51 +71,6 @@
         .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
-                //-.row.full-height(ng-if='showTutorial')
-                    .col-md-6
-                        .row
-                            .col-xs-12
-                                .course-background
-                                    h4 Szkolenie
-                                    hr
-                                    h5 Każde szkolenie składa się z Iteracji
-                                    p W każdej iteracji oglądasz przygotowany przez nas materiał oraz rozwiązujesz zadania.
-                                    p 
-                                        .btn.course-button
-                                            span.fa.fa-dot-circle-o
-                            .col-xs-12
-                                .course-background
-                                    h4 Twój Workspace
-                                    hr
-                                    h5 Tutaj rozwijasz swój projekt DevMeetingowy.
-                                    p Projekty na DevMeetingu implementujemy na platformie. Poniższa ikonka kieruje Cię do Twojego prywatnego workspace'a, w którym rozwijasz projekt.
-                                    p
-                                        .btn.course-button
-                                            span.fa.fa-wrench
-
-                    .col-md-6
-                        .row
-                            .col-xs-12
-                                .course-background
-                                    h4 WIFI
-                                    hr
-                                    h5 WRO_GUEST
-                                    p 123123
-                                    p
-                                        .btn.course-button
-                                            span.fa.fa-wifi
-                            .col-xs-12
-                                .course-background
-                                    h4 Ranking
-                                    hr
-                                    h5 Status realizacji zadań - aktualizowany przez Was!
-                                    p
-                                        a.btn.course-button(href='https://docs.google.com/spreadsheets/d/1G1-j8UT5gGZQZ_DK8IYkkBrTZ7jr_22dIJmk529Swfw/edit#gid=0', target='_blank')
-                                            span.fa.fa-bar-chart
-
-
-
-                    
 
         .dm-spacesidebar(ng-style='{"width": right.current}')
             a.btn.pull-left.dm-space-toggle(ng-click='toggleRight()')
