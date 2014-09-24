@@ -7,6 +7,9 @@ h1 Quiz Answers
 .row
     .col-sm-12
         .form-group
+            h4 Total Sessions: {{ answers.length }}
+            h4 Total in scope: {{ (answers | filter:minAnswersFilter | filter:searchForEmailFilter).length }}
+        .form-group
             label.control-label Min Answers
             input.form-control(type="number", ng-model="options.minAnswers")
         .from-group
@@ -17,7 +20,7 @@ h1 Quiz Answers
     .col-md-6.col-md-offset-3
         .list-group
             .list-group-item(ng-repeat="answer in answers | filter:minAnswersFilter | filter:searchForEmailFilter")
-                h3 {{ findEmail(answer) || "noEmail"}}
+                h3 {{ findEmail(answer).join(", ") || "-"}}
                 div.clearfix(ng-repeat="a in answer.answers")
                     div.pull-right
                         button.btn.btn-default.btn-xs(ng-click="showSlide = !showSlide")
