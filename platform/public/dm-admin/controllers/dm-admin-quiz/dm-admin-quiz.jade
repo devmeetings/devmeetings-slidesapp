@@ -1,0 +1,37 @@
+h1 Quiz Answers
+
+.row
+    .col-sm-12
+        .form-group
+            input.form-control(type="text", ng-model="quiz", placeholder="quizName")
+.row
+    .col-sm-12
+        .form-group
+            label.control-label Min Answers
+            input.form-control(type="number", ng-model="options.minAnswers")
+        .from-group
+            button.btn.btn-default.btn-xs(ng-click="options.searchForEmail = !options.searchForEmail", ng-class="{'active': options.searchForEmail}")
+                | Only with mails
+    
+.row
+    .col-md-6.col-md-offset-3
+        .list-group
+            .list-group-item(ng-repeat="answer in answers | filter:minAnswersFilter | filter:searchForEmailFilter")
+                h3 {{ findEmail(answer) || "noEmail"}}
+                div.clearfix(ng-repeat="a in answer.answers")
+                    div.pull-right
+                        button.btn.btn-default.btn-xs(ng-click="showSlide = !showSlide")
+                            | Show slide
+                        button.btn.btn-default.btn-xs(ng-click="showMore = !showMore")
+                            | Show more
+                        button.btn.btn-default.btn-xs(ng-click="showAll = !showAll")
+                            | Show all
+                    strong {{a.taskId}}
+                    span.label.label-info(am-time-ago="a.timestamp")
+                    p {{a.description}}
+                 
+                    .slide-content(style="height: 500px",  ng-if="showSlide")
+                        plugins-loader(namespace="'slide'", context="a.content")
+                    pre(ng-show="showMore") {{ a.content | json }}
+                    
+                    pre(ng-show="showAll") {{ a | json }}

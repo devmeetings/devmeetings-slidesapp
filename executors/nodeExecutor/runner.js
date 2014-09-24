@@ -1,4 +1,4 @@
-var requireWhitelist = ['fs', 'http', 'os', 'path', 'crypto', 'net', 'https', 'util', 'url', 'zlib', 'tty'];
+var requireWhitelist = ['fs', 'http', 'os', 'path', 'crypto', 'net', 'https', 'util', 'url', 'zlib', 'tty', 'edge'];
 
 process.on("uncaughtException", function(e) {
     process.send({
