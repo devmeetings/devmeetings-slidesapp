@@ -38,3 +38,11 @@ h1 Quiz Answers
                     pre(ng-show="showMore") {{ a.content | json }}
                     
                     pre(ng-show="showAll") {{ a | json }}
+                textarea.form-control(ng-if="findEmail(answer).length", ng-model='comments[findEmail(answer).join(", ")]')
+
+.row
+    .col-md-6.col-md-offset-3
+        div(ng-repeat="(email, comment) in comments")
+            p {{ email }}
+            p {{ comment }}
+            br

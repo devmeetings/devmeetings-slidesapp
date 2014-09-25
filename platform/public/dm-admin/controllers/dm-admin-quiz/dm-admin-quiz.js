@@ -39,6 +39,8 @@ define(['module',
             	});
             };
 
+            $scope.comments = {};
+
         }
     ]);
 });
