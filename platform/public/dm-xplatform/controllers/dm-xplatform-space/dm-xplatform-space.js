@@ -115,6 +115,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
         $scope.openWorkspace = function () {
             $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function (data) {
+                dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
                 $state.go('index.space.task', {
                     slide: data.data.slidesave
                 });

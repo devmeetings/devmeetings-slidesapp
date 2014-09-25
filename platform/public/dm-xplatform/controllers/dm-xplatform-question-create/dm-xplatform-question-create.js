@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questions/dm-questions'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformQuestionCreate', ['$scope', '$stateParams', 'dmQuestions', 'dmEvents', function ($scope, $stateParams, dmQuestions, dmEvents) {
+    xplatformApp.controller('dmXplatformQuestionCreate', ['$scope', '$stateParams', 'dmQuestions', 'dmEvents', 'dmSlidesaves', function ($scope, $stateParams, dmQuestions, dmEvents, dmSlidesaves) {
        
         $scope.question = {
             title: '',
@@ -18,8 +18,10 @@ define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questi
 
             dmEvents.getEvent($stateParams.event, true).then(function (data) {
                 $scope.question.baseSlide = data.baseSlide;
-                dmQuestions.createQuestion($scope.question); 
-                $scope.$dismiss();
+                dmQuestions.createQuestion($scope.question).then(function () {
+                    dmSlidesaves.allSaves(true); // update saves!, TODO ugly
+                    $scope.$dismiss();
+                });
             });
         };
 
