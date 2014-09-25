@@ -53,6 +53,19 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
                 });
 
                 return result.promise;
+            },
+            createSaveCopy: function (save) {
+                var result = $q.defer();
+
+                var saveCopy = {};
+
+                $http.put('/api/slidesaves', saveCopy).then(function (data) {
+                    result.resolve(data.data);
+                }, function () {
+                    result.reject();
+                });
+
+                return result.promise;
             }
         };
     }]);

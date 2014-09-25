@@ -1,4 +1,6 @@
 var Question = require('../../models/question'),
+    Slidesave = require('../../models/slidesave'),
+    Slide = require('../../models/slide'),
     Q = require('q');
 
 exports.onSocket = function (log, socket, io) {
@@ -12,10 +14,49 @@ exports.onSocket = function (log, socket, io) {
     };
     
     var createQuestion = function (data, res) {
-        Q.ninvoke(Question, 'create', data).then(function (question) {
-            res(question);
-            io.sockets.emit('event.questions.new', question);
-        });
+        var s = socket;
+
+        var doCreateQuestion = function() {
+            Q.ninvoke(Question, 'create', data).then(function (question) {
+                res(question);
+                io.sockets.emit('event.questions.new', question);
+            });
+        };
+
+        if (!data.baseSlide) {
+            doCreateQuestion();  
+            return;
+        }
+    
+        Q.ninvoke(Slidesave.findOne({
+            user: socket.handshake.user._id,
+            baseSlide: data.baseSlide
+        }).lean(), 'exec').then(function (slidesave) {
+            if (slidesave) {
+                return slidesave;
+            }
+            return Q.ninvoke(Slide.findOne({
+                _id: slide
+            }).lean(), 'exec').then(function (slide) {
+                var toInsert = {
+                    user: socket.handshake.user._id,
+                    slide: slide.content,
+                    title: data.title,
+                    baseSlide: slide._id,
+                    timestamp: new Date()
+                };
+                return Q.ninvoke(Slidesave, 'create', toInsert);
+            });
+        }).then(function (slidesave) {
+            delete slidesave._id;
+            delete slidesave.baseSlide;
+            return Q.ninvoke(Slidesave, 'create', slidesave);
+        }).then(function (slidesave) {
+            delete data.baseSlide;
+            data.slidesave = slidesave._id;
+            doCreateQuestion();
+        }).fail(log).done(function () {});
+
     };
 
     var createComment = function (data, res) {

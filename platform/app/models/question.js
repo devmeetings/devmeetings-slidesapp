@@ -9,6 +9,10 @@ var Question = new Schema({
     event: {
         type: Schema.Types.ObjectId,
         ref: 'event'
+    },
+    slidesave: {
+        type: Schema.Types.ObjectId,
+        ref: 'slidesave'
     }
 });
 

@@ -2,6 +2,7 @@
     .list-group-item(ng-repeat='question in questions | orderBy: "-timestamp"')
         h4 {{question.title}}
         p {{question.description}}
+        button.btn.btn-default.btn-sm(ng-if='question.slidesave', ui-sref='index.space.task({slide: question.slidesave})') Kod
         button.btn.btn-primary.btn-sm(ng-if='question.comments.length < 1', ng-click='showAnswers(question)') Pomagam
         button.btn.btn-primary.btn-sm(ng-if='question.comments.length > 0', ng-click='showAnswers(question)') {{question.comments.length}} odpowiedzi
 
