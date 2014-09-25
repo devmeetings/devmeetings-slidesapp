@@ -6,6 +6,16 @@
                 .row.clearfix
                     a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
                         span.fa.fa-align-justify
+            .col-xs-12(ng-if='warningType === "mine"')
+                .alert.alert-warning.dm-space-alert
+                    | Naciśnij&nbsp;
+                    a.dm-cursor(ng-click='openWorkspace()') tutaj
+                    | &nbsp;aby powrócić do workspacu
+            .col-xs-12(ng-if='warningType === "other"')
+                .alert.alert-danger.dm-space-alert
+                    | To nie jest Twój workspace&nbsp;
+                    a.dm-cursor(ng-click='openWorkspace()') Powróć
+
             .dm-spacesidebar-left(ng-style='{"width": left.max, "clear": "both"}')
                 accordion.dm-space-accordion
                     accordion-group(is-open='question.isOpen')

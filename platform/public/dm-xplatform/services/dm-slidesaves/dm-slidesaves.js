@@ -54,6 +54,24 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
                 return result.promise;
             },
+            getSaveType: function (save) {
+                // workspace, mine, other
+                
+                var result = $q.defer();
+                this.allSaves(false).then(function (all) {
+                    var saveObject = _.find(all, function (a) {
+                        return a._id === save;
+                    });
+
+                    if (!saveObject) {
+                        return result.resolve('other');
+                    }
+
+                    return result.resolve(saveObject.baseSlide ? 'workspace' : 'mine');
+                });
+    
+                return result.promise;
+            },
             createSaveCopy: function (save) {
                 var result = $q.defer();
 

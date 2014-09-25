@@ -3,7 +3,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
         'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload',
         'xplatform/services/dm-questions/dm-questions',
         'xplatform/directives/dm-chat/dm-chat'], function (angular, xplatformApp, _) {
-    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', function ($scope, $timeout, $state, $stateParams, $http, $modal, dmEvents, dmUser, dmQuestions) {
+    xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', function ($scope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves) {
         $scope.left = {
             min: '50px',
             max: '200px',
@@ -76,10 +76,17 @@ define(['angular', 'xplatform/xplatform-app', '_',
         };
 
 
-        $scope.currentState = $state;
-        $scope.$watch('currentState.current.name', function () {
+        $scope.currentLocation = $location;
+        $scope.$watch('currentLocation.$$absUrl', function () {
             $scope.showTutorial = $state.current.name === 'index.space';
             $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '25px' : '0px';
+            if ($state.current.name === 'index.space.task') {
+                dmSlidesaves.getSaveType($state.params.slide).then(function (type) {
+                    $scope.warningType = type;
+                });
+            } else {
+                $scope.warningType = undefined;
+            }
         });
         
         var isTaskDone = function (task) {
@@ -166,7 +173,9 @@ define(['angular', 'xplatform/xplatform-app', '_',
             });
         };
 
+
         dmQuestions.allQuestionsForEvent($stateParams.event, true);
+        dmSlidesaves.allSaves(true);
 
     }]);
 });

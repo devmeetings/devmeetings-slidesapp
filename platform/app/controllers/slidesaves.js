@@ -48,7 +48,7 @@ var Slidesaves = {
     all: function (req, res) {
         Q.ninvoke(Slidesave.find({
             user: req.user._id
-        }).select('title timestamp').lean(), 'exec').then(function (slidesaves) {
+        }).select('title timestamp baseSlide').lean(), 'exec').then(function (slidesaves) {
             res.send(slidesaves);
         }).fail(onError(res)).done(onDone);
     },
