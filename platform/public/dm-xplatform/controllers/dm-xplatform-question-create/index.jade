@@ -4,11 +4,8 @@
 
     form(ng-submit='createQuestion()')
         .form-group
-            label Tytuł
-            input.input-sm.form-control(ng-model='question.title', type='text', required)
-        .form-group
             label Pytanie
-            textarea.input-sm.form-control(ng-model='question.description', rows='3', required)
+            input.input-sm.form-control(ng-model='question.description', type='text', required)
         .form-group
             .checkbox
                 label

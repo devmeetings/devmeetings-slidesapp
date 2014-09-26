@@ -41,7 +41,7 @@ exports.onSocket = function (log, socket, io) {
                 var toInsert = {
                     user: socket.handshake.user._id,
                     slide: slide.content,
-                    title: data.title,
+                    title: 'default workspace',
                     baseSlide: slide._id,
                     timestamp: new Date()
                 };
@@ -51,7 +51,7 @@ exports.onSocket = function (log, socket, io) {
             delete slidesave._id;
             delete slidesave.baseSlide;
             slidesave.timestamp = new Date();
-            slidesave.title = data.title;
+            slidesave.title = data.description;
             return Q.ninvoke(Slidesave, 'create', slidesave);
         }).then(function (slidesave) {
             delete data.baseSlide;
