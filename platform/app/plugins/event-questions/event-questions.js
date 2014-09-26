@@ -50,6 +50,8 @@ exports.onSocket = function (log, socket, io) {
         }).then(function (slidesave) {
             delete slidesave._id;
             delete slidesave.baseSlide;
+            slidesave.timestamp = new Date();
+            slidesave.title = data.title;
             return Q.ninvoke(Slidesave, 'create', slidesave);
         }).then(function (slidesave) {
             delete data.baseSlide;

@@ -25,7 +25,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos',
         'xplatform/controllers/dm-xplatform-question/dm-xplatform-question',
         'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
-        'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create'
+        'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create',
+        'xplatform/controllers/dm-xplatform-saves/dm-xplatform-saves'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -281,50 +282,6 @@ require(['angular',
                             left: 8,
                             mid: 4,
                             right: 0
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.task', {
-                    url: '/task/:slide',
-                    views: {
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
-                            controller: 'dmXplatformSlide'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Slide',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 0,
-                            mid: 12,
-                            right: 0
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.player', {
-                    url: '/player/:event/:id',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
-                            controller: 'dmXplatformPlayer'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.columns = {
-                            left: 12,
-                            mid: 0,
-                            right: 0
-                        };
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'Tutorial',
-                            searchText: ''
                         };
                     }
                 });
