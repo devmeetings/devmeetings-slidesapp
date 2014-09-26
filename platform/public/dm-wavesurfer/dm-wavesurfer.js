@@ -1,5 +1,6 @@
 'use strict';
-angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', function ($timeout) {
+angular.module('dm-wavesurfer', []).directive('dmWavesurfer', 
+    ['$timeout', '$window', function ($timeout, $window) {
     return {
         restrict: 'E',
         scope: {
@@ -32,7 +33,15 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', funct
             });
         
             scope.$watch('dmSrc', function () {
-                audio.src = scope.dmSrc;
+                while (audio.firstChild) {
+                    audio.removeChild(audio.firstChild);
+                }
+                [scope.dmSrc, scope.dmSrc.replace('.ogg', '.mp3')].map(function(file){
+                    var src = $window.document.createElement('source');
+                    src.src = file;
+                    src.type = "audio/" + file.substr(file.length - 3);
+                    audio.appendChild(src);
+                });
             });
            
             audio.addEventListener('progress', function () {
