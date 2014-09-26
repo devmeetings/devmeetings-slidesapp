@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-annotation/dm-annotation'], function (angular, xplatformApp) {
+define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-annotation/dm-annotation', 'xplatform/directives/dm-microtask/dm-microtask'], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformAnnos', ['$scope', '$stateParams', '$state', 'dmEvents', function ($scope, $stateParams, $state, dmEvents) {
                
 

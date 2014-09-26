@@ -25,7 +25,8 @@ var Event = new Schema({
                 type: {
                     type: String,
                     enum: ['snippet', 'issue', 'task', 'comment']
-                }
+                },
+                meta: String
             }]
         }],
         tasks: [{

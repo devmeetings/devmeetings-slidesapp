@@ -1,13 +1,11 @@
 div(ng-repeat='task in microtasks',
     tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="bottom")
     .microtask-holder(ng-class='{"microtask-active": !taskMeta[task.description].completed}')
+
         .microtask-col
-            img.microtask-img(ng-if='taskMeta[task.description].completed', src='/static/images/microtask/mt_completed.png')
-            img.microtask-img(ng-if='!taskMeta[task.description].completed', src='/static/images/microtask/mt_star.png')
+            dm-taskicon.fa-2x(type='taskMeta[task.description].completed ? "taskDone" : "task"')
 
         .microtask-content 
             .microtask-desc(marked='task.description')
                 plugins-loader(namespace="'microtask'", context='{slide: slide, task: task, meta: taskMeta[task.description]}')
             
-    .microtask-border-up
-    .microtask-border-down

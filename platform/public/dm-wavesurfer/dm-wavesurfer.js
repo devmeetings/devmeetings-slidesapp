@@ -36,6 +36,9 @@ angular.module('dm-wavesurfer', []).directive('dmWavesurfer',
                 while (audio.firstChild) {
                     audio.removeChild(audio.firstChild);
                 }
+                if (!scope.dmSrc) {
+                    return;
+                }
                 [scope.dmSrc, scope.dmSrc.replace('.ogg', '.mp3')].map(function(file){
                     var src = $window.document.createElement('source');
                     src.src = file;

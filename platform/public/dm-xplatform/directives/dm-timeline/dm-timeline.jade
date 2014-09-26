@@ -1,19 +1,8 @@
-//-.dm-timeline-point.star-color(ng-repeat='point in tasks', 
-    ng-style='{left: (point.timestamp / length * 100) + "%"}',
-    ng-class='{"completed-color": point.done}',
-    tooltip-html-unsafe='{{point.title + "<br/>" + point.timestamp + " sekunda"}}',
-    ng-if='point.timestamp',
-    ng-mouseenter='point.hover = true',
-    ng-mouseleave='point.hover = false')
-    img.dm-timeline-image(ng-if='!point.done', src='/static/images/microtask/mt_star.png')
-    img.dm-timeline-image(ng-if='point.done', src='/static/images/microtask/mt_completed.png')
-
 .dm-timeline-point.info-color(
     ng-repeat='p in annotations',
     ng-style='{"left": p.timestamp / length * 100 + "%"}',
     tooltip-html-unsafe='{{p.title + "<br/>" + p.timestamp + " sekunda" }}',
     tooltip-placement='top',
     ng-if='length')
-    span.fa.fa-file-text.dm-timeline-snippet(ng-if='p.type === "snippet"')
-    span.fa.fa-star.dm-timeline-snippet(ng-if='p.type === "task"')
+    dm-taskicon.dm-timeline-snippet(type='p.type')
 
