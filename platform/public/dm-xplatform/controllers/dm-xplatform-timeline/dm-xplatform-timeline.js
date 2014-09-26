@@ -26,6 +26,13 @@ define(['angular', 'xplatform/xplatform-app', '_',
         };
         $scope.changeRate();
 
+        $scope.keys.keyUp = function (event) {
+            if (event.keyCode !== 32 || event.target.type === 'textarea') {
+                return;
+            }
+            $scope.state.isPlaying = !$scope.state.isPlaying; 
+        };
+
     }]);
 });
 

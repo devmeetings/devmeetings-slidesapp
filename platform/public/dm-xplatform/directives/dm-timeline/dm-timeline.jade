@@ -20,6 +20,7 @@
     ng-repeat='p in annotations',
     ng-style='{"left": p.timestamp / length * 100 + "%"}',
     tooltip-html-unsafe='{{p.title + "<br/>" + p.timestamp + " sekunda" }}',
+    tooltip-placement='top',
     ng-if='length')
     span.fa.fa-file-text.dm-timeline-snippet(ng-if='p.type === "snippet"')
     span.fa.fa-star.dm-timeline-snippet(ng-if='p.type === "task"')

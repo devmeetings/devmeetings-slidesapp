@@ -7,7 +7,7 @@ define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins'], function
                 name: '@'       
             },
             replace: true,
-            template: '<iframe class="dm-chat-iframe"></iframe>',
+            template: '<iframe class="dm-chat-iframe" tabindex="-1"></iframe>',
             link: function (scope, element) {
             
                 scope.$watch('name', function () {

@@ -19,6 +19,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
         $scope.bottombarHeight = '0px';
 
+        $scope.keys = {};
         $scope.tabs = {};
         var aSpeed = 0.5;
 

@@ -1,4 +1,4 @@
-.col-sm-12.full-height
+.col-sm-12.full-height(tabindex='1', ng-keyup='keys.keyUp($event)')
     .row(ng-style='{"height": "calc(100% - " + bottombarHeight + ")"}')
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
@@ -51,7 +51,7 @@
                                 button.btn.btn-sm.btn-default.col-xs-9(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
                                     span.fa.fa-pencil.pull-left
                                     | {{task.title}}
-                                .col-xs-3.dm-space-checkbox(ng-click='task.done = !task.done; markTaskAsDone(task, task.done)')
+                                .col-xs-3.dm-space-checkbox.dm-cursor(ng-click='task.done = !task.done; markTaskAsDone(task, task.done)')
                                     span.fa.fa-square-o(ng-if='!task.done')
                                     span.fa.fa-check-square-o.text-success(ng-if='task.done')
 
