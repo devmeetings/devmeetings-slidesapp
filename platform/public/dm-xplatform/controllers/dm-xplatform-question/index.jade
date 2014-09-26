@@ -1,5 +1,5 @@
-accordion
-    accordion-group(ng-repeat='question in questions | orderBy: "-timestamp"')
+accordion.dm-question-accordion
+    accordion-group(ng-repeat='question in questions | orderBy: "-timestamp"', is-open='isOpen', ng-class='{"dm-question-active": isOpen}')
         accordion-heading
             div(ui-sref='index.space.task({slide: question.slidesave})')
                 small.pull-right(am-time-ago='question.timestamp')

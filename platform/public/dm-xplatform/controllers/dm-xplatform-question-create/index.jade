@@ -5,7 +5,7 @@
     form(ng-submit='createQuestion()')
         .form-group
             label Pytanie
-            input.input-sm.form-control(ng-model='question.description', type='text', required)
+            input.input-sm.form-control(ng-model='question.description', type='text', required, autofocus)
         button.btn.btn-sm.btn-primary(type='submit') Wyślij
         button.btn.btn-sm.btn-default(type='button', ng-click='$dismiss()') Anuluj
 
