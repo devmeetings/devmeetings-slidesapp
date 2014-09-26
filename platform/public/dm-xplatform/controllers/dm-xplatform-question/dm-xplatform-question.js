@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformQuestion', ['$scope', '$modal', '$stateParams', 'dmQuestions', function ($scope, $modal, $stateParams, dmQuestions) {
+    xplatformApp.controller('dmXplatformQuestion', ['$scope', '$modal', '$stateParams', 'dmQuestions', 'dmEvents', function ($scope, $modal, $stateParams, dmQuestions, dmEvents) {
        
         dmQuestions.allQuestionsForEvent($stateParams.event, false).then(function (questions) {
             $scope.questions = questions;
@@ -17,6 +17,15 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
                 }
             });
         };
+        
+        $scope.createComment = function (question) {
+            var state = dmEvents.getState($stateParams.event, 'save');
+            dmQuestions.commentQuestion(question, {
+                text: question.text 
+            }, state.save);
+            question.text = '';
+        };
 
     }]);
 });
+

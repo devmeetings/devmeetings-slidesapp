@@ -50,12 +50,13 @@ define(['angular', 'xplatform/xplatform-app', '_', 'services/Sockets'], function
 
                 return result.promise;
             },
-            commentQuestion: function (question, comment) {
+            commentQuestion: function (question, comment, save) {
                 var result = $q.defer();
                 var that = this;
                 Sockets.emit('event.questions.comment.create', {
                     question: question._id, 
-                    comment: comment
+                    comment: comment,
+                    save: save
                 }, function (message) {
                     result.resolve();
                 });

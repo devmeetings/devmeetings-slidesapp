@@ -4,7 +4,13 @@ var mongoose = require('mongoose'),
 var Question = new Schema({
     title: String,
     description: String,
-    comments: [String],
+    comments: [{
+        text: String,
+        slidesave: {
+            type: Schema.Types.ObjectId,
+            ref: 'slidesave'
+        }
+    }],
     timestamp: Date,
     event: {
         type: Schema.Types.ObjectId,

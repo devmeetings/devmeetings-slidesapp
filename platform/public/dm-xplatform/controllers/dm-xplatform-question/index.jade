@@ -1,8 +1,17 @@
-.list-group
-    .list-group-item.dm-question-item(ng-repeat='question in questions | orderBy: "-timestamp"')
-        small.pull-right(am-time-ago='question.timestamp')
-        p {{question.description}}
-        button.btn.btn-default.btn-sm(ng-if='question.slidesave', ui-sref='index.space.task({slide: question.slidesave})') Kod
-        button.btn.btn-primary.btn-sm(ng-if='question.comments.length < 1', ng-click='showAnswers(question)') Pomagam
-        button.btn.btn-primary.btn-sm(ng-if='question.comments.length > 0', ng-click='showAnswers(question)') {{question.comments.length}} odpowiedzi
+accordion
+    accordion-group(ng-repeat='question in questions | orderBy: "-timestamp"')
+        accordion-heading
+            div(ui-sref='index.space.task({slide: question.slidesave})')
+                small.pull-right(am-time-ago='question.timestamp')
+                p {{question.description}}
+        .row
+            .list-group
+                .list-group-item(ng-repeat='comment in question.comments', ui-sref='index.space.task({slide: comment.slidesave})')
+                    p {{comment.text}}
+        form(ng-submit='createComment(question)')
+            .form-group
+                .input-group
+                    input.input-sm.form-control(ng-model='question.text')
+                    span.input-group-btn
+                        button.btn.btn-primary.btn-sm(type='submit') Odpowiedz
 

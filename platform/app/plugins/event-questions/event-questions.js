@@ -62,16 +62,29 @@ exports.onSocket = function (log, socket, io) {
     };
 
     var createComment = function (data, res) {
-        Q.ninvoke(Question.findOneAndUpdate({
-            _id: data.question,
-        }, {
-            $push: {
-                comments: data.comment
-            }
-        }).lean(), 'exec').then(function (question) {
-            res('ok');
-            io.sockets.emit('event.questions.comment.new', question);
-        });
+        var createComment = function () {
+            return Q.ninvoke(Question.findOneAndUpdate({
+                _id: data.question,
+            }, {
+                $push: {
+                    comments: data.comment
+                }
+            }).lean(), 'exec').then(function (question) {
+                res('ok');
+                io.sockets.emit('event.questions.comment.new', question);
+            });
+        };
+    
+        if (!data.save) {
+            createComment().fail(log);
+            return;
+        }
+
+        delete data.save._id;
+        Q.ninvoke(Slidesave, 'create', data.save).then(function (slidesave) {
+            data.comment.slidesave = slidesave._id;
+            return createComment();
+        }).fail(log).done(function () {});
     };
 
 
