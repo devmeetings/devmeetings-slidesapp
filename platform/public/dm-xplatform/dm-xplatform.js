@@ -10,7 +10,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
         'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
         'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
-        'xplatform/controllers/dm-xplatform-message/dm-xplatform-message',
         'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream',
         'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
         'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
@@ -234,27 +233,6 @@ require(['angular',
                         $rootScope.xplatformData.columns = {
                             left: 0,
                             mid: 12,
-                            right: 0
-                        };
-                    }
-                });
-
-                $stateProvider.state('index.message', {
-                    url: '/message/:id',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-message/dm-xplatform-message.html',
-                            controller: 'dmXplatformMessage'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
-                            controller: 'dmXplatformObserved'
-                        }
-                    },
-                    onEnter: function($rootScope) {
-                        $rootScope.xplatformData.columns = {
-                            left: 8,
-                            mid: 4,
                             right: 0
                         };
                     }
