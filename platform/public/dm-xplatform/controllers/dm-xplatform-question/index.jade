@@ -1,17 +1,21 @@
-accordion.dm-question-accordion
-    accordion-group(ng-repeat='question in questions | orderBy: "-timestamp"', is-open='isOpen', ng-class='{"dm-question-active": isOpen}')
-        accordion-heading
-            div(ui-sref='index.space.task({slide: question.slidesave})')
-                small.pull-right(am-time-ago='question.timestamp')
-                p {{question.description}}
-        .row
-            .list-group
-                .list-group-item(ng-repeat='comment in question.comments', ui-sref='index.space.task({slide: comment.slidesave})')
-                    p {{comment.text}}
-        form(ng-submit='createComment(question)')
-            .form-group
-                .input-group
-                    input.input-sm.form-control(ng-model='question.text')
-                    span.input-group-btn
-                        button.btn.btn-primary.btn-sm(type='submit') Odpowiedz
+div
+    include ../dm-xplatform-question-create/index
+    hr
+    accordion.dm-question-accordion
+        accordion-group(ng-repeat='question in questions | orderBy: "-timestamp"', is-open='isOpen', ng-class='{"dm-question-active": isOpen}')
+            accordion-heading
+                a(ui-sref='index.space.task({slide: question.slidesave})')
+                    small.pull-right(am-time-ago='question.timestamp')
+                    p {{question.description}}
+            .row
+                .list-group
+                    .list-group-item(ng-repeat='comment in question.comments', ui-sref='index.space.task({slide: comment.slidesave})')
+                        p {{comment.text}}
+            form(ng-submit='createComment(question)')
+                .form-group
+                    .input-group
+                        input.input-sm.form-control(required, ng-model='question.text', autofocus)
+                        span.input-group-btn
+                            button.btn.btn-primary.btn-sm(type='submit') Odpowiedz
+
 

@@ -1,8 +1,20 @@
 .col-xs-12.full-height
-    .form-group.dm-annos-search(ng-if='showSearch')
+    .form-group.dm-annos-search(ng-if='showSearch', ng-show="annotations.length")
         input.input-sm.form-control(placeholder="Szukaj", ng-model='search.text')
+    .row.dm-annos(ng-show="annotations.length === 0")
+        .col-xs-12
+            h4 W tym miejscu pojawi się dokumentacja przydatna podczas rozwiązywania zadań.
     .row.dm-annos(ng-style='{"height": showSearch ? "calc(100% - 50px)" : "100%" }')
-        .list-group
-            .list-group-item.animate.dm-annos-item(ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index"', ng-if='(showAll && p.type === "snippet") || p.timestamp <= state.currentSecond')
+        .list-group(ng-if="showAll")
+            .list-group-item.animate.dm-annos-item(
+                ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index"', 
+                ng-if='p.type === "snippet"')
                 dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet"')
                 dm-microtask(microtask='p', ng-if='p.type === "task"')
+        .list-group(ng-if="!showAll")
+            .list-group-item.animate.dm-annos-item(
+                ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index"', 
+                ng-if='p.timestamp <= state.currentSecond')
+                dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet"')
+                dm-microtask(microtask='p', ng-if='p.type === "task"')
+

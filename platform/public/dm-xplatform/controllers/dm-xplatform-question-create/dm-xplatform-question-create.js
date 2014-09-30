@@ -12,7 +12,6 @@ define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questi
         $scope.createQuestion = function () {
             if (!$scope.question.workspace) {
                 dmQuestions.createQuestion($scope.question); 
-                $scope.$dismiss();
                 return;
             }
 
@@ -20,7 +19,7 @@ define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questi
                 $scope.question.baseSlide = data.baseSlide;
                 dmQuestions.createQuestion($scope.question).then(function () {
                     dmSlidesaves.allSaves(true); // update saves!, TODO ugly
-                    $scope.$dismiss();
+                    $scope.question.description = ''; 
                 });
             });
         };
