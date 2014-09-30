@@ -1,9 +1,19 @@
-a.btn.dm-timeline-button(ng-click='state.isPlaying = !state.isPlaying', tooltip='{{state.isPlaying ? "Pauza" : "Odtwarzaj"}}', tooltip-placement='top')
+a.btn.dm-timeline-button(
+    ng-click='state.isPlaying = !state.isPlaying', 
+    analytics-category='timeline',
+    analytics-on='click', analytics-event='audio.play_pause'
+    tooltip='{{state.isPlaying ? "Pauza" : "Odtwarzaj"}}', tooltip-placement='top')
     span.fa.fa-play(ng-if='!state.isPlaying')
     span.fa.fa-pause(ng-if='state.isPlaying')
-a.btn.dm-timeline-button(ng-if='editMode', tooltip='Obecna sekunda', tooltip-placement='top')
+a.btn.dm-timeline-button(
+    ng-if='editMode', 
+    tooltip='Obecna sekunda', tooltip-placement='top')
     span {{state.currentSecond | number: 1}} 
-a.btn.dm-timeline-button(ng-click='changeRate()', tooltip='Zmień szybkość na {{nextRate | number: 2}}', tooltip-placement='top')
+a.btn.dm-timeline-button(
+    analytics-category='timeline',
+    analytics-on='click', analytics-event='audio.rate-{{nextRate}}'
+    ng-click='changeRate()', 
+    tooltip='Zmień szybkość na {{nextRate | number: 2}}', tooltip-placement='top')
     span {{state.playbackRate | number: 2}}x
 .dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 275px)" : "calc(100% - 110px)"}')
     dm-timeline(
