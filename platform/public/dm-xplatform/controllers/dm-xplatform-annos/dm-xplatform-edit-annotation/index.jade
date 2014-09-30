@@ -1,0 +1,30 @@
+div
+    form(ng-submit='save(snippet)')
+        .form-group
+            button.btn.btn-xs(ng-click="snippet.type = 'task'; $event.preventDefault();") Task
+            button.btn.btn-xs(ng-click="snippet.type = 'snippet'; $event.preventDefault();") Snippet
+
+        div(ng-show="snippet.type")
+            .form-group
+                label.control-label() timestamp
+                input.form-control.input-sm(type='number', ng-model='snippet.timestamp')
+
+            .form-group
+                label.control-label title
+                input.form-control.input-sm(type='text', ng-model='snippet.title')
+
+            .form-group(ng-if='snippet.type === "task"')
+                label.control-label task.description 
+                input.form-control.input-sm(type='text', ng-model='snippet.description')
+
+            .form-group(ng-if='snippet.type === "task"')
+                label.control-label task.fiddle
+                input.form-control.input-sm(type='text', ng-model='snippet.fiddle')
+
+            .form-group(ng-if='snippet.type === "snippet"')
+                label.control-label markdown
+                textarea.form-control.input-sm(rows='5', ng-model='snippet.markdown')
+
+            .form-group
+                button.btn.btn-default(type='submit') Done
+

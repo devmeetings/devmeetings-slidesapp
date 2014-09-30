@@ -1,6 +1,7 @@
-div(ng-controller="dmXplatformQuestionCreate")
-    form(ng-submit='createQuestion()')
-        .form-group
-            input.input-sm.form-control(ng-model='question.description', type='text', required, autofocus)
-        button.btn.btn-sm.btn-primary.btn-block(type='submit') Zadaj Pytanie
+.panel(ng-controller="dmXplatformQuestionCreate")
+    .panel-body
+        form(ng-submit='createQuestion()')
+            .form-group
+                input.input-sm.form-control(ng-model='question.description', type='text', required, autofocus)
+            button.btn.btn-sm.btn-primary.btn-block(type='submit') Zadaj Pytanie
 
