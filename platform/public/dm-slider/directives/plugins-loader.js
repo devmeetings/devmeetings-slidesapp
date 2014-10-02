@@ -25,12 +25,12 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
                 scope: {
                     namespace: '=',
                     context: '=',
-                    mode: '@'
+                    mode: '='
                 },
                 template: '',
                 controller: ['$scope', '$element', '$rootScope',
                     function($scope, $element, $rootScope) {
-                        var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context" mode="{{ mode }}"></<%= pluginName%>>');
+                        var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context" mode="mode"></<%= pluginName%>>');
 
                         var childScope = $scope.$new();
 

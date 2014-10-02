@@ -43,8 +43,19 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                         }
 
                         // Toggle classes
-                        angular.element($iframes[currentFrame]).addClass('frame-bottom').removeClass('frame-top');
-                        angular.element($iframes[oldFrame]).addClass('frame-top').removeClass('frame-bottom');
+                        var oldOutput = angular.element($iframes[currentFrame]);
+                        var newOutput = angular.element($iframes[oldFrame]);
+                        oldOutput.addClass('fadeOut');
+                        newOutput.removeClass('fadeOut hidden');
+
+                        // When fadeout finishes
+                        $timeout(function() {
+                            oldOutput.addClass('onBottom hidden');
+                            newOutput.removeClass('onBottom');
+                        }, 200);
+                        
+                        
+
                     }, 500, {
                         leading: false,
                         trailing: true
