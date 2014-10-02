@@ -54,7 +54,7 @@ var config = {
             clientId: '81c1de02cccf83b4a849',
             clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
-        cookieDomain: undefined,
+        cookieName: 'test.xplatform.sid',
         realmUrl: realmUrl || 'http://xplatform.org:2000',
         db: 'mongodb://' + mongoHost + '/platform-test',
         queue: rabbitHost,
@@ -83,7 +83,7 @@ var config = {
             clientId: '9bc4587bb4a474187812',
             clientSecret: '676949bd66e064f68b8bd5a6367b61e3cd4bc7be'
         },
-        cookieDomain: 'staging.xplatform.org',
+        cookieName: 'staging.xplatform.sid',
         realmUrl: realmUrl || 'http://staging.xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-staging',
         queue: rabbitHost,
@@ -115,7 +115,7 @@ var config = {
             clientId: '81c1de02cccf83b4a849',
             clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
         },
-        cookieDomain: 'xplatform.org',
+        cookieName: 'xplatform.sid',
         realmUrl: realmUrl || 'https://xplatform.org',
         db: 'mongodb://' + mongoHost + '/platform-production',
         queue: rabbitHost,
