@@ -129,8 +129,13 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                     });
                     return result.promise;
                 },
-                addEventAnnotation: function(eventId, snippet) {
-                   console.log("adding anno", eventId, snippet);
+                addEventAnnotation: function(eventId, iterationId, materialId, snippet) {
+                    console.log("adding anno", arguments);
+                    
+                    $http.post(['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'), snippet)
+                        .then(function(){
+
+                        });
                 },
                 editEventAnnotation: function(eventId, snippet) {
                    console.log("editing anno", eventId, snippet);

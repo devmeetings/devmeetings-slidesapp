@@ -71,6 +71,11 @@ module.exports = function(app) {
     app.post('/api/event_iteration_material/:event/:iteration', apiAuthenticated, events.eventMaterialCreate);
     app.delete('/api/event_iteration_material/:event/:iteration/:material', apiAuthenticated, events.eventMaterialDelete);
 
+    app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, events.annotationCreate);
+
+
+
+
     //app.post('/api/add_event_snippet/:event', apiAuthenticated, events.addEventSnippet);
     //app.put('/api/edit_event_snippet/:event/:snippet', apiAuthenticated, events.editEventSnippet);
     //app.delete('/api/delete_event_snippet/:event/:snippet', apiAuthenticated, events.deleteEventSnippet);

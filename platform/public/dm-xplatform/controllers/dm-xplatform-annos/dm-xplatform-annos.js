@@ -7,6 +7,8 @@ define(['angular', 'xplatform/xplatform-app',
         '$scope', '$stateParams', '$state', '$modal', 'dmEvents',
         function($scope, $stateParams, $state, $modal, dmEvents) {
             $scope.eventId = $stateParams.event;
+            $scope.iterationId = $stateParams.iteration;
+            $scope.materialId = $stateParams.material;
 
             var getSpecific = function() {
                 dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {

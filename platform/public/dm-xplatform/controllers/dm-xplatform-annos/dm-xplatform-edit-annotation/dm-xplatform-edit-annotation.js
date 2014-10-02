@@ -8,7 +8,9 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
                 restrict: 'E',
                 scope: {
                     snippet: '=',
-                    eventId: '='
+                    eventId: '=',
+                    iterationId: '=',
+                    materialId: '='
                 },
                 templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-edit-annotation/index.html',
                 link: function(scope) {

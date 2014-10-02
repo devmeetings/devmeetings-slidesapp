@@ -2,9 +2,13 @@
     .row.dm-annos(ng-show="annotations.length === 0")
         .col-xs-12
             h4 W tym miejscu pojawi się dokumentacja przydatna podczas rozwiązywania zadań.
-    .row(ng-if="editMode")
+    .row(ng-if="editMode && !showAll")
         .col-xs-12
-            dm-xplatform-edit-annotation(snippet="newSnippet", event-id="eventId")
+            dm-xplatform-edit-annotation(
+                snippet="newSnippet", 
+                event-id="eventId",
+                iteration-id="iterationId",
+                material-id="materialId")
 
     .form-group.dm-annos-search(ng-if='showSearch', ng-show="annotations.length")
         input.input-sm.form-control(placeholder="Szukaj", ng-model='search.text')

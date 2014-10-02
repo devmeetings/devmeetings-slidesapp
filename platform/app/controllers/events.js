@@ -200,12 +200,30 @@ var Events = {
         }).then(function (data) {
             res.redirect('/?edit=true#/space/' + req.params.event);
         }).fail(onError(res)).done(onDone);
-
     }, 
 
     eventMaterialDelete: function (req, res) {
                          
-    }
+    },
+
+    annotationCreate: function(req, res) {
+        var eventId = req.params.event;
+        var iterationId = req.params.iteration;
+        var materialId = req.params.material;
+
+        Q.ninvoke(Event.findOneAndUpdate({
+            '_id': eventId,
+            'iterations._id': iterationId,
+            'iterations.$.materials._id': materialId,
+        }, {
+            $push: {
+                'iterations.$.materials.$.annotations': req.body
+            }
+        }).lean(), 'exec').then(function(data){
+            res.send(data);
+        }).fail(onError(res)).done(onDone);
+        
+    } 
 
 
 };
