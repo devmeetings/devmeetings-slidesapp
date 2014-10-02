@@ -53,8 +53,6 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                             oldOutput.addClass('onBottom hidden');
                             newOutput.removeClass('onBottom');
                         }, 200);
-                        
-                        
 
                     }, 500, {
                         leading: false,
