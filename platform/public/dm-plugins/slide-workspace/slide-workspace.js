@@ -37,7 +37,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 scope: {
                     workspace: '=data',
                     slide: '=context',
-                    mode: '@'
+                    mode: '='
                 },
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
@@ -178,14 +178,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             triggerChangeLater(scope);
                         });
 
-                        if (scope.mode === 'player') {
-                            scope.$watch('activeTab.editor', function() {
-                                withoutSync(function() {
-                                    updateEditorOptions(editor, scope.activeTab);
-                                });
+                        scope.$watch('activeTab.editor', function() {
+                            if (scope.mode !== 'player') {
+                                return;
+                            }
+
+                            withoutSync(function() {
+                                updateEditorOptions(editor, scope.activeTab);
                             });
-                            scope.$watch('workspace', refreshActiveTab);
-                        }
+                        });
+
+                        scope.$watch('workspace', refreshActiveTab);
 
                         scope.$on('slide:update', function(){
                             refreshActiveTab();

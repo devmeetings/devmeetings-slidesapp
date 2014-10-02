@@ -61,7 +61,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
                 scope: {
                     fiddle: '=data',
                     slide: '=context',
-                    mode: '@'
+                    mode: '='
                 },
                 templateUrl: path + '/fiddle.html',
                 link: function(scope, element) {
