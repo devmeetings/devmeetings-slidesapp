@@ -26,4 +26,13 @@
                 ng-if='p.timestamp <= state.currentSecond')
                 dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet"')
                 dm-microtask(microtask='p', ng-if='p.type === "task"')
+                button.btn.btn-xs.btn-warning(ng-if="editMode", ng-click="p.editing = !p.editing")
+                    span.fa.fa-pencil
+                dm-xplatform-edit-annotation(
+                    ng-if="p.editing",
+                    snippet="p",
+                    event-id="eventId",
+                    iteration-id="iterationId",
+                    material-id="materialId")
+
 

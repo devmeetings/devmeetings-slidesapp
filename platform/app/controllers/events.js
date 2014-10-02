@@ -206,24 +206,78 @@ var Events = {
                          
     },
 
+    _findEventAndMaterial: function(eventId, iterationIdx, materialId) {
+        return Q.ninvoke(Event.findOne({
+            _id: eventId
+        }), 'exec').then(function(ev) {
+            var material = _.map(ev.iterations[iterationIdx].materials, function(x){
+                return x._id.toString();
+            }).indexOf(materialId);
+            material = ev.iterations[iterationIdx].materials[material];
+
+            if (!material) {
+                throw new Error("Material not found");
+            }
+            return [ev, material];
+        });
+    },
+
     annotationCreate: function(req, res) {
         var eventId = req.params.event;
-        var iterationId = req.params.iteration;
+        var iterationIdx = req.params.iteration;
         var materialId = req.params.material;
 
-        Q.ninvoke(Event.findOneAndUpdate({
-            '_id': eventId,
-            'iterations._id': iterationId,
-            'iterations.$.materials._id': materialId,
-        }, {
-            $push: {
-                'iterations.$.materials.$.annotations': req.body
-            }
-        }).lean(), 'exec').then(function(data){
+        Events._findEventAndMaterial(eventId, iterationIdx, materialId).then(function(data){
+            var ev = data[0];
+            var material = data[1];
+
+            material.annotations.push(req.body);
+            var def = Q.defer();
+            ev.save(function(err) {
+                if (err) {
+                    def.reject(err);
+                } else {
+                    def.resolve(ev);
+                }
+            });
+            return def.promise;
+        }).fail(onError(res)).done(function(data){
             res.send(data);
-        }).fail(onError(res)).done(onDone);
-        
-    } 
+        });
+    },
+
+    annotationEdit: function(req, res) {
+        var eventId = req.params.event;
+        var iterationIdx = req.params.iteration;
+        var materialId = req.params.material;
+        var annotationId = req.params.id;
+
+         Events._findEventAndMaterial(eventId, iterationIdx, materialId).then(function(data){
+            var ev = data[0];
+            var material = data[1];
+
+            var annoIdx = _.map(material.annotations, function(x){
+                return x._id.toString();
+            }).indexOf(annotationId);
+
+            var annotation = material.annotations[annoIdx];
+            _.each(req.body, function(val, k) {
+                annotation[k] = val;
+            });
+
+            var def = Q.defer();
+            ev.save(function(err) {
+                if (err) {
+                    def.reject(err);
+                } else {
+                    def.resolve(ev);
+                }
+            });
+            return def.promise;
+        }).fail(onError(res)).done(function(data){
+            res.send(data);
+        });
+    }
 
 
 };

@@ -72,6 +72,7 @@ module.exports = function(app) {
     app.delete('/api/event_iteration_material/:event/:iteration/:material', apiAuthenticated, events.eventMaterialDelete);
 
     app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, events.annotationCreate);
+    app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, events.annotationEdit);
 
 
 

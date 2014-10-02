@@ -19,11 +19,11 @@ div
 
             .form-group(ng-if='snippet.type === "task"')
                 label.control-label task.fiddle
-                input.form-control.input-sm(type='text', ng-model='snippet.fiddle')
+                input.form-control.input-sm(type='text', ng-model='snippet.meta')
 
             .form-group(ng-if='snippet.type === "snippet"')
                 label.control-label markdown
-                textarea.form-control.input-sm(rows='5', ng-model='snippet.markdown')
+                textarea.form-control.input-sm(rows='5', ng-model='snippet.description')
 
             .form-group
                 button.btn.btn-default(type='submit') Done

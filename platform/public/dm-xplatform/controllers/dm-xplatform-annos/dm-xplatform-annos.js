@@ -38,6 +38,9 @@ define(['angular', 'xplatform/xplatform-app',
 
             $scope.newSnippet = {
             };
+            $scope.$watch('state.currentSecond', function(val) {
+                $scope.newSnippet.timestamp = val;
+            })
 
         }
     ]);

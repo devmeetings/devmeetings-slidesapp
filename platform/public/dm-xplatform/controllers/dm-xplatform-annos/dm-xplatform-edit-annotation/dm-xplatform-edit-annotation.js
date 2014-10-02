@@ -20,16 +20,16 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
                         var newSnippet = !snippet._id;
                         
                         if (newSnippet) {
-                            dmEvents.addEventAnnotation(scope.eventId, snippet).then(function(ev){
-                                snippet._id = ev.data._id;
+                            dmEvents.addEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet).then(function(ev){
+                                snippet = {};
                             });
                         } else {
-                            dmEvents.editEventAnnotation(scope.eventId, snippet);
+                            dmEvents.editEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet);
                         }
                     };
 
                     scope.delete = function(snippet) {
-                        dmEvents.deleteEventAnnotation(scope.eventId, snippet);
+                        dmEvents.deleteEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet);
                     };
                 }
             };

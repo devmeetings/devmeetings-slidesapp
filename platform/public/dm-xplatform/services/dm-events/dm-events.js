@@ -6,6 +6,16 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
 
             var states = {};
 
+            function wrap(promise) {
+                var res = $q.defer();
+                promise.then(function(d) {
+                    res.resolve(d);
+                }, function(err) {
+                    res.reject(err);
+                });
+                return res.promise;
+            }
+
             return {
                 allEvents: function() {
                     var result = $q.defer();
@@ -130,15 +140,24 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                     return result.promise;
                 },
                 addEventAnnotation: function(eventId, iterationId, materialId, snippet) {
-                    console.log("adding anno", arguments);
-                    
-                    $http.post(['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'), snippet)
-                        .then(function(){
 
+                    return wrap($http.post(
+                        ['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'), 
+                        snippet)).then(function(){
+                        that.getEvent(eventId, false).then(function(eventObject) {
+                            var material = _.find(eventObject.iterations[iterationId].materials, {
+                                _id: materialId
+                            });
+                            material.annotations.push(snippet);
                         });
+                    });
                 },
-                editEventAnnotation: function(eventId, snippet) {
-                   console.log("editing anno", eventId, snippet);
+                editEventAnnotation: function(eventId, iterationId, materialId, snippet) {
+                    var that = this;
+                    return wrap($http.put(
+                        ['/api/event_iteration_material_anno', 
+                        eventId, iterationId, materialId, snippet._id].join('/'), 
+                        snippet));
                 },
                 deleteEventAnnotation: function(eventId, snippet) {
                     console.log("deleting anno", eventId, snippet);
