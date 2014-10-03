@@ -36,8 +36,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
     }
 
     sliderPlugins.registerPlugin('slide', 'burger', 'slide-burger', 6000).directive('slideBurger', [
-
-        function() {
+        '$timeout',
+        function($timeout) {
             return {
                 restrict: 'E',
                 scope: {
@@ -48,24 +48,38 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                 link: function(scope, element) {
 
                     function displayOutput(output) {
-                            // images to display in reversed order
+                        // images to display in reversed order
                         scope.display = [];
 
                         // map output
-                        output.filter(_.identity).map(splitText).map(function(d){
+                        output.filter(_.identity).map(splitText).map(function(d) {
                             var img = findImg(d[1]);
 
-                            for (var i=0; i<d[0]; ++i) {
-                                scope.display.unshift(imgPath(img));
+                            for (var i = 0; i < d[0]; ++i) {
+                                scope.display.unshift({
+                                    visible: false,
+                                    src: imgPath(img)
+                                });
                             }
                         });
+
+                        function animate(idx) {
+                            var l = scope.display.length - 1;
+                            if (idx > l) {
+                                return;
+                            }
+                            scope.display[l - idx].visible = true;
+                            $timeout(function() {
+                                animate(idx + 1);
+                            }, 250);
+                        }
+                        $timeout(function(){
+                            animate(0);
+                        }, 10);
+                        
                     }
-                    
+
                     sliderPlugins.listen(scope, 'slide.jsonOutput.display', displayOutput);
-                    displayOutput([
-                        "spod",
-                        "pomidor"
-                    ]);
                 }
             };
         }
