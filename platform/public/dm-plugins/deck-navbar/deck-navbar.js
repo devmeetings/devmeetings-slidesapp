@@ -38,12 +38,28 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         }
                     };
 
+
+                    scope.cloneSlide = function() {
+                        var slideId = CurrentSlideManagerForDeck.activeSlideId;
+                        var clone = _.clone(_.find(scope.deck.deckSlides, {
+                            _id: slideId
+                        }));
+
+                        postSlide(clone.content);
+                    };
+
                     scope.addSlide = function() {
                         // Update deck
                         var newSlide = {
-                            name: 'New slide'
+                            name: 'New slide',
+                            title: 'New slide'
                         };
 
+                        postSlide(newSlide);
+                    };
+
+
+                    function postSlide(newSlide) {
                         $http.post('/api/slides', newSlide).success(function(data, status) {
                             var newSlideData = [{
                                 content: newSlide,
@@ -57,7 +73,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                             
                             $http.put('/api/decks/' + deck._id, deck);
                         });
-                    };
+                    }
                 }
             };
         }
