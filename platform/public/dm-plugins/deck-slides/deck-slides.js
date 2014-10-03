@@ -26,6 +26,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
 
                     function activateSlide(idx) {
                         scope.slide = scope.deck.deckSlides[idx];
+                        scope.$broadcast('slide:update');
                     }
 
 
