@@ -154,6 +154,22 @@ module.exports = {
                 "label": "PythonExecutor [prod]"
             }
         },
+         "burgerExecutor": {
+            "name": "burgerExecutor",
+            "path": xplatformDir + "executors/burgerExecutor",
+            "options": {
+                "cmd": "bash",
+                "startFile": "run",
+                "logName": "exec-burger.log",
+                "noNpm": true,
+                "env": ""
+            },
+            "btn": {
+                "confirm": true,
+                "class": "btn-warning",
+                "label": "BurgerExecutor [prod]"
+            }
+        },
         "deployment-app": {
             "name": "deployment-app",
             "path": xplatformDir + "../deployment-app",
