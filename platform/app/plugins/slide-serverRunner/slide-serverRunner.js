@@ -79,7 +79,9 @@ exports.init = function(config) {
 
                         return ok;
 
-                    }, console.error);
+                    }, function(err){
+                        console.error(err);
+                    });
                 });
             }
         };
