@@ -31,6 +31,11 @@ nav.navbar.navbar-default.navbar-slides(role='navigation')
                 mixin slidesMixin()
         ul.nav.nav-new-slide.cursor-pointer(ng-if="$root.modes.isEditMode")
             li
-                a(ng-click="addSlide()")
-                    span.glyphicon.glyphicon-plus
+                .btn-group
+                    a.btn.btn-link(ng-click="addSlide()")
+                        span.glyphicon.glyphicon-plus
+                    button.btn.dropdown-toggle(data-toggle="dropdown")
+                    ul.dropdown-menu
+                        li
+                            a(ng-click="cloneSlide()") Clone Current
 

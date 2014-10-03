@@ -188,14 +188,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             });
                         });
 
-                        scope.$watch('workspace', refreshActiveTab);
-
-                        scope.$on('slide:update', function(){
-                            refreshActiveTab();
+                        scope.$watch('activeTab', function(){
                             withoutSync(function(){
                                 updateEditorContent(editor, scope.activeTab);
                                 updateEditorOptions(editor, scope.activeTab);
                             });
+                        });
+
+                        scope.$watch('workspace', refreshActiveTab);
+
+                        scope.$on('slide:update', function(){
+                            refreshActiveTab();
                         });
 
                         // Tab switch
