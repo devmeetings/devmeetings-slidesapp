@@ -1,0 +1,2 @@
+div.burger-container
+	img.burger-img(ng-class="{invisible: !img.visible}", ng-style="{'z-index': display.length-$index}", ng-src="{{img.src}}", ng-repeat="img in display track by $index")
