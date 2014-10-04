@@ -18,7 +18,7 @@ module.exports = mongoose.model('user', new mongoose.Schema({
     },
     type: { 
         type: String,
-        enum: ['local', 'g+', 'fb'], 
+        enum: ['local', 'g+', 'fb', 'github'], 
         default: 'local' 
     },
     verified: {
