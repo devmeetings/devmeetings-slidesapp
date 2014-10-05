@@ -21,7 +21,7 @@
                         table.table.table-bordered.tasks
                             tr
                                 td(
-                                    ng-repeat="t in task in event.iterations[activeIteration].tasks", 
+                                    ng-repeat="t in event.iterations[activeIteration].tasks", 
                                     ng-class="{'success': personDidTask(person, t),'danger':!personDidTask(person, t)}")
                                     | {{task.title}}
                     td(ng-repeat='i in event.iterations.slice(activeIteration + 1, tasks.length)')
