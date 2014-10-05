@@ -280,7 +280,7 @@ require(['angular',
                         };
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
-                            title: 'Tutorial'
+                            title: ''
                         };
                     }
                 });

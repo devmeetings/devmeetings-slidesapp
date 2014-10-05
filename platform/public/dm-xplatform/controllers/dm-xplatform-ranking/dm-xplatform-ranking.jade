@@ -12,13 +12,13 @@
                     th {{person.name}}
                     td {{person.tasks | keysLength}}
                     td(ng-repeat='i in event.iterations.slice(0, activeIteration)')
-                        table.table.table-bordered
+                        table.table.table-bordered.tasks
                             tr
                                 td(
                                     ng-repeat="t in i.tasks", 
                                     ng-class="{'success': personDidTask(person, t),'danger':!personDidTask(person, t)}")
                     td
-                        table.table.table-bordered
+                        table.table.table-bordered.tasks
                             tr
                                 td(
                                     ng-repeat="t in task in event.iterations[activeIteration].tasks", 

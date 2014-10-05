@@ -1,4 +1,4 @@
-.navbar.navbar-inverse.xplatform-navbar(role='navigation')
+.navbar.navbar-inverse.xplatform-navbar(role='navigation', ng-show="!hidden")
     .navbar-header
         button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
             span.sr-only Toggle navigation
@@ -21,6 +21,9 @@
                     analytics-category='menu',
                     analytics-on='click', analytics-event='navbar.logo')
                     img(src="static/images/navbar/xplatform_logo.png")
+            li
+                a(ng-click="hidden = !hidden")
+                    span.fa.fa-arrows-v
 
         ul.nav.navbar-nav.navbar-right
             //li
