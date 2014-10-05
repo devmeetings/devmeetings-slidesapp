@@ -11,7 +11,14 @@
                 tr(ng-repeat='person in ranking.people | keysLength: "tasks" ')
                     th {{person.name}}
                     td {{person.tasks | keysLength}}
-                    td(ng-repeat='i in event.iterations.slice(0, activeIteration)') {{personIterationCount(person, i) + '/' + i.tasks.length}}
-                    td(ng-repeat='task in event.iterations[activeIteration].tasks', ng-class='{"done-task": personDidTask(person, task)}') {{task.title}}
-                    td(ng-repeat='i in event.iterations.slice(activeIteration + 1, tasks.length)') {{personIterationCount(person, i) + '/' + i.tasks.length}}
+                    td(ng-repeat='i in event.iterations.slice(0, activeIteration)')
+                        table.table.table-bordered
+                            tr
+                                td(ng-repeat="t in i.tasks", ng-class="{'succes': personDidTask(person, t), 'danger': !personDidTask(person, t)")
+                    td(ng-repeat='task in event.iterations[activeIteration].tasks', ng-class='{"done-task": personDidTask(person, task)}') 
+                        | {{task.title}}
+                    td(ng-repeat='i in event.iterations.slice(activeIteration + 1, tasks.length)')
+                        | {{personIterationCount(person, i) + '/' + i.tasks.length}}
+
+
 
