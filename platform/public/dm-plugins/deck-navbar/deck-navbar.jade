@@ -11,17 +11,9 @@ nav.navbar.navbar-default.navbar-slides(role='navigation')
             span.icon-bar
             span.icon-bar
         ul.nav.navbar-nav.navbar-left
-            li.dropdown
-                a.dropdown-toggle.text-muted.cursor-pointer(data-toggle="dropdown") 
+            li
+                a.text-muted.cursor-pointer 
                     span.glyphicon.glyphicon-th-large
-                ul.dropdown-menu
-                    li: a(href="?edit=true")
-                        span.fa.fa-pencil Edit Mode
-                    li: a(href="{{ deckUrl }}/trainer")
-                        span.fa.fa-graduation-cap Trainer Mode
-                    li.divider
-                    li: a(href="/") 
-                        span.fa.fa-paper-plane All slides
 
     #navbar-slides.collapse.navbar-collapse
         div.slimScrollDiv(style="position: relative; width: calc(100% - 60px); height: 40px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 
@@ -31,11 +23,9 @@ nav.navbar.navbar-default.navbar-slides(role='navigation')
                 mixin slidesMixin()
         ul.nav.nav-new-slide.cursor-pointer(ng-if="$root.modes.isEditMode")
             li
-                .btn-group
-                    a.btn.btn-link(ng-click="addSlide()")
-                        span.glyphicon.glyphicon-plus
-                    button.btn.dropdown-toggle(data-toggle="dropdown")
-                    ul.dropdown-menu
-                        li
-                            a(ng-click="cloneSlide()") Clone Current
+                a.btn.btn-link(ng-click="addSlide()")
+                    span.glyphicon.glyphicon-plus
+            li
+                a.btn.btn-link(ng-click="cloneSlide()")
+                    span.fa.fa-copy                        
 

@@ -20,6 +20,8 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                 },
                 templateUrl: path + "/editor.html",
                 link: function(scope, element) {
+                    scope.collapsed = true;
+                    
                     var editor = ace.edit(element.find('.editor')[0]);
                     editor.setTheme('ace/theme/todr');
                     editor.getSession().setMode('ace/mode/json');
