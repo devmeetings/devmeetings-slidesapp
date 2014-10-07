@@ -3,7 +3,8 @@
         span(contenteditable='', ng-model="time")
         span  min
     h1(ng-show="started")
-        | {{ (timeLeft / 60) | number:1}} min
+        | {{ (timeLeft / 60) | number:1}}  
+        span &nbsp;min
     button.btn.btn-link(ng-show="!started", ng-click="start()")
         h2.text-success
             span.fa.fa-play
