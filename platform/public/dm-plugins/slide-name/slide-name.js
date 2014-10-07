@@ -1,5 +1,5 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.registerPlugin('slide', 'name', 'slide-name', 20000).directive('slideName', [
+    sliderPlugins.registerPlugin('slide', 'name', 'slide-name', 3800).directive('slideName', [
 
         function() {
             return {
