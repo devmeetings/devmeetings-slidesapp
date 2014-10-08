@@ -2,7 +2,7 @@ var _ = require('lodash');
 var Shortlink = require('../../models/shortlink');
 
 exports.initApi = function(prefix, app, authenticated) {
-    app.get("/s/:id", function(req, res) {
+    app.get("/-:id", function(req, res) {
     	Shortlink.findOne({
     		name: req.params.id
     	}, function(err, obj) {
@@ -14,7 +14,7 @@ exports.initApi = function(prefix, app, authenticated) {
     	});
     });
 
-    app.post("/s/:id", authenticated, function(req, res){
+    app.post("/-:id", authenticated, function(req, res){
     	Shortlink.findOneAndUpdate({
     		name: req.params.id
     	}, {

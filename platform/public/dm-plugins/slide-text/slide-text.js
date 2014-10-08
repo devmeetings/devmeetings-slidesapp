@@ -9,7 +9,7 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                     text: '=data',
                     slide: '=context'
                 },
-                template: '<div><div ng-if="!$root.modes.isEditMode" ng-bind-html="slide.text"></div><div ng-if="$root.modes.isEditMode" contenteditable ng-model="slide.text"></div></div>'
+                template: '<div><div ng-bind-html="slide.text"></div><textarea ng-if="$root.modes.isEditMode" ng-model="slide.text" rows="10" style="width: 100%"></textarea></div>'
             };
         }
     ]);

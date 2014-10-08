@@ -41,11 +41,11 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
 
                     scope.cloneSlide = function() {
                         var slideId = CurrentSlideManagerForDeck.activeSlideId;
-                        var clone = _.clone(_.find(scope.deck.deckSlides, {
+                        var clone = _.find(scope.deck.deckSlides, {
                             _id: slideId
-                        }));
+                        });
 
-                        postSlide(clone.content);
+                        postSlide(JSON.parse(JSON.stringify(clone.content)));
                     };
 
                     scope.addSlide = function() {

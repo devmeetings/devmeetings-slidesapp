@@ -8,6 +8,7 @@ require([
     "directives/layout-loader",
     "directives/plugins-loader",
     "directives/splitter",
+    "directives/contenteditable",
     "directives/sidebar-control/sidebar-control"
 ], function(templates, slider, sliderPlugins, bootstrap) {
     slider.controller('SliderCtrl', ['$rootScope', '$scope', 'DeckAndSlides',
