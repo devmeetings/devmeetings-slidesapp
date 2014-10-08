@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo -u xplatform /home/xplatform/Projects/devmeetings-slidesapp/platform/public/sounds/convert.sh
