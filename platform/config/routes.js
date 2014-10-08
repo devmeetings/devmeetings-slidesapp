@@ -137,13 +137,20 @@ module.exports = function(app) {
 
     //login
     var login = require('../app/controllers/login');
-    app.get('/login', login.login);
+    app.get('/login', function(req, res, next) {
+        if (req.user) {
+            res.redirect('/');
+            return;
+        }
+        next();
+    }, login.login);
     app.get('/logout', login.logout);
 
     //auth
     var redirections = {
         successRedirect: '/#/redirect',
-        failureRedirect: '/login'
+        failureRedirect: '/login',
+        failureFlash: true 
     };
 
     app.post('/auth/login', passport.authenticate('local', redirections));

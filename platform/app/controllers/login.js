@@ -1,5 +1,6 @@
 exports.login = function(req, res) {
     res.render('login/login', {
+    	error: req.flash('error')[0],
         withInspectlet: req.withInspectlet,
         withGoogleAnalytics: req.withGoogleAnalytics,
         cacheBustingVersion: req.cacheBustingVersion,

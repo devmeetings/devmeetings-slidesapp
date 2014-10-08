@@ -2,6 +2,7 @@ var express = require('express'),
     passport = require('passport'),
     lessMiddleware = require('less-middleware'),
     path = require('path'),
+    flash = require('connect-flash'),
     stream = require('connect-stream');
 
 var MongoStore = require('connect-mongo')(express);
@@ -60,6 +61,7 @@ module.exports = function(app, config) {
         app.use(sessionConfig.cookieParser());
         app.use(express.bodyParser());
         app.use(express.session(sessionConfig));
+        app.use(flash());
         app.use(passport.initialize());
         app.use(passport.session());
         app.use(express.methodOverride());
