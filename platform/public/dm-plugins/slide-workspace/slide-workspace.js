@@ -42,8 +42,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                 templateUrl: path + '/slide-workspace.html',
                 link: function(scope, element) {
                     scope.output = {
+                        width: 6,
                         show: false,
                         sideBySide: true
+                    };
+
+                    scope.changeWidth = function() {
+                        var out = scope.output;
+                        out.width -= 2;
+                        out.sideBySide = true;
+                        if (out.width === 0) {
+                            out.sideBySide = false;
+                        }
+                        if (out.width < 0) {
+                            out.width = 6;
+                        }
                     };
 
 
