@@ -106,9 +106,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         var editor = ace.edit($e[0]);
                         editor.setTheme('ace/theme/' + EDITOR_THEME);
                         editor.setValue("");
-                        editor.getSession().setTabSize(4);
+                        editor.getSession().setTabSize(2);
                         editor.getSession().setUseSoftTabs(true);
-                        editor.getSession().setUseWrapMode(false);
+                        editor.getSession().setUseWrapMode(!!scope.workspace.wrap);
                         editor.setOptions({
                             enableBasicAutocompletion: true,
                             enableSnippets: true,
@@ -189,6 +189,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         });
 
                         scope.$watch('activeTab', function(){
+                            if (!scope.activeTab) {
+                                return;
+                            }
                             withoutSync(function(){
                                 updateEditorContent(editor, scope.activeTab);
                                 updateEditorOptions(editor, scope.activeTab);

@@ -31,7 +31,8 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                             currentFrame = 0;
                         }
                         $iframes[currentFrame].src = '/api/page/' + hash + "/";
-                        swapFramesLater();
+                        // Swap frames on load
+                        angular.element($iframes[currentFrame]).one('load', swapFramesLater);
                     });
 
                     var swapFramesLater = _.throttle(function() {
@@ -52,7 +53,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                         $timeout(function() {
                             oldOutput.addClass('onBottom hidden');
                             newOutput.removeClass('onBottom');
-                        }, 200);
+                        }, 250);
 
                     }, 500, {
                         leading: false,
