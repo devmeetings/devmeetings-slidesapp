@@ -55,13 +55,19 @@
 .dm-spacesidebar-left {
     height: calc(~"100% - 40px");
     overflow-y: auto;
+
+    .nav > li > a {
+        border-radius: 0;
+    }
+    .nav > li.active > a {
+        background-color: rgb(86,171,205);
+    }
 }
 
-.dm-space-toggle,
-.dm-spacesidebar-right.active li {
-    width: 50px;
-    color: white;
-    border-radius: 0;
+.nav-icon {
+    width: 30px;
+    text-align: center;
+    display: inline-block;
 }
 
 .dm-space-checkbox {
