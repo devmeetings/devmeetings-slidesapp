@@ -27,6 +27,27 @@ exports.onSocket = function(log, socket, io) {
 };
 
 exports.initApi = function(prefix, app, authenticated) {
+    app.get(prefix + "download/:hash", authenticated, function(req, res) {
+        Workspaces.findByHash(req.params.hash).then(function(workspace){
+            // Create zip file
+            var zip = new require('node-zip')();
+            _.each(workspace.files, function(val, name){
+                zip.file(getRealFileName(name), val);
+            });
+
+            var data = zip.generate({base64: false,compression: 'DEFLATE'});
+
+            res.charset = 'utf8';
+            res.set({
+                'Content-type': 'application/zip',
+                'Content-disposition': 'attachment; filename="'+req.params.hash+'.zip"'
+            });
+            res.send(new Buffer(data, 'binary'));
+
+        }, function(err) {
+            res.send(400, err);
+        }).then(null, console.error);
+    });
     app.get(prefix + "page/:hash/:file?*", authenticated, function(req, res) {
         var file = req.params.file || "index.html";
         var first = req.params[0];
@@ -62,12 +83,10 @@ function guessType(fileName) {
 }
 
 function getInternalFileName(file) {
-    var x = reverseString(file).replace('.', '|');
-    return reverseString(x);
+    return file.replace(/\./g, '|');
 }
-
-function reverseString(string) {
-    return string.split("").reverse().join("");
+function getRealFileName(file) {
+    return file.replace(/\|/g, '.');
 }
 
 function getFiles(data) {

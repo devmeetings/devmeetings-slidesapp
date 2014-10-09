@@ -30,6 +30,7 @@
     "mongodb": "^1.4.8",
     "mongoose": "^3.8.12",
     "node-uuid": "~1.4.1",
+    "node-zip": "^1.1.0",
     "passport": "^0.2.0",
     "passport-facebook": "^1.0.3",
     "passport-github": "^0.1.5",

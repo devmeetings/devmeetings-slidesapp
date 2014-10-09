@@ -93,6 +93,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     scope.tabsOrdering = function(tab) {
                         return getExtension(tab);
                     };
+                    scope.toFileName = function(tab) {
+                        return tab.replace(/\|/g, '.');
+                    };
 
                     // Editor
                     /* 
