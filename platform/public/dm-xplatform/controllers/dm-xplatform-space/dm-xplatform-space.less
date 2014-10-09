@@ -55,12 +55,31 @@
 .dm-spacesidebar-left {
     height: calc(~"100% - 40px");
     overflow-y: auto;
+    font-size: 15px;
 
+    .nav > li {
+        margin: 5px 0;
+    }
     .nav > li > a {
         border-radius: 0;
     }
     .nav > li.active > a {
+        transition: background-color 0.2s ease;
         background-color: rgb(86,171,205);
+    }
+
+    .active .show-if-active, .hide-if-active {
+        display: inline-block;
+    }
+
+    .active .hide-if-active, .show-if-active {
+        display: none;
+    }
+    li > a {
+        padding: 5px 5px;
+    }
+    li > ul > li > a {
+        padding-left: 15px;
     }
 }
 
@@ -73,47 +92,6 @@
 .dm-space-checkbox {
     padding: 0.2em 0 0.5em 1.0em;
     font-size: 18px;
-}
-
-.dm-space-accordion {
-    .panel.panel, 
-    .panel .panel-heading {
-        border-radius: 0;
-        margin: 0;
-        padding: 0;
-        border: 0;
-    }
-    
-    .panel .panel-body {
-        border: 0;
-        padding: 0;
-        button {
-            border-radius: 0;
-            margin-bottom: 10px
-        }
-    }
-
-    .panel .panel-heading {
-        cursor: pointer;
-        a {
-            color: white;
-        }
-        
-        .background {
-            background-color: rgb(30,30,30);
-            -webkit-transition: background-color 0.25s ease;
-            transition: background-color 0.25s ease;
-        }
-
-        .background:hover {
-            background-color: rgb(34,34,34);
-        }
-
-        .active, 
-        .active:hover {
-            background-color: rgb(86,171,205);
-        }
-    }
 }
 
 .dm-space-questions {

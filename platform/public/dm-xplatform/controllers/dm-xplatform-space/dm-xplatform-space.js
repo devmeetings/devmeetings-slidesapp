@@ -79,6 +79,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
         $scope.currentLocation = $location;
         $scope.$watch('currentLocation.$$absUrl', function () {
+            $scope.activeIteration = $state.params.iteration;
             $scope.showTutorial = $state.current.name === 'index.space';
             $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '25px' : '0px';
             if ($state.current.name === 'index.space.task') {
@@ -111,17 +112,23 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 $scope.currentUserId = data.result._id; 
                 markTasks($scope.event);
             });
+
+
+            // Fetch current workspace
+            $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function (data) {
+                $scope.workspaceId = data.data.slidesave;
+            });
         }, function () {
         });
 
-        $scope.openWorkspace = function () {
 
+        $scope.openWorkspace = function () {
             $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function (data) {
                 dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
                 $state.go('index.space.task', {
                     slide: data.data.slidesave
                 });
-                $scope.workspaceSref = 'index.space.task({slide: "'+data.data.slidesave+'"})';
+                $scope.workspaceId = data.data.slidesave;
             });
         };
 
