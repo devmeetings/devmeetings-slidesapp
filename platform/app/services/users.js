@@ -1,4 +1,5 @@
 var UserModel = require('../models/user'),
+    mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10,
     authFields = {
         usernameField: 'email',
@@ -75,6 +76,7 @@ exports.findOrCreate = function(user, callback) {
         if (dbUser) {
             return callback(null, dbUser);
         }
+        user.userId = new mongoose.Types.ObjectId();
         var newUser = new UserModel(user);
         newUser.save(function(err) {
             return err ? callback(err) : callback(null, newUser);
