@@ -158,7 +158,9 @@ define(['angular', 'xplatform/xplatform-app', '_',
         };
 
         $scope.removeIteration = function (iteration) {
-            dmEvents.removeEventIteration($scope.event._id, iteration._id);
+            if (confirm("Really remove iteration?")) {
+                dmEvents.removeEventIteration($scope.event._id, iteration._id);
+            }
         };
 
         $scope.createMaterial = function (i) {
