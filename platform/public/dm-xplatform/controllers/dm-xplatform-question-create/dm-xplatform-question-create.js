@@ -5,13 +5,15 @@ define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questi
             title: '',
             description: '',
             event: $stateParams.event,
-            timestamp: new Date(),
             workspace: true
         };
 
         $scope.createQuestion = function () {
+            $scope.question.timestamp = new Date();
             if (!$scope.question.workspace) {
-                dmQuestions.createQuestion($scope.question); 
+                dmQuestions.createQuestion($scope.question).then(function(){
+                    $scope.question.description = '';
+                });
                 return;
             }
 

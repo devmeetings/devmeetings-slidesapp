@@ -71,7 +71,10 @@
                         a.cursor-pointer(ng-click='openWorkspace()') 
                             span.fa.fa-wrench.nav-icon
                             span Workspace
-                            
+                    li(ui-sref-active="active")
+                        a(ui-sref="index.space.todo({iteration: 4, todo: '543780be8e5ae61210571aef'})")
+                            span.nav-icon.fa.fa-bar-chart
+                            span Ranking
                     //li(ui-sref-active='active')
                         a(ui-sref='index.space.ranking')
                             span.nav-icon.fa.fa-bar-chart
