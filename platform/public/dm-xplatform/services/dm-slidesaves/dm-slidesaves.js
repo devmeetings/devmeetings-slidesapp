@@ -5,6 +5,9 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
         };
 
         return {
+            refresh: function(){
+                delete promises['all'];
+            },
             allSaves: function (download) {
                 var result = promises['all'];
 

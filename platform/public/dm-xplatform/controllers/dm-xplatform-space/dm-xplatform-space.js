@@ -117,6 +117,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
             // Fetch current workspace
             $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function (data) {
                 $scope.workspaceId = data.data.slidesave;
+                dmSlidesaves.refresh();
             });
         }, function () {
         });
