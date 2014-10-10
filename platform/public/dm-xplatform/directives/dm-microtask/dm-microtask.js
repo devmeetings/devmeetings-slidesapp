@@ -1,5 +1,7 @@
 define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
-    xplatformApp.directive('dmMicrotask', [function () {
+    xplatformApp.directive('dmMicrotask', [
+        '$timeout',
+        function ($timeout) {
         return {
             restrict: 'E',
             scope: {
