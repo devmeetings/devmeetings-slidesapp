@@ -9,7 +9,7 @@
             .col-xs-12(ng-if='warningType === "mine"')
                 .row
                     .alert.alert-warning.dm-space-alert
-                        | To jest Twoje pytanie. Kontynuuj pisanie w swoim workspacie.
+                        | To nie jest twój workspace.
             .col-xs-12(ng-if='warningType === "other"')
                 .row
                     .alert.alert-danger.dm-space-alert
@@ -22,9 +22,9 @@
                         span.fa.fa-wrench
                         span &nbsp;
                         span.show-if-active Twój kod
-                        span.hide-if-active Przejdź do kodu
+                        span.hide-if-active Wróć do swojego kodu
                     span.cursor-pointer(ng-click='openWorkspace()', ng-if="!workspaceId")
-                        span Przejdź do 
+                        span Wróć do 
                         span.fa.fa-wrench
                     span
                 br
@@ -67,7 +67,12 @@
                         ui-sref-active='active')
                         a.cursor-pointer(ng-click='createIteration()')
                             span Dodaj Iteracje
-                    li(ui-sref-active='active')
+                    li
+                        a.cursor-pointer(ng-click='openWorkspace()') 
+                            span.fa.fa-wrench.nav-icon
+                            span Workspace
+                            
+                    //li(ui-sref-active='active')
                         a(ui-sref='index.space.ranking')
                             span.nav-icon.fa.fa-bar-chart
                             span Ranking
