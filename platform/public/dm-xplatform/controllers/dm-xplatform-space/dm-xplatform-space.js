@@ -5,7 +5,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
         'xplatform/directives/dm-chat/dm-chat'], function (angular, xplatformApp, _) {
     xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', function ($scope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves) {
         $scope.left = {
-            min: '50px',
+            min: '35px',
             max: '200px',
             current: '200px'
         };
