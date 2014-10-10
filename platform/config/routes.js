@@ -68,6 +68,8 @@ module.exports = function(app) {
     app.post('/api/event_visibility/:event/:visible', apiAuthenticated, events.changeVisibility);
     app.post('/api/event_iteration/:event', apiAuthenticated, events.eventIterationCreate);
     app.delete('/api/event_iteration/:event/:iteration', apiAuthenticated, events.eventIterationDelete);
+    app.put('/api/event_iteration/:event/:iteration/status', apiAuthenticated, events.eventIterationStatus);
+
     app.post('/api/event_iteration_material/:event/:iteration', apiAuthenticated, events.eventMaterialCreate);
     app.delete('/api/event_iteration_material/:event/:iteration/:material', apiAuthenticated, events.eventMaterialDelete);
 

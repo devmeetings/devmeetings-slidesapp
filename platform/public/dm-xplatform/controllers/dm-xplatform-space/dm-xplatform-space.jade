@@ -40,10 +40,14 @@
                         a.cursor-pointer
                             span.pull-right(ng-if="editMode", ng-click='removeIteration(i)')
                                 span.fa.fa-trash.text-danger
-                            span.nav-icon
+                            span.nav-icon(ng-if="!editMode")
+                                span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
+                                span.fa.fa-lock(ng-if='i.status != "available"')
+                            span.cursor-pointer.nav-icon(ng-if="editMode", ng-click="changeIterationStatus(i)", tooltip="Click to change status")
                                 span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
                                 span.fa.fa-lock(ng-if='i.status != "available"')
                             span {{i.title}}
+
                         
                         ul.nav.nav-stacked(ng-show="(i.open && (editMode || i.status ==='available')) || activeIteration == $index")
                             li(ui-sref-active="active", ng-repeat='material in i.materials')

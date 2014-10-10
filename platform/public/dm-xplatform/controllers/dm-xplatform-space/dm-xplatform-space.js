@@ -158,6 +158,13 @@ define(['angular', 'xplatform/xplatform-app', '_',
             });
         };
 
+        $scope.changeIterationStatus = function(iteration) {
+            var newStatus = iteration.status === 'available' ? 'unavailable' : 'available';
+            dmEvents.changeEventIterationStatus($scope.event._id, iteration._id, newStatus).then(function() {
+                iteration.status = newStatus;
+            });
+        };
+
         $scope.removeIteration = function (iteration) {
             if (confirm("Really remove iteration?")) {
                 dmEvents.removeEventIteration($scope.event._id, iteration._id);

@@ -124,6 +124,13 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                     });
                     return result.promise;
                 },
+                changeEventIterationStatus: function(event, iteration, status) {
+                    return wrap($http.put('/api/event_iteration/' + event +'/' + iteration + '/status', {
+                        status: status
+                    }).then(function(d){
+                        return d.data;
+                    }));
+                },
                 removeEventIteration: function(event, iteration) {
                     var result = $q.defer();
                     var that = this;

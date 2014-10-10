@@ -116,6 +116,18 @@ var Events = {
             res.send(event.iterations.pop());
         }).fail(onError(res)).done(onDone);
     },
+    eventIterationStatus: function(req, res) {
+        Q.ninvoke(Event.findOneAndUpdate({
+            _id: req.params.event,
+            "iterations._id": req.params.iteration
+        }, {
+            $set: {
+                "iterations.$.status": req.body.status
+            }
+        }).lean(), 'exec').then(function(event) {
+            res.send(200);
+        }).fail(onError(res)).done(onDone);
+    },
     eventIterationDelete: function (req, res) {
         Q.ninvoke(Event.findOneAndUpdate({
             _id: req.params.event
