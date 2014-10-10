@@ -12,7 +12,7 @@ function getEmail(profile) {
 }
 
 function createUser(id, profile, type, done) {
-    var email = getEmail(profile);
+    var email = getEmail(profile) || id + "@xplatform.org";
     users.findOrCreate({
         userId: id,
         name: profile.displayName,
