@@ -1,7 +1,8 @@
 var User = require('../models/user'),
     passport = require('passport'),
     mailer = require('../services/mailer'),
-    gravatar = require('gravatar');
+    gravatar = require('gravatar'),
+    mongoose = require('mongoose');
 
 /**
  * Registration form view
@@ -27,7 +28,8 @@ exports.register = function(req, res, next, app) {
         email: req.body.email || null,
         name: req.body.username || null,
         password: req.body.password || null,
-        avatar: gravatar.url(req.body.email)
+        avatar: gravatar.url(req.body.email),
+        userId: new mongoose.Types.ObjectId()
     };
 
     User.findOne({
