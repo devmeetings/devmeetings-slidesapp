@@ -24,6 +24,13 @@ var transformToSlidesave = function (slide, user) {
 };
 
 var Slidesaves = {
+    doEdit: function(userId, slide, data, callback) {
+        Slidesave.findOneAndUpdate({
+            user: userId,
+            _id: slide
+        }, data).lean().exec(callback);
+    },
+
     slidesaveFromSlide: function (req, res) {
         var slide = req.params.slide;
         Q.ninvoke(Slide.findOne({
@@ -65,12 +72,13 @@ var Slidesaves = {
         var slide = req.params.slide;
 
         delete req.body._id;
-        Q.ninvoke(Slidesave.findOneAndUpdate({
-            user: req.user._id,
-            _id: slide
-        }, req.body).lean(), 'exec').then(function (slidesave) {
+        Slidesaves.doEdit(req.user._id, slide, req.body, function(err, data){
+            if (err) {
+                onError(res)(err);
+                return;
+            }
             res.send(200);
-        }).fail(onError(res)).done(onDone);
+        });
     },
     delete: function (req, res) {
         var slide = req.params.slide;

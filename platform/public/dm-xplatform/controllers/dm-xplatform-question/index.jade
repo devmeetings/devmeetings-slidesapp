@@ -1,6 +1,6 @@
 div
     include ../dm-xplatform-question-create/index
-    hr
+    //hr
     ul.nav.nav-stacked.nav-pills.questions-list
         li(ng-repeat='question in questions | orderBy: "-timestamp"', 
             ng-class="{'active': activeQuestion == question.slidesave || activeQuestionParent == question.slidesave }")
@@ -18,6 +18,6 @@ div
                         span.input-group-btn
                             button.btn.btn-default.btn-sm(type='submit')
                                 span.fa.fa-reply
-            hr(ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
+            //hr(ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
 
 

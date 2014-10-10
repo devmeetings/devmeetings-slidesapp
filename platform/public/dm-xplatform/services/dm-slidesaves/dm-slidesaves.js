@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
-    xplatformApp.service('dmSlidesaves', ['$http', '$q', function ($http, $q) {
+    xplatformApp.service('dmSlidesaves', ['$http', '$q', 'Sockets', function ($http, $q, Sockets) {
        
         var promises = {
         };
@@ -10,21 +10,14 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             },
             allSaves: function (download) {
                 var result = promises['all'];
-
-                if (!result || download) {
-                    result =  $q.defer();
-                    promises['all'] = result;
+                if (!download && result) {
+                    return $q.when(result);
                 }
 
-                if (!download) {
-                    return result.promise;
-                }
-
-                $http.get('/api/slidesaves').then(function (data) {
-                    result.resolve(data.data);
+                return $http.get('/api/slidesaves').then(function (data) {
+                    promises['all'] = data.data;
+                    return data.data;
                 });
-
-                return result.promise;
             },
             saveWithId: function (save, download) {
                 var result = $q.defer();
@@ -38,10 +31,11 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             saveModified: function (save) {
                 var result = $q.defer();
 
-                $http.put('/api/slidesaves/' + save._id, save).then(function () {
-                    result.resolve();
-                }, function () {
-                    result.reject();
+                Sockets.emit('slidesaves.save', {
+                    slide: save._id,
+                    data: save
+                }, function(res){
+                    result.resolve(res);
                 });
 
                 return result.promise;
@@ -57,11 +51,11 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
                 return result.promise;
             },
-            getSaveType: function (save) {
+            getSaveType: function (save,  force) {
                 // workspace, mine, other
                 
                 var result = $q.defer();
-                this.allSaves(false).then(function (all) {
+                this.allSaves(force).then(function (all) {
                     var saveObject = _.find(all, function (a) {
                         return a._id === save;
                     });
