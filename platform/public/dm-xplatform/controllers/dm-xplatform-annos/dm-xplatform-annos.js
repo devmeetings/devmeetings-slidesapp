@@ -7,7 +7,10 @@ define(['_', 'angular', 'xplatform/xplatform-app',
 
 
     function groupAnnotations(annos) {
-        return annos.map(function(anno) {
+        return annos.filter(function(x){
+            // Don't group tasks
+            return x.type !== 'task';
+        }).map(function(anno) {
             return {
                 data: anno,
                 categories: anno.title.split(/\s*:\s*/g)
@@ -30,8 +33,8 @@ define(['_', 'angular', 'xplatform/xplatform-app',
     }
 
     xplatformApp.controller('dmXplatformAnnos', [
-        '$scope', '$stateParams', '$state', '$modal', 'dmEvents', 'filterFilter',
-        function($scope, $stateParams, $state, $modal, dmEvents, $filter) {
+        '$scope', '$stateParams', '$state', '$modal', 'dmEvents', 'filterFilter', '$rootScope',
+        function($scope, $stateParams, $state, $modal, dmEvents, $filter, $rootScope) {
             $scope.eventId = $stateParams.event;
             $scope.iterationId = $stateParams.iteration;
             $scope.materialId = $stateParams.material;
@@ -44,12 +47,31 @@ define(['_', 'angular', 'xplatform/xplatform-app',
 
             var getAll = function() {
                 dmEvents.getAllAnnotations($stateParams.event).then(function(annotations) {
-                    $scope.annotations = annotations;
-                    $scope.groups = groupAnnotations(annotations);
+                    dmEvents.getEvent($stateParams.event).then(function(event) {
+                        var activeIterations = event.iterations.map(function(it, idx){
+                            return {
+                                idx: idx,
+                                it: it
+                            };
+                        }).filter(function(x) {
+                            return x.it.status === 'available';
+                        });
 
-                    $scope.$watch('search.text', function(){
-                        var s = $scope.search.text;
-                        $scope.groups = groupAnnotations($filter(annotations, s));
+                        var lastActive = activeIterations[activeIterations.length - 1] || {};
+                        $scope.lastActiveIterationIdx = lastActive.idx;
+
+                        if (!$rootScope.editMode) {
+                            annotations = annotations.filter(function(x) {
+                                return x.index <= $scope.lastActiveIterationIdx;
+                            });
+                        }
+                        $scope.annotations = annotations;
+                        $scope.groups = groupAnnotations(annotations);
+
+                        $scope.$watch('search.text', function(){
+                            var s = $scope.search.text;
+                            $scope.groups = groupAnnotations($filter(annotations, s));
+                        });
                     });
                 });
             };

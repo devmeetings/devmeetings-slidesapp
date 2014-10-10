@@ -30,22 +30,14 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                 getEvent: function(event, download) {
                     var result = promises[event];
 
-                    if (!result || download) {
-                        result = $q.defer();
-                        promises[event] = result;
+                    if (result && !download) {
+                        return $q.when(result);
                     }
 
-                    if (!download) {
-                        return result.promise;
-                    }
-
-                    $http.get('/api/events/' + event).then(function(data) {
-                        result.resolve(data.data);
-                    }, function() {
-                        result.reject();
-                    });
-
-                    return result.promise;
+                    return wrap($http.get('/api/events/' + event).then(function(data) {
+                        promises[event] = data.data;
+                        return data.data;
+                    }));
                 },
                 getState: function(event, id) {
                     var key = event + 'index' + id;

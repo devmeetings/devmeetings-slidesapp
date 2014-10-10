@@ -1,7 +1,7 @@
 mixin annotation(i)
     div(ng-repeat="p in #{i}")
         dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet"')
-        //dm-microtask(microtask='p', ng-if='p.type === "task"')
+        dm-microtask(microtask='p', ng-if='p.type === "task"')
         button.btn.btn-xs.btn-warning(ng-if="editMode", ng-click="p.editing = !p.editing")
                 span.fa.fa-pencil
             dm-xplatform-edit-annotation(
