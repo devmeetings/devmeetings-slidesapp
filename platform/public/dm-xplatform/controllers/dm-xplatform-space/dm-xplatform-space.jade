@@ -16,7 +16,7 @@
                         | To nie jest Twój workspace&nbsp;
 
             .dm-spacesidebar-left(ng-style='{"width": left.max, "clear": "both"}')
-                a.btn.btn-block.btn-default(ui-sref="index.space.task({slide: workspaceId})", 
+                a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.task({slide: workspaceId})", 
                     ui-sref-active='btn-success active')
                     span(ng-if="workspaceId")
                         span.fa.fa-wrench

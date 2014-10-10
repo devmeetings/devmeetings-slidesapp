@@ -24,11 +24,13 @@
 
 .dm-spacesidebar-right {
     height: 100%;
-   
+    > .nav li {
+        width: 70px;
+        text-align: center;
+    }
+
     .nav {
         li {
-            width: 70px;
-            text-align: center;
             a {
                 border: 0;
                 border-radius: 0;
@@ -37,8 +39,8 @@
         }
     }  
 
-    li.active a,
-    li.active a:hover {
+    > .nav > li.active > a,
+    > .nav > li.active > a:hover {
         background-color: rgb(86,171,205);
     }
 
@@ -80,6 +82,14 @@
     }
     li > ul > li > a {
         padding-left: 15px;
+    }
+
+    .btn-success {
+        background-color: #7DAA25;
+        border-color: #4B6615;
+    }
+    .workspace-btn {
+        border-radius: 0;
     }
 }
 

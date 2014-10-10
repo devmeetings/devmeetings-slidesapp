@@ -299,7 +299,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.task', {
-                    url: '/task/:slide',
+                    url: '/task/:slide?parent',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',

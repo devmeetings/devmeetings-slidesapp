@@ -1,6 +1,11 @@
 define(['angular', 'xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create'], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformQuestion', ['$scope', '$modal', '$stateParams', 'dmQuestions', 'dmEvents', function ($scope, $modal, $stateParams, dmQuestions, dmEvents) {
        
+        
+        $scope.$on('$stateChangeSuccess', function(){
+            $scope.activeQuestion = $stateParams.slide;
+            $scope.activeQuestionParent = $stateParams.parent;
+        });
         dmQuestions.allQuestionsForEvent($stateParams.event, false).then(function (questions) {
             $scope.questions = questions;
         });
