@@ -8,4 +8,4 @@ append scripts
 block content
     .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
         div(ui-view='navbar')
-        .content-height(ui-view='content')
+        .content-height(ui-view='content', ng-class="{'header-hidden': $root.headerHidden}")
