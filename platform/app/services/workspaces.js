@@ -24,7 +24,8 @@ exports.upsertWorkspace = function(hash, files, userId) {
         hash: hash
     }).exec().then(function(workspace) {
         if (workspace) {
-            return updateAccessTimes(workspace, userId);
+            return workspace;
+            //return updateAccessTimes(workspace, userId);
         }
         return insertWorkspace(hash, files, userId);
     });
