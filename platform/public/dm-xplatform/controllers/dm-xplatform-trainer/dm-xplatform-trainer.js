@@ -34,18 +34,39 @@ define([
             };
 
             $scope.getChartData = function(timeline) {
-                var min = new Date(timeline[0].createTime).getTime();
+                var min = new Date(timeline[0].createTime).getTime() || 0;
+
+                function norm(x) {
+                    return x || 0;
+                }
                 return {
-                    series: ["html", "js", "css"],
+                    series: ["html", "js", "css", '#files * 100'],
                     data: timeline.map(function(t) {
-                        console.log(t);
                         return {
                             x: new Date(t.createTime).getTime() - min,
-                            y: [t.files['html'] || 0, t.files['js'] || 0, t.files['css'] || 0],
-                            tooltip: t.hash
+                            y: [
+                                norm(t.files['html']),
+                                norm(t.files['js']),
+                                norm(t.files['css']),
+                                norm(t.fileNames.length * 100)
+                            ],
+                            tooltip: t.createTime
                         };
                     })
                 };
+            };
+
+            $scope.chartConfig = {
+                click: function(d) {
+                    console.log(d);
+                },
+                legend: {
+                    display: true, // can be either 'left' or 'right'.
+                    position: 'left',
+                    // you can have html in series name
+                    htmlEnabled: false
+                },
+                isAnimate: true, // run animations while rendering chart
             };
         }
     ]);

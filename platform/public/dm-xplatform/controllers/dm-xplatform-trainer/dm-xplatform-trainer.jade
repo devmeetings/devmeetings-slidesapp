@@ -34,6 +34,10 @@
                             div(ng-repeat="tab in keys(up.files) track by $index")
                                 textarea.form-control(rows="10", ng-model="up.files[tab]")
 
-                .chart(ng-if="ws.chart", ac-chart="'line'", ac-data="ws.chart", style="height: 400px; width: 100%")
+                .chart(ng-if="ws.chart", 
+                    ac-chart="'area'", 
+                    ac-data="ws.chart", 
+                    ac-config="chartConfig",
+                    style="height: 400px; width: 100%")
                 pre(ng-if="ws.showRaw") {{ws | json}}
                 
