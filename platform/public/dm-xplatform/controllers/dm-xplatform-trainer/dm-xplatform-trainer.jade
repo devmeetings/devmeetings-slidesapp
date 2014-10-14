@@ -1,0 +1,15 @@
+.col-xs-12
+    .course-background
+        h3 Workspaces
+        .list-group
+            .list-group-item.workspace-list(ng-repeat="ws in workspaces")
+                small.text-muted.label.label-default.pull-right
+                    | {{ws.user._id}}
+                h3 {{ ws.user.name}} ( {{ws.user.email}} )
+                button.btn.btn-primary.btn-xs(ng-click="ws.showWorkspace = !ws.showWorkspace")
+                    | Show Workspace
+                button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")
+                    | Show RAW
+
+                plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'")
+                pre(ng-if="ws.showRaw") {{ws | json}}

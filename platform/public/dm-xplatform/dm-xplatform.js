@@ -6,6 +6,7 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-navbar/xplatform-navbar',
         'xplatform/controllers/dm-xplatform-index/xplatform-index',
         'directives/plugins-loader',
+        'xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer',
         'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
         'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
         'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
@@ -354,6 +355,16 @@ require(['angular',
                         first: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
                             controller: 'dmXplatformAnnos'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.trainer', {
+                    url: '/trainer',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer.html',
+                            controller: 'dmXplatformTrainer'
                         }
                     }
                 });
