@@ -1,6 +1,7 @@
 var _ = require('lodash'),
     Q = require('q'),
-    Slidesaves = require('../models/slidesave');
+    Slidesaves = require('../models/slidesave'),
+    Workspaces = require('../models/workspace');
 
 var onError = function(res) {
     return function(err) {
@@ -26,6 +27,18 @@ var EventsWorkspaces = {
                 }
             }]
         }).populate('user').lean(), 'exec').then(function(saves) {
+            res.send(saves);
+        }).fail(onError(res)).done(onDone);
+    },
+
+    getPages: function(req, res) {
+        var userId = req.params.userId;
+
+        Q.ninvoke(Workspaces.find({
+            authorId: userId
+        }).sort({
+            _id: -1
+        }).limit(50).lean(), 'exec').then(function(saves) {
             res.send(saves);
         }).fail(onError(res)).done(onDone);
     }

@@ -12,7 +12,17 @@ define([
                 dmWorkspaces.getUsersWorkspaces(event.baseSlide).then(function(workspaces) {
                     $scope.workspaces = workspaces;
                 });
+
+                $scope.fetchRecentWorkspaces = function(ws) {
+                    dmWorkspaces.getUserAllPages(ws.user._id).then(function(userPages) {
+                        ws.userPages = userPages;
+                    });
+                };
             });
+
+            $scope.keys = function(array) {
+                return Object.keys(array);
+            };
         }
     ]);
 

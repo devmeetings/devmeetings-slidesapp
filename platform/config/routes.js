@@ -102,6 +102,7 @@ module.exports = function(app) {
 
     var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
     app.get('/api/workspaces/:baseSlide', apiAuthenticated, eventsWorkspaces.get);
+    app.get('/api/workspaces/users/:userId', apiAuthenticated, eventsWorkspaces.getPages);
 
 
     app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
