@@ -7,6 +7,7 @@ define(['angular',
     'angular-hotkeys',
     'angular-bootstrap',
     'angular-marked',
+    'angular-charts',
     'slider/slider',
     'slider/slider.plugins',
     'dm-training',
@@ -21,8 +22,7 @@ define(['angular',
 
     return angular.module('xplatform', [
         'slider', 'slider.plugins', 'ui.gravatar', 'ui.router', 'ui.bootstrap',
-        'akoenig.deckgrid', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'hc.marked',
+        'akoenig.deckgrid', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts',
         'dm-training', 'dm-user', 'dm-observe', 'dm-stream', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'ngAnimate'
     ]);
 });
-

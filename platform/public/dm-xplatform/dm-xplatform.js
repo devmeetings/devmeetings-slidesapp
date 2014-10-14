@@ -69,7 +69,7 @@ require(['angular',
 
         xplatformApp.config(['$stateProvider', '$urlRouterProvider',
             function($stateProvider, $urlRouterProvider) {
-            
+
                 $stateProvider.state('redirect', {
                     url: '/redirect'
                 });
@@ -273,7 +273,7 @@ require(['angular',
                             controller: 'dmXplatformSpace'
                         },
                     },
-                    onEnter: function ($rootScope) {
+                    onEnter: function($rootScope) {
                         $rootScope.xplatformData.columns = {
                             left: 0,
                             mid: 12,
@@ -368,7 +368,7 @@ require(['angular',
                         }
                     }
                 });
-                
+
                 $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
                 $urlRouterProvider.when('/', '/courses');
                 $urlRouterProvider.otherwise('/courses');
@@ -376,4 +376,3 @@ require(['angular',
         ]);
         bootstrap('xplatform');
     });
-

@@ -8,12 +8,14 @@
                 h3 {{ ws.user.name}} ( {{ws.user.email}} )
                 button.btn.btn-primary.btn-xs(ng-click="ws.showWorkspace = !ws.showWorkspace")
                     | Show Workspace
-                button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")
-                    | Show RAW
-                button.btn.btn-default.btn-xs(ng-click="fetchRecentWorkspaces(ws)")
+                button.btn.btn-primary.btn-xs(ng-click="fetchRecentWorkspaces(ws)")
                     | Fetch Recent Workspaces
+                button.btn.btn-primary.btn-xs(ng-click="fetchTimeline(ws)")
+                    | Fetch Timeline
                 button.btn.btn-default.btn-xs(ng-click="ws.hideWorkspace = !ws.hideWorkspace")
                     | Toggle Workspaces
+                button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")
+                    | Show RAW
 
                 plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'")
 
@@ -30,5 +32,6 @@
                             div(ng-repeat="tab in keys(up.files) track by $index")
                                 textarea.form-control(rows="10", ng-model="up.files[tab]")
 
+                .chart(ng-if="ws.chart", ac-chart="'line'", ac-data="ws.chart", style="height: 400px; width: 100%")
                 pre(ng-if="ws.showRaw") {{ws | json}}
                 

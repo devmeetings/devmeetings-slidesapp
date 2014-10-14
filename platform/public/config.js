@@ -48,13 +48,15 @@ require.config({
         "angulartics-ga": "../components/angulartics/dist/angulartics-ga.min",
         "angular-marked": "../components/angular-marked/angular-marked",
         "marked": "../components/marked/lib/marked",
+        "angular-charts": "../components/angular-charts/dist/angular-charts.min",
+        "d3": "../components/d3/d3.min",
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
         "dm-observe": "../dm-observe/dm-observe",
         "dm-stream": "../dm-stream/dm-stream",
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
-        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer"
+        "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
     },
     "map": {
         "*": {
@@ -97,6 +99,10 @@ require.config({
         },
         "angular-ui-sortable": {
             "deps": ["angular", "jquery-ui"],
+            "exports": "angular"
+        },
+        "angular-charts": {
+            "deps": ["angular", "d3"],
             "exports": "angular"
         },
         "restangular": {
