@@ -10,8 +10,10 @@
                     | Show Workspace
                 button.btn.btn-primary.btn-xs(ng-click="fetchRecentWorkspaces(ws)")
                     | Fetch Recent Workspaces
-                button.btn.btn-primary.btn-xs(ng-click="fetchTimeline(ws)")
+                button.btn.btn-primary.btn-xs(ng-click="fetchTimeline(ws)", ng-if="!ws.chart")
                     | Fetch Timeline
+                button.btn.btn-primary.btn-xs(ng-click="ws.chart = null; ws.timeline = null", ng-if="ws.chart")
+                    | Remove Timeline
                 button.btn.btn-default.btn-xs(ng-click="ws.hideWorkspace = !ws.hideWorkspace")
                     | Toggle Workspaces
                 button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")

@@ -54,9 +54,11 @@ var EventsWorkspaces = {
             lastAccessTime: 1,
             files: 1
         }).sort({
-            _id: -1
+            _id: 1
         }).lean(), 'exec').then(function(workspaces) {
-            var ws = workspaces.map(function(workspace) {
+            var ws = workspaces.filter(function(x, idx) {
+                return idx % 4 === 0;
+            }).map(function(workspace) {
                 workspace.createTime = new mongoose.Types.ObjectId(workspace._id).getTimestamp();
 
                 var fileNames = Object.keys(workspace.files);
