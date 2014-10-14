@@ -29,6 +29,7 @@ define([
             $scope.fetchTimeline = function(ws) {
                 dmWorkspaces.getUserTimeline(ws.user._id).then(function(timeline) {
                     ws.timeline = timeline;
+                    ws.type = 'area';
                     ws.chart = $scope.getChartData(timeline);
                 });
             };
@@ -56,7 +57,10 @@ define([
                 };
             };
 
+            $scope.chartTypes = ['area', 'line', 'bar', 'point', 'pie'];
+
             $scope.chartConfig = {
+                tooltips: true,
                 click: function(d) {
                     console.log(d);
                 },
