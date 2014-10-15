@@ -38,7 +38,7 @@ module.exports = {
 		}
 
 		try {
-			var requireWhitelist = [];
+			var requireWhitelist = ['q', 'cylon'];
 			var output = [];
 			vm.runInNewContext(msg.code, {
 		        console: {
