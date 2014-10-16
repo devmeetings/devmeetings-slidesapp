@@ -21,7 +21,7 @@ define([
     };
     /* jshint ignore:end */
 
-    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 300).directive('slideJsmicrotasks', [
+    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 8).directive('slideJsmicrotasks', [
 
         function() {
             return {
