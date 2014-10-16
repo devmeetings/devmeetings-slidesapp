@@ -6,6 +6,7 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-navbar/xplatform-navbar',
         'xplatform/controllers/dm-xplatform-index/xplatform-index',
         'directives/plugins-loader',
+        'xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer',
         'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
         'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
         'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
@@ -68,7 +69,7 @@ require(['angular',
 
         xplatformApp.config(['$stateProvider', '$urlRouterProvider',
             function($stateProvider, $urlRouterProvider) {
-            
+
                 $stateProvider.state('redirect', {
                     url: '/redirect'
                 });
@@ -272,7 +273,7 @@ require(['angular',
                             controller: 'dmXplatformSpace'
                         },
                     },
-                    onEnter: function ($rootScope) {
+                    onEnter: function($rootScope) {
                         $rootScope.xplatformData.columns = {
                             left: 0,
                             mid: 12,
@@ -357,7 +358,17 @@ require(['angular',
                         }
                     }
                 });
-                
+
+                $stateProvider.state('index.space.trainer', {
+                    url: '/trainer',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer.html',
+                            controller: 'dmXplatformTrainer'
+                        }
+                    }
+                });
+
                 $urlRouterProvider.when('/player/', '/player/53ce34758fb745d156d54301/0');
                 $urlRouterProvider.when('/', '/courses');
                 $urlRouterProvider.otherwise('/courses');
@@ -365,4 +376,3 @@ require(['angular',
         ]);
         bootstrap('xplatform');
     });
-

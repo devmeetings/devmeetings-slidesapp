@@ -1,4 +1,8 @@
-define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './microtask_regexp', './microtask_output', './microtask_fiddle'], function(module, _, sliderPlugins, ace, jsAssert, microtaskRegexp, output, fiddleOutput) {
+define([
+    'module', '_', 'slider/slider.plugins', 'xplatform/directives/dm-taskicon/dm-taskicon',
+    './microtask_js_assert', './microtask_regexp', './microtask_output', './microtask_fiddle'
+], function(
+    module, _, sliderPlugins, jsAssert, microtaskRegexp, output, fiddleOutput) {
     'use strict';
 
     var path = sliderPlugins.extractPath(module);
@@ -17,7 +21,7 @@ define(['module', '_', 'slider/slider.plugins', './microtask_js_assert', './micr
     };
     /* jshint ignore:end */
 
-    sliderPlugins.registerPlugin('slide.sidebar', 'microtasks', 'slide-jsmicrotasks', 500).directive('slideJsmicrotasks', [
+    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 8).directive('slideJsmicrotasks', [
 
         function() {
             return {

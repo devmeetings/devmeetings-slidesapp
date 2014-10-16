@@ -64,8 +64,10 @@ module.exports = function(app) {
     app.post('/api/events', apiAuthenticated, events.create);
     app.get('/api/events/:id', apiAuthenticated, events.get);
     app.delete('/api/events/:event', apiAuthenticated, events.delete);
+
     app.post('/api/event_task_done/:event/:task/:done', apiAuthenticated, events.eventTaskDone);
     app.post('/api/event_visibility/:event/:visible', apiAuthenticated, events.changeVisibility);
+
     app.post('/api/event_iteration/:event', apiAuthenticated, events.eventIterationCreate);
     app.delete('/api/event_iteration/:event/:iteration', apiAuthenticated, events.eventIterationDelete);
     app.put('/api/event_iteration/:event/:iteration/status', apiAuthenticated, events.eventIterationStatus);
@@ -88,7 +90,7 @@ module.exports = function(app) {
     //app.delete('/api/delete_event_task/:event/:task', apiAuthenticated, events.deleteEventTask);
 
 
-    
+
     var slidesaves = require('../app/controllers/slidesaves');
     app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
     app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
@@ -96,6 +98,13 @@ module.exports = function(app) {
     app.post('/api/slidesave_from_slide/:slide', apiAuthenticated, slidesaves.slidesaveFromSlide);
     app.put('/api/slidesaves/:slide', apiAuthenticated, slidesaves.edit);
     app.delete('/api/slidesaves/:slide', apiAuthenticated, slidesaves.delete);
+
+
+    var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
+    app.get('/api/workspaces/:baseSlide', apiAuthenticated, eventsWorkspaces.get);
+    app.get('/api/workspaces/users/:userId', apiAuthenticated, eventsWorkspaces.getPages);
+    app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, eventsWorkspaces.getTimeline);
+
 
     app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
 
@@ -152,7 +161,7 @@ module.exports = function(app) {
     var redirections = {
         successRedirect: '/#/redirect',
         failureRedirect: '/login',
-        failureFlash: true 
+        failureFlash: true
     };
 
     app.post('/auth/login', passport.authenticate('local', redirections));

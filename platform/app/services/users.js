@@ -14,7 +14,7 @@ var UserModel = require('../models/user'),
  * @param {*} callback
  */
 var comparePassword = function(candidatePassword, hash, callback) {
-    var bcrypt = require('bcrypt');
+    var bcrypt = require('bcryptjs');
     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
         return err ? callback(err) : callback(null, isMatch);
     });
@@ -30,7 +30,7 @@ UserModel.schema.pre('save', function(next) {
         return next();
     }
 
-    var bcrypt = require('bcrypt');
+    var bcrypt = require('bcryptjs');
     // generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) {

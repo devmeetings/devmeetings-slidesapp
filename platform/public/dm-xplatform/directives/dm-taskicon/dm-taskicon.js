@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'slider/slider'], function(angular, slider) {
 
     var images = {
         task: {
@@ -15,18 +15,20 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         }
     };
 
-    xplatformApp.directive('dmTaskicon', [function () {
-        return {
-            restrict: 'E',
-            scope: {
-                type: '='
-            }, 
-            replace: 'true',
-            templateUrl: '/static/dm-xplatform/directives/dm-taskicon/dm-taskicon.html',
-            link: function (scope, element, attr) {
-                scope.images = images; 
-            }
-        };
-    }]);
-});
+    slider.directive('dmTaskicon', [
 
+        function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    type: '='
+                },
+                replace: 'true',
+                templateUrl: '/static/dm-xplatform/directives/dm-taskicon/dm-taskicon.html',
+                link: function(scope, element, attr) {
+                    scope.images = images;
+                }
+            };
+        }
+    ]);
+});

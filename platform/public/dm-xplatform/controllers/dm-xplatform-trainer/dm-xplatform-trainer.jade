@@ -1,0 +1,48 @@
+.col-xs-12.full-height
+    .course-background.full-height
+        h3 Workspaces
+        .list-group.workspace-list.full-height
+            .list-group-item(ng-repeat="ws in workspaces")
+                small.text-muted.label.label-default.pull-right
+                    | User: {{ws.user._id}}
+                smal.text-muted.label.label-info.pull-right
+                    | WS: {{ws._id}}
+                h3 {{ ws.user.name}} ( {{ws.user.email}} )
+                button.btn.btn-primary.btn-xs(ng-click="ws.showWorkspace = !ws.showWorkspace")
+                    | Show Workspace
+                button.btn.btn-primary.btn-xs(ng-click="fetchRecentWorkspaces(ws)")
+                    | Fetch Recent Workspaces
+                button.btn.btn-primary.btn-xs(ng-click="fetchTimeline(ws)", ng-if="!ws.chart")
+                    | Fetch Timeline
+                button.btn.btn-primary.btn-xs(ng-click="ws.chart = null; ws.timeline = null", ng-if="ws.chart")
+                    | Remove Timeline
+                button.btn.btn-default.btn-xs(ng-click="ws.hideWorkspace = !ws.hideWorkspace")
+                    | Toggle Workspaces
+                button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")
+                    | Show RAW
+
+                plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'")
+
+                .list-group(ng-if="!ws.hideWorkspace")
+                    .list-group-item(ng-repeat="up in ws.userPages track by $index | orderBy:'_id'")
+                        span.label.label-success(am-time-ago="up.lastAccessTime")
+                        span.label.label-info
+                            | {{ up.hash }}
+                        button.btn.btn-default.btn-xs(ng-click="showCode = !showCode")
+                            | Show Code
+                        a.btn.btn-default.btn-xs(target="workspace", ng-href="/api/page/{{up.hash}}/")
+                            span.fa.fa-external-link
+                        div(ng-if="showCode")
+                            div(ng-repeat="tab in keys(up.files) track by $index")
+                                textarea.form-control(rows="10", ng-model="up.files[tab]")
+
+                .chart(ng-if="ws.chart", 
+                    ac-chart="ws.type", 
+                    ac-data="ws.chart", 
+                    ac-config="chartConfig",
+                    style="height: 400px; width: 100%")
+                div(ng-if="ws.chart")
+                    span.label.label-info Total: {{ws.timeline.length}}
+                    select.form-control(ng-model="ws.type", ng-options="t for t in chartTypes")
+                pre(ng-if="ws.showRaw") {{ws | json}}
+                

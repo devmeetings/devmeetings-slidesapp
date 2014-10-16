@@ -37,6 +37,7 @@
     "angular-contenteditable": "~0.3.7",
     "angulartics": "~0.16.4",
     "angular-marked": "Hypercubed/angular-marked#~0.0.12",
-    "angular-bootstrap": "~0.11.0"
+    "angular-bootstrap": "~0.11.0",
+    "angular-charts": "~0.2.6"
   }
 }
