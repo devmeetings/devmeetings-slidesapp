@@ -6,7 +6,7 @@ require([
     "services/DeckAndSlides",
     "services/Sockets",
     "directives/plugins-loader"
-], function(slider, sliderPlugins, bootstrap) {
+], function(tpl, slider, sliderPlugins, bootstrap) {
 
     slider.controller('TrainerCtrl', ['$scope', '$window', 'DeckAndSlides',
 
