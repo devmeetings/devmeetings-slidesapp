@@ -1,4 +1,4 @@
-div(ng-repeat='task in microtasks',
+.microtasks(ng-repeat='task in microtasks',
     tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="bottom")
     .microtask-holder(ng-class='{"microtask-active": !taskMeta[task.description].completed}')
 
