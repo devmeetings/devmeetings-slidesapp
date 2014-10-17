@@ -48,7 +48,7 @@ exports.initApi = function(prefix, app, authenticated) {
             res.send(400, err);
         }).then(null, console.error);
     });
-    app.get(prefix + "page/:hash/:file?*", authenticated, function(req, res) {
+    app.get(prefix + "page/:hash/:file?*", function(req, res) {
         var file = req.params.file || "index.html";
         var first = req.params[0];
 
@@ -59,7 +59,6 @@ exports.initApi = function(prefix, app, authenticated) {
         var internalFile = getInternalFileName(file);
         
         Workspaces.findByHash(req.params.hash).then(function(workspace) {
-            console.dir(Object.keys(workspace.files));
             if (!workspace || !workspace.files[internalFile]) {
                 res.send(404);
                 return;
