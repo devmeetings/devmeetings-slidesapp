@@ -7,7 +7,10 @@ var Event = new Schema({
     order: Number,
     description: String,
     visible: Boolean,
-    
+    intro: {
+        type: Schema.Types.ObjectId,
+        ref: "slides"
+    },
     iterations: [{
         title: String,
         status: String,
@@ -17,6 +20,10 @@ var Event = new Schema({
             material: {
                 type: Schema.Types.ObjectId,
                 ref: 'recording'
+            },
+            deck: {
+                type: Schema.Types.ObjectId,
+                ref: 'decks'
             },
             annotations: [{
                 title: String,
