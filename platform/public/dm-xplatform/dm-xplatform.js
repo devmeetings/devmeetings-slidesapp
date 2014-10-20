@@ -26,7 +26,9 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-question/dm-xplatform-question',
         'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
         'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create',
-        'xplatform/controllers/dm-xplatform-saves/dm-xplatform-saves'
+        'xplatform/controllers/dm-xplatform-saves/dm-xplatform-saves',
+        'xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck',
+        'xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide'
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -286,11 +288,12 @@ require(['angular',
                     }
                 });
 
-                $stateProvider.state('index.space.intro', {
-                    url: '/intro',
+                $stateProvider.state('index.space.slide', {
+                    url: '/slide/:slide',
                     views: {
                         content: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-intro/index.html',
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide.html',
+                            controller: 'dmXplatformDeckSlide'
                         },
                         first: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
@@ -299,8 +302,22 @@ require(['angular',
                     }
                 });
 
-                $stateProvider.state('index.space.task', {
-                    url: '/task/:slide?parent',
+                 $stateProvider.state('index.space.question', {
+                    url: '/question/:slide?parent',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
+                            controller: 'dmXplatformSlide'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.workspace', {
+                    url: '/workspace/:slide',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
@@ -319,6 +336,20 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo.html',
                             controller: 'dmXplatformTodo'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.deck', {
+                    url: '/deck/:iteration/:deck',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck.html',
+                            controller: 'dmXplatformDeck'
                         },
                         first: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',

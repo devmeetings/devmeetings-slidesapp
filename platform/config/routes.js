@@ -75,6 +75,7 @@ module.exports = function(app) {
 
     var decks = require('../app/controllers/decks');
     app.get('/api/decks', apiAuthenticated, decks.list);
+    app.get('/api/decks/:id', apiAuthenticated, decks.get);
     app.post('/api/decks', apiAuthenticated, authorized('admin:slides'),decks.create);
     app.delete('/api/decks/:id', apiAuthenticated, authorized('admin:super'), decks.delete);
     app.put('/api/decks/:id', apiAuthenticated, authorized('admin:slides'), decks.edit);
