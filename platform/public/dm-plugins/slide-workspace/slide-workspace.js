@@ -236,7 +236,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                                 var tab = scope.activeTab;
                                 updateMode(editor, active, tab.mode);
-                                updateEditorContent(editor, tab, true, newTab);
+                                updateEditorContent(editor, tab, true);
                                 triggerSave();
                             });
                         });
@@ -387,7 +387,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         options.lastVisibleRow = editor.getLastVisibleRow();
     }
 
-    function updateEditorContent(editor, tab, forceUpdateCursor, newTab) {
+    function updateEditorContent(editor, tab, forceUpdateCursor) {
         // Remember cursor
         var pos = editor.getSelectionRange();
         editor.setValue(tab.content, -1);
