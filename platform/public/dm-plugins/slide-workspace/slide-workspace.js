@@ -5,7 +5,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
     var path = sliderPlugins.extractPath(module);
 
 
-
     var applyChangesLater = _.debounce(function(scope) {
         scope.$apply();
     }, 500);
@@ -131,6 +130,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             enableLiveAutocompletion: false
                         });
 
+                        editor.getSession().setUndoManager(new XUndoManager(scope, scope.workspace.tabs));
+
                         scope.$watch('output.sideBySide', function() {
                             scope.output.show = false;
                             // Refresh view
@@ -221,7 +222,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         });
 
                         // Tab switch
-                        scope.$watch('workspace.active', function() {
+                        scope.$watch('workspace.active', function(newTab, oldTab) {
                             withoutSync(function() {
                                 var ws = scope.workspace;
                                 var active = ws.active;
@@ -229,10 +230,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                                 if (!scope.activeTab) {
                                     return;
                                 }
+                                if (newTab !== oldTab) {
+                                    scope.tabsSwitched = true;
+                                }
 
                                 var tab = scope.activeTab;
                                 updateMode(editor, active, tab.mode);
-                                updateEditorContent(editor, tab, true);
+                                updateEditorContent(editor, tab, true, newTab);
                                 triggerSave();
                             });
                         });
@@ -241,6 +245,107 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                         editor.resize();
                     }, 200);
+
+
+                    //------------------------- Test Undo Manager ---------------------------------------------------------------
+
+                    var XUndoManager = function(scope,tabs) {
+                        this.tabsStack = {};
+                        this.tabs = tabs;
+                        this.reset();
+                    };
+
+                    (function() {
+                        this.activeTab = function(){
+                            return scope.workspace.active;
+                        };
+
+                        this.execute = function(options) {
+                            if (scope.tabsSwitched){
+                                //prevent from call execute methoid on tab switching
+                                scope.tabsSwitched = false;
+                                return;
+                            }
+
+                            var deltas = options.args[0];
+                            this.$doc  = options.args[1];
+                            if (options.merge && this.hasUndo()){
+                                this.tabsStack[this.activeTab()].dirtyCounter--;
+                                deltas =  this.tabsStack[this.activeTab()].$undoStack.pop().concat(deltas);
+                            }
+                            this.tabsStack[this.activeTab()].$undoStack.push(deltas);
+                            this.tabsStack[this.activeTab()].$redoStack = [];
+
+                            if (this.tabsStack[this.activeTab()].dirtyCounter < 0) {
+                                this.tabsStack[this.activeTab()].dirtyCounter = NaN;
+                            }
+                            this.tabsStack[this.activeTab()].dirtyCounter++;
+                        };
+                        this.undo = function(dontSelect) {
+                            console.log('undo');
+                            if (!this.hasUndo()){
+                                return;
+                            }
+                            var deltas =  this.tabsStack[this.activeTab()].$undoStack.pop();
+                            var undoSelectionRange = null;
+                            if (deltas) {
+                                undoSelectionRange =
+                                    this.$doc.undoChanges(deltas, dontSelect);
+                                this.tabsStack[this.activeTab()].$redoStack.push(deltas);
+                                this.tabsStack[this.activeTab()].dirtyCounter--;
+                            }
+
+                            return undoSelectionRange;
+                        };
+                        this.redo = function(dontSelect) {
+                            console.log('redo');
+                            var deltas =  this.tabsStack[this.activeTab()].$redoStack.pop();
+                            var redoSelectionRange = null;
+                            if (deltas) {
+                                redoSelectionRange =
+                                    this.$doc.redoChanges(deltas, dontSelect);
+                                this.tabsStack[this.activeTab()].$undoStack.push(deltas);
+                                this.tabsStack[this.activeTab()].dirtyCounter++;
+                            }
+
+                            return redoSelectionRange;
+                        };
+                        this.reset = function() {
+                            console.log('reset');
+                            var prop = '';
+
+                            for (prop in this.tabs){
+                                this.tabsStack[prop] = {
+                                    $undoStack : [],
+                                    $redoStack : [],
+                                    dirtyCounter : 0
+                                };
+                            }
+
+
+
+                        };
+                        this.hasUndo = function() {
+                            console.log('hasUndo');
+                            return  this.tabsStack[this.activeTab()].$undoStack.length > 1;
+                        };
+                        this.hasRedo = function() {
+                            console.log('hasRedo');
+                            return  this.tabsStack[this.activeTab()].$redoStack.length > 0;
+                        };
+                        this.markClean = function() {
+                            console.log('markClean');
+                            this.tabsStack[this.activeTab()].dirtyCounter = 0;
+                        };
+                        this.isClean = function() {
+                            console.log('isClean');
+                            return  this.tabsStack[this.activeTab()].dirtyCounter === 0;
+                        };
+
+                    }).call(XUndoManager.prototype);
+
+                    //------------------------------------------------------------------------------------------------------------
+
                 }
             };
         }
@@ -257,7 +362,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         options.lastVisibleRow = editor.getLastVisibleRow();
     }
 
-    function updateEditorContent(editor, tab, forceUpdateCursor) {
+    function updateEditorContent(editor, tab, forceUpdateCursor, newTab) {
         // Remember cursor
         var pos = editor.getSelectionRange();
         editor.setValue(tab.content, -1);
