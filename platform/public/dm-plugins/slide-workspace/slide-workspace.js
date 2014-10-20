@@ -247,71 +247,99 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     }, 200);
 
 
-                    //------------------------- Test Undo Manager ---------------------------------------------------------------
+                    //------------------------- X Undo Manager ---------------------------------------------------------------
 
                     var XUndoManager = function(scope,tabs) {
                         this.tabsStack = {};
                         this.tabs = tabs;
+                        this.enableLogging = false;
+                        this.disableExecuteMethodOnFirstCall = true;
                         this.reset();
                     };
 
                     (function() {
-                        this.activeTab = function(){
-                            return scope.workspace.active;
+                        this.showLog = function(msg){
+                          if (this.enableLogging){
+                              console.log(msg);
+                          }
                         };
+                        this.getCurrentTabsStack = function(){
+                          return  this.tabsStack[scope.workspace.active];
+                        };
+                        this.mergeUndoStack = function (merge, deltas, currentStack){
+                            if (merge && this.hasUndo()) {
+                                currentStack.dirtyCounter--;
+                                deltas = currentStack.$undoStack.pop().concat(deltas);
+                            }
 
+                            return deltas;
+                        };
+                        this.setUpStack = function(options){
+                            var deltas = options.args[0],
+                                currentStack =   this.getCurrentTabsStack();
+                            this.$doc = options.args[1];
+
+                            deltas = this.mergeUndoStack(options.merge,deltas,currentStack);
+                            currentStack.$undoStack.push(deltas);
+                            currentStack.$redoStack = [];
+
+                            if (currentStack.dirtyCounter < 0) {
+                                currentStack.dirtyCounter = NaN;
+                            }
+                            currentStack.dirtyCounter++;
+                        };
                         this.execute = function(options) {
-                            if (scope.tabsSwitched){
-                                //prevent from call execute methoid on tab switching
-                                scope.tabsSwitched = false;
-                                return;
-                            }
+                            this.showLog('execute');
+                            //Execute method shoul not call main logic for setup up undo stack when
+                            // tabs are switched or when the first tab is initialized
+                            if (!this.disableExecuteMethodOnFirstCall){
 
-                            var deltas = options.args[0];
-                            this.$doc  = options.args[1];
-                            if (options.merge && this.hasUndo()){
-                                this.tabsStack[this.activeTab()].dirtyCounter--;
-                                deltas =  this.tabsStack[this.activeTab()].$undoStack.pop().concat(deltas);
-                            }
-                            this.tabsStack[this.activeTab()].$undoStack.push(deltas);
-                            this.tabsStack[this.activeTab()].$redoStack = [];
+                                if (scope.tabsSwitched){
+                                    //prevent from call execute methoid on tab switching
+                                    scope.tabsSwitched = false;
+                                }
+                                else {
+                                    this.setUpStack(options);
+                                }
 
-                            if (this.tabsStack[this.activeTab()].dirtyCounter < 0) {
-                                this.tabsStack[this.activeTab()].dirtyCounter = NaN;
                             }
-                            this.tabsStack[this.activeTab()].dirtyCounter++;
+                            else{
+                                this.disableExecuteMethodOnFirstCall = false;
+                            }
                         };
                         this.undo = function(dontSelect) {
-                            console.log('undo');
+                            this.showLog('undo');
                             if (!this.hasUndo()){
                                 return;
                             }
-                            var deltas =  this.tabsStack[this.activeTab()].$undoStack.pop();
+                            var currentStack =   this.getCurrentTabsStack(),
+                                deltas =  currentStack.$undoStack.pop();
                             var undoSelectionRange = null;
                             if (deltas) {
                                 undoSelectionRange =
                                     this.$doc.undoChanges(deltas, dontSelect);
-                                this.tabsStack[this.activeTab()].$redoStack.push(deltas);
-                                this.tabsStack[this.activeTab()].dirtyCounter--;
+                                currentStack.$redoStack.push(deltas);
+                                currentStack.dirtyCounter--;
                             }
 
                             return undoSelectionRange;
                         };
                         this.redo = function(dontSelect) {
-                            console.log('redo');
-                            var deltas =  this.tabsStack[this.activeTab()].$redoStack.pop();
+                            this.showLog('redo');
+                            var currentStack =   this.getCurrentTabsStack(),
+                                deltas = currentStack.$redoStack.pop();
                             var redoSelectionRange = null;
                             if (deltas) {
                                 redoSelectionRange =
                                     this.$doc.redoChanges(deltas, dontSelect);
-                                this.tabsStack[this.activeTab()].$undoStack.push(deltas);
-                                this.tabsStack[this.activeTab()].dirtyCounter++;
+                                currentStack.$undoStack.push(deltas);
+                                currentStack.dirtyCounter++;
                             }
 
                             return redoSelectionRange;
                         };
                         this.reset = function() {
-                            console.log('reset');
+                            this.showLog('reset');
                             var prop = '';
 
                             for (prop in this.tabs){
@@ -321,25 +349,22 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                                     dirtyCounter : 0
                                 };
                             }
-
-
-
                         };
                         this.hasUndo = function() {
-                            console.log('hasUndo');
-                            return  this.tabsStack[this.activeTab()].$undoStack.length > 1;
+                            this.showLog('hasUndo');
+                            return  this.getCurrentTabsStack().$undoStack.length > 0;
                         };
                         this.hasRedo = function() {
-                            console.log('hasRedo');
-                            return  this.tabsStack[this.activeTab()].$redoStack.length > 0;
+                            this.showLog('hasRedo');
+                            return  this.getCurrentTabsStack().$redoStack.length > 0;
                         };
                         this.markClean = function() {
-                            console.log('markClean');
-                            this.tabsStack[this.activeTab()].dirtyCounter = 0;
+                            this.showLog('markClean');
+                            this.getCurrentTabsStack().dirtyCounter = 0;
                         };
                         this.isClean = function() {
-                            console.log('isClean');
-                            return  this.tabsStack[this.activeTab()].dirtyCounter === 0;
+                            this.showLog('isClean');
+                            return  this.getCurrentTabsStack().dirtyCounter === 0;
                         };
 
                     }).call(XUndoManager.prototype);
