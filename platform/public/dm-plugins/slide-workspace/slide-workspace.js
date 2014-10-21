@@ -1,15 +1,15 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager'], function (module, _, sliderPlugins, ace, WorkspaceUndoManager) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
     var path = sliderPlugins.extractPath(module);
 
 
-    var applyChangesLater = _.debounce(function(scope) {
+    var applyChangesLater = _.debounce(function (scope) {
         scope.$apply();
     }, 500);
 
-    var triggerChangeLater = _.throttle(function(scope) {
+    var triggerChangeLater = _.throttle(function (scope) {
         sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
         triggerSave();
     }, 200, {
@@ -17,12 +17,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         trailing: true
     });
 
-    var triggerSave = _.throttle(function() {
+    var triggerSave = _.throttle(function () {
         sliderPlugins.trigger('slide.save');
     }, 20);
 
-    sliderPlugins.filter('objectKeys', function() {
-        return function(object) {
+    sliderPlugins.filter('objectKeys', function () {
+        return function (object) {
             return Object.keys(object);
         };
     });
@@ -30,7 +30,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
     sliderPlugins.registerPlugin('slide', 'workspace', 'slide-workspace', 3900).directive('slideWorkspace', [
         '$timeout', '$window', '$rootScope',
-        function($timeout, $window, $rootScope) {
+        function ($timeout, $window, $rootScope) {
             return {
                 restrict: 'E',
                 scope: {
@@ -39,14 +39,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                     mode: '='
                 },
                 templateUrl: path + '/slide-workspace.html',
-                link: function(scope, element) {
+                link: function (scope, element) {
                     scope.output = {
                         width: 6,
                         show: false,
                         sideBySide: true
                     };
 
-                    scope.changeWidth = function() {
+                    scope.changeWidth = function () {
                         var out = scope.output;
                         out.width -= 2;
                         out.sideBySide = true;
@@ -60,7 +60,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
 
                     // This is temporary hack!
-                    function promptForName(old) {
+                    function promptForName (old) {
                         var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : undefined);
                         if (!name) {
                             return;
@@ -68,7 +68,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         return name.replace(/\./g, '|');
                     }
 
-                    function deleteTabAndFixActive(tabName, newName) {
+                    function deleteTabAndFixActive (tabName, newName) {
                         var ws = scope.workspace;
                         delete ws.tabs[tabName];
                         if (ws.active === tabName) {
@@ -76,7 +76,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         }
                     }
 
-                    scope.insertTab = function() {
+                    scope.insertTab = function () {
                         var name = promptForName();
                         if (!name) {
                             return;
@@ -85,14 +85,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             "content": ""
                         };
                     };
-                    scope.removeTab = function(tabName) {
+                    scope.removeTab = function (tabName) {
                         var sure = $window.confirm("Sure to remove the file?");
                         if (!sure) {
                             return;
                         }
                         deleteTabAndFixActive(tabName);
                     };
-                    scope.editTabName = function(tabName) {
+                    scope.editTabName = function (tabName) {
                         var newName = promptForName(tabName);
                         if (!newName) {
                             return;
@@ -102,10 +102,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         deleteTabAndFixActive(tabName, newName);
                     };
 
-                    scope.tabsOrdering = function(tab) {
+                    scope.tabsOrdering = function (tab) {
                         return getExtension(tab);
                     };
-                    scope.toFileName = function(tab) {
+                    scope.toFileName = function (tab) {
                         return tab.replace(/\|/g, '.');
                     };
 
@@ -117,7 +117,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                      */
 
                     var $e = element.find('.editor');
-                    $timeout(function() {
+                    $timeout(function () {
                         var editor = ace.edit($e[0]);
                         editor.setTheme('ace/theme/' + EDITOR_THEME);
                         editor.setValue("");
@@ -130,9 +130,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             enableLiveAutocompletion: false
                         });
 
-                        editor.getSession().setUndoManager(new XUndoManager(scope, scope.workspace.tabs));
+                        editor.getSession().setUndoManager(new WorkspaceUndoManager(scope, scope.workspace.tabs));
 
-                        scope.$watch('output.sideBySide', function() {
+                        scope.$watch('output.sideBySide', function () {
                             scope.output.show = false;
                             // Refresh view
                             triggerChangeLater(scope);
@@ -144,18 +144,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         // TODO [ToDr] When changing tabs cursor synchronization is triggered like crazy.
                         var disableSync = false;
 
-                        function withoutSync(call) {
+                        function withoutSync (call) {
                             disableSync = true;
                             call();
                             disableSync = false;
                         }
 
-                        function refreshActiveTab() {
+                        function refreshActiveTab () {
                             var ws = scope.workspace;
                             scope.activeTab = ws.tabs[ws.active];
                         }
 
-                        editor.on('change', function() {
+                        editor.on('change', function () {
                             if (disableSync) {
                                 return;
                             }
@@ -164,7 +164,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                             applyChangesLater(scope);
                         });
 
-                        editor.getSession().getSelection().on('changeCursor', function() {
+                        editor.getSession().getSelection().on('changeCursor', function () {
                             if (disableSync) {
                                 return;
                             }
@@ -175,41 +175,41 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         });
 
                         // Active tab
-                        scope.$watch('activeTab.mode', function(mode) {
+                        scope.$watch('activeTab.mode', function (mode) {
                             if (!mode) {
                                 return;
                             }
                             updateMode(editor, scope.workspace.active, mode);
                         });
 
-                        scope.$watch('activeTab.content', function(content) {
+                        scope.$watch('activeTab.content', function (content) {
                             if (!content) {
                                 return;
                             }
 
                             if (scope.mode === 'player') {
-                                withoutSync(function() {
+                                withoutSync(function () {
                                     updateEditorContent(editor, scope.activeTab);
                                 });
                             }
                             triggerChangeLater(scope);
                         });
 
-                        scope.$watch('activeTab.editor', function() {
+                        scope.$watch('activeTab.editor', function () {
                             if (scope.mode !== 'player') {
                                 return;
                             }
 
-                            withoutSync(function() {
+                            withoutSync(function () {
                                 updateEditorOptions(editor, scope.activeTab);
                             });
                         });
 
-                        scope.$watch('activeTab', function(){
+                        scope.$watch('activeTab', function () {
                             if (!scope.activeTab) {
                                 return;
                             }
-                            withoutSync(function(){
+                            withoutSync(function () {
                                 updateEditorContent(editor, scope.activeTab);
                                 updateEditorOptions(editor, scope.activeTab);
                             });
@@ -217,13 +217,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
 
                         scope.$watch('workspace', refreshActiveTab);
 
-                        scope.$on('slide:update', function(){
+                        scope.$on('slide:update', function () {
                             refreshActiveTab();
                         });
 
                         // Tab switch
-                        scope.$watch('workspace.active', function(newTab, oldTab) {
-                            withoutSync(function() {
+                        scope.$watch('workspace.active', function (newTab, oldTab) {
+                            withoutSync(function () {
                                 var ws = scope.workspace;
                                 var active = ws.active;
                                 scope.activeTab = ws.tabs ? ws.tabs[active] : null;
@@ -231,7 +231,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                                     return;
                                 }
                                 if (newTab !== oldTab) {
-                                    scope.tabsSwitched = true;
+                                    // scope.tabsSwitched = true;
+                                    editor.getSession().getUndoManager().setUpTabsSwitched(true);
                                 }
 
                                 var tab = scope.activeTab;
@@ -246,148 +247,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
                         editor.resize();
                     }, 200);
 
-
-                    //------------------------- X Undo Manager ---------------------------------------------------------------
-
-                    var XUndoManager = function(scope,tabs) {
-                        this.tabsStack = {};
-                        this.tabs = tabs;
-                        this.enableLogging = false;
-                        this.disableExecuteMethodOnFirstCall = true;
-                        this.reset();
-                    };
-
-                    (function() {
-                        this.showLog = function(msg){
-                          if (this.enableLogging){
-                              console.log(msg);
-                          }
-                        };
-                        this.getCurrentTabsStack = function(){
-                          return  this.tabsStack[scope.workspace.active];
-                        };
-                        this.mergeUndoStack = function (merge, deltas, currentStack){
-                            if (merge && this.hasUndo()) {
-                                currentStack.dirtyCounter--;
-                                deltas = currentStack.$undoStack.pop().concat(deltas);
-                            }
-
-                            return deltas;
-                        };
-                        this.setUpStack = function(options){
-                            var deltas = options.args[0],
-                                currentStack =   this.getCurrentTabsStack();
-                            this.$doc = options.args[1];
-
-                            deltas = this.mergeUndoStack(options.merge,deltas,currentStack);
-                            currentStack.$undoStack.push(deltas);
-                            currentStack.$redoStack = [];
-
-                            if (currentStack.dirtyCounter < 0) {
-                                currentStack.dirtyCounter = NaN;
-                            }
-                            currentStack.dirtyCounter++;
-                        };
-                        this.execute = function(options) {
-                            this.showLog('execute');
-                            //Execute method shoul not call main logic for setup up undo stack when
-                            // tabs are switched or when the first tab is initialized
-                            if (!this.disableExecuteMethodOnFirstCall){
-
-                                if (scope.tabsSwitched){
-                                    //prevent from call execute methoid on tab switching
-                                    scope.tabsSwitched = false;
-                                }
-                                else {
-                                    this.setUpStack(options);
-                                }
-
-                            }
-                            else{
-                                this.disableExecuteMethodOnFirstCall = false;
-                            }
-                        };
-                        this.undo = function(dontSelect) {
-                            this.showLog('undo');
-                            if (!this.hasUndo()){
-                                return;
-                            }
-                            var currentStack =   this.getCurrentTabsStack(),
-                                deltas =  currentStack.$undoStack.pop();
-                            var undoSelectionRange = null;
-                            if (deltas) {
-                                undoSelectionRange =
-                                    this.$doc.undoChanges(deltas, dontSelect);
-                                currentStack.$redoStack.push(deltas);
-                                currentStack.dirtyCounter--;
-                            }
-
-                            return undoSelectionRange;
-                        };
-                        this.redo = function(dontSelect) {
-                            this.showLog('redo');
-                            var currentStack =   this.getCurrentTabsStack(),
-                                deltas = currentStack.$redoStack.pop();
-                            var redoSelectionRange = null;
-                            if (deltas) {
-                                redoSelectionRange =
-                                    this.$doc.redoChanges(deltas, dontSelect);
-                                currentStack.$undoStack.push(deltas);
-                                currentStack.dirtyCounter++;
-                            }
-
-                            return redoSelectionRange;
-                        };
-                        this.reset = function() {
-                            this.showLog('reset');
-                            var prop = '';
-
-                            for (prop in this.tabs){
-                                this.tabsStack[prop] = {
-                                    $undoStack : [],
-                                    $redoStack : [],
-                                    dirtyCounter : 0
-                                };
-                            }
-                        };
-                        this.hasUndo = function() {
-                            this.showLog('hasUndo');
-                            return  this.getCurrentTabsStack().$undoStack.length > 0;
-                        };
-                        this.hasRedo = function() {
-                            this.showLog('hasRedo');
-                            return  this.getCurrentTabsStack().$redoStack.length > 0;
-                        };
-                        this.markClean = function() {
-                            this.showLog('markClean');
-                            this.getCurrentTabsStack().dirtyCounter = 0;
-                        };
-                        this.isClean = function() {
-                            this.showLog('isClean');
-                            return  this.getCurrentTabsStack().dirtyCounter === 0;
-                        };
-
-                    }).call(XUndoManager.prototype);
-
-                    //------------------------------------------------------------------------------------------------------------
-
                 }
             };
         }
     ]);
 
-    function syncEditorContent(editor, tab) {
+    function syncEditorContent (editor, tab) {
         tab.content = editor.getValue();
     }
 
-    function syncEditorOptions(editor, options) {
+    function syncEditorOptions (editor, options) {
         options.cursorPosition = editor.getCursorPosition();
         options.selectionRange = JSON.parse(JSON.stringify(editor.getSelectionRange()));
         options.firstVisibleRow = editor.getFirstVisibleRow();
         options.lastVisibleRow = editor.getLastVisibleRow();
     }
 
-    function updateEditorContent(editor, tab, forceUpdateCursor) {
+    function updateEditorContent (editor, tab, forceUpdateCursor) {
         // Remember cursor
         var pos = editor.getSelectionRange();
         editor.setValue(tab.content, -1);
@@ -397,7 +273,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         updateEditorOptions(editor, tab, forceUpdateCursor);
     }
 
-    function updateEditorSelection(editor, tab, forceUpdateCursor) {
+    function updateEditorSelection (editor, tab, forceUpdateCursor) {
         var lastRow = editor.getLastVisibleRow();
         var selection = editor.getSelection();
         var range = tab.editor.selectionRange;
@@ -407,7 +283,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         }
     }
 
-    function updateEditorScroll(editor, tab) {
+    function updateEditorScroll (editor, tab) {
         var firstRow = tab.editor.firstVisibleRow;
         // Now check if our selection is still visilbe
         var selectionRow = tab.editor.selectionRange.start.row;
@@ -423,7 +299,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         editor.scrollToLine(Math.floor(selectionRow - scaledRowDiff), false, true);
     }
 
-    function updateEditorOptions(ed, tab, forceUpdateCursor) {
+    function updateEditorOptions (ed, tab, forceUpdateCursor) {
         if (!tab || !tab.editor) {
             return;
         }
@@ -431,11 +307,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         updateEditorScroll(ed, tab);
     }
 
-    function getExtension(name) {
+    function getExtension (name) {
         return name.split('|')[1];
     }
 
-    function updateMode(editor, name, givenMode) {
+    function updateMode (editor, name, givenMode) {
         var modesMap = {
             'js': 'javascript'
         };
@@ -450,20 +326,20 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-workspace-output
         editor.getSession().setMode("ace/mode/" + mode);
     }
 
-    function handleErrorListeners(scope, $window) {
+    function handleErrorListeners (scope, $window) {
         // Errors forwarder
-        var listener = function(ev) {
+        var listener = function (ev) {
             var d = ev.data;
             if (d.type !== 'fiddle-error') {
                 return;
             }
-            scope.$apply(function() {
+            scope.$apply(function () {
                 scope.errors = d.msg;
             });
         };
 
         $window.addEventListener('message', listener);
-        scope.$on('$destroy', function() {
+        scope.$on('$destroy', function () {
             $window.removeEventListener('message', listener);
         });
     }
