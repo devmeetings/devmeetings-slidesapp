@@ -231,7 +231,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                     return;
                                 }
                                 if (newTab !== oldTab) {
-                                    // scope.tabsSwitched = true;
                                     editor.getSession().getUndoManager().setUpTabsSwitched(true);
                                 }
 
