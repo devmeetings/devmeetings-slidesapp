@@ -9,11 +9,21 @@ var PASSWORD = "p";
 
 var cl = new TeamSpeakClient(SERVER_IP, SERVER_PORT);
 
-function send(name, data) {
-    var promise = Q.ninvoke(cl, 'send', name, data);
+
+function wrap(promise) {
     promise.thenSend = function(name, data) {
         return promise.then(send(name, data));
     };
+    var then = promise.then;
+    promise.then = function( /* args */ ) {
+        return wrap(then.apply(promise, arguments));
+    };
+    return promise;
+};
+
+function send(name, data) {
+    var promise = Q.ninvoke(cl, 'send', name, data);
+    return wrap(promise);
 }
 
 send("login", {
