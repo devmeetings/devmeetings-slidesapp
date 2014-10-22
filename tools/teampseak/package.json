@@ -9,6 +9,7 @@
   "author": "",
   "license": "proprietary",
   "dependencies": {
+    "lodash": "^2.4.1",
     "node-teamspeak": "^1.0.4",
     "q": "^1.0.1"
   }
