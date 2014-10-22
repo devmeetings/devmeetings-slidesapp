@@ -11,6 +11,26 @@ var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
     }
 };
 
+var authorized = function(role) {
+    return function(req, res, next) {
+        if (req.user && req.user.acl.indexOf(role) !== -1) {
+            next();
+        } else {
+            res.send(403);
+        }
+    };
+};
+var authorizedForEditMode = function(role) {
+    var auth = authorized(role);
+    return function(req, res, next) {
+        if (req.query.edit) {
+            auth(req, res, next);
+        } else {
+            next();
+        }
+    };
+};
+
 var redirectIfNeeded = function(req, res, next) {
     if (req.session.redirect_to) {
         var redirect = req.session.redirect_to;
@@ -37,6 +57,12 @@ var authenticateAsAnon = function(req, res, next) {
         next();
     }
 };
+var nonAnon = function(req, res, next) {
+    if (req.user && req.user.email === 'anon@todr.me') {
+        req.logout();
+    }
+    next();
+};
 
 var apiAuthenticated = shouldBeAuthenticated.bind(null, false);
 var authenticated = shouldBeAuthenticated.bind(null, true);
@@ -44,39 +70,40 @@ var authenticated = shouldBeAuthenticated.bind(null, true);
 module.exports = function(app) {
     var slides = require('../app/controllers/slides');
     app.get('/api/slides', apiAuthenticated, slides.list);
-    app.post('/api/slides', apiAuthenticated, slides.create);
+    app.post('/api/slides', apiAuthenticated, authorized('admin:slides'), slides.create);
     app.get('/api/slides/:id', apiAuthenticated, slides.get);
 
     var decks = require('../app/controllers/decks');
     app.get('/api/decks', apiAuthenticated, decks.list);
-    app.post('/api/decks', apiAuthenticated, decks.create);
-    app.delete('/api/decks/:id', apiAuthenticated, decks.delete);
-    app.put('/api/decks/:id', apiAuthenticated, decks.edit);
+    app.get('/api/decks/:id', apiAuthenticated, decks.get);
+    app.post('/api/decks', apiAuthenticated, authorized('admin:slides'),decks.create);
+    app.delete('/api/decks/:id', apiAuthenticated, authorized('admin:super'), decks.delete);
+    app.put('/api/decks/:id', apiAuthenticated, authorized('admin:slides'), decks.edit);
 
     var recordings = require('../app/controllers/recordings');
     app.get('/api/recordings', apiAuthenticated, recordings.list);
     app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
-    app.post('/api/recordings/:id/split/:time', apiAuthenticated, recordings.split);
-    app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, recordings.cutout);
+    app.post('/api/recordings/:id/split/:time', apiAuthenticated, authorized('admin:super'), recordings.split);
+    app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'),recordings.cutout);
 
     var events = require('../app/controllers/events');
     app.get('/api/events', events.all);
-    app.post('/api/events', apiAuthenticated, events.create);
+    app.post('/api/events', apiAuthenticated, authorized('admin:events'), events.create);
     app.get('/api/events/:id', apiAuthenticated, events.get);
-    app.delete('/api/events/:event', apiAuthenticated, events.delete);
+    app.delete('/api/events/:event', apiAuthenticated, authorized('admin:events'), events.delete);
 
     app.post('/api/event_task_done/:event/:task/:done', apiAuthenticated, events.eventTaskDone);
-    app.post('/api/event_visibility/:event/:visible', apiAuthenticated, events.changeVisibility);
+    app.post('/api/event_visibility/:event/:visible', apiAuthenticated, authorized('admin:events'), events.changeVisibility);
 
-    app.post('/api/event_iteration/:event', apiAuthenticated, events.eventIterationCreate);
-    app.delete('/api/event_iteration/:event/:iteration', apiAuthenticated, events.eventIterationDelete);
-    app.put('/api/event_iteration/:event/:iteration/status', apiAuthenticated, events.eventIterationStatus);
+    app.post('/api/event_iteration/:event', apiAuthenticated, authorized('admin:events'), events.eventIterationCreate);
+    app.delete('/api/event_iteration/:event/:iteration', apiAuthenticated, authorized('admin:events'), events.eventIterationDelete);
+    app.put('/api/event_iteration/:event/:iteration/status', apiAuthenticated, authorized('admin:events'), events.eventIterationStatus);
 
-    app.post('/api/event_iteration_material/:event/:iteration', apiAuthenticated, events.eventMaterialCreate);
-    app.delete('/api/event_iteration_material/:event/:iteration/:material', apiAuthenticated, events.eventMaterialDelete);
+    app.post('/api/event_iteration_material/:event/:iteration', apiAuthenticated, authorized('admin:events'), events.eventMaterialCreate);
+    app.delete('/api/event_iteration_material/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.eventMaterialDelete);
 
-    app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, events.annotationCreate);
-    app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, events.annotationEdit);
+    app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.annotationCreate);
+    app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);
 
 
 
@@ -101,22 +128,22 @@ module.exports = function(app) {
 
 
     var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
-    app.get('/api/workspaces/:baseSlide', apiAuthenticated, eventsWorkspaces.get);
-    app.get('/api/workspaces/users/:userId', apiAuthenticated, eventsWorkspaces.getPages);
-    app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, eventsWorkspaces.getTimeline);
+    app.get('/api/workspaces/:baseSlide', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.get);
+    app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getPages);
+    app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
 
 
     app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
 
     var trainings = require('../app/controllers/trainings');
     app.get('/api/trainings', apiAuthenticated, trainings.list);
-    app.post('/api/trainings', apiAuthenticated, trainings.create);
+    app.post('/api/trainings', apiAuthenticated, authorized('admin:events'), trainings.create);
     app.get('/api/trainings/:id', apiAuthenticated, trainings.get);
-    app.put('/api/trainings/:id', apiAuthenticated, trainings.edit);
-    app.delete('/api/trainings/:id', apiAuthenticated, trainings.delete);
+    app.put('/api/trainings/:id', apiAuthenticated, authorized('admin:events'), trainings.edit);
+    app.delete('/api/trainings/:id', apiAuthenticated, authorized('admin:events'), trainings.delete);
 
     var uploadTraining = require('../app/controllers/uploadTraining');
-    app.post('/uploadTraining', authenticated, uploadTraining.upload);
+    app.post('/uploadTraining', authenticated, authorized('admin:events'), uploadTraining.upload);
 
     var users = require('../app/controllers/users');
     app.get('/api/users/:id', apiAuthenticated, users.get);
@@ -133,12 +160,12 @@ module.exports = function(app) {
     app.get('/api/streams/:id', apiAuthenticated, streams.get);
 
     var snapshots = require('../app/controllers/snapshots');
-    app.get('/api/snapshots/:startTime?', apiAuthenticated, snapshots.list);
-    app.post('/api/snapshots/:startTime?', apiAuthenticated, snapshots.import);
-    app.put('/api/snapshots/:startTime?', apiAuthenticated, snapshots.convert);
+    app.get('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.list);
+    app.post('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.import);
+    app.put('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.convert);
 
-    app.get('/api/rawRecordings', apiAuthenticated, snapshots.getRawRecordingsGroups);
-    app.get('/api/rawRecordings/:group', apiAuthenticated, snapshots.getRawRecordings);
+    app.get('/api/rawRecordings', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordingsGroups);
+    app.get('/api/rawRecordings/:group', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordings);
 
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
@@ -177,8 +204,8 @@ module.exports = function(app) {
     //xplatform
     var devmeetings = require('../app/controllers/devmeetings');
     //app.get('/', authenticated, devmeetings.xplatform);
-    app.get('/admin', authenticated, devmeetings.admin);
-    app.get('/', redirectIfNeeded, devmeetings.xplatform);
+    app.get('/admin', authenticated, authorized('admin:events'), devmeetings.admin);
+    app.get('/', redirectIfNeeded, nonAnon, authorizedForEditMode('admin:events'), devmeetings.xplatform);
 
     // registration
     var registration = require('../app/controllers/registration');
@@ -189,18 +216,18 @@ module.exports = function(app) {
 
     //home route
     var slider = require('../app/controllers/slider');
-    app.get('/decks/:slides', authenticateAsAnon, authenticated, slider.deck);
-    app.get('/decks/:slides/trainer', authenticated, slider.trainer);
-    app.get('/slides/:slide', authenticateAsAnon, authenticated, slider.slide);
+    app.get('/decks/:slides', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
+    app.get('/decks/:slides/trainer', authenticated, authorized('trainer'), slider.trainer);
+    app.get('/slides/:slide', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'),slider.slide);
 
     // Admin panel
     var admin = require('../app/controllers/admin');
-    app.get('/admin_old', authenticated, admin.index);
-    app.get('/admin_old/partials/:name', authenticated, admin.partials);
+    app.get('/admin_old', authenticated, authorized('admin:slides'), admin.index);
+    app.get('/admin_old/partials/:name', authenticated, authorized('admin:slides'), admin.partials);
 
     var editor = require('../app/controllers/editor');
-    app.get('/editor/soundslist', authenticated, editor.soundsList);
-    app.get('/editor/reclist', authenticated, editor.recList);
+    app.get('/editor/soundslist', authenticated, authorized('admin:events'), editor.soundsList);
+    app.get('/editor/reclist', authenticated, authorized('admin:events'), editor.recList);
 
 
 

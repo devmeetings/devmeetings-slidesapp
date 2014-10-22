@@ -14,6 +14,8 @@ def dodaj(co, ile=1):
     else:
         print co
 
+def dodajWszystkie(skladniki):
+    map(dodaj, skladniki)
 
 def wstaw(co, ile=1):
     dodaj(co, ile)

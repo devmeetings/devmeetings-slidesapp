@@ -1,6 +1,6 @@
 .list-group.dm-saves
     .list-group-item.clearfix.save-item(ng-repeat='save in saves | orderBy: "-timestamp"')
-        button.btn.btn-sm.btn-primary.pull-right(ui-sref='index.space.task({slide: save._id})') Otwórz
+        button.btn.btn-sm.btn-primary.pull-right(ui-sref='index.space.workspace({slide: save._id})') Otwórz
         button.btn.btn-sm.btn-danger.pull-right.save-delete
             span.fa.fa-trash
         h5 {{save.title}}

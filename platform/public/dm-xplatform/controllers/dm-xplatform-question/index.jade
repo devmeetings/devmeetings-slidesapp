@@ -4,12 +4,12 @@ div
     ul.nav.nav-stacked.nav-pills.questions-list
         li(ng-repeat='question in questions | orderBy: "-timestamp"', 
             ng-class="{'active': activeQuestion == question.slidesave || activeQuestionParent == question.slidesave }")
-            a.cursor-pointer(ui-sref='index.space.task({slide: question.slidesave})')
+            a.cursor-pointer(ui-sref='index.space.question({slide: question.slidesave, parent:null})')
                 small.pull-right(am-time-ago='question.timestamp')
                 span {{question.description}}
             ul.nav.nav-stacked(ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
                 li(ng-repeat='comment in question.comments', ui-sref-active="active")
-                    a(ui-sref='index.space.task({slide: comment.slidesave, parent: question.slidesave})')
+                    a(ui-sref='index.space.question({slide: comment.slidesave, parent: question.slidesave})')
                         span {{comment.text}}
             form(ng-submit='createComment(question)', ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
                 .form-group

@@ -12,6 +12,17 @@ exports.list = function(req, res) {
     });
 };
 
+exports.get = function(req, res) {
+    DeckModel.findById(req.params.id, function(err, data) {
+        if (err) {
+            console.error(err);
+            res.send(400, err);
+            return;
+        }
+        res.send(data);
+    });
+};
+
 exports.create = function(req, res) {
     DeckModel.create(req.body, function (err){
         if (err){

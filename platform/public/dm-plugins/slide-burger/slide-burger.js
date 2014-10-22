@@ -85,8 +85,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                 },
                 templateUrl: path + '/slide-burger.html',
                 link: function(scope, element) {
+                    var iteration = 0;
 
                     function displayOutput(output) {
+                        iteration++;
+                        var myIteration = iteration;
                         // images to display in reversed order
                         scope.display = [];
 
@@ -109,10 +112,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                             }
                             scope.display[l - idx].visible = true;
                             $timeout(function() {
+                                if (myIteration !== iteration) {
+                                    return;
+                                }
                                 animate(idx + 1);
                             }, 250);
                         }
-                        $timeout(function(){
+                        $timeout(function() {
                             animate(0);
                         }, 10);
                         
