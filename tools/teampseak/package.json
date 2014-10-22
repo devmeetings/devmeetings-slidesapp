@@ -1,0 +1,15 @@
+{
+  "name": "teampseak",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "proprietary",
+  "dependencies": {
+    "node-teamspeak": "^1.0.4",
+    "q": "^1.0.1"
+  }
+}
