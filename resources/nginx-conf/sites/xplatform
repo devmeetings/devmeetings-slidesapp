@@ -50,5 +50,10 @@ server {
 	    root /home/xplatform/Projects/devmeetings-slidesapp;
 	}
 
+	location /nginx_status {
+	    # copied from http://blog.kovyrin.net/2006/04/29/monitoring-nginx-with-rrdtool/
+	    stub_status on;
+	    access_log   off;
+  	}
 }
 
