@@ -4,6 +4,7 @@
 /public/slides/*.yaml
 /public/css/style.css
 /public/css/style-*.css
+/public/**/*.html
 /.rebooted
 /.version
 **/*.ogg
