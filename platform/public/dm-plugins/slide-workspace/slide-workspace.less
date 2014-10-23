@@ -13,7 +13,30 @@
         &.workspace-upload > div, > a {
             color: #ccc;
             font-size: 0.9em;
-            padding: 5px 15px;
+            padding: 4px 15px;
+            overflow: hidden;
+        }
+
+        &.workspace-file-tab {
+            width: 130px;
+            text-align: left;
+            white-space: nowrap;
+
+            .type-icon {
+                font-size: 5px;
+                top: -2px;
+                position: relative;
+                left: -2px;
+            }
+            .type-html .type-icon {
+                color: #44e;
+            }
+            .type-js .type-icon {
+                color: #4e4;
+            }
+            .type-css .type-icon {
+                color: #e44;
+            }
         }
 
         .workspace-tab-close, .workspace-tab-edit {

@@ -81,6 +81,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                         show: false,
                         sideBySide: true
                     };
+                    scope.getType = getExtension;
 
                     scope.changeWidth = function() {
                         var out = scope.output;
