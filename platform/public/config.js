@@ -49,6 +49,7 @@ require.config({
         "angular-marked": "../components/angular-marked/angular-marked",
         "marked": "../components/marked/lib/marked",
         "angular-charts": "../components/angular-charts/dist/angular-charts.min",
+        "angular-file-upload": "../components/ng-file-upload/angular-file-upload.min",
         "d3": "../components/d3/d3.min",
         "dm-training": "../dm-training/dm-training",
         "dm-user": "../dm-user/dm-user",
@@ -153,6 +154,9 @@ require.config({
         },
         "angulartics-ga": {
             "deps": ["angulartics"]
+        },
+        "angular-file-upload": {
+            "deps": ["angular"]
         },
         "lz-string": {
             "exports": "LZString"

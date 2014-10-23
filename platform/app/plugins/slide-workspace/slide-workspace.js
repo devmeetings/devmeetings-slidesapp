@@ -27,20 +27,42 @@ exports.onSocket = function(log, socket, io) {
 };
 
 exports.initApi = function(prefix, app, authenticated) {
+    app.post(prefix + "upload", authenticated, function(req, res) {
+        require('fs').readFile(req.files.file.path, 'binary', function(err, data) {
+            if (err) {
+                res.send(400, err);
+                return;
+            }
+
+            var zip = new require('node-zip')(data, {
+                base64: false,
+                checkCRC32: true
+            });
+
+            res.send(200, _.reduce(zip.files, function(memo, val, name) {
+                memo[name] = val._data;
+                return memo;
+            }, {}));
+        });
+    });
+
     app.get(prefix + "download/:hash", authenticated, function(req, res) {
-        Workspaces.findByHash(req.params.hash).then(function(workspace){
+        Workspaces.findByHash(req.params.hash).then(function(workspace) {
             // Create zip file
             var zip = new require('node-zip')();
-            _.each(workspace.files, function(val, name){
+            _.each(workspace.files, function(val, name) {
                 zip.file(getRealFileName(name), val);
             });
 
-            var data = zip.generate({base64: false,compression: 'DEFLATE'});
+            var data = zip.generate({
+                base64: false,
+                compression: 'DEFLATE'
+            });
 
             res.charset = 'utf8';
             res.set({
                 'Content-type': 'application/zip',
-                'Content-disposition': 'attachment; filename="'+req.params.hash+'.zip"'
+                'Content-disposition': 'attachment; filename="' + req.params.hash + '.zip"'
             });
             res.send(new Buffer(data, 'binary'));
 
@@ -57,7 +79,7 @@ exports.initApi = function(prefix, app, authenticated) {
         }
 
         var internalFile = getInternalFileName(file);
-        
+
         Workspaces.findByHash(req.params.hash).then(function(workspace) {
             if (!workspace || !workspace.files[internalFile]) {
                 res.send(404);
@@ -84,6 +106,7 @@ function guessType(fileName) {
 function getInternalFileName(file) {
     return file.replace(/\./g, '|');
 }
+
 function getRealFileName(file) {
     return file.replace(/\|/g, '.');
 }
