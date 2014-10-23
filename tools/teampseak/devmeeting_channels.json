@@ -1,0 +1,16 @@
+{ 
+	"channel_codec": "4",
+ 	"channel_codec_quality": "6",
+ 	"channelstructure" : [
+	  { "name": "Grupy", "parent": "" },
+	  	{ "name": "Team Alpha", "parent": "Grupy" },
+	  		{ "name": "Para Alpha #1", "parent": "Team Alpha" },
+	  		{ "name": "Para Alpha #2", "parent": "Team Alpha" },  
+	  	{ "name": "Team Bravo", "parent": "Grupy" },
+	  		{ "name": "Para Bravo #1", "parent": "Team Bravo" },
+	  		{ "name": "Para Bravo #2", "parent": "Team Bravo" }, 
+	  	{ "name": "Team Charlie", "parent": "Grupy" },
+	  		{ "name": "Para Charlie #1", "parent": "Team Charlie" },
+	  		{ "name": "Para Charlie #2", "parent": "Team Charlie" },   		
+	]
+}
