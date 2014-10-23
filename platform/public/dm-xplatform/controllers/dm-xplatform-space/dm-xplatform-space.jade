@@ -17,7 +17,7 @@
 
             .dm-spacesidebar-left(ng-style='{"width": left.max, "clear": "both"}')
                 a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.workspace({slide: workspaceId, parent:null})", 
-                    ui-sref-active='btn-success active')
+                    ui-sref-active='btn-success active', ng-if="event.baseSlide")
                     span(ng-if="workspaceId")
                         span.fa.fa-wrench
                         span &nbsp;
@@ -29,7 +29,7 @@
                     span
                 br
                 ul.nav.nav-pills.nav-stacked
-                    li(ui-sref-active='active')
+                    li(ui-sref-active='active', ng-if="event.intro")
                         a(ui-sref='index.space.slide({event: event._id, slide: event.intro})')
                             span.nav-icon.fa.fa-question-circle
                             span Intro
@@ -79,7 +79,7 @@
                             span.fa.fa-wrench.nav-icon
                             span Workspace
                     li
-                        a(ng-href="{{event.rankingLink}}")
+                        a(ng-href="{{event.rankingLink}}", ng-if="event.rankingLink")
                             span.nav-icon.fa.fa-bar-chart
                             span.pull-right.fa.fa-external-link
                             span Ranking
