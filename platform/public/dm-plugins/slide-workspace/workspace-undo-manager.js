@@ -1,26 +1,26 @@
-define(['_'], function (_) {
+define(['_'], function(_) {
     'use strict';
 
-    var WorkspaceUndoManager = function (scope, tabs) {
-        if (!scope.workspace) {
-            throw new Error('Workspace should be defined on scope object for WorkspaceUndoManager');
-        }
+    var WorkspaceUndoManager = function(scope, tabs) {
+            if (!scope.workspace) {
+                throw new Error('Workspace should be defined on scope object for WorkspaceUndoManager');
+            }
 
-        this.scope = scope;
-        this.tabsStack = {};
-        this.tabs = tabs;
-        this.tabsSwitched = true;
-        this.reset();
-    }, enableLogging = false;
+            this.scope = scope;
+            this.tabsStack = {};
+            this.tabsSwitched = true;
+            this.reset();
+        },
+        enableLogging = false;
 
-    (function () {
-        this.setUpTabsSwitched = function (val) {
+    (function() {
+        this.setUpTabsSwitched = function(val) {
             this.tabsSwitched = val;
         };
-        this.getCurrentTabsStack = function () {
+        this.getCurrentTabsStack = function() {
             return this.tabsStack[this.scope.workspace.active];
         };
-        this.mergeUndoStack = function (merge, deltas, currentStack) {
+        this.mergeUndoStack = function(merge, deltas, currentStack) {
             if (merge && this.hasUndo()) {
                 currentStack.dirtyCounter--;
                 deltas = currentStack.$undoStack.pop().concat(deltas);
@@ -28,8 +28,9 @@ define(['_'], function (_) {
 
             return deltas;
         };
-        this.setUpStack = function (options) {
-            var deltas = options.args[0], currentStack = this.getCurrentTabsStack();
+        this.setUpStack = function(options) {
+            var deltas = options.args[0],
+                currentStack = this.getCurrentTabsStack();
 
             this.$doc = options.args[1];
 
@@ -42,7 +43,7 @@ define(['_'], function (_) {
             }
             currentStack.dirtyCounter++;
         };
-        this.execute = function (options) {
+        this.execute = function(options) {
             //Execute method should not call main logic for setup up undo stack when
             // tabs are switched or when the first tab is initialized
             if (this.tabsSwitched) {
@@ -53,27 +54,27 @@ define(['_'], function (_) {
             this.setUpStack(options);
 
         };
-        this.undo = function (dontSelect) {
+        this.undo = function(dontSelect) {
             var currentStack = this.getCurrentTabsStack();
 
-            return this.makeStackAction(currentStack.$undoStack, function (deltas) {
+            return this.makeStackAction(currentStack.$undoStack, function(deltas) {
                 var range = this.$doc.undoChanges(deltas, dontSelect);
                 currentStack.$redoStack.push(deltas);
                 currentStack.dirtyCounter--;
                 return range;
             }.bind(this));
         };
-        this.redo = function (dontSelect) {
+        this.redo = function(dontSelect) {
             var currentStack = this.getCurrentTabsStack();
 
-            return this.makeStackAction(currentStack.$redoStack, function (deltas) {
+            return this.makeStackAction(currentStack.$redoStack, function(deltas) {
                 var range = this.$doc.redoChanges(deltas, dontSelect);
                 currentStack.$undoStack.push(deltas);
                 currentStack.dirtyCounter++;
                 return range;
             }.bind(this));
         };
-        this.makeStackAction = function (stack, action) {
+        this.makeStackAction = function(stack, action) {
             if (this.isEmpty(stack)) {
                 return;
             }
@@ -83,13 +84,13 @@ define(['_'], function (_) {
             }
             return action(deltas);
         };
-        this.isEmpty = function (stack) {
+        this.isEmpty = function(stack) {
             return stack.length === 0;
         };
-        this.reset = function () {
+        this.reset = function() {
             var prop = '';
 
-            for (prop in this.tabs) {
+            for (prop in this.scope.workspace.tabs) {
                 this.tabsStack[prop] = {
                     $undoStack: [],
                     $redoStack: [],
@@ -97,24 +98,24 @@ define(['_'], function (_) {
                 };
             }
         };
-        this.hasUndo = function () {
+        this.hasUndo = function() {
             return this.getCurrentTabsStack().$undoStack.length > 0;
         };
-        this.hasRedo = function () {
+        this.hasRedo = function() {
             return this.getCurrentTabsStack().$redoStack.length > 0;
         };
-        this.markClean = function () {
+        this.markClean = function() {
             this.getCurrentTabsStack().dirtyCounter = 0;
         };
-        this.isClean = function () {
+        this.isClean = function() {
             return this.getCurrentTabsStack().dirtyCounter === 0;
         };
 
     }).call(WorkspaceUndoManager.prototype);
 
     if (enableLogging) {
-        _.each(WorkspaceUndoManager.prototype, function (func, key) {
-            WorkspaceUndoManager.prototype[key] = function (/*args*/) {
+        _.each(WorkspaceUndoManager.prototype, function(func, key) {
+            WorkspaceUndoManager.prototype[key] = function( /*args*/ ) {
                 console.log("Invoking function " + key, arguments);
                 return func.apply(this, arguments);
             };

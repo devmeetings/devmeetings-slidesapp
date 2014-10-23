@@ -40,7 +40,7 @@ exports.initApi = function(prefix, app, authenticated) {
             });
 
             res.send(200, _.reduce(zip.files, function(memo, val, name) {
-                memo[name] = val._data;
+                memo[getInternalFileName(name)] = val._data;
                 return memo;
             }, {}));
         });

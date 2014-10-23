@@ -61,17 +61,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                     ws.active = null;
                                     ws.tabs = {};
                                     _.each(data, function(value, name) {
-                                        ws.active = name.replace('.', '|');
-                                        ws.tabs[name.replace('.', '|')] = {
+                                        ws.active = name;
+                                        ws.tabs[name] = {
                                             content: value
                                         };
                                     });
+                                    triggerSave();
+                                    applyChangesLater($scope);
                                 });
                             });
                         };
                     }
                 ],
                 link: function(scope, element) {
+                    var undoManager = new WorkspaceUndoManager(scope, scope.workspace.tabs);
+
                     scope.output = {
                         width: 6,
                         show: false,
@@ -93,7 +97,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
 
                     // This is temporary hack!
                     function promptForName(old) {
-                        var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : undefined);
+                        var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : "");
                         if (!name) {
                             return;
                         }
@@ -116,6 +120,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                         scope.workspace.tabs[name] = {
                             "content": ""
                         };
+                        undoManager.initTab(name);
                     };
                     scope.removeTab = function(tabName) {
                         var sure = $window.confirm("Sure to remove the file?");
@@ -132,6 +137,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                         var ws = scope.workspace;
                         ws.tabs[newName] = ws.tabs[tabName];
                         deleteTabAndFixActive(tabName, newName);
+                        undoManager.initTab(newName);
                     };
 
                     scope.tabsOrdering = function(tab) {
@@ -162,7 +168,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                             enableLiveAutocompletion: false
                         });
 
-                        editor.getSession().setUndoManager(new WorkspaceUndoManager(scope, scope.workspace.tabs));
+                        scope.$watch('workspace.tabs', function() {
+                            undoManager.reset();
+                        });
+
+                        editor.getSession().setUndoManager(undoManager);
 
                         scope.$watch('output.sideBySide', function() {
                             scope.output.show = false;

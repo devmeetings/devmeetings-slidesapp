@@ -11,11 +11,19 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                 templateUrl: path + '/slide-workspace-output.html',
                 link: function(scope, element) {
 
+                    var latestWorkspace = null;
                     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
-                        scope.contentUrl = 'waiting';
+                        scope.isWaiting = true;
+                        latestWorkspace = workspace;
                         Sockets.emit('slide.slide-workspace.change', workspace, function(contentUrl) {
+                            // dont display old requests
+                            if (latestWorkspace !== workspace) {
+                                return;
+                            }
 
                             scope.$apply(function() {
+                                scope.isWaiting = false;
+
                                 scope.contentUrl = contentUrl.hash;
                                 scope.output.hash = scope.contentUrl;
                             });
