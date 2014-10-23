@@ -1,4 +1,5 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager'], function (module, _, sliderPlugins, ace, WorkspaceUndoManager) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager','bcsocket','share', 'sharejs-ace'],
+    function (module, _, sliderPlugins, ace, WorkspaceUndoManager) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
@@ -131,6 +132,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                         });
 
                         editor.getSession().setUndoManager(new WorkspaceUndoManager(scope, scope.workspace.tabs));
+
+                        sharejs.open('hello', 'text', function(error, doc) {
+                            doc.attach_ace(editor);
+                        });
 
                         scope.$watch('output.sideBySide', function () {
                             scope.output.show = false;

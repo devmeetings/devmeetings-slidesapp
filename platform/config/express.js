@@ -3,7 +3,8 @@ var express = require('express'),
     lessMiddleware = require('less-middleware'),
     path = require('path'),
     flash = require('connect-flash'),
-    stream = require('connect-stream');
+    stream = require('connect-stream'),
+    sharejs = require('share');
 
 var MongoStore = require('connect-mongo')(express);
 
@@ -34,6 +35,8 @@ module.exports = function(app, config) {
             return next();
         });
         app.use(config.staticsPath, express.static(config.root + '/public'));
+       // app.use(config.staticsPath, express.static(sharejs.scriptsDir));
+        console.log('sharejs.scriptsDir:', sharejs.scriptsDir);
         //app.use(stream(config.root + '/public'), {
         //cache: false
         //});

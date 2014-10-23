@@ -57,6 +57,10 @@ require.config({
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
         "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
+
+        "bcsocket":"/channel/bcsocket",
+        "share" : "/share/share",
+        "sharejs-ace" : "/share/ace"
     },
     "map": {
         "*": {
@@ -115,6 +119,12 @@ require.config({
         },
         "ace_languageTools": {
             "deps": ["ace"]
+        },
+        "share" : {
+            "deps" : ["bcsocket"]
+        },
+        "sharejs-ace" : {
+            "deps" : ["share", "ace"]
         },
         "angular-animate": {
             "deps": ["angular"],
