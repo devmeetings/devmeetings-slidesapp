@@ -7,20 +7,28 @@
 	}
 
     .workspace-tab {
-        border-radius: 0px;
+        border-radius: 0;
         position: relative;
+
+        &.workspace-upload > div, > a {
+            color: #ccc;
+            font-size: 0.9em;
+            padding: 5px 15px;
+        }
 
         .workspace-tab-close, .workspace-tab-edit {
             position: absolute;
-            top: 0;
+            bottom: 0;
             right: 0;
             opacity: 0;
             padding: 0;
             transition: opacity 0.3s;
         }
+        .workspace-tab-close {
+            right: auto;
+            left: 0;
+        }
         .workspace-tab-edit {
-            top: auto;
-            bottom: 0;
             font-size: 7px;
             font-weight: normal;
         }
@@ -61,6 +69,8 @@
             display: block;
             padding: 10px 15px;
             color: #fff;
+            overflow: hidden;
+
             &:hover {
                 text-decoration: none;
                 background-color: #222222;
@@ -69,7 +79,7 @@
         input[type="file"] {
             position: absolute;
             top: 0;
-            left: 0;
+            left: -35px;
             right: 0;
             bottom: 0;
             opacity: 0;
