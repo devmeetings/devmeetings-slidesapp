@@ -2,14 +2,20 @@ var cl = require('./connection'),
     _ = require('lodash'),
     Q = require('q');
 
+function convertToRegexp(map) {
+    return _.map(map, function(channel, user) {
+        return [new RegExp(user, 'i'), new RegExp(channel, 'i')];
+    });
+}
+
 
 if (!process.argv[2]) {
-    console.error("Provide json with channel structure.");
+    console.error("Provide json with mapping.");
     process.exit(-1);
 }
 
 var map = require("./" + process.argv[2].replace('.json', ''));
-
+var mapping = convertToRegexp(map);
 
 cl.server.thenSend("clientlist").then(function(response) {
     console.log("Fetched clients");
@@ -50,32 +56,3 @@ cl.server.thenSend("clientlist").then(function(response) {
 }).done(function() {
     process.exit(0);
 }); /**/
-
-
-
-
-
-
-/*var cl = require('./connection');
-
-
-cl.server.thenSend("channellist").then(function(channels){
-    
-    return cl.send("channelcreate", {
-      channel_name: "Test Channel 2",
-      channel_flag_semi_permanent: 1,
-      cpid: cl.findChannelByName(channels, "Charlie").cid
-    }).then(function(response) {
-      console.log(response);
-      return cl.send("channelcreate", {
-        channel_name: "Subchannel Test 2",
-        channel_flag_semi_permanent: 1,
-        cpid: response.cid
-    });
-    });
-
-}).then(function(response) {
-  console.log("Channel created", response);
-  //process.exit();
-}).done();
-*/
