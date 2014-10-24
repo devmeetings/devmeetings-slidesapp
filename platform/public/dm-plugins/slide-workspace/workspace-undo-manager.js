@@ -43,7 +43,8 @@ define(['_'], function(_) {
             }
             currentStack.dirtyCounter++;
         };
-        this.execute = function(options) {
+
+        this.execute = function(options) { 
             //Execute method should not call main logic for setup up undo stack when
             // tabs are switched or when the first tab is initialized
             if (this.tabsSwitched) {
@@ -88,15 +89,14 @@ define(['_'], function(_) {
             return stack.length === 0;
         };
         this.reset = function() {
-            var prop = '';
-
-            for (prop in this.scope.workspace.tabs) {
-                this.tabsStack[prop] = {
-                    $undoStack: [],
-                    $redoStack: [],
-                    dirtyCounter: 0
-                };
-            }
+            Object.keys(this.scope.workspace.tabs).map(this.initTab, this);
+        };
+        this.initTab = function (tabName) {
+            this.tabsStack[tabName] = {
+                $undoStack: [],
+                $redoStack: [],
+                dirtyCounter: 0
+            };
         };
         this.hasUndo = function() {
             return this.getCurrentTabsStack().$undoStack.length > 0;
