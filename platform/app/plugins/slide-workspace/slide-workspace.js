@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var Workspaces = require('../../services/workspaces');
 var crypto = require('crypto');
+var mime = require('mime');
 
 exports.onSocket = function(log, socket, io) {
 
@@ -40,7 +41,9 @@ exports.initApi = function(prefix, app, authenticated) {
             });
 
             res.send(200, _.reduce(zip.files, function(memo, val, name) {
-                memo[getInternalFileName(name)] = val._data;
+                if (val._data) {
+                    memo[getInternalFileName(name)] = val._data;
+                }
                 return memo;
             }, {}));
         });
@@ -93,14 +96,9 @@ exports.initApi = function(prefix, app, authenticated) {
 };
 
 function guessType(fileName) {
-    var ext = fileName.split('|')[1];
-    var map = {
-        'html': 'text/html',
-        'js': 'application/javascript',
-        'css': 'text/css',
-        'json': 'application/json'
-    };
-    return map[ext] || 'text/plain';
+    var name = fileName.split('|'); 
+    var ext = name[name.length - 1];
+    return mime.lookup(ext);
 }
 
 function getInternalFileName(file) {
