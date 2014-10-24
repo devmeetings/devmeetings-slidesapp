@@ -35,17 +35,21 @@ exports.initApi = function(prefix, app, authenticated) {
                 return;
             }
 
-            var zip = new require('node-zip')(data, {
-                base64: false,
-                checkCRC32: true
-            });
+            try {
+                var zip = new require('node-zip')(data, {
+                    base64: false,
+                    checkCRC32: true
+                });
 
-            res.send(200, _.reduce(zip.files, function(memo, val, name) {
-                if (val._data) {
-                    memo[getInternalFileName(name)] = val._data;
-                }
-                return memo;
-            }, {}));
+                res.send(200, _.reduce(zip.files, function(memo, val, name) {
+                    if (val._data) {
+                        memo[getInternalFileName(name)] = val._data;
+                    }
+                    return memo;
+                }, {}));
+            } catch (e) {
+                res.send(400, e);
+            }
         });
     });
 
@@ -96,7 +100,7 @@ exports.initApi = function(prefix, app, authenticated) {
 };
 
 function guessType(fileName) {
-    var name = fileName.split('|'); 
+    var name = fileName.split('|');
     var ext = name[name.length - 1];
     return mime.lookup(ext);
 }
