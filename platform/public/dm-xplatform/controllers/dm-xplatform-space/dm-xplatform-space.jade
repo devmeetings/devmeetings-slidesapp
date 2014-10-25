@@ -51,10 +51,10 @@
                         
                         ul.nav.nav-stacked(ng-show="(i.open && (editMode || i.status ==='available')) || activeIteration == $index")
                             li(ui-sref-active="active", ng-repeat='material in i.materials')
-                                a(ui-sref='index.space.player({iteration: $parent.$index, material: material._id})', ng-if="material.material")
+                                a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
                                     span.fa.fa-film.nav-icon
                                     span {{material.title}}
-                                a(ui-sref='index.space.deck({iteration: $parent.$index, deck: material.deck})', ng-if="material.deck")
+                                a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck})', ng-if="material.deck")
                                     span.fa.fa-university.nav-icon
                                     span {{material.title}}
                             li
