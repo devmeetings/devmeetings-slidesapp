@@ -1,4 +1,5 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager'], function(module, _, sliderPlugins, ace, WorkspaceUndoManager) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager', 'firebase', 'firepad'],
+    function(module, _, sliderPlugins, ace, WorkspaceUndoManager, firebase, firepad) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
@@ -181,8 +182,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                             triggerChangeLater(scope);
                             editor.resize();
                         });
+                        var firepadRef = getExampleRef();
 
-                        ///
+                        firepad.fromACE(firepadRef, editor, {
+                         //   defaultText: '// JavaScript Editing with Firepad!\nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
+                        });
+
+                        function getExampleRef() {
+                            var ref = new Firebase('https://sizzling-torch-4908.firebaseio.com');
+                            var hash = window.location.hash.replace(/#/g, '');
+                            if (hash) {
+                                ref = ref.child(hash);
+                            } else {
+                                ref = ref.push(); // generate unique location.
+                                window.location = window.location + '#' + ref.name(); // add it as a hash to the URL.
+                            }
+                            return ref;
+                        }
 
                         // TODO [ToDr] When changing tabs cursor synchronization is triggered like crazy.
                         var disableSync = false;

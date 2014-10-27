@@ -58,6 +58,8 @@ require.config({
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
         "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
+        "firebase": "../components/firebase/firebase",
+        "firepad": "../components/firepad/dist/firepad.min"
     },
     "map": {
         "*": {
@@ -74,6 +76,9 @@ require.config({
         },
         "jquery-ui": {
             "deps": ["jquery"]
+        },
+        "firepad": {
+            "deps": ["firebase"]
         },
         "bootstrap": {
             "deps": ["jquery"],
