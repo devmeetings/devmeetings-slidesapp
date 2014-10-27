@@ -77,6 +77,7 @@ exports.initApi = function(prefix, app, authenticated) {
             res.send(400, err);
         }).then(null, console.error);
     });
+
     app.get(prefix + "page/:hash/:file?*", function(req, res) {
         var file = req.params.file || "index.html";
         var first = req.params[0];
@@ -88,16 +89,54 @@ exports.initApi = function(prefix, app, authenticated) {
         var internalFile = getInternalFileName(file);
 
         Workspaces.findByHash(req.params.hash).then(function(workspace) {
-            if (!workspace || !workspace.files[internalFile]) {
+            var file = findFile(workspace.files, internalFile);
+            if (!workspace || !file) {
                 res.send(404);
                 return;
             }
 
             res.set('Content-Type', guessType(internalFile));
-            res.send(workspace.files[internalFile]);
+            res.send(file);
         }, console.error);
     });
 };
+
+function findFile(files, fileName) {
+    if (files[fileName]) {
+        return files[fileName];
+    }
+    // Try preprocessing some files
+    var nameParts = fileName.split('|');
+    var l = nameParts.length;
+    var ext = nameParts[l - 1];
+
+    // Try jade
+    if (ext === 'html') {
+        nameParts[l - 1] = 'jade';
+    }
+    // Try coffee
+    if (ext === 'js') {
+        nameParts[l - 1] = 'coffee';
+    }
+    var file = files[nameParts.join('|')];
+    if (file) {
+        try {
+            return processFile(nameParts[l - 1], file);
+        } catch (e) {
+            return e;
+        }
+    }
+}
+
+function processFile(ext, content) {
+    if (ext === 'jade') {
+        return require('jade').render(content, {});
+    }
+    if (ext === 'coffee') {
+        return require('coffee-script').compile(content);
+    }
+    return content;
+}
 
 function guessType(fileName) {
     var name = fileName.split('|');
