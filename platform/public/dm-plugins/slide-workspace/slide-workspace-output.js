@@ -18,7 +18,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                             scope.contentUrl = contentUrl.hash;
                             scope.output.hash = scope.contentUrl;
                         });
-                    }, 1000, {
+                    }, 800, {
                         trailing: true,
                         leading: false
                     });
