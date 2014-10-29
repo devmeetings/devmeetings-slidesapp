@@ -7,25 +7,35 @@
                     ng-if="!output.sideBySide", ng-class="{'workspace-tab-active': output.show}")
                     a.cursor-pointer(ng-click="output.show = true")
                         | Preview
-                li.workspace-tab(
+                li.workspace-tab.workspace-file-tab(
                     ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
                     ng-class="{'workspace-tab-active': workspace.active === tabName && !output.show }")
                     a.cursor-pointer(
+                        class="{{ 'type-' + getType(tabName) }}",
                         ng-click="workspace.active = tabName;output.show = false") 
-                        | {{ toFileName(tabName) }}
-                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete file", tooltip-placement="right")
+                        span.fa.fa-circle.type-icon
+                        |  {{ toFileName(tabName) }}
+                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",
+                        analytics-event="workspace-deleteTab", analytics-category="workspace")
                         | x
-                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit file name", tooltip-placement="right")
+                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit name", tooltip-placement="right",
+                        analytics-event="workspace-editTab", analytics-category="workspace")
                         span.fa.fa-pencil
-                li.add-tab
+                li.workspace-tab.add-tab
                     a.cursor-pointer(ng-click="insertTab()")
                         | +
                 li.workspace-tab.workspace-sidebyside.pull-right
-                    a.cursor-pointer(ng-click="changeWidth()")
+                    a.cursor-pointer(ng-click="changeWidth()", analytics-event="workspace-changeWidth", analytics-category="workspace")
                         span.fa.fa-arrows-h
                 li.workspace-tab.workspace-download.pull-right
-                    a.cursor-pointer(ng-href="/api/download/{{output.hash}}")
+                    a.cursor-pointer(ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
                         span.fa.fa-download
+                li.workspace-tab.workspace-upload.pull-right(tooltip="Upload saved ZIP with files")
+                    a(ng-if="isUploading")
+                        | Uploading {{ uploadingState }}%
+                    div.cursor-pointer(analytics-event="workspace-upload", analytics-category="workspace", analytics-on="click", ng-if="!isUploading")
+                        input(type="file", ng-file-select="onFileSelect($files)")
+                        span.fa.fa-upload
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container

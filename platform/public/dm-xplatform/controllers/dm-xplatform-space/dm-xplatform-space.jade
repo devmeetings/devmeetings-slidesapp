@@ -17,19 +17,19 @@
 
             .dm-spacesidebar-left(ng-style='{"width": left.max, "clear": "both"}')
                 a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.workspace({slide: workspaceId, parent:null})", 
-                    ui-sref-active='btn-success active')
+                    ui-sref-active='btn-success active', ng-if="event.baseSlide")
                     span(ng-if="workspaceId")
                         span.fa.fa-wrench
                         span &nbsp;
                         span.show-if-active Twój kod
                         span.hide-if-active Wróć do swojego kodu
                     span.cursor-pointer(ng-click='openWorkspace()', ng-if="!workspaceId")
-                        span Wróć do 
+                        span Wróć do
                         span.fa.fa-wrench
                     span
                 br
                 ul.nav.nav-pills.nav-stacked
-                    li(ui-sref-active='active')
+                    li(ui-sref-active='active', ng-if="event.intro")
                         a(ui-sref='index.space.slide({event: event._id, slide: event.intro})')
                             span.nav-icon.fa.fa-question-circle
                             span Intro
@@ -51,10 +51,10 @@
                         
                         ul.nav.nav-stacked(ng-show="(i.open && (editMode || i.status ==='available')) || activeIteration == $index")
                             li(ui-sref-active="active", ng-repeat='material in i.materials')
-                                a(ui-sref='index.space.player({iteration: $parent.$index, material: material._id})', ng-if="material.material")
+                                a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
                                     span.fa.fa-film.nav-icon
                                     span {{material.title}}
-                                a(ui-sref='index.space.deck({iteration: $parent.$index, deck: material.deck})', ng-if="material.deck")
+                                a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck})', ng-if="material.deck")
                                     span.fa.fa-university.nav-icon
                                     span {{material.title}}
                             li
@@ -78,9 +78,10 @@
                         a.cursor-pointer(ng-click='openWorkspace()') 
                             span.fa.fa-wrench.nav-icon
                             span Workspace
-                    li(ui-sref-active="active")
-                        a(ui-sref="index.space.todo({iteration: 4, todo: '543780be8e5ae61210571aef'})")
+                    li
+                        a(ng-href="{{event.rankingLink}}", ng-if="event.rankingLink", target="ranking")
                             span.nav-icon.fa.fa-bar-chart
+                            span.pull-right.fa.fa-external-link
                             span Ranking
                     //li(ui-sref-active='active')
                         a(ui-sref='index.space.ranking')
