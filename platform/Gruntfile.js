@@ -20,12 +20,15 @@ module.exports = function(grunt) {
                 name: module, // assumes a production build using almond
                 out: "public/bin/" + path + '/' + module + "-" + version + ".js",
                 paths: {
-                    "templates": "../bin/templates-"+version,
+                    "templates": "../bin/templates-" + version,
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
                     "ace": "empty:",
-                    "ace_languageTools": "empty:"
+                    "ace_languageTools": "empty:",
+                    "bcsocket": "empty:",
+                    "share": "empty:",
+                    "sharejs-ace": "empty:"
                 },
                 optimize: "none"
             }
@@ -104,7 +107,7 @@ module.exports = function(grunt) {
                     }
                 },
                 src: ['public/**/*.html', '!public/components/**'],
-                dest: 'public/bin/templates-'+version+'.js'
+                dest: 'public/bin/templates-' + version + '.js'
             }
         },
         watch: {
