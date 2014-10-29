@@ -11,23 +11,20 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                 templateUrl: path + '/slide-workspace-output.html',
                 link: function(scope, element) {
 
-                    var latestWorkspace = null;
-                    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
-                        scope.isWaiting = true;
-                        latestWorkspace = workspace;
-                        Sockets.emit('slide.slide-workspace.change', workspace, function(contentUrl) {
-                            // dont display old requests
-                            if (latestWorkspace !== workspace) {
-                                return;
-                            }
+                    var refreshOutput = _.throttle(function(contentUrl) {
+                        scope.$apply(function() {
+                            scope.isWaiting = false;
 
-                            scope.$apply(function() {
-                                scope.isWaiting = false;
-
-                                scope.contentUrl = contentUrl.hash;
-                                scope.output.hash = scope.contentUrl;
-                            });
+                            scope.contentUrl = contentUrl.hash;
+                            scope.output.hash = scope.contentUrl;
                         });
+                    }, 1000, {
+                        trailing: true,
+                        leading: false
+                    });
+
+                    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+                        Sockets.emit('slide.slide-workspace.change', workspace, refreshOutput);
                     });
 
                     var currentFrame = 0;
