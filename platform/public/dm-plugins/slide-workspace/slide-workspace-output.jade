@@ -4,8 +4,6 @@ input.form-control(
     ng-model="fiddle.url.addressTemp",
     ng-change="updateAddress()")
 
-a.btn.btn-default.btn-xs.output-new-window(ng-href="/api/page/{{ contentUrl }}/", target="_blank", tooltip="Open your page in new window")
-    span.fa.fa-external-link
 .loading-spinner(ng-class="{ 'hidde': !isWaiting }")
     span.fa.fa-spin.fa-spinner.fa-3x
 .slide-workspace-outputs.full-height
