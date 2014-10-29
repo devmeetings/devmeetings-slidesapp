@@ -355,7 +355,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
 
     function updateMode(editor, name, givenMode) {
         var modesMap = {
-            'js': 'javascript'
+            'js': 'javascript',
+            'es6': 'javascript'
         };
 
         var mode;

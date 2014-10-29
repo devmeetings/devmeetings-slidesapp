@@ -110,22 +110,29 @@ function findFile(files, fileName) {
     var l = nameParts.length;
     var ext = nameParts[l - 1];
 
+    var extensionsToTry = [];
     // Try jade
     if (ext === 'html') {
-        nameParts[l - 1] = 'jade';
+        extensionsToTry = ['jade'];
     }
     // Try coffee
     if (ext === 'js') {
-        nameParts[l - 1] = 'coffee';
+        extensionsToTry = ['coffee', 'es6'];
     }
-    var file = files[nameParts.join('|')];
-    if (file) {
-        try {
-            return processFile(nameParts[l - 1], file);
-        } catch (e) {
-            return e;
+
+    return extensionsToTry.map(function(ext) {
+        nameParts[l - 1] = ext;
+        var file = files[nameParts.join('|')];
+        if (file) {
+            try {
+                return processFile(ext, file);
+            } catch (e) {
+                return e.toString();
+            }
         }
-    }
+    }).filter(function(x) {
+        return !!x;
+    })[0];
 }
 
 function processFile(ext, content) {
@@ -134,6 +141,9 @@ function processFile(ext, content) {
     }
     if (ext === 'coffee') {
         return require('coffee-script').compile(content);
+    }
+    if (ext === 'es6') {
+        return require('traceur').compile(content, {});
     }
     return content;
 }
