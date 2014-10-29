@@ -24,6 +24,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(mo
                     });
 
                     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+                        scope.isWaiting = true;
                         Sockets.emit('slide.slide-workspace.change', workspace, refreshOutput);
                     });
 
