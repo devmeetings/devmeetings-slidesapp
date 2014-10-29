@@ -44,6 +44,7 @@
     "roundrobin": "~1.0.0",
     "socket.io": "^0.9.16",
     "srt": "0.0.3",
+    "traceur": "0.0.72",
     "when": "^3.2.2",
     "winston": "^0.7.3",
     "winston-graylog2": "^0.1.10"
