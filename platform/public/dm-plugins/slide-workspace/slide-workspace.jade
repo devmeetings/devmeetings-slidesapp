@@ -27,15 +27,22 @@
                 li.workspace-tab.workspace-sidebyside.pull-right
                     a.cursor-pointer(ng-click="changeWidth()", analytics-event="workspace-changeWidth", analytics-category="workspace")
                         span.fa.fa-arrows-h
-                li.workspace-tab.workspace-download.pull-right
+                li.workspace-tab.pull-right.workspace-tab-condensed
+                    a.cursor-pointer(ng-href="/api/page/{{ output.hash }}/", target="_blank", tooltip="Open your page in new window",
+                                        analytics-event="workspace-newWindow", analytics-category="workspace")
+                        span.fa.fa-external-link
+                li.workspace-tab.workspace-download.pull-right.workspace-tab-condensed
                     a.cursor-pointer(ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
                         span.fa.fa-download
-                li.workspace-tab.workspace-upload.pull-right(tooltip="Upload saved ZIP with files")
+                li.workspace-tab.workspace-upload.pull-right.workspace-tab-condensed(tooltip="Upload saved ZIP with files")
                     a(ng-if="isUploading")
                         | Uploading {{ uploadingState }}%
                     div.cursor-pointer(analytics-event="workspace-upload", analytics-category="workspace", analytics-on="click", ng-if="!isUploading")
-                        input(type="file", ng-file-select="onFileSelect($files)")
+                        input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)")
                         span.fa.fa-upload
+                li.workspace-tab.pull-right(ng-if="hasFormatting()")
+                    a.cursor-pointer(ng-click="formatTab()")
+                        span.fa.fa-indent
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container

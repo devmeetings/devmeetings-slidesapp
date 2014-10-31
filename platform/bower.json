@@ -39,6 +39,7 @@
     "angular-marked": "Hypercubed/angular-marked#~0.0.12",
     "angular-bootstrap": "~0.11.0",
     "angular-charts": "~0.2.6",
-    "ng-file-upload": "~1.6.12"
+    "ng-file-upload": "~1.6.12",
+    "js-beautify": "~1.5.4"
   }
 }

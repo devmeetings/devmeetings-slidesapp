@@ -1,5 +1,5 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager', 'share', 'sharejs-ace'],
-    function (module, _, sliderPlugins, ace, WorkspaceUndoManager) {
+define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager', 'share', 'sharejs-ace'],
+    function(module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
         'use strict';
 
         var EDITOR_THEME = 'todr';
@@ -13,11 +13,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
         var triggerChangeLater = _.throttle(function(scope) {
             sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
             triggerSave();
-        }, 200, {
+        }, 500, {
             leading: false,
             trailing: true
         });
-
         var triggerSave = _.throttle(function() {
             sliderPlugins.trigger('slide.save');
         }, 20);
@@ -96,7 +95,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                             }
                         };
 
-
                         // This is temporary hack!
                         function promptForName(old) {
                             var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : "");
@@ -158,10 +156,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
 
                         var $e = element.find('.editor');
                         $timeout(function() {
+                            var indentSize = 2;
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
                             editor.setValue("");
-                            editor.getSession().setTabSize(2);
+                            editor.getSession().setTabSize(indentSize);
                             editor.getSession().setUseSoftTabs(true);
                             editor.getSession().setUseWrapMode(!!scope.workspace.wrap);
                             editor.setOptions({
@@ -176,7 +175,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
 
                             editor.getSession().setUndoManager(undoManager);
 
-                            sharejs.open('mentor', 'text', function (error, doc) {
+                            sharejs.open('mentor', 'text', function(error, doc) {
                                 $state = doc;
                                 doc.attach_ace(editor, true);
 
@@ -186,20 +185,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                 //}
                                 //console.log(JSON.stringify(doc.snapshot));
 
-                                doc.on('change', function (op) {
+                                doc.on('change', function(op) {
                                     console.log("Version: " + doc.version + ":", op);
                                     console.log(JSON.stringify(doc.snapshot));
                                 });
 
-                                doc.on('shout', function (obj) {
+                                doc.on('shout', function(obj) {
 
                                     if (obj.newTab) {
-                                        withoutSync(function () {
+                                        withoutSync(function() {
                                             scope.workspace.active = obj.newTab;
                                         });
-                                    }
-                                    else if (obj.editor) {
-                                        withoutSync(function () {
+                                    } else if (obj.editor) {
+                                        withoutSync(function() {
                                             updateEditorOptions(editor, obj, true);
                                         });
 
@@ -227,6 +225,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                 call();
                                 disableSync = false;
                             }
+
 
                             function refreshActiveTab() {
                                 var ws = scope.workspace;
@@ -273,6 +272,26 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                 triggerChangeLater(scope);
                             });
 
+                            scope.hasFormatting = function() {
+                                var ext = getExtension(scope.workspace.active);
+                                return !!jsBeautify[ext];
+                            };
+
+                            scope.formatTab = function() {
+                                // check 
+                                if (!scope.hasFormatting()) {
+                                    return;
+                                }
+                                var ext = getExtension(scope.workspace.active);
+                                scope.activeTab.content = jsBeautify[ext](scope.activeTab.content, {
+                                    indent_size: indentSize
+                                });
+
+                                withoutSync(function() {
+                                    updateEditorContent(editor, scope.activeTab);
+                                });
+                            };
+
                             scope.$watch('activeTab.editor', function() {
                                 if (scope.mode !== 'player') {
                                     return;
@@ -288,7 +307,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                     return;
                                 }
                                 if ($state) {
-                                    $state.shout({newTab: scope.workspace.active});
+                                    $state.shout({
+                                        newTab: scope.workspace.active
+                                    });
                                 }
                                 withoutSync(function() {
                                     updateEditorContent(editor, scope.activeTab);
@@ -342,7 +363,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
             options.firstVisibleRow = editor.getFirstVisibleRow();
             options.lastVisibleRow = editor.getLastVisibleRow();
 
-            $state.shout({editor: options});
+            $state.shout({
+                editor: options
+            });
         }
 
         function updateEditorContent(editor, tab, forceUpdateCursor) {
@@ -389,13 +412,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
             updateEditorScroll(ed, tab);
         }
 
+
         function getExtension(name) {
-            return name.split('|')[1];
+            var name2 = name.split('|');
+            return name2[name2.length - 1];
         }
 
         function updateMode(editor, name, givenMode) {
             var modesMap = {
-                'js': 'javascript'
+                'js': 'javascript',
+                'es6': 'javascript'
             };
 
             var mode;

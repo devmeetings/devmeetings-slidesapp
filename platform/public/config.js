@@ -58,10 +58,14 @@ require.config({
         "dm-mongotime": "../dm-mongotime/dm-mongotime",
         "dm-gravatar": "../dm-gravatar/dm-gravatar",
         "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
-
         "bcsocket":"/channel/bcsocket",
         "share" : "/share/share.uncompressed",
-        "sharejs-ace" : "/share/ace"
+        "sharejs-ace" : "/share/ace",
+        "js-beautify": "../components/js-beautify/js/index",
+        "lib/beautify": "../components/js-beautify/js/lib/beautify",
+        "lib/beautify-css": "../components/js-beautify/js/lib/beautify-css",
+        "lib/beautify-js": "../components/js-beautify/js/lib/beautify-js",
+        "lib/beautify-html": "../components/js-beautify/js/lib/beautify-html"
     },
     "map": {
         "*": {
