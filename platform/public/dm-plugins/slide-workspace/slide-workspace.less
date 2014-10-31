@@ -7,20 +7,60 @@
 	}
 
     .workspace-tab {
-        border-radius: 0px;
+        border-radius: 0;
         position: relative;
+
+        &.workspace-upload > div, > a {
+            color: #ccc;
+            font-size: 0.9em;
+            padding: 4px 15px;
+            overflow: hidden;
+        }
+
+        &.workspace-file-tab {
+            width: 130px;
+            text-align: left;
+            white-space: nowrap;
+
+            .type-icon {
+                font-size: 5px;
+                top: -2px;
+                position: relative;
+                left: -2px;
+            }
+            .type-html .type-icon {
+                color: #44e;
+            }
+            .type-js .type-icon {
+                color: #4e4;
+            }
+            .type-css .type-icon {
+                color: #e44;
+            }
+            .type-jade .type-icon {
+                color: #59f;
+            }
+            .type-less .type-icon {
+                color: #f82;
+            }
+            .type-coffee .type-icon {
+                color: #6a2
+            }
+        }
 
         .workspace-tab-close, .workspace-tab-edit {
             position: absolute;
-            top: 0;
+            bottom: 0;
             right: 0;
             opacity: 0;
             padding: 0;
             transition: opacity 0.3s;
         }
+        .workspace-tab-close {
+            right: auto;
+            left: 0;
+        }
         .workspace-tab-edit {
-            top: auto;
-            bottom: 0;
             font-size: 7px;
             font-weight: normal;
         }
@@ -49,6 +89,36 @@
 
     .workspace-tab-active {
         background-color: rgb(44,44,44);
+    }
+
+    .workspace-upload {
+        > div {
+            margin-right: 2px;
+            line-height: 1.428571429;
+            border: 1px solid transparent;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            color: #fff;
+            overflow: hidden;
+
+            &:hover {
+                text-decoration: none;
+                background-color: #222222;
+            }
+        }
+        input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: -35px;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            width: 45px;
+            height: 40px;
+            cursor: pointer;
+        }
     }
 
     .tab-content {
@@ -112,6 +182,22 @@
 
     &:hover {
         opacity: 1.0;
+    }
+}
+.loading-spinner {
+    position: absolute;
+    z-index: 10000;
+    left: 5px;
+    top: 5px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 0 0 5px 0;
+    color: #222;
+    opacity: 1.0;
+    transition: opacity 0.5s ease;
+
+    &.hidde {
+        opacity: 0.0
     }
 }
 

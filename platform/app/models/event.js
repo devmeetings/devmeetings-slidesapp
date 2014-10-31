@@ -42,6 +42,7 @@ var Event = new Schema({
         }]
     }],
 
+    rankingLink: String,
     ranking: {
         people: [{
             user: {
@@ -62,5 +63,3 @@ var Event = new Schema({
 });
 
 module.exports = mongoose.model('event', Event);
-
-
