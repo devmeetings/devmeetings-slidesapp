@@ -38,8 +38,11 @@
                     a(ng-if="isUploading")
                         | Uploading {{ uploadingState }}%
                     div.cursor-pointer(analytics-event="workspace-upload", analytics-category="workspace", analytics-on="click", ng-if="!isUploading")
-                        input(type="file", ng-file-select="onFileSelect($files)")
+                        input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)")
                         span.fa.fa-upload
+                li.workspace-tab.pull-right(ng-if="hasFormatting()")
+                    a.cursor-pointer(ng-click="formatTab()")
+                        span.fa.fa-indent
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container
