@@ -172,6 +172,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             enableLiveAutocompletion: false
                         });
 
+                        (function vimMode(){
+                            if (scope.workspace.vim || (localStorage && localStorage.getItem('vimMode'))) {
+                                editor.setKeyboardHandler("ace/keyboard/vim");
+                            }
+                        }());
+
                         scope.$watch('output.width', function() {
                             // Because of animation we have to make timeout
                             $timeout(function(){
