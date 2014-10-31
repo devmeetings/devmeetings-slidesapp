@@ -374,7 +374,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
     }
 
     function getExtension(name) {
-        return name.split('|')[1];
+        var name2 = name.split('|');
+        return name2[name2.length - 1];
     }
 
     function updateMode(editor, name, givenMode) {
