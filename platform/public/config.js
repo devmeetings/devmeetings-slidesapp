@@ -59,7 +59,7 @@ require.config({
         "dm-wavesurfer": "../dm-wavesurfer/dm-wavesurfer",
 
         "bcsocket":"/channel/bcsocket",
-        "share" : "/share/share",
+        "share" : "/share/share.uncompressed",
         "sharejs-ace" : "/share/ace"
     },
     "map": {

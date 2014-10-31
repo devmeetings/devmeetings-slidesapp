@@ -18,7 +18,10 @@ plugins.invokePlugins('init', [config]);
 
 var app = express();
 
-var options = {browserChannel:{cors: "*"},db:{type:'none'}}; // See docs for options. {type: 'redis'} to enable     persistance.
+var options = {
+    db:{type:'none'},
+    browserChannel: { cors: '*' }
+}; // See docs for options. {type: 'redis'} to enable     persistance.
 
 // Attach the sharejs REST and Socket.io interfaces to the server
 sharejs.attach(app, options);
