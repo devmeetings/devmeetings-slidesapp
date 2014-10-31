@@ -3,7 +3,7 @@ mixin slidesMixin()
         a(href='\#{{slide._id}}') {{ slide.content.name }}
 
 
-nav.navbar.navbar-default.navbar-slides(role='navigation')
+nav.navbar.navbar-default.navbar-slides.navbar-fixed-bottom(role='navigation')
     .navbar-header
         button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-slides")
             span.sr-only Toggle navigation
