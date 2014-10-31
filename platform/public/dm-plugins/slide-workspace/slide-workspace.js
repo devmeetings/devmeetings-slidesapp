@@ -172,6 +172,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             enableLiveAutocompletion: false
                         });
 
+                        scope.$watch('output.width', function() {
+                            // Because of animation we have to make timeout
+                            $timeout(function(){
+                                editor.resize();
+                            }, 500);
+                        });
+
                         scope.$watch('workspace.tabs', function() {
                             undoManager.reset();
                         });
