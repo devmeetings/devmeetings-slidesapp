@@ -287,6 +287,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                 if (!scope.activeTab) {
                                     return;
                                 }
+                                if ($state) {
+                                    $state.shout({newTab: scope.workspace.active});
+                                }
                                 withoutSync(function() {
                                     updateEditorContent(editor, scope.activeTab);
                                     updateEditorOptions(editor, scope.activeTab);
@@ -304,9 +307,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                                 withoutSync(function() {
                                     var ws = scope.workspace;
                                     var active = ws.active;
-                                    if ($state) {
-                                        $state.shout({newTab: active});
-                                    }
                                     scope.activeTab = ws.tabs ? ws.tabs[active] : null;
                                     if (!scope.activeTab) {
                                         return;
