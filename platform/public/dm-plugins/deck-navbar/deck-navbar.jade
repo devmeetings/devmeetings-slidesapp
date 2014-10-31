@@ -16,7 +16,7 @@ nav.navbar.navbar-default.navbar-slides.navbar-fixed-bottom(role='navigation')
                     span.glyphicon.glyphicon-th-large
 
     #navbar-slides.collapse.navbar-collapse
-        div.slimScrollDiv(style="position: relative; width: calc(100% - 60px); height: 40px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 
+        div.slimScrollDiv(style="position: relative; width: calc(100% - 120px); height: 45px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 
             ul.nav.navbar-nav.nav-slides(ng-if="$root.modes.isEditMode", ui-sortable="sortableOptions", ng-model="slides")
                 mixin slidesMixin() 
             ul.nav.navbar-nav.nav-slides(ng-if="!$root.modes.isEditMode", ng-model="slides")
