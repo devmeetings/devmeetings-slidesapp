@@ -44,6 +44,8 @@ exports.deck = function(req, res) {
         title: 'Devmeetings.pl',
         withGoogleAnalytics: req.withGoogleAnalytics,
         slides: req.params.slides,
+        from: req.query.from,
+        to: req.query.to
     }));
 };
 

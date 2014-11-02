@@ -1,4 +1,5 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager'], function(module, _, sliderPlugins, ace, WorkspaceUndoManager) {
+define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager'], 
+    function(module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
     'use strict';
 
     var EDITOR_THEME = 'todr';
@@ -157,16 +158,31 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
 
                     var $e = element.find('.editor');
                     $timeout(function() {
+
+                        var indentSize = 2;
                         var editor = ace.edit($e[0]);
                         editor.setTheme('ace/theme/' + EDITOR_THEME);
                         editor.setValue("");
-                        editor.getSession().setTabSize(2);
+                        editor.getSession().setTabSize(indentSize);
                         editor.getSession().setUseSoftTabs(true);
                         editor.getSession().setUseWrapMode(!!scope.workspace.wrap);
                         editor.setOptions({
                             enableBasicAutocompletion: true,
                             enableSnippets: true,
                             enableLiveAutocompletion: false
+                        });
+
+                        (function vimMode(){
+                            if (scope.workspace.vim || (localStorage && localStorage.getItem('vimMode'))) {
+                                editor.setKeyboardHandler("ace/keyboard/vim");
+                            }
+                        }());
+
+                        scope.$watch('output.width', function() {
+                            // Because of animation we have to make timeout
+                            $timeout(function(){
+                                editor.resize();
+                            }, 500);
                         });
 
                         scope.$watch('workspace.tabs', function() {
@@ -237,6 +253,27 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
                             }
                             triggerChangeLater(scope);
                         });
+
+
+                        scope.hasFormatting = function() {
+                            var ext = getExtension(scope.workspace.active);
+                            return !!jsBeautify[ext];
+                        };
+
+                        scope.formatTab = function() {
+                            // check 
+                            if (!scope.hasFormatting()) {
+                                return;
+                            }
+                            var ext = getExtension(scope.workspace.active);
+                            scope.activeTab.content = jsBeautify[ext](scope.activeTab.content, {
+                                indent_size: indentSize
+                            });
+
+                            withoutSync(function(){
+                                updateEditorContent(editor, scope.activeTab);
+                            });
+                        };
 
                         scope.$watch('activeTab.editor', function() {
                             if (scope.mode !== 'player') {
@@ -350,7 +387,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './workspace-undo-manager
     }
 
     function getExtension(name) {
-        return name.split('|')[1];
+        var name2 = name.split('|');
+        return name2[name2.length - 1];
     }
 
     function updateMode(editor, name, givenMode) {

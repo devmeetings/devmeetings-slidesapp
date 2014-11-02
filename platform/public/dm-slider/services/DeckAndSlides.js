@@ -1,6 +1,6 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.factory('DeckAndSlides', ['$q',
-        function($q) {
+    sliderPlugins.factory('DeckAndSlides', ['$q', '$rootScope',
+        function($q, $rootScope) {
 
             /* TODO [ToDr] Rethink and merge CurrentSlideManagerForDeck & DeckAndSlides ? */
             var asPromise = function(path) {
@@ -19,10 +19,21 @@ define(['slider/slider.plugins'], function(sliderPlugins) {
                     return this.deckId !== null;
                 },
                 _deck: function() {
+                    function findSlideIdx(slides, id, defaultIdx) {
+                        var idx = slides.map(function(slide){
+                            return slide._id;
+                        }).indexOf(id);
+                        return idx === -1 ? defaultIdx : idx;
+                    }
+
                     return {
                         deckId: slides,
                         deck: asPromise('require/decks/' + slides),
-                        slides: asPromise('require/decks/' + slides + '/slides')
+                        slides: asPromise('require/decks/' + slides + '/slides').then(function(slides){
+                            var from = findSlideIdx(slides, $rootScope.from, 0);
+                            var to = findSlideIdx(slides, $rootScope.to, slides.length);
+                            return slides.slice(from, to);
+                        })
                     };
                 },
                 _slide: function() {
