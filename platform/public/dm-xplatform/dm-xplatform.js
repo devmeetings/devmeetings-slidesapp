@@ -302,7 +302,7 @@ require(['angular',
                     }
                 });
 
-                 $stateProvider.state('index.space.question', {
+                $stateProvider.state('index.space.question', {
                     url: '/question/:slide?parent',
                     views: {
                         content: {
@@ -345,7 +345,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.deck', {
-                    url: '/deck/:iteration/:deck',
+                    url: '/deck/:iteration/:deck?from&to',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck.html',
