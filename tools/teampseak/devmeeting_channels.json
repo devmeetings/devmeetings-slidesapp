@@ -11,6 +11,6 @@
 	  		{ "name": "Para Bravo #2", "parent": "Team Bravo" }, 
 	  	{ "name": "Team Charlie", "parent": "Grupy" },
 	  		{ "name": "Para Charlie #1", "parent": "Team Charlie" },
-	  		{ "name": "Para Charlie #2", "parent": "Team Charlie" },   		
+	  		{ "name": "Para Charlie #2", "parent": "Team Charlie" }
 	]
 }

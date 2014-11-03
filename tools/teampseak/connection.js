@@ -6,8 +6,8 @@ var SERVER_IP = "62.67.42.152";
 var SERVER_PORT = "9100";
 var VIRTUAL_SID = 3699;
 
-var LOGIN = "devmeetings_bot";
-var PASSWORD = "3CV5bonA";
+var LOGIN = "mganko";
+var PASSWORD = "Y3CyxVbF";
 
 var cl = new TeamSpeakClient(SERVER_IP, SERVER_PORT);
 
