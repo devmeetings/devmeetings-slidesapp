@@ -39,7 +39,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                         $scope.nextStop = anno.timestamp;
                     }
                 }
-            }, 10);
+            }, 3);
 
             $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 
