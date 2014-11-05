@@ -177,17 +177,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             sharejs.open('mentor', 'text', function(error, doc) {
                                 $state = doc;
-                                doc.attach_ace(editor, true);
 
-                                //console.log('Document open at version ' + doc.version);
-                                //if (doc.created) {
-                                //    console.log('The document was created!');
-                                //}
-                                //console.log(JSON.stringify(doc.snapshot));
+                                doc.on('remoteop', function(op) {
+                                    console.log("RemoteOp Version: " + doc.version + ":", op);
+                                    console.log("RemoteOp: ",JSON.stringify(doc.snapshot));
+                                    scope.activeTab.content = doc.snapshot ;
 
-                                doc.on('change', function(op) {
-                                    console.log("Version: " + doc.version + ":", op);
-                                    console.log(JSON.stringify(doc.snapshot));
+                                    withoutSync(function() {
+                                        updateEditorContent(editor, scope.activeTab);
+                                    });
+                                    // }
+                                    triggerChangeLater(scope);
                                 });
 
                                 doc.on('shout', function(obj) {
@@ -264,11 +264,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
 
-                                if (scope.mode === 'player') {
+                               if (scope.mode === 'player') {
                                     withoutSync(function() {
                                         updateEditorContent(editor, scope.activeTab);
                                     });
-                                }
+                               }
                                 triggerChangeLater(scope);
                             });
 
@@ -278,7 +278,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             };
 
                             scope.formatTab = function() {
-                                // check 
+                                // check
                                 if (!scope.hasFormatting()) {
                                     return;
                                 }
@@ -355,6 +355,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         function syncEditorContent(editor, tab) {
             tab.content = editor.getValue();
+            if($state){
+                $state.del(0, $state.getText().length);
+                $state.insert(0, tab.content);
+            }
         }
 
         function syncEditorOptions(editor, options) {
