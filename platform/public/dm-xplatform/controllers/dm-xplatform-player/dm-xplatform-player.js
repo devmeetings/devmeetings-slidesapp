@@ -46,7 +46,9 @@ define(['angular', 'xplatform/xplatform-app', '_',
             $scope.$watch('state.currentSecond', goToSecond);
 
             dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
-                $scope.annotations = material.annotations;
+                $scope.annotations = material.annotations.sort(function(a, b) {
+                    return a.timestamp - b.timestamp;
+                });
             });
 
         }
