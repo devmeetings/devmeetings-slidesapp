@@ -14,12 +14,28 @@
     background-color: rgb(30,30,30);
     overflow: hidden;
 }
+.dm-spacesidebar-right-container {
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 10;
+}
 
 
 .dm-space, 
 .dm-spacesidebar {
     -webkit-transition: all 0.25s ease;
     transition: all 0.25s ease;
+}
+.dm-spacesidebar-user {
+    position: absolute;
+    bottom: 0;
+    min-width: 200px;
+
+    a {
+        line-height: 40px;
+        color: #888888;
+    }
 }
 
 .dm-spacesidebar-right {

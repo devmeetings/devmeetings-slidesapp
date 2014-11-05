@@ -22,8 +22,18 @@ var Event = new Schema({
                 ref: 'recording'
             },
             deck: {
-                type: Schema.Types.ObjectId,
-                ref: 'decks'
+                deck: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'decks'
+                },
+                from: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'slides'
+                },
+                to: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'slides'
+                }
             },
             annotations: [{
                 title: String,

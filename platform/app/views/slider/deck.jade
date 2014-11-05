@@ -12,6 +12,7 @@ block title
 
 block content
     div(ng-init="$root.modes.isEditMode=#{editMode}")
+    div(ng-init="$root.from='#{from}'; $root.to='#{to}';")
     div.full-height(ng-controller="SliderCtrl")
         .col-sm-12.full-height
             .row.full-height

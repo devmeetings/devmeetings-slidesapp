@@ -17,6 +17,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             leading: false,
             trailing: true
         });
+
         var triggerSave = _.throttle(function() {
             sliderPlugins.trigger('slide.save');
         }, 20);
@@ -66,6 +67,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                                 content: value
                                             };
                                         });
+                                        refreshActiveTab($scope);
                                         triggerSave();
                                         applyChangesLater($scope);
                                     });
@@ -94,6 +96,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 out.width = 6;
                             }
                         };
+
 
                         // This is temporary hack!
                         function promptForName(old) {
@@ -156,6 +159,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                         var $e = element.find('.editor');
                         $timeout(function() {
+
                             var indentSize = 2;
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
@@ -167,6 +171,19 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 enableBasicAutocompletion: true,
                                 enableSnippets: true,
                                 enableLiveAutocompletion: false
+                            });
+
+                            (function vimMode() {
+                                if (scope.workspace.vim || (localStorage && localStorage.getItem('vimMode'))) {
+                                    editor.setKeyboardHandler("ace/keyboard/vim");
+                                }
+                            }());
+
+                            scope.$watch('output.width', function() {
+                                // Because of animation we have to make timeout
+                                $timeout(function() {
+                                    editor.resize();
+                                }, 500);
                             });
 
                             scope.$watch('workspace.tabs', function() {
@@ -226,12 +243,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 disableSync = false;
                             }
 
-
-                            function refreshActiveTab() {
-                                var ws = scope.workspace;
-                                scope.activeTab = ws.tabs[ws.active];
-                            }
-
                             editor.on('change', function() {
                                 if (disableSync) {
                                     return;
@@ -264,13 +275,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
 
-                               if (scope.mode === 'player') {
+                                if (scope.mode === 'player') {
                                     withoutSync(function() {
                                         updateEditorContent(editor, scope.activeTab);
                                     });
-                               }
+                                }
                                 triggerChangeLater(scope);
                             });
+
 
                             scope.hasFormatting = function() {
                                 var ext = getExtension(scope.workspace.active);
@@ -317,10 +329,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 });
                             });
 
-                            scope.$watch('workspace', refreshActiveTab);
+                            scope.$watch('workspace', refreshActiveTab.bind(null, scope));
 
                             scope.$on('slide:update', function() {
-                                refreshActiveTab();
+                                refreshActiveTab(scope);
                             });
 
                             // Tab switch
@@ -352,6 +364,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                 };
             }
         ]);
+
+
+        function refreshActiveTab(scope) {
+            var ws = scope.workspace;
+            scope.activeTab = ws.tabs[ws.active];
+        }
 
         function syncEditorContent(editor, tab) {
             tab.content = editor.getValue();
@@ -415,7 +433,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             updateEditorSelection(ed, tab, forceUpdateCursor);
             updateEditorScroll(ed, tab);
         }
-
 
         function getExtension(name) {
             var name2 = name.split('|');

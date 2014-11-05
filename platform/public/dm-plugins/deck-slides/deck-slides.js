@@ -15,12 +15,17 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                 templateUrl: path + '/deck-slides.html',
 
                 link: function(scope, element) {
-                    var onSlideChange = function(activeSlideId) {
+                    var onSlideChange = function onSlideChange(activeSlideId) {
                         scope.slide = _.find(scope.deck.deckSlides, {
                             _id: activeSlideId
                         });
                         if (!scope.slide && scope.deck.deckSlides) {
                             activateSlide(0);
+                        }
+                        if (!scope.deck.deckSlides) {
+                            $timeout(function(){
+                                onSlideChange(activeSlideId);
+                            }, 100);
                         }
                     };
 

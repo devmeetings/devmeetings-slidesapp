@@ -26,7 +26,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-question/dm-xplatform-question',
         'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
         'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create',
-        'xplatform/controllers/dm-xplatform-saves/dm-xplatform-saves',
         'xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck',
         'xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide'
     ],
@@ -285,6 +284,10 @@ require(['angular',
                             showTitle: true,
                             title: ''
                         };
+                        $rootScope.headerHidden = true;
+                    },
+                    onExit: function($rootScope) {
+                        $rootScope.headerHidden = false;
                     }
                 });
 
@@ -302,7 +305,7 @@ require(['angular',
                     }
                 });
 
-                 $stateProvider.state('index.space.question', {
+                $stateProvider.state('index.space.question', {
                     url: '/question/:slide?parent',
                     views: {
                         content: {
@@ -345,7 +348,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.deck', {
-                    url: '/deck/:iteration/:deck',
+                    url: '/deck/:iteration/:deck?from&to',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck.html',
