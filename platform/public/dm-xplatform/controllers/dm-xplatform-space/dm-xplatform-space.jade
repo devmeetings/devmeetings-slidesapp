@@ -108,15 +108,16 @@
                         | {{user.result.name}}
 
 
-        .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
+        .dm-space(ng-style='{"width": "calc(100% - " + left.current + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
 
-        .dm-spacesidebar(ng-style='{"width": right.current}')
-            a.btn.pull-left.dm-space-toggle.cursor-pointer(
-                analytics-category='spacesidebar',
-                analytics-on='click', analytics-event='spacesidebar.toggle'
-                ng-click='toggleRight()')
+        .dm-spacesidebar.dm-spacesidebar-right-container(
+            ng-style='{"width": right.current}',
+            analytics-category='spacesidebar',
+            analytics-on='mouse-enter', analytics-event='spacesidebar.toggle'
+            ng-mouseenter='toggleRight()')
+            //a.btn.pull-left.dm-space-toggle.cursor-pointer()
                 span.fa.fa-align-justify
             tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
                 tab.cursor-pointer(id='stream', active='tabs.stream', 

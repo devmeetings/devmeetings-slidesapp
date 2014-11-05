@@ -10,7 +10,7 @@ define([
     /* jshint ignore:start */
     var hashCode = function(str) {
         var hash = 0;
-        if (str.length === 0) return hash;
+        if (!str || str.length === 0) return hash;
         var i = 0;
         for (; i < str.length; i++) {
             var char = str.charCodeAt(i);
