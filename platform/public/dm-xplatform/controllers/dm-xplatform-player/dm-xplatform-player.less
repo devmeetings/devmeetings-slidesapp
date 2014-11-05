@@ -1,0 +1,23 @@
+@subtitlesHeight: 60px;
+.dm-player-subtitles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    z-index: 10;
+    color: #eee;
+    font-size: 1.3em;
+
+    height: @subtitlesHeight;
+    overflow: auto;
+}
+.btn-next-subtitle {
+    border-radius: 0;
+    position: absolute;
+    bottom: @subtitlesHeight;
+    left: 0;
+    padding: 5px 50px;
+    z-index: 50;
+}

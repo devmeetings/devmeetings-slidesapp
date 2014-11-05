@@ -1,2 +1,13 @@
 .col-xs-12.full-height
+    button.btn.btn-default.pull-left.btn-next-subtitle(
+        ng-show="!state.isPlaying",
+        ng-click="state.isPlaying = true")
+            span Dalej 
+            span.fa.fa-chevron-right
+    .dm-player-subtitles
+        .animate.dm-annos-item(
+                ng-repeat='p in annotations | orderBy: "-timestamp" | orderBy: "index"', 
+                ng-if='p.timestamp <= state.currentSecond')
+                dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet"')
+                dm-microtask(microtask='p', ng-if='p.type === "task"')
     plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''")

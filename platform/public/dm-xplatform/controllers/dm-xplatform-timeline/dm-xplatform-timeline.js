@@ -18,7 +18,10 @@ define(['angular', 'xplatform/xplatform-app', '_',
             });
 
 
-            var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0];
+            var rates =
+                [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0,
+                    5.0, 10.0, 20.0, 40.0
+                ];
             $scope.state.playbackRate = rates[0];
             $scope.changeRate = function() {
                 var nextRate = rates.indexOf($scope.state.playbackRate) + 1;
@@ -27,6 +30,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 $scope.state.playbackRate = rates[nextRate];
             };
             $scope.changeRate();
+            $scope.state.playbackRate = 40.0;
 
             $scope.keys.keyUp = function(event) {
                 if (event.keyCode !== 32 || event.target.type === 'textarea') {

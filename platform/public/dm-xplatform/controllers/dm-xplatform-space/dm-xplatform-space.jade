@@ -116,34 +116,14 @@
             ng-style='{"width": right.current}'
             analytics-category='spacesidebar'
             analytics-on='mouse-enter'
-            analytics-event='spacesidebar.toggle'
             ng-mouseenter='toggleRight(true)'
             ng-mouseleave='toggleRight(false)'
         )
-            tabset.dm-spacesidebar-right(
-                ng-class='{"active": !right.opened}'
-            )
-                tab.cursor-pointer(
-                    id='stream'
-                    active='tabs.stream'
-                    analytics-category='spacesidebar'
-                    analytics-on='click'
-                    analytics-event='spacesidebar.stream'
-                )
-                    tab-heading(
-                        tooltip='Baza wiedzy',
-                        tooltip-placement='bottom'
-                    )
-                        span.fa.fa-newspaper-o
-                    .col-xs-12.full-height
-                        .row.full-height(ui-view='first')
-
-                tab.cursor-pointer(
-                    id='issues'
-                    active='tabs.issues'
-                    analytics-category='spacesidebar'
-                    analytics-on='click'
-                    analytics-event='spacesidebar.issues'
+            tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
+                tab.cursor-pointer(id='issues', active='tabs.issues',
+                    analytics-category='spacesidebar',
+                    analytics-on='click', analytics-event='spacesidebar.issues',
+                    select='toggleRight(true)'
                 )
                     tab-heading(
                         tooltip='Pytania',
@@ -151,10 +131,21 @@
                     )
                         span.fa.fa-warning
                     .col-xs-12.dm-space-questions
+                        .row
+                            h3 Pytania i problemy
                         .row(
                             ng-controller='dmXplatformQuestion'
                             ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"'
                         )
+                tab.cursor-pointer(id='stream', active='tabs.stream',
+                    analytics-category='spacesidebar',
+                    analytics-on='click', analytics-event='spacesidebar.stream',
+                    select='toggleRight(true)'
+                )
+                    tab-heading(tooltip='Baza wiedzy', tooltip-placement='bottom')
+                        span.fa.fa-newspaper-o
+                    .col-xs-12.full-height
+                        .row.full-height(ui-view='first')
 
     .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
 

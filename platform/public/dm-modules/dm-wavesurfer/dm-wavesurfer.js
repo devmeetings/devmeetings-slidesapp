@@ -30,8 +30,11 @@ define(['angular'], function(angular) {
 
                     var ready = false;
                     var audio = element.find('audio')[0];
+                    audio.volume = 0;
+
                     scope.$watch('dmPlaybackRate', function() {
                         audio.playbackRate = scope.dmPlaybackRate || 1.0;
+                        audio.defaultPlaybackRate = audio.playbackRate;
                     });
 
                     scope.$watch('dmSrc', function() {
@@ -91,9 +94,7 @@ define(['angular'], function(angular) {
                         if (!ready && scope.dmStartSecond) {
                             audio.currentTime = scope.dmStartSecond; // start from last position
                         }
-
                         ready = true;
-
                         audio.play();
                     }, false);
 
@@ -150,5 +151,4 @@ define(['angular'], function(angular) {
             }
         }
     ]);
-
 });
