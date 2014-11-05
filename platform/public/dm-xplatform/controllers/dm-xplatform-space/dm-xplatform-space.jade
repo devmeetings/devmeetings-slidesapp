@@ -2,10 +2,16 @@
     .row(ng-style='{"height": "calc(100% - " + bottombarHeight + ")"}')
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
-            .col-sm-12
-                .row.clearfix
+            .row.clearfix
+                .col-sm-12
                     a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
                         span.fa.fa-align-justify
+                    a.pull-left.btn.btn-link(href='#', 
+                        analytics-category='menu',
+                        analytics-on='click', analytics-event='navbar.logo')
+                        img(src="static/images/navbar/xplatform_logo.png")
+            br
+            // Workspace warning
             .col-xs-12(ng-if='warningType === "mine"')
                 .row
                     .alert.alert-warning.dm-space-alert
@@ -89,6 +95,18 @@
                             span.nav-icon.fa.fa-bar-chart
                             span Ranking
 
+                .dm-spacesidebar-user(ng-if="user")
+                    img.avatar-holder.pull-left(
+                        ng-src='{{user.result.avatar | dmGravatar:20}}', 
+                        ui-sref='index.devhero({id: user.result._id})',
+                        analytics-category='menu',
+                        analytics-on='click', analytics-event='profile.photo')
+                    a.ng-cloak(
+                        ui-sref="index.devhero({id: user.result._id})", 
+                        analytics-category='menu',
+                        analytics-on='click', analytics-event='navbar.profile.text')
+                        | {{user.result.name}}
+
 
         .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.current + ")"}')
             .col-xs-12.full-height
@@ -118,20 +136,6 @@
                         span.fa.fa-warning
                     .col-xs-12.dm-space-questions
                         .row(ng-controller='dmXplatformQuestion', ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"')
-
-                //-tab.cursor-pointer(id='chat', active='tabs.chat', 
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.chat',
-                    select='toggleRight(true)')
-                    tab-heading(
-                        tooltip='Czat', tooltip-placement='bottom')
-                        span.fa.fa-wechat
-                    dm-chat(name='TESTER')
-                //-tab(id='docs', active='tabs.docs', select='toggleRight(true)')
-                    tab-heading(tooltip='Zapisane stany', tooltip-placement='bottom')
-                        span.fa.fa-paperclip
-                    .col-xs-12.dm-space-saves(ng-if='tabs.docs')
-                        .row(ng-controller='dmXplatformSaves', ng-include='"/static/dm-xplatform/controllers/dm-xplatform-saves/index.html"')
 
 
     .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
