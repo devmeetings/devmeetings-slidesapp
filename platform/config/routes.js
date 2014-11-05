@@ -1,6 +1,7 @@
 var passport = require('passport');
 
 var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
+    console.log(req.user);
     if (req.user) {
         redirectIfNeeded(req, res, next);
     } else if (shouldRedirect) {
@@ -76,7 +77,7 @@ module.exports = function(app) {
     var decks = require('../app/controllers/decks');
     app.get('/api/decks', apiAuthenticated, decks.list);
     app.get('/api/decks/:id', apiAuthenticated, decks.get);
-    app.post('/api/decks', apiAuthenticated, authorized('admin:slides'),decks.create);
+    app.post('/api/decks', apiAuthenticated, authorized('admin:slides'), decks.create);
     app.delete('/api/decks/:id', apiAuthenticated, authorized('admin:super'), decks.delete);
     app.put('/api/decks/:id', apiAuthenticated, authorized('admin:slides'), decks.edit);
 
@@ -84,7 +85,7 @@ module.exports = function(app) {
     app.get('/api/recordings', apiAuthenticated, recordings.list);
     app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
     app.post('/api/recordings/:id/split/:time', apiAuthenticated, authorized('admin:super'), recordings.split);
-    app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'),recordings.cutout);
+    app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'), recordings.cutout);
 
     var events = require('../app/controllers/events');
     app.get('/api/events', events.all);
@@ -218,7 +219,7 @@ module.exports = function(app) {
     var slider = require('../app/controllers/slider');
     app.get('/decks/:slides', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
     app.get('/decks/:slides/trainer', authenticated, authorized('trainer'), slider.trainer);
-    app.get('/slides/:slide', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'),slider.slide);
+    app.get('/slides/:slide', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.slide);
 
     // Admin panel
     var admin = require('../app/controllers/admin');
