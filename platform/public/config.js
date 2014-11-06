@@ -16,6 +16,7 @@ require.config({
         "xplatform": "../dm-xplatform",
         "dm-admin": "../dm-admin",
         "dm-modules": "../dm-modules",
+        "dm-courses": "../dm-courses",
 
         // libs
         "jquery": "../components/jquery/dist/jquery",

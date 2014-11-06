@@ -1,0 +1,11 @@
+extends ../layouts/main
+
+append scripts
+    script(src='/static/components/requirejs/require.js')
+    script(src='/static/config.js?v=#{cacheBustingVersion}')
+    script(src='#{jsModulesPath}/dm-courses/dm-courses#{cacheBustingVersion}.js')
+
+block content
+    .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
+        div(ui-view)
+            h1 Hello Courses
