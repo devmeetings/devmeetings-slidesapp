@@ -196,8 +196,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 $state = doc;
 
                                 doc.on('remoteop', function(op) {
-                                    //console.log("RemoteOp Version: " + doc.version + ":", op);
-                                    //console.log("RemoteOp: ",JSON.stringify(doc.snapshot));
                                     scope.activeTab.content = doc.snapshot ;
 
                                     withoutSync(function() {
@@ -281,7 +279,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             });
 
-                            editor.getSession().getSelection().on('changeCursor', function() {
+                            function syncEditorOptionsOnSelectionOrCurosrChange(){
                                 if (disableSync) {
                                     return;
                                 }
@@ -289,7 +287,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 syncEditorOptions(editor, scope.activeTab.editor);
                                 triggerSave();
                                 applyChangesLater(scope);
-                            });
+                            }
+
+                            editor.getSession().getSelection().on('changeSelection', syncEditorOptionsOnSelectionOrCurosrChange);
+
+                            editor.getSession().getSelection().on('changeCursor', syncEditorOptionsOnSelectionOrCurosrChange);
 
                             // Active tab
                             scope.$watch('activeTab.mode', function(mode) {
@@ -416,9 +418,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             options.firstVisibleRow = editor.getFirstVisibleRow();
             options.lastVisibleRow = editor.getLastVisibleRow();
 
-            $state.shout({
-                editor: options
-            });
+            if ($state){
+                $state.shout({
+                    editor: options
+                });
+            }
         }
 
         function updateEditorContent(editor, tab, forceUpdateCursor) {
