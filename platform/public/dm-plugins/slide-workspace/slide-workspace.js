@@ -160,7 +160,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         var $e = element.find('.editor');
                         $timeout(function() {
 
-                            var indentSize = 2;
+                            var indentSize = 2, isRemoteWorkspace = false;
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
                             editor.setValue("");
@@ -208,7 +208,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 });
 
                                 doc.on('shout', function(obj) {
-
+                                    isRemoteWorkspace = true;
                                     if (obj.newTab) {
                                         withoutSync(function() {
                                             scope.workspace.active = obj.newTab;
@@ -318,11 +318,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (!scope.activeTab) {
                                     return;
                                 }
-                                if ($state) {
+                                if ($state && !isRemoteWorkspace) {
                                     $state.shout({
                                         newTab: scope.workspace.active
                                     });
                                 }
+                                isRemoteWorkspace = false;
+
                                 withoutSync(function() {
                                     updateEditorContent(editor, scope.activeTab);
                                     updateEditorOptions(editor, scope.activeTab);
