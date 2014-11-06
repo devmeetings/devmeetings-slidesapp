@@ -160,7 +160,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         var $e = element.find('.editor');
                         $timeout(function() {
 
-                            var indentSize = 2, isRemoteWorkspace = false;
+                            var indentSize = 2, isRemoteWorkspace = false, disableScrollSync = false;
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
                             editor.setValue("");
@@ -196,8 +196,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 $state = doc;
 
                                 doc.on('remoteop', function(op) {
-                                    console.log("RemoteOp Version: " + doc.version + ":", op);
-                                    console.log("RemoteOp: ",JSON.stringify(doc.snapshot));
+                                    //console.log("RemoteOp Version: " + doc.version + ":", op);
+                                    //console.log("RemoteOp: ",JSON.stringify(doc.snapshot));
                                     scope.activeTab.content = doc.snapshot ;
 
                                     withoutSync(function() {
@@ -214,10 +214,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             scope.workspace.active = obj.newTab;
                                         });
                                     } else if (obj.editor) {
+                                        disableScrollSync = true;
                                         withoutSync(function() {
                                             updateEditorOptions(editor, obj, true);
                                         });
 
+                                    } else if (obj.scrollTop){
+                                        disableScrollSync = true;
+                                        editor.getSession().setScrollTop(obj.scrollTop);
+                                    } else if (obj.scrollLeft){
+                                        disableScrollSync = true;
+                                        editor.getSession().setScrollLeft(obj.scrollLeft);
                                     }
 
                                     applyChangesLater(scope);
@@ -250,6 +257,28 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 syncEditorContent(editor, scope.activeTab);
                                 triggerSave();
                                 applyChangesLater(scope);
+                            });
+
+                            editor.on('mousedown', function(){
+                                disableScrollSync = false;
+                            });
+
+                            editor.getSession().on('changeScrollTop', function(yPos){
+                                if ($state && !disableScrollSync) {
+                                    $state.shout({
+                                        scrollTop: yPos
+                                    });
+                                }
+
+                            });
+
+                            editor.getSession().on('changeScrollLeft', function(yPos){
+                                if ($state && !disableScrollSync) {
+                                    $state.shout({
+                                        scrollLeft: yPos
+                                    });
+                                }
+
                             });
 
                             editor.getSession().getSelection().on('changeCursor', function() {
