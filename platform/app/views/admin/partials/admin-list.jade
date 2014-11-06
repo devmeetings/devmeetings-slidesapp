@@ -27,6 +27,8 @@ mixin slideCell(trashAction)
             span.glyphicon.glyphicon-trash
           a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}")
             span.fa.fa-external-link
+          a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}?edit=true")
+            span.fa.fa-pencil
           span &nbsp;
           a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
             {{ deck.title }}

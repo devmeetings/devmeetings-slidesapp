@@ -1,7 +1,6 @@
 var passport = require('passport');
 
 var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
-    console.log(req.user);
     if (req.user) {
         redirectIfNeeded(req, res, next);
     } else if (shouldRedirect) {
