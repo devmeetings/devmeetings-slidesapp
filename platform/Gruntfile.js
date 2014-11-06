@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                 name: module, // assumes a production build using almond
                 out: "public/bin/" + path + '/' + module + "-" + version + ".js",
                 paths: {
-                    "templates": "../bin/templates-"+version,
+                    "templates": "../bin/templates-" + version,
                     "slider/bootstrap": "../bin/bootstrap",
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
@@ -104,7 +104,7 @@ module.exports = function(grunt) {
                     }
                 },
                 src: ['public/**/*.html', '!public/components/**'],
-                dest: 'public/bin/templates-'+version+'.js'
+                dest: 'public/bin/templates-' + version + '.js'
             }
         },
         watch: {
@@ -190,7 +190,8 @@ module.exports = function(grunt) {
             deck: rjsOptimizationModule('dm-slider', "slider-deck"),
             slide: rjsOptimizationModule('dm-slider', "slider-slide"),
             trainer: rjsOptimizationModule('dm-slider', "slider-trainer"),
-            xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform')
+            xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform'),
+            courses: rjsOptimizationModule('dm-courses', 'dm-courses/dm-courses'),
         }
     });
 
