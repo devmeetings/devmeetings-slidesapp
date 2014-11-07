@@ -12,7 +12,8 @@
                     ng-class="{'workspace-tab-active': workspace.active === tabName && !output.show }")
                     a.cursor-pointer(
                         class="{{ 'type-' + getType(tabName) }}",
-                        ng-click="workspace.active = tabName;output.show = false") 
+                        ng-click="setActiveTabName(tabName)",
+                        ng-disabled="isStudent()"),
                         span.fa.fa-circle.type-icon
                         |  {{ toFileName(tabName) }}
                     a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",
@@ -43,13 +44,18 @@
                 li.workspace-tab.pull-right(ng-if="hasFormatting()")
                     a.cursor-pointer(ng-click="formatTab()")
                         span.fa.fa-indent
+                li.workspace-tab.pull-right
+                    div.btn-group
+                        label.btn.btn-sm.btn-primary(ng-model="mode", btn-radio="'student'") student
+                        label.btn.btn-sm.btn-primary(ng-model="mode", btn-radio="'mentor'") mentor
+
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container
                     .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
                 .errors.alert.alert-danger.errors-fiddle {{ errors }}
             .tab-content(ng-show="output.show", ng-if="!output.sideBySide")
-                slide-workspace-output.full-height    
+                slide-workspace-output.full-height
 
     .sw-col.full-height(
         ng-if="output.sideBySide"

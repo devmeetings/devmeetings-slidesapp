@@ -4,7 +4,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
-        var $state;
+        var $state, readOnly = false;
 
         var applyChangesLater = _.debounce(function(scope) {
             scope.$apply();
@@ -85,6 +85,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         };
                         scope.getType = getExtension;
 
+                        //mode for editor
+                        // student - workspace is read-only
+                        // menotr - can make changes on workspace
+                        scope.mode = 'mentor';
+
                         scope.changeWidth = function() {
                             var out = scope.output;
                             out.width -= 2;
@@ -150,6 +155,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             return tab.replace(/\|/g, '.');
                         };
 
+                        scope.isStudent = function(){
+                            return scope.mode === 'student';
+                        };
+
+                        scope.isMentor = function(){
+                            return scope.mode === 'mentor';
+                        };
+
+                        scope.setActiveTabName = function(tab) {
+                            if (scope.isMentor()) {
+                                scope.workspace.active = tab;
+                                scope.output.show = false;
+                            }
+                        };
+
                         // Editor
                         /*
                          * [ToDr] Not sure why we need to introduce timeout here,
@@ -188,6 +208,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             scope.$watch('workspace.tabs', function() {
                                 undoManager.reset();
+                            });
+
+                            scope.$watch('mode', function(newMode){
+                                if (newMode === 'student'){
+                                    editor.setReadOnly(true);
+                                    readOnly = true;
+                                }
+                                else if (newMode === 'mentor'){
+                                    editor.setReadOnly(false);
+                                    readOnly = false;
+                                }
                             });
 
                             editor.getSession().setUndoManager(undoManager);
@@ -262,7 +293,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             editor.getSession().on('changeScrollTop', function(yPos){
-                                if ($state && !disableScrollSync) {
+                                if ($state && !disableScrollSync && !readOnly) {
                                     $state.shout({
                                         scrollTop: yPos
                                     });
@@ -271,7 +302,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             editor.getSession().on('changeScrollLeft', function(yPos){
-                                if ($state && !disableScrollSync) {
+                                if ($state && !disableScrollSync && !readOnly) {
                                     $state.shout({
                                         scrollLeft: yPos
                                     });
@@ -349,7 +380,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (!scope.activeTab) {
                                     return;
                                 }
-                                if ($state && !isRemoteWorkspace) {
+                                if ($state && !isRemoteWorkspace && !readOnly) {
                                     $state.shout({
                                         newTab: scope.workspace.active
                                     });
@@ -418,7 +449,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             options.firstVisibleRow = editor.getFirstVisibleRow();
             options.lastVisibleRow = editor.getLastVisibleRow();
 
-            if ($state){
+            if ($state && !readOnly){
                 $state.shout({
                     editor: options
                 });
