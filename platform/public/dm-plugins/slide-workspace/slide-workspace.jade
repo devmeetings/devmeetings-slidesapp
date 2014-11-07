@@ -13,7 +13,7 @@
                     a.cursor-pointer(
                         class="{{ 'type-' + getType(tabName) }}",
                         ng-click="setActiveTabName(tabName)",
-                        ng-disabled="isStudent()"),
+                        ng-disabled="isStudent()")
                         span.fa.fa-circle.type-icon
                         |  {{ toFileName(tabName) }}
                     a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",
