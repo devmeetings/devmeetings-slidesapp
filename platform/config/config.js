@@ -32,7 +32,14 @@ var config = {
         db: 'mongodb://' + mongoHost + '/platform-development',
         queue: rabbitHost,
         graylog: false,
-        logger: 'dev'
+        logger: 'dev',
+        teamspeak: {
+            host: "62.67.42.152",
+            port: "9100",
+            sid: 3699,
+            login: "mganko",
+            password: "Y3CyxVbF"
+        }
     },
 
     test: {
@@ -59,7 +66,14 @@ var config = {
         db: 'mongodb://' + mongoHost + '/platform-test',
         queue: rabbitHost,
         graylog: false,
-        logger: 'dev'
+        logger: 'dev',
+        teamspeak: {
+            host: "62.67.42.152",
+            port: "9100",
+            sid: 3699,
+            login: "mganko",
+            password: "Y3CyxVbF"
+        }
     },
 
     staging: {
@@ -91,7 +105,14 @@ var config = {
             host: 'pinkiepie.todr.me',
             port: 1782
         },
-        logger: 'dev'
+        logger: 'dev',
+        teamspeak: {
+            host: "62.67.42.152",
+            port: "9100",
+            sid: 3699,
+            login: "mganko",
+            password: "Y3CyxVbF"
+        }
     },
 
     production: {
@@ -123,7 +144,14 @@ var config = {
             host: 'pinkiepie.todr.me',
             port: 1782
         },
-        logger: 'prod'
+        logger: 'prod',
+        teamspeak: {
+            host: "62.67.42.152",
+            port: "9100",
+            sid: 3699,
+            login: "mganko",
+            password: "Y3CyxVbF"
+        }
     }
 };
 

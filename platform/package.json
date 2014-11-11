@@ -48,7 +48,8 @@
     "traceur": "0.0.72",
     "when": "^3.2.2",
     "winston": "^0.7.3",
-    "winston-graylog2": "^0.1.10"
+    "winston-graylog2": "^0.1.10",
+    "node-teamspeak": "^1.0.4"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

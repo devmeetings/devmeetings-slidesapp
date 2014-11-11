@@ -2,41 +2,44 @@ var mongoose = require('mongoose');
 
 module.exports = mongoose.model('user', new mongoose.Schema({
     userId: {
-        type: String, 
+        type: String,
         required: true
     },
     name: {
         type: String,
-        required: true 
+        required: true
     },
-    email: { 
-        type: String 
+    email: {
+        type: String
     },
-    password: { 
-        type: String 
+    password: {
+        type: String
     },
-    type: { 
+    type: {
         type: String,
-        enum: ['local', 'g+', 'fb', 'github'], 
-        default: 'local' 
+        enum: ['local', 'g+', 'fb', 'github'],
+        default: 'local'
     },
     verified: {
         type: Boolean,
-        default: false 
+        default: false
     },
-    acl: { 
+    acl: {
         type: [String],
-        enum: ['admin', 'teacher', 'student'], 
+        enum: ['admin', 'teacher', 'student'],
         default: 'student'
     },
     added: {
-        type: Date, 
-        default: Date.now 
+        type: Date,
+        default: Date.now
     },
     bio: {
-        type: String     
+        type: String
     },
     avatar: {
-        type: String        
+        type: String
+    },
+    ts3ClientDatabaseId: {
+        type: Number
     }
 }));
