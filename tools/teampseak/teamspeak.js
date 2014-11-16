@@ -1,14 +1,14 @@
-var Users = require('../services/users'),
-    _ = require('lodash'),
+var TeamSpeakClient = require("node-teamspeak"),
     Q = require('q'),
-    TeamSpeakClient = require("node-teamspeak"),
-    config = require('../../config/config'),
-    TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port),
-    commandCounter = 0;
+    _ = require('lodash');
 
-function castArray(element) {
-    return _.isArray(element) ? element : [element];
-}
+var SERVER_HOST = "eurots8.gameservers.com",
+    SERVER_PORT = 9100,
+    VIRTUAL_SID = 4336,
+    LOGIN = "mganko",
+    PASSWORD = "sraCgx27",
+    TsClient = new TeamSpeakClient(SERVER_HOST, SERVER_PORT),
+    commandCounter = 0;
 
 function wrap(promise) {
     promise.thenSend = function (name, data) {
@@ -29,6 +29,8 @@ function send(name, data) {
     commandCounter++;
     console.log('Send: ' + name + ' [' + commandCounter + ']');
 
+    // Tutaj należy przerywać po 10ciu poleceniach bo bedzie Ban na 10 minut!
+
     TsClient.send(name, data, function (err, response, raw) {
         if (err.id === '0' || err.msg === 'ok') {
             defer.resolve(response);
@@ -36,31 +38,8 @@ function send(name, data) {
             defer.reject(err);
         }
     });
+
     return wrap(defer.promise);
-}
-
-function getClients(cid, clients) {
-    return clients.filter(function (client) {
-        return client.cid == cid && client.client_type === 0;
-    });
-}
-
-function makeTree(channels, cid, clients) {
-    var tree = [];
-    channels.forEach(function (channel) {
-        if (channel.pid == cid && /spacer(.*?)]/.test(channel.channel_name) === false) {
-            tree.push(
-                {
-                    cid: channel.cid,
-                    pid: channel.pid,
-                    name: channel.channel_name,
-                    clients: getClients(channel.cid, clients),
-                    children: makeTree(channels, channel.cid, clients)
-                }
-            );
-        }
-    });
-    return tree;
 }
 
 function create(options) {
@@ -114,36 +93,6 @@ function createChannels(channelsSource, cid) {
     return defer.promise;
 }
 
-function getChannelList() {
-    var defer = Q.defer();
-
-    promise.thenSend('channellist', ['flags']).then(function (results) {
-        defer.resolve(castArray(results));
-    }).fail(function (error) {
-        defer.reject(error);
-    });
-
-    return defer.promise;
-}
-
-/**
- * Move clients to specified channel
- * @param {Array} clients - Clients IDs
- * @param {Number} channelId - Target channel ID
- * @returns {Promise}
- */
-function moveClients(clients, channelId) {
-    var defer = Q.defer();
-
-    promise.thenSend('clientmove', {clid: clients, cid: channelId}).then(function (results) {
-        defer.resolve(castArray(results));
-    }).fail(function (error) {
-        defer.reject(error);
-    });
-
-    return defer.promise;
-}
-
 /**
  * @param {Number} channelId
  * @returns {Promise}
@@ -160,47 +109,32 @@ function removeChannel(channelId) {
     return defer.promise;
 }
 
+function castArray(element) {
+    return _.isArray(element) ? element : [element];
+}
+
+function getChannelList() {
+    var defer = Q.defer();
+
+    promise.thenSend('channellist', ['flags']).then(function (results) {
+        defer.resolve(castArray(results));
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
 var promise = send("use", {
-    sid: config.teamspeak.sid
+    sid: VIRTUAL_SID
 }).thenSend("login", {
-    client_login_name: config.teamspeak.login,
-    client_login_password: config.teamspeak.password
+    client_login_name: LOGIN,
+    client_login_password: PASSWORD
 }).fail(function (error) {
     console.error(new Error('Teamspeak - ' + error.msg));
 });
 
 module.exports = {
-
-    getChannelList: getChannelList,
-
-    /**
-     * Return tree with channels and clients
-     */
-    getList: function () {
-        var defer = Q.defer(),
-            channels;
-
-        promise.thenSend('channellist', ['limits', 'flags', 'voice', 'icon']).then(function (results) {
-            channels = castArray(results);
-        }).thenSend('clientlist', ['away', 'voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
-            try {
-                defer.resolve(makeTree(channels, 0, castArray(clients)));
-            } catch (error) {
-                defer.reject(new Error(error));
-            }
-        });
-        return defer.promise;
-    },
-
-    moveClients: moveClients,
-
-    /**
-     * Connect active user with Teamspeak client
-     * @param {User} user
-     */
-    setUserConnection: function (user) {
-
-    },
 
     /**
      * Import channel structure
@@ -211,7 +145,6 @@ module.exports = {
         var defer = Q.defer();
 
         createChannels(options, 0).then(function (results) {
-            console.log(results);
             defer.resolve(results);
         }).fail(function (error) {
             defer.reject(error);
@@ -233,7 +166,6 @@ module.exports = {
                     return defer.resolve();
                 }
                 removeChannel(channel.cid).then(function(results){
-                    console.log(results);
                     defer.resolve(results);
                 }).fail(function (error) {
                     defer.reject(error);

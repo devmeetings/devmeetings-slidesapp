@@ -34,11 +34,11 @@ var config = {
         graylog: false,
         logger: 'dev',
         teamspeak: {
-            host: "62.67.42.152",
-            port: "9100",
-            sid: 3699,
+            host: "eurots8.gameservers.com",
+            port: 9100,
+            sid: 4336,
             login: "mganko",
-            password: "Y3CyxVbF"
+            password: "sraCgx27"
         }
     },
 
@@ -68,11 +68,11 @@ var config = {
         graylog: false,
         logger: 'dev',
         teamspeak: {
-            host: "62.67.42.152",
-            port: "9100",
-            sid: 3699,
+            host: "eurots8.gameservers.com",
+            port: 9100,
+            sid: 4336,
             login: "mganko",
-            password: "Y3CyxVbF"
+            password: "sraCgx27"
         }
     },
 
@@ -107,11 +107,11 @@ var config = {
         },
         logger: 'dev',
         teamspeak: {
-            host: "62.67.42.152",
-            port: "9100",
-            sid: 3699,
+            host: "eurots8.gameservers.com",
+            port: 9100,
+            sid: 4336,
             login: "mganko",
-            password: "Y3CyxVbF"
+            password: "sraCgx27"
         }
     },
 
@@ -146,11 +146,11 @@ var config = {
         },
         logger: 'prod',
         teamspeak: {
-            host: "62.67.42.152",
-            port: "9100",
-            sid: 3699,
+            host: "eurots8.gameservers.com",
+            port: 9100,
+            sid: 4336,
             login: "mganko",
-            password: "Y3CyxVbF"
+            password: "sraCgx27"
         }
     }
 };

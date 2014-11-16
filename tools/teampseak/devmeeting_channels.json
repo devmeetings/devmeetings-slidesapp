@@ -1,16 +1,102 @@
-{ 
-	"channel_codec": "4",
- 	"channel_codec_quality": "6",
- 	"channelstructure" : [
-	  { "name": "Grupy", "parent": "" },
-	  	{ "name": "Team Alpha", "parent": "Grupy" },
-	  		{ "name": "Para Alpha #1", "parent": "Team Alpha" },
-	  		{ "name": "Para Alpha #2", "parent": "Team Alpha" },  
-	  	{ "name": "Team Bravo", "parent": "Grupy" },
-	  		{ "name": "Para Bravo #1", "parent": "Team Bravo" },
-	  		{ "name": "Para Bravo #2", "parent": "Team Bravo" }, 
-	  	{ "name": "Team Charlie", "parent": "Grupy" },
-	  		{ "name": "Para Charlie #1", "parent": "Team Charlie" },
-	  		{ "name": "Para Charlie #2", "parent": "Team Charlie" }
-	]
+{
+  "options": {
+	"channel_flag_permanent": 1,
+	"channel_codec_quality": 6,
+	"channel_codec": 4
+  },
+  "structure": [
+	{
+	  "options": {
+		"channel_name": "Classroom",
+		"channel_needed_talk_power": 99
+	  }
+	},
+	{
+	  "options": {
+		"channel_name": "Dining room"
+	  },
+	  "children": [
+		{
+		  "options": {},
+		  "structure": [
+			{
+			  "options": {
+				"channel_name": "Team 1"
+			  },
+			  "children": []
+			}
+		  ]
+		},
+		{
+		  "options": {},
+		  "structure": [
+			{
+			  "options": {
+				"channel_name": "Team 2"
+			  },
+			  "children": []
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "options": {
+		"channel_name": "Living room"
+	  },
+	  "children": [
+		{
+		  "options": {},
+		  "structure": [
+			{
+			  "options": {
+				"channel_name": "Team 1"
+			  },
+			  "children": []
+			}
+		  ]
+		},
+		{
+		  "options": {},
+		  "structure": [
+			{
+			  "options": {
+				"channel_name": "Team 2"
+			  },
+			  "children": []
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "options": {
+		"channel_name": "Redroom"
+	  },
+	  "children": [
+		{
+		  "options": {},
+		  "structure": [
+			{
+			  "options": {
+				"channel_name": "Team 1"
+			  },
+			  "children": []
+			}
+		  ]
+		},
+		{
+		  "options": {},
+		  "structure": [
+			{
+			  "options": {
+				"channel_name": "Team 2"
+			  },
+			  "children": []
+			}
+		  ]
+		}
+	  ]
+	}
+  ]
 }
