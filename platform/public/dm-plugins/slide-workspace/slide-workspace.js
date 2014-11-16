@@ -6,6 +6,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
         var path = sliderPlugins.extractPath(module);
         var $state, readOnly = false;
 
+
         var applyChangesLater = _.debounce(function(scope) {
             scope.$apply();
         }, 500);
@@ -89,6 +90,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         // student - workspace is read-only
                         // menotr - can make changes on workspace
                         scope.mode = 'mentor';
+                        scope.setUpMode = false;
 
                         scope.changeWidth = function() {
                             var out = scope.output;
@@ -181,6 +183,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         $timeout(function() {
 
                             var indentSize = 2, isRemoteWorkspace = false, disableScrollSync = false;
+
+                            var docName;
+
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
                             editor.setValue("");
@@ -211,55 +216,113 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             scope.$watch('mode', function(newMode){
-                                if (newMode === 'student'){
-                                    editor.setReadOnly(true);
-                                    readOnly = true;
+
+                                if (newMode === 'mentor_session'){
+
+                                    startNewSession('m');
+
                                 }
-                                else if (newMode === 'mentor'){
-                                    editor.setReadOnly(false);
-                                    readOnly = false;
-                                }
+
+                                //if (newMode === 'student'){
+                                //    editor.setReadOnly(true);
+                                //    readOnly = true;
+                                //}
+                                //else if (newMode === 'mentor'){
+                                //    editor.setReadOnly(false);
+                                //    readOnly = false;
+                                //}
                             });
 
-                            editor.getSession().setUndoManager(undoManager);
 
-                            sharejs.open('mentor', 'text', function(error, doc) {
-                                $state = doc;
+                            function getWorkspaceMode(){
+                                var availableWorkspaceModes = {
+                                    m : 'mentor',
+                                    p: 'pair',
+                                    get: function(key){
+                                        if (availableWorkspaceModes[key] !== undefined){
+                                            return availableWorkspaceModes[key];
+                                        }
+                                        return null;
+                                    }
+                                };
+                                var result = /ref=([m|p]:[^&]*)/.exec(window.location.search);
+                                editor.setReadOnly(true);
+                                readOnly = true;
 
-                                doc.on('remoteop', function(op) {
-                                    scope.activeTab.content = doc.snapshot ;
+                                if (result !== null) {
+                                    scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0,1));
+                                    docName = result[1];
 
-                                    withoutSync(function() {
-                                        updateEditorContent(editor, scope.activeTab);
-                                    });
-                                    // }
-                                    triggerChangeLater(scope);
-                                });
-
-                                doc.on('shout', function(obj) {
-                                    isRemoteWorkspace = true;
-                                    if (obj.newTab) {
-                                        withoutSync(function() {
-                                            scope.workspace.active = obj.newTab;
-                                        });
-                                    } else if (obj.editor) {
-                                        disableScrollSync = true;
-                                        withoutSync(function() {
-                                            updateEditorOptions(editor, obj, true);
-                                        });
-
-                                    } else if (obj.scrollTop){
-                                        disableScrollSync = true;
-                                        editor.getSession().setScrollTop(obj.scrollTop);
-                                    } else if (obj.scrollLeft){
-                                        disableScrollSync = true;
-                                        editor.getSession().setScrollLeft(obj.scrollLeft);
+                                    if ( localStorage && localStorage.getItem('role') === 'mentor' ) {
+                                        editor.setReadOnly(false);
+                                        readOnly = false;
                                     }
 
-                                    applyChangesLater(scope);
-                                });
+                                    scope.setUpMode = true;
 
-                            });
+                                    openShareJsDoc(docName);
+                                }
+                            }
+
+                            function startNewSession(prefix){
+                                var docName = prefix + ":" + randomString(),
+                                    url = window.location.protocol + "//" + window.location.host +
+                                          window.location.pathname + "?ref=" + docName + window.location.hash;
+                                openShareJsDoc(docName);
+                                localStorage && localStorage.setItem('role','mentor');
+                                window.open(url);
+                            };
+
+                            function randomString(){
+                                var i = '';
+                                while(i.length < 5) {
+                                    i = Math.random().toString(36).slice(2);
+                                };
+                                return i;
+                            };
+
+                            editor.getSession().setUndoManager(undoManager);
+                            getWorkspaceMode();
+
+                            function openShareJsDoc(docName){
+                                sharejs.open(docName, 'text', function(error, doc) {
+                                    $state = doc;
+
+                                    doc.on('remoteop', function(op) {
+                                        scope.activeTab.content = doc.snapshot ;
+
+                                        withoutSync(function() {
+                                            updateEditorContent(editor, scope.activeTab);
+                                        });
+                                        // }
+                                        triggerChangeLater(scope);
+                                    });
+
+                                    doc.on('shout', function(obj) {
+                                        isRemoteWorkspace = true;
+                                        if (obj.newTab) {
+                                            withoutSync(function() {
+                                                scope.workspace.active = obj.newTab;
+                                            });
+                                        } else if (obj.editor) {
+                                            disableScrollSync = true;
+                                            withoutSync(function() {
+                                                updateEditorOptions(editor, obj, true);
+                                            });
+
+                                        } else if (obj.scrollTop){
+                                            disableScrollSync = true;
+                                            editor.getSession().setScrollTop(obj.scrollTop);
+                                        } else if (obj.scrollLeft){
+                                            disableScrollSync = true;
+                                            editor.getSession().setScrollLeft(obj.scrollLeft);
+                                        }
+
+                                        applyChangesLater(scope);
+                                    });
+
+                                });
+                            }
 
                             scope.$watch('output.sideBySide', function() {
                                 scope.output.show = false;
