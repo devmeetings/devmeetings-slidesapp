@@ -51,7 +51,7 @@
                         input(id="restoreWorkspace", type="checkbox", ng-model="restoreWorkspace")
                         label(for="restoreWorkspace") Czy odtworzyć bieżące zmiany w sesji współdzielonej?
                         button.btn.btn-default.btn-xs(ng-click="startNewMentorSession()") Utwórz sesję mentora
-                        button.btn.btn-default.btn-xs(ng-click="mode = 'pair_session'") Utwórz sesję pair-programming
+                        button.btn.btn-default.btn-xs(ng-click="startNewPairSession()") Utwórz sesję pair-programming
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container

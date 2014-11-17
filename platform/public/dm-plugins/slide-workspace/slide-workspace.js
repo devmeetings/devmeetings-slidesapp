@@ -166,7 +166,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             var indentSize = 2, isRemoteWorkspace = false, disableScrollSync = false;
 
-                            var docName;
+
 
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
@@ -198,13 +198,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             //---------------- BEGIN CODE SHARE ---------------------------
-                            var isMentor = false;
+                            var isMentor = false, docName;
                             //mode for editor
                             // mentor_session - workspace is read-only
                             // pair_session - can make changes on workspace
                             scope.mode = '';
                             scope.workspaceMode = null;
                             scope.startNewMentorSession = startNewMentorSession;
+                            scope.startNewPairSession = startNewPairSession;
 
                             scope.isStudent = function () {
                                 if (scope.workspaceMode === null) {
@@ -251,16 +252,24 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0, 1));
                                     docName = result[1];
 
-                                    if (localStorage && localStorage.getItem('role') === 'mentor') {
-                                        editor.setReadOnly(false);
-                                        readOnly = false;
-                                        isMentor = true;
-                                        localStorage.removeItem('role');
+                                    if (scope.workspaceMode === 'mentor') {
+
+                                        openShareJsDoc(docName);
+
+                                        if (localStorage && localStorage.getItem('role') === 'mentor') {
+                                            editor.setReadOnly(false);
+                                            readOnly = false;
+                                            isMentor = true;
+                                            localStorage.removeItem('role');
+                                        }
+                                    }
+                                    else if (scope.workspaceMode === 'pair') {
+                                        openShareJsDoc(docName);
                                     }
 
                                     // scope.setUpMode = true;
 
-                                    openShareJsDoc(docName);
+
                                 }
                             }
 
@@ -268,15 +277,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 if (localStorage) {
                                     localStorage.setItem('role', 'mentor');
-                                    if (scope.restoreWorkspace) {
-                                        localStorage.setItem('workspace', JSON.stringify(scope.workspace));
-                                    }
-
                                 }
                                 startNewSession('m');
                             }
 
+                            function startNewPairSession () {
+
+                                startNewSession('p');
+                            }
+
                             function startNewSession (prefix) {
+
+                                if (localStorage && scope.restoreWorkspace) {
+                                    localStorage.setItem('workspace', JSON.stringify(scope.workspace));
+                                }
+
                                 var docName = prefix + ":" + randomString(),
                                     url = window.location.protocol + "//" + window.location.host +
                                         window.location.pathname + "?ref=" + docName + window.location.hash;
@@ -295,6 +310,47 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             getWorkspaceMode();
 
+                            function openShareJsDocForTab(docName){
+
+                                sharejs.open(docName, 'text', function (error, doc) {
+                                    $state = doc;
+
+
+                                    doc.on('remoteop', function (op) {
+                                        scope.activeTab.content = doc.snapshot;
+
+                                        withoutSync(function () {
+                                            updateEditorContent(editor, scope.activeTab);
+                                        });
+
+                                        triggerChangeLater(scope);
+                                    });
+
+                                    doc.on('shout', function (obj) {
+                                        isRemoteWorkspace = true;
+                                        if (obj.newTab) {
+                                            withoutSync(function () {
+                                                scope.workspace.active = obj.newTab;
+                                            });
+                                        } else if (obj.editor) {
+                                            disableScrollSync = true;
+                                            withoutSync(function () {
+                                                updateEditorOptions(editor, obj, true);
+                                            });
+
+                                        } else if (obj.scrollTop) {
+                                            disableScrollSync = true;
+                                            editor.getSession().setScrollTop(obj.scrollTop);
+                                        } else if (obj.scrollLeft) {
+                                            disableScrollSync = true;
+                                            editor.getSession().setScrollLeft(obj.scrollLeft);
+                                        }
+
+                                        applyChangesLater(scope);
+                                    });
+
+                                });
+                            }
 
                             function openShareJsDoc (docName) {
                                 sharejs.open(docName, 'text', function (error, doc) {
@@ -304,6 +360,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         if (localStorage && localStorage.getItem('workspace') !== null) {
                                             scope.workspace = JSON.parse(localStorage.getItem('workspace'));
                                             localStorage.removeItem('workspace');
+
+                                            _.each(scope.workspace.tabs, function(tab){
+                                                console.log(tab);
+                                               // openShareJsDocForTab(docName + '_' + tab);
+                                            });
                                         }
                                     }
 
