@@ -219,7 +219,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 if (newMode === 'mentor_session'){
 
-                                    startNewSession('m');
+                                    startNewMentorSession();
 
                                 }
 
@@ -246,10 +246,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     }
                                 };
                                 var result = /ref=([m|p]:[^&]*)/.exec(window.location.search);
-                                editor.setReadOnly(true);
-                                readOnly = true;
+
 
                                 if (result !== null) {
+                                    editor.setReadOnly(true);
+                                    readOnly = true;
+
                                     scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0,1));
                                     docName = result[1];
 
@@ -264,22 +266,30 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 }
                             }
 
+                            function startNewMentorSession(){
+
+                                //console.log(JSON.stringify(scope.workspace));
+                                startNewSession('m');
+                                if (localStorage) {
+                                    localStorage.setItem('role','mentor');
+                                }
+                            }
+
                             function startNewSession(prefix){
                                 var docName = prefix + ":" + randomString(),
                                     url = window.location.protocol + "//" + window.location.host +
                                           window.location.pathname + "?ref=" + docName + window.location.hash;
                                 openShareJsDoc(docName);
-                                localStorage && localStorage.setItem('role','mentor');
                                 window.open(url);
-                            };
+                            }
 
                             function randomString(){
                                 var i = '';
                                 while(i.length < 5) {
                                     i = Math.random().toString(36).slice(2);
-                                };
+                                }
                                 return i;
-                            };
+                            }
 
                             editor.getSession().setUndoManager(undoManager);
                             getWorkspaceMode();
@@ -294,7 +304,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         withoutSync(function() {
                                             updateEditorContent(editor, scope.activeTab);
                                         });
-                                        // }
+
                                         triggerChangeLater(scope);
                                     });
 
