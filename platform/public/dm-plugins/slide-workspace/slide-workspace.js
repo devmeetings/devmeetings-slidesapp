@@ -4,7 +4,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
-        var $state, readOnly = false;
+        var $state, $stateMap = {}, readOnly = false;
 
 
         var applyChangesLater = _.debounce(function (scope) {
@@ -167,7 +167,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             var indentSize = 2, isRemoteWorkspace = false, disableScrollSync = false;
 
 
-
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
                             editor.setValue("");
@@ -199,6 +198,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             //---------------- BEGIN CODE SHARE ---------------------------
                             var isMentor = false, docName;
+
+                            var availableWorkspaceModes = {
+                                m: 'mentor',
+                                p: 'pair',
+                                get: function (key) {
+                                    if (availableWorkspaceModes[key] !== undefined) {
+                                        return availableWorkspaceModes[key];
+                                    }
+                                    return null;
+                                }
+                            };
                             //mode for editor
                             // mentor_session - workspace is read-only
                             // pair_session - can make changes on workspace
@@ -232,27 +242,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             };
 
                             function getWorkspaceMode () {
-                                var availableWorkspaceModes = {
-                                    m: 'mentor',
-                                    p: 'pair',
-                                    get: function (key) {
-                                        if (availableWorkspaceModes[key] !== undefined) {
-                                            return availableWorkspaceModes[key];
-                                        }
-                                        return null;
-                                    }
-                                };
                                 var result = /ref=([m|p]:[^&]*)/.exec(window.location.search);
 
 
                                 if (result !== null) {
-                                    editor.setReadOnly(true);
-                                    readOnly = true;
 
                                     scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0, 1));
                                     docName = result[1];
 
                                     if (scope.workspaceMode === 'mentor') {
+
+                                        editor.setReadOnly(true);
+                                        readOnly = true;
 
                                         openShareJsDoc(docName);
 
@@ -264,7 +265,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         }
                                     }
                                     else if (scope.workspaceMode === 'pair') {
-                                        openShareJsDoc(docName);
+                                        // openShareJsDoc(docName);
+
+                                        createShereJsDocsForTabs(docName);
+
                                     }
 
                                     // scope.setUpMode = true;
@@ -310,29 +314,36 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             getWorkspaceMode();
 
-                            function openShareJsDocForTab(docName){
+                            function openShareJsDocForTab (docName, tabName) {
 
-                                sharejs.open(docName, 'text', function (error, doc) {
-                                    $state = doc;
+                                sharejs.open(docName + '_' + tabName, 'text', function (error, doc) {
+                                    $stateMap[tabName] = doc;
 
 
                                     doc.on('remoteop', function (op) {
-                                        scope.activeTab.content = doc.snapshot;
 
-                                        withoutSync(function () {
-                                            updateEditorContent(editor, scope.activeTab);
-                                        });
+                                        var ws = scope.workspace;
+                                        var active = ws.active;
+
+                                        if (active === tabName) {
+                                            scope.activeTab.content = doc.snapshot;
+
+                                            withoutSync(function () {
+                                                updateEditorContent(editor, scope.activeTab);
+                                            });
+
+
+                                        }
+                                        else {
+                                            ws.tabs[tabName].content = doc.snapshot;
+                                        }
 
                                         triggerChangeLater(scope);
                                     });
 
                                     doc.on('shout', function (obj) {
                                         isRemoteWorkspace = true;
-                                        if (obj.newTab) {
-                                            withoutSync(function () {
-                                                scope.workspace.active = obj.newTab;
-                                            });
-                                        } else if (obj.editor) {
+                                        if (obj.editor) {
                                             disableScrollSync = true;
                                             withoutSync(function () {
                                                 updateEditorOptions(editor, obj, true);
@@ -352,6 +363,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 });
                             }
 
+                            function createShereJsDocsForTabs (docName) {
+                                _.each(scope.workspace.tabs, function (tab, tabName) {
+                                    openShareJsDocForTab(docName, tabName);
+                                });
+                            }
+
                             function openShareJsDoc (docName) {
                                 sharejs.open(docName, 'text', function (error, doc) {
                                     $state = doc;
@@ -361,10 +378,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             scope.workspace = JSON.parse(localStorage.getItem('workspace'));
                                             localStorage.removeItem('workspace');
 
-                                            _.each(scope.workspace.tabs, function(tab){
-                                                console.log(tab);
-                                               // openShareJsDocForTab(docName + '_' + tab);
-                                            });
                                         }
                                     }
 
@@ -432,7 +445,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (disableSync) {
                                     return;
                                 }
-                                syncEditorContent(editor, scope.activeTab);
+                                syncEditorContent(editor, scope.activeTab, scope.workspace.active);
                                 triggerSave();
                                 applyChangesLater(scope);
                             });
@@ -584,9 +597,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             scope.activeTab = ws.tabs[ws.active];
         }
 
-        function syncEditorContent (editor, tab) {
+        function syncEditorContent (editor, tab, tabName) {
+            var tabState = $stateMap[tabName];
             tab.content = editor.getValue();
-            if ($state) {
+
+            if (tabState !== undefined) {
+                tabState.del(0, tabState.getText().length);
+                tabState.insert(0, tab.content);
+            } else if ($state) {
                 $state.del(0, $state.getText().length);
                 $state.insert(0, tab.content);
             }
