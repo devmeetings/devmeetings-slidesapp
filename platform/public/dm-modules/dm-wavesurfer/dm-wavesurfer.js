@@ -83,11 +83,17 @@ define(['angular'], function(angular) {
                         });
                     }, false);
 
-                    audio.addEventListener('canplay', function(data) {
+                    audio.addEventListener('canplaythrough', function(data) {
+                        if (ready && audio.paused) {
+                            return;
+                        }
+
                         if (!ready && scope.dmStartSecond) {
                             audio.currentTime = scope.dmStartSecond; // start from last position
                         }
+
                         ready = true;
+
                         audio.play();
                     }, false);
 
