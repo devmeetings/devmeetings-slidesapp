@@ -26,7 +26,7 @@ module.exports = mongoose.model('user', new mongoose.Schema({
     },
     acl: { 
         type: [String],
-        enum: ['admin', 'teacher', 'student'], 
+        enum: ['admin:super', 'admin:slides', 'admin:events', 'trainer', 'student'], 
         default: 'student'
     },
     added: {

@@ -168,9 +168,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             editor.getSession().setUseSoftTabs(true);
                             editor.getSession().setUseWrapMode(!!scope.workspace.wrap);
                             editor.setOptions({
-                                enableBasicAutocompletion: true,
-                                enableSnippets: true,
-                                enableLiveAutocompletion: false
+                                enableBasicAutocompletion: !scope.workspace.noAutocomplete,
+                                enableSnippets: !scope.workspace.noAutocomplete,
+                                enableLiveAutocompletion: false,
+                                behavioursEnabled: !scope.workspace.noAutocomplete
                             });
 
                             (function vimMode() {
@@ -178,6 +179,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     editor.setKeyboardHandler("ace/keyboard/vim");
                                 }
                             }());
+
+                            editor.getSession().setUndoManager(undoManager);
 
                             scope.$watch('output.width', function() {
                                 // Because of animation we have to make timeout
@@ -189,8 +192,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             scope.$watch('workspace.tabs', function() {
                                 undoManager.reset();
                             });
-
-                            editor.getSession().setUndoManager(undoManager);
 
                             scope.$watch('output.sideBySide', function() {
                                 scope.output.show = false;
