@@ -1,16 +1,17 @@
 .slide-workspace {
+    position: relative;
+
     .sw-col {
         transition: width 0.4s ease;
     }
-	.editor {
-		position: relative;
-	}
+
+    .editor {
+        position: relative;
+    }
 
     .workspace-tab {
         border-radius: 0;
         position: relative;
-
-        
 
         &.workspace-upload > div, > a {
             color: #ccc;
@@ -132,7 +133,7 @@
     }
 
     .tab-content {
-        height: calc(~'100% - 40px');    
+        height: 100%;
         overflow: hidden;
     }
 
