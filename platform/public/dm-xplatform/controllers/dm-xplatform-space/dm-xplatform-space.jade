@@ -108,7 +108,7 @@
                         | {{user.result.name}}
 
 
-        .dm-space(ng-style='{"width": "calc(100% - " + left.current + ")"}')
+        .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
 
