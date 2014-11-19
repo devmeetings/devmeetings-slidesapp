@@ -14,15 +14,19 @@ define(['angular', 'xplatform/xplatform-app', '_',
             $scope.right = {
                 min: '50px',
                 max: '330px',
-                current: '330px',
-                opened: true
+                current: '50px',
+                opened: false
             };
 
             $scope.bottombarHeight = '0px';
 
             $scope.keys = {};
             $scope.tabs = {};
-            var aSpeed = 0.5;
+            var aSpeed = 0.2;
+
+            $timeout(function() {
+                $('.dm-spacesidebar-right .tab-content').hide();
+            });
 
             $scope.toggleRight = function(open) {
                 var right = $scope.right;
@@ -34,11 +38,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
                 if (open) {
 
-                    $('.dm-spacesidebar-right #stream').fadeOut(500 * aSpeed);
-                    $('.dm-spacesidebar-right #issues').fadeOut(400 * aSpeed);
-                    $('.dm-spacesidebar-right #chat').fadeOut(300 * aSpeed);
-                    $('.dm-spacesidebar-right #docs').fadeOut(200 * aSpeed);
-
                     $timeout(function() {
 
                         right.current = right.max;
@@ -46,10 +45,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
                             right.opened = open;
 
                             $('.dm-spacesidebar-right .tab-content').fadeIn(600 * aSpeed);
-                            $('.dm-spacesidebar-right #stream').fadeIn(200 * aSpeed);
-                            $('.dm-spacesidebar-right #issues').fadeIn(300 * aSpeed);
-                            $('.dm-spacesidebar-right #chat').fadeIn(400 * aSpeed);
-                            $('.dm-spacesidebar-right #docs').fadeIn(500 * aSpeed);
                         }, 250 * aSpeed);
 
                     }, 500 * aSpeed);
@@ -57,24 +52,10 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     return
                 }
 
-                $('.dm-spacesidebar-right #stream').fadeOut(500 * aSpeed);
-                $('.dm-spacesidebar-right #issues').fadeOut(400 * aSpeed);
-                $('.dm-spacesidebar-right #chat').fadeOut(300 * aSpeed);
-                $('.dm-spacesidebar-right #docs').fadeOut(200 * aSpeed);
+                $('.dm-spacesidebar-right .tab-content').hide();
 
-                $('.dm-spacesidebar-right .tab-content').fadeOut(600 * aSpeed, function() {
-                    $scope.$apply(function() {
-                        right.opened = open;
-                        right.current = right.min;
-
-                        $timeout(function() {
-                            $('.dm-spacesidebar-right #stream').fadeIn(200 * aSpeed);
-                            $('.dm-spacesidebar-right #issues').fadeIn(300 * aSpeed);
-                            $('.dm-spacesidebar-right #chat').fadeIn(400 * aSpeed);
-                            $('.dm-spacesidebar-right #docs').fadeIn(500 * aSpeed);
-                        }, 250 * aSpeed);
-                    });
-                });
+                right.opened = open;
+                right.current = right.min;
             };
 
 
