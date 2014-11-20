@@ -3,7 +3,7 @@ mixin formGroup(formName, fieldName)
     block
 
 div
-    div.alert.alert-info(ng-show="finished")
+    div.alert.alert-info(ng-show="finished && !scope.quiz.nextSlideId")
         span Dziękujemy za udział w konkursie.
     form(name="form", novalidate, ng-hide="finished")
 
@@ -21,7 +21,9 @@ div
                     ng-model="data.nick", placeholder="Będziemy mogli przesłać Ci feedback.")
         +formGroup('form', 'description')
             label.control-label Opis rozwiązania
-            textarea.form-control(required, name="description", 
+            textarea.form-control(
+                required, name="description", 
+                rows="4",
                 ng-minlength="5", ng-model="data.description", 
                 placeholder="Opisz nam co było problemem i jak udało Ci się to rozwiązać, albo dlaczego nie udało Ci się go rozwiązać.")
         progressbar(value="quiz.progress[0]", max="quiz.progress[1]", ng-if="quiz.progress", type="success")
