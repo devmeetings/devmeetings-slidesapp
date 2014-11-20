@@ -231,6 +231,10 @@ module.exports = function(grunt) {
             fs.copySync('./hooks/pre-commit.sample', '../.git/hooks/pre-commit');
             fs.chmodSync('../.git/hooks/pre-commit', '755');
         }
+        if (!fs.existsSync('./../.git/hooks/pre-push')) {
+            fs.copySync('./hooks/pre-push.sample', '../.git/hooks/pre-push');
+            fs.chmodSync('../.git/hooks/pre-push', '755');
+        }
     });
 
     grunt.registerTask('server', function() {
