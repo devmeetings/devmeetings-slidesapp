@@ -31,7 +31,7 @@ div
         .form-group
             button.btn.btn-success.btn-block(
                 ng-disabled="form.$invalid || sending", 
-                ng-click="submit(data.description, data.email)")
+                ng-click="submit(data.description, data.email, data.nick)")
                 span(ng-show="sending")
                     span.fa.fa-spin.fa-spinner
 
