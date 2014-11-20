@@ -4,5 +4,5 @@
             plugins-loader(namespace="'slide'", context="slide.content")
             plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
         .col-xs-offset-9.col-xs-3.dm-slide-panel(ng-if="slide.content.sidebar")
-            plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content")
             plugins-loader.full-height(namespace="'slide'", context="slide.content.sidebar")
+            plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content")
