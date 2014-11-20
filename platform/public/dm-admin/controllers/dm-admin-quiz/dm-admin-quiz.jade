@@ -14,13 +14,13 @@ h1 Quiz Answers
             input.form-control(type="number", ng-model="options.minAnswers")
         .from-group
             button.btn.btn-default.btn-xs(ng-click="options.searchForEmail = !options.searchForEmail", ng-class="{'active': options.searchForEmail}")
-                | Only with mails
+                | Only with mails/nicks
     
 .row
     .col-md-6.col-md-offset-3
         .list-group
             .list-group-item(ng-repeat="answer in answers | filter:minAnswersFilter | filter:searchForEmailFilter")
-                h3 {{ findEmail(answer).join(", ") || "-"}}
+                h4 {{ findField(answer, 'email').join(", ") || "-"}} ({{ findField(answer, 'nick').join(", ") || "-"}})
                 div.clearfix(ng-repeat="a in answer.answers")
                     div.pull-right
                         button.btn.btn-default.btn-xs(ng-click="showSlide = !showSlide")
@@ -44,5 +44,6 @@ h1 Quiz Answers
     .col-md-6.col-md-offset-3
         div(ng-repeat="(email, comment) in comments")
             p {{ email }}
+            p {{ nick }}
             p {{ comment }}
             br

@@ -8,8 +8,8 @@ define(['module',
 
             $scope.quiz = 'AngularAssessment';
             $scope.options = {
-            	minAnswers: 3,
-            	searchForEmail: false
+                minAnswers: 3,
+                searchForEmail: false
             };
 
             $scope.$watch('quiz', function(quiz) {
@@ -22,21 +22,21 @@ define(['module',
 
 
             $scope.minAnswersFilter = function(answer) {
-            	return answer.answers.length >= $scope.options.minAnswers;
+                return answer.answers.length >= $scope.options.minAnswers;
             };
-            $scope.searchForEmailFilter =function(answer) {
-            	if ($scope.options.searchForEmail) {
-            		return $scope.findEmail(answer).length;
-            	}
-            	return true;
+            $scope.searchForEmailFilter = function(answer) {
+                if ($scope.options.searchForEmail) {
+                    return $scope.findField(answer, 'email').length || $scope.findField(answer, 'nick').length;
+                }
+                return true;
             };
 
-            $scope.findEmail = function(answer) {
-            	return answer.answers.map(function(x){
-            		return x.email;
-            	}).filter(function(x){
-            		return x;
-            	});
+            $scope.findField = function(answer, field) {
+                return answer.answers.map(function(x) {
+                    return x[field];
+                }).filter(function(x) {
+                    return x;
+                });
             };
 
             $scope.comments = {};
