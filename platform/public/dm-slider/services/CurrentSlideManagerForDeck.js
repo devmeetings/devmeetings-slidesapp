@@ -1,4 +1,4 @@
- define(['slider/slider.plugins', 'services/DeckAndSlides', 'services/Sockets'], function(sliderPlugins) {
+ define(['slider/slider.plugins', 'services/DeckAndSlides'], function(sliderPlugins) {
      sliderPlugins.factory('CurrentSlideManagerForDeck', ['$rootScope', '$location', 'Sockets', 'DeckAndSlides',
          function($rootScope, $location, Sockets, DeckAndSlides) {
 
@@ -18,7 +18,7 @@
                  }
              });
 
-             Sockets.forwardEventToServer('slide.current.change');
+             sliderPlugins.forwardEventToServer('slide.current.change', Sockets);
 
              var updateCurrentSlide = function() {
                  var slideId = $location.url().substr(1);

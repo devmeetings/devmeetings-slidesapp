@@ -1,4 +1,4 @@
-define(['_', 'lz-string', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(_, lzString, sliderPlugins, Sockets, DeckAndSlides) {
+define(['_', 'lz-string', 'slider/slider.plugins', 'services/DeckAndSlides'], function(_, lzString, sliderPlugins, Sockets, DeckAndSlides) {
     sliderPlugins.factory('SlideLiveSave', ['Sockets', 'DeckAndSlides',
         function(Sockets, DeckAndSlides) {
 

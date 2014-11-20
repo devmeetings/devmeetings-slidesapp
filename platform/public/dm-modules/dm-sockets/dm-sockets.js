@@ -1,11 +1,12 @@
-define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid', 'services/DeckAndSlides'], function(_, sliderPlugins, io, asEvented, guid) {
+define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular, io, asEvented, guid) {
 
-    var CreateWebSocket = function(targetOrigin, $window, $location, deckId) {
+    var CreateWebSocket = function(targetOrigin, $window, $location) {
         var WebSocket = {
 
             _socket: null,
 
             _initialize: function() {
+                var deckId = (typeof slides === 'undefined') ? "-" : slides;
                 var protocol = $location.protocol();
                 this._socket = io.connect(protocol+'://' + $location.host() + "/?deck=" + deckId);
                 var s = this._socket;
@@ -119,29 +120,16 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid', 's
 
     var CreateBaseSocket = function($window) {
         var BaseSocket = {
-            _forwardedEvents: {},
 
             _initialize: function() {
                 $window.___hasSockets = true;
-                // Forward events
-                sliderPlugins.on('*', function(evName) {
-                    var args = [].slice.call(arguments, 1);
-
-                    if (this._forwardedEvents[evName]) {
-                        this.emit(evName, args);
-                    }
-                }.bind(this));
-            },
-
-            forwardEventToServer: function(evName) {
-                this._forwardedEvents[evName] = true;
             }
         };
         return BaseSocket;
     };
 
-    sliderPlugins.factory('Sockets', ['$location', '$window', 'DeckAndSlides',
-        function($location, $window, DeckAndSlides) {
+    angular.module('dm-sockets', []).factory('Sockets', ['$location', '$window',
+        function($location, $window) {
             var targetOrigin = $window.location;
 
             // ifowisko
@@ -149,7 +137,7 @@ define(['_', 'slider/slider.plugins', 'socket.io', 'asEvented', 'utils/guid', 's
             if ($window.parent.___hasSockets) {
                 Sockets = CreateForwardingSocket(targetOrigin, $window);
             } else {
-                Sockets = CreateWebSocket(targetOrigin, $window, $location, DeckAndSlides.deckId);
+                Sockets = CreateWebSocket(targetOrigin, $window, $location);
             }
 
             //initialize

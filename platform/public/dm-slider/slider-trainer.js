@@ -4,7 +4,6 @@ require([
     "slider/slider.plugins",
     "slider/bootstrap",
     "services/DeckAndSlides",
-    "services/Sockets",
     "directives/plugins-loader"
 ], function(tpl, slider, sliderPlugins, bootstrap) {
 
