@@ -1,10 +1,12 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager', 'share', 'sharejs-ace'],
+define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager',
+        'share', 'sharejs-ace'],
     function (module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
         'use strict';
 
+
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
-        var $state, $stateMap = {}, readOnly = false;
+        var $state, $stateMap = {}, readOnly = false, markers = {};
 
 
         var applyChangesLater = _.debounce(function (scope) {
@@ -79,7 +81,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                     link: function (scope, element) {
                         var undoManager = new WorkspaceUndoManager(scope, scope.workspace.tabs);
 
-
+                        //dmUser.getCurrentUser().then(function (data) {
+                        //    scope.user = data;
+						//
+                        //    console.log('user', data);
+                        //});
+                        console.log(scope.user);
                         scope.output = {
                             width: 6,
                             show: false,
@@ -343,6 +350,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     doc.on('shout', function (obj) {
                                         isRemoteWorkspace = true;
+                                        console.log(obj);
                                         if (obj.editor) {
                                             disableScrollSync = true;
                                             withoutSync(function () {
@@ -477,7 +485,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
                                 scope.activeTab.editor = scope.activeTab.editor || {};
-                                syncEditorOptions(editor, scope.activeTab.editor);
+                                syncEditorOptions(editor, scope.activeTab.editor, scope.workspace.active);
                                 triggerSave();
                                 applyChangesLater(scope);
                             }
@@ -610,16 +618,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             }
         }
 
-        function syncEditorOptions (editor, options) {
+        function syncEditorOptions (editor, options, tabName) {
+            var tabState = $stateMap[tabName],
+                msg = {
+                    editor: options,
+                    who: "Piotr"
+                };
+
             options.cursorPosition = editor.getCursorPosition();
             options.selectionRange = JSON.parse(JSON.stringify(editor.getSelectionRange()));
             options.firstVisibleRow = editor.getFirstVisibleRow();
             options.lastVisibleRow = editor.getLastVisibleRow();
 
-            if ($state && !readOnly) {
-                $state.shout({
-                    editor: options
-                });
+            if (tabState !== undefined) {
+                tabState.shout(msg);
+            }
+            else if ($state && !readOnly) {
+                $state.shout(msg);
             }
         }
 
@@ -663,8 +678,40 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             if (!tab || !tab.editor) {
                 return;
             }
-            updateEditorSelection(ed, tab, forceUpdateCursor);
+           // updateEditorSelection(ed, tab, forceUpdateCursor);
             updateEditorScroll(ed, tab);
+            setUpMarker(ed, tab);
+        }
+
+        function initUserMarker(who){
+            if (!markers[who]){
+                markers[who] = {
+                    lastMarker:0
+                };
+            }
+        }
+
+        function removeUserMarker(ed, who){
+            var lastMarker=markers[who].lastMarker;
+
+            if (lastMarker > 0){
+                ed.session.removeMarker(lastMarker);
+            }
+        }
+
+        function setUpMarker(ed, tab){
+            var selectionRange = tab.editor.selectionRange,
+                Range = ace.require('ace/range').Range, lastMarker;
+
+            initUserMarker(tab.who);
+            removeUserMarker(ed, tab.who);
+
+            if (selectionRange.start.column === selectionRange.end.column) {
+
+                markers[tab.who].lastMarker = ed.session.addMarker(
+                    new Range(selectionRange.start.row,selectionRange.start.column,
+                        selectionRange.end.row,selectionRange.end.column+1), "bar", true);
+            }
         }
 
         function getExtension (name) {
