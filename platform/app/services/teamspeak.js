@@ -238,7 +238,7 @@ module.exports = {
                 }).fail(function (error) {
                     defer.reject(error);
                 });
-            })
+            });
         });
         return defer.promise;
     }
