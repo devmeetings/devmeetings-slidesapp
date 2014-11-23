@@ -1,0 +1,245 @@
+var Users = require('../services/users'),
+    _ = require('lodash'),
+    Q = require('q'),
+    TeamSpeakClient = require("node-teamspeak"),
+    config = require('../../config/config'),
+    TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port),
+    commandCounter = 0;
+
+function castArray(element) {
+    return _.isArray(element) ? element : [element];
+}
+
+function wrap(promise) {
+    promise.thenSend = function (name, data) {
+        return promise.then(function () {
+            return send(name, data);
+        });
+    };
+    var then = promise.then;
+    promise.then = function (/* args */) {
+        return wrap(then.apply(promise, arguments));
+    };
+    return promise;
+}
+
+function send(name, data) {
+    var defer = Q.defer();
+
+    commandCounter++;
+    console.log('Send: ' + name + ' [' + commandCounter + ']');
+
+    TsClient.send(name, data, function (err, response, raw) {
+        if (err.id === '0' || err.msg === 'ok') {
+            defer.resolve(response);
+        } else {
+            defer.reject(err);
+        }
+    });
+    return wrap(defer.promise);
+}
+
+function getClients(cid, clients) {
+    return clients.filter(function (client) {
+        return client.cid == cid && client.client_type === 0;
+    });
+}
+
+function makeTree(channels, cid, clients) {
+    var tree = [];
+    channels.forEach(function (channel) {
+        if (channel.pid == cid && /spacer(.*?)]/.test(channel.channel_name) === false) {
+            tree.push(
+                {
+                    cid: channel.cid,
+                    pid: channel.pid,
+                    name: channel.channel_name,
+                    clients: getClients(channel.cid, clients),
+                    children: makeTree(channels, channel.cid, clients)
+                }
+            );
+        }
+    });
+    return tree;
+}
+
+function create(options) {
+    var defer = Q.defer();
+
+    promise.thenSend('channelcreate', options).then(function (results) {
+        defer.resolve(results);
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+    return defer.promise;
+}
+
+/**
+ * Creates recursively channel tree structure
+ * @param {Array} channelTree
+ * @param {callback} callback
+ */
+function createChannels(channelsSource, cid) {
+    var defer = Q.defer();
+
+    channelsSource.structure.forEach(function (element) {
+        element.options.cpid = cid;
+
+        // pass global options to element
+        _.assign(element.options, channelsSource.options || {});
+
+        create(element.options).then(function (results) {
+            if (element.children) {
+                // inherit options
+                var children = element.children.map(function (channel) {
+                    _.assign(channel.options, channelsSource.options || {});
+                    return channel;
+                });
+
+                children.forEach(function (node) {
+                    createChannels(node, results.cid).then(function (results) {
+                        return defer.resolve(results);
+                    }).fail(function (error) {
+                        return defer.reject(error);
+                    });
+                });
+            }
+
+            return defer.resolve(results);
+        }).fail(function (error) {
+            return defer.reject(error);
+        });
+    });
+
+    return defer.promise;
+}
+
+function getChannelList() {
+    var defer = Q.defer();
+
+    promise.thenSend('channellist', ['flags']).then(function (results) {
+        defer.resolve(castArray(results));
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
+/**
+ * Move clients to specified channel
+ * @param {Array} clients - Clients IDs
+ * @param {Number} channelId - Target channel ID
+ * @returns {Promise}
+ */
+function moveClients(clients, channelId) {
+    var defer = Q.defer();
+
+    promise.thenSend('clientmove', {clid: clients, cid: channelId}).then(function (results) {
+        defer.resolve(castArray(results));
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
+/**
+ * @param {Number} channelId
+ * @returns {Promise}
+ */
+function removeChannel(channelId) {
+    var defer = Q.defer();
+
+    promise.thenSend('channeldelete', {cid: channelId, force: 1}).then(function (results) {
+        defer.resolve(results);
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
+var promise = send("use", {
+    sid: config.teamspeak.sid
+}).thenSend("login", {
+    client_login_name: config.teamspeak.login,
+    client_login_password: config.teamspeak.password
+}).fail(function (error) {
+    console.error(new Error('Teamspeak - ' + error.msg));
+});
+
+module.exports = {
+
+    getChannelList: getChannelList,
+
+    /**
+     * Return tree with channels and clients
+     */
+    getList: function () {
+        var defer = Q.defer(),
+            channels;
+
+        promise.thenSend('channellist', ['limits', 'flags', 'voice', 'icon']).then(function (results) {
+            channels = castArray(results);
+        }).thenSend('clientlist', ['away', 'voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
+            try {
+                defer.resolve(makeTree(channels, 0, castArray(clients)));
+            } catch (error) {
+                defer.reject(new Error(error));
+            }
+        });
+        return defer.promise;
+    },
+
+    moveClients: moveClients,
+
+    /**
+     * Connect active user with Teamspeak client
+     * @param {User} user
+     */
+    setUserConnection: function (user) {
+
+    },
+
+    /**
+     * Import channel structure
+     * @param options
+     * @returns {Promise}
+     */
+    importChannelTree: function (options) {
+        var defer = Q.defer();
+
+        createChannels(options, 0).then(function (results) {
+            console.log(results);
+            defer.resolve(results);
+        }).fail(function (error) {
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    },
+
+    /**
+     * Remove all channels (except default)
+     * @returns {Promise}
+     */
+    clearChannels: function () {
+        var defer = Q.defer();
+
+        getChannelList().then(function (channels) {
+            channels.forEach(function (channel) {
+                if (channel.channel_flag_default) {
+                    return defer.resolve();
+                }
+                removeChannel(channel.cid).then(function(results){
+                    console.log(results);
+                    defer.resolve(results);
+                }).fail(function (error) {
+                    defer.reject(error);
+                });
+            });
+        });
+        return defer.promise;
+    }
+};

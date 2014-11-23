@@ -35,7 +35,7 @@ var config = {
         logger: 'dev',
         teamspeak: {
             host: "eurots8.gameservers.com",
-            port: "9100",
+            port: 9100,
             sid: 4336,
             login: "mganko",
             password: "sraCgx27"
@@ -69,7 +69,7 @@ var config = {
         logger: 'dev',
         teamspeak: {
             host: "eurots8.gameservers.com",
-            port: "9100",
+            port: 9100,
             sid: 4336,
             login: "mganko",
             password: "sraCgx27"
@@ -108,7 +108,7 @@ var config = {
         logger: 'dev',
         teamspeak: {
             host: "eurots8.gameservers.com",
-            port: "9100",
+            port: 9100,
             sid: 4336,
             login: "mganko",
             password: "sraCgx27"
@@ -147,7 +147,7 @@ var config = {
         logger: 'prod',
         teamspeak: {
             host: "eurots8.gameservers.com",
-            port: "9100",
+            port: 9100,
             sid: 4336,
             login: "mganko",
             password: "sraCgx27"
