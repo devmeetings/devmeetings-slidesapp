@@ -1,36 +1,14 @@
-var Ts = require('../../services/teamspeak');
+var Teamspeak = require('../../services/teamspeak'),
+    Users = require('../../services/users');
 
 exports.init = function () {
 
-    Ts.init().then(function () {
+    Teamspeak.init().then(function () {
         console.log("  [Teamspeak] Connection established");
     }, function () {
         throw new Error('Connetion error');
     });
 
-    /*Ts.getList().then(function (channelsTree) {
-        console.log(channelsTree);
-    }).fail(function (error) {
-        console.error(new Error('Teamspeak - ' + error.msg));
-    });
-
-    Ts.createChannel({channel_name: 'Test4 channel', cpid: 138654, channel_flag_permanent: 1}).then(function (result) {
-        console.log(result);
-    }).fail(function (error) {
-        console.error(new Error('Teamspeak - ' + error.msg));
-    });
-
-    Ts.removeChannel(138661).then(function (result) {
-        console.log(result);
-    }).fail(function (error) {
-        console.error(new Error('Teamspeak - ' + error.msg));
-    });
-
-    Ts.moveClients([92], 139177).then(function () {
-        console.log('Moved');
-    }).fail(function (error) {
-        console.error(new Error('Teamspeak - ' + error.msg));
-    });*/
 };
 
 exports.onSocket = function (log, socket, io) {
@@ -39,10 +17,21 @@ exports.onSocket = function (log, socket, io) {
 
         // @TODO check if active user is connected with teamspeak client
 
-        Ts.getList().then(function (channelsTree) {
+        Teamspeak.getList().then(function (channelsTree) {
             socket.emit('teamspeak.channelList', channelsTree);
         }).fail(function (error) {
             console.error(new Error('Teamspeak - ' + error.msg));
+        });
+
+    });
+
+    socket.on('teamspeak.linkClient', function (client, callback) {
+
+        // TODO klientow przenosi sie za pomoca clid wiec trzeba zdecydowac co zapisujemy: clid czy database_id (persist)
+        Users.linkUserWithTeamspeakClient(socket.manager.handshaken[socket.id].user, client.client_database_id).then(function () {
+            callback();
+        }).fail(function (error) {
+            callback('Błąd' + error.msg);
         });
 
     });

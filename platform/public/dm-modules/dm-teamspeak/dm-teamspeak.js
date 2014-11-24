@@ -8,16 +8,26 @@ define(['angular'], function (angular) {
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
                 link: function (scope, element, attrs) {
 
-                    scope.channelList = [{cid:0, name:'Loading...'}];
+                    scope.channelList = [{cid: 0, name: 'Loading...'}];
 
-                    Sockets.emit('teamspeak.init');
+                    scope.linkClient = function (client) {
+                        Sockets.emit('teamspeak.linkClient', client, function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('Powiązano z klientem Teamspeak');
+                            }
+                        });
+                        console.log(client);
+                    };
 
-                    Sockets.on('teamspeak.channelList', function(channelList) {
+                    Sockets.on('teamspeak.channelList', function (channelList) {
                         scope.channelList = channelList;
                         scope.$apply();
+                        console.log(channelList);
                     });
 
-
+                    Sockets.emit('teamspeak.init');
                 }
             }
         }

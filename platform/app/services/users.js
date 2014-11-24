@@ -1,4 +1,5 @@
 var UserModel = require('../models/user'),
+    Q = require('q'),
     mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10,
     authFields = {
@@ -122,4 +123,23 @@ exports.findLocalUserByEmail = function(email, done) {
         email: email,
         type: 'local'
     }, done);
+};
+
+/**
+ *
+ * @param {User} user
+ * @param {Numeric} clientId
+ * @returns {Promise}
+ */
+exports.linkUserWithTeamspeakClient = function(user, clientId) {
+    var defer = Q.defer();
+
+    UserModel.findByIdAndUpdate(user._id.toString(),  { $set: { ts3ClientDatabaseId: clientId }}, {}, function (error) {
+        if (error) {
+            defer.reject(error);
+        } else {
+            defer.resolve();
+        }
+    });
+    return defer.promise;
 };
