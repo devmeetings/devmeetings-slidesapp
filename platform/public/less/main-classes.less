@@ -74,12 +74,12 @@ a.text-info:hover {
 }
 
 
-a.text-primary:hover, 
+a.text-primary:hover,
 a.text-danger:hover,
 a.text-success:hover,
 a.text-info:hover,
 .btn-primary,
-.btn-danger,  
+.btn-danger,
 .btn-success,
 .btn-default {
 	-webkit-transition: @href-animation02;
@@ -95,7 +95,7 @@ a.text-info:hover,
 
 
 .btn-primary {
-	background-color: @color-blue80; 
+	background-color: @color-blue80;
 	border-color: @color-blue80;
 	color: @color-white100;
 }
@@ -152,3 +152,17 @@ a.text-info:hover,
   border-color: @color-blue98;
 }
 
+/*----------- EDITORS MARKERS ----------------------*/
+
+.bar{
+    position:absolute;
+    background:rgba(100,100,200,0.5);
+    z-index:40; width:2px!important
+}
+
+.bar::before{
+    position:absolute;
+    background:rgba(100,100,200,0.5);
+    z-index:999;
+    top: -100%; content: 'Khoa Ma'; left:0px; font-family: Arial; padding:1px 2px
+}
