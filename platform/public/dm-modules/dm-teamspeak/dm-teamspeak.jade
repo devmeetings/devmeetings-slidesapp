@@ -1,0 +1,19 @@
+div
+
+    script(type="text/ng-template", id="client")
+        span
+            i.glyphicon.glyphicon-user
+        a {{client.client_nickname}}
+
+    script(type="text/ng-template", id="channelTree")
+        span
+            i.glyphicon.glyphicon-comment
+        a {{channel.name}}
+
+        ul(ng-if="channel.clients")
+            li.client(ng-repeat='client in channel.clients', ng-include="'client'")
+        ul(ng-if="channel.children")
+            li.channel(ng-repeat='channel in channel.children', ng-include="'channelTree'")
+
+    ul.channelTree(ng-if="channelList")
+        li(ng-repeat='channel in channelList', ng-include="'channelTree'")

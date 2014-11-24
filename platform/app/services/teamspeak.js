@@ -27,7 +27,7 @@ function send(name, data) {
     var defer = Q.defer();
 
     commandCounter++;
-    console.log('Send: ' + name + ' [' + commandCounter + ']');
+    console.log('  [Teamspeak] Send: ' + name + ' [' + commandCounter + ']');
 
     TsClient.send(name, data, function (err, response, raw) {
         if (err.id === '0' || err.msg === 'ok') {
@@ -160,16 +160,23 @@ function removeChannel(channelId) {
     return defer.promise;
 }
 
-var promise = send("use", {
-    sid: config.teamspeak.sid
-}).thenSend("login", {
-    client_login_name: config.teamspeak.login,
-    client_login_password: config.teamspeak.password
-}).fail(function (error) {
-    console.error(new Error('Teamspeak - ' + error.msg));
-});
+// @TODO create empty promise?
+var promise = {};
 
 module.exports = {
+
+    init: function () {
+        promise = send("use", {
+            sid: config.teamspeak.sid
+        }).thenSend("login", {
+            client_login_name: config.teamspeak.login,
+            client_login_password: config.teamspeak.password
+        }).fail(function (error) {
+            console.error(new Error('Teamspeak - ' + error.msg));
+        });
+
+        return promise;
+    },
 
     getChannelList: getChannelList,
 
@@ -188,7 +195,11 @@ module.exports = {
             } catch (error) {
                 defer.reject(new Error(error));
             }
+        }).fail(function (error) {
+            defer.reject(new Error(error));
+            console.error(new Error('Teamspeak - ' + error.msg));
         });
+
         return defer.promise;
     },
 
@@ -232,7 +243,7 @@ module.exports = {
                 if (channel.channel_flag_default) {
                     return defer.resolve();
                 }
-                removeChannel(channel.cid).then(function(results){
+                removeChannel(channel.cid).then(function (results) {
                     console.log(results);
                     defer.resolve(results);
                 }).fail(function (error) {

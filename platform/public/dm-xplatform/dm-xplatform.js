@@ -403,6 +403,28 @@ require(['angular',
                     }
                 });
 
+                $stateProvider.state('index.teamspeak', {
+                    anonymous: true,
+                    url: '/teamspeak',
+                    views: {
+                        mid: {
+                            templateUrl: '/static/dm-modules/dm-teamspeak/teamspeak.html'
+                        }
+                    },
+                    onEnter: function($rootScope) {
+                        $rootScope.xplatformData.navbar = {
+                            showTitle: true,
+                            title: 'Teamspeak',
+                            searchText: ''
+                        };
+                        $rootScope.xplatformData.columns = {
+                            left: 0,
+                            mid: 12,
+                            right: 0
+                        };
+                    }
+                });
+
                 $urlRouterProvider.when('/', '/courses');
                 $urlRouterProvider.otherwise('/courses');
             }
