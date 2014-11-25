@@ -6,6 +6,12 @@ var Users = require('../services/users'),
     TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port),
     commandCounter = 0;
 
+/**
+ * @TODO zabezpieczenie przed banem - należy odliczac czas po wykonaniu zapytania, jesli minie czas okreslony w configu to zeruje licznik
+ *       Jesli query user ma odpowiednie permissiony to moze pobrac limity na komendy z serverinstanceinfo
+  */
+
+
 function castArray(element) {
     return _.isArray(element) ? element : [element];
 }

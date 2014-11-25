@@ -21,6 +21,16 @@ define(['angular'], function (angular) {
                         console.log(client);
                     };
 
+                    scope.moveToChannel = function (channel) {
+                        Sockets.emit('teamspeak.moveToChannel', channel, function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('Przeniesiono');
+                            }
+                        });
+                    };
+
                     Sockets.on('teamspeak.channelList', function (channelList) {
                         scope.channelList = channelList;
                         scope.$apply();

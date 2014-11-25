@@ -8,10 +8,10 @@ div
 
 
     script(type="text/ng-template", id="channelTree")
-        span
-            i.glyphicon.glyphicon-comment
-        a {{channel.name}}
-
+        a(href="", ng-click="moveToChannel(channel)", title="Przejdź do pokoju")
+            span
+                i.glyphicon.glyphicon-comment
+            | {{channel.name}}
         ul(ng-if="channel.clients")
             li.client(ng-repeat='client in channel.clients track by client.client_database_id', ng-include="'client'")
         ul(ng-if="channel.children")
