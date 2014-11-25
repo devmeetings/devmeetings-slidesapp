@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager',
+define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager', 'dm-user',
         'share', 'sharejs-ace'],
     function (module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
         'use strict';
@@ -6,7 +6,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
-        var $state, $stateMap = {}, readOnly = false, markers = {};
+        var $state, $stateMap = {}, readOnly = false, markers = {}, $e;
 
 
         var applyChangesLater = _.debounce(function (scope) {
@@ -168,7 +168,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                          * for the second time.
                          */
 
-                        var $e = element.find('.editor');
+                        $e = element.find('.editor');
                         $timeout(function () {
 
                             var indentSize = 2, isRemoteWorkspace = false, disableScrollSync = false;
@@ -494,6 +494,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             editor.getSession().getSelection().on('changeCursor', syncEditorOptionsOnSelectionOrCurosrChange);
 
+
+                            editor.getSession().on('changeBackMarker', function(){
+                                console.log('changeBackMarker', arguments);
+                            });
+
                             // Active tab
                             scope.$watch('activeTab.mode', function (mode) {
                                 if (!mode) {
@@ -710,7 +715,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                 markers[tab.who].lastMarker = ed.session.addMarker(
                     new Range(selectionRange.start.row,selectionRange.start.column,
-                        selectionRange.end.row,selectionRange.end.column+1), "bar", true);
+                        selectionRange.end.row,selectionRange.end.column+1), "bar", function(stringBuilder,range, left, top, config) {
+                        var height = config.lineHeight;
+
+                        stringBuilder.push(
+                            "<div class='bar ace_active-line'",
+                            "data-test='", tab.who , "'",
+                            "style='height:", height, "px;",
+                            "top:", top, "px;",
+                            "left:", left, "px;right:0;'></div>"
+                        );
+                    });
             }
         }
 
