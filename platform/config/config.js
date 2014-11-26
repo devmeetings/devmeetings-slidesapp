@@ -38,7 +38,7 @@ var config = {
             port: 9100,
             sid: 4336,
             login: "mganko",
-            password: "sraCgx27"
+            password: "MAVtvTGC"
         }
     },
 
@@ -72,7 +72,7 @@ var config = {
             port: 9100,
             sid: 4336,
             login: "mganko",
-            password: "sraCgx27"
+            password: "MAVtvTGC"
         }
     },
 
@@ -111,7 +111,7 @@ var config = {
             port: 9100,
             sid: 4336,
             login: "mganko",
-            password: "sraCgx27"
+            password: "MAVtvTGC"
         }
     },
 
@@ -150,7 +150,7 @@ var config = {
             port: 9100,
             sid: 4336,
             login: "mganko",
-            password: "sraCgx27"
+            password: "MAVtvTGC"
         }
     }
 };

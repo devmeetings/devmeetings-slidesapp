@@ -54,8 +54,8 @@ exports.init = function () {
 
 exports.onSocket = function (log, socket, io) {
 
-    function getList() {
-        Teamspeak.getList().then(function (channelsTree) {
+    function sendChannelList(clearCache) {
+        Teamspeak.getList(clearCache).then(function (channelsTree) {
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
             socket.emit('teamspeak.channelList', channelsTree);
         }).fail(function (error) {
@@ -64,12 +64,14 @@ exports.onSocket = function (log, socket, io) {
     }
 
     socket.on('teamspeak.init', function () {
-
         // @TODO check if active user is connected with teamspeak client
-
-        getList();
-
+        sendChannelList();
     });
+
+    // heartbeat
+    setInterval(function(){
+        sendChannelList(true);
+    }, 20 * 1000); // 20 seconds
 
     socket.on('teamspeak.linkClient', function (client, callback) {
 
@@ -82,7 +84,7 @@ exports.onSocket = function (log, socket, io) {
             };
 
             // trigger channel list refresh
-            getList();
+            sendChannelList();
 
             callback();
         }).fail(function (error) {
@@ -98,7 +100,7 @@ exports.onSocket = function (log, socket, io) {
             socket.handshake.user.teamspeak = null;
 
             // trigger channel list refresh
-            getList();
+            sendChannelList();
 
             callback();
         }).fail(function (error) {
@@ -114,7 +116,7 @@ exports.onSocket = function (log, socket, io) {
         }
 
         Teamspeak.moveClients([socket.handshake.user.teamspeak.clientId], channelId).then(function () {
-            getList();
+            sendChannelList();
         }).fail(function (error) {
             console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });

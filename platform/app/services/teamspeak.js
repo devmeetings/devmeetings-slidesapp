@@ -4,12 +4,13 @@ var Users = require('../services/users'),
     TeamSpeakClient = require("node-teamspeak"),
     config = require('../../config/config'),
     TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port),
-    commandCounter = 0;
+    channelListCache = null,
+    commandCounter = 0; // counter of how many commands were sent
 
 /**
  * @TODO zabezpieczenie przed banem - należy odliczac czas po wykonaniu zapytania, jesli minie czas okreslony w configu to zeruje licznik
  *       Jesli query user ma odpowiednie permissiony to moze pobrac limity na komendy z serverinstanceinfo
-  */
+ */
 
 
 function castArray(element) {
@@ -35,6 +36,8 @@ function send(name, data) {
     commandCounter++;
     console.log('  [Teamspeak] Send: ' + name + ' [' + commandCounter + ']');
 
+    // TODO obsluzyc throttle na 3 sekundy i 10 polecen (konfigurowalne)
+
     TsClient.send(name, data, function (err, response, raw) {
         if (err.id === '0' || err.msg === 'ok') {
             defer.resolve(response);
@@ -51,6 +54,14 @@ function getClients(cid, clients) {
     });
 }
 
+/**
+ * @TODO move tree creation to front side
+ *
+ * @param {Array} channels
+ * @param {Number} cid
+ * @param {Array} clients
+ * @returns {Array}
+ */
 function makeTree(channels, cid, clients) {
     var tree = [];
     channels.forEach(function (channel) {
@@ -120,14 +131,23 @@ function createChannels(channelsSource, cid) {
     return defer.promise;
 }
 
-function getChannelList() {
+/**
+ * @param {Boolean} clearCache
+ * @returns {Promise}
+ */
+function getChannelList(clearCache) {
     var defer = Q.defer();
 
-    promise.thenSend('channellist', ['flags']).then(function (results) {
-        defer.resolve(castArray(results));
-    }).fail(function (error) {
-        defer.reject(error);
-    });
+    if (channelListCache && !clearCache) {
+        defer.resolve(channelListCache);
+    } else {
+        promise.thenSend('channellist', ['flags']).then(function (results) {
+            channelListCache = castArray(results);
+            defer.resolve(channelListCache);
+        }).fail(function (error) {
+            defer.reject(error);
+        });
+    }
 
     return defer.promise;
 }
@@ -188,22 +208,24 @@ module.exports = {
 
     /**
      * Return tree with channels and clients
+     * @param {Boolean} clearCache
+     * @returns {Promise}
      */
-    getList: function () {
-        var defer = Q.defer(),
-            channels;
+    getList: function (clearCache) {
+        var defer = Q.defer();
 
-        promise.thenSend('channellist', ['limits', 'flags', 'voice', 'icon']).then(function (results) {
-            channels = castArray(results);
-        }).thenSend('clientlist', ['voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
-            try {
-                defer.resolve(makeTree(channels, 0, castArray(clients)));
-            } catch (error) {
-                defer.reject(new Error(error));
-            }
+        getChannelList(clearCache).then(function (channels) {
+            promise.thenSend('clientlist', ['voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
+                try {
+                    defer.resolve(makeTree(channels, 0, castArray(clients)));
+                } catch (error) {
+                    defer.reject(error);
+                }
+            }).fail(function (error) {
+                defer.reject(error);
+            });
         }).fail(function (error) {
-            defer.reject(new Error(error));
-            console.error(new Error('Teamspeak - ' + error.msg));
+            defer.reject(error);
         });
 
         return defer.promise;
@@ -244,7 +266,7 @@ module.exports = {
     clearChannels: function () {
         var defer = Q.defer();
 
-        getChannelList().then(function (channels) {
+        getChannelList(true).then(function (channels) {
             channels.forEach(function (channel) {
                 if (channel.channel_flag_default) {
                     return defer.resolve();
