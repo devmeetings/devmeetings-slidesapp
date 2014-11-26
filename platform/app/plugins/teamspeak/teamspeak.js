@@ -1,5 +1,46 @@
 var Teamspeak = require('../../services/teamspeak'),
-    Users = require('../../services/users');
+    Users = require('../../services/users'),
+    _ = require('lodash');
+
+function getUserSocketByClientDbId(sockets, id) {
+    return _.find(sockets, function (socket) {
+        return socket.user.teamspeak.clientDbId === id;
+    });
+}
+
+function linkClientsWithUsers(channelsTree, sockets) {
+    var socket;
+
+    channelsTree.forEach(function (channel) {
+        // recursion
+        if (channel.children) {
+            linkClientsWithUsers(channel.children, sockets);
+        }
+
+        if (channel.clients) {
+            channel.clients.forEach(function (client) {
+                client.isLinked = false;
+
+                // TODO jesli nie znajdzie to sprawdzanie po adresie ip i nicku
+                socket = getUserSocketByClientDbId(sockets, client.client_database_id);
+                if (socket) {
+                    // link with actual clid
+                    if (socket.user.teamspeak.clientId != client.clid) {
+
+                        Users.linkUserWithTeamspeakClient(socket.user, client.clid, client.client_database_id).then(function () {
+                            socket.user.teamspeak.clientId = client.clid;
+                        }).fail(function (error) {
+                            console.error(new Error('Teamspeak - ' + (error.msg || error)));
+                        });
+                    }
+
+                    client.isLinked = true;
+                    client.userData = socket.user;
+                }
+            });
+        }
+    });
+}
 
 exports.init = function () {
 
@@ -13,17 +54,12 @@ exports.init = function () {
 
 exports.onSocket = function (log, socket, io) {
 
-    var user = socket.manager.handshaken[socket.id].user,
-        linkedClient = null;
-
-    /**
-     * @TODO pobierać od razu ze statusem czy klient jest powiązany z userem
-     */
     function getList() {
         Teamspeak.getList().then(function (channelsTree) {
+            linkClientsWithUsers(channelsTree, socket.manager.handshaken);
             socket.emit('teamspeak.channelList', channelsTree);
         }).fail(function (error) {
-            console.error(new Error('Teamspeak - ' + error.msg));
+            console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
     }
 
@@ -37,26 +73,50 @@ exports.onSocket = function (log, socket, io) {
 
     socket.on('teamspeak.linkClient', function (client, callback) {
 
-        // TODO klientow przenosi sie za pomoca clid wiec trzeba zdecydowac co zapisujemy: clid czy database_id (persist)
-        Users.linkUserWithTeamspeakClient(user, client.client_database_id).then(function () {
-            linkedClient = client;
+        // TODO klientow przenosi sie za pomoca clid wiec trzeba zdecydowac co zapisujemy: clid czy database_id (persistent)
+        Users.linkUserWithTeamspeakClient(socket.handshake.user, client.clid, client.client_database_id).then(function (data) {
+            // update client in handshake
+            socket.handshake.user.teamspeak = {
+                clientId: client.clid,
+                clientDbId: client.client_database_id
+            };
+
+            // trigger channel list refresh
+            getList();
+
             callback();
         }).fail(function (error) {
-            callback('Błąd' + error.msg);
+            callback('Error ' + error.msg);
         });
 
     });
 
-    socket.on('teamspeak.moveToChannel', function (channel, callback) {
+    socket.on('teamspeak.unlinkClient', function (callback) {
 
-        if (linkedClient == null) {
-            return callback('Tymczasowo musisz chociaż raz się powiązać');
+        Users.linkUserWithTeamspeakClient(socket.handshake.user, null, null).then(function () {
+            // update client in handshake
+            socket.handshake.user.teamspeak = null;
+
+            // trigger channel list refresh
+            getList();
+
+            callback();
+        }).fail(function (error) {
+            callback('Error ' + error.msg);
+        });
+
+    });
+
+    socket.on('teamspeak.moveToChannel', function (channelId, callback) {
+
+        if (!socket.handshake.user.teamspeak.clientId) {
+            return callback('You are not linked with teamspeak client');
         }
 
-        Teamspeak.moveClients([linkedClient.clid], channel.cid).then(function () {
+        Teamspeak.moveClients([socket.handshake.user.teamspeak.clientId], channelId).then(function () {
             getList();
         }).fail(function (error) {
-            console.error(new Error('Teamspeak - ' + error.msg));
+            console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
 
     });

@@ -1,9 +1,9 @@
 div
 
     script(type="text/ng-template", id="client")
-        a(href="", ng-click="linkClient(client)", title="Powiąż z klientem Teamspeak")
+        a(href="", ng-click="client.isLinked ? unlinkClient() : linkClient(client)", title="Powiąż/rozłącz z klientem Teamspeak")
             span
-                i.glyphicon.glyphicon-user(ng-class="{linked: client.linked, unliked: !client.linked}")
+                i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")
             | {{client.client_nickname}}
 
 

@@ -6,7 +6,7 @@ define(['angular'], function (angular) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
-                link: function (scope, element, attrs) {
+                link: function (scope) {
 
                     scope.channelList = [{cid: 0, name: 'Loading...'}];
 
@@ -18,15 +18,24 @@ define(['angular'], function (angular) {
                                 console.log('Powiązano z klientem Teamspeak');
                             }
                         });
-                        console.log(client);
                     };
 
-                    scope.moveToChannel = function (channel) {
-                        Sockets.emit('teamspeak.moveToChannel', channel, function (error) {
+                    scope.unlinkClient = function () {
+                        Sockets.emit('teamspeak.unlinkClient', function (error) {
                             if (error) {
                                 console.log(error);
                             } else {
-                                console.log('Przeniesiono');
+                                console.log('Rozłączono z klientem Teamspeak');
+                            }
+                        });
+                    };
+
+                    scope.moveToChannel = function (channel) {
+                        Sockets.emit('teamspeak.moveToChannel', channel.cid, function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('You have been moved');
                             }
                         });
                     };

@@ -39,7 +39,10 @@ module.exports = mongoose.model('user', new mongoose.Schema({
     avatar: {
         type: String
     },
-    ts3ClientDatabaseId: {
-        type: Number
+    teamspeak: {
+        clientId: Number,
+        clientDbId: Number,
+        lastChannel: Number,
+        defaultChannel: Number
     }
 }));

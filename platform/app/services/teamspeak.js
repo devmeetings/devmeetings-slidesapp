@@ -195,7 +195,7 @@ module.exports = {
 
         promise.thenSend('channellist', ['limits', 'flags', 'voice', 'icon']).then(function (results) {
             channels = castArray(results);
-        }).thenSend('clientlist', ['away', 'voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
+        }).thenSend('clientlist', ['voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
             try {
                 defer.resolve(makeTree(channels, 0, castArray(clients)));
             } catch (error) {
