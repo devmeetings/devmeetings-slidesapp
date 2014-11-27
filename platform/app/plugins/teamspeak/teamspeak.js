@@ -64,14 +64,13 @@ exports.onSocket = function (log, socket, io) {
     }
 
     socket.on('teamspeak.init', function () {
-        // @TODO check if active user is connected with teamspeak client
-        sendChannelList();
+        sendChannelList(true);
     });
 
     // heartbeat
     setInterval(function(){
         sendChannelList(true);
-    }, 20 * 1000); // 20 seconds
+    }, 10 * 1000); // 10 seconds
 
     socket.on('teamspeak.linkClient', function (client, callback) {
 

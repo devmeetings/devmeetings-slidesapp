@@ -404,7 +404,6 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.teamspeak', {
-                    anonymous: true,
                     url: '/teamspeak',
                     views: {
                         mid: {
