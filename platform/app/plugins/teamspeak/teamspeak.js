@@ -70,7 +70,7 @@ exports.onSocket = function (log, socket, io) {
     // heartbeat
     setInterval(function(){
         sendChannelList(true);
-    }, 10 * 1000); // 10 seconds
+    }, 60 * 1000); // 60 seconds
 
     socket.on('teamspeak.linkClient', function (client, callback) {
 
