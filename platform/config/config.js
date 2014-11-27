@@ -34,11 +34,11 @@ var config = {
         graylog: false,
         logger: 'dev',
         teamspeak: {
-            host: "eurots8.gameservers.com",
-            port: 9100,
-            sid: 4336,
-            login: "mganko",
-            password: "MAVtvTGC"
+            host: "applejack.todr.me",
+            port: 10011,
+            sid: 1,
+            login: "serveradmin",
+            password: "dkT99L9i"
         }
     },
 
@@ -68,11 +68,11 @@ var config = {
         graylog: false,
         logger: 'dev',
         teamspeak: {
-            host: "eurots8.gameservers.com",
-            port: 9100,
-            sid: 4336,
-            login: "mganko",
-            password: "MAVtvTGC"
+            host: "applejack.todr.me",
+            port: 10011,
+            sid: 1,
+            login: "serveradmin",
+            password: "dkT99L9i"
         }
     },
 
@@ -107,11 +107,11 @@ var config = {
         },
         logger: 'dev',
         teamspeak: {
-            host: "eurots8.gameservers.com",
-            port: 9100,
-            sid: 4336,
-            login: "mganko",
-            password: "MAVtvTGC"
+            host: "applejack.todr.me",
+            port: 10011,
+            sid: 1,
+            login: "serveradmin",
+            password: "dkT99L9i"
         }
     },
 
@@ -146,11 +146,11 @@ var config = {
         },
         logger: 'prod',
         teamspeak: {
-            host: "eurots8.gameservers.com",
-            port: 9100,
-            sid: 4336,
-            login: "mganko",
-            password: "MAVtvTGC"
+            host: "applejack.todr.me",
+            port: 10011,
+            sid: 1,
+            login: "serveradmin",
+            password: "dkT99L9i"
         }
     }
 };
