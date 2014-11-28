@@ -70,7 +70,7 @@ exports.onSocket = function (log, socket, io) {
     // heartbeat and renew cache
     setInterval(function () {
         sendChannelList(true);
-    }, 60 * 1000);
+    }, 3 * 1000);
 
     var init = function () {
         sendChannelList(true);
@@ -136,7 +136,7 @@ exports.onSocket = function (log, socket, io) {
             for (var i in clientList) {
                 clients.push(clientList[i].clid);
             }
-            
+
             Teamspeak.moveClients(clients, channelId).then(function () {
                 sendChannelList();
             }).fail(function (error) {
