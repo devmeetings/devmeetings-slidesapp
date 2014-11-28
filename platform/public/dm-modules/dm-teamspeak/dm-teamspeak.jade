@@ -4,18 +4,21 @@ div
         a(href="", ng-click="client.isLinked ? unlinkClient() : linkClient(client)", title="Powiąż/rozłącz z klientem Teamspeak")
             span
                 i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")
-            | {{client.client_nickname}}
+            span.user {{client.client_nickname}}
 
 
     script(type="text/ng-template", id="channelTree")
         a(href="", ng-click="moveToChannel(channel)", title="Przejdź do pokoju")
             span
                 i.glyphicon.glyphicon-comment
-            | {{channel.name}}
+            span.channel {{channel.name}}
+        a(ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
+            span -> Move all <-
         ul(ng-if="channel.clients")
             li.client(ng-repeat='client in channel.clients track by client.client_database_id', ng-include="'client'")
         ul(ng-if="channel.children")
             li.channel(ng-repeat='channel in channel.children track by channel.cid', ng-include="'channelTree'")
+
 
     ul.channelTree(ng-if="channelList")
         li(ng-repeat='channel in channelList', ng-include="'channelTree'")

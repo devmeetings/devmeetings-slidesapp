@@ -153,6 +153,21 @@ function getChannelList(clearCache) {
 }
 
 /**
+ * @returns {Promise}
+ */
+function getClientList() {
+    var defer = Q.defer();
+
+    promise.thenSend('clientlist', ['voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
+        defer.resolve(castArray(clients));
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
+/**
  * Move clients to specified channel
  * @param {Array} clients - Clients IDs
  * @param {Number} channelId - Target channel ID
@@ -205,6 +220,8 @@ module.exports = {
     },
 
     getChannelList: getChannelList,
+
+    getClientList: getClientList,
 
     /**
      * Return tree with channels and clients

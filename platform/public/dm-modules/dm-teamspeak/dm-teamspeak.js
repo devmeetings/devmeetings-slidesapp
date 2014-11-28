@@ -1,14 +1,20 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('dm-teamspeak', []).directive('dmTeamspeak', ['Sockets',
-        function (Sockets) {
+    angular.module('dm-teamspeak', []).directive('dmTeamspeak', ['Sockets', 'dmUser',
+        function (Sockets, dmUser) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
                 link: function (scope) {
 
                     scope.channelList = [{cid: 0, name: 'Loading...'}];
+
+                    dmUser.getCurrentUser().then(function(data) {
+                        scope.isTrainer = !!_.find(data.result.acl, function(acl){ return acl == 'trainer'; });
+                    }, function (err) {
+
+                    });
 
                     scope.linkClient = function (client) {
                         Sockets.emit('teamspeak.linkClient', client, function (error) {
@@ -40,10 +46,13 @@ define(['angular'], function (angular) {
                         });
                     };
 
+                    scope.moveAllClientsToChannel = function (channel) {
+                        Sockets.emit('teamspeak.moveAllClientsToChannel', channel.cid);
+                    };
+
                     Sockets.on('teamspeak.channelList', function (channelList) {
                         scope.channelList = channelList;
                         scope.$apply();
-                        console.log(channelList);
                     });
 
                     Sockets.emit('teamspeak.init');
