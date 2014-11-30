@@ -1,6 +1,6 @@
 var Teamspeak = require('../../services/teamspeak'),
     _ = require('lodash'),
-    heartbeatInterval;
+    isConnected = false;
 
 function getUserSocketByClientDbId(sockets, id) {
     return _.find(sockets, function (socket) {
@@ -76,33 +76,9 @@ function linkClientsWithUsers(channelsTree, sockets) {
     });
 }
 
-function startHeartbeat() {
-    // heartbeat
-    heartbeatInterval = setInterval(function () {
-        Teamspeak.ping().then(function () {
-            console.log("  [Teamspeak] Heartbeat");
-        }).fail(function (error) {
-            console.error(new Error('Teamspeak - ' + (error.msg || error)));
-        });
-    }, 30 * 1000);
-}
-
-function stopHeartbeat() {
-    clearInterval(heartbeatInterval);
-}
-
-exports.init = function () {
-
-    Teamspeak.init().then(function () {
-        console.log("  [Teamspeak] Connection established");
-        startHeartbeat();
-    }, function () {
-        throw new Error('Connetion error');
-    });
-
-};
-
 exports.onSocket = function (log, socket, io) {
+
+    var refreshListInterval;
 
     var sendChannelList = function (clearCache) {
         Teamspeak.getList(clearCache).then(function (channelsTree) {
@@ -113,15 +89,26 @@ exports.onSocket = function (log, socket, io) {
         });
     };
 
-    stopHeartbeat();
-
-    // heartbeat and renew cache
-    var refreshListInterval = setInterval(function () {
-        sendChannelList(true);
-    }, 3 * 1000);
-
     var init = function () {
-        sendChannelList(true);
+        if (!isConnected) {
+
+            Teamspeak.init().then(function () {
+                console.log("  [Teamspeak] Connection established");
+
+                // heartbeat and renew cache
+                refreshListInterval = setInterval(function () {
+                    sendChannelList(true);
+                }, 3 * 1000);
+
+                sendChannelList(true);
+                isConnected = true;
+            }, function () {
+                socket.emit('teamspeak.error', 'Connetion error');
+                throw new Error('Connetion error');
+            });
+        } else {
+            sendChannelList(true);
+        }
     };
 
     var linkClient = function (client, callback) {
@@ -179,9 +166,10 @@ exports.onSocket = function (log, socket, io) {
 
     var onDisconnect = function () {
         if (Object.keys(socket.manager.handshaken).length == 1) {
-            // last user disconects so we must maintain connection to teamspeak server forever
-            startHeartbeat();
+            // last user is disconnecting so we must disconnect
             clearInterval(refreshListInterval);
+            Teamspeak.disconnect();
+            isConnected = false;
         }
     };
 

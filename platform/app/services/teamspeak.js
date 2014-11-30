@@ -3,7 +3,7 @@ var Users = require('../services/users'),
     Q = require('q'),
     TeamSpeakClient = require("node-teamspeak"),
     config = require('../../config/config'),
-    TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port),
+    TsClient = null,
     channelListCache = null,
     //commandCounter = 0, // counter of how many commands were sent
     promise = {}; // @TODO create empty promise?
@@ -204,6 +204,9 @@ function removeChannel(channelId) {
 }
 
 function init() {
+    // new connection to serverquery
+    TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port);
+
     promise = send("use", {
         sid: config.teamspeak.sid
     }).thenSend("login", {
@@ -216,10 +219,24 @@ function init() {
     return promise;
 }
 
+function disconnect() {
+    var defer = Q.defer();
+
+    promise.thenSend('quit').then(function (results) {
+        defer.resolve(results);
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
 
 module.exports = {
 
     init: init,
+
+    disconnect: disconnect,
 
     getChannelList: getChannelList,
 
