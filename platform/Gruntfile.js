@@ -28,7 +28,8 @@ module.exports = function(grunt) {
                     "ace_languageTools": "empty:",
                     "bcsocket": "empty:",
                     "share": "empty:",
-                    "sharejs-ace": "empty:"
+                    "sharejs-ace": "empty:",
+                    "sharejs-json": "empty:"
                 },
                 optimize: "none"
             }
