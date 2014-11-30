@@ -61,6 +61,7 @@ require.config({
         "bcsocket":"/channel/bcsocket",
         "share" : "/share/share.uncompressed",
         "sharejs-ace" : "/share/ace",
+        "sharejs-json" : "/share/json",
         "js-beautify": "../components/js-beautify/js/index",
         "lib/beautify": "../components/js-beautify/js/lib/beautify",
         "lib/beautify-css": "../components/js-beautify/js/lib/beautify-css",
@@ -130,6 +131,9 @@ require.config({
         },
         "sharejs-ace" : {
             "deps" : ["share", "ace"]
+        },
+        "sharejs-json" : {
+            "deps" : ["share"]
         },
         "angular-animate": {
             "deps": ["angular"],
