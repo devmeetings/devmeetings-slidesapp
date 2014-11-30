@@ -2,11 +2,11 @@ var TeamSpeakClient = require("node-teamspeak"),
     Q = require('q'),
     _ = require('lodash');
 
-var SERVER_HOST = "eurots8.gameservers.com",
-    SERVER_PORT = 9100,
-    VIRTUAL_SID = 4336,
-    LOGIN = "mganko",
-    PASSWORD = "sraCgx27",
+var SERVER_HOST = "applejack.todr.me",
+    SERVER_PORT = 10011,
+    VIRTUAL_SID = 1,
+    LOGIN = "serveradmin",
+    PASSWORD = "dkT99L9i",
     TsClient = new TeamSpeakClient(SERVER_HOST, SERVER_PORT),
     commandCounter = 0;
 

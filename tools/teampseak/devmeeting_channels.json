@@ -13,90 +13,43 @@
 	},
 	{
 	  "options": {
-		"channel_name": "Dining room"
-	  },
-	  "children": [
-		{
-		  "options": {},
-		  "structure": [
-			{
-			  "options": {
-				"channel_name": "Team 1"
-			  },
-			  "children": []
-			}
-		  ]
-		},
-		{
-		  "options": {},
-		  "structure": [
-			{
-			  "options": {
-				"channel_name": "Team 2"
-			  },
-			  "children": []
-			}
-		  ]
-		}
-	  ]
+		"channel_name": "Team-1"
+	  }
 	},
 	{
 	  "options": {
-		"channel_name": "Living room"
-	  },
-	  "children": [
-		{
-		  "options": {},
-		  "structure": [
-			{
-			  "options": {
-				"channel_name": "Team 1"
-			  },
-			  "children": []
-			}
-		  ]
-		},
-		{
-		  "options": {},
-		  "structure": [
-			{
-			  "options": {
-				"channel_name": "Team 2"
-			  },
-			  "children": []
-			}
-		  ]
-		}
-	  ]
+		"channel_name": "Team-2"
+	  }
 	},
 	{
 	  "options": {
-		"channel_name": "Redroom"
-	  },
-	  "children": [
-		{
-		  "options": {},
-		  "structure": [
-			{
-			  "options": {
-				"channel_name": "Team 1"
-			  },
-			  "children": []
-			}
-		  ]
-		},
-		{
-		  "options": {},
-		  "structure": [
-			{
-			  "options": {
-				"channel_name": "Team 2"
-			  },
-			  "children": []
-			}
-		  ]
-		}
-	  ]
+		"channel_name": "Team-3"
+	  }
+	},
+	{
+	  "options": {
+		"channel_name": "Team-4"
+	  }
+	},
+	{
+	  "options": {
+		"channel_name": "Team-5"
+	  }
+	},
+	{
+	  "options": {
+		"channel_name": "Team-6"
+	  }
+	},
+	{
+	  "options": {
+		"channel_name": "Team-7"
+	  }
+	},
+	{
+	  "options": {
+		"channel_name": "Team-8"
+	  }
 	}
   ]
 }

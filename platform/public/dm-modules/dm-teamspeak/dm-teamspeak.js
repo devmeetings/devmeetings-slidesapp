@@ -1,8 +1,8 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('dm-teamspeak', []).directive('dmTeamspeak', ['Sockets', 'dmUser',
-        function (Sockets, dmUser) {
+    angular.module('dm-teamspeak', []).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window',
+        function (Sockets, dmUser, $window) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
@@ -43,6 +43,7 @@ define(['angular'], function (angular) {
                                 console.log(error);
                             } else {
                                 console.log('You have been moved');
+                                $window.location.href = '/?ref=channel_' + channel.name + '#/space/541bc93b9b16b5b16c553927/workspace/5478d497d39309861bd53752';
                             }
                         });
                     };

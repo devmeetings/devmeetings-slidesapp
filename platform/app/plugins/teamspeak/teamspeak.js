@@ -157,6 +157,7 @@ exports.onSocket = function (log, socket, io) {
         Teamspeak.moveClients([socket.handshake.user.teamspeak.clientId], channelId).then(function () {
             updateUserData(socket.handshake.user._id.toString(), {lastChannel: channelId});
             sendChannelList();
+            callback();
         }).fail(function (error) {
             console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
