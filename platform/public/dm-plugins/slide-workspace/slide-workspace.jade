@@ -1,6 +1,16 @@
 .row.slide-workspace.full-height
     .sw-col.full-height(
         ng-class="{'col-sm-12': !output.sideBySide, 'col-sm-10': output.width == 2,'col-sm-8': output.width == 4,'col-sm-6': output.width == 6,'side-by-side': output.sideBySide }")
+        .row
+            div(ng-if="isAllCanWrite()") Wszyscy użytkownicy mogą pisać
+            div(ng-if="isSessionMentor()") Jestes moderatorem tej sesji. Pozostali użytkownicy śledzą twój ruch.
+            div(ng-if="isWorkspaceReadOnly()") Jestes uczestnikiem sesji - posiadasz dostęp tylko do odczytu. Aktualnym moderatorem jest <b>{{currentWriter.name}}</b>
+            div(ng-if="canShowWritersList()")
+                span.label.label-info Kto może pisać
+                select.form-control(ng-model="currentWriter",ng-change="currentWriterChange(currentWriter)", ng-options="user.name for user in connectedUsers track by user.id")
+                i
+                    small Wybierz z listy powyzej użytkownika który przejmie prawo pisania. Jeżeli wybierzesz opcję 'Wszyscy', to wszyscy podłaczeni do Twojego workspace uzytwkonikcy będą mogli pisać.
+                    small(ng-if="isWorkspaceReadOnly()") Ponieważ posiadasz uprawnienia administratora masz możliwość przełączania osób piszących w danej sesji
         .row.full-height
             ul.nav.nav-tabs
                 li.workspace-tab.workspace-tab-output.pull-right(
@@ -13,13 +23,13 @@
                     a.cursor-pointer(
                         class="{{ 'type-' + getType(tabName) }}",
                         ng-click="setActiveTabName(tabName)",
-                        ng-disabled="isStudent()")
+                        ng-disabled="isWorkspaceReadOnly()")
                         span.fa.fa-circle.type-icon
                         |  {{ toFileName(tabName) }}
-                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",
+                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", ng-disabled="isWorkspaceReadOnly()", tooltip="Delete", tooltip-placement="right",
                         analytics-event="workspace-deleteTab", analytics-category="workspace")
                         | x
-                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit name", tooltip-placement="right",
+                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", ng-disabled="isWorkspaceReadOnly()", tooltip="Edit name", tooltip-placement="right",
                         analytics-event="workspace-editTab", analytics-category="workspace")
                         span.fa.fa-pencil
                 li.workspace-tab.add-tab
@@ -44,14 +54,6 @@
                 li.workspace-tab.pull-right(ng-if="hasFormatting()")
                     a.cursor-pointer(ng-click="formatTab()")
                         span.fa.fa-indent
-                li.workspace-tab.pull-right
-                    p(ng-if = "workspaceMode === 'mentor' && isMentor()") Jestes mentorem tej sesji
-                    p(ng-if = "workspaceMode === 'mentor' && !isMentor()") Jestes uczestnikiem sesji - posiadasz dostęp tylko do odczytu
-                    p(ng-if = "workspaceMode === null")
-                        input(id="restoreWorkspace", type="checkbox", ng-model="restoreWorkspace")
-                        label(for="restoreWorkspace") Czy odtworzyć bieżące zmiany w sesji współdzielonej?
-                        button.btn.btn-default.btn-xs(ng-click="startNewMentorSession()") Utwórz sesję mentora
-                        button.btn.btn-default.btn-xs(ng-click="startNewPairSession()") Utwórz sesję pair-programming
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container

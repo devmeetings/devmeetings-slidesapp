@@ -1,8 +1,7 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager', 'dm-user',
-        'share', 'sharejs-ace'],
+define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager',
+        'share', 'sharejs-ace', 'sharejs-json'],
     function (module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
         'use strict';
-
 
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
@@ -31,10 +30,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             };
         });
 
-
         sliderPlugins.registerPlugin('slide', 'workspace', 'slide-workspace', 3900).directive('slideWorkspace', [
-            '$timeout', '$window', '$rootScope',
-            function ($timeout, $window, $rootScope) {
+            '$timeout', '$window', '$rootScope', 'dmUser',
+            function ($timeout, $window, $rootScope, dmUser) {
                 return {
                     restrict: 'E',
                     scope: {
@@ -81,12 +79,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                     link: function (scope, element) {
                         var undoManager = new WorkspaceUndoManager(scope, scope.workspace.tabs);
 
-                        //dmUser.getCurrentUser().then(function (data) {
-                        //    scope.user = data;
-						//
-                        //    console.log('user', data);
-                        //});
-                        console.log(scope.user);
+
                         scope.output = {
                             width: 6,
                             show: false,
@@ -126,6 +119,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         }
 
                         scope.insertTab = function () {
+                            if (scope.isWorkspaceReadOnly()) {
+                                return;
+                            }
                             var name = promptForName();
                             if (!name) {
                                 return;
@@ -136,6 +132,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             undoManager.initTab(name);
                         };
                         scope.removeTab = function (tabName) {
+                            if (scope.isWorkspaceReadOnly()) {
+                                return;
+                            }
                             var sure = $window.confirm("Sure to remove the file?");
                             if (!sure) {
                                 return;
@@ -143,6 +142,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             deleteTabAndFixActive(tabName);
                         };
                         scope.editTabName = function (tabName) {
+                            if (scope.isWorkspaceReadOnly()) {
+                                return;
+                            }
                             var newName = promptForName(tabName);
                             if (!newName) {
                                 return;
@@ -221,64 +223,96 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             // pair_session - can make changes on workspace
                             scope.mode = '';
                             scope.workspaceMode = null;
+                            scope.currentWriter = {id: 0};
                             scope.startNewMentorSession = startNewMentorSession;
                             scope.startNewPairSession = startNewPairSession;
 
-                            scope.isStudent = function () {
-                                if (scope.workspaceMode === null) {
-                                    return false;
-                                }
-
-                                if (scope.workspaceMode === 'mentor') {
-                                    return !isMentor;
-                                }
-
-                            };
+                            //scope.isStudent = function () {
+                            //    if (scope.workspaceMode === null) {
+                            //        return false;
+                            //    }
+                            //
+                            //    if (scope.workspaceMode === 'mentor') {
+                            //        return !isMentor;
+                            //    }
+                            //
+                            //};
 
                             scope.isMentor = function () {
                                 return isMentor;
                             };
 
                             scope.setActiveTabName = function (tab) {
-                                if (scope.isStudent()) {
+                                if (scope.isWorkspaceReadOnly()) {
                                     return;
+                                }
+
+                                if ($state) {
+                                    $state.shout({
+                                        newTab: tab
+                                    });
                                 }
 
                                 scope.workspace.active = tab;
                                 scope.output.show = false;
                             };
 
-                            function getWorkspaceMode () {
-                                var result = /ref=([m|p]:[^&]*)/.exec(window.location.search);
+                            //function getWorkspaceMode () {
+                            //    var result = /ref=([m|p]:[^&]*)/.exec(window.location.search);
+                            //
+                            //
+                            //    if (result !== null) {
+                            //
+                            //        scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0, 1));
+                            //        docName = result[1];
+                            //
+                            //        if (scope.workspaceMode === 'mentor') {
+                            //
+                            //            editor.setReadOnly(true);
+                            //            readOnly = true;
+                            //
+                            //            openShareJsDoc(docName);
+                            //
+                            //            if (localStorage && localStorage.getItem('role') === 'mentor') {
+                            //                editor.setReadOnly(false);
+                            //                readOnly = false;
+                            //                isMentor = true;
+                            //                localStorage.removeItem('role');
+                            //            }
+                            //        }
+                            //        else if (scope.workspaceMode === 'pair') {
+                            //            // openShareJsDoc(docName);
+                            //            scope.connectedUsers = [];
+                            //
+                            //
+                            //            dmUser.getCurrentUser().then(function (data) {
+                            //                createShereJsDocsForTabs(docName, data.result);
+                            //            });
+                            //
+                            //
+                            //
+                            //        }
+                            //
+                            //        // scope.setUpMode = true;
+                            //
+                            //
+                            //    }
+                            //}
+
+                            function setUpWorkspace () {
+                                var result = /ref=([^&]*)/.exec(window.location.search);
 
 
                                 if (result !== null) {
 
-                                    scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0, 1));
                                     docName = result[1];
+                                    scope.connectedUsers = [];
 
-                                    if (scope.workspaceMode === 'mentor') {
 
-                                        editor.setReadOnly(true);
-                                        readOnly = true;
-
-                                        openShareJsDoc(docName);
-
-                                        if (localStorage && localStorage.getItem('role') === 'mentor') {
-                                            editor.setReadOnly(false);
-                                            readOnly = false;
-                                            isMentor = true;
-                                            localStorage.removeItem('role');
-                                        }
-                                    }
-                                    else if (scope.workspaceMode === 'pair') {
-                                        // openShareJsDoc(docName);
-
-                                        createShereJsDocsForTabs(docName);
-
-                                    }
-
-                                    // scope.setUpMode = true;
+                                    dmUser.getCurrentUser().then(function (data) {
+                                        scope.currentUser = data.result;
+                                        createShereJsDocsForTabs(docName, data.result);
+                                    });
 
 
                                 }
@@ -319,7 +353,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 return i;
                             }
 
-                            getWorkspaceMode();
+                            setUpWorkspace();
 
                             function openShareJsDocForTab (docName, tabName) {
 
@@ -351,7 +385,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     doc.on('shout', function (obj) {
                                         isRemoteWorkspace = true;
                                         console.log(obj);
-                                        if (obj.editor) {
+                                        if (obj.users) {
+
+                                        }
+                                        else if (obj.editor) {
                                             disableScrollSync = true;
                                             withoutSync(function () {
                                                 updateEditorOptions(editor, obj, true);
@@ -371,33 +408,115 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 });
                             }
 
-                            function createShereJsDocsForTabs (docName) {
-                                _.each(scope.workspace.tabs, function (tab, tabName) {
-                                    openShareJsDocForTab(docName, tabName);
-                                });
+                            scope.canShowWritersList = function () {
+                                return scope.isWriter || !scope.isStudent;
+                            };
+
+                            scope.isSessionMentor = function () {
+                                return scope.isWriter && scope.currentWriter.id !== 0;
+                            };
+
+                            scope.isAllCanWrite = function () {
+                                return scope.isWriter && scope.currentWriter.id === 0;
+                            };
+
+                            scope.isWorkspaceReadOnly = function () {
+                                return scope.workspaceMode === 'readonly';
+                            };
+
+                            function setUpWorkspaceMode () {
+
+                                if (!scope.isWriter) {
+                                    scope.workspaceMode = 'readonly';
+                                    editor.setReadOnly(true);
+                                }
+                                else if (scope.isSessionMentor()) {
+                                    scope.workspaceMode = 'mentor';
+                                    editor.setReadOnly(false);
+                                }
+                                else if (scope.isAllCanWrite()) {
+                                    scope.workspaceMode = 'all';
+                                    editor.setReadOnly(false);
+                                }
+
                             }
 
-                            function openShareJsDoc (docName) {
-                                sharejs.open(docName, 'text', function (error, doc) {
+                            scope.$watch('currentWriter', function (currentWriter) {
+
+                                if (!currentWriter) {
+                                    return;
+                                }
+
+                                scope.isWriter = currentWriter.name === scope.currentUser.name ? true :
+                                currentWriter.id === 0;
+
+
+                                setUpWorkspaceMode();
+
+                                if (scope.currentWriterChangedOnRemoteChange) {
+                                    scope.currentWriterChangedOnRemoteChange = false;
+                                }
+                                else if ($state) {
+                                    $state.at('writer').set(currentWriter.name);
+                                }
+                            });
+
+                            scope.currentWriterChange = function (currentWriter) {
+                                scope.currentWriter = currentWriter;
+                            };
+
+                            function amIConnectedToThisSession (users) {
+                                var result = false;
+                                _.each(users, function (user) {
+                                    if (user.id === scope.currentUser.userId) {
+                                        result = true;
+                                    }
+                                });
+
+                                return result;
+                            }
+
+                            function setUpConnectedList (snapshot) {
+                                scope.connectedUsers = snapshot.users;
+                                scope.currentWriterChangedOnRemoteChange = true;
+
+                                _.each(snapshot.users, function (connectedUser) {
+                                    if (snapshot.writer === connectedUser.name) {
+                                        scope.currentWriterChange(connectedUser);
+                                    }
+                                });
+
+                                applyChangesLater(scope);
+                            }
+
+                            function createShereJsDocsForTabs (docName, user) {
+
+                                _.each(user.acl, function (role) {
+                                    scope.isStudent = role === 'student';
+                                });
+
+                                sharejs.open(docName, 'json', function (error, doc) {
                                     $state = doc;
 
+                                    doc.on('change', function (op) {
+                                        setUpConnectedList($state.snapshot);
+                                    });
+
                                     if (doc.created) {
-                                        if (localStorage && localStorage.getItem('workspace') !== null) {
-                                            scope.workspace = JSON.parse(localStorage.getItem('workspace'));
-                                            localStorage.removeItem('workspace');
-
-                                        }
-                                    }
-
-                                    doc.on('remoteop', function (op) {
-                                        scope.activeTab.content = doc.snapshot;
-
-                                        withoutSync(function () {
-                                            updateEditorContent(editor, scope.activeTab);
+                                        doc.at([]).set({
+                                            users: [{
+                                                name: 'Wszyscy',
+                                                id: 0
+                                            }, prepareUserData()],
+                                            writer: user.name
                                         });
 
-                                        triggerChangeLater(scope);
-                                    });
+                                        applyChangesLater(scope);
+                                    } else if (!amIConnectedToThisSession($state.snapshot.users)) {
+                                        $state.at('users').push(prepareUserData());
+                                    } else {
+                                        setUpConnectedList($state.snapshot);
+                                    }
 
                                     doc.on('shout', function (obj) {
                                         isRemoteWorkspace = true;
@@ -422,6 +541,22 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         applyChangesLater(scope);
                                     });
 
+
+                                    function prepareUserData () {
+                                        var marker = Math.random().toString(16).slice(2, 8);
+
+                                        scope.currentUser.marker = marker;
+
+                                        return {
+                                            name: user.name,
+                                            id: user.userId,
+                                            marker: marker
+                                        };
+                                    }
+                                });
+
+                                _.each(scope.workspace.tabs, function (tab, tabName) {
+                                    openShareJsDocForTab(docName, tabName);
                                 });
                             }
 
@@ -453,7 +588,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (disableSync) {
                                     return;
                                 }
-                                syncEditorContent(editor, scope.activeTab, scope.workspace.active);
+                                syncEditorContent(editor, scope.activeTab, scope.workspace.active,
+                                    scope.isWorkspaceReadOnly());
                                 triggerSave();
                                 applyChangesLater(scope);
                             });
@@ -485,7 +621,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
                                 scope.activeTab.editor = scope.activeTab.editor || {};
-                                syncEditorOptions(editor, scope.activeTab.editor, scope.workspace.active);
+                                syncEditorOptions(editor, scope.activeTab.editor, scope.workspace.active,
+                                    scope.isWorkspaceReadOnly(), scope.currentUser);
                                 triggerSave();
                                 applyChangesLater(scope);
                             }
@@ -495,9 +632,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             editor.getSession().getSelection().on('changeCursor', syncEditorOptionsOnSelectionOrCurosrChange);
 
 
-                            editor.getSession().on('changeBackMarker', function(){
-                                console.log('changeBackMarker', arguments);
-                            });
+                            //editor.getSession().on('changeBackMarker', function(){
+                            //    console.log('changeBackMarker', arguments);
+                            //});
 
                             // Active tab
                             scope.$watch('activeTab.mode', function (mode) {
@@ -555,12 +692,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (!scope.activeTab) {
                                     return;
                                 }
-                                if ($state && !isRemoteWorkspace && !readOnly) {
-                                    $state.shout({
-                                        newTab: scope.workspace.active
-                                    });
-                                }
-                                isRemoteWorkspace = false;
+                                //if ($state && !isRemoteWorkspace && !readOnly) {
+                                //    $state.shout({
+                                //        newTab: scope.workspace.active
+                                //    });
+                                //}
+                                //isRemoteWorkspace = false;
 
                                 withoutSync(function () {
                                     updateEditorContent(editor, scope.activeTab);
@@ -610,9 +747,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             scope.activeTab = ws.tabs[ws.active];
         }
 
-        function syncEditorContent (editor, tab, tabName) {
+        function syncEditorContent (editor, tab, tabName, readOnly) {
             var tabState = $stateMap[tabName];
             tab.content = editor.getValue();
+
+            if (readOnly) {
+                return;
+            }
+
 
             if (tabState !== undefined) {
                 tabState.del(0, tabState.getText().length);
@@ -623,11 +765,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             }
         }
 
-        function syncEditorOptions (editor, options, tabName) {
+        function syncEditorOptions (editor, options, tabName, readOnly, user) {
             var tabState = $stateMap[tabName],
                 msg = {
                     editor: options,
-                    who: "Piotr"
+                    who: user.name,
+                    marker: user.marker
                 };
 
             options.cursorPosition = editor.getCursorPosition();
@@ -635,10 +778,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             options.firstVisibleRow = editor.getFirstVisibleRow();
             options.lastVisibleRow = editor.getLastVisibleRow();
 
+            if (readOnly) {
+                return;
+            }
+
             if (tabState !== undefined) {
                 tabState.shout(msg);
             }
-            else if ($state && !readOnly) {
+            else if ($state) {
                 $state.shout(msg);
             }
         }
@@ -683,45 +830,47 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             if (!tab || !tab.editor) {
                 return;
             }
-           // updateEditorSelection(ed, tab, forceUpdateCursor);
+            updateEditorSelection(ed, tab, forceUpdateCursor);
             updateEditorScroll(ed, tab);
             setUpMarker(ed, tab);
         }
 
-        function initUserMarker(who){
-            if (!markers[who]){
+        function initUserMarker (who, marker) {
+            if (!markers[who]) {
                 markers[who] = {
-                    lastMarker:0
+                    lastMarker: 0,
+                    marker: marker
                 };
             }
         }
 
-        function removeUserMarker(ed, who){
-            var lastMarker=markers[who].lastMarker;
+        function removeUserMarker (ed, who) {
+            var lastMarker = markers[who].lastMarker;
 
-            if (lastMarker > 0){
+            if (lastMarker > 0) {
                 ed.session.removeMarker(lastMarker);
             }
         }
 
-        function setUpMarker(ed, tab){
+        function setUpMarker (ed, tab) {
             var selectionRange = tab.editor.selectionRange,
                 Range = ace.require('ace/range').Range, lastMarker;
 
-            initUserMarker(tab.who);
+            initUserMarker(tab.who, tab.marker);
             removeUserMarker(ed, tab.who);
 
             if (selectionRange.start.column === selectionRange.end.column) {
 
                 markers[tab.who].lastMarker = ed.session.addMarker(
-                    new Range(selectionRange.start.row,selectionRange.start.column,
-                        selectionRange.end.row,selectionRange.end.column+1), "bar", function(stringBuilder,range, left, top, config) {
+                    new Range(selectionRange.start.row, selectionRange.start.column,
+                        selectionRange.end.row, selectionRange.end.column + 1), "user-marker", function (stringBuilder, range, left, top, config) {
                         var height = config.lineHeight;
 
                         stringBuilder.push(
-                            "<div class='bar ace_active-line'",
-                            "data-test='", tab.who , "'",
+                            "<div class='user-marker ace_active-line'",
+                            "data-name='", tab.who, "'",
                             "style='height:", height, "px;",
+                            "background:#", tab.marker, ";",
                             "top:", top, "px;",
                             "left:", left, "px;right:0;'></div>"
                         );
