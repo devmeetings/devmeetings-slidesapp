@@ -160,7 +160,7 @@ function getChannelList(clearCache) {
 function getClientList() {
     var defer = Q.defer();
 
-    promise.thenSend('clientlist', ['voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
+    promise.thenSend('clientlist').then(function (clients) {
         defer.resolve(castArray(clients));
     }).fail(function (error) {
         defer.reject(error);

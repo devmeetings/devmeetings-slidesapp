@@ -42,7 +42,6 @@ function linkClientsWithUsers(channelsTree, sockets) {
                 socket = getUserSocketByClientDbId(sockets, client.client_database_id);
                 if (socket) {
                     client.isLinked = true;
-                    client.userData = socket.user;
 
                     if (socket.user.teamspeak.clientId != client.clid) {
                         updateData = {
