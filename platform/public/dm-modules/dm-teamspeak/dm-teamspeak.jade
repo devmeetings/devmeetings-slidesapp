@@ -5,7 +5,7 @@ div
             span
                 i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")
             span.user {{client.client_nickname}}
-        span(href="", ng-if="clientId != client.clid")
+        a(ng-if="clientId != client.clid")
             span
                 i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")
             span.user {{client.client_nickname}}
