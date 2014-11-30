@@ -154,16 +154,15 @@ a.text-info:hover,
 
 /*----------- EDITORS MARKERS ----------------------*/
 
-.bar{
+.user-marker{
     position:absolute;
-    background:rgba(100,100,200,0.5);
     z-index:40; width:2px!important
 }
 
-.bar::before{
+.user-marker::before{
     position:absolute;
-    background:rgba(100,100,200,0.5);
+    background: inherit;
     z-index:999;
     top: -100%;
-    content:  attr(data-test); left:0px; font-family: Arial; padding:1px 2px
+    content:  attr(data-name); left:0px; font-family: Arial; padding:1px 2px
 }
