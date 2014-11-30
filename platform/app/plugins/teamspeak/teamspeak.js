@@ -103,7 +103,6 @@ exports.onSocket = function (log, socket, io) {
                 sendChannelList(true);
                 isConnected = true;
             }, function () {
-                socket.emit('teamspeak.error', 'Connetion error');
                 throw new Error('Connetion error');
             });
         } else {
@@ -170,6 +169,7 @@ exports.onSocket = function (log, socket, io) {
             clearInterval(refreshListInterval);
             Teamspeak.disconnect();
             isConnected = false;
+            console.log("  [Teamspeak] Disconected");
         }
     };
 
