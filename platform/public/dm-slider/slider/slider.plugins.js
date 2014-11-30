@@ -1,5 +1,5 @@
 define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins', '../utils/ExtractPath'], function(_, angular, angularSanitize, asEvented, Plugins, ExtractPath) {
-    var module = angular.module('slider.plugins', ['ngSanitize', 'angularFileUpload']);
+    var module = angular.module('slider.plugins', ['ngSanitize', 'angularFileUpload', 'dm-user']);
 
     module.extractPath = ExtractPath;
 
