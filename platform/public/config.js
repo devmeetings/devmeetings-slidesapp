@@ -39,6 +39,10 @@ require.config({
         "lib/beautify-css": "../components/js-beautify/js/lib/beautify-css",
         "lib/beautify-js": "../components/js-beautify/js/lib/beautify-js",
         "lib/beautify-html": "../components/js-beautify/js/lib/beautify-html",
+        "bcsocket":"/channel/bcsocket",
+        "share" : "/share/share.uncompressed",
+        "sharejs-ace" : "/share/ace",
+        "sharejs-json" : "/share/json",
 
         // Angular
         "angular": "../components/angular/angular",
@@ -93,6 +97,15 @@ require.config({
         },
         "lz-string": {
             "exports": "LZString"
+        },
+        "share" : {
+            "deps" : ["bcsocket"]
+        },
+        "sharejs-ace" : {
+            "deps" : ["share", "ace"]
+        },
+        "sharejs-json" : {
+            "deps" : ["share"]
         },
 
         // Angular

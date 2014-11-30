@@ -25,7 +25,10 @@ module.exports = function(grunt) {
                     "require/plugins/paths": "../bin/plugins_paths",
                     "socket.io": "empty:",
                     "ace": "empty:",
-                    "ace_languageTools": "empty:"
+                    "ace_languageTools": "empty:",
+                    "bcsocket": "empty:",
+                    "share": "empty:",
+                    "sharejs-ace": "empty:"
                 },
                 optimize: "none"
             }
