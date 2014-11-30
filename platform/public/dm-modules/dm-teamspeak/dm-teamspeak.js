@@ -11,6 +11,7 @@ define(['angular'], function (angular) {
                     scope.channelList = [{cid: 0, name: 'Loading...'}];
 
                     dmUser.getCurrentUser().then(function(data) {
+                        scope.clientId = data.result.teamspeak.clientId;
                         scope.isTrainer = !!_.find(data.result.acl, function(acl){ return acl == 'trainer'; });
                     }, function (err) {
 

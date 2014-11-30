@@ -1,5 +1,6 @@
 var UserModel = require('../models/user'),
     Q = require('q'),
+    _ = require('lodash'),
     mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10,
     authFields = {
@@ -147,5 +148,31 @@ exports.linkUserWithTeamspeakClient = function (user, clientId, clientDbId) {
             defer.resolve();
         }
     });
+    return defer.promise;
+};
+
+exports.saveTeamspeakData = function (userId, data) {
+    var defer = Q.defer();
+
+    UserModel.findOne({
+        "_id": userId
+    }).exec().then(function (User) {
+        if (!User) {
+            return defer.reject();
+        }
+
+        if (_.isEmpty(User.teamspeak)) {
+            User.teamspeak = UserModel.teamspeak;
+        }
+
+        for (var attribute in data) {
+            User.teamspeak[attribute] = data[attribute];
+        }
+
+        User.save(function (error) {
+                return error ? defer.reject(error) : defer.resolve();
+        });
+    });
+
     return defer.promise;
 };

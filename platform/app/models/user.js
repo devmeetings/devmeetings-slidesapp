@@ -43,6 +43,7 @@ module.exports = mongoose.model('user', new mongoose.Schema({
         clientId: Number,
         clientDbId: Number,
         lastChannel: Number,
-        defaultChannel: Number
+        defaultChannel: Number,
+        forcedChannel: Number
     }
 }));

@@ -5,7 +5,8 @@ var Users = require('../services/users'),
     config = require('../../config/config'),
     TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port),
     channelListCache = null,
-    commandCounter = 0; // counter of how many commands were sent
+    //commandCounter = 0, // counter of how many commands were sent
+    promise = {}; // @TODO create empty promise?
 
 /**
  * @TODO zabezpieczenie przed banem - należy odliczac czas po wykonaniu zapytania, jesli minie czas okreslony w configu to zeruje licznik
@@ -30,14 +31,14 @@ function wrap(promise) {
     return promise;
 }
 
+// TODO somehow handle connection error and reconnect it
 function send(name, data) {
     var defer = Q.defer();
 
-    commandCounter++;
-    console.log('  [Teamspeak] Send: ' + name + ' [' + commandCounter + ']');
+    //commandCounter++;
+    //console.log('  [Teamspeak] Send: ' + name + ' [' + commandCounter + ']');
 
-    // TODO obsluzyc throttle na 3 sekundy i 10 polecen (konfigurowalne)
-
+    // TODO handle throttle
     TsClient.send(name, data, function (err, response, raw) {
         if (err.id === '0' || err.msg === 'ok') {
             defer.resolve(response);
@@ -45,6 +46,7 @@ function send(name, data) {
             defer.reject(err);
         }
     });
+
     return wrap(defer.promise);
 }
 
@@ -201,23 +203,23 @@ function removeChannel(channelId) {
     return defer.promise;
 }
 
-// @TODO create empty promise?
-var promise = {};
+function init() {
+    promise = send("use", {
+        sid: config.teamspeak.sid
+    }).thenSend("login", {
+        client_login_name: config.teamspeak.login,
+        client_login_password: config.teamspeak.password
+    }).fail(function (error) {
+        console.error(new Error('Teamspeak - ' + error.msg));
+    });
+
+    return promise;
+}
+
 
 module.exports = {
 
-    init: function () {
-        promise = send("use", {
-            sid: config.teamspeak.sid
-        }).thenSend("login", {
-            client_login_name: config.teamspeak.login,
-            client_login_password: config.teamspeak.password
-        }).fail(function (error) {
-            console.error(new Error('Teamspeak - ' + error.msg));
-        });
-
-        return promise;
-    },
+    init: init,
 
     getChannelList: getChannelList,
 
@@ -297,7 +299,31 @@ module.exports = {
             });
         });
         return defer.promise;
+    },
+
+    saveTeamspeakData: function (userId, data) {
+        var defer = Q.defer();
+        Users.saveTeamspeakData(userId, data).then(function () {
+            defer.resolve();
+        }).fail(function (error) {
+            defer.reject(error);
+        });
+        return defer.promise;
+    },
+
+    ping: function () {
+        var defer = Q.defer();
+
+        promise.thenSend('version').then(function () {
+            defer.resolve();
+        }).fail(function (error) {
+            defer.reject(error);
+        });
+
+        return defer.promise;
     }
+
+
 };
 
 /*Teamspeak.getList().then(function (channelsTree) {
