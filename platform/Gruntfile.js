@@ -193,7 +193,8 @@ module.exports = function(grunt) {
             deck: rjsOptimizationModule('dm-slider', "slider-deck"),
             slide: rjsOptimizationModule('dm-slider', "slider-slide"),
             trainer: rjsOptimizationModule('dm-slider', "slider-trainer"),
-            xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform')
+            xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform'),
+            courses: rjsOptimizationModule('dm-courses', 'dm-courses/dm-courses'),
         }
     });
 
@@ -232,6 +233,10 @@ module.exports = function(grunt) {
         if (!fs.existsSync('./../.git/hooks/pre-commit')) {
             fs.copySync('./hooks/pre-commit.sample', '../.git/hooks/pre-commit');
             fs.chmodSync('../.git/hooks/pre-commit', '755');
+        }
+        if (!fs.existsSync('./../.git/hooks/pre-push')) {
+            fs.copySync('./hooks/pre-push.sample', '../.git/hooks/pre-push');
+            fs.chmodSync('../.git/hooks/pre-push', '755');
         }
     });
 

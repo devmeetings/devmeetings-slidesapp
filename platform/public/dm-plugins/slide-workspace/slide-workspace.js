@@ -79,7 +79,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                     link: function (scope, element) {
                         var undoManager = new WorkspaceUndoManager(scope, scope.workspace.tabs);
 
-
                         scope.output = {
                             width: 6,
                             show: false,
@@ -87,8 +86,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         };
                         scope.getType = getExtension;
 
-
-                        scope.changeWidth = function () {
+                        scope.changeWidth = function() {
                             var out = scope.output;
                             out.width -= 2;
                             out.sideBySide = true;
@@ -102,7 +100,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
 
                         // This is temporary hack!
-                        function promptForName (old) {
+                        function promptForName(old) {
                             var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : "");
                             if (!name) {
                                 return;
@@ -110,7 +108,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             return name.replace(/\./g, '|');
                         }
 
-                        function deleteTabAndFixActive (tabName, newName) {
+                        function deleteTabAndFixActive(tabName, newName) {
                             var ws = scope.workspace;
                             delete ws.tabs[tabName];
                             if (ws.active === tabName) {
@@ -162,7 +160,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             return tab.replace(/\|/g, '.');
                         };
 
-
                         // Editor
                         /*
                          * [ToDr] Not sure why we need to introduce timeout here,
@@ -175,7 +172,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             var indentSize = 2, isRemoteWorkspace = false, disableScrollSync = false;
 
-
                             var editor = ace.edit($e[0]);
                             editor.setTheme('ace/theme/' + EDITOR_THEME);
                             editor.setValue("");
@@ -183,18 +179,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             editor.getSession().setUseSoftTabs(true);
                             editor.getSession().setUseWrapMode(!!scope.workspace.wrap);
                             editor.setOptions({
-                                enableBasicAutocompletion: true,
-                                enableSnippets: true,
-                                enableLiveAutocompletion: false
+                                enableBasicAutocompletion: !scope.workspace.noAutocomplete,
+                                enableSnippets: !scope.workspace.noAutocomplete,
+                                enableLiveAutocompletion: false,
+                                behavioursEnabled: !scope.workspace.noAutocomplete
                             });
 
-                            (function vimMode () {
+                            (function vimMode() {
                                 if (scope.workspace.vim || (localStorage && localStorage.getItem('vimMode'))) {
                                     editor.setKeyboardHandler("ace/keyboard/vim");
                                 }
                             }());
 
-                            scope.$watch('output.width', function () {
+                            editor.getSession().setUndoManager(undoManager);
+
+                            scope.$watch('output.width', function() {
                                 // Because of animation we have to make timeout
                                 $timeout(function () {
                                     editor.resize();
@@ -203,6 +202,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             scope.$watch('workspace.tabs', function () {
                                 undoManager.reset();
+                            });
+
+                            scope.$watch('output.sideBySide', function() {
+                                scope.output.show = false;
+                                // Refresh view
+                                triggerChangeLater(scope);
+                                editor.resize();
                             });
 
                             //---------------- BEGIN CODE SHARE ---------------------------
@@ -227,17 +233,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             scope.startNewMentorSession = startNewMentorSession;
                             scope.startNewPairSession = startNewPairSession;
 
-                            //scope.isStudent = function () {
-                            //    if (scope.workspaceMode === null) {
-                            //        return false;
-                            //    }
-                            //
-                            //    if (scope.workspaceMode === 'mentor') {
-                            //        return !isMentor;
-                            //    }
-                            //
-                            //};
-
                             scope.isMentor = function () {
                                 return isMentor;
                             };
@@ -257,47 +252,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.output.show = false;
                             };
 
-                            //function getWorkspaceMode () {
-                            //    var result = /ref=([m|p]:[^&]*)/.exec(window.location.search);
-                            //
-                            //
-                            //    if (result !== null) {
-                            //
-                            //        scope.workspaceMode = availableWorkspaceModes.get(result[1].slice(0, 1));
-                            //        docName = result[1];
-                            //
-                            //        if (scope.workspaceMode === 'mentor') {
-                            //
-                            //            editor.setReadOnly(true);
-                            //            readOnly = true;
-                            //
-                            //            openShareJsDoc(docName);
-                            //
-                            //            if (localStorage && localStorage.getItem('role') === 'mentor') {
-                            //                editor.setReadOnly(false);
-                            //                readOnly = false;
-                            //                isMentor = true;
-                            //                localStorage.removeItem('role');
-                            //            }
-                            //        }
-                            //        else if (scope.workspaceMode === 'pair') {
-                            //            // openShareJsDoc(docName);
-                            //            scope.connectedUsers = [];
-                            //
-                            //
-                            //            dmUser.getCurrentUser().then(function (data) {
-                            //                createShereJsDocsForTabs(docName, data.result);
-                            //            });
-                            //
-                            //
-                            //
-                            //        }
-                            //
-                            //        // scope.setUpMode = true;
-                            //
-                            //
-                            //    }
-                            //}
 
                             function setUpWorkspace () {
                                 var result = /ref=([^&]*)/.exec(window.location.search);
@@ -563,18 +517,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             //-------------- END CODE-SHARE ----------------------------------
 
 
-                            editor.getSession().setUndoManager(undoManager);
-
-
-                            scope.$watch('output.sideBySide', function () {
-                                scope.output.show = false;
-                                // Refresh view
-                                triggerChangeLater(scope);
-                                editor.resize();
-                            });
-
-                            ///
-
                             // TODO [ToDr] When changing tabs cursor synchronization is triggered like crazy.
                             var disableSync = false;
 
@@ -630,11 +572,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             editor.getSession().getSelection().on('changeSelection', syncEditorOptionsOnSelectionOrCurosrChange);
 
                             editor.getSession().getSelection().on('changeCursor', syncEditorOptionsOnSelectionOrCurosrChange);
-
-
-                            //editor.getSession().on('changeBackMarker', function(){
-                            //    console.log('changeBackMarker', arguments);
-                            //});
 
                             // Active tab
                             scope.$watch('activeTab.mode', function (mode) {
@@ -692,12 +629,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (!scope.activeTab) {
                                     return;
                                 }
-                                //if ($state && !isRemoteWorkspace && !readOnly) {
-                                //    $state.shout({
-                                //        newTab: scope.workspace.active
-                                //    });
-                                //}
-                                //isRemoteWorkspace = false;
 
                                 withoutSync(function () {
                                     updateEditorContent(editor, scope.activeTab);
@@ -754,7 +685,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             if (readOnly) {
                 return;
             }
-
 
             if (tabState !== undefined) {
                 tabState.del(0, tabState.getText().length);

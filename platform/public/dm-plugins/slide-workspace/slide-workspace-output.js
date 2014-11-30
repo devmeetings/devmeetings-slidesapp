@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'services/Sockets'], function(module, _, sliderPlugins) {
+define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
     'use strict';
 
     var path = sliderPlugins.extractPath(module);

@@ -5,6 +5,7 @@
 /public/css/style.css
 /public/css/style-*.css
 /public/**/*.html
+/public/sounds
 /.rebooted
 /.version
 **/*.ogg

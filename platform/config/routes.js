@@ -1,7 +1,6 @@
 var passport = require('passport');
 
 var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
-    console.log(req.user);
     if (req.user) {
         redirectIfNeeded(req, res, next);
     } else if (shouldRedirect) {
@@ -107,18 +106,6 @@ module.exports = function(app) {
     app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);
 
 
-
-
-    //app.post('/api/add_event_snippet/:event', apiAuthenticated, events.addEventSnippet);
-    //app.put('/api/edit_event_snippet/:event/:snippet', apiAuthenticated, events.editEventSnippet);
-    //app.delete('/api/delete_event_snippet/:event/:snippet', apiAuthenticated, events.deleteEventSnippet);
-
-    //app.post('/api/add_event_task/:event', apiAuthenticated, events.addEventTask);
-    //app.put('/api/edit_event_task/:event/:task', apiAuthenticated, events.editEventTask);
-    //app.delete('/api/delete_event_task/:event/:task', apiAuthenticated, events.deleteEventTask);
-
-
-
     var slidesaves = require('../app/controllers/slidesaves');
     app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
     app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
@@ -132,7 +119,6 @@ module.exports = function(app) {
     app.get('/api/workspaces/:baseSlide', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.get);
     app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getPages);
     app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
-
 
     app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
 
@@ -168,6 +154,7 @@ module.exports = function(app) {
     app.get('/api/rawRecordings', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordingsGroups);
     app.get('/api/rawRecordings/:group', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordings);
 
+    // We should change this to ordinary /api calls (except for plugins)
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
@@ -226,6 +213,11 @@ module.exports = function(app) {
     app.get('/admin_old', authenticated, authorized('admin:slides'), admin.index);
     app.get('/admin_old/partials/:name', authenticated, authorized('admin:slides'), admin.partials);
 
+    // Courses
+    var courses = require('../app/controllers/courses');
+    app.get('/courses', authenticated, courses.index);
+
+    // This probably should be api calls?
     var editor = require('../app/controllers/editor');
     app.get('/editor/soundslist', authenticated, authorized('admin:events'), editor.soundsList);
     app.get('/editor/reclist', authenticated, authorized('admin:events'), editor.recList);

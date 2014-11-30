@@ -1,4 +1,4 @@
-define(['_', 'slider/slider.plugins', 'services/Sockets'], function(_, sliderPlugins) {
+define(['_', 'slider/slider.plugins'], function(_, sliderPlugins) {
 
     sliderPlugins.registerPlugin('deck', 'title', 'deck-layout').directive('deckLayout', [
         'Sockets',
@@ -12,7 +12,7 @@ define(['_', 'slider/slider.plugins', 'services/Sockets'], function(_, sliderPlu
                 },
                 template: '<div></div>',
                 link: function(scope, element) {
-                    Sockets.forwardEventToServer('slide.current.change');
+                    sliderPlugins.forwardEventToServer('slide.current.change', Sockets);
                 }
             };
         }

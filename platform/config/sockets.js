@@ -33,6 +33,7 @@ module.exports = function(io, sessionConfig) {
         var deck = socket.manager.handshaken[socket.id].query.deck;
 
         if (!deck) {
+            l("Disconecting because no deck");
             socket.disconnect();
             return;
         }

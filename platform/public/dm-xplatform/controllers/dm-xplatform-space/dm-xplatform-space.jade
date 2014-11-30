@@ -6,7 +6,7 @@
                 .col-sm-12
                     a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
                         span.fa.fa-align-justify
-                    a.pull-left.btn.btn-link(href='#', 
+                    a.pull-left.btn.btn-link(href='#',
                         analytics-category='menu',
                         analytics-on='click', analytics-event='navbar.logo')
                         img(src="static/images/navbar/xplatform_logo.png")
@@ -22,7 +22,7 @@
                         | To nie jest Twój workspace&nbsp;
 
             .dm-spacesidebar-left(ng-style='{"width": left.max, "clear": "both"}')
-                a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.workspace({slide: workspaceId, parent:null})", 
+                a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
                     ui-sref-active='btn-success active', ng-if="event.baseSlide")
                     span(ng-if="workspaceId")
                         span.fa.fa-wrench
@@ -40,7 +40,7 @@
                             span.nav-icon.fa.fa-question-circle
                             span Intro
 
-                    li(ng-repeat='i in event.iterations', 
+                    li(ng-repeat='i in event.iterations',
                         ng-click="i.open = !i.open",
                         ng-class="{'active': activeIteration == $index, 'disabled': !editMode && i.status !== \"available\"}")
                         a.cursor-pointer
@@ -54,13 +54,13 @@
                                 span.fa.fa-lock(ng-if='i.status != "available"')
                             span {{i.title}}
 
-                        
+
                         ul.nav.nav-stacked(ng-show="(i.open && (editMode || i.status ==='available')) || activeIteration == $index")
                             li(ui-sref-active="active", ng-repeat='material in i.materials')
                                 a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
                                     span.fa.fa-film.nav-icon
                                     span {{material.title}}
-                                a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to})', 
+                                a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to})',
                                     ng-if="material.deck.deck")
                                     span.fa.fa-university.nav-icon
                                     span {{material.title}}
@@ -82,7 +82,7 @@
                         a.cursor-pointer(ng-click='createIteration()')
                             span Dodaj Iteracje
                     //li
-                        a.cursor-pointer(ng-click='openWorkspace()') 
+                        a.cursor-pointer(ng-click='openWorkspace()')
                             span.fa.fa-wrench.nav-icon
                             span Workspace
                     li
@@ -97,47 +97,64 @@
 
                 .dm-spacesidebar-user(ng-if="user")
                     img.avatar-holder.pull-left(
-                        ng-src='{{user.result.avatar | dmGravatar:20}}', 
+                        ng-src='{{user.result.avatar | dmGravatar:20}}',
                         ui-sref='index.devhero({id: user.result._id})',
                         analytics-category='menu',
                         analytics-on='click', analytics-event='profile.photo')
                     a.ng-cloak(
-                        ui-sref="index.devhero({id: user.result._id})", 
+                        ui-sref="index.devhero({id: user.result._id})",
                         analytics-category='menu',
                         analytics-on='click', analytics-event='navbar.profile.text')
                         | {{user.result.name}}
 
 
-        .dm-space(ng-style='{"width": "calc(100% - " + left.current + ")"}')
+        .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
-            ng-style='{"width": right.current}',
-            analytics-category='spacesidebar',
-            analytics-on='mouse-enter', analytics-event='spacesidebar.toggle'
-            ng-mouseenter='toggleRight()')
-            //a.btn.pull-left.dm-space-toggle.cursor-pointer()
-                span.fa.fa-align-justify
-            tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
-                tab.cursor-pointer(id='stream', active='tabs.stream', 
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.stream',
-                    select='toggleRight(true)')
-                    tab-heading(tooltip='Baza wiedzy', tooltip-placement='bottom')
+            ng-style='{"width": right.current}'
+            analytics-category='spacesidebar'
+            analytics-on='mouse-enter'
+            analytics-event='spacesidebar.toggle'
+            ng-mouseenter='toggleRight(true)'
+            ng-mouseleave='toggleRight(false)'
+        )
+            tabset.dm-spacesidebar-right(
+                ng-class='{"active": !right.opened}'
+            )
+                tab.cursor-pointer(
+                    id='stream'
+                    active='tabs.stream'
+                    analytics-category='spacesidebar'
+                    analytics-on='click'
+                    analytics-event='spacesidebar.stream'
+                )
+                    tab-heading(
+                        tooltip='Baza wiedzy',
+                        tooltip-placement='bottom'
+                    )
                         span.fa.fa-newspaper-o
                     .col-xs-12.full-height
                         .row.full-height(ui-view='first')
-                tab.cursor-pointer(id='issues', active='tabs.issues', 
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.issues',
-                    select='toggleRight(true)')
+
+                tab.cursor-pointer(
+                    id='issues'
+                    active='tabs.issues'
+                    analytics-category='spacesidebar'
+                    analytics-on='click'
+                    analytics-event='spacesidebar.issues'
+                )
                     tab-heading(
-                        tooltip='Pytania', tooltip-placement='bottom')
+                        tooltip='Pytania',
+                        tooltip-placement='bottom'
+                    )
                         span.fa.fa-warning
                     .col-xs-12.dm-space-questions
-                        .row(ng-controller='dmXplatformQuestion', ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"')
-
+                        .row(
+                            ng-controller='dmXplatformQuestion'
+                            ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"'
+                        )
 
     .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
 

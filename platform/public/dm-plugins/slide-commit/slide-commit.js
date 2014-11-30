@@ -1,4 +1,4 @@
-define(['module', 'slider/slider.plugins', 'services/Sockets', 'services/DeckAndSlides'], function(module, sliderPlugins) {
+define(['module', 'slider/slider.plugins', 'services/DeckAndSlides'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide', 'commit', 'slide-commit', 10000).directive('slideCommit', [

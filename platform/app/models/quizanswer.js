@@ -13,8 +13,9 @@ var QuizAnswer = new Schema({
         slide: {
             type: Schema.Types.ObjectId,
             ref: 'slide'
-        }, 
+        },
         email: String,
+        nick: String,
         description: String,
         content: Schema.Types.Mixed,
         timestamp: Date
@@ -22,4 +23,3 @@ var QuizAnswer = new Schema({
 });
 
 module.exports = mongoose.model('quizanswer', QuizAnswer);
-

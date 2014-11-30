@@ -1,4 +1,4 @@
-define(['slider/slider.plugins', 'services/Sockets'], function(sliderPlugins, Sockets) {
+define(['slider/slider.plugins'], function(sliderPlugins) {
     sliderPlugins.factory('User', ['Sockets', '$rootScope', '$q',
         function(Sockets, $rootScope, $q) {
             var userData;

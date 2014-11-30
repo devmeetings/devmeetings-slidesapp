@@ -24,24 +24,14 @@ exports.index = function(req, res) {
         res.render('main/main', stdReq(req, {
             title: 'Xplatform',
             decks: decks,
-            cacheBustingVersion: req.cacheBustingVersion,
-            events: [{
-                title: 'JS contexty',
-                date: '-'
-            }, {
-                title: 'iOS - wprowadzenie',
-                date: '-'
-            }, {
-                title: 'Swift - poczatki',
-                date: '-'
-            }]
+            cacheBustingVersion: req.cacheBustingVersion
         }));
     });
 };
 
 exports.deck = function(req, res) {
     res.render('slider/deck', stdReq(req, {
-        title: 'Devmeetings.pl',
+        title: 'Deck',
         withGoogleAnalytics: req.withGoogleAnalytics,
         slides: req.params.slides,
         from: req.query.from,

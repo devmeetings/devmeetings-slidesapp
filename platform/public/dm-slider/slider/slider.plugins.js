@@ -1,5 +1,10 @@
-define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins', '../utils/ExtractPath'], function(_, angular, angularSanitize, asEvented, Plugins, ExtractPath) {
-    var module = angular.module('slider.plugins', ['ngSanitize', 'angularFileUpload', 'dm-user']);
+define(
+    ['_', 'angular', 'angular-sanitize', 'asEvented',
+    'dm-modules/dm-sockets/dm-sockets',
+    '../utils/Plugins', '../utils/ExtractPath'],
+        function(_, angular, angularSanitize, asEvented, Sockets, Plugins, ExtractPath) {
+
+    var module = angular.module('slider.plugins', ['ngSanitize', 'angularFileUpload', 'dm-sockets', 'dm-user']);
 
     module.extractPath = ExtractPath;
 
@@ -28,6 +33,19 @@ define(['_', 'angular', 'angular-sanitize', 'asEvented', '../utils/Plugins', '..
             module.off(name, cb);
         });
         return module.on(name, cb);
+    };
+
+    //forward
+    var forwarding = {};
+    module.forwardEventToServer = function(evName, Sockets) {
+        if (forwarding[evName]) {
+            return;
+        }
+
+        module.on(evName, function(/*args*/) {
+            Sockets.emit(evName, [].slice.call(arguments));
+        });
+        forwarding[evName] = true;
     };
     return module;
 });

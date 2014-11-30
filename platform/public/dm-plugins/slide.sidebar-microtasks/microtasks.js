@@ -20,7 +20,6 @@ define([
         return hash;
     };
     /* jshint ignore:end */
-
     sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 8).directive('slideJsmicrotasks', [
 
         function() {
