@@ -1,7 +1,7 @@
 .row.slide-workspace.full-height
     .sw-col.full-height(
         ng-class="{'col-sm-12': !output.sideBySide, 'col-sm-10': output.width == 2,'col-sm-8': output.width == 4,'col-sm-6': output.width == 6,'side-by-side': output.sideBySide }")
-        .row
+        .row(ng-if="workspaceMode")
             div(ng-if="isAllCanWrite()") Wszyscy użytkownicy mogą pisać
             div(ng-if="isSessionMentor()") Jestes moderatorem tej sesji. Pozostali użytkownicy śledzą twój ruch.
             div(ng-if="isWorkspaceReadOnly()") Jestes uczestnikiem sesji - posiadasz dostęp tylko do odczytu. Aktualnym moderatorem jest <b>{{currentWriter.name}}</b>
