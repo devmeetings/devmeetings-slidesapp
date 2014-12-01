@@ -31,8 +31,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
         });
 
         sliderPlugins.registerPlugin('slide', 'workspace', 'slide-workspace', 3900).directive('slideWorkspace', [
-            '$timeout', '$window', '$rootScope', 'dmUser',
-            function ($timeout, $window, $rootScope, dmUser) {
+            '$timeout', '$window', '$rootScope', 'dmUser', 'Sockets',
+            function ($timeout, $window, $rootScope, dmUser, Sockets) {
                 return {
                     restrict: 'E',
                     scope: {
@@ -228,7 +228,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             // mentor_session - workspace is read-only
                             // pair_session - can make changes on workspace
                             scope.mode = '';
-                            scope.workspaceMode = null;
+                            scope.workspaceMode = 'readonly';
                             scope.currentWriter = {id: 0};
                             scope.startNewMentorSession = startNewMentorSession;
                             scope.startNewPairSession = startNewPairSession;
@@ -415,9 +415,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 }
                             });
 
-                            scope.currentWriterChange = function (currentWriter) {
+                            function currentWriterChange(currentWriter) {
                                 scope.currentWriter = currentWriter;
-                            };
+                            }
+
+                            Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
+                                currentWriterChange(currentWriter);
+                            });
 
                             function amIConnectedToThisSession (users) {
                                 var result = false;
@@ -435,7 +439,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.currentWriterChangedOnRemoteChange = true;
 
                                 _.each(snapshot.users, function (connectedUser) {
-                                    if (snapshot.writer === connectedUser.name) {
+                                    if (snapshot.writer !== 'none' && snapshot.writer === connectedUser.name) {
                                         scope.currentWriterChange(connectedUser);
                                     }
                                 });
@@ -458,11 +462,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     if (doc.created) {
                                         doc.at([]).set({
-                                            users: [{
-                                                name: 'Wszyscy',
-                                                id: 0
-                                            }, prepareUserData()],
-                                            writer: user.name
+                                            users: [ prepareUserData()],
+                                            writer: 'none'
                                         });
 
                                         applyChangesLater(scope);
