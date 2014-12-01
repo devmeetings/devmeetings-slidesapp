@@ -367,7 +367,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             };
 
                             scope.isSessionMentor = function () {
-                                return scope.isWriter && scope.currentWriter === null;
+                                return scope.isWriter && scope.currentWriter !== null;
                             };
 
                             scope.isAllCanWrite = function () {
@@ -413,7 +413,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     $state.at('writer').set(currentWriter.name);
                                 }
 
-                                console.log( scope.currentWriter);
+                                console.log( scope.currentWriter, scope.workspaceMode);
                             });
 
                             function currentWriterChange(currentWriter) {
