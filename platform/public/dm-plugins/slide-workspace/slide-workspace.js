@@ -412,6 +412,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 else if ($state) {
                                     $state.at('writer').set(currentWriter.name);
                                 }
+
+                                console.log( scope.currentWriter);
                             });
 
                             function currentWriterChange(currentWriter) {
@@ -439,7 +441,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 _.each(snapshot.users, function (connectedUser) {
                                     if (snapshot.writer !== 'none' && snapshot.writer === connectedUser.name) {
-                                        scope.currentWriterChange(connectedUser);
+                                        currentWriterChange(connectedUser);
                                     }
                                 });
 
@@ -462,7 +464,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     if (doc.created) {
                                         doc.at([]).set({
                                             users: [ prepareUserData()],
-                                            writer: 'none'
+                                            writer: user.name
                                         });
 
                                         applyChangesLater(scope);
