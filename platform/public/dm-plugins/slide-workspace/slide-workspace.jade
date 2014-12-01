@@ -1,16 +1,6 @@
 .row.slide-workspace.full-height
     .sw-col.full-height(
         ng-class="{'col-sm-12': !output.sideBySide, 'col-sm-10': output.width == 2,'col-sm-8': output.width == 4,'col-sm-6': output.width == 6,'side-by-side': output.sideBySide }")
-        .row(ng-if="workspaceMode")
-            div(ng-if="isAllCanWrite()") Wszyscy użytkownicy mogą pisać
-            div(ng-if="isSessionMentor()") Jestes moderatorem tej sesji. Pozostali użytkownicy śledzą twój ruch.
-            div(ng-if="isWorkspaceReadOnly()") Jestes uczestnikiem sesji - posiadasz dostęp tylko do odczytu. Aktualnym moderatorem jest <b>{{currentWriter.name}}</b>
-            div(ng-if="canShowWritersList()")
-                span.label.label-info Kto może pisać
-                select.form-control(ng-model="currentWriter",ng-change="currentWriterChange(currentWriter)", ng-options="user.name for user in connectedUsers track by user.id")
-                i
-                    small Wybierz z listy powyzej użytkownika który przejmie prawo pisania. Jeżeli wybierzesz opcję 'Wszyscy', to wszyscy podłaczeni do Twojego workspace uzytwkonikcy będą mogli pisać.
-                    small(ng-if="isWorkspaceReadOnly()") Ponieważ posiadasz uprawnienia administratora masz możliwość przełączania osób piszących w danej sesji
         .row.full-height
             ul.nav.nav-tabs
                 li.workspace-tab.workspace-tab-output.pull-right(
