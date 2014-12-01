@@ -804,7 +804,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             "top:", top, "px;",
                             "left:", left, "px;right:0;'></div>"
                         );
-                    });
+                    }, true);
             }
         }
 
