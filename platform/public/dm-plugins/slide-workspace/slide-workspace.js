@@ -229,7 +229,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             // pair_session - can make changes on workspace
                             scope.mode = '';
                             scope.workspaceMode = 'readonly';
-                            scope.currentWriter = {id: 0};
+                            scope.currentWriter = null;
                             scope.startNewMentorSession = startNewMentorSession;
                             scope.startNewPairSession = startNewPairSession;
 
@@ -367,11 +367,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             };
 
                             scope.isSessionMentor = function () {
-                                return scope.isWriter && scope.currentWriter.id !== 0;
+                                return scope.isWriter && scope.currentWriter === null;
                             };
 
                             scope.isAllCanWrite = function () {
-                                return scope.isWriter && scope.currentWriter.id === 0;
+                                return scope.isWriter && scope.currentWriter === null;
                             };
 
                             scope.isWorkspaceReadOnly = function () {
@@ -401,8 +401,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
 
-                                scope.isWriter = currentWriter.name === scope.currentUser.name ? true :
-                                currentWriter.id === 0;
+                                scope.isWriter = currentWriter.name === scope.currentUser.name ;
 
 
                                 setUpWorkspaceMode();
