@@ -229,6 +229,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             // pair_session - can make changes on workspace
                             scope.mode = '';
                             scope.workspaceMode = 'readonly';
+                            scope.isWriter = false;
                             scope.currentWriter = null;
                             scope.startNewMentorSession = startNewMentorSession;
                             scope.startNewPairSession = startNewPairSession;
@@ -262,6 +263,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     docName = result[1];
                                     scope.connectedUsers = [];
 
+                                    setEditorReadOnly();
 
                                     dmUser.getCurrentUser().then(function (data) {
                                         scope.currentUser = data.result;
@@ -406,7 +408,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             function setUpWorkspaceMode () {
 
-                                if (!scope.isWriter) {
+                                if (!scope.isWriter && !scope.isWorkspaceReadOnly()) {
                                     scope.workspaceMode = 'readonly';
                                     setEditorReadOnly();
 
@@ -427,7 +429,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
 
-                                scope.isWriter = currentWriter.name === scope.currentUser.name ;
+                                scope.isWriter = currentWriter.id === scope.currentUser._id;
 
 
                                 setUpWorkspaceMode();
@@ -436,7 +438,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     scope.currentWriterChangedOnRemoteChange = false;
                                 }
                                 else if ($state) {
-                                    $state.at('writer').set(currentWriter.name);
+                                    $state.at('writer').set(currentWriter.id);
                                 }
 
                                 console.log( scope.currentWriter, scope.workspaceMode);
@@ -444,16 +446,30 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             function currentWriterChange(currentWriter) {
                                 scope.currentWriter = angular.isObject(currentWriter) &&
-                                currentWriter.hasOwnProperty('name') ? currentWriter : {name: currentWriter};
+                                currentWriter.hasOwnProperty('id') ? currentWriter : {id: currentWriter};
+
+                                sliderPlugins.trigger('codeShare.currentWriter',scope.currentWriter );
                                 console.log(scope.currentWriter);
                                 applyChangesLater(scope);
                             }
 
-                            $window.currentWriterChange = currentWriterChange;
+                            //Temporary
+                            //$window.CodeShare = {
+                            //    currentWriterChang : currentWriterChange,
+                            //    currentWriter: scope.currentWriter
+                            //};
 
-                            Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
-                                currentWriterChange(currentWriter);
+                            sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function(){
+                                setUpWorkspace();
                             });
+
+                            sliderPlugins.listen($rootScope, 'codeShare.setActiveUser', function (userId) {
+                                    currentWriterChange(userId);
+                            });
+
+                            //Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
+                            //    currentWriterChange(currentWriter);
+                            //});
 
                             function amIConnectedToThisSession (users) {
                                 var result = false;
@@ -471,7 +487,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.currentWriterChangedOnRemoteChange = true;
 
                                 _.each(snapshot.users, function (connectedUser) {
-                                    if (snapshot.writer !== 'none' && snapshot.writer === connectedUser.name) {
+                                    if (snapshot.writer !== 0 && snapshot.writer === connectedUser.id) {
                                         currentWriterChange(connectedUser);
                                     }
                                 });
@@ -494,8 +510,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     if (doc.created) {
                                         doc.at([]).set({
-                                            users: [ prepareUserData()],
-                                            writer: user.name
+                                            users: [ /*prepareUserData()*/],
+                                            writer: 0
                                         });
 
                                         applyChangesLater(scope);
@@ -536,7 +552,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                         return {
                                             name: user.name,
-                                            id: user.userId,
+                                            id: user._id,
                                             marker: marker
                                         };
                                     }
