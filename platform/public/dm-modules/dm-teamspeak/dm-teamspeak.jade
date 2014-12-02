@@ -10,8 +10,8 @@ div.mainWindow
                 button.btn.btn-xs(ng-class="{'btn-danger': client.isLinked, 'btn-success': !client.isLinked}", ng-if="!clientId && !client.isLinked || clientId == client.clid", ng-click="client.isLinked ? unlinkClient() : linkClient(client)", title="Powiąż/rozłącz z klientem Teamspeak")
                     span.glyphicon.glyphicon-link
 
-                button.btn.btn-xs.btn-primary
-                    span.glyphicon.glyphicon-pencil
+                button.btn.btn-xs.btn-primary(ng-if="client.isLinked", ng-click="setCurrentWriter(client.userId)", title="Przejmij pisanie na edytorze")
+                    span.glyphicon.glyphicon-pencil(ng-class="{linked: isUserAWriter(client.userId), unliked: !isUserAWriter(client.userId)}")
 
     script(type="text/ng-template", id="channelTree")
         a(href="", ng-click="moveToChannel(channel)", title="Przejdź do pokoju")
@@ -31,3 +31,4 @@ div.mainWindow
                         span.glyphicon.glyphicon-download
             ul.list-group.channelTree(ng-if="channelList")
                 li.list-group-item(ng-repeat="channel in channelList", ng-include="'channelTree'")
+            .panel-body(ng-if="!channelList") Loading...
