@@ -16,6 +16,12 @@ function updateUserData(userId, data, callback) {
     });
 }
 
+function truncate(string){
+    if (string.length > 11)
+        return string.substring(0,8)+'...';
+    else
+        return string;
+}
 
 /**
  * TODO - need refactoring
@@ -37,6 +43,8 @@ function linkClientsWithUsers(channelsTree, sockets) {
         if (channel.clients) {
             channel.clients.forEach(function (client) {
                 client.isLinked = false;
+                client.nickShort = truncate(client.client_nickname);
+                client.nickTitle = client.client_nickname;
 
                 // TODO jesli nie znajdzie to sprawdzanie po adresie ip i nicku
                 socket = getUserSocketByClientDbId(sockets, client.client_database_id);
@@ -50,6 +58,7 @@ function linkClientsWithUsers(channelsTree, sockets) {
                             clientDbId: client.client_database_id
                         };
                         socket.user.teamspeak.clientId = client.clid;
+                        client.nickTitle += ' (You)';
                     }
 
                     // if client was moved by trainer to forcesChannel and is in other channel we move him to forcedChannel

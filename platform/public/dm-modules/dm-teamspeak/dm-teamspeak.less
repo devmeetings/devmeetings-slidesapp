@@ -1,31 +1,44 @@
 .mainWindow {
-    background: #000000;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
 }
 
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 0px;
+    margin-left: -1px;
+    background-color: #2c2c2c;
+}
+
+.list-group {
+    margin-bottom: 0;
+}
+
 ul.channelTree, .channelTree ul {
-    padding: 0 5px 0 5px;
-    list-style-position: inside;
+
 }
 
 .channelTree ul li, .channelTree ul li ul li {
-    padding: 0;
 }
 
 .mainWindow li > a, .mainWindow li > ul > li > a {
-    padding: 0;
 }
 
 .channelTree li {
-    list-style-type:none;
-    margin:0;
-    padding:5px 2px 0 5px;
-    position:relative;
+//    list-style-type:none;
+//    margin:0;
+//    padding:5px 2px 5px 0px;
+    background-color: #2c2c2c;
 }
 
 .channelTree li span {
-    padding:3px 8px;
+//    padding:3px 8px;
 }
 
 .linked {
@@ -42,4 +55,8 @@ li .channel {
 
 li .user {
     color: #FFFFFF;
+}
+
+.client {
+    padding: 5px;
 }

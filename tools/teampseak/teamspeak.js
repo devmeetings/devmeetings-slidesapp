@@ -76,7 +76,7 @@ function createChannels(channelsSource, cid) {
                 });
 
                 children.forEach(function (node) {
-                    createChannels(node, results.cid).then(function (results) {
+                        createChannels(node, results.cid).then(function (results) {
                         return defer.resolve(results);
                     }).fail(function (error) {
                         return defer.reject(error);

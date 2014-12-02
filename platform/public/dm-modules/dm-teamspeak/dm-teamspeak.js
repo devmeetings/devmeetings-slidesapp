@@ -14,7 +14,7 @@ define(['angular'], function (angular) {
                     scope.channelList = [{cid: 0, name: 'Loading...'}];
 
                     dmUser.getCurrentUser().then(function(data) {
-                        scope.clientId = data.result.teamspeak.clientId;
+                        scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
                         scope.isTrainer = !!_.find(data.result.acl, function(acl){ return acl == 'trainer'; });
                     }, function (err) {
 
@@ -53,6 +53,10 @@ define(['angular'], function (angular) {
 
                     scope.moveAllClientsToChannel = function (channel) {
                         Sockets.emit('teamspeak.moveAllClientsToChannel', channel.cid);
+                    };
+
+                    scope.restoreClientsChannels = function () {
+                        Sockets.emit('teamspeak.restoreClientsChannels');
                     };
 
                     Sockets.on('teamspeak.channelList', function (channelList) {
