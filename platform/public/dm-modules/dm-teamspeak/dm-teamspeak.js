@@ -1,12 +1,15 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('dm-teamspeak', []).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window',
-        function (Sockets, dmUser, $window) {
+    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService',
+        function (Sockets, dmUser, $window, codeShareService) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
                 link: function (scope) {
+
+                    scope.setCurrentWriter = codeShareService.setCurrentWriter;
+                    scope.isUserAWriter = codeShareService.isUserAWriter;
 
                     scope.channelList = [{cid: 0, name: 'Loading...'}];
 
