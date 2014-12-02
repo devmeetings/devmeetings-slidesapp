@@ -378,21 +378,47 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 return scope.workspaceMode === 'readonly';
                             };
 
+                            function setEditorReadOnly(){
+                                editor.setReadOnly(true);
+
+                                var cover = document.createElement("div");
+                                editor.container.appendChild(cover);
+                                cover.className = 'editor_cover';
+                                cover.style.cssText = "position:absolute;"+
+                                        "top:0;bottom:0;right:0;left:0;"+
+                                        "background:rgba(150,150,150,0.1);"+
+                                        "z-index:100";
+                                cover.addEventListener("mousedown", function(e){e.stopPropagation();}, true);
+
+                                editor.renderer.setStyle("disabled", true);
+                                editor.blur();
+                            }
+
+                            function setEditorEditAble(){
+                                editor.setReadOnly(false);
+
+                                editor.renderer.setStyle("disabled", false);
+                                var cover = document.getElementsByClassName('editor_cover');
+                                if (cover.length > 0 ) {
+                                    editor.container.removeChild(cover[0]);
+                                }
+                            }
+
                             function setUpWorkspaceMode () {
 
                                 if (!scope.isWriter) {
                                     scope.workspaceMode = 'readonly';
-                                    editor.setReadOnly(true);
+                                    setEditorReadOnly();
+
                                 }
                                 else if (scope.isSessionMentor()) {
                                     scope.workspaceMode = 'mentor';
-                                    editor.setReadOnly(false);
+                                    setEditorEditAble();
                                 }
                                 else if (scope.isAllCanWrite()) {
                                     scope.workspaceMode = 'all';
-                                    editor.setReadOnly(false);
+                                    setEditorEditAble();
                                 }
-
                             }
 
                             scope.$watch('currentWriter', function (currentWriter) {
@@ -417,8 +443,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             function currentWriterChange(currentWriter) {
-                                scope.currentWriter = currentWriter;
+                                scope.currentWriter = angular.isObject(currentWriter) &&
+                                currentWriter.hasOwnProperty('name') ? currentWriter : {name: currentWriter};
+                                console.log(scope.currentWriter);
+                                applyChangesLater(scope);
                             }
+
+                            $window.currentWriterChange = currentWriterChange;
 
                             Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
                                 currentWriterChange(currentWriter);
@@ -538,7 +569,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 applyChangesLater(scope);
                             });
 
-                            editor.on('mousedown', function () {
+                            editor.on('mousedown', function (e) {
                                 disableScrollSync = false;
                             });
 
@@ -790,7 +821,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
             initUserMarker(tab.who, tab.marker);
             removeUserMarker(ed, tab.who);
-
+            console.log('selectionRange', selectionRange);
             if (selectionRange.start.column === selectionRange.end.column) {
 
                 markers[tab.who].lastMarker = ed.session.addMarker(
