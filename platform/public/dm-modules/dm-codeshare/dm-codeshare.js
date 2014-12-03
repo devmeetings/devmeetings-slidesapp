@@ -15,15 +15,23 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
      */
     function codeshare ($rootScope) {
         var service = {
-            setUpWorkspace: setUpWorkspace,
+            resetWorkspaceForNew: resetWorkspaceForNew,
             setCurrentWriter: setCurrentWriter,
             getCurrentWriter: getCurrentWriter,
-            isUserAWriter: isUserAWriter
-        }, currentWriter = null;
+            isSetCurrentWriter: isSetCurrentWriter,
+            isUserAWriter: isUserAWriter,
+            removeUser: removeUser,
+            getCurrentWorkspace: getCurrentWorkspace,
+            isConnectedToWorkSpace: isConnectedToWorkSpace
+        }, currentWriter = null, isConnectedToWorkSpace = false, currentWorkspaceName = '';
 
 
         sliderPlugins.listen($rootScope, 'codeShare.currentWriter', function (_currentWriter_) {
             currentWriter = _currentWriter_;
+        });
+
+        sliderPlugins.listen($rootScope, 'codeShare.connectedToWorkSpace', function () {
+            isConnectedToWorkSpace = true;
         });
 
         return service;
@@ -31,8 +39,15 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
         // private methods go heare
         ///////////////////////////
 
-        function setUpWorkspace () {
-            sliderPlugins.trigger('codeShare.setUpWorkspace');
+        function getCurrentWorkspace(){
+            return currentWorkspaceName;
+        }
+
+        function resetWorkspaceForNew (channel) {
+            //sliderPlugins.trigger('codeShare.setUpWorkspace', channel);
+            currentWriter = null;
+            isConnectedToWorkSpace = false;
+            currentWorkspaceName = channel;
         }
 
         function setCurrentWriter (userId) {
@@ -45,11 +60,27 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             return currentWriter;
         }
 
+        function isSetCurrentWriter () {
+            if (!currentWriter) {
+                return false;
+            }
+            return currentWriter.id !== 0;
+        }
+
         function isUserAWriter (userId) {
             if (!currentWriter) {
                 return false;
             }
             return currentWriter.id === userId;
+        }
+
+        function isConnectedToWorkSpace(){
+            return isConnectedToWorkSpace;
+        }
+
+
+        function removeUser(userId) {
+            sliderPlugins.trigger('codeShare.removeUser', userId);
         }
     }
 

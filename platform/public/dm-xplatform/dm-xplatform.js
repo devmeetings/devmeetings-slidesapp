@@ -320,7 +320,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.workspace', {
-                    url: '/workspace/:slide',
+                    url: '/workspace/:slide?channel',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',

@@ -86,7 +86,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                         };
                         scope.getType = getExtension;
 
-                        scope.changeWidth = function() {
+                        scope.changeWidth = function () {
                             var out = scope.output;
                             out.width -= 2;
                             out.sideBySide = true;
@@ -100,7 +100,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
 
                         // This is temporary hack!
-                        function promptForName(old) {
+                        function promptForName (old) {
                             var name = $window.prompt("Insert new filename", old ? old.replace(/\|/g, '.') : "");
                             if (!name) {
                                 return;
@@ -108,7 +108,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             return name.replace(/\./g, '|');
                         }
 
-                        function deleteTabAndFixActive(tabName, newName) {
+                        function deleteTabAndFixActive (tabName, newName) {
                             var ws = scope.workspace;
                             delete ws.tabs[tabName];
                             if (ws.active === tabName) {
@@ -185,7 +185,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 behavioursEnabled: !scope.workspace.noAutocomplete
                             });
 
-                            (function vimMode() {
+                            (function vimMode () {
                                 if (scope.workspace.vim || (localStorage && localStorage.getItem('vimMode'))) {
                                     editor.setKeyboardHandler("ace/keyboard/vim");
                                 }
@@ -193,7 +193,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             editor.getSession().setUndoManager(undoManager);
 
-                            scope.$watch('output.width', function() {
+                            scope.$watch('output.width', function () {
                                 // Because of animation we have to make timeout
                                 $timeout(function () {
                                     editor.resize();
@@ -204,7 +204,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 undoManager.reset();
                             });
 
-                            scope.$watch('output.sideBySide', function() {
+                            scope.$watch('output.sideBySide', function () {
                                 scope.output.show = false;
                                 // Refresh view
                                 triggerChangeLater(scope);
@@ -253,23 +253,30 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.output.show = false;
                             };
 
+                            setEditorReadOnly();
 
-                            function setUpWorkspace () {
-                                var result = /ref=([^&]*)/.exec(window.location.search);
+                            function setUpWorkspace (channel) {
+                                var channelName = '',result = /channel=([^&]*)/.exec(window.location.hash);
 
+                                //kanal podany w parametrze ma wiekszy prioytet niz w hashu
+                                if (channel){
+                                    channelName = channel;
+                                }
+                                else if (result !== null) {
+                                    channelName = result[1];
+                                }
 
-                                if (result !== null) {
+                                if (channelName !== '') {
 
-                                    docName = result[1];
+                                    docName = channelName;
                                     scope.connectedUsers = [];
 
-                                    setEditorReadOnly();
+                                    //setEditorReadOnly();
 
                                     dmUser.getCurrentUser().then(function (data) {
                                         scope.currentUser = data.result;
                                         createShereJsDocsForTabs(docName, data.result);
                                     });
-
 
                                 }
                             }
@@ -380,28 +387,30 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 return scope.workspaceMode === 'readonly';
                             };
 
-                            function setEditorReadOnly(){
+                            function setEditorReadOnly () {
                                 editor.setReadOnly(true);
 
                                 var cover = document.createElement("div");
                                 editor.container.appendChild(cover);
                                 cover.className = 'editor_cover';
-                                cover.style.cssText = "position:absolute;"+
-                                        "top:0;bottom:0;right:0;left:0;"+
-                                        "background:rgba(150,150,150,0.1);"+
-                                        "z-index:100";
-                                cover.addEventListener("mousedown", function(e){e.stopPropagation();}, true);
+                                cover.style.cssText = "position:absolute;" +
+                                "top:0;bottom:0;right:0;left:0;" +
+                                "background:rgba(150,150,150,0.1);" +
+                                "z-index:100";
+                                cover.addEventListener("mousedown", function (e) {
+                                    e.stopPropagation();
+                                }, true);
 
                                 editor.renderer.setStyle("disabled", true);
                                 editor.blur();
                             }
 
-                            function setEditorEditAble(){
+                            function setEditorEditAble () {
                                 editor.setReadOnly(false);
 
                                 editor.renderer.setStyle("disabled", false);
                                 var cover = document.getElementsByClassName('editor_cover');
-                                if (cover.length > 0 ) {
+                                if (cover.length > 0) {
                                     editor.container.removeChild(cover[0]);
                                 }
                             }
@@ -441,14 +450,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     $state.at('writer').set(currentWriter.id);
                                 }
 
-                                console.log( scope.currentWriter, scope.workspaceMode);
+                                console.log(scope.currentWriter, scope.workspaceMode);
                             });
 
-                            function currentWriterChange(currentWriter) {
+                            function currentWriterChange (currentWriter) {
                                 scope.currentWriter = angular.isObject(currentWriter) &&
                                 currentWriter.hasOwnProperty('id') ? currentWriter : {id: currentWriter};
 
-                                sliderPlugins.trigger('codeShare.currentWriter',scope.currentWriter );
+                                sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
                                 console.log(scope.currentWriter);
                                 applyChangesLater(scope);
                             }
@@ -459,12 +468,28 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             //    currentWriter: scope.currentWriter
                             //};
 
-                            sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function(){
-                                setUpWorkspace();
+                            sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
+                                setUpWorkspace(channel);
                             });
 
                             sliderPlugins.listen($rootScope, 'codeShare.setActiveUser', function (userId) {
-                                    currentWriterChange(userId);
+                                currentWriterChange(userId);
+                            });
+
+                            sliderPlugins.listen($rootScope, 'codeShare.removeUser', function (userId) {
+                                if ($state) {
+
+                                    //var connectedUser = null;
+                                    //_.each(scope.connectedUsers, function (user) {
+                                    //    if (user.id === scope.currentUser._id) {
+                                    //        connectedUser = user;
+                                    //    }
+                                    //});
+
+                                    //if(connectedUser) {
+                                    //    $state.at('users').remove(connectedUser);
+                                    //}
+                                }
                             });
 
                             //Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
@@ -474,7 +499,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             function amIConnectedToThisSession (users) {
                                 var result = false;
                                 _.each(users, function (user) {
-                                    if (user.id === scope.currentUser.userId) {
+                                    if (user.id === scope.currentUser._id) {
                                         result = true;
                                     }
                                 });
@@ -483,14 +508,21 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             }
 
                             function setUpConnectedList (snapshot) {
+                                if (!snapshot.users || snapshot.users.length === 0) {
+                                    return;
+                                }
                                 scope.connectedUsers = snapshot.users;
-                                scope.currentWriterChangedOnRemoteChange = true;
+                                if (snapshot.writer !== 0) {
 
-                                _.each(snapshot.users, function (connectedUser) {
-                                    if (snapshot.writer !== 0 && snapshot.writer === connectedUser.id) {
-                                        currentWriterChange(connectedUser);
-                                    }
-                                });
+                                    scope.currentWriterChangedOnRemoteChange = true;
+
+                                    _.each(snapshot.users, function (connectedUser) {
+                                        if (snapshot.writer === connectedUser.id) {
+                                            currentWriterChange(connectedUser);
+                                        }
+                                    });
+                                }
+
 
                                 applyChangesLater(scope);
                             }
@@ -506,11 +538,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     doc.on('change', function (op) {
                                         setUpConnectedList($state.snapshot);
+
+                                        sliderPlugins.trigger('codeShare.connectedToWorkSpace');
                                     });
 
                                     if (doc.created) {
                                         doc.at([]).set({
-                                            users: [ /*prepareUserData()*/],
+                                            users: [prepareUserData()],
                                             writer: 0
                                         });
 
