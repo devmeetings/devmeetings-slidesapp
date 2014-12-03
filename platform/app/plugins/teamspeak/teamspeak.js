@@ -41,7 +41,7 @@ function linkClientsWithUsers(channelsTree, sockets) {
         }
 
         if (channel.clients) {
-            channel.clients.forEach(function (client, index) {
+            channel.clients.forEach(function (client) {
                 client.isLinked = false;
                 client.nickShort = truncate(client.client_nickname);
                 client.nickTitle = client.client_nickname;
