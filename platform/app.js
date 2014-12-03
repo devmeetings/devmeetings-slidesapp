@@ -1,6 +1,7 @@
+"use strict";
+
 var express = require('express'),
     mongoose = require('mongoose'),
-    fs = require('fs'),
     http = require('http'),
     socketio = require('socket.io'),
     config = require('./config/config');
