@@ -35,7 +35,7 @@ function linkClientsWithUsers(channelsTree, sockets) {
         }
 
         if (channel.clients) {
-            channel.clients.forEach(function (client) {
+            channel.clients.forEach(function (client, index) {
                 client.isLinked = false;
 
                 // TODO jesli nie znajdzie to sprawdzanie po adresie ip i nicku

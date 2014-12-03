@@ -5,8 +5,10 @@ div.mainWindow
             span
                 i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")
             span.user {{client.client_nickname}}
-        a(href="",ng-if="client.isLinked", ng-click="setCurrentWriter(client.userId)", title="Przejmij pisanie na edytorze")
+        a(href="",ng-if="client.cid === userChannel.cid && client.isLinked && (isUserAWriter(userId) || isTrainer)", ng-click="setCurrentWriter(client.userId)", title="Przejmij pisanie na edytorze")
             span.fa.fa-edit(ng-class="{linked: isUserAWriter(client.userId), unliked: !isUserAWriter(client.userId)}")
+        a(href="",ng-if="client.cid === userChannel.cid && client.isLinked && isUserAWriter(client.userId) && client.userId !== userId && !isTrainer", title="Aktualny pisarz")
+            span.fa.fa-edit.linked
         a(ng-if="clientId != client.clid")
             span
                 i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")

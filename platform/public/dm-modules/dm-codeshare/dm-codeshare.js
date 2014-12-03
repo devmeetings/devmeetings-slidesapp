@@ -18,12 +18,18 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             setUpWorkspace: setUpWorkspace,
             setCurrentWriter: setCurrentWriter,
             getCurrentWriter: getCurrentWriter,
-            isUserAWriter: isUserAWriter
-        }, currentWriter = null;
+            isSetCurrentWriter: isSetCurrentWriter,
+            isUserAWriter: isUserAWriter,
+            setFirstClientAsCurrentWriter: setFirstClientAsCurrentWriter
+        }, currentWriter = null, isConnectedToWorkSpace = false;
 
 
         sliderPlugins.listen($rootScope, 'codeShare.currentWriter', function (_currentWriter_) {
             currentWriter = _currentWriter_;
+        });
+
+        sliderPlugins.listen($rootScope, 'codeShare.connectedToWorkSpace', function () {
+            isConnectedToWorkSpace = true;
         });
 
         return service;
@@ -45,11 +51,22 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             return currentWriter;
         }
 
+        function isSetCurrentWriter () {
+            if (!currentWriter || !isConnectedToWorkSpace) {
+                return false;
+            }
+            return currentWriter.id === 0;
+        }
+
         function isUserAWriter (userId) {
             if (!currentWriter) {
                 return false;
             }
             return currentWriter.id === userId;
+        }
+
+        function setFirstClientAsCurrentWriter(index, userId) {
+            console.log('setFirstClientAsCurrentWriter', index, userId);
         }
     }
 
