@@ -63,7 +63,6 @@ define(['angular'], function (angular) {
                                     console.log(error);
                                 } else {
                                     console.log('You have been moved');
-                                    //$window.location.href = '/?ref=channel_' + channel.name + '#/space/5478f03cd86871a82bb44c31/workspace/5478f678e50f80e012ebfd91';
                                     openWorkspace(channel.name);
                                 }
                             });
@@ -94,7 +93,7 @@ define(['angular'], function (angular) {
                     Sockets.on('teamspeak.channelList', function (channelList) {
                        scope.userChannel = getMyChannel(channelList);
 
-                        console.log('teamspeak.channelList');
+                        console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId,'channelList', channelList);
                         scope.channelList = channelList;
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
 
