@@ -253,23 +253,30 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.output.show = false;
                             };
 
+                            setEditorReadOnly();
 
-                            function setUpWorkspace () {
-                                var result = /ref=([^&]*)/.exec(window.location.search);
+                            function setUpWorkspace (channel) {
+                                var channelName = '',result = /channel=([^&]*)/.exec(window.location.hash);
 
+                                //kanal podany w parametrze ma wiekszy prioytet niz w hashu
+                                if (channel){
+                                    channelName = channel;
+                                }
+                                else if (result !== null) {
+                                    channelName = result[1];
+                                }
 
-                                if (result !== null) {
+                                if (channelName !== '') {
 
-                                    docName = result[1];
+                                    docName = channelName;
                                     scope.connectedUsers = [];
 
-                                    setEditorReadOnly();
+                                    //setEditorReadOnly();
 
                                     dmUser.getCurrentUser().then(function (data) {
                                         scope.currentUser = data.result;
                                         createShereJsDocsForTabs(docName, data.result);
                                     });
-
 
                                 }
                             }
@@ -461,12 +468,28 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             //    currentWriter: scope.currentWriter
                             //};
 
-                            sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function () {
-                                setUpWorkspace();
+                            sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
+                                setUpWorkspace(channel);
                             });
 
                             sliderPlugins.listen($rootScope, 'codeShare.setActiveUser', function (userId) {
                                 currentWriterChange(userId);
+                            });
+
+                            sliderPlugins.listen($rootScope, 'codeShare.removeUser', function (userId) {
+                                if ($state) {
+
+                                    //var connectedUser = null;
+                                    //_.each(scope.connectedUsers, function (user) {
+                                    //    if (user.id === scope.currentUser._id) {
+                                    //        connectedUser = user;
+                                    //    }
+                                    //});
+
+                                    //if(connectedUser) {
+                                    //    $state.at('users').remove(connectedUser);
+                                    //}
+                                }
                             });
 
                             //Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
@@ -476,7 +499,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             function amIConnectedToThisSession (users) {
                                 var result = false;
                                 _.each(users, function (user) {
-                                    if (user.id === scope.currentUser.userId) {
+                                    if (user.id === scope.currentUser._id) {
                                         result = true;
                                     }
                                 });
@@ -521,7 +544,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     if (doc.created) {
                                         doc.at([]).set({
-                                            users: [],
+                                            users: [prepareUserData()],
                                             writer: 0
                                         });
 
