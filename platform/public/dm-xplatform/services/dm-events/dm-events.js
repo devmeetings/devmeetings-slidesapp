@@ -139,7 +139,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                     return result.promise;
                 },
                 addEventAnnotation: function(eventId, iterationId, materialId, snippet) {
-
+                    var that = this;
                     return wrap($http.post(
                         ['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'), 
                         snippet)).then(function(){

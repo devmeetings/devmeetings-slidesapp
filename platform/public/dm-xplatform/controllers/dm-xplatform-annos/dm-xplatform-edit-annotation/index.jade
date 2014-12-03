@@ -7,7 +7,7 @@ div
         div(ng-show="snippet.type")
             .form-group
                 label.control-label() timestamp
-                input.form-control.input-sm(type='number', ng-model='snippet.timestamp')
+                input.form-control.input-sm(type='number', ng-model='snippet.timestamp', step="any")
 
             .form-group
                 label.control-label title
