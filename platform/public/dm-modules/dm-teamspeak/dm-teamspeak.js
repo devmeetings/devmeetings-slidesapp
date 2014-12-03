@@ -77,7 +77,7 @@ define(['angular'], function (angular) {
                     function openWorkspace (channelName) {
                         codeShareService.resetWorkspaceForNew(channelName);
                         $state.go('index.space.workspace', {
-                            slide: '5478f678e50f80e012ebfd91',
+                            slide: '5478d497d39309861bd53752',
                             channel: getChannelName(channelName)
                         });
                     }
