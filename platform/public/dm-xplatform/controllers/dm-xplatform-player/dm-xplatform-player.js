@@ -31,13 +31,29 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
                 if (second > $scope.nextStop) {
                     $scope.state.isPlaying = false;
+                    $scope.anno = $scope.next;
 
                     var anno = _.find($scope.annotations, function(anno) {
                         return anno.timestamp > $scope.nextStop
                     });
                     if (anno) {
                         $scope.nextStop = anno.timestamp;
+                        $scope.next = anno;
                     }
+
+                    // TODO [ToDr] Fix me please :(
+                    // Changing position of subtitles
+                    var myself = $('.dm-player-subtitles');
+                    
+                    setTimeout(function() {
+                      var rect = $('.ace_cursor')[0].getBoundingClientRect();
+                      var positionTop = Math.max(20, rect.top - (myself.height() - 40)/ 2);
+
+                      myself.css({
+                        left: "calc(45% + " + (rect.left/50) + 'px)',
+                        top: positionTop + 'px'
+                      });
+                    }, 450);
                 } else {
                   // fix nextStop when we are going backwards or fast forward
 
@@ -46,6 +62,12 @@ define(['angular', 'xplatform/xplatform-app', '_',
                   });
                   if (anno) {
                     $scope.nextStop = anno.timestamp;
+                    $scope.next = anno;
+
+                    var curIdx = $scope.annotations.indexOf(anno);
+                    if (curIdx > 0) {
+                      $scope.anno = $scope.annotations[curIdx];
+                    }
                   }
                 }
             }, 3);
