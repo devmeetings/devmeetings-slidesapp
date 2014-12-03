@@ -22,10 +22,9 @@ div.mainWindow
 
     script(type="text/ng-template", id="channelTree")
         div(style="padding:5px")
-            span.channel {{channel.name}}
+            button.btn.btn-xs.btn-primary(ng-click="moveToChannel(channel)", title="Enter {{channel.name}}")
+                span {{channel.name}}
             span.pull-right
-                button.btn.btn-xs.btn-primary(ng-click="moveToChannel(channel)", title="Enter {{channel.name}}")
-                    span.glyphicon.glyphicon-log-in
                 button.btn.btn-xs.btn-danger(title="Move all users here", ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
                     span.glyphicon.glyphicon-arrow-left
 
