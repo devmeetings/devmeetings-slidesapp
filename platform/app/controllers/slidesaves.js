@@ -26,7 +26,7 @@ var transformToSlidesave = function (slide, user) {
 var Slidesaves = {
     doEdit: function(userId, slide, data, callback) {
         Slidesave.findOneAndUpdate({
-            user: userId,
+            //user: userId, // TODO temporary ignoring workspace owner
             _id: slide
         }, data).lean().exec(callback);
     },

@@ -222,11 +222,13 @@ function init() {
 function disconnect() {
     var defer = Q.defer();
 
-    promise.thenSend('quit').then(function (results) {
-        defer.resolve(results);
-    }).fail(function (error) {
-        defer.reject(error);
-    });
+    if (!_.isEmpty(promise)) {
+        promise.thenSend('quit').then(function (results) {
+            defer.resolve(results);
+        }).fail(function (error) {
+            defer.reject(error);
+        });
+    }
 
     return defer.promise;
 }

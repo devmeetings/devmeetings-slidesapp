@@ -13,9 +13,7 @@ define(['angular',
          
         var sendWithDebounce = _.debounce(function (slide) {
             dmSlidesaves.getSaveType($state.params.slide).then(function (type) {
-                if (type !== 'mine' && type !== 'other') {
-                    dmSlidesaves.saveModified(slide);
-                }
+                  dmSlidesaves.saveModified(slide);
             });
         }, 200);
 
