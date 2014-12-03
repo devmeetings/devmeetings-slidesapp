@@ -1,7 +1,8 @@
 define(
     ['_', 'angular', 'angular-sanitize', 'asEvented',
     'dm-modules/dm-sockets/dm-sockets',
-    '../utils/Plugins', '../utils/ExtractPath'],
+    '../utils/Plugins', '../utils/ExtractPath',
+        'dm-modules/dm-user/dm-user'],
         function(_, angular, angularSanitize, asEvented, Sockets, Plugins, ExtractPath) {
 
     var module = angular.module('slider.plugins', ['ngSanitize', 'angularFileUpload', 'dm-sockets', 'dm-user']);
