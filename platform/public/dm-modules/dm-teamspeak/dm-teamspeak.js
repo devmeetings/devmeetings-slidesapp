@@ -50,7 +50,7 @@ define(['angular'], function (angular) {
                         //to nie ma mozliwosci otworzenia workspace z edytorem
                         //dlatego na ta chwile umozliwilem aby po kliknieciu na nazwe kanału w którym aktualnie jestem i nie mam otwartego workspace
                         //otworzyc workspace z edytorem
-                        if (channel.cid === scope.userChannel.cid &&
+                        if (scope.userChannel !== null && channel.cid === scope.userChannel.cid &&
                             getChannelName(channel.name) !== codeShareService.getCurrentWorkspace()) {
                             openWorkspace(channel.name);
                         }
