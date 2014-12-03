@@ -11,7 +11,7 @@ define(['angular'], function (angular) {
                     scope.setCurrentWriter = codeShareService.setCurrentWriter;
                     scope.isUserAWriter = codeShareService.isUserAWriter;
 
-                    scope.channelList = [{cid: 0, name: 'Loading...'}];
+                    scope.channelList = null;
 
                     dmUser.getCurrentUser().then(function(data) {
                         scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
