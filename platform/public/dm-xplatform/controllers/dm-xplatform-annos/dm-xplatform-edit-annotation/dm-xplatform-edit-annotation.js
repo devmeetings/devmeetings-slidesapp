@@ -1,7 +1,7 @@
 define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
     xplatformApp.directive('dmXplatformEditAnnotation', [
-        'dmEvents',
-        function(dmEvents) {
+        'dmEvents', '$rootScope',
+        function(dmEvents, $rootScope) {
 
 
             return {
@@ -21,11 +21,13 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
                         
                         if (newSnippet) {
                             dmEvents.addEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet).then(function(ev){
-                                snippet = {};
+                                scope.snippet = {};
                             });
                         } else {
                             dmEvents.editEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet);
                         }
+                        // TODO [ToDr] :(
+                        $rootScope.$broadcast('newAnnotations');
                     };
 
                     scope.delete = function(snippet) {

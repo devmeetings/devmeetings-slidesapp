@@ -38,18 +38,32 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     if (anno) {
                         $scope.nextStop = anno.timestamp;
                     }
+                } else {
+                  // fix nextStop when we are going backwards or fast forward
+
+                  var anno = _.find($scope.annotations, function(anno) {
+                    return anno.timestamp > curr && anno.timestamp < prev;
+                  });
+                  if (anno) {
+                    $scope.nextStop = anno.timestamp;
+                  }
                 }
             }, 3);
 
             $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 
             $scope.$watch('state.currentSecond', goToSecond);
+            
+            function fetchAnnotations(){
+              dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
+                  $scope.annotations = material.annotations.sort(function(a, b) {
+                      return a.timestamp - b.timestamp;
+                  });
+              });
+            }
 
-            dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
-                $scope.annotations = material.annotations.sort(function(a, b) {
-                    return a.timestamp - b.timestamp;
-                });
-            });
+            fetchAnnotations();
+            $scope.$on('newAnnotations',  fetchAnnotations);
 
         }
     ]);

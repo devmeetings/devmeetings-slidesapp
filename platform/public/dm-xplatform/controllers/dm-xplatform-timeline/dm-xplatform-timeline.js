@@ -5,10 +5,14 @@ define(['angular', 'xplatform/xplatform-app', '_',
     xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents',
         function($scope, $stateParams, dmEvents) {
 
-            dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
-                $scope.audio = material.url;
-                $scope.annotations = material.annotations;
-            });
+            function fetchAnnotations() {
+              dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
+                  $scope.audio = material.url;
+                  $scope.annotations = material.annotations;
+              });
+            }
+            fetchAnnotations();
+            $scope.$on('newAnnotations', fetchAnnotations);
 
             $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 

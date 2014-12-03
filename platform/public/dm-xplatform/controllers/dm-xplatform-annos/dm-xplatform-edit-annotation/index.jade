@@ -1,8 +1,8 @@
 div
     form(ng-submit='save(snippet)')
         .form-group
-            button.btn.btn-xs(ng-click="snippet.type = 'task'; $event.preventDefault();") Task
-            button.btn.btn-xs(ng-click="snippet.type = 'snippet'; $event.preventDefault();") Snippet
+            button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'task'; $event.preventDefault();") Task
+            button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'snippet'; $event.preventDefault();") Snippet
 
         div(ng-show="snippet.type")
             .form-group
