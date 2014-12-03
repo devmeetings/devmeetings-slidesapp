@@ -1,8 +1,8 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService', '$state',
-        function (Sockets, dmUser, $window, codeShareService, $state) {
+    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService', '$state', 'dmSlidesaves', '$http',
+        function (Sockets, dmUser, $window, codeShareService, $state, dmSlidesaves, $http) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
@@ -75,9 +75,22 @@ define(['angular'], function (angular) {
 
                     function openWorkspace (channelName) {
                         codeShareService.resetWorkspaceForNew(channelName);
-                        $state.go('index.space.workspace', {
-                            slide: '5478d497d39309861bd53752',
-                            channel: getChannelName(channelName)
+
+                       // scope.openWorkspace();
+                        //$state.go('index.space.workspace', {
+                        //    slide: '5478d497d39309861bd53752',
+                        //    channel: getChannelName(channelName)
+                        //});
+
+                        $http.post('/api/base_slide/' + scope.event.baseSlide).then(function(data) {
+                            dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
+                            $state.go('index.space.workspace', {
+                                slide: data.data.slidesave,
+                                channel: getChannelName(channelName)
+                            });
+                            scope.workspaceId = data.data.slidesave;
+
+                            console.log('scope.workspaceId', scope.workspaceId);
                         });
                     }
 
