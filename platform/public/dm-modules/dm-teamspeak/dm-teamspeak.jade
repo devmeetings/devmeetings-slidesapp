@@ -14,12 +14,15 @@ div.mainWindow
                     span.glyphicon.glyphicon-pencil(ng-class="{linked: isUserAWriter(client.userId), unliked: !isUserAWriter(client.userId)}")
 
     script(type="text/ng-template", id="channelTree")
-        a(href="", ng-click="moveToChannel(channel)", title="Przejdź do pokoju")
-            span.channel {{channel.name}}
-        button.btn.btn-xs.btn-danger(title="Move all users", ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
-            span.glyphicon.glyphicon-bullhorn
+        div(style="padding:5px")
+            a(href="", ng-click="moveToChannel(channel)", title="Przejdź do pokoju")
+                span.channel {{channel.name}}
+            span.pull-right
+                button.btn.btn-xs.btn-danger(title="Move all users", ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
+                    span.glyphicon.glyphicon-bullhorn
+
         .list-group(ng-if="channel.clients")
-            a.list-group-item.clearfix.client(ng-repeat='client in channel.clients track by client.client_database_id', ng-include="'client'")
+            a.list-group-item.clearfix.client(ng-repeat='client in channel.clients', ng-include="'client'")
         ul.list-group(ng-if="channel.children")
             li.channel.list-group-item(ng-repeat='channel in channel.children track by channel.cid', ng-include="'channelTree'")
 
