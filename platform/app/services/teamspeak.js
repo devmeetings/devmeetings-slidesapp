@@ -37,6 +37,7 @@ function send(name, data) {
 
     //commandCounter++;
     //console.log('  [Teamspeak] Send: ' + name + ' [' + commandCounter + ']');
+    console.log('  [Teamspeak] Send: ' + name);
 
     // TODO handle throttle
     TsClient.send(name, data, function (err, response, raw) {

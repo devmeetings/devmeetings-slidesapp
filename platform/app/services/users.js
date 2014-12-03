@@ -161,8 +161,8 @@ exports.saveTeamspeakData = function (userId, data) {
             return defer.reject();
         }
 
-        if (_.isEmpty(User.teamspeak)) {
-            User.teamspeak = UserModel.teamspeak;
+        if (_.isEmpty(User.teamspeak) || _.isEmpty(data)) {
+            User.teamspeak = null;
         }
 
         for (var attribute in data) {

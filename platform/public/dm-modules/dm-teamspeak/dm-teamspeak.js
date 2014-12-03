@@ -12,6 +12,7 @@ define(['angular'], function (angular) {
                     scope.isUserAWriter = codeShareService.isUserAWriter;
 
                     scope.channelList = null;
+                    scope.clientId = null;
 
                     dmUser.getCurrentUser().then(function(data) {
                         scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
@@ -25,6 +26,7 @@ define(['angular'], function (angular) {
                             if (error) {
                                 console.log(error);
                             } else {
+                                scope.clientId = client.clid;
                                 console.log('Powiązano z klientem Teamspeak');
                             }
                         });
@@ -35,6 +37,7 @@ define(['angular'], function (angular) {
                             if (error) {
                                 console.log(error);
                             } else {
+                                scope.clientId = null;
                                 console.log('Rozłączono z klientem Teamspeak');
                             }
                         });

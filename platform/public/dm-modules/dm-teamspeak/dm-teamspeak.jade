@@ -4,22 +4,24 @@ div.mainWindow
         div
             span
                 i.glyphicon.glyphicon-user(ng-class="{linked: client.isLinked, unliked: !client.isLinked}")
-            span.user(title="{{client.nickTitle}}") &nbsp;{{client.nickShort}}
+            span.user(title="{{client.nickTitle}} (It's You!)", ng-if="clientId == client.clid") &nbsp;{{client.nickShort}}
+            span.user(title="{{client.nickTitle}}", ng-if="clientId != client.clid") &nbsp;{{client.nickShort}}
 
             span.pull-right
-                button.btn.btn-xs(ng-class="{'btn-danger': client.isLinked, 'btn-success': !client.isLinked}", ng-if="!clientId && !client.isLinked || clientId == client.clid", ng-click="client.isLinked ? unlinkClient() : linkClient(client)", title="Powiąż/rozłącz z klientem Teamspeak")
+                button.btn.btn-xs(ng-class="{'btn-danger': client.isLinked, 'btn-success': !client.isLinked}", ng-if="(!clientId && !client.isLinked) || clientId == client.clid", ng-click="client.isLinked ? unlinkClient() : linkClient(client)", title="Link/Unlink with Teamspeak client")
                     span.glyphicon.glyphicon-link
 
-                button.btn.btn-xs.btn-primary(ng-if="client.isLinked", ng-click="setCurrentWriter(client.userId)", title="Przejmij pisanie na edytorze")
+                button.btn.btn-xs.btn-primary(ng-if="client.isLinked", ng-click="setCurrentWriter(client.userId)", title="Take control of the editor")
                     span.glyphicon.glyphicon-pencil(ng-class="{linked: isUserAWriter(client.userId), unliked: !isUserAWriter(client.userId)}")
 
     script(type="text/ng-template", id="channelTree")
         div(style="padding:5px")
-            a(href="", ng-click="moveToChannel(channel)", title="Przejdź do pokoju")
-                span.channel {{channel.name}}
+            span.channel {{channel.name}}
             span.pull-right
-                button.btn.btn-xs.btn-danger(title="Move all users", ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
-                    span.glyphicon.glyphicon-bullhorn
+                button.btn.btn-xs.btn-primary(ng-click="moveToChannel(channel)", title="Enter {{channel.name}}")
+                    span.glyphicon.glyphicon-log-in
+                button.btn.btn-xs.btn-danger(title="Move all users here", ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
+                    span.glyphicon.glyphicon-arrow-left
 
         .list-group(ng-if="channel.clients")
             a.list-group-item.clearfix.client(ng-repeat='client in channel.clients', ng-include="'client'")
@@ -30,8 +32,8 @@ div.mainWindow
         .panel.panel-default
             .panel-heading Rooms
                 span.pull-right
-                    button.btn.btn-xs.btn-primary(title="Return to rooms", ng-if="isTrainer", href="", ng-click="restoreClientsChannels()")
-                        span.glyphicon.glyphicon-download
+                    button.btn.btn-xs.btn-primary(title="Restore users to their rooms", ng-if="isTrainer", href="", ng-click="restoreClientsChannels()")
+                        span.glyphicon.glyphicon-share-alt
             ul.list-group.channelTree(ng-if="channelList")
                 li.list-group-item(ng-repeat="channel in channelList", ng-include="'channelTree'")
             .panel-body(ng-if="!channelList") Loading...

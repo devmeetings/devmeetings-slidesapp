@@ -58,7 +58,6 @@ function linkClientsWithUsers(channelsTree, sockets) {
                             clientDbId: client.client_database_id
                         };
                         socket.user.teamspeak.clientId = client.clid;
-                        client.nickTitle += ' (You)';
                     }
 
                     // if client was moved by trainer to forcesChannel and is in other channel we move him to forcedChannel
@@ -101,27 +100,29 @@ exports.onSocket = function (log, socket, io) {
 
     var init = function () {
         if (!isConnected) {
-
             Teamspeak.init().then(function () {
                 console.log("  [Teamspeak] Connection established");
 
                 // heartbeat and renew cache
                 refreshListInterval = setInterval(function () {
-                    sendChannelList(true);
+                    sendChannelList();
                 }, 3 * 1000);
-
                 sendChannelList(true);
                 isConnected = true;
             }, function () {
                 throw new Error('Connetion error');
             });
         } else {
+            // heartbeat and renew cache
+            refreshListInterval = setInterval(function () {
+                sendChannelList();
+            }, 3 * 1000);
             sendChannelList(true);
         }
     };
 
     var linkClient = function (client, callback) {
-        var teamspeakData = {clientId: client.clid, clientDbId: client.client_database_id};
+        var teamspeakData = {clientId: client.clid, clientDbId: client.client_database_id, lastChannel: client.cid};
 
         updateUserData(socket.handshake.user._id.toString(), teamspeakData, function (error) {
             if (error) {
@@ -129,10 +130,7 @@ exports.onSocket = function (log, socket, io) {
             }
 
             // update client in handshake
-            socket.handshake.user.teamspeak = {
-                clientId: client.clid,
-                clientDbId: client.client_database_id
-            };
+            socket.handshake.user.teamspeak = teamspeakData;
 
             // trigger channel list refresh
             sendChannelList();
@@ -165,7 +163,11 @@ exports.onSocket = function (log, socket, io) {
         }
 
         Teamspeak.moveClients([socket.handshake.user.teamspeak.clientId], channelId).then(function () {
-            updateUserData(socket.handshake.user._id.toString(), {lastChannel: channelId});
+            updateUserData(socket.handshake.user._id.toString(), {lastChannel: channelId}, function (error) {
+                if (error) {
+                    return callback(error);
+                }
+            });
             sendChannelList();
             callback();
         }).fail(function (error) {
@@ -187,9 +189,10 @@ exports.onSocket = function (log, socket, io) {
     var moveAllClientsToChannel = function (channelId) {
         Teamspeak.getClientList().then(function (clientList) {
             var clients = [];
-            for (var i in clientList) {
-                if (clientList[i].client_type === 0 && clientList[i].cid != channelId) {
-                    clients.push(clientList[i].clid);
+
+            for (var handshake in socket.manager.handshaken) {
+                if (socket.manager.handshaken[handshake].user.teamspeak.clientId) {
+                    clients.push(socket.manager.handshaken[handshake].user.teamspeak.clientId);
                 }
             }
 
@@ -210,17 +213,22 @@ exports.onSocket = function (log, socket, io) {
         });
     };
 
-    var moveClientToLastChannel = function(teamspeak) {
-        Teamspeak.moveClients([teamspeak.clientId], teamspeak.lastChannel).then(function () {
+    var moveClientToLastChannel = function(clientId, channelId) {
+        Teamspeak.moveClients([clientId], channelId).then(function () {
         }).fail(function (error) {
             console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
     };
 
     var restoreClientsChannels = function () {
+        var teamspeak;
+
         for (var handshake in socket.manager.handshaken) {
-            moveClientToLastChannel(socket.manager.handshaken[handshake].user.teamspeak);
-            socket.manager.handshaken[handshake].user.teamspeak.forcedChannel = null;
+            teamspeak = socket.manager.handshaken[handshake].user.teamspeak;
+            if (teamspeak.clientId && teamspeak.lastChannel) {
+                moveClientToLastChannel(teamspeak.clientId, teamspeak.lastChannel);
+                teamspeak.forcedChannel = null;
+            }
         }
     };
 
