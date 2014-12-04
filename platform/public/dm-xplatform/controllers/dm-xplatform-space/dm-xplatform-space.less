@@ -3,6 +3,39 @@
     float: left;
     height: 100%;
 }
+
+.dm-space.zen-mode {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  z-index: 11;
+  background: rgb(0, 0, 0);
+  width: 100% !important;
+  overflow: hidden;
+}
+.dm-zen-mode-btn {
+  .on-hover {
+    display: none;
+  }
+  &:hover {
+    opacity: 1.0;
+    .on-hover {
+      display: inline;
+    }
+  }
+  &.zen-mode {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    opacity: 0.5;
+    z-index: 100;
+  }
+}
+
+
 .dm-space-top {
     outline: none;
 }

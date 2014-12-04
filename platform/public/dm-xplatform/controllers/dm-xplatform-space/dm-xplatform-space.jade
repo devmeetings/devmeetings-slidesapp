@@ -99,6 +99,16 @@
                             span Ranking
 
                 .dm-spacesidebar-user(ng-if="user")
+                    .dm-zen-mode-btn.text-center(
+                      ng-class="{'zen-mode': $root.isZenMode}"
+                    )
+                      a.btn.btn-link.btn-block(ng-if="!$root.isZenMode", ng-click="$root.isZenMode = true")
+                        span.fa.fa-dashboard.fa-fw
+                        span Zen Mode
+                      a.btn.btn-link.btn-block(ng-if="$root.isZenMode", ng-click="$root.isZenMode = false")
+                        span.fa.fa-close.fa.fw
+                        span.on-hover Exit Zen Mode
+
                     img.avatar-holder.pull-left(
                         ng-src='{{user.result.avatar | dmGravatar:20}}',
                         ui-sref='index.devhero({id: user.result._id})',
@@ -111,7 +121,9 @@
                         | {{user.result.name}}
 
 
-        .dm-space(ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
+        .dm-space(
+          ng-class="{'zen-mode': $root.isZenMode }",
+          ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
             .col-xs-12.full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
 
