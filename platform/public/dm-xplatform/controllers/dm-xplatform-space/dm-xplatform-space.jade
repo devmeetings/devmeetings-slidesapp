@@ -69,10 +69,13 @@
                                     span.fa.fa-plus.nav-icon
                                     span Dodaj Audio
                             li(ng-repeat='task in i.tasks', ui-sref-active="active")
-                                a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
+                              a.dm-external-link(ng-href="{{task.url}}", target="_blank")
+                                span.fa.fa-external-link
+
+                              a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
                                         span.fa.fa-pencil.nav-icon
                                         span {{task.title}}
-                                    //.col-xs-3.dm-space-checkbox.dm-cursor(ng-click='task.done = !task.done; markTaskAsDone(task, task.done)')
+                             //.col-xs-3.dm-space-checkbox.dm-cursor(ng-click='task.done = !task.done; markTaskAsDone(task, task.done)')
                                         span.fa.fa-square-o(ng-if='!task.done')
                                         span.fa.fa-check-square-o.text-success(ng-if='task.done')
 
