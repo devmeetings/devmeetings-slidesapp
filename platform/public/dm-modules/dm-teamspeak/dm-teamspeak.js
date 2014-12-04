@@ -76,21 +76,13 @@ define(['angular'], function (angular) {
                     function openWorkspace (channelName) {
                         codeShareService.resetWorkspaceForNew(channelName);
 
-                       // scope.openWorkspace();
-                        //$state.go('index.space.workspace', {
-                        //    slide: '5478d497d39309861bd53752',
-                        //    channel: getChannelName(channelName)
-                        //});
-
-                        $http.post('/api/base_slide/' + scope.event.baseSlide).then(function(data) {
+                        $http.post('/api/base_slide/' + scope.event.baseSlide + '/' + getChannelName(channelName)).then(function(data) {
                             dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
                             $state.go('index.space.workspace', {
                                 slide: data.data.slidesave,
                                 channel: getChannelName(channelName)
                             });
                             scope.workspaceId = data.data.slidesave;
-
-                            console.log('scope.workspaceId', scope.workspaceId);
                         });
                     }
 

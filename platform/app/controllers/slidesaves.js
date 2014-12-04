@@ -15,7 +15,17 @@ var onDone = function () {
 
 var transformToSlidesave = function (slide, user) {
     return {
-        user: user, 
+        user: user,
+        slide: slide.content,
+        baseSlide: slide._id,
+        title: 'default workspace',
+        timestamp: new Date()
+    };
+};
+
+var transformToSlideChannelsave = function (slide, channel) {
+    return {
+        channel: channel,
         slide: slide.content,
         baseSlide: slide._id,
         title: 'default workspace',
@@ -24,7 +34,7 @@ var transformToSlidesave = function (slide, user) {
 };
 
 var Slidesaves = {
-    doEdit: function(userId, slide, data, callback) {
+    doEdit: function (userId, slide, data, callback) {
         Slidesave.findOneAndUpdate({
             //user: userId, // TODO temporary ignoring workspace owner
             _id: slide
@@ -46,7 +56,7 @@ var Slidesaves = {
     },
     create: function (req, res) {
         req.body.user = req.user._id;
-        Q.ninvoke(Slidesave, 'create', req.body).then(function(slidesave) {
+        Q.ninvoke(Slidesave, 'create', req.body).then(function (slidesave) {
             res.send({
                 slidesave: slidesave._id
             });
@@ -72,7 +82,7 @@ var Slidesaves = {
         var slide = req.params.slide;
 
         delete req.body._id;
-        Slidesaves.doEdit(req.user._id, slide, req.body, function(err, data){
+        Slidesaves.doEdit(req.user._id, slide, req.body, function (err, data) {
             if (err) {
                 onError(res)(err);
                 return;
@@ -90,20 +100,15 @@ var Slidesaves = {
         }).fail(onError(res)).done(onDone);
     },
 
-    baseSlide: function (req, res) {
-        var slide = req.params.slide;
-
-        Q.ninvoke(Slidesave.findOne({
-            user: req.user._id,
-            baseSlide: slide
-        }).lean(), 'exec').then(function (slidesave) {
+    baseSlide: function (findBy, toInsertCallback, res) {
+        Q.ninvoke(Slidesave.findOne(findBy).lean(), 'exec').then(function (slidesave) {
             if (slidesave) {
                 return slidesave;
             }
             return Q.ninvoke(Slide.findOne({
-                _id: slide
+                _id: findBy.baseSlide
             }).lean(), 'exec').then(function (slide) {
-                var toInsert = transformToSlidesave(slide, req.user._id);
+                var toInsert = toInsertCallback(slide);
                 return Q.ninvoke(Slidesave, 'create', toInsert);
             });
         }).then(function (slidesave) {
@@ -111,6 +116,29 @@ var Slidesaves = {
                 slidesave: slidesave._id
             });
         }).fail(onError(res)).done(onDone);
+    },
+
+    baseSlideByUser: function (req, res) {
+        var slide = req.params.slide, findBy = {
+            user: req.user._id,
+            baseSlide: slide
+        };
+
+        Slidesaves.baseSlide(findBy, function (slide) {
+            return transformToSlidesave(slide, req.user._id);
+        }, res);
+    },
+
+    baseSlideByChannel: function (req, res) {
+        var slide = req.params.slide, channel = req.params.channel, findBy = {
+            channel: channel,
+            baseSlide: slide
+        };
+
+        Slidesaves.baseSlide(findBy, function (slide) {
+            return transformToSlideChannelsave(slide, channel);
+        }, res);
+
     }
 
 };

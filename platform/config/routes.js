@@ -120,7 +120,8 @@ module.exports = function(app) {
     app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getPages);
     app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
 
-    app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
+    app.post('/api/base_slide/:slide/:channel', apiAuthenticated, slidesaves.baseSlideByChannel);
+    app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlideByUser);
 
     var trainings = require('../app/controllers/trainings');
     app.get('/api/trainings', apiAuthenticated, trainings.list);
