@@ -8,7 +8,8 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
           snippet: '=',
           eventId: '=',
           iterationId: '=',
-          materialId: '='
+          materialId: '=',
+          resetSnippet: '&'
         },
         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-edit-annotation/index.html',
         link: function(scope) {
@@ -18,7 +19,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
 
             if (newSnippet) {
               dmEvents.addEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet).then(function(ev) {
-                scope.snippet = {};
+                scope.resetSnippet();
               });
             } else {
               dmEvents.editEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet);
@@ -27,6 +28,12 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
             // TODO [ToDr] :(
             $rootScope.$broadcast('newAnnotations');
 
+          };
+
+          scope.addPause = function(snippet) {
+            snippet.title = "Pause";
+            snippet.type = 'pause';
+            scope.save(snippet);
           };
 
           scope.delete = function(snippet) {

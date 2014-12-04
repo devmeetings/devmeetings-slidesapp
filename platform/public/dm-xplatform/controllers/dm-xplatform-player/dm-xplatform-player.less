@@ -3,7 +3,7 @@
     position: absolute;
     top: 45%;
     left: 35%;
-    transition: top 1s ease, left 1s ease;
+    transition: top 1s ease, left 1s ease, opacity 0.7s ease-in-out;
     background-color: #fff;
     z-index: 10;
     // color: #000;
@@ -14,6 +14,12 @@
 
     // height: @subtitlesHeight;
     overflow: visible;
+    opacity: 1.0;
+
+    &.faded {
+      opacity: 0.0;
+ //     top: 120% !important;
+    }
 }
 
 .dm-player-subtitles-hidden {
@@ -21,6 +27,9 @@
     padding: 20px;
     position: relative;
     z-index: 100;
+    &:empty {
+      padding: 0;
+    }
 }
 
 .btn-next-subtitle {

@@ -42,6 +42,9 @@ define(['_', 'angular', 'xplatform/xplatform-app',
             var getSpecific = function() {
                 dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
                     $scope.annotations = material.annotations;
+                    $scope.sortedAnnotations = material.annotations.sort(function(a, b){
+                      return a.timestamp - b.timestamp;
+                    });
                 });
             };
 
@@ -94,8 +97,22 @@ define(['_', 'angular', 'xplatform/xplatform-app',
             };
             $scope.$watch('state.currentSecond', function(val) {
                 $scope.newSnippet.timestamp = val;
-            })
+            });
 
+            if ($scope.editMode) {
+              $scope.$watch('state.currentSecond', function(val) {
+                if (!$scope.annotations) {
+                  return;
+                }
+                var anno = _.find($scope.sortedAnnotations, function(anno) {
+                  return anno.timestamp > val;
+                });
+                var idx = $scope.sortedAnnotations.indexOf(anno);
+                if (idx > 0) {
+                  $scope.currentAnno = $scope.sortedAnnotations[idx - 1];
+                }
+              });
+            }
         }
     ]);
 });

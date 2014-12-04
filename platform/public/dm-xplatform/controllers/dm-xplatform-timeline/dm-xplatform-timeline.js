@@ -26,7 +26,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0,
                     5.0, 10.0, 20.0, 40.0, 100.0
                 ];
-            $scope.state.playbackRate = rates[rates.length - 3];
+            $scope.state.playbackRate = rates[rates.length - 6];
             $scope.changeRate = function() {
                 var nextRate = rates.indexOf($scope.state.playbackRate) + 1;
                 nextRate = nextRate % rates.length;

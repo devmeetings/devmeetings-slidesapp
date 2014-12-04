@@ -3,8 +3,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
     'xplatform/services/dm-recordings/dm-recordings',
     'services/RecordingsPlayerFactory'
 ], function(angular, xplatformApp, _) {
-    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', 'dmEvents', 'dmRecordings', 'RecordingsPlayerFactory',
-        function($scope, $stateParams, dmEvents, dmRecordings, RecordingsPlayerFactory) {
+    xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', '$timeout', 'dmEvents', 'dmRecordings', 'RecordingsPlayerFactory',
+        function($scope, $stateParams, $timeout, dmEvents, dmRecordings, RecordingsPlayerFactory) {
 
             dmEvents.getEvent($stateParams.event, false).then(function(data) {
                 var material = _.find(data.iterations[$stateParams.iteration].materials, function(elem) {
@@ -17,6 +17,14 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 });
                 goToSecond();
             });
+
+            $scope.runNext = function() {
+              $scope.starting = true;
+              $timeout(function(){
+                $scope.state.isPlaying = true;
+                $scope.starting = false;
+              }, 1000);
+            };
 
 
             $scope.nextStop = 0;
@@ -34,7 +42,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     $scope.anno = $scope.next;
 
                     var anno = _.find($scope.annotations, function(anno) {
-                        return anno.timestamp > $scope.nextStop
+                        return anno.timestamp > second;
                     });
                     if (anno) {
                         $scope.nextStop = anno.timestamp;

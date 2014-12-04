@@ -1,8 +1,16 @@
 div
     form(ng-submit='save(snippet)')
         .form-group
-            button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'task'; $event.preventDefault();") Task
-            button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'snippet'; $event.preventDefault();") Snippet
+            button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'task'; $event.preventDefault();") 
+              span(ng-if="snippet._id") Task
+              span(ng-if="!snippet._id") New Task
+            button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'snippet'; $event.preventDefault();") 
+              span(ng-if="snippet._id") Snippet
+              span(ng-if="!snippet._id") New Snippet
+        .form-group(ng-if="snippet && !snippet._id")
+            button.btn.btn-success.btn-xl.add-pause-btn(
+              ng-click="addPause(snippet)")
+              span Add Pause
 
         div(ng-show="snippet.type")
             .form-group
@@ -28,3 +36,4 @@ div
             .form-group
                 button.btn.btn-default(type='submit') Done
 
+        div(marked="snippet.description")

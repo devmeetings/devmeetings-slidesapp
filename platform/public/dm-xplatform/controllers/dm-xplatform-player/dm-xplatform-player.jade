@@ -1,16 +1,16 @@
 .col-xs-12.full-height
   .dm-player-subtitles(
-      ng-class="{'faded': state.isPlaying}"
+      ng-class="{'faded': state.isPlaying || starting}"
     )
         .dm-player-subtitles-hidden
           
-          .dm-annos-item
+          .dm-annos-item(ng-if="anno.type !== 'pause'")
                   dm-annotation(annotation='anno', showIteration='showAll', ng-if='anno.type === "snippet"')
                   dm-microtask(microtask='anno', ng-if='anno.type === "task"')
 
         button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
                 ng-show="!state.isPlaying",
-                ng-click="state.isPlaying = true")
+                ng-click="runNext()")
                     span Dalej 
                     span.fa.fa-chevron-right
 

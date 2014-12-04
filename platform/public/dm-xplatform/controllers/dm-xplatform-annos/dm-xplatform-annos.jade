@@ -8,9 +8,10 @@
                 snippet="newSnippet", 
                 event-id="eventId",
                 iteration-id="iterationId",
+                resetSnippet="newSnippet = {}"
                 material-id="materialId")
 
-    .form-group.dm-annos-search(ng-if='showSearch', ng-show="annotations.length")
+    .form-group.dm-annos-search(ng-if='showSearch && !$root.editMode', ng-show="annotations.length")
         input.input-sm.form-control(placeholder="Szukaj", ng-model='search.text')
     .row.dm-annos(ng-style='{"height": showSearch ? "calc(100% - 50px)" : "100%" }')
         .list-group(ng-if="showAll")
@@ -18,7 +19,7 @@
                 ng-repeat='p in groups.sub')
                 dm-annotation-group(group='p')
 
-        .list-group(ng-if="!showAll")
+        .list-group(ng-if="!showAll && !$root.editMode")
             .list-group-item.animate.dm-annos-item(
                 ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index"', 
                 ng-if='p.timestamp <= state.currentSecond')
@@ -33,5 +34,13 @@
                     event-id="eventId",
                     iteration-id="iterationId",
                     material-id="materialId")
+  
+        div(ng-if="$root.editMode")
+          dm-xplatform-edit-annotation(
+            snippet="currentAnno",
+            event-id="eventId",
+            iteration-id="iterationId",
+            material-id="materialId"
+          )
 
 
