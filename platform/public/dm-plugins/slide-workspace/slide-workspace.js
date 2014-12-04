@@ -508,9 +508,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             }
 
                             function setUpConnectedList (snapshot) {
+                                sliderPlugins.trigger('codeShare.connectedToWorkSpace');
+
                                 if (!snapshot.users || snapshot.users.length === 0) {
                                     return;
-                                }
+                            }
                                 scope.connectedUsers = snapshot.users;
                                 if (snapshot.writer !== 0) {
 
@@ -538,8 +540,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     doc.on('change', function (op) {
                                         setUpConnectedList($state.snapshot);
-
-                                        sliderPlugins.trigger('codeShare.connectedToWorkSpace');
                                     });
 
                                     if (doc.created) {
