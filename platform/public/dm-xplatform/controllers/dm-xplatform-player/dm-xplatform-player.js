@@ -40,6 +40,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
                 if (second > $scope.nextStop) {
                     $scope.anno = $scope.next;
+                    $scope.state.isPlaying = false;
 
                     var anno = _.find($scope.annotations, function(anno) {
                         return anno.timestamp > second;
@@ -51,7 +52,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
                       $scope.nextStop = 100000;
                     }
 
-                    $scope.state.isPlaying = false;
 
                     // TODO [ToDr] Fix me please :(
                     // Changing position of subtitles
@@ -66,11 +66,11 @@ define(['angular', 'xplatform/xplatform-app', '_',
                         top: positionTop + 'px'
                       });
                     }, 450);
-                } else {
+                } else if (Math.abs(curr - prev) > 3) {
                   // fix nextStop when we are going backwards or fast forward
 
                   var anno = _.find($scope.annotations, function(anno) {
-                    return anno.timestamp > curr && anno.timestamp < prev;
+                    return anno.timestamp > curr;
                   });
                   if (anno) {
                     $scope.nextStop = anno.timestamp;
