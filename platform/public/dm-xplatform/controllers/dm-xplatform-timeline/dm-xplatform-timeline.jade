@@ -46,7 +46,7 @@ a.btn.dm-timeline-button(
     ng-click='changeRate()', 
     tooltip='Zmień szybkość na {{nextRate | number: 2}}', tooltip-placement='top')
     span {{state.playbackRate | number: 2}}x
-.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 275px)" : "calc(100% - 110px)"}')
+.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 110px)"}')
     dm-timeline(
         length='state.duration', annotations='annotations')
     dm-wavesurfer(
