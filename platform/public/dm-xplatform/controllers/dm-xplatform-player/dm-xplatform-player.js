@@ -38,8 +38,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 $scope.recordingPlayer.goToSecond(second);
 
 
-                if (second > $scope.nextStop && $scope.nextStop) {
-                    $scope.state.isPlaying = false;
+                if (second > $scope.nextStop) {
                     $scope.anno = $scope.next;
 
                     var anno = _.find($scope.annotations, function(anno) {
@@ -49,8 +48,10 @@ define(['angular', 'xplatform/xplatform-app', '_',
                         $scope.nextStop = anno.timestamp;
                         $scope.next = anno;
                     } else {
-                      $scope.nextStop = null;
+                      $scope.nextStop = 100000;
                     }
+
+                    $scope.state.isPlaying = false;
 
                     // TODO [ToDr] Fix me please :(
                     // Changing position of subtitles
@@ -80,7 +81,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                       $scope.anno = $scope.annotations[curIdx];
                     }
                   } else {
-                    $scope.nextStop = null;
+                      $scope.nextStop = 100000;
                   }
                 }
             }, 3);

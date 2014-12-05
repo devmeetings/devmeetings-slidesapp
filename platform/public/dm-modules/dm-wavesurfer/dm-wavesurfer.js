@@ -54,6 +54,9 @@ define(['angular'], function(angular) {
                     });
 
                     scope.$watch('dmSetSecond', function() {
+                      if (!scope.dmSetSecond) {
+                        return;
+                      }
                       audio.currentTime = scope.dmSetSecond;
                       scope.dmCurrentSecond = scope.dmSetSecond;
                       updatePosition();
