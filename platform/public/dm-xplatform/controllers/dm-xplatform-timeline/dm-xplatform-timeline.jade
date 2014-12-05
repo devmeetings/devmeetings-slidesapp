@@ -6,6 +6,17 @@ a.btn.dm-timeline-button(
     span.fa.fa-play(ng-if='!state.isPlaying')
     span.fa.fa-pause(ng-if='state.isPlaying')
 
+
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond - 2.0)"
+    ng-if="editMode")
+    span -2.0
+
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond - 0.5)"
+    ng-if="editMode")
+      span -0.5
+
 a.btn.dm-timeline-button(
     ng-if="editMode",
     ng-click="setTime(state.currentSecond - 0.25)")
@@ -17,7 +28,18 @@ a.btn.dm-timeline-button(
 a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond + 0.25)"
     ng-if="editMode")
-    span +0.25
+      span +0.25
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond + 0.5)"
+    ng-if="editMode")
+      span +0.5
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond + 2.0)"
+    ng-if="editMode")
+    span +2.0
+
+
+
 a.btn.dm-timeline-button(
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.rate-{{nextRate}}'

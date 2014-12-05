@@ -2,8 +2,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
     'xplatform/services/dm-events/dm-events',
     'xplatform/directives/dm-timeline/dm-timeline'
 ], function(angular, xplatformApp, _) {
-    xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents',
-        function($scope, $stateParams, dmEvents) {
+    xplatformApp.controller('dmXplatformTimeline', ['$scope', '$stateParams', 'dmEvents', '$window',
+        function($scope, $stateParams, dmEvents, $window) {
 
             function fetchAnnotations() {
               dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
@@ -24,6 +24,11 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
             $scope.setTime = function(time) {
               $scope.setSecond = time;
+            };
+            $window.setTime = function(time) {
+              $scope.$apply(function(){
+                $scope.setSecond = time;
+              });
             };
 
 
