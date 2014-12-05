@@ -13,7 +13,8 @@ define(['angular'], function(angular) {
                     dmScroll: '@',
                     dmDuration: '=',
                     dmOnEnd: '=',
-                    dmPlaybackRate: '='
+                    dmPlaybackRate: '=',
+                    dmSetSecond: '='
                 },
                 replace: true,
                 templateUrl: '/static/dm-modules/dm-wavesurfer/dm-wavesurfer.html',
@@ -50,6 +51,12 @@ define(['angular'], function(angular) {
                             src.type = "audio/" + file.substr(file.length - 3);
                             audio.appendChild(src);
                         });
+                    });
+
+                    scope.$watch('dmSetSecond', function() {
+                      audio.currentTime = scope.dmSetSecond;
+                      scope.dmCurrentSecond = scope.dmSetSecond;
+                      updatePosition();
                     });
 
                     audio.addEventListener('progress', function() {

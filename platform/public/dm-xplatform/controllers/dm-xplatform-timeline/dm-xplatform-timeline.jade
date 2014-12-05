@@ -5,10 +5,19 @@ a.btn.dm-timeline-button(
     tooltip='{{state.isPlaying ? "Pauza" : "Odtwarzaj"}}', tooltip-placement='top')
     span.fa.fa-play(ng-if='!state.isPlaying')
     span.fa.fa-pause(ng-if='state.isPlaying')
+
+a.btn.dm-timeline-button(
+    ng-if="editMode",
+    ng-click="setTime(state.currentSecond - 0.25)")
+    span -0.25
 a.btn.dm-timeline-button(
     ng-if='editMode', 
     tooltip='Obecna sekunda', tooltip-placement='top')
     span {{state.currentSecond | number: 1}} 
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond + 0.25)"
+    ng-if="editMode")
+    span +0.25
 a.btn.dm-timeline-button(
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.rate-{{nextRate}}'
@@ -24,7 +33,8 @@ a.btn.dm-timeline-button(
         dm-current-second='state.currentSecond',
         dm-playback-rate='state.playbackRate',
         dm-start-second='state.startSecond',
-        dm-duration='state.duration')
+        dm-duration='state.duration',
+        dm-set-second='setSecond')
 a.btn.dm-timeline-button(ng-if='editMode', tooltip='Dodaj snippet')
     span.fa.fa-file
 a.btn.dm-timeline-button(ng-if='editMode', tooltip='Dodaj zadanie')
