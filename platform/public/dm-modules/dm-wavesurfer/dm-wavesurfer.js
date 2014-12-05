@@ -31,7 +31,7 @@ define(['angular'], function(angular) {
 
                     var ready = false;
                     var audio = element.find('audio')[0];
-//                    audio.volume = 0;
+                     audio.volume = 1.0;
 
                     scope.$watch('dmPlaybackRate', function() {
                         audio.playbackRate = scope.dmPlaybackRate || 1.0;
