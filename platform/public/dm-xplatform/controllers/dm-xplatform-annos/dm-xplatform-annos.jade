@@ -23,7 +23,7 @@
             .list-group-item.animate.dm-annos-item(
                 ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index"', 
                 ng-if='p.timestamp <= state.currentSecond')
-                dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet"')
+                dm-annotation(annotation='p', showIteration='showAll', ng-if='p.type === "snippet" || p.type === "comment"')
                 dm-microtask(microtask='p', ng-if='p.type === "task"')
 
                 button.btn.btn-xs.btn-warning(ng-if="editMode", ng-click="p.editing = !p.editing")
