@@ -8,11 +8,6 @@ a.btn.dm-timeline-button(
 
 
 a.btn.dm-timeline-button(
-    ng-click="setTime(state.currentSecond - 2.0)"
-    ng-if="editMode")
-    span -2.0
-
-a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond - 0.5)"
     ng-if="editMode")
       span -0.5
@@ -29,15 +24,6 @@ a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond + 0.25)"
     ng-if="editMode")
       span +0.25
-a.btn.dm-timeline-button(
-    ng-click="setTime(state.currentSecond + 0.5)"
-    ng-if="editMode")
-      span +0.5
-a.btn.dm-timeline-button(
-    ng-click="setTime(state.currentSecond + 2.0)"
-    ng-if="editMode")
-    span +2.0
-
 
 
 a.btn.dm-timeline-button(

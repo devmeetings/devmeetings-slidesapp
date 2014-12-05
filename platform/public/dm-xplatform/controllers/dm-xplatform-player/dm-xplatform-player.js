@@ -27,7 +27,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
             };
 
 
-            $scope.nextStop = 0;
+            $scope.nextStop = 0.1;
 
             var goToSecond = _.throttle(function(curr, prev) {
                 if (!$scope.recordingPlayer) {
@@ -37,7 +37,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
                 $scope.recordingPlayer.goToSecond(second);
 
-                if (second > $scope.nextStop) {
+
+                if (second > $scope.nextStop && $scope.nextStop) {
                     $scope.state.isPlaying = false;
                     $scope.anno = $scope.next;
 
@@ -47,6 +48,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     if (anno) {
                         $scope.nextStop = anno.timestamp;
                         $scope.next = anno;
+                    } else {
+                      $scope.nextStop = null;
                     }
 
                     // TODO [ToDr] Fix me please :(
@@ -76,6 +79,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     if (curIdx > 0) {
                       $scope.anno = $scope.annotations[curIdx];
                     }
+                  } else {
+                    $scope.nextStop = null;
                   }
                 }
             }, 3);
