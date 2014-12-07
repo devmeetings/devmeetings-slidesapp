@@ -208,6 +208,16 @@ function init() {
     // new connection to serverquery
     TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port);
 
+    TsClient.on("error", function(error){
+        console.error(error, 'Reconnecting...');
+
+        // TODO add limit to the reconnection attempts
+        var reconnect = setInterval(function () {
+            clearInterval(reconnect);
+            init();
+        }, 5 * 1000);
+    });
+
     promise = send("use", {
         sid: config.teamspeak.sid
     }).thenSend("login", {

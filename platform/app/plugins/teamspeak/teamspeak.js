@@ -52,6 +52,8 @@ function linkClientsWithUsers(channelsTree, sockets) {
                     client.isLinked = true;
                     client.userId = socket.user._id;
 
+                    // TODO - tutaj cos nie gra jesli ktos wczesniej sie powiazal i w bazie jest inny clientId
+                    // z tego powodu znika ikonka do rozwiazania usera
                     if (socket.user.teamspeak.clientId != client.clid) {
                         updateData = {
                             clientId: client.clid,
@@ -92,33 +94,31 @@ exports.onSocket = function (log, socket, io) {
     var sendChannelList = function (clearCache) {
         Teamspeak.getList(clearCache).then(function (channelsTree) {
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
+
+            // broadcast channellist
+            socket.broadcast.emit('teamspeak.channelList', channelsTree);
+            // emit channellist to active socket connection
             socket.emit('teamspeak.channelList', channelsTree);
-        }).fail(function (error) {
-            console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
     };
 
     var init = function () {
-        if (!isConnected) {
-            Teamspeak.init().then(function () {
-                console.log("  [Teamspeak] Connection established");
 
-                // heartbeat and renew cache
-                refreshListInterval = setInterval(function () {
-                    sendChannelList();
-                }, 3 * 1000);
-                sendChannelList(true);
-                isConnected = true;
-            }, function () {
-                throw new Error('Connetion error');
-            });
-        } else {
-            // heartbeat and renew cache
+        if (isConnected) {
+            return sendChannelList(true);
+        }
+
+        Teamspeak.init().then(function () {
+            isConnected = true;
+            console.log("  [Teamspeak] Connection established");
+
+            // heartbeat
             refreshListInterval = setInterval(function () {
                 sendChannelList();
             }, 3 * 1000);
+
             sendChannelList(true);
-        }
+        });
     };
 
     var linkClient = function (client, callback) {
@@ -179,10 +179,11 @@ exports.onSocket = function (log, socket, io) {
     var onDisconnect = function () {
         if (Object.keys(socket.manager.handshaken).length == 1) {
             // last user is disconnecting so we must disconnect
-            clearInterval(refreshListInterval);
-            Teamspeak.disconnect();
-            isConnected = false;
-            console.log("  [Teamspeak] Disconected");
+            Teamspeak.disconnect().then(function(){
+                clearInterval(refreshListInterval);
+                isConnected = false;
+                console.log("  [Teamspeak] Disconected");
+            });
         }
     };
 
