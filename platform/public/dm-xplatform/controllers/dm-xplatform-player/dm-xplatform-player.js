@@ -35,7 +35,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                 }
                 var second = $scope.state.currentSecond;
 
-                var stopEarlier = 30;
+                var stopEarlier = 0.03;
 
                 $scope.recordingPlayer.goToSecond(second);
 
