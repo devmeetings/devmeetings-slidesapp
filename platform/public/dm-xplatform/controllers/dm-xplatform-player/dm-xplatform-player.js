@@ -94,6 +94,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
               dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
                   $scope.annotations = material.annotations.sort(function(a, b) {
                       return a.timestamp - b.timestamp;
+                  }).filter(function(anno) {
+                      return anno.type !== 'snippet';
                   });
               });
             }
