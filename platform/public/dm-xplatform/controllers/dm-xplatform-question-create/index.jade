@@ -1,10 +1,10 @@
 .panel(ng-controller="dmXplatformQuestionCreate")
     .panel-body
-        p Zaznacz fragment kodu, o który chcesz zapytać i zadaj pytanie poniżej.
+        p Zaznacz fragment kodu, który chcesz wyróżnić i dodaj opis.
         form(ng-submit='createQuestion()')
             .form-group
                 input.input-sm.form-control(
-                    placeholder="Twoje pytanie",
+                    placeholder="Opis",
                     ng-model='question.description', type='text', required, autofocus)
-            button.btn.btn-sm.btn-primary.btn-block(type='submit') Zadaj pytanie do załączonego kodu
+            button.btn.btn-sm.btn-primary.btn-block(type='submit') Opublikuj kod
 
