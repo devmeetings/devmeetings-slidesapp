@@ -9,7 +9,7 @@ define(['_', 'angular', 'xplatform/xplatform-app',
     function groupAnnotations(annos) {
         return annos.filter(function(x){
             // Don't group tasks
-            return x.type !== 'task';
+            return x.type !== 'task' && x.type !== 'comment';
         }).map(function(anno) {
             return {
                 data: anno,
