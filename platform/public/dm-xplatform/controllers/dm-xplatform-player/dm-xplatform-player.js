@@ -14,7 +14,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
             }).then(function(recording) {
                 $scope.recordingPlayer = RecordingsPlayerFactory(recording, function(slide) {
                     $scope.slide = slide;
-                    $scope.nextStop = 0.1;
                 });
                 goToSecond();
             });
