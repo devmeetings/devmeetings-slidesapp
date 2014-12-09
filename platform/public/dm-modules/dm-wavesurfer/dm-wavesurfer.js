@@ -36,6 +36,12 @@ define(['angular'], function(angular) {
                     scope.$watch('dmPlaybackRate', function() {
                         audio.playbackRate = scope.dmPlaybackRate || 1.0;
                         audio.defaultPlaybackRate = audio.playbackRate;
+
+                        if (audio.playbackRate > 3) {
+                          audio.volume = 0;
+                        } else {
+                          audio.volume = 1.0;
+                        }
                     });
 
                     scope.$watch('dmSrc', function() {
