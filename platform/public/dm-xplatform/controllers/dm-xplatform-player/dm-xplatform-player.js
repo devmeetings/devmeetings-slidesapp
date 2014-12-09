@@ -29,6 +29,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
 
             $scope.nextStop = 0.1;
+            $scope.maxNextStop = 10000;
 
             var goToSecond = _.throttle(function(curr, prev) {
                 if (!$scope.recordingPlayer) {
@@ -53,7 +54,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                         $scope.nextStop = anno.timestamp;
                         $scope.next = anno;
                     } else {
-                      $scope.nextStop = 100000;
+                      $scope.nextStop = $scope.maxNextStop;
                     }
 
 
@@ -86,7 +87,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                       $scope.anno = $scope.annotations[curIdx];
                     }
                   } else {
-                      $scope.nextStop = 100000;
+                      $scope.nextStop = $scope.maxNextStop;
                   }
                 }
             }, 3);
