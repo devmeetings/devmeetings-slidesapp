@@ -3,8 +3,17 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload',
   'xplatform/services/dm-questions/dm-questions'
 ], function(angular, xplatformApp, _) {
-  xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves',
-    function($scope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves) {
+  xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen',
+    function($scope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen) {
+
+      $scope.changeFullScreen = function(enable) {
+         if (!enable) {
+          Fullscreen.cancel();
+         } else {
+          Fullscreen.all();
+         }
+      };
+
       $scope.left = {
         min: '38px',
         max: '200px',

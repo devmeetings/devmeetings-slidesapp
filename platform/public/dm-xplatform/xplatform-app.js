@@ -9,6 +9,7 @@ define(['angular',
     'angular-marked',
     'angular-charts',
     'angular-animate',
+    'angular-fullscreen',
     'slider/slider',
     'slider/slider.plugins',
     'dm-modules/dm-training/dm-training',
@@ -19,10 +20,13 @@ define(['angular',
     'dm-modules/dm-gravatar/dm-gravatar',
     'dm-modules/dm-wavesurfer/dm-wavesurfer'
 ], function(angular) {
+  
+    // [ToDr] AMD sucks.
+    require(["FBAngular"]);
 
     return angular.module('xplatform', [
         'slider', 'slider.plugins', 'ui.gravatar', 'ui.router', 'ui.bootstrap',
-        'akoenig.deckgrid', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts',
+        'akoenig.deckgrid', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular',
         'dm-training', 'dm-user', 'dm-observe', 'dm-stream', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'ngAnimate'
     ]);
 });

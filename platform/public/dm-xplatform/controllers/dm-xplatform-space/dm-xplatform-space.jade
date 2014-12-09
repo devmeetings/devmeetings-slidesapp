@@ -105,10 +105,10 @@
                     .dm-zen-mode-btn.text-center(
                       ng-class="{'zen-mode': $root.isZenMode}"
                     )
-                      a.btn.btn-link.btn-block(ng-if="!$root.isZenMode", ng-click="$root.isZenMode = true")
+                      a.btn.btn-link.btn-block(ng-if="!$root.isZenMode", ng-click="$root.isZenMode = true; changeFullScreen(true);")
                         span.fa.fa-dashboard.fa-fw
                         span Zen Mode
-                      a.btn.btn-link.btn-block(ng-if="$root.isZenMode", ng-click="$root.isZenMode = false")
+                      a.btn.btn-link.btn-block(ng-if="$root.isZenMode", ng-click="$root.isZenMode = false; changeFullScreen(false);")
                         span.fa.fa-close.fa.fw
                         span.on-hover Exit Zen Mode
 

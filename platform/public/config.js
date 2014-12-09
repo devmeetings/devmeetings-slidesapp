@@ -61,7 +61,8 @@ require.config({
         "angular-contenteditable": "../components/angular-contenteditable/angular-contenteditable",
         "angular-marked": "../components/angular-marked/angular-marked",
         "angular-charts": "../components/angular-charts/dist/angular-charts.min",
-        "angular-file-upload": "../components/ng-file-upload/angular-file-upload.min"
+        "angular-file-upload": "../components/ng-file-upload/angular-file-upload.min",
+        "angular-fullscreen": "../components/angular-fullscreen/src/angular-fullscreen"
     },
     "map": {
         "*": {
@@ -170,6 +171,9 @@ require.config({
         },
         "angular-hotkeys": {
             "deps": ["angular"]
+        },
+        "angular-fullscreen": {
+          "deps": ["angular"]
         }
     }
 });
