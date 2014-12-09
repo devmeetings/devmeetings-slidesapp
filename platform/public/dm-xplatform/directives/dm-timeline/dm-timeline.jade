@@ -4,5 +4,5 @@
     tooltip-html-unsafe='{{p.title + "<br/>" + p.timestamp + " sekunda" }}',
     tooltip-placement='top',
     ng-if='length')
-    dm-taskicon.dm-timeline-snippet(type='p.type')
+    dm-taskicon.dm-timeline-snippet(type='p.type', ng-show="p.type !== 'snippet'")
 
