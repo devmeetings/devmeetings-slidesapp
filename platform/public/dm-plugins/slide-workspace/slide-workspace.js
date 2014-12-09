@@ -321,6 +321,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             handleErrorListeners(scope, $window);
 
                             editor.resize();
+
+                            scope.$on('$destroy', function(){
+                              editor.destroy();
+                            });
                         }, 200);
 
                     }
