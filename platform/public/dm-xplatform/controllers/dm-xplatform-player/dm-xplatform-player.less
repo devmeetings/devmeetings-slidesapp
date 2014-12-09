@@ -20,10 +20,30 @@
       opacity: 0.0;
  //     top: 120% !important;
     }
+    &.minimized {
+      top: auto;
+      left: auto;
+      right: 0;
+      bottom: 0;
+      width: 60%;
+
+      .dm-player-subtitles-hidden {
+        padding: 5px;
+        font-size: 1.2em;
+      }
+    }
 
     &:hover {
       opacity: 0.2;
     }
+}
+
+.dm-player-subtitles-minimize {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #ddd;
+  cursor: pointer;
 }
 
 .dm-player-subtitles-hidden {

@@ -42,6 +42,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
                 if (second > $scope.nextStop - stopEarlier) {
                     $scope.anno = $scope.next;
+                    $scope.minimized = false;
                     $scope.state.isPlaying = false;
 
                     var anno = _.find($scope.annotations, function(anno) {
@@ -62,6 +63,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     setTimeout(function() {
                       var rect = $('.ace_cursor')[0].getBoundingClientRect();
                       var positionTop = Math.max(20, rect.top - (myself.height() - 40)/ 2);
+                      positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 200, positionTop);
 
                       myself.css({
                         left: "calc(45% + " + (rect.left/50) + 'px)',

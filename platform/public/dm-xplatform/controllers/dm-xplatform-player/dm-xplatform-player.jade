@@ -1,9 +1,11 @@
 .col-xs-12.full-height
   .dm-player-subtitles(
-      ng-class="{'faded': state.isPlaying || starting}"
+      ng-class="{'faded': state.isPlaying || starting, 'minimized': minimized}"
     )
         .dm-player-subtitles-hidden(ng-show="anno.description")
-          
+          a.dm-player-subtitles-minimize(ng-click="minimized = !minimized")
+            span.fa.fa-minus.fa-fw(ng-show="!minimized")
+            span.fa.fa-plus.fa-fw(ng-show="minimized")
           .dm-annos-item(ng-if="anno.type !== 'pause'")
                   dm-annotation(annotation='anno', showIteration='showAll', ng-if='anno.type === "snippet" || anno.type === "comment"')
                   dm-microtask(microtask='anno', ng-if='anno.type === "task"')
