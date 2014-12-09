@@ -2,7 +2,7 @@
   .dm-player-subtitles(
       ng-class="{'faded': state.isPlaying || starting}"
     )
-        .dm-player-subtitles-hidden
+        .dm-player-subtitles-hidden(ng-show="anno.description")
           
           .dm-annos-item(ng-if="anno.type !== 'pause'")
                   dm-annotation(annotation='anno', showIteration='showAll', ng-if='anno.type === "snippet" || anno.type === "comment"')
@@ -12,7 +12,7 @@
                 ng-show="!state.isPlaying",
                 ng-click="runNext()")
                     span Dalej 
-                    span.fa.fa-chevron-right
+                    span.fa.fa-chevron-right.fa-fw
 
 
 
