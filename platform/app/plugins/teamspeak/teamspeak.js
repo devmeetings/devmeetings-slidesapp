@@ -96,9 +96,7 @@ exports.onSocket = function (log, socket, io) {
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
 
             // broadcast channellist
-            socket.broadcast.emit('teamspeak.channelList', channelsTree);
-            // emit channellist to active socket connection
-            socket.emit('teamspeak.channelList', channelsTree);
+            io.emit('teamspeak.channelList', channelsTree);
         });
     };
 
