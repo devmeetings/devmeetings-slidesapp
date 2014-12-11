@@ -11,13 +11,16 @@ div.mainWindow
                 button.btn.btn-xs(ng-class="{'btn-danger': client.isLinked, 'btn-success': !client.isLinked}", ng-if="(!clientId && !client.isLinked) || clientId == client.clid", ng-click="client.isLinked ? unlinkClient() : linkClient(client)", title="Link/Unlink with Teamspeak client")
                     span.glyphicon.glyphicon-link
 
-                a.setCurrentWriter(href="", ng-if="client.cid === userChannel.cid && client.isLinked  && !isUserAWriter(client.userId) && (isUserAWriter(userId) || isTrainer)", ng-click="setCurrentWriter(client.userId)", title="Set {{client.nickTitle}} as moderator")
+                a.setCurrentWriter(href="", ng-if="client.cid === userChannel.cid && client.isLinked  && !isUserAWriter(client.userId) && !isTrainer && client.userId === userId", ng-click="setCurrentWriter(client.userId)", title="Set me as moderator")
+                    span.glyphicon.glyphicon-pencil
+
+                a.setCurrentWriter(href="", ng-if="client.cid === userChannel.cid && client.isLinked  && isTrainer && !isUserAWriter(client.userId)", ng-click="setCurrentWriter(client.userId)", title="Set {{client.nickShort}} as moderator")
                     span.glyphicon.glyphicon-pencil
 
                 button.btn.btn-xs.btn-success(ng-if="client.cid === userChannel.cid && client.isLinked && isUserAWriter(client.userId) && client.userId !== userId", title="Active moderator")
                     span.glyphicon.glyphicon-pencil
 
-                button.btn.btn-xs.btn-success(ng-if="client.cid === userChannel.cid && client.isLinked && isUserAWriter(userId) && client.userId === userId", title="You are moderator")
+                button.btn.btn-xs.btn-success(ng-if="client.cid === userChannel.cid && client.isLinked && isUserAWriter(client.userId) && client.userId === userId", title="You are moderator")
                     span.glyphicon.glyphicon-pencil
 
     script(type="text/ng-template", id="channelTree")
