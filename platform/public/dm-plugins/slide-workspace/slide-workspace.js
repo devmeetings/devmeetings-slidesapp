@@ -14,13 +14,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var triggerChangeLater = _.throttle(function (scope) {
             sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
-            triggerSave();
+            triggerSave(scope);
         }, 500, {
             leading: false,
             trailing: true
         });
 
-        var triggerSave = _.throttle(function () {
+        var triggerSave = _.throttle(function (scope) {
+            if (scope.isWorkspaceReadOnly()){
+                return;
+            }
             sliderPlugins.trigger('slide.save');
         }, 20);
 
@@ -69,7 +72,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             };
                                         });
                                         refreshActiveTab($scope);
-                                        triggerSave();
+                                        triggerSave($scope);
                                         applyChangesLater($scope);
                                     });
                                 });
@@ -623,7 +626,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 }
                                 syncEditorContent(editor, scope.activeTab, scope.workspace.active,
                                     scope.isWorkspaceReadOnly());
-                                triggerSave();
+                                triggerSave(scope);
                                 applyChangesLater(scope);
                             });
 
@@ -656,7 +659,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.activeTab.editor = scope.activeTab.editor || {};
                                 syncEditorOptions(editor, scope.activeTab.editor, scope.workspace.active,
                                     scope.isWorkspaceReadOnly(), scope.currentUser);
-                                triggerSave();
+                                triggerSave(scope);
                                 applyChangesLater(scope);
                             }
 
@@ -749,7 +752,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     var tab = scope.activeTab;
                                     updateMode(editor, active, tab.mode);
                                     updateEditorContent(editor, tab, true);
-                                    triggerSave();
+                                    triggerSave(scope);
                                 });
                             });
 
