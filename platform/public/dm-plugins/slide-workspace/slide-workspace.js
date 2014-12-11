@@ -369,6 +369,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         else if (obj.editor) {
                                             disableScrollSync = true;
                                             withoutSync(function () {
+                                                scope.activeTab.editor = obj.editor;
                                                 updateEditorOptions(editor, obj, true);
                                             });
 
@@ -855,48 +856,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             //setUpMarker(ed, tab);
         }
 
-        function initUserMarker (who, marker) {
-            if (!markers[who]) {
-                markers[who] = {
-                    lastMarker: 0,
-                    marker: marker
-                };
-            }
-        }
-
-        function removeUserMarker (ed, who) {
-            var lastMarker = markers[who].lastMarker;
-
-            if (lastMarker > 0) {
-                ed.session.removeMarker(lastMarker);
-            }
-        }
-
-        function setUpMarker (ed, tab) {
-            var selectionRange = tab.editor.selectionRange,
-                Range = ace.require('ace/range').Range, lastMarker;
-
-            initUserMarker(tab.who, tab.marker);
-            removeUserMarker(ed, tab.who);
-            console.log('selectionRange', selectionRange);
-            if (selectionRange.start.column === selectionRange.end.column) {
-
-                markers[tab.who].lastMarker = ed.session.addMarker(
-                    new Range(selectionRange.start.row, selectionRange.start.column,
-                        selectionRange.end.row, selectionRange.end.column + 1), "user-marker", function (stringBuilder, range, left, top, config) {
-                        var height = config.lineHeight;
-
-                        stringBuilder.push(
-                            "<div class='user-marker ace_active-line'",
-                            "data-name='", tab.who, "'",
-                            "style='height:", height, "px;",
-                            "background:#", tab.marker, ";",
-                            "top:", top, "px;",
-                            "left:", left, "px;right:0;'></div>"
-                        );
-                    }, true);
-            }
-        }
 
         function getExtension (name) {
             var name2 = name.split('|');
