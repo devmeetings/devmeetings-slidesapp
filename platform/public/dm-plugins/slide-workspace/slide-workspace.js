@@ -404,30 +404,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             function setEditorReadOnly () {
                                 editor.setReadOnly(true);
-
-                                var cover = document.createElement("div");
-                                editor.container.appendChild(cover);
-                                cover.className = 'editor_cover';
-                                cover.style.cssText = "position:absolute;" +
-                                "top:0;bottom:0;right:0;left:0;" +
-                                "background:rgba(150,150,150,0.1);" +
-                                "z-index:100";
-                                cover.addEventListener("mousedown", function (e) {
-                                    e.stopPropagation();
-                                }, true);
-
-                                editor.renderer.setStyle("disabled", true);
-                                editor.blur();
                             }
 
                             function setEditorEditAble () {
                                 editor.setReadOnly(false);
-
-                                editor.renderer.setStyle("disabled", false);
-                                var cover = document.getElementsByClassName('editor_cover');
-                                if (cover.length > 0) {
-                                    editor.container.removeChild(cover[0]);
-                                }
                             }
 
                             function setUpWorkspaceMode () {
@@ -455,7 +435,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 scope.isWriter = currentWriter.id === scope.currentUser._id;
 
-
                                 setUpWorkspaceMode();
 
                                 if (scope.currentWriterChangedOnRemoteChange) {
@@ -476,12 +455,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 console.log(scope.currentWriter);
                                 applyChangesLater(scope);
                             }
-
-                            //Temporary
-                            //$window.CodeShare = {
-                            //    currentWriterChang : currentWriterChange,
-                            //    currentWriter: scope.currentWriter
-                            //};
 
                             sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
                                 setUpWorkspace(channel);
@@ -658,7 +631,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             editor.getSession().on('changeScrollTop', function (yPos) {
-                                if ($state && !disableScrollSync && !readOnly) {
+                                if ($state && !disableScrollSync && !scope.isWorkspaceReadOnly()) {
                                     $state.shout({
                                         scrollTop: yPos
                                     });
@@ -667,7 +640,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             editor.getSession().on('changeScrollLeft', function (yPos) {
-                                if ($state && !disableScrollSync && !readOnly) {
+                                if ($state && !disableScrollSync && !scope.isWorkspaceReadOnly()) {
                                     $state.shout({
                                         scrollLeft: yPos
                                     });
@@ -879,7 +852,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             }
             updateEditorSelection(ed, tab, forceUpdateCursor);
             updateEditorScroll(ed, tab);
-            setUpMarker(ed, tab);
+            //setUpMarker(ed, tab);
         }
 
         function initUserMarker (who, marker) {

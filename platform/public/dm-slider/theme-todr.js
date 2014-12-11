@@ -14,7 +14,7 @@
  *     * Neither the name of Ajax.org B.V. nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -49,6 +49,10 @@ color: #FFFFFF\
 }\
 .ace-todr .ace_cursor {\
 color: #FFFFFF\
+}\
+.ace-todr .ace_hidden-cursors .ace_cursor {\
+opacity:1;\
+color: #56abcd;\
 }\
 .ace-todr .ace_marker-layer .ace_selection {\
 background: #6699CC\
