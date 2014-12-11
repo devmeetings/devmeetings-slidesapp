@@ -16,10 +16,10 @@
                         ng-disabled="isWorkspaceReadOnly()")
                         span.fa.fa-circle.type-icon
                         |  {{ toFileName(tabName) }}
-                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", ng-disabled="isWorkspaceReadOnly()", tooltip="Delete", tooltip-placement="right",
+                    a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", ng-if="!isWorkspaceReadOnly()", tooltip="Delete", tooltip-placement="right",
                         analytics-event="workspace-deleteTab", analytics-category="workspace")
                         | x
-                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", ng-disabled="isWorkspaceReadOnly()", tooltip="Edit name", tooltip-placement="right",
+                    a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", ng-if="!isWorkspaceReadOnly()", tooltip="Edit name", tooltip-placement="right",
                         analytics-event="workspace-editTab", analytics-category="workspace")
                         span.fa.fa-pencil
                 li.workspace-tab.add-tab
