@@ -98,7 +98,7 @@ define(['angular'], function (angular) {
                     Sockets.on('teamspeak.channelList', function (channelList) {
                        scope.userChannel = getMyChannel(channelList);
 
-                        console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId,'channelList', channelList);
+                        //console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId,'channelList', channelList);
                         scope.channelList = channelList;
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
 
