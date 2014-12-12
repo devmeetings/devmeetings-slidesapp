@@ -579,7 +579,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     function restoreWorkspace () {
                                         if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
-                                            scope.workspace.active = $state.snapshot.workspace.active;
+                                           // scope.workspace.active = $state.snapshot.workspace.active;
+                                            scope.workspace = $state.snapshot.workspace;
 
                                             _.each(scope.workspace.tabs, function (tab, tabName) {
                                                 scope.openShareJsDocForTab(docName, tabName);
@@ -599,7 +600,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         doc.at([]).set({
                                             users: [prepareUserData()],
                                             writer: 0,
-                                            workspace: $filter('orderBy')(Object.keys(scope.workspace.tabs), scope.tabsOrdering )
+                                            workspace: scope.workspace//$filter('orderBy')(Object.keys(scope.workspace.tabs), scope.tabsOrdering )
                                         });
                                     }
                                 });
