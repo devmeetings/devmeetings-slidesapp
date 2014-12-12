@@ -126,31 +126,6 @@ exports.findLocalUserByEmail = function (email, done) {
     }, done);
 };
 
-/**
- *
- * @param {User} user
- * @param {Numeric} clientId
- * @param {Numeric} clientDbId
- * @returns {Promise}
- */
-exports.linkUserWithTeamspeakClient = function (user, clientId, clientDbId) {
-    var defer = Q.defer();
-
-    UserModel.findByIdAndUpdate(user._id.toString(), {
-        $set: {
-            'teamspeak.clientId': clientId,
-            'teamspeak.clientDbId': clientDbId
-        }
-    }, {}, function (error) {
-        if (error) {
-            defer.reject(error);
-        } else {
-            defer.resolve();
-        }
-    });
-    return defer.promise;
-};
-
 exports.saveTeamspeakData = function (userId, data) {
     var defer = Q.defer();
 

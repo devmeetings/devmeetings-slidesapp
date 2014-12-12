@@ -5,8 +5,9 @@ var Users = require('../services/users'),
     config = require('../../config/config'),
     TsClient = null,
     channelListCache = null,
-    //commandCounter = 0, // counter of how many commands were sent
-    promise = {}; // @TODO create empty promise?
+//commandCounter = 0, // counter of how many commands were sent
+    reconnectDelay = 1;
+promise = {}; // @TODO create empty promise?
 
 /**
  * @TODO zabezpieczenie przed banem - należy odliczac czas po wykonaniu zapytania, jesli minie czas okreslony w configu to zeruje licznik
@@ -31,7 +32,6 @@ function wrap(promise) {
     return promise;
 }
 
-// TODO somehow handle connection error and reconnect it
 function send(name, data) {
     var defer = Q.defer();
 
@@ -208,14 +208,18 @@ function init() {
     // new connection to serverquery
     TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port);
 
-    TsClient.on("error", function(error){
+    TsClient.on("error", function (error) {
         console.error(error, 'Reconnecting...');
 
-        // TODO add limit to the reconnection attempts
         var reconnect = setInterval(function () {
+            reconnectDelay++;
             clearInterval(reconnect);
             init();
-        }, 5 * 1000);
+        }, reconnectDelay * 5 * 1000);
+    });
+
+    TsClient.on("connect", function () {
+        reconnectDelay = 1;
     });
 
     promise = send("use", {
@@ -264,7 +268,7 @@ module.exports = {
         var defer = Q.defer();
 
         getChannelList(clearCache).then(function (channels) {
-            promise.thenSend('clientlist', ['voice', 'info', 'icon', 'groups', 'country']).then(function (clients) {
+            promise.thenSend('clientlist', ['voice', 'info']).then(function (clients) {
                 try {
                     defer.resolve(makeTree(channels, 0, castArray(clients)));
                 } catch (error) {

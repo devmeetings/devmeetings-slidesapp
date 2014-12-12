@@ -11,41 +11,19 @@ define(['angular'], function (angular) {
                     scope.setCurrentWriter = codeShareService.setCurrentWriter;
                     scope.isUserAWriter = codeShareService.isUserAWriter;
 
-                    scope.channelList = null;
-                    scope.clientId = null;
+                    scope.channelList = scope.clientId = scope.userId = scope.isTrainer = null;
 
-                    dmUser.getCurrentUser().then(function (data) {
-                        scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
-                        scope.userId = data.result._id;
-                        scope.isTrainer = !!_.find(data.result.acl, function (acl) {
-                            return acl == 'trainer';
+                    function refreshUserData() {
+                        dmUser.getCurrentUser().then(function (data) {
+                            scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
+                            scope.userId = data.result._id;
+                            scope.isTrainer = !!_.find(data.result.acl, function (acl) {
+                                return acl == 'trainer';
+                            });
+                        }, function (error) {
+                            console.log(error);
                         });
-                    }, function (err) {
-
-                    });
-
-                    scope.linkClient = function (client) {
-                        Sockets.emit('teamspeak.linkClient', client, function (error) {
-                            if (error) {
-                                console.log(error);
-                            } else {
-                                scope.clientId = client.clid;
-                                console.log('Powiązano z klientem Teamspeak');
-                            }
-                        });
-                    };
-
-                    scope.unlinkClient = function () {
-                        Sockets.emit('teamspeak.unlinkClient', function (error) {
-                            if (error) {
-                                console.log(error);
-                            } else {
-                                scope.clientId = null;
-                                codeShareService.removeUser(scope.userId);
-                                console.log('Rozłączono z klientem Teamspeak');
-                            }
-                        });
-                    };
+                    }
 
                     scope.moveToChannel = function (channel) {
                         //jezeli uzytkownik jest w pokoju Team_1 po oswiezeniu strony i nie ma w adresie workspace
@@ -69,14 +47,14 @@ define(['angular'], function (angular) {
                         }
                     };
 
-                    function getChannelName (channelName) {
+                    function getChannelName(channelName) {
                         return 'channel_' + channelName;
                     }
 
-                    function openWorkspace (channelName) {
+                    function openWorkspace(channelName) {
                         codeShareService.resetWorkspaceForNew(channelName);
 
-                        $http.post('/api/base_slide/' + scope.event.baseSlide + '/' + getChannelName(channelName)).then(function(data) {
+                        $http.post('/api/base_slide/' + scope.event.baseSlide + '/' + getChannelName(channelName)).then(function (data) {
                             dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
                             $state.go('index.space.workspace', {
                                 slide: data.data.slidesave,
@@ -85,7 +63,6 @@ define(['angular'], function (angular) {
                             scope.workspaceId = data.data.slidesave;
                         });
                     }
-
 
                     scope.moveAllClientsToChannel = function (channel) {
                         Sockets.emit('teamspeak.moveAllClientsToChannel', channel.cid);
@@ -96,22 +73,26 @@ define(['angular'], function (angular) {
                     };
 
                     Sockets.on('teamspeak.channelList', function (channelList) {
-                       scope.userChannel = getMyChannel(channelList);
+                        refreshUserData();
 
-                        console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId,'channelList', channelList);
+                        scope.userChannel = getMyChannel(channelList);
+
+                        console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
                         scope.channelList = channelList;
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
 
                         scope.$apply();
                     });
 
-                    function ifNoCurrentWriterInWorkspaceSetFirstLinkedClient () {
+                    Sockets.emit('teamspeak.init');
+
+                    function ifNoCurrentWriterInWorkspaceSetFirstLinkedClient() {
                         if (codeShareService.isConnectedToWorkSpace() && !codeShareService.isSetCurrentWriter()) {
                             _.each(scope.channelList, function (channel) {
                                 if (channel.cid === scope.userChannel.cid) {
                                     _.each(channel.clients, function (client) {
                                         if (client.isLinked) {
-                                            console.log('set current writer',client.userId);
+                                            console.log('set current writer', client.userId);
                                             codeShareService.setCurrentWriter(client.userId);
                                             return;
                                         }
@@ -121,9 +102,9 @@ define(['angular'], function (angular) {
                         }
                     }
 
-
-                    function getMyChannel (channelList) {
+                    function getMyChannel(channelList) {
                         var userChannel = null;
+
                         _.each(channelList, function (channel) {
                             _.each(channel.clients, function (client) {
                                 if (client.userId === scope.userId) {
@@ -131,11 +112,9 @@ define(['angular'], function (angular) {
                                 }
                             });
                         });
-
                         return userChannel;
                     }
 
-                    Sockets.emit('teamspeak.init');
                 }
             }
         }
