@@ -21,7 +21,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
         });
 
         var triggerSave = _.throttle(function (scope) {
-            if (scope.isWorkspaceReadOnly()){
+            if (scope.isWorkspaceReadOnly()) {
                 return;
             }
             sliderPlugins.trigger('slide.save');
@@ -132,8 +132,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             };
                             undoManager.initTab(name);
 
-                            if ($state){
-                                $state.at('workspace').at('tabs').at(name).set( {
+                            if ($state) {
+                                $state.at('workspace').at('tabs').at(name).set({
                                     "content": ""
                                 });
                             }
@@ -162,18 +162,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             deleteTabAndFixActive(tabName, newName);
                             undoManager.initTab(newName);
 
-                            if ($state){
-                                //$state.removeAt('workspace.tabs.' + tabName);
-								//
-                                //$state.at('workspace').at('tabs').at(newName).set( {
-                                //    "content": ""
-                                //});
-								//
-                                //if (scope.workspace.active === tabName) {
-                                //    $state.at('workspace').at('active').set(newName);
-                                //}
+                            syncEditedTab();
+
+                            function syncEditedTab () {
+                                if ($state) {
+                                    $state.at('workspace').at('tabs').at(tabName).remove();
+
+                                    $state.at('workspace').at('tabs').at(newName).set({
+                                        "content": ""
+                                    });
+
+                                    if (scope.workspace.active === tabName) {
+                                        $state.at('workspace').at('active').set(newName);
+                                    }
+                                }
                             }
                         };
+
 
                         scope.tabsOrdering = function (tab) {
                             return getExtension(tab);
@@ -269,7 +274,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.output.show = false;
 
                                 //syncWorkspaceWithShareJs();
-                                if ($state){
+                                if ($state) {
                                     $state.at('workspace').at('active').set(tab);
                                 }
                             };
@@ -278,10 +283,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             setEditorReadOnly();
 
                             function setUpWorkspace (channel) {
-                                var channelName = '',result = /channel=([^&]*)/.exec(window.location.hash);
+                                var channelName = '', result = /channel=([^&]*)/.exec(window.location.hash);
 
                                 //kanal podany w parametrze ma wiekszy prioytet niz w hashu
-                                if (channel){
+                                if (channel) {
                                     channelName = channel;
                                 }
                                 else if (result !== null) {
@@ -566,15 +571,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         };
                                     }
 
-                                    function restoreWorkspace(){
-                                        if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace){
+                                    function restoreWorkspace () {
+                                        if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
                                             scope.workspace = $state.snapshot.workspace;
 
                                             applyChangesLater(scope);
                                         }
                                     }
 
-                                    function createDoc(){
+                                    function createDoc () {
                                         doc.at([]).set({
                                             users: [prepareUserData()],
                                             writer: 0,
