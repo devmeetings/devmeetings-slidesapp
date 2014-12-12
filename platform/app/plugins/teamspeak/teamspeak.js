@@ -112,9 +112,9 @@ exports.onSocket = function (log, socket, io) {
             console.log("  [Teamspeak] Connection established");
 
             // heartbeat
-            refreshListInterval = setInterval(function () {
+            /*refreshListInterval = setInterval(function () {
                 sendChannelList();
-            }, 3 * 1000);
+            }, 3 * 1000);*/
 
             sendChannelList(true);
         }).fail(function(error){
