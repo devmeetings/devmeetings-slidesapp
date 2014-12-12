@@ -177,6 +177,7 @@ exports.onSocket = function (log, socket, io) {
                     socket.manager.handshaken[handshake].user.teamspeak.forcedChannel = channelId;
                 }
                 sendChannelList();
+                socket.broadcast.emit('teamspeak.showAnnouncement');
             }).fail(function (error) {
                 console.error(new Error('Teamspeak - ' + (error.msg || error)));
             });
@@ -202,6 +203,8 @@ exports.onSocket = function (log, socket, io) {
                 teamspeak.forcedChannel = null;
             }
         }
+
+        socket.broadcast.emit('teamspeak.hideAnnouncement');
     };
 
     socket.on('teamspeak.init', init);

@@ -68,23 +68,8 @@ define(['angular'], function (angular) {
                         });
                     }
 
-                    var showAnnouncement = function () {
-                        modalAnnouncement = $modal.open({
-                            templateUrl: '/static/dm-modules/dm-teamspeak/modal-announcement.html',
-                            size: 'sm',
-                            backdrop: 'static',
-                            keyboard: false,
-                            show: true
-                        });
-                    };
-
-                    var hideAnnouncement = function() {
-                        modalAnnouncement.close();
-                    };
-
                     scope.moveAllClientsToChannel = function (channel) {
                         Sockets.emit('teamspeak.moveAllClientsToChannel', channel.cid);
-                        //showAnnouncement();
                     };
 
                     scope.restoreClientsChannels = function () {
@@ -104,6 +89,20 @@ define(['angular'], function (angular) {
                         }
 
                         scope.$apply();
+                    });
+
+                    Sockets.on('teamspeak.showAnnouncement', function () {
+                        modalAnnouncement = $modal.open({
+                            templateUrl: '/static/dm-modules/dm-teamspeak/modal-announcement.html',
+                            size: 'sm',
+                            backdrop: 'static',
+                            keyboard: false,
+                            show: true
+                        });
+                    });
+
+                    Sockets.on('teamspeak.hideAnnouncement', function () {
+                        modalAnnouncement.close();
                     });
 
                     Sockets.emit('teamspeak.init');
