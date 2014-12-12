@@ -5,7 +5,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
-        var $state, $stateMap = {}, readOnly = false, markers = {}, $e;
+        var $state, $stateMap = {},docName, readOnly = false, markers = {}, $e;
 
 
         var applyChangesLater = _.debounce(function (scope) {
@@ -167,12 +167,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             function syncEditedTab () {
                                 if ($state) {
                                     $state.at('workspace').at('tabs').at(tabName).remove();
+                                    $state.at('workspace').at('tabs').at(newName).set(ws.tabs[newName]);
 
-                                    $state.at('workspace').at('tabs').at(newName).set({
-                                        "content": ""
-                                    });
+                                    if ($stateMap[tabName]){
+                                        $stateMap[tabName].close();
+                                    }
 
-                                    if (scope.workspace.active === tabName) {
+                                    scope.openShareJsDocForTab(docName, newName);
+
+                                    if (scope.workspace.active === newName) {
                                         $state.at('workspace').at('active').set(newName);
                                     }
                                 }
@@ -239,7 +242,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             //---------------- BEGIN CODE SHARE ---------------------------
-                            var isMentor = false, docName;
+                            var isMentor = false;
 
                             var availableWorkspaceModes = {
                                 m: 'mentor',
@@ -345,7 +348,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             setUpWorkspace();
 
+                            scope.openShareJsDocForTab = openShareJsDocForTab;
+
                             function openShareJsDocForTab (docName, tabName) {
+                                if ($stateMap[tabName]){
+                                    return;
+                                }
 
                                 sharejs.open(docName + '_' + tabName, 'text', function (error, doc) {
                                     $stateMap[tabName] = doc;
@@ -574,6 +582,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     function restoreWorkspace () {
                                         if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
                                             scope.workspace = $state.snapshot.workspace;
+
+                                            _.each(scope.workspace.tabs, function (tab, tabName) {
+                                                openShareJsDocForTab(docName, tabName);
+                                            });
+
+                                            _.each( _.difference(scope.workspace.tabs, $state.snapshot.workspace.tabs), function (tab, tabName){
+                                                if ($stateMap[tabName]){
+                                                    $stateMap[tabName].close();
+                                                }
+                                            });
 
                                             applyChangesLater(scope);
                                         }
