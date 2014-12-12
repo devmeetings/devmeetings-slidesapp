@@ -162,9 +162,9 @@ exports.onSocket = function (log, socket, io) {
         Teamspeak.getClientList().then(function (clientList) {
             var clients = [];
 
-            for (var handshake in socket.manager.handshaken) {
-                if (socket.manager.handshaken[handshake].user.teamspeak.clientId) {
-                    clients.push(socket.manager.handshaken[handshake].user.teamspeak.clientId);
+            for (var i in clientList) {
+                if (clientList[i].client_type === 0 && clientList[i].cid != channelId) {
+                    clients.push(clientList[i].clid);
                 }
             }
 
