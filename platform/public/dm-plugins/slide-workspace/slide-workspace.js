@@ -14,13 +14,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var triggerChangeLater = _.throttle(function (scope) {
             sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
-            triggerSave();
+            triggerSave(scope);
         }, 500, {
             leading: false,
             trailing: true
         });
 
-        var triggerSave = _.throttle(function () {
+        var triggerSave = _.throttle(function (scope) {
+            if (scope.isWorkspaceReadOnly()){
+                return;
+            }
             sliderPlugins.trigger('slide.save');
         }, 20);
 
@@ -69,7 +72,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             };
                                         });
                                         refreshActiveTab($scope);
-                                        triggerSave();
+                                        triggerSave($scope);
                                         applyChangesLater($scope);
                                     });
                                 });
@@ -128,6 +131,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 "content": ""
                             };
                             undoManager.initTab(name);
+
+                            if ($state){
+                                $state.at('workspace').at('tabs').at(name).set( {
+                                    "content": ""
+                                });
+                            }
                         };
                         scope.removeTab = function (tabName) {
                             if (scope.isWorkspaceReadOnly()) {
@@ -138,6 +147,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 return;
                             }
                             deleteTabAndFixActive(tabName);
+
                         };
                         scope.editTabName = function (tabName) {
                             if (scope.isWorkspaceReadOnly()) {
@@ -151,6 +161,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             ws.tabs[newName] = ws.tabs[tabName];
                             deleteTabAndFixActive(tabName, newName);
                             undoManager.initTab(newName);
+
+                            if ($state){
+                                //$state.removeAt('workspace.tabs.' + tabName);
+								//
+                                //$state.at('workspace').at('tabs').at(newName).set( {
+                                //    "content": ""
+                                //});
+								//
+                                //if (scope.workspace.active === tabName) {
+                                //    $state.at('workspace').at('active').set(newName);
+                                //}
+                            }
                         };
 
                         scope.tabsOrdering = function (tab) {
@@ -243,15 +265,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     return;
                                 }
 
-                                if ($state) {
-                                    $state.shout({
-                                        newTab: tab
-                                    });
-                                }
-
                                 scope.workspace.active = tab;
                                 scope.output.show = false;
+
+                                //syncWorkspaceWithShareJs();
+                                if ($state){
+                                    $state.at('workspace').at('active').set(tab);
+                                }
                             };
+
 
                             setEditorReadOnly();
 
@@ -354,6 +376,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         else if (obj.editor) {
                                             disableScrollSync = true;
                                             withoutSync(function () {
+                                                scope.activeTab.editor = obj.editor;
                                                 updateEditorOptions(editor, obj, true);
                                             });
 
@@ -389,30 +412,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             function setEditorReadOnly () {
                                 editor.setReadOnly(true);
-
-                                var cover = document.createElement("div");
-                                editor.container.appendChild(cover);
-                                cover.className = 'editor_cover';
-                                cover.style.cssText = "position:absolute;" +
-                                "top:0;bottom:0;right:0;left:0;" +
-                                "background:rgba(150,150,150,0.1);" +
-                                "z-index:100";
-                                cover.addEventListener("mousedown", function (e) {
-                                    e.stopPropagation();
-                                }, true);
-
-                                editor.renderer.setStyle("disabled", true);
-                                editor.blur();
                             }
 
                             function setEditorEditAble () {
                                 editor.setReadOnly(false);
-
-                                editor.renderer.setStyle("disabled", false);
-                                var cover = document.getElementsByClassName('editor_cover');
-                                if (cover.length > 0) {
-                                    editor.container.removeChild(cover[0]);
-                                }
                             }
 
                             function setUpWorkspaceMode () {
@@ -440,7 +443,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 scope.isWriter = currentWriter.id === scope.currentUser._id;
 
-
                                 setUpWorkspaceMode();
 
                                 if (scope.currentWriterChangedOnRemoteChange) {
@@ -461,12 +463,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 console.log(scope.currentWriter);
                                 applyChangesLater(scope);
                             }
-
-                            //Temporary
-                            //$window.CodeShare = {
-                            //    currentWriterChang : currentWriterChange,
-                            //    currentWriter: scope.currentWriter
-                            //};
 
                             sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
                                 setUpWorkspace(channel);
@@ -512,7 +508,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 if (!snapshot.users || snapshot.users.length === 0) {
                                     return;
-                            }
+                                }
                                 scope.connectedUsers = snapshot.users;
                                 if (snapshot.writer !== 0) {
 
@@ -540,43 +536,22 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     doc.on('change', function (op) {
                                         setUpConnectedList($state.snapshot);
+                                        restoreWorkspace();
                                     });
 
                                     if (doc.created) {
-                                        doc.at([]).set({
-                                            users: [prepareUserData()],
-                                            writer: 0
-                                        });
-
+                                        createDoc();
                                         applyChangesLater(scope);
-                                    } else if (!amIConnectedToThisSession($state.snapshot.users)) {
-                                        $state.at('users').push(prepareUserData());
-                                    } else {
-                                        setUpConnectedList($state.snapshot);
-                                    }
-
-                                    doc.on('shout', function (obj) {
-                                        isRemoteWorkspace = true;
-                                        if (obj.newTab) {
-                                            withoutSync(function () {
-                                                scope.workspace.active = obj.newTab;
-                                            });
-                                        } else if (obj.editor) {
-                                            disableScrollSync = true;
-                                            withoutSync(function () {
-                                                updateEditorOptions(editor, obj, true);
-                                            });
-
-                                        } else if (obj.scrollTop) {
-                                            disableScrollSync = true;
-                                            editor.getSession().setScrollTop(obj.scrollTop);
-                                        } else if (obj.scrollLeft) {
-                                            disableScrollSync = true;
-                                            editor.getSession().setScrollLeft(obj.scrollLeft);
+                                    } else if ($state.snapshot !== null) {
+                                        if (!amIConnectedToThisSession($state.snapshot.users)) {
+                                            $state.at('users').push(prepareUserData());
+                                        } else {
+                                            setUpConnectedList($state.snapshot);
                                         }
-
-                                        applyChangesLater(scope);
-                                    });
+                                    }
+                                    else {
+                                        createDoc();
+                                    }
 
 
                                     function prepareUserData () {
@@ -589,6 +564,22 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             id: user._id,
                                             marker: marker
                                         };
+                                    }
+
+                                    function restoreWorkspace(){
+                                        if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace){
+                                            scope.workspace = $state.snapshot.workspace;
+
+                                            applyChangesLater(scope);
+                                        }
+                                    }
+
+                                    function createDoc(){
+                                        doc.at([]).set({
+                                            users: [prepareUserData()],
+                                            writer: 0,
+                                            workspace: scope.workspace
+                                        });
                                     }
                                 });
 
@@ -615,7 +606,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 }
                                 syncEditorContent(editor, scope.activeTab, scope.workspace.active,
                                     scope.isWorkspaceReadOnly());
-                                triggerSave();
+                                triggerSave(scope);
                                 applyChangesLater(scope);
                             });
 
@@ -624,7 +615,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             editor.getSession().on('changeScrollTop', function (yPos) {
-                                if ($state && !disableScrollSync && !readOnly) {
+                                if ($state && !disableScrollSync && !scope.isWorkspaceReadOnly()) {
                                     $state.shout({
                                         scrollTop: yPos
                                     });
@@ -633,7 +624,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             editor.getSession().on('changeScrollLeft', function (yPos) {
-                                if ($state && !disableScrollSync && !readOnly) {
+                                if ($state && !disableScrollSync && !scope.isWorkspaceReadOnly()) {
                                     $state.shout({
                                         scrollLeft: yPos
                                     });
@@ -648,7 +639,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 scope.activeTab.editor = scope.activeTab.editor || {};
                                 syncEditorOptions(editor, scope.activeTab.editor, scope.workspace.active,
                                     scope.isWorkspaceReadOnly(), scope.currentUser);
-                                triggerSave();
+                                triggerSave(scope);
                                 applyChangesLater(scope);
                             }
 
@@ -741,7 +732,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     var tab = scope.activeTab;
                                     updateMode(editor, active, tab.mode);
                                     updateEditorContent(editor, tab, true);
-                                    triggerSave();
+                                    triggerSave(scope);
                                 });
                             });
 
@@ -845,51 +836,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             }
             updateEditorSelection(ed, tab, forceUpdateCursor);
             updateEditorScroll(ed, tab);
-            setUpMarker(ed, tab);
+            //setUpMarker(ed, tab);
         }
 
-        function initUserMarker (who, marker) {
-            if (!markers[who]) {
-                markers[who] = {
-                    lastMarker: 0,
-                    marker: marker
-                };
-            }
-        }
-
-        function removeUserMarker (ed, who) {
-            var lastMarker = markers[who].lastMarker;
-
-            if (lastMarker > 0) {
-                ed.session.removeMarker(lastMarker);
-            }
-        }
-
-        function setUpMarker (ed, tab) {
-            var selectionRange = tab.editor.selectionRange,
-                Range = ace.require('ace/range').Range, lastMarker;
-
-            initUserMarker(tab.who, tab.marker);
-            removeUserMarker(ed, tab.who);
-            console.log('selectionRange', selectionRange);
-            if (selectionRange.start.column === selectionRange.end.column) {
-
-                markers[tab.who].lastMarker = ed.session.addMarker(
-                    new Range(selectionRange.start.row, selectionRange.start.column,
-                        selectionRange.end.row, selectionRange.end.column + 1), "user-marker", function (stringBuilder, range, left, top, config) {
-                        var height = config.lineHeight;
-
-                        stringBuilder.push(
-                            "<div class='user-marker ace_active-line'",
-                            "data-name='", tab.who, "'",
-                            "style='height:", height, "px;",
-                            "background:#", tab.marker, ";",
-                            "top:", top, "px;",
-                            "left:", left, "px;right:0;'></div>"
-                        );
-                    }, true);
-            }
-        }
 
         function getExtension (name) {
             var name2 = name.split('|');
