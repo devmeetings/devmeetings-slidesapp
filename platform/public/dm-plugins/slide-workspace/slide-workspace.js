@@ -301,7 +301,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     docName = channelName;
                                     scope.connectedUsers = [];
 
-                                    //setEditorReadOnly();
+                                    if ($state) {
+                                        $state.close();
+                                        $state = null;
+                                    }
+
+                                    _.each(Object.keys($stateMap), function(tabName) {
+                                        $stateMap[tabName].close();
+                                    });
+
+                                    $stateMap = {};
 
                                     dmUser.getCurrentUser().then(function (data) {
                                         scope.currentUser = data.result;
@@ -471,7 +480,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 currentWriter.hasOwnProperty('id') ? currentWriter : {id: currentWriter};
 
                                 sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
-                                console.log(scope.currentWriter);
                                 applyChangesLater(scope);
                             }
 
@@ -580,7 +588,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     function restoreWorkspace () {
                                         if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
                                            // scope.workspace.active = $state.snapshot.workspace.active;
-                                            scope.workspace = $state.snapshot.workspace;
+                                            scope.workspace.active = $state.snapshot.workspace.active;
 
                                             _.each(scope.workspace.tabs, function (tab, tabName) {
                                                 scope.openShareJsDocForTab(docName, tabName);
@@ -655,7 +663,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             });
 
                             function syncEditorOptionsOnSelectionOrCurosrChange () {
-                                if (disableSync) {
+                                if (disableSync || !scope.activeTab) {
                                     return;
                                 }
                                 scope.activeTab.editor = scope.activeTab.editor || {};
