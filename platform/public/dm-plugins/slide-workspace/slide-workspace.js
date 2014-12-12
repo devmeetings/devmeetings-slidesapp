@@ -34,8 +34,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
         });
 
         sliderPlugins.registerPlugin('slide', 'workspace', 'slide-workspace', 3900).directive('slideWorkspace', [
-            '$timeout', '$window', '$rootScope', 'dmUser', 'Sockets',
-            function ($timeout, $window, $rootScope, dmUser, Sockets) {
+            '$timeout', '$window', '$rootScope', 'dmUser', '$filter',
+            function ($timeout, $window, $rootScope, dmUser, $filter) {
                 return {
                     restrict: 'E',
                     scope: {
