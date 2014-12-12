@@ -25,6 +25,8 @@ define(['angular'], function (angular) {
                         });
                     }
 
+                    refreshUserData();
+
                     scope.moveToChannel = function (channel) {
                         //jezeli uzytkownik jest w pokoju Team_1 po oswiezeniu strony i nie ma w adresie workspace
                         // czyli np link do samego kursu 'http://localhost:3000/#/space/5478f03cd86871a82bb44c31'
@@ -73,11 +75,9 @@ define(['angular'], function (angular) {
                     };
 
                     Sockets.on('teamspeak.channelList', function (channelList) {
-                        refreshUserData();
+                        console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
 
                         scope.userChannel = getMyChannel(channelList);
-
-                        //console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
                         scope.channelList = channelList;
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
 
