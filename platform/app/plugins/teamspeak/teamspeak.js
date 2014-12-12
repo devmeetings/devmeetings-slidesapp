@@ -1,10 +1,11 @@
 var Teamspeak = require('../../services/teamspeak'),
     _ = require('lodash'),
-    isConnected = false;
+    isConnected = false,
+    maxNickNameLength = 15;
 
-function getUserSocketByClientDbId(sockets, id) {
+function getUserSocketByname(sockets, name) {
     return _.find(sockets, function (socket) {
-        return socket.user.teamspeak.clientDbId === id;
+        return socket.user.name == name;
     });
 }
 
@@ -16,11 +17,11 @@ function updateUserData(userId, data, callback) {
     });
 }
 
-function truncate(string){
-    if (string.length > 11)
-        return string.substring(0,8)+'...';
-    else
-        return string;
+function truncate(string, maxLength){
+    if (string.length > maxLength) {
+        return string.substring(0, maxLength - 3) + '...';
+    }
+    return string;
 }
 
 /**
@@ -43,24 +44,19 @@ function linkClientsWithUsers(channelsTree, sockets) {
         if (channel.clients) {
             channel.clients.forEach(function (client) {
                 client.isLinked = false;
-                client.nickShort = truncate(client.client_nickname);
-                client.nickTitle = client.client_nickname;
+                client.nickShort = truncate(client.client_nickname, maxNickNameLength);
+                client.nickTitle = client.client_nickname; // TODO unnecessary -> remove
+                client.isTalking = !!client.client_flag_talking;
 
-                // TODO jesli nie znajdzie to sprawdzanie po adresie ip i nicku
-                socket = getUserSocketByClientDbId(sockets, client.client_database_id);
+                socket = getUserSocketByname(sockets, client.client_nickname);
                 if (socket) {
-                    client.isLinked = true;
-                    client.userId = socket.user._id;
-
-                    // TODO - tutaj cos nie gra jesli ktos wczesniej sie powiazal i w bazie jest inny clientId
-                    // z tego powodu znika ikonka do rozwiazania usera
-                    if (socket.user.teamspeak.clientId != client.clid) {
-                        updateData = {
-                            clientId: client.clid,
-                            clientDbId: client.client_database_id
-                        };
+                    if (!updateData.clientId || updateData.clientId != client.clid) {
+                        updateData.clientId = client.clid;
                         socket.user.teamspeak.clientId = client.clid;
                     }
+
+                    client.isLinked = true;
+                    client.userId = socket.user._id;
 
                     // if client was moved by trainer to forcesChannel and is in other channel we move him to forcedChannel
                     if (socket.user.teamspeak.forcedChannel && socket.user.teamspeak.forcedChannel != client.cid) {
@@ -82,6 +78,8 @@ function linkClientsWithUsers(channelsTree, sockets) {
                         });
                     }
                 }
+
+
             });
         }
     });
@@ -94,9 +92,12 @@ exports.onSocket = function (log, socket, io) {
     var sendChannelList = function (clearCache) {
         Teamspeak.getList(clearCache).then(function (channelsTree) {
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
-
             // broadcast channellist
-            io.emit('teamspeak.channelList', channelsTree);
+            //io.emit('teamspeak.channelList', channelsTree); // it's not working
+            socket.broadcast.emit('teamspeak.channelList', channelsTree);
+            socket.emit('teamspeak.channelList', channelsTree);
+        }).fail(function(error){
+            console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
     };
 
@@ -113,44 +114,11 @@ exports.onSocket = function (log, socket, io) {
             // heartbeat
             refreshListInterval = setInterval(function () {
                 sendChannelList();
-            }, 3 * 1000);
+            }, 1000);
 
             sendChannelList(true);
-        });
-    };
-
-    var linkClient = function (client, callback) {
-        var teamspeakData = {clientId: client.clid, clientDbId: client.client_database_id, lastChannel: client.cid};
-
-        updateUserData(socket.handshake.user._id.toString(), teamspeakData, function (error) {
-            if (error) {
-                return callback(error);
-            }
-
-            // update client in handshake
-            socket.handshake.user.teamspeak = teamspeakData;
-
-            // trigger channel list refresh
-            sendChannelList();
-
-            callback();
-        });
-    };
-
-    var unlinkClient = function (callback) {
-
-        updateUserData(socket.handshake.user._id.toString(), null, function (error) {
-            if (error) {
-                return callback(error);
-            }
-
-            // update client in handshake
-            socket.handshake.user.teamspeak = null;
-
-            // trigger channel list refresh
-            sendChannelList();
-
-            callback();
+        }).fail(function(error){
+            console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
     };
 
@@ -232,8 +200,6 @@ exports.onSocket = function (log, socket, io) {
     };
 
     socket.on('teamspeak.init', init);
-    socket.on('teamspeak.linkClient', linkClient);
-    socket.on('teamspeak.unlinkClient', unlinkClient);
     socket.on('teamspeak.moveToChannel', moveToChannel);
     socket.on('teamspeak.moveAllClientsToChannel', moveAllClientsToChannel);
     socket.on('teamspeak.restoreClientsChannels', restoreClientsChannels);
