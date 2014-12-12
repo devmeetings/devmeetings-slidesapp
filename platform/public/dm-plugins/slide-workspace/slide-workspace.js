@@ -348,9 +348,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             setUpWorkspace();
 
-                            scope.openShareJsDocForTab = openShareJsDocForTab;
-
-                            function openShareJsDocForTab (docName, tabName) {
+                            scope.openShareJsDocForTab = function (docName, tabName) {
                                 if ($stateMap[tabName]){
                                     return;
                                 }
@@ -405,7 +403,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     });
 
                                 });
-                            }
+                            };
 
                             scope.canShowWritersList = function () {
                                 return scope.isWriter || !scope.isStudent;
@@ -581,10 +579,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                     function restoreWorkspace () {
                                         if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
-                                            scope.workspace = $state.snapshot.workspace;
+                                            scope.workspace.active = $state.snapshot.workspace.active;
 
                                             _.each(scope.workspace.tabs, function (tab, tabName) {
-                                                openShareJsDocForTab(docName, tabName);
+                                                scope.openShareJsDocForTab(docName, tabName);
                                             });
 
                                             _.each( _.difference(scope.workspace.tabs, $state.snapshot.workspace.tabs), function (tab, tabName){
@@ -601,13 +599,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         doc.at([]).set({
                                             users: [prepareUserData()],
                                             writer: 0,
-                                            workspace: scope.workspace
+                                            workspace: $filter('orderBy')(Object.keys(scope.workspace.tabs), scope.tabsOrdering )
                                         });
                                     }
                                 });
 
                                 _.each(scope.workspace.tabs, function (tab, tabName) {
-                                    openShareJsDocForTab(docName, tabName);
+                                    scope.openShareJsDocForTab(docName, tabName);
                                 });
                             }
 
