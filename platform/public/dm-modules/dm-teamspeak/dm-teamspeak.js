@@ -75,11 +75,16 @@ define(['angular'], function (angular) {
                     };
 
                     Sockets.on('teamspeak.channelList', function (channelList) {
-                        console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
+                       // console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
 
                         scope.userChannel = getMyChannel(channelList);
                         scope.channelList = channelList;
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
+
+                        if (scope.userChannel.name !== codeShareService.getCurrentWorkspace()) {
+                            codeShareService.setCurrentWorkspace(scope.userChannel.name);
+                            openWorkspace(scope.userChannel.name);
+                        }
 
                         scope.$apply();
                     });
