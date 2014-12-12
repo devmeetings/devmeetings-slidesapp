@@ -114,7 +114,7 @@ exports.onSocket = function (log, socket, io) {
             // heartbeat
             refreshListInterval = setInterval(function () {
                 sendChannelList();
-            }, 1000);
+            }, 3 * 1000);
 
             sendChannelList(true);
         }).fail(function(error){
