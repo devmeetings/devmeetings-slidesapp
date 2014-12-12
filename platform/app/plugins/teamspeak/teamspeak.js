@@ -50,7 +50,7 @@ function linkClientsWithUsers(channelsTree, sockets) {
 
                 socket = getUserSocketByname(sockets, client.client_nickname);
                 if (socket) {
-                    if (!updateData.clientId || updateData.clientId != client.clid) {
+                    if (!socket.user.teamspeak.clientId || socket.user.teamspeak.clientId != client.clid) {
                         updateData.clientId = client.clid;
                         socket.user.teamspeak.clientId = client.clid;
                     }
@@ -90,12 +90,17 @@ exports.onSocket = function (log, socket, io) {
     var refreshListInterval;
 
     var sendChannelList = function (clearCache) {
+        console.log('DEBUG - sendChannelList');
         Teamspeak.getList(clearCache).then(function (channelsTree) {
+            console.log('DEBUG - sendChannelList then');
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
+            console.log('DEBUG - sendChannelList linked');
+            console.log('DEBUG - sendChannelList ');
             // broadcast channellist
             //io.emit('teamspeak.channelList', channelsTree); // it's not working
             socket.broadcast.emit('teamspeak.channelList', channelsTree);
             socket.emit('teamspeak.channelList', channelsTree);
+            console.log('DEBUG - sendChannelList broadcasted');
         }).fail(function(error){
             console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
@@ -112,9 +117,9 @@ exports.onSocket = function (log, socket, io) {
             console.log("  [Teamspeak] Connection established");
 
             // heartbeat
-            /*refreshListInterval = setInterval(function () {
+            refreshListInterval = setInterval(function () {
                 sendChannelList();
-            }, 3 * 1000);*/
+            }, 3 * 1000);
 
             sendChannelList(true);
         }).fail(function(error){
