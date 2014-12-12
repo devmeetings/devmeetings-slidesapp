@@ -22,6 +22,7 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             isUserAWriter: isUserAWriter,
             removeUser: removeUser,
             getCurrentWorkspace: getCurrentWorkspace,
+            setCurrentWorkspace: setCurrentWorkspace,
             isConnectedToWorkSpace: isConnectedToWorkSpace
         }, currentWriter = null, isConnectedToWorkSpace = false, currentWorkspaceName = '';
 
@@ -41,6 +42,10 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
 
         function getCurrentWorkspace(){
             return currentWorkspaceName;
+        }
+
+        function setCurrentWorkspace(workspaceName){
+            currentWorkspaceName = workspaceName;
         }
 
         function resetWorkspaceForNew (channel) {
