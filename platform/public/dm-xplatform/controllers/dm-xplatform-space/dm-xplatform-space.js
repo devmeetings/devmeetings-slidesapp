@@ -33,10 +33,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $scope.tabs = {};
       var aSpeed = 0.2;
 
-      $timeout(function() {
-        $('.dm-spacesidebar-right .tab-content').hide();
-      });
-
       $scope.toggleRight = function(open, force) {
         if ($scope.editMode && !force) {
           return;
@@ -62,7 +58,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
           }, 500 * aSpeed);
 
-          return
+          return;
         }
 
         $('.dm-spacesidebar-right .tab-content').hide();
@@ -70,6 +66,10 @@ define(['angular', 'xplatform/xplatform-app', '_',
         right.opened = open;
         right.current = right.min;
       };
+
+      $timeout(function(){
+        $scope.toggleRight(false);
+      }, 200);
 
       if ($scope.editMode) {
         $scope.right.min = $scope.right.max;
