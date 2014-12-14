@@ -15,6 +15,14 @@ define(['angular'], function (angular) {
 
                     scope.channelList = scope.clientId = scope.userId = scope.isTrainer = null;
 
+                    var showUserWarning = function() {
+                        $modal.open({
+                            templateUrl: '/static/dm-modules/dm-teamspeak/modal-announcement.html',
+                            size: 'sm',
+                            backdrop: false
+                        });
+                    };
+
                     function refreshUserData() {
                         dmUser.getCurrentUser().then(function (data) {
                             scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
@@ -83,7 +91,7 @@ define(['angular'], function (angular) {
                         scope.channelList = channelList;
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
 
-                        if (scope.userChannel.name !== codeShareService.getCurrentWorkspace()) {
+                        if (scope.userChannel && scope.userChannel.name !== codeShareService.getCurrentWorkspace()) {
                             codeShareService.setCurrentWorkspace(scope.userChannel.name);
                             openWorkspace(scope.userChannel.name);
                         }

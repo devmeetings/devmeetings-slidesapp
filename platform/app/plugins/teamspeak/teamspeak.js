@@ -90,23 +90,22 @@ exports.onSocket = function (log, socket, io) {
     var refreshListInterval;
 
     var sendChannelList = function (clearCache) {
-        console.log('DEBUG - sendChannelList');
         Teamspeak.getList(clearCache).then(function (channelsTree) {
-            console.log('DEBUG - sendChannelList then');
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
-            console.log('DEBUG - sendChannelList linked');
-            console.log('DEBUG - sendChannelList ');
-            // broadcast channellist
             //io.emit('teamspeak.channelList', channelsTree); // it's not working
             socket.broadcast.emit('teamspeak.channelList', channelsTree);
             socket.emit('teamspeak.channelList', channelsTree);
-            console.log('DEBUG - sendChannelList broadcasted');
         }).fail(function(error){
             console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
     };
 
     var init = function () {
+
+        // after socket connection we reset user teamspeak data
+        updateUserData(socket.handshake.user._id.toString(), {}, function () {
+            socket.handshake.user.teamspeak = null;
+        });
 
         if (isConnected) {
             return sendChannelList(true);
