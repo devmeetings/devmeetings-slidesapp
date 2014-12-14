@@ -13,7 +13,7 @@ define(['angular'], function (angular) {
 
                     scope.channelList = scope.clientId = scope.userId = scope.isTrainer = null;
 
-                    function refreshUserData() {
+                    function refreshUserData () {
                         dmUser.getCurrentUser().then(function (data) {
                             scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
                             scope.userId = data.result._id;
@@ -49,11 +49,11 @@ define(['angular'], function (angular) {
                         }
                     };
 
-                    function getChannelName(channelName) {
+                    function getChannelName (channelName) {
                         return 'channel_' + channelName;
                     }
 
-                    function openWorkspace(channelName) {
+                    function openWorkspace (channelName) {
                         codeShareService.resetWorkspaceForNew(channelName);
 
                         $http.post('/api/base_slide/' + scope.event.baseSlide + '/' + getChannelName(channelName)).then(function (data) {
@@ -75,13 +75,15 @@ define(['angular'], function (angular) {
                     };
 
                     Sockets.on('teamspeak.channelList', function (channelList) {
-                       // console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
+                        // console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
 
                         scope.userChannel = getMyChannel(channelList);
                         scope.channelList = channelList;
+
+                        ifCurrentWriterNotExistsInUserChannelResetCurrentWriter();
                         ifNoCurrentWriterInWorkspaceSetFirstLinkedClient();
 
-                        if (scope.userChannel.name !== codeShareService.getCurrentWorkspace()) {
+                        if (scope.userChannel && scope.userChannel.name !== codeShareService.getCurrentWorkspace()) {
                             codeShareService.setCurrentWorkspace(scope.userChannel.name);
                             openWorkspace(scope.userChannel.name);
                         }
@@ -91,7 +93,36 @@ define(['angular'], function (angular) {
 
                     Sockets.emit('teamspeak.init');
 
-                    function ifNoCurrentWriterInWorkspaceSetFirstLinkedClient() {
+                    function ifCurrentWriterNotExistsInUserChannelResetCurrentWriter () {
+                        var writerExistsInChannel = false;
+
+                        if (!scope.userChannel) {
+                            return;
+                        }
+
+                        if (codeShareService.isConnectedToWorkSpace() && codeShareService.isSetCurrentWriter()) {
+                            _.each(scope.userChannel.clients, function (client) {
+                                if (client.userId === codeShareService.getCurrentWriter().id && client.isLinked) {
+                                    writerExistsInChannel = true;
+                                }
+                            });
+
+                            //kiedy resetujemy pisarza:
+                            // 1. jezeli pisarz rozlaczyl sie z teamspikiem
+                            // 2. jezeli pisarz przeszedl do innego kanalu i nie oddał pisania komus innemu
+                            if (!writerExistsInChannel) {
+                                codeShareService.resetCurrentWriter();
+                                console.log('resetCurrentWriter');
+                            }
+                        }
+                    }
+
+                    function ifNoCurrentWriterInWorkspaceSetFirstLinkedClient () {
+
+                        if (!scope.userChannel) {
+                            return;
+                        }
+
                         if (codeShareService.isConnectedToWorkSpace() && !codeShareService.isSetCurrentWriter()) {
                             _.each(scope.channelList, function (channel) {
                                 if (channel.cid === scope.userChannel.cid) {
@@ -107,7 +138,7 @@ define(['angular'], function (angular) {
                         }
                     }
 
-                    function getMyChannel(channelList) {
+                    function getMyChannel (channelList) {
                         var userChannel = null;
 
                         _.each(channelList, function (channel) {
