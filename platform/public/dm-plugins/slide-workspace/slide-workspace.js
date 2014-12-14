@@ -317,6 +317,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         createShereJsDocsForTabs(docName, data.result);
                                     });
 
+
+                                    setInterval(function () {
+                                        if (scope.currentWriter) {
+                                            sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
+                                        }
+                                    }, 1000);
+
                                 }
                             }
 
@@ -482,6 +489,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
                                 applyChangesLater(scope);
                             }
+
+                            sliderPlugins.listen($rootScope, 'codeShare.resetWorkspace', function (channel) {
+
+                                scope.workspaceMode = 'readonly';
+                                scope.isWriter = false;
+                                scope.currentWriter = null;
+                            });
 
                             sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
                                 setUpWorkspace(channel);

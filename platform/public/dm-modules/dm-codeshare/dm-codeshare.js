@@ -16,6 +16,7 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
     function codeshare ($rootScope) {
         var service = {
             resetWorkspaceForNew: resetWorkspaceForNew,
+            resetCurrentWriter: resetCurrentWriter,
             setCurrentWriter: setCurrentWriter,
             getCurrentWriter: getCurrentWriter,
             isSetCurrentWriter: isSetCurrentWriter,
@@ -29,6 +30,7 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
 
         sliderPlugins.listen($rootScope, 'codeShare.currentWriter', function (_currentWriter_) {
             currentWriter = _currentWriter_;
+            isConnectedToWorkSpace = true;
         });
 
         sliderPlugins.listen($rootScope, 'codeShare.connectedToWorkSpace', function () {
@@ -53,6 +55,11 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             currentWriter = null;
             isConnectedToWorkSpace = false;
             currentWorkspaceName = channel;
+            sliderPlugins.trigger('codeShare.resetWorkspace');
+        }
+
+        function resetCurrentWriter(){
+            currentWriter = null;
         }
 
         function setCurrentWriter (userId) {
