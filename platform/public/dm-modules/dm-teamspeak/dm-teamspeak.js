@@ -1,12 +1,14 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService', '$state', 'dmSlidesaves', '$http',
-        function (Sockets, dmUser, $window, codeShareService, $state, dmSlidesaves, $http) {
+    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService', '$state', 'dmSlidesaves', '$http', '$modal',
+        function (Sockets, dmUser, $window, codeShareService, $state, dmSlidesaves, $http, $modal) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
                 link: function (scope) {
+
+                    var modalAnnouncement;
 
                     scope.setCurrentWriter = codeShareService.setCurrentWriter;
                     scope.isUserAWriter = codeShareService.isUserAWriter;
@@ -18,7 +20,7 @@ define(['angular'], function (angular) {
                             scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
                             scope.userId = data.result._id;
                             scope.isTrainer = !!_.find(data.result.acl, function (acl) {
-                                return acl == 'trainer';
+                                return acl == 'trainer' || acl.search('admin:') != -1;
                             });
                         }, function (error) {
                             console.log(error);
@@ -75,7 +77,7 @@ define(['angular'], function (angular) {
                     };
 
                     Sockets.on('teamspeak.channelList', function (channelList) {
-                        // console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
+                        //console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
 
                         scope.userChannel = getMyChannel(channelList);
                         scope.channelList = channelList;
@@ -89,6 +91,20 @@ define(['angular'], function (angular) {
                         }
 
                         scope.$apply();
+                    });
+
+                    Sockets.on('teamspeak.showAnnouncement', function () {
+                        modalAnnouncement = $modal.open({
+                            templateUrl: '/static/dm-modules/dm-teamspeak/modal-announcement.html',
+                            size: 'sm',
+                            backdrop: 'static',
+                            keyboard: false,
+                            show: true
+                        });
+                    });
+
+                    Sockets.on('teamspeak.hideAnnouncement', function () {
+                        modalAnnouncement.close();
                     });
 
                     Sockets.emit('teamspeak.init');
