@@ -261,8 +261,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             scope.workspaceMode = 'readonly';
                             scope.isWriter = false;
                             scope.currentWriter = null;
-                            scope.startNewMentorSession = startNewMentorSession;
-                            scope.startNewPairSession = startNewPairSession;
 
                             scope.isMentor = function () {
                                 return isMentor;
@@ -281,9 +279,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     $state.at('workspace').at('active').set(tab);
                                 }
                             };
+                            initCodeShare();
 
+                            function initCodeShare(){
+                                setEditorReadOnly();
+                                setUpWorkspace();
+                                startListeningEvents();
+                            }
 
-                            setEditorReadOnly();
 
                             function setUpWorkspace (channel) {
                                 var channelName = '', result = /channel=([^&]*)/.exec(window.location.hash);
@@ -326,43 +329,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 }
                             }
-
-                            function startNewMentorSession () {
-
-                                if (localStorage) {
-                                    localStorage.setItem('role', 'mentor');
-                                }
-                                startNewSession('m');
-                            }
-
-                            function startNewPairSession () {
-
-                                startNewSession('p');
-                            }
-
-                            function startNewSession (prefix) {
-
-                                if (localStorage && scope.restoreWorkspace) {
-                                    localStorage.setItem('workspace', JSON.stringify(scope.workspace));
-                                }
-
-                                var docName = prefix + ":" + randomString(),
-                                    url = window.location.protocol + "//" + window.location.host +
-                                        window.location.pathname + "?ref=" + docName + window.location.hash;
-                                // openShareJsDoc(docName);
-                                window.open(url);
-                                //alert('Udostępnij pozostałym uczestnikom poniższy link\n' + url);
-                            }
-
-                            function randomString () {
-                                var i = '';
-                                while (i.length < 5) {
-                                    i = Math.random().toString(36).slice(2);
-                                }
-                                return i;
-                            }
-
-                            setUpWorkspace();
 
                             scope.openShareJsDocForTab = function (docName, tabName) {
                                 if ($stateMap[tabName]){
@@ -490,40 +456,40 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 applyChangesLater(scope);
                             }
 
-                            sliderPlugins.listen($rootScope, 'codeShare.resetWorkspace', function (channel) {
+                            function startListeningEvents(){
 
-                                scope.workspaceMode = 'readonly';
-                                scope.isWriter = false;
-                                scope.currentWriter = null;
-                            });
+                                sliderPlugins.listen($rootScope, 'codeShare.resetWorkspace', function (channel) {
 
-                            sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
-                                setUpWorkspace(channel);
-                            });
+                                    scope.workspaceMode = 'readonly';
+                                    scope.isWriter = false;
+                                    scope.currentWriter = null;
+                                });
 
-                            sliderPlugins.listen($rootScope, 'codeShare.setActiveUser', function (userId) {
-                                currentWriterChange(userId);
-                            });
 
-                            sliderPlugins.listen($rootScope, 'codeShare.removeUser', function (userId) {
-                                if ($state) {
+                                sliderPlugins.listen($rootScope, 'codeShare.setUpWorkspace', function (channel) {
+                                    setUpWorkspace(channel);
+                                });
 
-                                    //var connectedUser = null;
-                                    //_.each(scope.connectedUsers, function (user) {
-                                    //    if (user.id === scope.currentUser._id) {
-                                    //        connectedUser = user;
-                                    //    }
-                                    //});
+                                sliderPlugins.listen($rootScope, 'codeShare.setActiveUser', function (userId) {
+                                    currentWriterChange(userId);
+                                });
 
-                                    //if(connectedUser) {
-                                    //    $state.at('users').remove(connectedUser);
-                                    //}
-                                }
-                            });
+                                sliderPlugins.listen($rootScope, 'codeShare.removeUser', function (userId) {
+                                    if ($state) {
 
-                            //Sockets.on('codeShare.setActiveUser',  function(currentWriter) {
-                            //    currentWriterChange(currentWriter);
-                            //});
+                                        //var connectedUser = null;
+                                        //_.each(scope.connectedUsers, function (user) {
+                                        //    if (user.id === scope.currentUser._id) {
+                                        //        connectedUser = user;
+                                        //    }
+                                        //});
+
+                                        //if(connectedUser) {
+                                        //    $state.at('users').remove(connectedUser);
+                                        //}
+                                    }
+                                });
+                            }
 
                             function amIConnectedToThisSession (users) {
                                 var result = false;
