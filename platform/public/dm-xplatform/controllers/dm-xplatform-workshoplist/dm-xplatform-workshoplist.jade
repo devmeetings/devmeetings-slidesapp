@@ -8,7 +8,7 @@
                             .whoplist-details
                                 span.fa.fa-4x.fa-plus.text-success(ng-click='create()')
 
-                .col-md-4(ng-repeat="cours in courses | orderBy:['order','name']", ng-if='cours.visible || editMode')
+                .col-md-4(ng-repeat="cours in courses | orderBy:['order','title']", ng-if='cours.visible || editMode')
                     .workshoplist-col
                         .workshoplist-thumb
                             a(ui-sref='index.space({event: cours._id})',
