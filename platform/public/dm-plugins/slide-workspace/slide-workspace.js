@@ -624,6 +624,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 disableScrollSync = false;
                             });
 
+                            editor.container.addEventListener("keydown", function (){
+                                if (scope.isWorkspaceReadOnly()){
+                                    alert('Aktualnie nie możesz pisać ponieważ jesteś w trybie śledzenia');
+                                }
+                            }, true);
+
                             editor.getSession().on('changeScrollTop', function (yPos) {
                                 if ($state && !disableScrollSync && !scope.isWorkspaceReadOnly()) {
                                     $state.shout({
