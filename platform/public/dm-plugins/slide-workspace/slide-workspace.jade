@@ -1,6 +1,6 @@
 .row.slide-workspace.full-height
     .sw-col.full-height(
-        ng-class="{'col-sm-12': !output.sideBySide, 'col-sm-10': output.width == 2,'col-sm-8': output.width == 4,'col-sm-6': output.width == 6,'side-by-side': output.sideBySide }")
+        ng-class="{'col-xs-12': !output.sideBySide, 'col-xs-10': output.width == 2,'col-xs-8': output.width == 4,'col-sm-6': output.width == 6,'side-by-side': output.sideBySide }")
         .row.full-height
             ul.nav.nav-tabs
                 li.workspace-tab.workspace-tab-output.pull-right(
@@ -22,26 +22,33 @@
                         analytics-event="workspace-editTab", analytics-category="workspace")
                         span.fa.fa-pencil
                 li.workspace-tab.add-tab
-                    a.cursor-pointer(ng-click="insertTab()")
+                    a.cursor-pointer(ng-click="insertTab()", title="Add New File")
                         | +
                 li.workspace-tab.workspace-sidebyside.pull-right
-                    a.cursor-pointer(ng-click="changeWidth()", analytics-event="workspace-changeWidth", analytics-category="workspace")
+                  a.cursor-pointer(
+                    title="Change window width",
+                    ng-click="changeWidth()", analytics-event="workspace-changeWidth", analytics-category="workspace")
                         span.fa.fa-arrows-h
                 li.workspace-tab.pull-right.workspace-tab-condensed
-                    a.cursor-pointer(ng-href="/api/page/{{ output.hash }}/", target="_blank", tooltip="Open your page in new window",
+                  a.cursor-pointer(
+                    title="Open Your Page in New Window",
+                    ng-href="/api/page/{{ output.hash }}/", target="_blank", tooltip="Open your page in new window",
                                         analytics-event="workspace-newWindow", analytics-category="workspace")
                         span.fa.fa-external-link
                 li.workspace-tab.workspace-download.pull-right.workspace-tab-condensed
-                    a.cursor-pointer(ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
+                  a.cursor-pointer(
+                    title="Download ZIP with your code",
+                    ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
                         span.fa.fa-download
                 li.workspace-tab.workspace-upload.pull-right.workspace-tab-condensed(tooltip="Upload saved ZIP with files")
                     a(ng-if="isUploading")
                         | Uploading {{ uploadingState }}%
-                    div.cursor-pointer(analytics-event="workspace-upload", analytics-category="workspace", analytics-on="click", ng-if="!isUploading")
+                    div.cursor-pointer(analytics-event="workspace-upload", analytics-category="workspace", analytics-on="click", ng-if="!isUploading", 
+                        title="Upload ZIP file with your code")
                         input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)")
                         span.fa.fa-upload
                 li.workspace-tab.pull-right(ng-if="hasFormatting()")
-                    a.cursor-pointer(ng-click="formatTab()")
+                    a.cursor-pointer(title="Reformat your code", ng-click="formatTab()")
                         span.fa.fa-indent
 
             .tab-content(ng-show="!output.show")
@@ -53,7 +60,7 @@
 
     .sw-col.full-height(
         ng-if="output.sideBySide"
-        ng-class="{'col-sm-2': output.width == 2, 'col-sm-4': output.width == 4, 'col-sm-6': output.width == 6}"
+        ng-class="{'col-xs-2': output.width == 2, 'col-xs-4': output.width == 4, 'col-xs-6': output.width == 6}"
         )
         .row.full-height
             slide-workspace-output.full-height
