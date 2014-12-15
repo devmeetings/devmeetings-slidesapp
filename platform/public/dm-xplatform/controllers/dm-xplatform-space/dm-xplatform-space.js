@@ -21,9 +21,9 @@ define(['angular', 'xplatform/xplatform-app', '_',
       };
 
       $scope.right = {
-        min: '0',
+        min: '1px',
         max: '330px',
-        current: '0',
+        current: '1px',
         opened: false
       };
 
