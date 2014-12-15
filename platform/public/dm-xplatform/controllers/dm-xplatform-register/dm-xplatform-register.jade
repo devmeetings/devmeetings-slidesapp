@@ -1,10 +1,10 @@
 .modal-body
     form(action="/registration", method="post")
         .col-md-12
-            .registration-header Rejestracja
+            .registration-header Register
                 span.login-switch.pull-right
                     a.dm-cursor(ng-click='gotoLogin()')
-                        | Logowanie
+                        | Log in
 
             .form-group
                 .alert-error
@@ -12,7 +12,7 @@
             .form-group
                 .ico-holder
                     img.ico-sub.ico-user(src='static/images/login/ico_user.png')
-                input.form-control.form-login(type="text", name="username", placeholder="nazwa użytkownika", required=true)
+                input.form-control.form-login(type="text", name="username", placeholder="your name", required=true)
             .form-group
                 .ico-holder
                     img.ico-sub.ico-user(src='static/images/login/ico_user.png')
@@ -20,11 +20,11 @@
             .form-group
                 .ico-holder
                     img.ico-sub.ico-password(src='static/images/login/ico_password.png')
-                input.form-control.form-login(type="password", name="password", placeholder="hasło", required=true)
-            .form-group
+                input.form-control.form-login(type="password", name="password", placeholder="password", required=true)
+            //.form-group
                 span Rejestrując się akceptujesz&nbsp;
                 a(href='#privacy', target='_blank') politykę prywatności
         
         .row
             .col-md-12.text-center.btn-send-holder
-                button.btn.btn-reg(type="submit") Zarejestruj
+                button.btn.btn-reg(type="submit") Register

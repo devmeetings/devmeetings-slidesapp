@@ -1,10 +1,10 @@
 .modal-body
     form(action="/auth/login", method="post")
         .col-md-12
-            .login-header Logowanie
+            .login-header Log in
                 span.login-switch.pull-right
                     a.dm-cursor(ng-click='gotoRegister()') 
-                        | Rejestracja
+                        | Register
             .form-group
                 .ico-holder
                     img.ico-sub.ico-user(src='static/images/login/ico_user.png')
@@ -13,23 +13,20 @@
             .form-group
                 .ico-holder
                     img.ico-sub.ico-password(src='static/images/login/ico_password.png')
-                input.form-control.form-login(type="password", name="password", placeholder="hasło")
+                input.form-control.form-login(type="password", name="password", placeholder="password")
 
             .form-group
                 button.btn.btn-log.pull-right(type="submit")
-                    | Zaloguj
+                    | Log In
 
         .row
             .auth-holder.col-md-12
                 a(href="/auth/google")
                     .gp-auth-holder.col-md-4
                         img(src='static/images/login/ico_googleplus.png')
-                        | logowanie
                 a(href="/auth/facebook")
                     .fb-auth-holder.col-md-4
                         img(src='static/images/login/ico_facebook.png')
-                        | logowanie 
                 a(href="/auth/github")
                     .gith-auth-holder.col-md-4
                         img(src='static/images/login/ico_github.png')
-                        | logowanie 

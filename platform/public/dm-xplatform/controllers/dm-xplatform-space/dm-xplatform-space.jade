@@ -131,10 +131,11 @@
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
-            ng-style='{"width": right.current}'
-            analytics-category='spacesidebar'
-            analytics-on='mouse-enter'
-            ng-mouseenter='toggleRight(true)'
+            ng-style='{"width": right.current}',
+            style="display:none",
+            analytics-category='spacesidebar',
+            analytics-on='mouse-enter',
+            ng-mouseenter='toggleRight(true)',
             ng-mouseleave='toggleRight(false)'
         )
             tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
