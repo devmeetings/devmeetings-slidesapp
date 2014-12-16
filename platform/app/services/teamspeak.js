@@ -74,6 +74,7 @@ function makeTree(channels, cid, clients) {
                     cid: channel.cid,
                     pid: channel.pid,
                     name: channel.channel_name,
+                    isDefault: channel.channel_flag_default,
                     clients: getClients(channel.cid, clients),
                     children: makeTree(channels, channel.cid, clients)
                 }

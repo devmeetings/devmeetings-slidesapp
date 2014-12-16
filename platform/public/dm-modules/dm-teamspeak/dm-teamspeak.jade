@@ -27,7 +27,7 @@ div.mainWindow
             button.btn.btn-xs.btn-primary(ng-click="moveToChannel(channel)", title="Enter {{channel.name}}")
                 span {{channel.name}}
             span.pull-right
-                button.btn.btn-xs.btn-danger(title="Move all users here", ng-if="isTrainer", href="", ng-click="moveAllClientsToChannel(channel)")
+                button.btn.btn-xs.btn-danger(title="Move all users here", ng-if="isTrainer && channel.isDefault && !clientMassMoved", href="", ng-click="moveAllClientsToChannel(channel)")
                     span.glyphicon.glyphicon-arrow-left
 
         .list-group(ng-if="channel.clients")
@@ -37,9 +37,9 @@ div.mainWindow
 
     .container
         .panel.panel-default
-            .panel-heading Rooms
+            .panel-heading Workspaces
                 span.pull-right
-                    button.btn.btn-xs.btn-primary(title="Restore users to their rooms", ng-if="isTrainer", href="", ng-click="restoreClientsChannels()")
+                    button.btn.btn-xs.btn-primary(title="Restore users to their rooms", ng-if="isTrainer && clientMassMoved", href="", ng-click="restoreClientsChannels()")
                         span.glyphicon.glyphicon-share-alt
             ul.list-group.channelTree(ng-if="channelList")
                 li.list-group-item(ng-repeat="channel in channelList", ng-include="'channelTree'")

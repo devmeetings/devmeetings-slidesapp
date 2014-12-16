@@ -1,7 +1,8 @@
 var Teamspeak = require('../../services/teamspeak'),
     _ = require('lodash'),
     isConnected = false,
-    maxNickNameLength = 15;
+    maxNickNameLength = 15,
+    clientMassMoved = false;
 
 function getUserSocketByname(sockets, name) {
     return _.find(sockets, function (socket) {
@@ -59,12 +60,12 @@ function linkClientsWithUsers(channelsTree, sockets) {
                     client.userId = socket.user._id;
 
                     // if client was moved by trainer to forcesChannel and is in other channel we move him to forcedChannel
-                    if (socket.user.teamspeak.forcedChannel && socket.user.teamspeak.forcedChannel != client.cid) {
+                    /*if (socket.user.teamspeak.forcedChannel && socket.user.teamspeak.forcedChannel != client.cid) {
                         Teamspeak.moveClients([client.clid], socket.user.teamspeak.forcedChannel).fail(function (error) {
                             console.error(new Error('Teamspeak - ' + (error.msg || error)));
                         });
                         return;
-                    }
+                    }*/
                     if (!socket.user.teamspeak.forcedChannel && socket.user.teamspeak.lastChannel != client.cid) {
                         updateData.lastChannel = client.cid;
                         socket.user.teamspeak.lastChannel = client.cid;
@@ -93,8 +94,8 @@ exports.onSocket = function (log, socket, io) {
         Teamspeak.getList(clearCache).then(function (channelsTree) {
             linkClientsWithUsers(channelsTree, socket.manager.handshaken);
             //io.emit('teamspeak.channelList', channelsTree); // it's not working
-            socket.broadcast.emit('teamspeak.channelList', channelsTree);
-            socket.emit('teamspeak.channelList', channelsTree);
+            socket.broadcast.emit('teamspeak.channelList', channelsTree, clientMassMoved);
+            socket.emit('teamspeak.channelList', channelsTree, clientMassMoved);
         }).fail(function(error){
             console.error(new Error('Teamspeak - ' + (error.msg || error)));
         });
@@ -172,6 +173,7 @@ exports.onSocket = function (log, socket, io) {
             }
 
             Teamspeak.moveClients(clients, channelId).then(function () {
+                clientMassMoved = true;
                 for (var handshake in socket.manager.handshaken) {
                     socket.manager.handshaken[handshake].user.teamspeak.forcedChannel = channelId;
                 }
@@ -203,6 +205,7 @@ exports.onSocket = function (log, socket, io) {
             }
         }
 
+        clientMassMoved = false;
         socket.broadcast.emit('teamspeak.hideAnnouncement');
     };
 

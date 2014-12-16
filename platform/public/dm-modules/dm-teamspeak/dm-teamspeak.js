@@ -14,6 +14,7 @@ define(['angular'], function (angular) {
                     scope.isUserAWriter = codeShareService.isUserAWriter;
 
                     scope.channelList = scope.clientId = scope.userId = scope.isTrainer = null;
+                    scope.clientMassMoved = false;
 
                     var showUserWarning = function() {
                         $modal.open({
@@ -84,7 +85,8 @@ define(['angular'], function (angular) {
                         Sockets.emit('teamspeak.restoreClientsChannels');
                     };
 
-                    Sockets.on('teamspeak.channelList', function (channelList) {
+                    Sockets.on('teamspeak.channelList', function (channelList, clientMassMoved) {
+                        scope.clientMassMoved = clientMassMoved;
                         //console.log('scope.clientId', scope.clientId, 'scope.userId', scope.userId, 'channelList', channelList);
 
                         scope.userChannel = getMyChannel(channelList);
@@ -104,10 +106,7 @@ define(['angular'], function (angular) {
                     Sockets.on('teamspeak.showAnnouncement', function () {
                         modalAnnouncement = $modal.open({
                             templateUrl: '/static/dm-modules/dm-teamspeak/modal-announcement.html',
-                            size: 'sm',
-                            backdrop: 'static',
-                            keyboard: false,
-                            show: true
+                            size: 'sm'
                         });
                     });
 
