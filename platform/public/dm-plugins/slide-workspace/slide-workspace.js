@@ -133,6 +133,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             undoManager.initTab(name);
 
                             if ($state) {
+                                scope.openShareJsDocForTab(docName, name);
+
                                 $state.at('workspace').at('tabs').at(name).set({
                                     "content": ""
                                 });
@@ -325,6 +327,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         if (scope.currentWriter) {
                                             sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
                                         }
+                                        else if ($state && $state.snapshot.writer !== 0) {
+                                            currentWriterChange($state.snapshot.writer);
+                                        }
                                     }, 1000);
 
                                 }
@@ -441,7 +446,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 if (scope.currentWriterChangedOnRemoteChange) {
                                     scope.currentWriterChangedOnRemoteChange = false;
                                 }
-                                else if ($state) {
+                                else if ($state && $state.snapshot.writer !== currentWriter.id) {
                                     $state.at('writer').set(currentWriter.id);
                                 }
 
@@ -566,19 +571,36 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     }
 
                                     function restoreWorkspace () {
+                                        var workspaceTabs=null, snapshotTabs = null;
                                         if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
                                            // scope.workspace.active = $state.snapshot.workspace.active;
                                             scope.workspace.active = $state.snapshot.workspace.active;
 
-                                            _.each(scope.workspace.tabs, function (tab, tabName) {
-                                                scope.openShareJsDocForTab(docName, tabName);
-                                            });
+                                            workspaceTabs = Object.keys(scope.workspace.tabs);
+                                            snapshotTabs =  Object.keys($state.snapshot.workspace.tabs);
 
-                                            _.each( _.difference(scope.workspace.tabs, $state.snapshot.workspace.tabs), function (tab, tabName){
-                                                if ($stateMap[tabName]){
-                                                    $stateMap[tabName].close();
-                                                }
-                                            });
+                                            //writer insert new tab
+                                            if (workspaceTabs.length < snapshotTabs.length ){
+                                                _.each( _.difference(snapshotTabs,workspaceTabs ), function (tabName){
+
+                                                    scope.workspace.tabs[tabName] = {
+                                                        "content": ""
+                                                    };
+                                                    undoManager.initTab(tabName);
+
+                                                    scope.openShareJsDocForTab(docName, tabName);
+                                                });
+                                            }
+
+                                            //_.each(scope.workspace.tabs, function (tab, tabName) {
+                                            //
+                                            //});
+											//
+                                            //_.each( _.difference(scope.workspace.tabs, $state.snapshot.workspace.tabs), function (tab, tabName){
+                                            //    if ($stateMap[tabName]){
+                                            //        $stateMap[tabName].close();
+                                            //    }
+                                            //});
 
                                             applyChangesLater(scope);
                                         }
