@@ -23,10 +23,10 @@
                         analytics-event="workspace-editTab", analytics-category="workspace")
                         span.fa.fa-pencil
                 li.workspace-tab.add-tab
-                    a.cursor-pointer(ng-click="insertTab()")
+                    a.cursor-pointer(ng-click="insertTab()", ng-if="!isWorkspaceReadOnly()")
                         | +
                 li.workspace-tab.workspace-sidebyside.pull-right
-                    a.cursor-pointer(ng-click="changeWidth()", analytics-event="workspace-changeWidth", analytics-category="workspace")
+                    a.cursor-pointer(ng-click="changeWidth()", ng-if="!isWorkspaceReadOnly()", analytics-event="workspace-changeWidth", analytics-category="workspace")
                         span.fa.fa-arrows-h
                 li.workspace-tab.pull-right.workspace-tab-condensed
                     a.cursor-pointer(ng-href="/api/page/{{ output.hash }}/", target="_blank", tooltip="Open your page in new window",
@@ -35,13 +35,13 @@
                 li.workspace-tab.workspace-download.pull-right.workspace-tab-condensed
                     a.cursor-pointer(ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
                         span.fa.fa-download
-                li.workspace-tab.workspace-upload.pull-right.workspace-tab-condensed(tooltip="Upload saved ZIP with files")
+                li.workspace-tab.workspace-upload.pull-right.workspace-tab-condensed(tooltip="Upload saved ZIP with files", ng-if="!isWorkspaceReadOnly()")
                     a(ng-if="isUploading")
                         | Uploading {{ uploadingState }}%
                     div.cursor-pointer(analytics-event="workspace-upload", analytics-category="workspace", analytics-on="click", ng-if="!isUploading")
                         input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)")
                         span.fa.fa-upload
-                li.workspace-tab.pull-right(ng-if="hasFormatting()")
+                li.workspace-tab.pull-right(ng-if="hasFormatting() && !isWorkspaceReadOnly()")
                     a.cursor-pointer(ng-click="formatTab()")
                         span.fa.fa-indent
 
