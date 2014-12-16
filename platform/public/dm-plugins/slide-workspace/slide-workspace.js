@@ -150,6 +150,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             }
                             deleteTabAndFixActive(tabName);
 
+                            if ($state) {
+                                $state.at('workspace').at('tabs').at(tabName).remove();
+
+                                if ($stateMap[tabName]){
+                                    $stateMap[tabName].close();
+                                    delete $stateMap[tabName];
+                                }
+
+                                $state.at('workspace').at('active').set(scope.workspace.active);
+                            }
+
                         };
                         scope.editTabName = function (tabName) {
                             if (scope.isWorkspaceReadOnly()) {
@@ -591,6 +602,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                                     scope.openShareJsDocForTab(docName, tabName);
                                                 });
                                             }
+
+                                            //writer del tab
+                                            if (workspaceTabs.length > snapshotTabs.length ){
+                                                _.each( _.difference(workspaceTabs, snapshotTabs ), function (tabName){
+
+                                                    if ($stateMap[tabName]){
+                                                        $stateMap[tabName].close();
+                                                        delete $stateMap[tabName];
+                                                    }
+
+                                                    deleteTabAndFixActive(tabName);
+
+                                                });
+                                            }
+
+
+
 
                                             //_.each(scope.workspace.tabs, function (tab, tabName) {
                                             //
