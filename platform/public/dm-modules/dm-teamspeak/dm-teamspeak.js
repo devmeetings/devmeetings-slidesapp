@@ -77,8 +77,8 @@ define(['angular'], function (angular) {
                         });
                     }
 
-                    scope.moveAllClientsToChannel = function (channel) {
-                        Sockets.emit('teamspeak.moveAllClientsToChannel', channel.cid);
+                    scope.moveAllClientsToDefaultChannel = function () {
+                        Sockets.emit('teamspeak.moveAllClientsToDefaultChannel');
                     };
 
                     scope.restoreClientsChannels = function () {
@@ -111,7 +111,7 @@ define(['angular'], function (angular) {
                     });
 
                     Sockets.on('teamspeak.hideAnnouncement', function () {
-                        modalAnnouncement.close();
+                        modalAnnouncement && modalAnnouncement.close();
                     });
 
                     Sockets.emit('teamspeak.init');
