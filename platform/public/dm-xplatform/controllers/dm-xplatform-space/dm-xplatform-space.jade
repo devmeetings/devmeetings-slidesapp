@@ -92,23 +92,21 @@
                     .dm-zen-mode-btn.text-center(
                       ng-class="{'zen-mode': $root.isZenMode}"
                     )
-                      a.btn.btn-link.btn-block(ng-if="!$root.isZenMode", ng-click="$root.isZenMode = true")
-                        span.fa.fa-dashboard.fa-fw
-                        span Zen Mode
                       a.btn.btn-link.btn-block(ng-if="$root.isZenMode", ng-click="$root.isZenMode = false")
                         span.fa.fa-close.fa.fw
                         span.on-hover Exit Zen Mode
 
-                    img.avatar-holder.pull-left(
-                        ng-src='{{user.result.avatar | dmGravatar:20}}',
-                        ui-sref='index.devhero({id: user.result._id})',
-                        analytics-category='menu',
-                        analytics-on='click', analytics-event='profile.photo')
-                    a.ng-cloak(
+                    a(title="{{user.result.name}} - edit profile").ng-cloak(
                         ui-sref="index.devhero({id: user.result._id})",
                         analytics-category='menu',
                         analytics-on='click', analytics-event='navbar.profile.text')
-                        | {{user.result.name}}
+                        img.avatar-holder.pull-left(
+                            ng-src='{{user.result.avatar | dmGravatar:20}}',
+                            ui-sref='index.devhero({id: user.result._id})',
+                            analytics-category='menu',
+                            analytics-on='click', analytics-event='profile.photo')
+                    a.btn-link(ng-if="!$root.isZenMode", ng-click="$root.isZenMode = true")
+                        span.fa.fa-adjust.fa-fw
 
 
         .dm-space(
