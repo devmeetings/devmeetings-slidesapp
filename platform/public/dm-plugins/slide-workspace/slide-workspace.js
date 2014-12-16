@@ -5,7 +5,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
         var EDITOR_THEME = 'todr';
         var path = sliderPlugins.extractPath(module);
-        var $state, $stateMap = {},docName, readOnly = false, markers = {}, $e;
+        var $state, $stateMap = {}, docName, readOnly = false, markers = {}, $e;
 
 
         var applyChangesLater = _.debounce(function (scope) {
@@ -151,9 +151,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             deleteTabAndFixActive(tabName);
 
                             if ($state) {
-                                $state.at('workspace').at('tabs').at(tabName).remove();
+                                try {
+                                    $state.at('workspace').at('tabs').at(tabName).remove();
+                                }
+                                catch(e) {
+                                    console.log('tab ' + tabName + ' not exists in $state');
+                                }
 
-                                if ($stateMap[tabName]){
+                                if ($stateMap[tabName]) {
                                     $stateMap[tabName].close();
                                     delete $stateMap[tabName];
                                 }
@@ -179,18 +184,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                             function syncEditedTab () {
                                 if ($state) {
-                                    $state.at('workspace').at('tabs').at(tabName).remove();
-                                    $state.at('workspace').at('tabs').at(newName).set(ws.tabs[newName]);
 
-                                    if ($stateMap[tabName]){
+                                    try {
+                                        $state.at('workspace').at('tabs').at(tabName).remove();
+                                    }
+                                    catch(e) {
+                                        console.log('tab ' + tabName + ' not exists in $state');
+                                    }
+                                    $state.at('workspace').at('tabs').at(newName).set({
+                                        "content": ""
+                                    });
+
+                                    if ($stateMap[tabName]) {
                                         $stateMap[tabName].close();
+                                        delete $stateMap[tabName];
                                     }
 
                                     scope.openShareJsDocForTab(docName, newName);
 
-                                    if (scope.workspace.active === newName) {
-                                        $state.at('workspace').at('active').set(newName);
-                                    }
+                                    $state.at('workspace').at('active').set(scope.workspace.active);
                                 }
                             }
                         };
@@ -294,7 +306,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             };
                             initCodeShare();
 
-                            function initCodeShare(){
+                            function initCodeShare () {
                                 setEditorReadOnly();
                                 setUpWorkspace();
                                 startListeningEvents();
@@ -322,7 +334,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         $state = null;
                                     }
 
-                                    _.each(Object.keys($stateMap), function(tabName) {
+                                    _.each(Object.keys($stateMap), function (tabName) {
                                         $stateMap[tabName].close();
                                     });
 
@@ -335,19 +347,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
 
                                     setInterval(function () {
-                                        if (scope.currentWriter) {
+                                        if ($state && $state.snapshot.writer !== 0) {
+                                            if ((scope.currentWriter && $state.snapshot.writer !== scope.currentWriter.id) ||
+                                            !scope.currentWriter) {
+                                                currentWriterChange($state.snapshot.writer);
+                                            }
+                                            else {
+                                                sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
+                                            }
+                                        }
+                                        else if (scope.currentWriter) {
                                             sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
                                         }
-                                        else if ($state && $state.snapshot.writer !== 0) {
-                                            currentWriterChange($state.snapshot.writer);
-                                        }
-                                    }, 1000);
+                                    }, 500);
 
                                 }
                             }
 
                             scope.openShareJsDocForTab = function (docName, tabName) {
-                                if ($stateMap[tabName]){
+                                if ($stateMap[tabName]) {
                                     return;
                                 }
 
@@ -472,7 +490,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 applyChangesLater(scope);
                             }
 
-                            function startListeningEvents(){
+                            function startListeningEvents () {
 
                                 sliderPlugins.listen($rootScope, 'codeShare.resetWorkspace', function (channel) {
 
@@ -582,17 +600,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     }
 
                                     function restoreWorkspace () {
-                                        var workspaceTabs=null, snapshotTabs = null;
+                                        var workspaceTabs = null, snapshotTabs = null;
                                         if (scope.isWorkspaceReadOnly() && $state.snapshot.workspace) {
-                                           // scope.workspace.active = $state.snapshot.workspace.active;
+                                            // scope.workspace.active = $state.snapshot.workspace.active;
                                             scope.workspace.active = $state.snapshot.workspace.active;
 
                                             workspaceTabs = Object.keys(scope.workspace.tabs);
-                                            snapshotTabs =  Object.keys($state.snapshot.workspace.tabs);
+                                            snapshotTabs = Object.keys($state.snapshot.workspace.tabs);
 
                                             //writer insert new tab
-                                            if (workspaceTabs.length < snapshotTabs.length ){
-                                                _.each( _.difference(snapshotTabs,workspaceTabs ), function (tabName){
+                                            if (workspaceTabs.length < snapshotTabs.length) {
+                                                _.each(_.difference(snapshotTabs, workspaceTabs), function (tabName) {
 
                                                     scope.workspace.tabs[tabName] = {
                                                         "content": ""
@@ -604,10 +622,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             }
 
                                             //writer del tab
-                                            if (workspaceTabs.length > snapshotTabs.length ){
-                                                _.each( _.difference(workspaceTabs, snapshotTabs ), function (tabName){
+                                            if (workspaceTabs.length > snapshotTabs.length) {
+                                                _.each(_.difference(workspaceTabs, snapshotTabs), function (tabName) {
 
-                                                    if ($stateMap[tabName]){
+                                                    if ($stateMap[tabName]) {
                                                         $stateMap[tabName].close();
                                                         delete $stateMap[tabName];
                                                     }
@@ -617,19 +635,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                                 });
                                             }
 
+                                            //writer edit tab
+                                            if (workspaceTabs.length === snapshotTabs.length) {
+                                                var tabName = _.difference(workspaceTabs, snapshotTabs)[0],
+                                                    newName = _.difference(snapshotTabs, workspaceTabs)[0];
 
+                                                if (tabName && newName) {
+                                                    var ws = scope.workspace;
+                                                    ws.tabs[newName] = ws.tabs[tabName];
+                                                    deleteTabAndFixActive(tabName, newName);
+                                                    undoManager.initTab(newName);
 
+                                                    if ($stateMap[tabName]) {
+                                                        $stateMap[tabName].close();
+                                                        delete $stateMap[tabName];
+                                                    }
 
-                                            //_.each(scope.workspace.tabs, function (tab, tabName) {
-                                            //
-                                            //});
-											//
-                                            //_.each( _.difference(scope.workspace.tabs, $state.snapshot.workspace.tabs), function (tab, tabName){
-                                            //    if ($stateMap[tabName]){
-                                            //        $stateMap[tabName].close();
-                                            //    }
-                                            //});
-
+                                                    scope.openShareJsDocForTab(docName, newName);
+                                                }
+                                            }
                                             applyChangesLater(scope);
                                         }
                                     }
@@ -674,8 +698,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 disableScrollSync = false;
                             });
 
-                            editor.container.addEventListener("keydown", function (){
-                                if (scope.isWorkspaceReadOnly()){
+                            editor.container.addEventListener("keydown", function () {
+                                if (scope.isWorkspaceReadOnly()) {
                                     alert('Aktualnie nie możesz pisać ponieważ jesteś w trybie śledzenia');
                                 }
                             }, true);
