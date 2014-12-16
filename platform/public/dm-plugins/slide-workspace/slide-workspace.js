@@ -154,7 +154,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                 try {
                                     $state.at('workspace').at('tabs').at(tabName).remove();
                                 }
-                                catch(e) {
+                                catch (e) {
                                     console.log('tab ' + tabName + ' not exists in $state');
                                 }
 
@@ -188,7 +188,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     try {
                                         $state.at('workspace').at('tabs').at(tabName).remove();
                                     }
-                                    catch(e) {
+                                    catch (e) {
                                         console.log('tab ' + tabName + ' not exists in $state');
                                     }
                                     $state.at('workspace').at('tabs').at(newName).set({
@@ -345,23 +345,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         createShereJsDocsForTabs(docName, data.result);
                                     });
 
-
-                                    setInterval(function () {
-                                        if ($state && $state.snapshot.writer !== 0) {
-                                            if ((scope.currentWriter && $state.snapshot.writer !== scope.currentWriter.id) ||
-                                            !scope.currentWriter) {
-                                                currentWriterChange($state.snapshot.writer);
-                                            }
-                                            else {
-                                                sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
-                                            }
-                                        }
-                                        else if (scope.currentWriter) {
-                                            sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
-                                        }
-                                    }, 500);
+                                    emitCurrentWriter();
 
                                 }
+                            }
+
+                            function emitCurrentWriter () {
+
+                                setInterval(function () {
+                                    var snapshotWriter = $state ? $state.snapshot.writer : 0;
+                                    var currentWriter = scope.currentWriter ? scope.currentWriter : 0;
+
+                                    if (snapshotWriter > 0 && snapshotWriter !== currentWriter) {
+                                        currentWriterChange(snapshotWriter);
+                                    }
+                                    else {
+                                        sliderPlugins.trigger('codeShare.currentWriter', currentWriter);
+                                    }
+
+                                }, 500);
                             }
 
                             scope.openShareJsDocForTab = function (docName, tabName) {
@@ -608,6 +610,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                             workspaceTabs = Object.keys(scope.workspace.tabs);
                                             snapshotTabs = Object.keys($state.snapshot.workspace.tabs);
 
+                                            syncInsertedTab(workspaceTabs, snapshotTabs);
+                                            syncDeletedTab(workspaceTabs, snapshotTabs);
+                                            syncEditedTab(workspaceTabs, snapshotTabs);
+                                            applyChangesLater(scope);
+                                        }
+
+                                        function syncInsertedTab (workspaceTabs, snapshotTabs) {
                                             //writer insert new tab
                                             if (workspaceTabs.length < snapshotTabs.length) {
                                                 _.each(_.difference(snapshotTabs, workspaceTabs), function (tabName) {
@@ -620,7 +629,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                                     scope.openShareJsDocForTab(docName, tabName);
                                                 });
                                             }
+                                        }
 
+                                        function syncDeletedTab (workspaceTabs, snapshotTabs) {
                                             //writer del tab
                                             if (workspaceTabs.length > snapshotTabs.length) {
                                                 _.each(_.difference(workspaceTabs, snapshotTabs), function (tabName) {
@@ -634,7 +645,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                                 });
                                             }
+                                        }
 
+                                        function syncEditedTab (workspaceTabs, snapshotTabs) {
                                             //writer edit tab
                                             if (workspaceTabs.length === snapshotTabs.length) {
                                                 var tabName = _.difference(workspaceTabs, snapshotTabs)[0],
@@ -654,8 +667,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                                     scope.openShareJsDocForTab(docName, newName);
                                                 }
                                             }
-                                            applyChangesLater(scope);
                                         }
+
+
                                     }
 
                                     function createDoc () {
