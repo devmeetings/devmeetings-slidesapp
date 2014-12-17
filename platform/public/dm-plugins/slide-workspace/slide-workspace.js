@@ -360,7 +360,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                         currentWriterChange(snapshotWriter);
                                     }
                                     else {
-                                        sliderPlugins.trigger('codeShare.currentWriter', currentWriter);
+                                        sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
                                     }
 
                                 }, 500);
