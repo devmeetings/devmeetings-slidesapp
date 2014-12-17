@@ -162,16 +162,17 @@ define(['angular'], function (angular) {
                     }
 
                     function getMyChannel (channelList) {
+                        var userChannel = null;
 
                         _.each(channelList, function (channel) {
                             _.each(channel.clients, function (client) {
                                 if (client.userId === scope.userId) {
-                                    return channel;
+                                    userChannel = channel;
                                 }
                             });
                         });
 
-                        return null;
+                        return userChannel;
                     }
                 }
             }
