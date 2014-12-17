@@ -21,11 +21,13 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
         });
 
         codeShareService.registerNewPostsCallback(function (posts, inFront){
-            $scope.posts = inFront ? posts.concat($scope.posts): $scope.posts.concat(posts);
+            //$scope.posts = inFront ? posts.concat($scope.posts): $scope.posts.concat(posts);
+            $scope.posts = posts.concat($scope.posts);
         });
 
         $scope.sendMsg = function () {
-          codeShareService.sendChatMsg($scope.user, $scope.message.text);
+          $scope.message.timestamp = new Date();
+          codeShareService.sendChatMsg($scope.user, $scope.message);
           $scope.message.text = '';
         };
 

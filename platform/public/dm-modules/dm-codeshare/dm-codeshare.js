@@ -116,7 +116,9 @@ define(['angular', 'slider/slider.plugins', 'share', 'sharejs-ace', 'sharejs-jso
                         name: user.name,
                         avatar: user.avatar
                     },
-                    message: msg
+                    message: msg.text,
+                    timestamp: msg.timestamp
+
                 });
             }
         }
@@ -139,7 +141,7 @@ define(['angular', 'slider/slider.plugins', 'share', 'sharejs-ace', 'sharejs-jso
             }
 
             if (newPostsCallback){
-                newPostsCallback(posts, inFront);
+                newPostsCallback(posts);
             }
         }
 
