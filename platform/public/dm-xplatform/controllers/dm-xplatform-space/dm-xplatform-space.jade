@@ -137,23 +137,6 @@
             ng-mouseleave='toggleRight(false)'
         )
             tabset.dm-spacesidebar-right(ng-class='{"active": !right.opened}')
-                //tab.cursor-pointer(id='issues', active='tabs.issues',
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.issues',
-                    select='toggleRight(true)'
-                )
-                    tab-heading(
-                        tooltip='Podziel się',
-                        tooltip-placement='bottom'
-                    )
-                        span.fa.fa-warning
-                    .col-xs-12.dm-space-questions
-                        .row
-                            h3 Podziel się kodem
-                        .row(
-                            ng-controller='dmXplatformQuestion'
-                            ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"'
-                        )
                 tab.cursor-pointer(id='stream', active='tabs.stream',
                     analytics-category='spacesidebar',
                     analytics-on='click', analytics-event='spacesidebar.stream',
