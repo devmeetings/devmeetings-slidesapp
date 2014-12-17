@@ -158,6 +158,23 @@
                             ng-controller='dmXplatformQuestion'
                             ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"'
                         )
+                tab.cursor-pointer(
+                id='channel_chat'
+                active='tabs.channel_chat'
+                analytics-category='spacesidebar'
+                analytics-on='click'
+                analytics-event='spacesidebar.channel_chat'
+                )
+                    tab-heading(
+                    tooltip='Czat do bieżącego kanału',
+                    tooltip-placement='bottom'
+                    )
+                        span.fa.fa-comment-o
+                    .col-xs-12.dm-space-questions
+                        .row(
+                        ng-controller='dmXplatformChannelChat'
+                        ng-include='"/static/dm-xplatform/controllers/dm-xplatform-channel-chat/index.html"'
+                        )
 
     .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
 

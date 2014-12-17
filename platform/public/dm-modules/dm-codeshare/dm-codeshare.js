@@ -1,4 +1,4 @@
-define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
+define(['angular', 'slider/slider.plugins', 'share', 'sharejs-ace', 'sharejs-json'], function (angular, sliderPlugins) {
     'use strict';
 
     angular
@@ -24,8 +24,11 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             removeUser: removeUser,
             getCurrentWorkspace: getCurrentWorkspace,
             setCurrentWorkspace: setCurrentWorkspace,
-            isConnectedToWorkSpace: isConnectedToWorkSpace
-        }, currentWriter = null, isConnectedToWorkSpace = false, currentWorkspaceName = '';
+            isConnectedToWorkSpace: isConnectedToWorkSpace,
+            sendChatMsg: sendChatMsg,
+            registerNewPostsCallback : registerNewPostsCallback
+        }, currentWriter = null, isConnectedToWorkSpace = false, currentWorkspaceName = '', $state = null,
+            newPostsCallback = null;
 
 
         sliderPlugins.listen($rootScope, 'codeShare.currentWriter', function (_currentWriter_) {
@@ -48,6 +51,7 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
 
         function setCurrentWorkspace(workspaceName){
             currentWorkspaceName = workspaceName;
+            openWorkspaceDoc(currentWorkspaceName);
         }
 
         function resetWorkspaceForNew (channel) {
@@ -55,6 +59,7 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
             currentWriter = null;
             isConnectedToWorkSpace = false;
             currentWorkspaceName = channel;
+            openWorkspaceDoc(currentWorkspaceName);
             sliderPlugins.trigger('codeShare.resetWorkspace');
         }
 
@@ -93,6 +98,46 @@ define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
 
         function removeUser(userId) {
             sliderPlugins.trigger('codeShare.removeUser', userId);
+        }
+
+        function registerNewPostsCallback(__newPostsCallback__){
+            newPostsCallback = __newPostsCallback__;
+        }
+
+        function sendChatMsg(msg){
+            if ($state) {
+                $state.at('chat').push({
+                    from: 'me',
+                    message: msg
+                });
+            }
+        }
+
+        function newPosts(){
+            var posts = [];
+
+            $state.at('chat').get().reverse().forEach(function (msg){
+                posts.push(msg);
+            })
+
+            if (newPostsCallback){
+                newPostsCallback(posts);
+            }
+        }
+
+        function openWorkspaceDoc(workspaceName){
+            sharejs.open(workspaceName + '_Chat', 'json', function (error, doc) {
+                $state = doc;
+                doc.on('change', function (op) {
+                    newPosts();
+                });
+
+                if (doc.created) {
+                    doc.at([]).set({
+                        chat:[]
+                    });
+                }
+            });
         }
     }
 

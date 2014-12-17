@@ -27,7 +27,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
         'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create',
         'xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck',
-        'xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide'
+        'xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide',
+        'xplatform/controllers/dm-xplatform-channel-chat/dm-xplatform-channel-chat',
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
