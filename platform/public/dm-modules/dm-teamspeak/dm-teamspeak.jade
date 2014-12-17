@@ -22,25 +22,27 @@ div.mainWindow
 
             a.btn-xs
                 span.glyphicon.glyphicon-volume-up.yellow(ng-if="client.isTalking", title="Talking right now")
+
+
     script(type="text/ng-template", id="channelTree")
         div(style="padding:5px")
             button.btn.btn-xs.btn-primary(ng-click="moveToChannel(channel)", title="Enter {{channel.name}}")
                 span {{channel.name}}
-            span.pull-right
-                button.btn.btn-xs.btn-danger(title="Move all users here", ng-if="isTrainer && channel.isDefault && !clientMassMoved", href="", ng-click="moveAllClientsToChannel(channel)")
-                    span.glyphicon.glyphicon-arrow-left
 
         .list-group(ng-if="channel.clients")
             a.list-group-item.clearfix.client(ng-repeat='client in channel.clients', ng-include="'client'")
         ul.list-group(ng-if="channel.children")
             li.channel.list-group-item(ng-repeat='channel in channel.children track by channel.cid', ng-include="'channelTree'")
 
+
     .container
         .panel.panel-default
             .panel-heading Workspaces
                 span.pull-right
+                    button.btn.btn-xs.btn-danger(title="Move all users here", ng-if="isTrainer && !clientMassMoved", href="", ng-click="moveAllClientsToDefaultChannel()")
+                        span.glyphicon.glyphicon-bullhorn
                     button.btn.btn-xs.btn-primary(title="Restore users to their rooms", ng-if="isTrainer && clientMassMoved", href="", ng-click="restoreClientsChannels()")
-                        span.glyphicon.glyphicon-share-alt
+                        span.glyphicon.glyphicon-transfer
             ul.list-group.channelTree(ng-if="channelList")
                 li.list-group-item(ng-repeat="channel in channelList", ng-include="'channelTree'")
             .panel-body(ng-if="!channelList") Loading...

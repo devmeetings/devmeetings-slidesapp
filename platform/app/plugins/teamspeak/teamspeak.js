@@ -2,7 +2,8 @@ var Teamspeak = require('../../services/teamspeak'),
     _ = require('lodash'),
     isConnected = false,
     maxNickNameLength = 15,
-    clientMassMoved = false;
+    clientMassMoved = false,
+    defaultChannelId;
 
 function getUserSocketByname(sockets, name) {
     return _.find(sockets, function (socket) {
@@ -36,6 +37,10 @@ function linkClientsWithUsers(channelsTree, sockets) {
 
     channelsTree.forEach(function (channel) {
         updateData = {};
+
+        if (channel.isDefault) {
+            defaultChannelId = channel.cid;
+        }
 
         // recursion
         if (channel.children) {
@@ -158,12 +163,16 @@ exports.onSocket = function (log, socket, io) {
         }
     };
 
-    var moveAllClientsToChannel = function (channelId) {
+    var moveAllClientsToDefaultChannel = function () {
+        if (!defaultChannelId) {
+            return false;
+        }
+
         Teamspeak.getClientList().then(function (clientList) {
             var clients = [];
 
             for (var i in clientList) {
-                if (clientList[i].client_type === 0 && clientList[i].cid != channelId) {
+                if (clientList[i].client_type === 0 && clientList[i].cid != defaultChannelId) {
                     clients.push(clientList[i].clid);
                 }
             }
@@ -172,10 +181,10 @@ exports.onSocket = function (log, socket, io) {
                 return;
             }
 
-            Teamspeak.moveClients(clients, channelId).then(function () {
+            Teamspeak.moveClients(clients, defaultChannelId).then(function () {
                 clientMassMoved = true;
                 for (var handshake in socket.manager.handshaken) {
-                    socket.manager.handshaken[handshake].user.teamspeak.forcedChannel = channelId;
+                    socket.manager.handshaken[handshake].user.teamspeak.forcedChannel = defaultChannelId;
                 }
                 sendChannelList();
                 socket.broadcast.emit('teamspeak.showAnnouncement');
@@ -211,7 +220,7 @@ exports.onSocket = function (log, socket, io) {
 
     socket.on('teamspeak.init', init);
     socket.on('teamspeak.moveToChannel', moveToChannel);
-    socket.on('teamspeak.moveAllClientsToChannel', moveAllClientsToChannel);
+    socket.on('teamspeak.moveAllClientsToDefaultChannel', moveAllClientsToDefaultChannel);
     socket.on('teamspeak.restoreClientsChannels', restoreClientsChannels);
     socket.on('disconnect', onDisconnect);
 };

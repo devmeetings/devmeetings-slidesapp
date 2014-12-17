@@ -77,8 +77,8 @@ define(['angular'], function (angular) {
                         });
                     }
 
-                    scope.moveAllClientsToChannel = function (channel) {
-                        Sockets.emit('teamspeak.moveAllClientsToChannel', channel.cid);
+                    scope.moveAllClientsToDefaultChannel = function () {
+                        Sockets.emit('teamspeak.moveAllClientsToDefaultChannel');
                     };
 
                     scope.restoreClientsChannels = function () {
@@ -111,7 +111,7 @@ define(['angular'], function (angular) {
                     });
 
                     Sockets.on('teamspeak.hideAnnouncement', function () {
-                        modalAnnouncement.close();
+                        modalAnnouncement && modalAnnouncement.close();
                     });
 
                     Sockets.emit('teamspeak.init');
@@ -162,19 +162,17 @@ define(['angular'], function (angular) {
                     }
 
                     function getMyChannel (channelList) {
-                        var userChannel = null;
 
                         _.each(channelList, function (channel) {
                             _.each(channel.clients, function (client) {
                                 if (client.userId === scope.userId) {
-                                    userChannel = channel;
+                                    return channel;
                                 }
                             });
                         });
 
-                        return userChannel;
+                        return null;
                     }
-
                 }
             }
         }
