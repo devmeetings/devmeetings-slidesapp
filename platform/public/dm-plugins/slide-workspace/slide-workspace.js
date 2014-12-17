@@ -354,7 +354,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
                                 setInterval(function () {
                                     var snapshotWriter = $state ? $state.snapshot.writer : '';
-                                    var currentWriter = scope.currentWriter ? scope.currentWriter : '';
+                                    var currentWriter = scope.currentWriter ? scope.currentWriter.id : '';
 
                                     if (snapshotWriter !== '' && snapshotWriter !== currentWriter) {
                                         currentWriterChange(snapshotWriter);
