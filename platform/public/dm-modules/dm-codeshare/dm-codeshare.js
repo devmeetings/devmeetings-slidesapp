@@ -26,9 +26,10 @@ define(['angular', 'slider/slider.plugins', 'share', 'sharejs-ace', 'sharejs-jso
             setCurrentWorkspace: setCurrentWorkspace,
             isConnectedToWorkSpace: isConnectedToWorkSpace,
             sendChatMsg: sendChatMsg,
-            registerNewPostsCallback : registerNewPostsCallback
+            registerNewPostsCallback : registerNewPostsCallback,
+            registerCurrentWorkspaceCallback : registerCurrentWorkspaceCallback
         }, currentWriter = null, isConnectedToWorkSpace = false, currentWorkspaceName = '', $state = null,
-            newPostsCallback = null;
+            newPostsCallback = null, currentWorkspaceCallback = null;
 
 
         sliderPlugins.listen($rootScope, 'codeShare.currentWriter', function (_currentWriter_) {
@@ -100,42 +101,66 @@ define(['angular', 'slider/slider.plugins', 'share', 'sharejs-ace', 'sharejs-jso
             sliderPlugins.trigger('codeShare.removeUser', userId);
         }
 
+        function registerCurrentWorkspaceCallback(__currentWorkspaceCallback__){
+            currentWorkspaceCallback = __currentWorkspaceCallback__;
+        }
+
         function registerNewPostsCallback(__newPostsCallback__){
             newPostsCallback = __newPostsCallback__;
         }
 
-        function sendChatMsg(msg){
+        function sendChatMsg(user, msg){
             if ($state) {
                 $state.at('chat').push({
-                    from: 'me',
+                    from: {
+                        name: user.name,
+                        avatar: user.avatar
+                    },
                     message: msg
                 });
             }
         }
 
-        function newPosts(){
-            var posts = [];
+        function newPosts(op){
+            var posts = [], inFront = false;
 
-            $state.at('chat').get().reverse().forEach(function (msg){
-                posts.push(msg);
-            })
+            if (op){
+                _.each(op, function(c) {
+                    if (c.li){
+                        posts.push(c.li);
+                        inFront = true;
+                    }
+                })
+            }
+            else {
+                $state.at('chat').get().reverse().forEach(function (msg){
+                    posts.push(msg);
+                });
+            }
 
             if (newPostsCallback){
-                newPostsCallback(posts);
+                newPostsCallback(posts, inFront);
             }
         }
 
         function openWorkspaceDoc(workspaceName){
+            if (currentWorkspaceCallback) {
+                currentWorkspaceCallback(workspaceName);
+            }
+
             sharejs.open(workspaceName + '_Chat', 'json', function (error, doc) {
                 $state = doc;
                 doc.on('change', function (op) {
-                    newPosts();
+                    newPosts(op);
                 });
 
                 if (doc.created) {
                     doc.at([]).set({
                         chat:[]
                     });
+                }
+                else {
+                    newPosts();
                 }
             });
         }
