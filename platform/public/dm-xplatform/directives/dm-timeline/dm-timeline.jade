@@ -1,7 +1,7 @@
 .dm-timeline-point.info-color(
     ng-repeat='p in annotations track by p._id',
     ng-style='{"left": p.timestamp / length * 100 + "%"}',
-    tooltip-html-unsafe='{{p.title + "<br/>" + p.timestamp + " sekunda" }}',
+    tooltip-html-unsafe='{{p.title + "<br/>" + p.timestamp + " second" }}',
     tooltip-placement='top',
     ng-if='length')
     dm-taskicon.dm-timeline-snippet(type='p.type', ng-show="p.type !== 'snippet'")
