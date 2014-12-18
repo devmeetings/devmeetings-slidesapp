@@ -63,11 +63,11 @@ define(['angular', 'xplatform/xplatform-app', '_',
                     
                     setTimeout(function() {
                       var rect = $('.ace_cursor')[0].getBoundingClientRect();
-                      var positionTop = Math.max(20, rect.top - (myself.height() - 40)/ 2);
+                      var positionTop = Math.max(40, rect.top);
                       positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 200, positionTop);
 
                       myself.css({
-                        left: "calc(45% + " + (rect.left/50) + 'px)',
+                        left: "calc(65% + " + (rect.left/50) + 'px)',
                         top: positionTop + 'px'
                       });
                     }, 450);
