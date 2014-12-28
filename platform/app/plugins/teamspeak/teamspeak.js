@@ -11,9 +11,17 @@ function getUserSocketByname(sockets, name) {
     });
 }
 
-function updateUserData(userId, data, callback) {
-    Teamspeak.saveTeamspeakData(userId, data).then(function () {
-        callback();
+function updateUserData(userSocket, data, callback) {
+    Teamspeak.saveTeamspeakData(userSocket._id.toString(), data).then(function () {
+        if (!_.isEmpty(data)) {
+            for (var attribute in data) {
+                userSocket.teamspeak[attribute] = data[attribute];
+            }
+        }
+
+        if (callback) {
+            callback();
+        }
     }).fail(function (error) {
         callback(error);
     });
@@ -77,7 +85,7 @@ function linkClientsWithUsers(channelsTree, sockets) {
                     }
 
                     if (!_.isEmpty(updateData)) {
-                        updateUserData(socket.user._id.toString(), updateData, function (error) {
+                        updateUserData(socket.user, updateData, function (error) {
                             if (error) {
                                 return console.error(new Error('Teamspeak - ' + (error.msg || error)));
                             }
@@ -109,9 +117,7 @@ exports.onSocket = function (log, socket, io) {
     var init = function () {
 
         // after socket connection we reset user teamspeak data
-        updateUserData(socket.handshake.user._id.toString(), {}, function () {
-            socket.handshake.user.teamspeak = null;
-        });
+        updateUserData(socket.handshake.user, null);
 
         if (isConnected) {
             return sendChannelList(true);
@@ -139,7 +145,7 @@ exports.onSocket = function (log, socket, io) {
         }
 
         Teamspeak.moveClients([socket.handshake.user.teamspeak.clientId], channelId).then(function () {
-            updateUserData(socket.handshake.user._id.toString(), {lastChannel: channelId}, function (error) {
+            updateUserData(socket.handshake.user, {lastChannel: channelId}, function (error) {
                 if (error) {
                     return callback(error);
                 }

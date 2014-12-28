@@ -138,14 +138,14 @@ exports.saveTeamspeakData = function (userId, data) {
 
         if (_.isEmpty(User.teamspeak) || _.isEmpty(data)) {
             User.teamspeak = null;
-        }
-
-        for (var attribute in data) {
-            User.teamspeak[attribute] = data[attribute];
+        } else {
+            for (var attribute in data) {
+                User.teamspeak[attribute] = data[attribute];
+            }
         }
 
         User.save(function (error) {
-                return error ? defer.reject(error) : defer.resolve();
+            return error ? defer.reject(error) : defer.resolve();
         });
     });
 
