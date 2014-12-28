@@ -205,6 +205,23 @@ function removeChannel(channelId) {
     return defer.promise;
 }
 
+/**
+ * Find channel by name
+ * @param {String} channelName
+ * @returns {Promise}
+ */
+function findChannel(channelName) {
+    var defer = Q.defer();
+
+    promise.thenSend('channelfind', {pattern: channelName}).then(function (results) {
+        defer.resolve(results);
+    }).fail(function (error) {
+        defer.reject(error);
+    });
+
+    return defer.promise;
+}
+
 function init() {
     // new connection to serverquery
     TsClient = new TeamSpeakClient(config.teamspeak.host, config.teamspeak.port);
@@ -259,6 +276,8 @@ module.exports = {
     getChannelList: getChannelList,
 
     getClientList: getClientList,
+
+    findChannel: findChannel,
 
     /**
      * Return tree with channels and clients
@@ -358,29 +377,4 @@ module.exports = {
         return defer.promise;
     }
 
-
 };
-
-/*Teamspeak.getList().then(function (channelsTree) {
- console.log(channelsTree);
- }).fail(function (error) {
- console.error(new Error('Teamspeak - ' + error.msg));
- });
-
- Teamspeak.createChannel({channel_name: 'Test4 channel', cpid: 138654, channel_flag_permanent: 1}).then(function (result) {
- console.log(result);
- }).fail(function (error) {
- console.error(new Error('Teamspeak - ' + error.msg));
- });
-
- Teamspeak.removeChannel(138661).then(function (result) {
- console.log(result);
- }).fail(function (error) {
- console.error(new Error('Teamspeak - ' + error.msg));
- });
-
- Teamspeak.moveClients([92], 139177).then(function () {
- console.log('Moved');
- }).fail(function (error) {
- console.error(new Error('Teamspeak - ' + error.msg));
- });*/

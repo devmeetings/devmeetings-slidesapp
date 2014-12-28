@@ -152,6 +152,16 @@ exports.onSocket = function (log, socket, io) {
 
     };
 
+    var moveToChannelByName = function (channelName, callback) {
+        Teamspeak.findChannel(channelName).then(function(channel){
+            if (socket.handshake.user.teamspeak.lastChannel != channel.cid) {
+                moveToChannel(channel.cid, callback);
+            }
+        }).fail(function (error) {
+            console.error(new Error('Teamspeak - ' + (error.msg || error)));
+        });
+    };
+
     var onDisconnect = function () {
         if (Object.keys(socket.manager.handshaken).length == 1) {
             // last user is disconnecting so we must disconnect
@@ -220,6 +230,7 @@ exports.onSocket = function (log, socket, io) {
 
     socket.on('teamspeak.init', init);
     socket.on('teamspeak.moveToChannel', moveToChannel);
+    socket.on('teamspeak.moveToChannelByName', moveToChannelByName);
     socket.on('teamspeak.moveAllClientsToDefaultChannel', moveAllClientsToDefaultChannel);
     socket.on('teamspeak.restoreClientsChannels', restoreClientsChannels);
     socket.on('disconnect', onDisconnect);

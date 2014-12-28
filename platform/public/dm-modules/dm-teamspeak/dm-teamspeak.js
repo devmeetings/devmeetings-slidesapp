@@ -1,8 +1,8 @@
-define(['angular'], function (angular) {
+define(['angular', 'slider/slider.plugins'], function (angular, sliderPlugins) {
     'use strict';
 
-    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService', '$state', 'dmSlidesaves', '$http', '$modal',
-        function (Sockets, dmUser, $window, codeShareService, $state, dmSlidesaves, $http, $modal) {
+    angular.module('dm-teamspeak', ['dm-codeshare']).directive('dmTeamspeak', ['Sockets', 'dmUser', '$window', 'codeShareService', '$state', 'dmSlidesaves', '$http', '$modal', '$rootScope',
+        function (Sockets, dmUser, $window, codeShareService, $state, dmSlidesaves, $http, $modal, $rootScope) {
             return {
                 restrict: 'E',
                 templateUrl: '/static/dm-modules/dm-teamspeak/dm-teamspeak.html',
@@ -16,7 +16,7 @@ define(['angular'], function (angular) {
                     scope.channelList = scope.clientId = scope.userId = scope.isTrainer = null;
                     scope.clientMassMoved = false;
 
-                    var showUserWarning = function() {
+                    var showUserWarning = function () {
                         $modal.open({
                             templateUrl: '/static/dm-modules/dm-teamspeak/modal-announcement.html',
                             size: 'sm',
@@ -24,7 +24,16 @@ define(['angular'], function (angular) {
                         });
                     };
 
-                    function refreshUserData () {
+                    sliderPlugins.listen($rootScope, 'teamspeak.moveClientToChannelByName', function (channelName) {
+                        Sockets.emit('teamspeak.moveToChannelByName', channelName, function (error) {
+                            if (error) {
+                                console.log(error);
+                            }
+                            openWorkspace(channelName);
+                        });
+                    });
+
+                    function refreshUserData() {
                         dmUser.getCurrentUser().then(function (data) {
                             scope.clientId = data.result.teamspeak ? data.result.teamspeak.clientId : null;
                             scope.userId = data.result._id;
@@ -60,11 +69,11 @@ define(['angular'], function (angular) {
                         }
                     };
 
-                    function getChannelName (channelName) {
+                    function getChannelName(channelName) {
                         return 'channel_' + channelName;
                     }
 
-                    function openWorkspace (channelName) {
+                    function openWorkspace(channelName) {
                         codeShareService.resetWorkspaceForNew(channelName);
 
                         $http.post('/api/base_slide/' + scope.event.baseSlide + '/' + getChannelName(channelName)).then(function (data) {
@@ -116,7 +125,7 @@ define(['angular'], function (angular) {
 
                     Sockets.emit('teamspeak.init');
 
-                    function ifCurrentWriterNotExistsInUserChannelResetCurrentWriter () {
+                    function ifCurrentWriterNotExistsInUserChannelResetCurrentWriter() {
                         var writerExistsInChannel = false;
 
                         if (!scope.userChannel) {
@@ -140,7 +149,7 @@ define(['angular'], function (angular) {
                         }
                     }
 
-                    function ifNoCurrentWriterInWorkspaceSetFirstLinkedClient () {
+                    function ifNoCurrentWriterInWorkspaceSetFirstLinkedClient() {
 
                         if (!scope.userChannel) {
                             return;
@@ -161,7 +170,7 @@ define(['angular'], function (angular) {
                         }
                     }
 
-                    function getMyChannel (channelList) {
+                    function getMyChannel(channelList) {
 
                         _.each(channelList, function (channel) {
                             _.each(channel.clients, function (client) {

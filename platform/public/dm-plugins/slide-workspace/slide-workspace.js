@@ -341,6 +341,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                                     $stateMap = {};
 
                                     dmUser.getCurrentUser().then(function (data) {
+                                        var realChannelName = channelName.replace(/^channel_/, '');
+                                        if (data.result.teamspeak && data.result.teamspeak.clientId) {
+                                            sliderPlugins.trigger('teamspeak.moveClientToChannelByName', realChannelName);
+                                        }
                                         scope.currentUser = data.result;
                                         createShereJsDocsForTabs(docName, data.result);
                                     });
