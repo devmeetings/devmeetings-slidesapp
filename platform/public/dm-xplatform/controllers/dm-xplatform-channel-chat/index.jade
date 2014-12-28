@@ -1,0 +1,18 @@
+div
+    h5 Jesteś w kanele : {{channel}}
+    .panel
+        .panel-body
+            form(ng-submit='sendMsg()')
+                .form-group
+                    input.input-sm.form-control(
+                        placeholder="Twoja wiadomość",
+                        ng-model='message.text', type='text', required, autofocus)
+                button.btn.btn-sm.btn-primary.btn-block(type='submit') Wyślij wiadomość
+    .panel
+        .panel-body(style="overflow-y: auto;")
+            .message(ng-repeat='post in posts track by $index | orderBy: "-timestamp"')
+                img.member_image.avatar-holder(ng-src='{{post.from.avatar | dmGravatar:30}}')
+                span.message_sender {{post.from.name}}
+                    small.pull-right(am-time-ago='post.timestamp')
+                span.message_content {{post.message}}
+

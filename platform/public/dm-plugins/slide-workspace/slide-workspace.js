@@ -357,14 +357,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                             function emitCurrentWriter () {
 
                                 setInterval(function () {
-                                    var snapshotWriter = $state ? $state.snapshot.writer : 0;
-                                    var currentWriter = scope.currentWriter ? scope.currentWriter : 0;
+                                    var snapshotWriter = $state ? $state.snapshot.writer : '';
+                                    var currentWriter = scope.currentWriter ? scope.currentWriter.id : '';
 
-                                    if (snapshotWriter > 0 && snapshotWriter !== currentWriter) {
+                                    if (snapshotWriter !== '' && snapshotWriter !== currentWriter) {
                                         currentWriterChange(snapshotWriter);
                                     }
                                     else {
-                                        sliderPlugins.trigger('codeShare.currentWriter', currentWriter);
+                                        sliderPlugins.trigger('codeShare.currentWriter', scope.currentWriter);
                                     }
 
                                 }, 500);
