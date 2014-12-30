@@ -1,5 +1,10 @@
 div(ng-controller="dmXplayerList")
 
+  a.btn.btn-link(href='#',
+        analytics-category='menu',
+        analytics-on='click', analytics-event='navbar.logo')
+        img(src="static/images/navbar/xplatform_logo.png")
+
   div.list-group
     a.list-group-item(ng-repeat="rec in recordings | orderBy:'date':true", ui-sref="index.player({id: rec._id})", ui-sref-active='active')
       span(tooltip="{{rec.group}}") {{ rec.title }}

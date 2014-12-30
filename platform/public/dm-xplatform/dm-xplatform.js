@@ -91,7 +91,6 @@ require(['angular',
                             navbar: {},
                             columns: {}
                         };
-                        $rootScope.headerHidden = false;
                     }
                 });
 
@@ -286,6 +285,9 @@ require(['angular',
                             title: ''
                         };
                         $rootScope.headerHidden = true;
+                    },
+                    onExit: function($rootScope) {
+                        $rootScope.headerHidden = false;
                     }
                 });
 

@@ -18,6 +18,7 @@ define([
           templateUrl: '/static/dm-xplayer/controllers/dm-xplayer-player/dm-xplayer-player.html'
         }
       },
+
       onEnter: function($rootScope) {
         $rootScope.xplatformData.navbar = {
           showTitle: true,
@@ -30,6 +31,10 @@ define([
           right: 0
         };
         $rootScope.headerHidden = true;
+      },
+
+      onExit: function($rootScope) {
+        $rootScope.headerHidden = false;
       }
     });
 
