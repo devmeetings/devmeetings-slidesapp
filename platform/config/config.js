@@ -29,7 +29,7 @@ var config = {
             clientId: '106ca39a17b1ca369f6f',
             clientSecret: 'accf1a3f361eec1902172ce287acf46a34423cc2'
         },
-        db: 'mongodb://' + mongoHost + '/platform-development',
+        db: 'mongodb://' + mongoHost + '/platform-prod-pracuj',
         queue: rabbitHost,
         graylog: false,
         logger: 'dev'

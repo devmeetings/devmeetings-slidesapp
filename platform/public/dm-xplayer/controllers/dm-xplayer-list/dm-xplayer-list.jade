@@ -1,0 +1,6 @@
+div(ng-controller="dmXplayerList")
+
+  div.list-group
+    a.list-group-item(ng-repeat="rec in recordings | orderBy:'date':true", ui-sref="index.player({id: rec._id})", ui-sref-active='active')
+      span(tooltip="{{rec.group}}") {{ rec.title }}
+      span.badge(tooltip="{{rec.date}}"){{ rec.date | amCalendar }}

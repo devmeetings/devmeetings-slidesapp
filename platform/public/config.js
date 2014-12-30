@@ -14,6 +14,7 @@ require.config({
         "require": "../../require",
         "plugins": "../dm-plugins",
         "xplatform": "../dm-xplatform",
+        'dm-xplayer': '../dm-xplayer',
         "dm-admin": "../dm-admin",
         "dm-modules": "../dm-modules",
         "dm-courses": "../dm-courses",

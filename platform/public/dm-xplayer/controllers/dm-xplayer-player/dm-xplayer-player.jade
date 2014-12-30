@@ -1,0 +1,8 @@
+.full-height(ng-controller="dmXplayerPlayer")
+  input(type="number", placeholder="speed", ng-model="state.rate")
+  button.btn.btn-xs(ng-click="state.isPlaying = !state.isPlaying")
+    span.fa.fa-fw.fa-pause(ng-show="state.isPlaying")
+    span.fa.fa-fw.fa-play(ng-show="!state.isPlaying")
+  dm-xplayer(recording='recording', state='state', annotations='annotations')
+
+

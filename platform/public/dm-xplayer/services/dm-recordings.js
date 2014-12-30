@@ -1,5 +1,7 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
-    xplatformApp.service('dmRecordings', ['$http', '$q', function ($http, $q) {
+define(['angular', 'dm-xplayer/dm-xplayer-app'], function (angular, xplayerApp) {
+    'use strict';
+
+    xplayerApp.service('dmRecordings', ['$http', '$q', function ($http, $q) {
         var recordings = {
         };
       
@@ -14,6 +16,11 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
         };
 
         return {
+
+            getList: function() {
+              return $q.when($http.get('/api/recordings'));
+            },
+
             getRecording: function (recording) {
                 var result = recordings[recording];
 
@@ -32,6 +39,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
 
                 return result.promise;
             }
+
         };
     }]);
 });
