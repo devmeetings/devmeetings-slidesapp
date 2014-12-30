@@ -9,11 +9,12 @@ div(ng-controller="dmXplayerList")
     div(ng-repeat="recordings in groups")
       .list-group-item(ng-show="recordings.length > 1")
         h5.list-group-item-heading.cursor-pointer(ng-click="isVisible = !isVisible")
-          {{recordings[0].group}}
+          | {{recordings[0].group}}
       hr(ng-if="recordings.length < 2")
       a.list-group-item(
         ng-show="isVisible || recordings.length < 2"
         ng-repeat="rec in recordings | orderBy:'date':true", ui-sref="index.player({id: rec._id})", ui-sref-active='active')
         .list-group-item-heading(tooltip="{{rec.group}}") {{ rec.title }}
         .list-group-item-text
-          span.badge(tooltip="{{rec.date}}"){{ rec.date | amCalendar }}
+          span.badge(tooltip="{{rec.date}}")
+            | {{ rec.date | amCalendar }}
