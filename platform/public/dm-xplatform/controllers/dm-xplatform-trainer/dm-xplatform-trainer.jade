@@ -11,7 +11,7 @@
                 button.btn.btn-primary.btn-xs(ng-click="ws.showWorkspace = !ws.showWorkspace")
                     | Show Workspace
                 button.btn.btn-primary.btn-xs(ng-click="fetchRecentWorkspaces(ws)")
-                    | Fetch Recent Workspaces
+                    | Fetch Recent Workspaces (50)
                 button.btn.btn-primary.btn-xs(ng-click="fetchTimeline(ws)", ng-if="!ws.chart")
                     | Fetch Timeline
                 button.btn.btn-primary.btn-xs(ng-click="ws.chart = null; ws.timeline = null", ng-if="ws.chart")
@@ -20,6 +20,8 @@
                     | Toggle Workspaces
                 button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")
                     | Show RAW
+                button.btn.btn-default.btn-xs(ng-click="convertRecentWorkspaces(ws)")
+                    | Convert to Recording
 
                 plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'")
 

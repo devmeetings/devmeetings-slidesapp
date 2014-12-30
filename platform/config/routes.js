@@ -119,6 +119,7 @@ module.exports = function(app) {
     app.get('/api/workspaces/:baseSlide', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.get);
     app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getPages);
     app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
+    app.post('/api/workspaces/users/:userId/recording', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.convertToRecording);
 
     app.post('/api/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
 

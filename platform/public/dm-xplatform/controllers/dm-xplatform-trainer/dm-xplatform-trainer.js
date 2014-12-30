@@ -1,14 +1,15 @@
 define([
-    'angular', 'xplatform/xplatform-app', '_',
+    'angular', 'xplatform/xplatform-app',
     './services/dm-workspaces'
-], function(angular, xplatformApp, _) {
+], function(angular, xplatformApp) {
 
     xplatformApp.controller('dmXplatformTrainer', [
-        '$scope', '$stateParams', 'dmEvents', 'dmWorkspaces',
+        '$scope', '$stateParams', '$state', 'dmEvents', 'dmWorkspaces',
 
-        function($scope, $stateParams, dmEvents, dmWorkspaces) {
+        function($scope, $stateParams, $state, dmEvents, dmWorkspaces) {
             var eventId = $stateParams.event;
             dmEvents.getEvent(eventId).then(function(event) {
+                $scope.eventTitle = event.title;
                 dmWorkspaces.getUsersWorkspaces(event.baseSlide).then(function(workspaces) {
                     $scope.workspaces = workspaces;
                 });
@@ -20,6 +21,14 @@ define([
                 dmWorkspaces.getUserAllPages(ws.user._id).then(function(userPages) {
                     ws.userPages = userPages;
                 });
+            };
+
+            $scope.convertRecentWorkspaces = function(ws) {
+              dmWorkspaces.convertToRecording(ws.user._id, ws.user.name, $scope.eventTitle).then(function(recordingId){
+                $state.go('index.player', {
+                  id: recordingId.recordingId
+                });
+              });
             };
 
             $scope.keys = function(array) {

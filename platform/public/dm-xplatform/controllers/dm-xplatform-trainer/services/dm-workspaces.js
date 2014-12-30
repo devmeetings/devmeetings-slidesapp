@@ -20,6 +20,14 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
                 },
                 getUserTimeline: function(userId) {
                     return wrap($http.get('/api/workspaces/users/' + userId + '/timeline'));
+                },
+                convertToRecording: function(userId, userName, eventName) {
+                    return wrap(
+                      $http.post('/api/workspaces/users/' + userId + '/recording', {
+                        userName: userName,
+                        eventName: eventName
+                      })
+                    );
                 }
             };
         }

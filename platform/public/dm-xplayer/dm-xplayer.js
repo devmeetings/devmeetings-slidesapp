@@ -1,6 +1,7 @@
 define([
   'dm-xplayer/dm-xplayer-app',
   'dm-xplayer/directives/dm-xplayer/dm-xplayer',
+  'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline',
   'dm-xplayer/controllers/dm-xplayer-list/dm-xplayer-list',
   'dm-xplayer/controllers/dm-xplayer-player/dm-xplayer-player',
 ], function(xplayerApp) {
