@@ -22,7 +22,7 @@ def runCode(code, q):
     org = sys.stdout
     try:
         out = io.StringIO()
-        # sys.stdout = out
+        sys.stdout = out
         burgerExec(code)
         q.put({
             'success': True,

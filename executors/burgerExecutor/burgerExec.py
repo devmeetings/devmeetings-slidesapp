@@ -28,4 +28,10 @@ def wstaw(co, ile=1):
 
 
 def burgerExec(code):
-    exec(code)
+    exec(code, {
+        'dodaj': dodaj,
+        'wyswietl': wyswietl,
+        'dodajWszystkie': dodajWszystkie,
+        'wstaw': wstaw,
+        'add': add
+    })
