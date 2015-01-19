@@ -1,14 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import pika
 import os
 import json
 import sys
 import traceback
-import StringIO
+import io
 from burgerExec import burgerExec
 from multiprocessing import Process, Queue
-from Queue import Empty
-
+from queue import Empty
 
 QUEUE = "exec_burger"
 
@@ -22,8 +21,8 @@ print("Connected to %s" % host)
 def runCode(code, q):
     org = sys.stdout
     try:
-        out = StringIO.StringIO()
-        sys.stdout = out
+        out = io.StringIO()
+        # sys.stdout = out
         burgerExec(code)
         q.put({
             'success': True,
@@ -32,17 +31,18 @@ def runCode(code, q):
         return
     except:
         ex_type, ex, tb = sys.exc_info()
+        stacktrace = [x[1:] for x in traceback.extract_tb(tb)[1:]]
         q.put({
             'success': False,
             'errors': [str(ex)],
-            'stacktrace': map(lambda x: x[1:], traceback.extract_tb(tb)[1:])
+            'stacktrace': stacktrace
         })
     finally:
         sys.stdout = org
 
 
 def onMessage(ch, method, properties, body):
-    jsonBody = json.loads(body)
+    jsonBody = json.loads(body.decode('utf-8'))
     print('[x] Received %r' % jsonBody)
     q = Queue()
     p = Process(target=runCode, args=(jsonBody['code'], q, ))

@@ -3,19 +3,25 @@
 
 def add(what, size=1):
     if size != 1:
-        print "%d x %s" % (size, what)
+        print("%d x %s" % (size, what))
     else:
-        print what
+        print(what)
+
+
+def wyswietl(co, ile=1):
+    dodaj(co, ile)
 
 
 def dodaj(co, ile=1):
     if ile != 1:
-        print "%d x %s" % (ile, co)
+        print("%d x %s" % (ile, co))
     else:
-        print co
+        print(co)
+
 
 def dodajWszystkie(skladniki):
     map(dodaj, skladniki)
+
 
 def wstaw(co, ile=1):
     dodaj(co, ile)

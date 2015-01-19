@@ -1,5 +1,5 @@
 #Required packages:
 
 ```
-$ pip install pika===0.9.8
+$ pip3 install git+git://github.com/renshawbay/pika-python3.git
 ```
