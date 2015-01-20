@@ -12,7 +12,7 @@
                 material-id="materialId")
 
     .form-group.dm-annos-search(ng-if='showSearch && !$root.editMode', ng-show="annotations.length")
-        input.input-sm.form-control(placeholder="Szukaj", ng-model='search.text')
+        input.input-sm.form-control(placeholder="Search", ng-model='search.text')
     .row.dm-annos(ng-style='{"height": showSearch ? "calc(100% - 50px)" : "100%" }')
         .list-group(ng-if="showAll")
             .list-group-item.animate.dm-annos-item(

@@ -1,6 +1,7 @@
 define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/services/dm-events/dm-events'
 ], function(angular, xplatformApp, _) {
+  "use strict";
   xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', '$timeout', 'dmEvents', 'dmRecordings', function($scope, $stateParams, $timeout, dmEvents, dmRecordings) {
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {

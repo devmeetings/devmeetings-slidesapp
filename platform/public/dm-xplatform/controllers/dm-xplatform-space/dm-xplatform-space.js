@@ -69,7 +69,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
       $timeout(function(){
         $scope.toggleRight(false);
-      }, 200);
+      }, 2000);
 
       if ($scope.editMode) {
         $scope.right.min = $scope.right.max;

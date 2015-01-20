@@ -105,7 +105,7 @@ require(['angular',
                     onEnter: function($rootScope) {
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
-                            title: 'Zaloguj',
+                            title: 'Log in',
                             searchText: ''
                         },
                         $rootScope.xplatformData.columns = {
@@ -128,7 +128,7 @@ require(['angular',
                     onEnter: function($rootScope) {
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
-                            title: 'Zarejestruj',
+                            title: 'Register',
                             searchText: ''
                         },
                         $rootScope.xplatformData.columns = {
@@ -229,7 +229,7 @@ require(['angular',
                     onEnter: function($rootScope) {
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
-                            title: 'Kursy',
+                            title: 'Workshops',
                             searchText: ''
                         };
                         $rootScope.xplatformData.columns = {

@@ -2,7 +2,7 @@ a.btn.dm-timeline-button(
     ng-click='state.isPlaying = !state.isPlaying', 
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.play_pause'
-    tooltip='{{state.isPlaying ? "Pauza" : "Odtwarzaj"}}', tooltip-placement='top')
+    tooltip='{{state.isPlaying ? "Pause" : "Play"}}', tooltip-placement='top')
     span.fa.fa-play(ng-if='!state.isPlaying')
     span.fa.fa-pause(ng-if='state.isPlaying')
 
@@ -18,7 +18,7 @@ a.btn.dm-timeline-button(
     span -0.25
 a.btn.dm-timeline-button(
     ng-if='editMode', 
-    tooltip='Obecna sekunda', tooltip-placement='top')
+    tooltip='Current second', tooltip-placement='top')
     span {{state.currentSecond | number: 1}} 
 a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond + 0.25)"
@@ -30,7 +30,7 @@ a.btn.dm-timeline-button(
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.rate-{{nextRate}}'
     ng-click='changeRate()', 
-    tooltip='Zmień szybkość na {{nextRate | number: 2}}', tooltip-placement='top')
+    tooltip='Change the speed to {{nextRate | number: 2}}', tooltip-placement='top')
     span {{state.playbackRate | number: 2}}x
 .dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 110px)"}')
     dm-timeline(
@@ -43,8 +43,4 @@ a.btn.dm-timeline-button(
         dm-start-second='state.startSecond',
         dm-duration='state.duration',
         dm-set-second='setSecond')
-a.btn.dm-timeline-button(ng-if='editMode', tooltip='Dodaj snippet')
-    span.fa.fa-file
-a.btn.dm-timeline-button(ng-if='editMode', tooltip='Dodaj zadanie')
-    span.fa.fa-star-o
 
