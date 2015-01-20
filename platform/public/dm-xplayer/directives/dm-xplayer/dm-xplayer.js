@@ -14,7 +14,7 @@ define([
         scope: {
           state: '=',
           recording: '=',
-          annotations: '='
+          annotations: '=',
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
 

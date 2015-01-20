@@ -42,7 +42,9 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                 getState: function(event, id) {
                     var key = event + 'index' + id;
                     if (!states[key]) {
-                        states[key] = {};
+                        states[key] = {
+                          currentSecond: 0
+                        };
                     }
                     return states[key];
                 },

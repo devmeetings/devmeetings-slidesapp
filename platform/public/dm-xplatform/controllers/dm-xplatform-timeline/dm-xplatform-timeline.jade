@@ -31,16 +31,26 @@ a.btn.dm-timeline-button(
     analytics-on='click', analytics-event='audio.rate-{{nextRate}}'
     ng-click='changeRate()', 
     tooltip='Change the speed to {{nextRate | number: 2}}', tooltip-placement='top')
-    span {{state.playbackRate | number: 2}}x
+    span {{state.rate | number: 2}}x
 .dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 110px)"}')
     dm-timeline(
-        length='state.duration', annotations='annotations')
+      length='state.max', 
+      annotations='annotations',
+      ng-click="move($event)")
+
+    dm-xplayer-ticker(
+      ng-if="!withVoice",
+      state='state'
+    )
+
     dm-wavesurfer(
-        dm-src='audio',
-        dm-is-playing='state.isPlaying',
-        dm-current-second='state.currentSecond',
-        dm-playback-rate='state.playbackRate',
-        dm-start-second='state.startSecond',
-        dm-duration='state.duration',
-        dm-set-second='setSecond')
+      ng-if="withVoice"  
+      dm-src='audio',
+      dm-is-playing='state.isPlaying',
+      dm-current-second='state.currentSecond',
+      dm-playback-rate='state.rate',
+      dm-start-second='state.startSecond',
+      dm-duration='state.duration',
+      dm-set-second='setSecond'
+    )
 

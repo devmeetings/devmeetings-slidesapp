@@ -362,7 +362,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.player', {
-                    url: '/player/:iteration/:material',
+                    url: '/player/:iteration/:material?withVoice',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
