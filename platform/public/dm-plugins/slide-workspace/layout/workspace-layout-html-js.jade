@@ -1,0 +1,31 @@
+.full-height
+  .full-height(style="width:60%; float:left")
+    div(
+      style="height: 55%",
+      ng-class="{'editor-focus': workspace.active === 'index|html' }")
+      dm-editor(
+        size='workspace.size', 
+        data='workspace.tabs["index|html"]',
+        mode='"html"',
+        undo-manager='undoManager',
+        options='workspace',
+        trigger-save='triggerSave()',
+        trigger-change-later='triggerChangeLater()'
+      )
+    div(
+      style="height:45%",
+      ng-class="{'editor-focus': workspace.active === 'main|js' }")
+      dm-editor(
+        size='workspace.size', 
+        data='workspace.tabs["main|js"]',
+        mode='"javascript"',
+        undo-manager='undoManager',
+        options='workspace',
+        trigger-save='triggerSave()',
+        trigger-change-later='triggerChangeLater()'
+      )
+  .full-height(style="width:40%; float:left")
+    slide-workspace-output.full-height
+
+
+

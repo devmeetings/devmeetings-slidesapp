@@ -36,6 +36,9 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
           templateUrl: path + '/slide-workspace.html',
           controller: ["$scope", "$upload",
             function($scope, $upload) {
+
+              $scope.layout = 'angular';
+
               $scope.onFileSelect = function($files) {
                 if (!confirm("Uploading file will erase your current workspace. Continue?")) {
                   return;
@@ -86,8 +89,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               sideBySide: true
             };
 
-            scope.$watch('workspace.tabs', function() {
-              scope.undoManager.reset();
+            scope.$watch('output.width', function() {
+              // Because of animation we have to make timeout
+              $timeout(function() {
+                scope.$broadcast('resize');
+              }, 500);
+            });
+
+            scope.$watch('output.sideBySide', function() {
+              scope.output.show = false;
+              // Refresh view
+              triggerChangeLater(scope);
+              scope.$broadcast('resize');
             });
 
             scope.changeWidth = function() {
@@ -101,6 +114,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                 out.width = 6;
               }
             };
+
+            scope.$watch('workspace.tabs', function() {
+              scope.undoManager.reset();
+            });
 
             // This is temporary hack!
             function promptForName(old) {
@@ -152,6 +169,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             scope.tabsOrdering = function(tab) {
               return getExtension(tab);
             };
+
             scope.toFileName = function(tab) {
               return tab.replace(/\|/g, '.');
             };
@@ -174,21 +192,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             };
 
             scope.$watch('activeTab.mode', function(mode) {
-              scope.mode = getMode(scope.workspace.active, mode);
-            });
-
-            scope.$watch('output.width', function() {
-              // Because of animation we have to make timeout
-              $timeout(function() {
-                scope.$broadcast('resize');
-              }, 500);
-            });
-
-            scope.$watch('output.sideBySide', function() {
-              scope.output.show = false;
-              // Refresh view
-              triggerChangeLater(scope);
-              scope.$broadcast('resize');
+              scope.editorMode = getMode(scope.workspace.active, mode);
             });
 
             scope.$watch('workspace', refreshActiveTab.bind(null, scope));
@@ -210,7 +214,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                 undoManager.setUpTabsSwitched(true);
               }
 
-              scope.mode = getMode(active, scope.activeTab.mode);
+              scope.editorMode = getMode(active, scope.activeTab.mode);
               scope.$broadcast('update');
             });
           }

@@ -47,12 +47,12 @@ define([
               return;
             }
             var second = $scope.state.currentSecond;
-            var anno, stopEarlier = 0.05;
+            var anno;
 
             $scope.recordingPlayer.goToSecond(second);
 
 
-            if (second > $scope.nextStop - stopEarlier) {
+            if (second > $scope.nextStop) {
               $scope.anno = $scope.next;
               $scope.minimized = false;
               $scope.state.isPlaying = false;
@@ -81,6 +81,7 @@ define([
                   left: 'calc(45% + ' + (rect.left / 50) + 'px)',
                   top: positionTop + 'px'
                 });
+                myself.toggleClass('small', !$scope.anno.description);
               }, 450);
             } else if (Math.abs(curr - prev) > 3) {
               // fix nextStop when we are going backwards or fast forward
