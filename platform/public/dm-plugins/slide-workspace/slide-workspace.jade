@@ -32,8 +32,11 @@
                 li.workspace-tab.pull-right.workspace-tab-condensed
                   a.cursor-pointer(
                     title="Open Your Page in New Window",
-                    ng-href="/api/page/{{ output.hash }}/", target="_blank", tooltip="Open your page in new window",
-                                        analytics-event="workspace-newWindow", analytics-category="workspace")
+                    ng-href="/api/page/{{ output.hash }}/", 
+                    target="_blank", 
+                    tooltip="Open your page in new window",
+                    analytics-event="workspace-newWindow",
+                    analytics-category="workspace")
                         span.fa.fa-external-link
                 li.workspace-tab.workspace-download.pull-right.workspace-tab-condensed
                   a.cursor-pointer(
@@ -53,7 +56,15 @@
 
             .tab-content(ng-show="!output.show")
                 .tab-pane.active.fade.in.scrollable-container
-                    .editor.ace_editor(class="editor-{{ workspace.size || 'md' }}")
+                  dm-editor(
+                    size='workspace.size', 
+                    data='activeTab',
+                    mode='mode',
+                    undo-manager='undoManager',
+                    options='workspace',
+                    trigger-save='triggerSave()',
+                    trigger-change-later='triggerChangeLater()'
+                    )
                 .errors.alert.alert-danger.errors-fiddle {{ errors }}
             .tab-content(ng-show="output.show", ng-if="!output.sideBySide")
                 slide-workspace-output.full-height    
