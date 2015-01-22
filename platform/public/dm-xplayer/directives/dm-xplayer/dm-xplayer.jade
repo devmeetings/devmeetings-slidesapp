@@ -1,6 +1,6 @@
 .full-height
   .dm-player-subtitles(
-      ng-class="{'faded': (state.isPlaying || starting), 'minimized': minimized, 'small': !anno.description }"
+      ng-class="{'faded': showAnno == false, 'minimized': minimized, 'small': !anno.description }"
     )
       .dm-player-subtitles-hidden(ng-show="anno.description")
         a.dm-player-subtitles-minimize(ng-click="minimized = !minimized")

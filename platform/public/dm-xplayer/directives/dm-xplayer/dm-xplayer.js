@@ -35,10 +35,9 @@ define([
 
 
           $scope.runNext = function() {
-            $scope.starting = true;
+            $scope.showAnno = false;
             $timeout(function() {
               $scope.state.isPlaying = true;
-              $scope.starting = false;
             }, 1000);
           };
 
@@ -46,7 +45,7 @@ define([
           $scope.nextStop = 0.1;
           $scope.maxNextStop = 10000;
 
-          var goToSecond = _.throttle(function(curr, prev) {
+          var goToSecond = function(curr, prev) {
             if (!$scope.recordingPlayer) {
               return;
             }
@@ -56,10 +55,13 @@ define([
             $scope.recordingPlayer.goToSecond(second);
 
 
-            if (second > $scope.nextStop) {
+            if (second >= $scope.nextStop) {
               $scope.anno = $scope.next;
-              $scope.minimized = false;
               $scope.state.isPlaying = false;
+              // WTF? I have no idea why sometimes annoation is not displayed.
+              $timeout(function() {
+                $scope.showAnno = true;
+              }, 10);
 
               anno = _.find($scope.annotations, function(anno) {
                 return anno.timestamp > second;
@@ -77,7 +79,10 @@ define([
               var myself = $('.dm-player-subtitles');
 
               setTimeout(function() {
-                var rect = $('.ace_cursor')[0].getBoundingClientRect();
+                var cursor = $('.editor-focus .ace_cursor')[0];
+                cursor = cursor || $('.ace_cursor')[0];
+
+                var rect = cursor.getBoundingClientRect();
                 var positionTop = Math.max(20, rect.top - (myself.height() - 40) / 2);
                 positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 200, positionTop);
 
@@ -85,7 +90,9 @@ define([
                   left: 'calc(45% + ' + (rect.left / 50) + 'px)',
                   top: positionTop + 'px'
                 });
-                myself.toggleClass('small', !$scope.anno.description);
+                if ($scope.anno) {
+                  myself.toggleClass('small', !$scope.anno.description);
+                }
               }, 450);
             } else if (Math.abs(curr - prev) > 3) {
               // fix nextStop when we are going backwards or fast forward
@@ -105,9 +112,14 @@ define([
                 $scope.nextStop = $scope.maxNextStop;
               }
             }
-          }, 3);
+          };
 
           $scope.$watch('state.currentSecond', goToSecond);
+          $scope.$watch('state.isPlaying', function(isPlaying) {
+            if (isPlaying) {
+              $scope.showAnno = false;
+            }
+          });
         }
       };
     }

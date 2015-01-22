@@ -20,8 +20,6 @@ define([
           });
 
           function playerTick() {
-            var step = 100.0 / $scope.state.rate;
-
             if ($scope.state.currentSecond > $scope.state.max) {
               $scope.state.isPlaying = false;
             }
@@ -33,6 +31,7 @@ define([
             var s = $scope.state.currentSecond;
             $scope.state.currentSecond = s + 0.1;
 
+            var step = 100.0 / $scope.state.rate;
             $timeout(playerTick, step);
           }
 

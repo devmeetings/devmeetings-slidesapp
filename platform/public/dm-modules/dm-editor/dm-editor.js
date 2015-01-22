@@ -79,6 +79,9 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
             });
 
             scope.$on('update', function() {
+              if (!scope.data) {
+                return;
+              }
               updateMode(scope.name);
               updateEditorContent(editor, scope.data);
               triggerSave();
