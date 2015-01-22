@@ -1,9 +1,13 @@
 var mongoose = require('mongoose');
-Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 var Recording = new Schema({
     title: String,
     group: String,
+    layout: {
+      name: String,
+      options: Schema.Types.Mixed
+    },
     date: Date,
     slides: {
         type: [Schema.Types.Mixed],

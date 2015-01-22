@@ -36,8 +36,13 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
           templateUrl: path + '/slide-workspace.html',
           controller: ["$scope", "$upload",
             function($scope, $upload) {
+              
+              var defaultLayout = {
+                name: 'tabs',
+                options: ['index|html', 'main|js', 'style|css']
+              };
 
-              $scope.layout = 'angular';
+              $scope.layout = $scope.workspace.layout || defaultLayout;
 
               $scope.onFileSelect = function($files) {
                 if (!confirm("Uploading file will erase your current workspace. Continue?")) {
@@ -191,10 +196,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               scope.$broadcast('update');
             };
 
-            scope.$watch('activeTab.mode', function(mode) {
-              scope.editorMode = getMode(scope.workspace.active, mode);
-            });
-
             scope.$watch('workspace', refreshActiveTab.bind(null, scope));
 
             scope.$on('slide:update', function() {
@@ -214,7 +215,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                 undoManager.setUpTabsSwitched(true);
               }
 
-              scope.editorMode = getMode(active, scope.activeTab.mode);
               scope.$broadcast('update');
             });
           }
@@ -229,26 +229,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
       scope.$broadcast('update');
     }
 
+    // TODO [ToDr] This is duplicated in dm-editor
     function getExtension(name) {
       name = name || '';
       var name2 = name.split('|');
       return name2[name2.length - 1];
-    }
-
-    function getMode(name, givenMode) {
-      var modesMap = {
-        'js': 'javascript',
-        'es6': 'javascript'
-      };
-
-      var mode;
-      if (givenMode) {
-        mode = givenMode;
-      } else {
-        mode = getExtension(name) || 'text';
-        mode = modesMap[mode] || mode;
-      }
-      return mode;
     }
 
   });

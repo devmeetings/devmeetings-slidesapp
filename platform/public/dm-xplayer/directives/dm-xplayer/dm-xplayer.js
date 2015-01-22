@@ -23,8 +23,12 @@ define([
             if (!recording) {
               return;
             }
+            var layout = recording.layout || null;
             $scope.recordingPlayer = RecordingsPlayerFactory(recording, function(slide) {
               $scope.slide = slide;
+              if (layout && slide.workspace) {
+                slide.workspace.layout = layout;
+              }
             });
             goToSecond();
           });

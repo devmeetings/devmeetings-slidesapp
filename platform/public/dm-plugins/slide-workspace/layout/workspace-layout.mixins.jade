@@ -1,0 +1,11 @@
+mixin editor(idx)
+  dm-editor(
+    size='workspace.size', 
+    data='workspace.tabs[workspace.layout.options[#{idx}]]',
+    name='workspace.layout.options[#{idx}]',
+    undo-manager='undoManager',
+    options='workspace',
+    trigger-save='triggerSave()',
+    trigger-change-later='triggerChangeLater()'
+  )
+

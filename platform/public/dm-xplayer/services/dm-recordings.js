@@ -7,11 +7,13 @@ define(['angular', 'dm-xplayer/dm-xplayer-app'], function (angular, xplayerApp) 
       
         var TransformedRecording = function (options) {
             this.slides = options.slides;
+            this.layout = options.layout;
         };
 
         var transform = function (data) {
             return new TransformedRecording({
-                slides: data.slides
+                slides: data.slides,
+                layout: data.layout
             });
         };
 

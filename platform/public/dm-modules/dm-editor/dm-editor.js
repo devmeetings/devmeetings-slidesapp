@@ -19,7 +19,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
           options: '=',
           undoManager: '=',
           data: '=',
-          mode: '=',
+          name: '=',
           triggerSave: '&',
           triggerChangeLater: '&'
         },
@@ -30,12 +30,25 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
           var triggerChangeLater = scope.triggerChangeLater;
           var triggerSave = scope.triggerSave;
 
+          function updateMode(name) {
+            if (!scope.data) {
+              return;
+            }
+            scope.mode = getMode(name, scope.data.mode);
+          }
+          scope.$watch('name', function(name){
+            name = name || "";
+            updateMode(name);
+            scope.dotName = name.replace(/\|/g, '.');
+          });
+
+
           /* 
            * [ToDr] Not sure why we need to introduce timeout here,
            * But when there is no timeout syntax highlighting doesnt work after loading editor
            * for the second time.
            */
-          var $e = element;
+          var $e = element.find('.editor');
           $timeout(function() {
 
             var indentSize = 2;
@@ -65,7 +78,8 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               editor.resize();
             });
 
-            scope.$on('update', function(){
+            scope.$on('update', function() {
+              updateMode(scope.name);
               updateEditorContent(editor, scope.data);
               triggerSave();
             });
@@ -134,6 +148,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 return;
               }
               withoutSync(function() {
+                updateMode(scope.name);
                 updateEditorContent(editor, scope.data);
                 updateEditorOptions(editor, scope.data);
               });
@@ -205,5 +220,28 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
     updateEditorSelection(ed, tab, forceUpdateCursor);
     updateEditorScroll(ed, tab);
   }
+
+  function getExtension(name) {
+    name = name || '';
+    var name2 = name.split('|');
+    return name2[name2.length - 1];
+  }
+
+  function getMode(name, givenMode) {
+    var modesMap = {
+      'js': 'javascript',
+      'es6': 'javascript'
+    };
+
+    var mode;
+    if (givenMode) {
+      return givenMode;
+    }
+
+    mode = getExtension(name) || 'text';
+    mode = modesMap[mode] || mode;
+    return mode;
+  }
+
 
 });

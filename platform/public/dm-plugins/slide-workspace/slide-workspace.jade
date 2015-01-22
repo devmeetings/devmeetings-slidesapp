@@ -2,15 +2,21 @@ div.text-muted(
     style="position: absolute; bottom: 0; left: 0; z-index:1000"
   )
   span.fa.fa-code(ng-click="showLayoutChooser = !showLayoutChooser")
-  select(ng-model="layout", ng-show="showLayoutChooser")
-    option(value="old") Classic
+  select(ng-model="layout.name", ng-show="showLayoutChooser")
+    option(value="tabs") Classic
     option(value="angular") Angular
     option(value="html-js") HTML+JS
+    option(value="three") Three
+    option(value="grid") Grid
 
 .slide-workspace.full-height
-  .full-height(ng-if="layout === 'old'")
+  .full-height(ng-if="layout.name === 'tabs'")
     include ./layout/workspace-layout-old
-  .full-height(ng-if="layout === 'angular'")
+  .full-height(ng-if="layout.name === 'angular'")
     include ./layout/workspace-layout-angular
-  .full-height(ng-if="layout === 'html-js'")
+  .full-height(ng-if="layout.name === 'html-js'")
     include ./layout/workspace-layout-html-js
+  .full-height(ng-if="layout.name === 'three'")
+    include ./layout/workspace-layout-three
+  .full-height(ng-if="layout.name === 'grid'")
+    include ./layout/workspace-layout-grid
