@@ -1,4 +1,4 @@
-define(['_', 'utils/Plugins', './slide-burger.mapping'], function(_, Plugins, mapping) {
+define(['_', 'utils/Plugins', '../slide.sidebar-microtasks/evalAssertion', './slide-burger.mapping'], function(_, Plugins, evalAssertion, mapping) {
   'use strict';
 
   function mapToBase(ingridient) {
@@ -7,22 +7,31 @@ define(['_', 'utils/Plugins', './slide-burger.mapping'], function(_, Plugins, ma
     });
   }
 
+  function fixIngridients(a) {
+    if (_.isArray(a)) {
+      return a.map(mapToBase);
+    }
+    return mapToBase(a);
+  }
+
   Plugins.registerPlugin('microtask.runner', 'burgerOutput', function(taskData, registerPlugin, listenPlugin, markTaskCompleted) {
 
     var task = taskData.task;
-    /* jshint evil:true */
-    var burger = eval(task.burgerOutput);
-    /* jshint evil:false */
-    burger = burger.map(mapToBase);
 
     listenPlugin('slide.jsonOutput.display', _.debounce(function(obj) {
       if (task.completed) {
         return;
       }
+      var assertion = task.burgerOutput;
+
 
       obj = obj.map(mapToBase);
 
-      if (_.isEqual(burger, obj)) {
+      var result = evalAssertion(assertion, ['x', 'equals'], [obj, function(a, b) {
+          return _.isEqual(fixIngridients(a), fixIngridients(b));
+      }]);
+
+      if (result) {
         markTaskCompleted();
       }
 
