@@ -24,9 +24,10 @@ def runCode(code, q):
         out = io.StringIO()
         sys.stdout = out
         burgerExec(code)
+        output = out.getvalue().split("\n")
         q.put({
             'success': True,
-            'result': out.getvalue().split("\n")
+            'result': output[:-1]
         })
         return
     except:

@@ -63,7 +63,8 @@ require.config({
         "angular-marked": "../components/angular-marked/angular-marked",
         "angular-charts": "../components/angular-charts/dist/angular-charts.min",
         "angular-file-upload": "../components/ng-file-upload/angular-file-upload.min",
-        "angular-fullscreen": "../components/angular-fullscreen/src/angular-fullscreen"
+        "angular-fullscreen": "../components/angular-fullscreen/src/angular-fullscreen",
+        "angular-jsonedit": "../components/json-edit/js/directives"
     },
     "map": {
         "*": {
@@ -174,6 +175,9 @@ require.config({
             "deps": ["angular"]
         },
         "angular-fullscreen": {
+          "deps": ["angular"]
+        },
+        "angular-jsonedit": {
           "deps": ["angular"]
         }
     }

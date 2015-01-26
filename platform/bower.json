@@ -41,6 +41,7 @@
     "angular-charts": "~0.2.6",
     "ng-file-upload": "~1.6.12",
     "js-beautify": "~1.5.4",
-    "angular-fullscreen": "~1.0.0"
+    "angular-fullscreen": "~1.0.0",
+    "json-edit": "~0.2.0"
   }
 }

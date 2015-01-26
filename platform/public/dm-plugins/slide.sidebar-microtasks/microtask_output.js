@@ -11,8 +11,6 @@ define(['_', 'utils/Plugins', './evalAssertion'], function(_, Plugins, evalAsser
                 return;
             }
 
-
-
             var result = evalAssertion(task.jsonOutput, ["x", "equals"], [obj, _.isEqual]);
 
             if (result) {
