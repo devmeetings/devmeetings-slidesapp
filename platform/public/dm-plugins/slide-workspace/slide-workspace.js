@@ -44,7 +44,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
               $scope.$watch('workspace.layout', function(layout) {
                 $scope.layout = layout || defaultLayout;
-              });
+              }, true);
 
               $scope.onFileSelect = function($files) {
                 if (!confirm("Uploading file will erase your current workspace. Continue?")) {
