@@ -8,6 +8,7 @@ div.text-muted(
     option(value="html-js") HTML+JS
     option(value="three") Three
     option(value="grid") Grid
+    option(value="equal") Split
 
 .slide-workspace.full-height
   .full-height(ng-if="layout.name === 'tabs'")
@@ -20,3 +21,5 @@ div.text-muted(
     include ./layout/workspace-layout-three
   .full-height(ng-if="layout.name === 'grid'")
     include ./layout/workspace-layout-grid
+  .full-height(ng-if="layout.name === 'equal'")
+    include ./layout/workspace-layout-equal
