@@ -50,9 +50,8 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
 
 
                         return groups;
-                      }, [[]]).filter(function(burger){
-                        return burger.length > 0;
-                      });
+                      }, [[]]);
+
                       scope.burgers = burgers.map(displayOutput);
                     }
 
