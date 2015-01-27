@@ -2,9 +2,9 @@ div.burger-container
   div(
     ng-repeat="display in burgers",
     ng-style="{width: 100 / burgers.length + '%'}")
-  img.burger-img(
-    ng-class="{invisible: !img.visible}", 
-    ng-style="{'z-index': display.length-$index}", 
-    ng-src="{{img.src}}", 
-    ng-repeat="img in display track by $index"
-  )
+    img.burger-img(
+      ng-class="{invisible: !img.visible}", 
+      ng-style="{'z-index': display.length-$index}", 
+      ng-src="{{img.src}}", 
+      ng-repeat="img in display track by $index"
+    )
