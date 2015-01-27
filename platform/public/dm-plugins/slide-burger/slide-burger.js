@@ -36,20 +36,32 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
                 },
                 templateUrl: path + '/slide-burger.html',
                 link: function(scope) {
-                    var iteration = 0;
+                      
+                    function displayBurgers(output) {
+                      var burgers = output.reduce(function(groups, item) {
+                        if (findImg(item) === 'spod') {
+                          groups.push([]);
+                        }
+
+                        groups[groups.length - 1].push(item);
+
+                        return groups;
+                      }, [[]]).filter(function(burger){
+                        return burger.length > 0;
+                      });
+                      scope.burgers = burgers.map(displayOutput);
+                    }
 
                     function displayOutput(output) {
-                        iteration++;
-                        var myIteration = iteration;
                         // images to display in reversed order
-                        scope.display = [];
+                        var burger = [];
 
                         // map output
                         output.filter(_.identity).map(splitText).map(function(d) {
                             var img = findImg(d[1]);
 
                             for (var i = 0; i < d[0]; ++i) {
-                                scope.display.unshift({
+                                burger.unshift({
                                     visible: false,
                                     src: imgPath(img)
                                 });
@@ -57,25 +69,23 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
                         });
 
                         function animate(idx) {
-                            var l = scope.display.length - 1;
+                            var l = burger.length - 1;
                             if (idx > l) {
                                 return;
                             }
-                            scope.display[l - idx].visible = true;
+                            burger[l - idx].visible = true;
                             $timeout(function() {
-                                if (myIteration !== iteration) {
-                                    return;
-                                }
                                 animate(idx + 1);
                             }, 250);
                         }
                         $timeout(function() {
                             animate(0);
                         }, 10);
-                        
+
+                        return burger;
                     }
 
-                    sliderPlugins.listen(scope, 'slide.jsonOutput.display', displayOutput);
+                    sliderPlugins.listen(scope, 'slide.jsonOutput.display', displayBurgers);
                 }
             };
         }
