@@ -41,7 +41,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
                       var burgers = output.reduce(function(groups, item, key) {
                         groups[groups.length - 1].push(item);
 
-                        if (findImg(item) === 'gora') {
+                        if (findImg(item) === 'top') {
                           var nextItem = output[key+1];
                           if (nextItem && findImg(nextItem) === 'spod') {
                             groups.push([]);
