@@ -38,12 +38,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
                 link: function(scope) {
                       
                     function displayBurgers(output) {
-                      var burgers = output.reduce(function(groups, item) {
-                        if (findImg(item) === 'spod') {
-                          groups.push([]);
+                      var burgers = output.reduce(function(groups, item, key) {
+                        groups[groups.length - 1].push(item);
+
+                        if (findImg(item) === 'gora') {
+                          var nextItem = output[key+1];
+                          if (nextItem && findImg(nextItem) === 'spod') {
+                            groups.push([]);
+                          }
                         }
 
-                        groups[groups.length - 1].push(item);
 
                         return groups;
                       }, [[]]).filter(function(burger){
