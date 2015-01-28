@@ -85,7 +85,8 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
             var blob = new Blob([angular.toJson(scope.deck)], {
               type: 'application/json;charset=utf-8'
             });
-            $window.saveAs(blob, scope.deck.title + ".json");
+            var now = new Date().toJSON();
+            $window.saveAs(blob, scope.deck.title + "-" + now + ".json");
           };
         }
       };
