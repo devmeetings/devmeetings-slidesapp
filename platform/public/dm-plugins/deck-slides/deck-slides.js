@@ -1,10 +1,10 @@
-define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, sliderPlugins) {
+define(['module', '_', 'angular', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, angular, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-        '$timeout', '$rootScope', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys',
-        function($timeout, $rootScope, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
+        '$timeout', '$rootScope', '$window', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys',
+        function($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
 
             return {
                 restrict: 'E',
@@ -80,6 +80,14 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                         description: 'Previous slide',
                         callback: goToSlide.bind(null, -1)
                     });
+
+                    scope.downloadDeck = function() {
+                      var blob = new Blob([angular.toJson(scope.deck)], {
+                        type: 'application/json;charset=utf-8'
+                      });
+                      var url = URL.createObjectURL(blob);
+                      $window.open(url);
+                    };
                 }
             };
         }

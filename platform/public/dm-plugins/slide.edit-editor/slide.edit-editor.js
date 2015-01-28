@@ -28,6 +28,10 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                     editor.setValue(JSON.stringify(scope.slide, null, 2));
                     editor.clearSelection();
 
+                    scope.$watch('collapsed', function(){
+                      editor.resize();
+                    });
+
                     var updateSlideContent = function() {
                         var value = editor.getValue();
                         scope.$apply(function() {
