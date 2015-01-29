@@ -32,7 +32,7 @@ def runCode(code, q):
         return
     except:
         ex_type, ex, tb = sys.exc_info()
-        stacktrace = [x[1:] for x in traceback.extract_tb(tb)[1:]]
+        stacktrace = [x[1:] for x in traceback.extract_tb(tb)[2:]]
         q.put({
             'success': False,
             'errors': [str(ex)],
