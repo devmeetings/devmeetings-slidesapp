@@ -4,11 +4,11 @@ include ./workspace-layout.mixins.jade
   .full-height(style="width:60%; float:left")
     .editor-focusable(
       style="height: 55%",
-      ng-class="{'editor-focus': workspace.active === workspace.layout.options[0] }")
+      ng-class="{'editor-focus': workspace.active === layout.options[0] }")
       +editor(0)
     .editor-focusable(
       style="height:45%",
-      ng-class="{'editor-focus': workspace.active === workspace.layout.options[1] }")
+      ng-class="{'editor-focus': workspace.active === layout.options[1] }")
       +editor(1)
   .full-height(style="width:40%; float:left")
     slide-workspace-output.full-height
