@@ -4,15 +4,10 @@ mixin slidesMixin()
 
 
 nav.navbar.navbar-default.navbar-slides.navbar-fixed-bottom(role='navigation')
-    .navbar-header
-        ul.nav.navbar-nav.navbar-left
-            li
-                a.text-muted.cursor-pointer 
-                    span.glyphicon.glyphicon-th-large
     div.slimScrollDiv(style="position: relative; width: calc(100% - 120px); height: 45px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 
         ul.nav.navbar-nav.nav-slides(ng-if="$root.modes.isEditMode", ui-sortable="sortableOptions", ng-model="slides")
             mixin slidesMixin() 
-        ul.nav.navbar-nav.nav-slides(ng-if="!$root.modes.isEditMode", ng-model="slides")
+        ul.nav.navbar-nav.nav-slides(ng-if="!$root.modes.isEditMode")
             mixin slidesMixin()
     ul.nav.nav-new-slide.cursor-pointer(ng-if="$root.modes.isEditMode")
         li
