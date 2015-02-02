@@ -13,7 +13,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 },
                 templateUrl: path + '/part.html',
                 link: function(scope) {
-                    scope.size = 7;
+                    scope.size = 60;
                 }
             };
         }
@@ -30,7 +30,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 },
                 templateUrl: path + '/part.html',
                 link: function(scope) {
-                    scope.size = 5;
+                    scope.size = 40;
                 }
             };
         }
