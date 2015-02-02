@@ -36,18 +36,25 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
           templateUrl: path + '/slide-workspace.html',
           controller: ["$scope", "$upload",
             function($scope, $upload) {
-              
+
               var defaultLayout = {
                 name: 'tabs',
                 options: ['index|html', 'main|js', 'style|css']
               };
 
-              $scope.$watch('workspace.layout', function(layout) {
-                $scope.layout = layout || defaultLayout;
+
+              function fixLayoutOptions() {
                 if (!$scope.layout.options) {
                   $scope.layout.options = defaultLayout.options;
                 }
+              }
+
+              $scope.$watch('workspace.layout', function(layout) {
+                $scope.layout = layout || defaultLayout;
               }, true);
+              $scope.$watch('layout.name', function(){
+                fixLayoutOptions();
+              });
 
               $scope.onFileSelect = function($files) {
                 if (!confirm("Uploading file will erase your current workspace. Continue?")) {
