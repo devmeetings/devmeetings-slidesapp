@@ -7,6 +7,7 @@ div.text-muted(
     option(value="angular") Angular
     option(value="html-js") HTML+JS
     option(value="three") Three
+    option(value="three-long") Three Long
     option(value="grid") Grid
     option(value="equal") Split
 
@@ -19,6 +20,8 @@ div.text-muted(
     include ./layout/workspace-layout-html-js
   .full-height(ng-if="layout.name === 'three'")
     include ./layout/workspace-layout-three
+  .full-height(ng-if="layout.name === 'three-long'")
+    include ./layout/workspace-layout-three-long
   .full-height(ng-if="layout.name === 'grid'")
     include ./layout/workspace-layout-grid
   .full-height(ng-if="layout.name === 'equal'")
