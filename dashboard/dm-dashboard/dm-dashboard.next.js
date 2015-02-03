@@ -1,45 +1,51 @@
 /* jshint esnext:true */
-
 this.AdminConfig = {
-  name: 'App Admin',
+  name: 'EventTimings',
   collections: {
-    Todos: {
+    EventTimings: {
       icon: 'pencil',
       tableColumns: [{
+        label: 'Short id',
+        name: 'id'
+      }, {
         label: 'Title',
-        name: 'text'
-      }],
-      showWidget: true
+        name: 'eventTitle'
+      }, {
+        label: 'Start',
+        name: 'startTime'
+      }]
     }
   }
 };
 
-if (Meteor.isClient) {
-
-  Meteor.subscribe('todos');
-
-  Template.Home.helpers({
-    todos() {
-      return Todos.find({});
-    }
-  });
-
-  Template.Home.events({
-    'submit [role="new-task"]': (ev) => {
-      var $input = ev.target.text;
-      Todos.insert({
-        text: $input.value,
-        completed: false
-      });
-      $input.value = '';
-
-      return false;
-    }
-  });
-}
-
 Router.map(function() {
-  this.route('/', function() {
-    this.render('Home');
+  this.route('events', {
+    path: '/',
+    waitOn: function() {
+      return Meteor.subscribe('events');
+    },
+    action: function() {
+      if (this.ready()) {
+        this.render('EventsList');
+      } else {
+        this.render('Loading');
+      }
+    }
+  });
+
+  this.route('event', {
+    path: '/events/:id',
+    waitOn: function() {
+      return Meteor.subscribe('events');
+    },
+    action: function() {
+      this.render('Event', {
+        data: {
+          event: EventTimings.findOne({
+            id: this.params.id
+          })
+        }
+      });
+    }
   });
 });

@@ -1,0 +1,10 @@
+.col-md-4
+  +loginButtons
+  h3.text-center #{event.eventTitle}
+
+  ul.list-group
+    each event.items
+      li.list-group-item
+        span #{time}
+        p #{title}
+
