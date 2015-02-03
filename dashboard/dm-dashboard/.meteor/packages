@@ -5,8 +5,15 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
 nemo64:bootstrap
 less
 mquandalle:jade
+mquandalle:harmony
+iron:router
+aldeed:autoform
+fortawesome:fontawesome
+yogiben:admin
+accounts-base
+accounts-password
+accounts-ui
+aldeed:collection2
