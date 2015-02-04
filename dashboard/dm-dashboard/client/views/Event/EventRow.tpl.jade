@@ -2,12 +2,23 @@ tr
   td.col-xs-4
     span {{ asTime startTime }} - {{ asTime endTime }}
   td.col-xs-2
-    span(
-      contenteditable, 
-      role="item-time") #{time}
+    if startedAt
+      span(
+        role="item-time") #{time}
+    else
+      span(
+        contenteditable, 
+        role="item-time") #{time}
+
     span m
   td.col-xs-5
-    p #{title}
+    p 
+      span.fa.fa-fw(class="fa-{{icon}}")
+      if link
+        a(href=link)
+          | #{title}
+      else
+        | #{title}
   td.col-xs-1.text-center
     if startedAt
       unless finishedAt

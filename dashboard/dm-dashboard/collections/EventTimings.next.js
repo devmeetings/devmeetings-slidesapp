@@ -18,6 +18,11 @@ EventTimings.attachSchema(new SimpleSchema({
       type: 'datetime-local'
     }
   },
+  announcement: {
+    type: String,
+    label: 'Announcement',
+    optional: true
+  },
   items: {
     type: [Object]
   },
@@ -25,9 +30,14 @@ EventTimings.attachSchema(new SimpleSchema({
     type: String,
     label: 'Title'
   },
-  "items.$.category": {
+  "items.$.link": {
     type: String,
-    label: 'Category'
+    label: 'URL',
+    optional: true
+  },
+  "items.$.icon": {
+    type: String,
+    label: 'Icon'
   },
   "items.$.time": {
     type: Number,

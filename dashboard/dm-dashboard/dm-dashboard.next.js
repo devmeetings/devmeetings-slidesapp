@@ -33,6 +33,13 @@ Router.map(function() {
     }
   });
 
+  this.route('login', {
+    path: '/login',
+    action: function(){
+      this.render('LoginButtons');
+    }
+  });
+
   this.route('event', {
     path: '/events/:id',
     waitOn: function() {
