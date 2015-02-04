@@ -179,8 +179,8 @@ module.exports = {
           commands.addBash('rm build -R || 1', 'Removing build.');
           commands.addBash('meteor build build', 'Building Meteor App');
           commands.addBash('cd build; tar xvf *', 'Extracting App');
-          commands.addBash('cd programs/server/; npm install', 'Installing npm modules');
-          commands.addBash('cd -;', 'Changing directory');
+          commands.addBash('cd bundle/programs/server/; npm install', 'Installing npm modules');
+          commands.addBash('cd ../../;', 'Changing directory');
         } else {
           if (!env.options.noNpm) {
               commands.addBash("npm install", "Installing npm modules");
