@@ -1,0 +1,11 @@
+tr
+  td.col-xs-2
+    span {{ asTime startTime }} - {{ asTime endTime }}
+  td.col-xs-1
+    span(
+      contenteditable, 
+      role="item-time") #{actualTime}
+    span m
+  td.col-xs-9
+    p #{title}
+

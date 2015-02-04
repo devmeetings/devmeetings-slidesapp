@@ -3,8 +3,9 @@ var Workspaces = require('../../services/workspaces');
 var crypto = require('crypto');
 var mime = require('mime');
 
-exports.onSocket = function(log, socket, io) {
 
+
+exports.onSocket = function(log, socket, io) {
     socket.on('slide.slide-workspace.change', function(data, ack) {
         var files = getFiles(data);
         var hash = calculateHash(files);

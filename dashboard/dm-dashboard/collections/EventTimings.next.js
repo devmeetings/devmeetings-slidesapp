@@ -13,7 +13,10 @@ EventTimings.attachSchema(new SimpleSchema({
   },
   startTime: {
     type: Date,
-    label: 'Start Time'
+    label: 'Start Time',
+    autoform: {
+      type: 'datetime-local'
+    }
   },
   items: {
     type: [Object]
@@ -30,10 +33,40 @@ EventTimings.attachSchema(new SimpleSchema({
     type: Number,
     label: 'Time [minutes]'
   },
-  "items.$.timeLeft": {
+  "items.$.actualTime": {
     type: Number,
-    label: "Time left [minutes]"
+    label: 'Actual Time [minutes]',
+    optional: true
+  },
+  "items.$.startedAt": {
+    type: Date,
+    label: 'Started At',
+    optional: true,
+    autoform: {
+      type: 'datetime-local'
+    }
+  },
+  "items.$.finishedAt": {
+    type: Date,
+    label: 'Finished At',
+    optional: true,
+    autoform: {
+      type: 'datetime-local'
+    }
   }
+
 }));
 
 this.EventTimings = EventTimings;
+
+Meteor.methods({
+
+  "EventTimings.updateTime": (eventId, itemId, newTime) => {
+    EventTimings.update(eventId, {
+      $set: {
+        ['items.' + itemId + '.actualTime']: newTime
+      }
+    });
+  }
+
+});
