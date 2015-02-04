@@ -176,7 +176,6 @@ module.exports = {
         commands.addBash("git pull", "Updating working copy");
 
         if (env.options.buildMeteor) {
-          commands.addBash('mkdir build', 'Creating directory');
           commands.addBash('meteor build build', 'Building Meteor App');
           commands.addBash('cd build; tar xvf *; cd bundle', 'Extracting App');
         } else {
