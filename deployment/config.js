@@ -9,7 +9,7 @@ module.exports = {
     environments: {
         "xplatform-dev": {
             "name": "xplatform-dev",
-            "path": xplatformDir + "../devmeetings-slidesapp-dev/platform",
+            "path": xplatformDir + "../devmeetings-slidesapp-dev/x-platform",
             "options": {
                 "buildGrunt": true,
                 "startFile": "app.js",
@@ -23,7 +23,7 @@ module.exports = {
         },
         "xplatform-staging": {
             "name": "xplatform-staging",
-            "path": xplatformDir + "../devmeetings-slidesapp-staging/platform",
+            "path": xplatformDir + "../devmeetings-slidesapp-staging/x-platform",
             "options": {
                 "buildGrunt": true,
                 "startFile": "app.js",
@@ -34,21 +34,6 @@ module.exports = {
                 "confirm": true,
                 "class": "btn-danger",
                 "label": "XPlatform [staging]"
-            }
-        },
-        "formage": {
-            "name": "formage",
-            "path": xplatformDir + "../devmeetings-slidesapp/tools/platform_admin",
-            "options": {
-                "buildGrunt": false,
-                "cmd": "bash",
-                "startFile": "run.sh",
-                "logName": "formage.log",
-                "env": "NODE_ENV=\"production\""
-            },
-            "btn": {
-                "class": "btn-inverse",
-                "label": "Formage [prod]"
             }
         },
         "tired-admin": {
@@ -65,23 +50,24 @@ module.exports = {
                 "label": "Tired-admin [prod]"
             }
         },
-        "shout": {
-            "name": "shout",
-            "path": xplatformDir + "../shout/",
+        "xplatform-dashboard": {
+          "name": "xplatform-dashboard",
+          "path": xplatformDir + "x-dashboard",
             "options": {
-                "buildGrunt": false,
-                "startFile": "index.js",
-                "logName": "shout.log",
-                "env": "NODE_ENV=\"production\""
+                "buildMeteor": true,
+                "startFile": "main.js",
+                "logName": "dashboard.log",
+                "env": "MONGO_URL=\"mongodb://localhost:27017/platform-meteor-prod\" ROOT_URL=\"https://xplatform.org/live\"",
             },
             "btn": {
-                "class": "btn-default",
-                "label": "Shout [prod]"
+                "confirm": true,
+                "class": "btn-danger",
+                "label": "XDashboard [prod]"
             }
         },
         "xplatform-prod": {
             "name": "xplatform-prod",
-            "path": xplatformDir + "platform",
+            "path": xplatformDir + "x-platform",
             "options": {
                 "buildGrunt": true,
                 "startFile": "app.js",
@@ -189,12 +175,18 @@ module.exports = {
 
         commands.addBash("git pull", "Updating working copy");
 
-        if (!env.options.noNpm) {
-            commands.addBash("npm install", "Installing npm modules");
-        }
+        if (env.options.buildMeteor) {
+          commands.addBash('mkdir build', 'Creating directory');
+          commands.addBash('meteor build build', 'Building Meteor App');
+          commands.addBash('cd build; tar xvf *; cd bundle', 'Extracting App');
+        } else {
+          if (!env.options.noNpm) {
+              commands.addBash("npm install", "Installing npm modules");
+          }
 
-        if (env.options.buildGrunt) {
-            commands.addBash("grunt build", "Build Frontend");
+          if (env.options.buildGrunt) {
+              commands.addBash("grunt build", "Build Frontend");
+          }
         }
 
         var startFile = env.options.startFile;

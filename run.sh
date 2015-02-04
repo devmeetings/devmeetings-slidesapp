@@ -12,7 +12,7 @@ docker build -t xplatform/mongo - < ./Dockerfiles/mongo.docker
 docker build -t xplatform/rabbitmq https://github.com/tutumcloud/tutum-docker-rabbitmq.git
 docker build -t xplatform/executors-node ./executors/nodeExecutor
 docker build -t xplatform/executors-java ./executors/javaExecutor
-docker build -t xplatform/platform ./platform
+docker build -t xplatform/platform ./x-platform
 
 
 docker start mongo || docker run -d --name mongo -p :27017 -t xplatform/mongo 
