@@ -1,7 +1,7 @@
 tr
-  td.col-xs-4
-    span {{ asTime startTime }} - {{ asTime endTime }}
-  td.col-xs-2
+  td.text-right
+    strong {{ asTime startTime }} - {{ asTime endTime }}
+  td.text-center
     if startedAt
       span(
         role="item-time") #{time}
@@ -11,7 +11,15 @@ tr
         role="item-time") #{time}
 
     span m
-  td.col-xs-5
+  td.col-xs-8
+    div.pull-right
+      if startedAt
+        unless finishedAt
+          button.btn.btn-xs.btn-success(role='cancel-timer')
+            span.fa.fa-stop
+      else if isNext
+        button.text-muted.btn.btn-link.btn-xs(role='start-timer')
+          span.fa.fa-play
     p 
       span.fa.fa-fw(class="fa-{{icon}}")
       if link
@@ -19,11 +27,4 @@ tr
           | #{title}
       else
         | #{title}
-  td.col-xs-1.text-center
-    if startedAt
-      unless finishedAt
-        button.btn.btn-xs(role='cancel-timer')
-          span.fa.fa-stop
-    else if isNext
-      button.btn.btn-xs(role='start-timer')
-        span.fa.fa-play
+

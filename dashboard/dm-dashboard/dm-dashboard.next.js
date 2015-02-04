@@ -20,7 +20,7 @@ this.AdminConfig = {
 
 Router.map(function() {
   this.route('events', {
-    path: '/',
+    path: '/live/',
     waitOn: function() {
       return Meteor.subscribe('events');
     },
@@ -34,14 +34,14 @@ Router.map(function() {
   });
 
   this.route('login', {
-    path: '/login',
+    path: '/live/login',
     action: function(){
       this.render('LoginButtons');
     }
   });
 
   this.route('event', {
-    path: '/events/:id',
+    path: '/live/:id',
     waitOn: function() {
       return Meteor.subscribe('events');
     },
