@@ -1,8 +1,13 @@
-.col-md-4
-  +loginButtons
-  h3.text-center #{event.eventTitle}
-
-  table.table.table-striped.table-hover.table-bordered
-    tbody
-      each mapItems
-        +EventRow
+.container
+  .row
+    .col-sm-6
+      with currentItem
+        +EventRowDetails
+    .col-sm-6
+      hr.visible-xs
+      h1.text-center #{event.eventTitle}
+      h3.text-muted.text-center {{asDate event.eventDate}}
+      table.table.table-striped.table-hover.table-bordered
+        tbody
+          each mapItems
+            +EventRow

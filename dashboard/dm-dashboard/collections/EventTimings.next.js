@@ -11,9 +11,9 @@ EventTimings.attachSchema(new SimpleSchema({
     index: true,
     unique: true
   },
-  startTime: {
+  eventDate: {
     type: Date,
-    label: 'Start Time',
+    label: 'Event Date',
     autoform: {
       type: 'datetime-local'
     }
@@ -32,11 +32,6 @@ EventTimings.attachSchema(new SimpleSchema({
   "items.$.time": {
     type: Number,
     label: 'Time [minutes]'
-  },
-  "items.$.actualTime": {
-    type: Number,
-    label: 'Actual Time [minutes]',
-    optional: true
   },
   "items.$.startedAt": {
     type: Date,
@@ -59,12 +54,32 @@ EventTimings.attachSchema(new SimpleSchema({
 
 this.EventTimings = EventTimings;
 
+
+function updateEventProp(eventId, itemIdx, prop, val) {
+  EventTimings.update(eventId, {
+    $set: {
+      ['items.' + itemIdx + '.' + prop]: val
+    }
+  });
+}
+
 Meteor.methods({
 
-  "EventTimings.updateTime": (eventId, itemId, newTime) => {
+  "EventTimings.updateTime": (eventId, itemIdx, newTime) => {
+    updateEventProp(eventId, itemIdx, 'actualTime', newTime);
+  },
+
+  "EventTimings.startItem": (eventId, itemIdx, startTime) => {
+    if (itemIdx > 0) {
+      updateEventProp(eventId, itemIdx - 1, 'finishedAt', startTime);
+    }
+    updateEventProp(eventId, itemIdx, 'startedAt', startTime);
+  },
+
+  "EventTimings.cancelItem": (eventId, itemIdx) => {
     EventTimings.update(eventId, {
-      $set: {
-        ['items.' + itemId + '.actualTime']: newTime
+      $unset: {
+        ['items.' + itemIdx + '.startedAt']: ""
       }
     });
   }

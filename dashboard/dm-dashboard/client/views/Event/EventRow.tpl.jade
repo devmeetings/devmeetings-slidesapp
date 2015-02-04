@@ -1,11 +1,18 @@
 tr
-  td.col-xs-2
+  td.col-xs-4
     span {{ asTime startTime }} - {{ asTime endTime }}
-  td.col-xs-1
+  td.col-xs-2
     span(
       contenteditable, 
-      role="item-time") #{actualTime}
+      role="item-time") #{time}
     span m
-  td.col-xs-9
+  td.col-xs-5
     p #{title}
-
+  td.col-xs-1.text-center
+    if startedAt
+      unless finishedAt
+        button.btn.btn-xs(role='cancel-timer')
+          span.fa.fa-stop
+    else if isNext
+      button.btn.btn-xs(role='start-timer')
+        span.fa.fa-play
