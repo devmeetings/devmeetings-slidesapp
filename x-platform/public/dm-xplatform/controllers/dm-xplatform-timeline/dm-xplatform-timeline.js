@@ -60,7 +60,9 @@ define(['angular', 'xplatform/xplatform-app',
       };
 
       $scope.move = function(ev) {
-        $scope.state.currentSecond = ev.offsetX / ev.target.clientWidth * $scope.state.max;
+        var width = ev.currentTarget.clientWidth;
+        var x = ev.target.clientWidth === ev.currentTarget.clientWidth ? ev.offsetX : ev.target.offsetLeft;
+        $scope.state.currentSecond = x / width * $scope.state.max;
       };
 
     }
