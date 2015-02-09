@@ -1,231 +1,236 @@
 .slide-workspace {
+  position: relative;
+
+  .sw-col {
+    transition: width 0.4s ease;
+  }
+
+  .editor {
+    position: relative;
+  }
+  .editor-focusable {
+    border: 1px solid #000;
+  }
+  .editor-focus {
+    border: 1px solid #666;
+    box-shadow: 0 5px 15px 2px rgba(64, 64, 64, 0.7);
+    z-index: 5;
+    position: relative;
+  }
+  .editor-container {
+    margin: 10px;
+  }
+
+  .workspace-tab {
+    border-radius: 0;
     position: relative;
 
-    .sw-col {
-        transition: width 0.4s ease;
+    &.workspace-upload > div, > a {
+      color: #ccc;
+      font-size: 0.9em;
+      padding: 4px 15px;
+      overflow: hidden;
     }
 
-    .editor {
+    &.workspace-tab-condensed > a, &.workspace-tab-condensed > div {
+      padding: 4px 5px;
+      font-size: 0.9em;
+    }
+
+    &.workspace-file-tab {
+      width: 130px;
+      text-align: left;
+      white-space: nowrap;
+
+      .type-icon {
+        font-size: 5px;
+        top: -2px;
         position: relative;
+        left: -2px;
+      }
+      .type-html .type-icon {
+        color: #44e;
+      }
+      .type-js .type-icon {
+        color: #4e4;
+      }
+      .type-css .type-icon {
+        color: #e44;
+      }
+      .type-jade .type-icon {
+        color: #59f;
+      }
+      .type-less .type-icon {
+        color: #f82;
+      }
+      .type-coffee .type-icon {
+        color: #6a2
+      }
+      .type-es6 .type-icon {
+        color: #af4;
+      }
     }
-    .editor-focusable {
-      border: 1px solid #000;
+
+    .workspace-tab-close, .workspace-tab-edit {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+      padding: 0;
+      transition: opacity 0.3s;
     }
-    .editor-focus {
-      border: 1px solid #666;
-      box-shadow: 0 5px 15px 2px rgba(64, 64, 64, 0.7);
-      z-index: 5;
+    .workspace-tab-close {
+      right: auto;
+      left: 0;
+    }
+    .workspace-tab-edit {
+      font-size: 7px;
+      font-weight: normal;
+    }
+    &:hover {
+      .workspace-tab-close, .workspace-tab-edit {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .side-by-side {
+    .workspace-sidebyside {
+      margin-right: 0;
+    }
+  }
+
+
+  .workspace-tab-output a {
+    border: 1px solid #222;
+    background-color: #777;
+
+    &:hover {
+      background-color: #555;
+    }
+  }
+
+  .workspace-tab-active {
+    background-color: rgb(44,44,44);
+  }
+
+  .workspace-upload {
+    > div {
+      margin-right: 2px;
+      line-height: 1.428571429;
+      border: 1px solid transparent;
+      border-radius: 4px 4px 0 0;
       position: relative;
+      display: block;
+      padding: 10px 15px;
+      color: #fff;
+      overflow: hidden;
+
+      &:hover {
+        text-decoration: none;
+        background-color: #222222;
+      }
     }
-    .editor-container {
-      margin: 10px;
+    input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: -35px;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      width: 45px;
+      height: 40px;
+      cursor: pointer;
     }
+  }
 
-    .workspace-tab {
-        border-radius: 0;
-        position: relative;
+  .tab-content {
+    height: ~"calc(100% - 55px)";
 
-        &.workspace-upload > div, > a {
-            color: #ccc;
-            font-size: 0.9em;
-            padding: 4px 15px;
-            overflow: hidden;
-        }
+    overflow: hidden;
+  }
 
-        &.workspace-tab-condensed > a, &.workspace-tab-condensed > div {
-            padding: 4px 5px;
-            font-size: 0.9em;
-        }
-
-        &.workspace-file-tab {
-            width: 130px;
-            text-align: left;
-            white-space: nowrap;
-
-            .type-icon {
-                font-size: 5px;
-                top: -2px;
-                position: relative;
-                left: -2px;
-            }
-            .type-html .type-icon {
-                color: #44e;
-            }
-            .type-js .type-icon {
-                color: #4e4;
-            }
-            .type-css .type-icon {
-                color: #e44;
-            }
-            .type-jade .type-icon {
-                color: #59f;
-            }
-            .type-less .type-icon {
-                color: #f82;
-            }
-            .type-coffee .type-icon {
-                color: #6a2
-            }
-            .type-es6 .type-icon {
-                color: #af4;
-            }
-        }
-
-        .workspace-tab-close, .workspace-tab-edit {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            opacity: 0;
-            padding: 0;
-            transition: opacity 0.3s;
-        }
-        .workspace-tab-close {
-            right: auto;
-            left: 0;
-        }
-        .workspace-tab-edit {
-            font-size: 7px;
-            font-weight: normal;
-        }
-        &:hover {
-            .workspace-tab-close, .workspace-tab-edit {
-                opacity: 0.7;
-            }
-        }
-    }
-
-    .side-by-side {
-        .workspace-sidebyside {
-            margin-right: 0;
-        }
-    }
-
-
-    .workspace-tab-output a {
-        border: 1px solid #222;
-        background-color: #777;
-
-        :hover {
-            background-color: #555;
-        }
-    }
-
-    .workspace-tab-active {
-        background-color: rgb(44,44,44);
-    }
-
-    .workspace-upload {
-        > div {
-            margin-right: 2px;
-            line-height: 1.428571429;
-            border: 1px solid transparent;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-            display: block;
-            padding: 10px 15px;
-            color: #fff;
-            overflow: hidden;
-
-            &:hover {
-                text-decoration: none;
-                background-color: #222222;
-            }
-        }
-        input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: -35px;
-            right: 0;
-            bottom: 0;
-            opacity: 0;
-            width: 45px;
-            height: 40px;
-            cursor: pointer;
-        }
-    }
-
-    .tab-content {
-        height: ~"calc(100% - 55px)";
-
-        overflow: hidden;
-    }
-
-    .visible {
-        display: block;
-    }
+  .visible {
+    display: block;
+  }
 
 }
 
 .slide-workspace-outputs {
-    position: relative;
-    display: block;
+  position: relative;
+  display: block;
+  overflow-y: scroll;
+  transform: scale(0.5);
+  transform-origin: top left;
+  width: 200%;
+  height: 200%;
 }
 
 .iframe-fiddle-output {
-    width: 100%;
-    border: none;
-    background: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    min-height: 300px;
-    z-index: 1;
+  width: 100%;
+  border: none;
+  background: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 300px;
+  z-index: 1;
 
 
-    &.fadeOut {
-        transition: opacity 0.4s;
-        opacity: 0;
-    }
+  &.fadeOut {
+    transition: opacity 0.4s;
+    opacity: 0;
+  }
 
-    &.onBottom {
-        z-index: 0;
-    }
+  &.onBottom {
+    z-index: 0;
+  }
 
-    &.hidden {
-        display: none;
-    }
+  &.hidden {
+    display: none;
+  }
 
-    &.frame-background {
-        background: #777;
-    }
+  &.frame-background {
+    background: #777;
+  }
 }
 
 
 .scrollable-container {
-    height: 100%;
-    overflow-y: auto;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .output-new-window {
-    position: absolute;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    opacity: 0.1;
+  position: absolute;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  opacity: 0.1;
 
-    &:hover {
-        opacity: 1.0;
-    }
+  &:hover {
+    opacity: 1.0;
+  }
 }
 slide-workspace-output {
   position: relative;
   display: block;
 }
 .loading-spinner {
-    position: absolute;
-    z-index: 10000;
-    left: 5px;
-    bottom: 5px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 0 0 5px 0;
-    color: #222;
-    opacity: 1.0;
-    transition: opacity 0.5s ease;
+  position: absolute;
+  z-index: 10000;
+  left: 5px;
+  bottom: 5px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 0 0 5px 0;
+  color: #222;
+  opacity: 1.0;
+  transition: opacity 0.5s ease;
 
-    &.hidde {
-        opacity: 0.0
-    }
+  &.hidde {
+    opacity: 0.0
+  }
 }
 
