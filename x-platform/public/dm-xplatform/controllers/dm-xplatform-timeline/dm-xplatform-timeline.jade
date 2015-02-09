@@ -34,6 +34,7 @@ a.btn.dm-timeline-button(
     span {{state.rate | number: 2}}x
 .dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 110px)"}')
     dm-timeline(
+      second='state.currentSecond',
       length='state.max', 
       annotations='annotations',
       ng-click="move($event)")
