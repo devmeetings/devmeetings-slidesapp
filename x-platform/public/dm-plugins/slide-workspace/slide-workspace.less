@@ -156,6 +156,31 @@
 
 }
 
+.slide-workspace-output-dialog {
+  @margin: 15px;
+  position: fixed;
+  top: @margin;
+  bottom: @margin;
+  left: @margin;
+  right: @margin;
+  z-index: 100000;
+  height: auto;
+
+  .slide-workspace-outputs {
+    transform: scale(1.0);
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.slide-workspace-output2 {
+  transition: all .3s ease-in-out;
+  opacity: 1.0;
+}
+.slide-workspace-output-dialog-remove, .slide-workspace-output-dialog-add {
+  opacity: 0;
+}
+
 .slide-workspace-outputs {
   position: relative;
   display: block;
@@ -213,6 +238,21 @@
 slide-workspace-output {
   position: relative;
   display: block;
+
+  .expand-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    opacity: 0;
+    font-size: 18px;
+    transition: opacity 1s ease-in-out;
+    z-index: 1000;
+  }
+  &:hover {
+    .expand-btn {
+      opacity: 1.0;
+    }
+  }
 }
 .loading-spinner {
   position: absolute;
