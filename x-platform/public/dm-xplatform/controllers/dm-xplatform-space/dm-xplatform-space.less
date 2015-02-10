@@ -16,24 +16,6 @@
   width: 100% !important;
   overflow: hidden;
 }
-.dm-zen-mode-btn {
-  .on-hover {
-    display: none;
-  }
-  &:hover {
-    opacity: 1.0;
-    .on-hover {
-      display: inline;
-    }
-  }
-  &.zen-mode {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    opacity: 0.5;
-    z-index: 100;
-  }
-}
 
 
 .dm-space-top {
@@ -62,8 +44,10 @@
 }
 .dm-spacesidebar-user {
     position: absolute;
-    bottom: 0;
-    min-width: 200px;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #333;
 
     a {
         line-height: 40px;
@@ -106,7 +90,7 @@
 }
 
 .dm-spacesidebar-left {
-    height: calc(~"100% - 150px");
+    height: calc(~"100% - 55px");
     overflow-y: auto;
     font-size: 15px;
 

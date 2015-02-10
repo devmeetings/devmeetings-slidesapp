@@ -3,8 +3,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload',
   'xplatform/services/dm-questions/dm-questions'
 ], function(angular, xplatformApp, _) {
-  xplatformApp.controller('dmXplatformSpace', ['$scope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen',
-    function($scope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen) {
+  xplatformApp.controller('dmXplatformSpace', ['$scope', '$rootScope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen',
+    function($scope, $rootScope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen) {
 
       $scope.changeFullScreen = function(enable) {
          if (!enable) {
@@ -13,11 +13,17 @@ define(['angular', 'xplatform/xplatform-app', '_',
           Fullscreen.all();
          }
       };
+      var removeFullscreenHandler = Fullscreen.$on('FBFullscreen.change', function(){
+        $rootScope.$apply(function(){
+          $rootScope.isZenMode = Fullscreen.isEnabled();
+        });
+      });
+      $scope.$on('$destroy', removeFullscreenHandler);
 
       $scope.left = {
-        min: '38px',
-        max: '200px',
-        current: '200px'
+        min: '0px',
+        max: '0px',
+        current: '0px'
       };
 
       $scope.right = {

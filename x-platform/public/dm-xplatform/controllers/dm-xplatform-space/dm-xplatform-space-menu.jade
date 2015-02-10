@@ -1,0 +1,105 @@
+.dm-spacesidebar-left
+    .text-center
+      a.btn.btn-link(href='#',
+        analytics-category='menu',
+        analytics-on='click', analytics-event='navbar.logo')
+        img(src="static/images/navbar/xplatform_logo.png")
+                img.avatar-holder(
+                    ng-src='{{user.result.avatar | dmGravatar:20}}',
+                    ui-sref='index.devhero({id: user.result._id})',
+                    analytics-category='menu',
+                    analytics-on='click', analytics-event='profile.photo')
+                a.ng-cloak(
+                    ui-sref="index.devhero({id: user.result._id})",
+                    analytics-category='menu',
+                    analytics-on='click', analytics-event='navbar.profile.text')
+                    | {{user.result.name}}
+
+
+    // Workspace warning
+    .col-xs-12(ng-if='warningType === "mine"')
+        .row
+            .alert.alert-warning.dm-space-alert
+                | To nie jest twój workspace.
+    .col-xs-12(ng-if='warningType === "other"')
+        .row
+            .alert.alert-danger.dm-space-alert
+                | To nie jest Twój workspace&nbsp;
+    br
+    ul.nav.nav-pills.nav-stacked
+        li(ui-sref-active='active', ng-if="event.intro")
+            a(ui-sref='index.space.slide({event: event._id, slide: event.intro})')
+                span.nav-icon.fa.fa-question-circle
+                span Intro
+
+        li(ng-repeat='i in event.iterations',
+            ng-click="i.open = !i.open",
+            ng-class="{'active': activeIteration == $index, 'disabled': !editMode && i.status !== \"available\"}")
+            a.cursor-pointer
+                span.pull-right(ng-if="editMode", ng-click='removeIteration(i)')
+                    span.fa.fa-trash.text-danger
+                span.nav-icon(ng-if="!editMode")
+                    span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
+                    span.fa.fa-lock(ng-if='i.status != "available"')
+                span.cursor-pointer.nav-icon(ng-if="editMode", ng-click="changeIterationStatus(i)", tooltip="Click to change status")
+                    span.fa.fa-dot-circle-o(ng-if='i.status === "available"')
+                    span.fa.fa-lock(ng-if='i.status != "available"')
+                span {{i.title}}
+
+
+            ul.nav.nav-stacked(ng-show="(i.open && (editMode || i.status ==='available')) || activeIteration == $index")
+              li(ui-sref-active="active", ng-repeat='material in i.materials')
+                    a.dm-external-link(ng-href="/decks/{{material.deck.deck}}?from={{material.deck.from}}&to={{material.deck.to}}", target="_blank", ng-if="material.deck.deck")
+                      span.fa.fa-external-link
+
+                    a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
+                        span.fa.fa-film.nav-icon
+                        span {{material.title}}
+                    a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to})',
+                        ng-if="material.deck.deck")
+                        span.fa.fa-university.nav-icon
+                        span {{material.title}}
+                li
+                    a.cursor-pointer(ng-if='editMode', ng-click='createMaterial(i)')
+                        span.fa.fa-plus.nav-icon
+                        span Dodaj Audio
+                li(ng-repeat='task in i.tasks', ui-sref-active="active")
+                  a.dm-external-link(ng-href="{{task.url}}", target="_blank")
+                    span.fa.fa-external-link
+
+                  a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
+                            span.fa.fa-pencil.nav-icon
+                            span {{task.title}}
+                 //.col-xs-3.dm-space-checkbox.dm-cursor(ng-click='task.done = !task.done; markTaskAsDone(task, task.done)')
+                            span.fa.fa-square-o(ng-if='!task.done')
+                            span.fa.fa-check-square-o.text-success(ng-if='task.done')
+
+
+        li(ng-if='editMode'
+            ui-sref-active='active')
+            a.cursor-pointer(ng-click='createIteration()')
+                span Dodaj Iteracje
+        //li
+            a.cursor-pointer(ng-click='openWorkspace()')
+                span.fa.fa-wrench.nav-icon
+                span Workspace
+        li
+            a(ng-href="{{event.rankingLink}}", ng-if="event.rankingLink", target="ranking")
+                span.nav-icon.fa.fa-bar-chart
+                span.pull-right.fa.fa-external-link
+                span Ranking
+        //li(ui-sref-active='active')
+            a(ui-sref='index.space.ranking')
+                span.nav-icon.fa.fa-bar-chart
+                span Ranking
+
+    .dm-spacesidebar-user.text-center(ng-if="user")
+        a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+            ui-sref-active='btn-success active', ng-if="event.baseSlide")
+          span(ng-if="workspaceId")
+              span.fa.fa-wrench.fa-fw
+              span.show-if-active Your Code
+              span.hide-if-active Back to Your Code
+          span.cursor-pointer(ng-click='openWorkspace()', ng-if="!workspaceId")
+              span Back to
+              span.fa.fa-wrench.fa-fw

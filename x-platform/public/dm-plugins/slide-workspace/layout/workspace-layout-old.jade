@@ -7,6 +7,8 @@
                 a.cursor-pointer(ng-click="output.show = true")
                     | Preview
             li.workspace-tab.workspace-file-tab(
+                tooltip="{{ ((workspace.tabs | objectKeys).length > 4 ? toFileName(tabName) : '') }}",
+                tooltip-placement="bottom",
                 ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
                 ng-class="{'workspace-tab-active': workspace.active === tabName && !output.show }")
                 a.cursor-pointer(
