@@ -5,7 +5,7 @@ this.EventUtils = {
       Events.listen('tpl.eventRow.changed');
 
       var isPlanning = Session.get('isPlanning');
-      var time = isPlanning ? ev.startTime : Session.get('currentTime');
+      var time = isPlanning ? ev.startTime.getTime() : Session.get('currentTime');
 
       return ev.items.reduce((memo, x, k) => {
         var startTime = x.startedAt ? x.startedAt.getTime() : memo.startTime;
