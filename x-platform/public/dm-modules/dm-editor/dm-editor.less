@@ -1,13 +1,62 @@
 .dm-editor {
   position: relative;
+  
+  @space: 20px;
 
   .editor-name {
     position: absolute;
     bottom: 0;
-    right: 0;
-    opacity: 0.3;
-    color: #bbb;
+    right: @space;
+    color: #2F2F2F;
     text-shadow: 0 0 3px 3px #444;
     padding: 10px;
   }
+
+  .editor-expand {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    text-shadow: 0 0 3px 3px #444;
+    padding: 10px;
+    transition: opacity 1s ease-in-out;
+  }
+
+  &:hover {
+    .editor-expand {
+      opacity: 1.0;
+      color: #2F2F2F;
+    }
+  }
+
+
+  &.expanded {
+    @margin: 25px;
+    position: fixed;
+    padding: @margin;
+    background-color: #000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+
+    .editor-expand, .editor-name {
+      bottom: @margin;
+      right: @margin;
+    }
+    .editor-name {
+      right: @margin + @space;
+    }
+  }
+
+  transition: opacity .3s ease-in-out;
+
+  &.expanded-add-active, &.expaded-remove-active {
+    opacity: 1.0;
+  }
+  &.expanded-add, &.expanded-remove {
+    opacity: 0;
+  }
+
 }

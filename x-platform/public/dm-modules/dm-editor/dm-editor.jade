@@ -1,3 +1,9 @@
-.full-height.dm-editor
+.full-height.dm-editor(
+    ng-animate,
+    ng-class="{'expanded' : expanded}"
+  )
   .editor.ace_editor(class="editor-{{ size || 'md' }}")
   .editor-name {{ dotName }}
+  .editor-expand.cursor-pointer(ng-click="expanded = !expanded")
+    span.fa.fa-fw.fa-expand(ng-show="!expanded")
+    span.fa.fa-fw.fa-compress(ng-show="expanded")
