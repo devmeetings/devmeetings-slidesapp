@@ -1,10 +1,5 @@
 .dm-spacesidebar-left
     .text-center
-      a.btn.btn-link(href='#',
-        analytics-category='menu',
-        analytics-on='click', analytics-event='navbar.logo')
-        img(src="static/images/navbar/xplatform_logo.png")
-
     // Workspace warning
     .col-xs-12(ng-if='warningType === "mine"')
         .row
@@ -83,7 +78,8 @@
                 span Ranking
 
     .dm-spacesidebar-user.text-center(ng-if="user")
-        a.btn.btn-block.btn-default.workspace-btn(ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+        a.btn.btn-block.btn-default.workspace-btn(
+            ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
             ui-sref-active='btn-success active', ng-if="event.baseSlide")
           span(ng-if="workspaceId")
               span.fa.fa-wrench.fa-fw

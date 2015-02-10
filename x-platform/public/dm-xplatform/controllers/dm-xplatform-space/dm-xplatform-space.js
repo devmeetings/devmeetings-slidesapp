@@ -39,6 +39,21 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $scope.tabs = {};
       var aSpeed = 0.2;
 
+      $scope.togglePinRight = function() {
+        var right = $scope.right;
+
+        if (!right.defaultMin) {
+          right.defaultMin = right.min;
+        }
+      
+        if (right.pinned) {
+          right.min = right.defaultMin;
+        } else {
+          right.min = right.max;
+        }
+        right.pinned = !right.pinned;
+      };
+
       $scope.toggleRight = function(open, force) {
         if ($scope.editMode && !force) {
           return;

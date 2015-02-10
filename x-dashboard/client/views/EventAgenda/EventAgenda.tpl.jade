@@ -1,0 +1,7 @@
+div
+  if event.announcement
+    h3 #{event.announcement}
+  table.table.table-hover
+    tbody
+      each mapItems
+        +EventRow

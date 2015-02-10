@@ -7,17 +7,46 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   width="744.09448"
-   height="1052.3622"
-   id="svg2">
+   width="50.726002"
+   height="47.667999"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="xplatform-icon.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1918"
+     inkscape:window-height="1175"
+     id="namedview15"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="7.1762366"
+     inkscape:cx="27.95138"
+     inkscape:cy="24.104116"
+     inkscape:window-x="1920"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
   <defs
      id="defs4">
     <clipPath
        id="clipPath3001">
       <path
          d="m 0,0 2834.6,0 0,1417 L 0,1417 0,0 z"
-         id="path3003" />
+         id="path3003"
+         inkscape:connector-curvature="0" />
     </clipPath>
   </defs>
   <metadata
@@ -28,12 +57,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1">
+     id="layer1"
+     transform="translate(-2.75e-6,-1004.6942)">
     <g
        transform="matrix(1.25,0,0,-1.25,203.55179,620.92468)"
        id="g2993">
@@ -46,18 +76,21 @@
           <path
              d="m -1551.6427,-3487.8655 405.808,0 0,381.344 -405.808,0 0,-381.344 z"
              id="path3005"
-             style="fill:#232121;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+             style="fill:#232121;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             inkscape:connector-curvature="0" />
           <g
              transform="translate(-1955.9277,-4011.7175)"
              id="g3055">
             <path
                d="m 444.285,856.695 75.86,8.504 83.917,-102.898 146.856,97.543 12.922,-8.867 -184.184,-142.133 -4.09,4.941 -131.281,142.91"
                id="path3023"
-               style="fill:#ebeae9;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+               style="fill:#ebeae9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               inkscape:connector-curvature="0" />
             <path
                d="m 770.09,572.359 -75.86,-8.507 -83.918,102.902 -146.855,-97.539 -12.922,8.867 184.184,142.129 4.09,-4.941 131.281,-142.911"
                id="path3025"
-               style="fill:#ebeae9;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+               style="fill:#ebeae9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               inkscape:connector-curvature="0" />
           </g>
         </g>
       </g>

@@ -5,8 +5,8 @@
         +EventRowDetails
     .col-sm-6
       hr.visible-xs
-      h1.text-center #{event.eventTitle}
-      h3.text-muted.text-center {{asDate event.eventDate}}
+      h3.text-center #{event.eventTitle}
+      h5.text-muted.text-center {{asDate event.eventDate}}
       if event.announcement
         h3 #{event.announcement}
       table.table.table-hover

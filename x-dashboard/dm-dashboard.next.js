@@ -36,7 +36,7 @@ Router.map(function() {
 
   this.route('login', {
     path: '/live/login',
-    action: function(){
+    action: function() {
       this.render('LoginButtons');
     }
   });
@@ -48,6 +48,29 @@ Router.map(function() {
     },
     action: function() {
       this.render('Event', {
+        data: {
+          event: EventTimings.findOne({
+            id: this.params.id
+          })
+        }
+      });
+    }
+  });
+
+  this.route('event-agenda', {
+    path: '/live/:id/agenda',
+    waitOn: function() {
+      return Meteor.subscribe('events');
+    },
+    onBeforeAction: function() {
+      $('body').addClass('embed');
+      this.next();
+    },
+    onStop: function() {
+      $('body').removeClass('embed');
+    },
+    action: function() {
+      this.render('EventAgenda', {
         data: {
           event: EventTimings.findOne({
             id: this.params.id

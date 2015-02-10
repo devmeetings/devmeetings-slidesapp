@@ -1,7 +1,14 @@
 .dm-space {
-    position: relative;
-    float: left;
-    height: 100%;
+  position: relative;
+  float: left;
+  height: 100%;
+}
+
+.full-frame {
+  border: none;
+  background: none;
+  width: 100%;
+  height: 99%;
 }
 
 .dm-space.zen-mode {
@@ -19,142 +26,149 @@
 
 
 .dm-space-top {
-    outline: none;
+  outline: none;
 }
 
 .dm-spacesidebar {
-    position: relative;
-    height: 100%;
-    float: left;
-    background-color: rgb(30,30,30);
-    overflow: hidden;
+  position: relative;
+  height: 100%;
+  float: left;
+  background-color: rgb(30,30,30);
+  overflow: hidden;
 }
 .dm-spacesidebar-right-container {
-    top: 0;
-    right: 0;
-    position: absolute;
-    z-index: 10;
+  top: 0;
+  right: 0;
+  position: absolute;
+  z-index: 10;
 }
 
+.nav > li > .workspace-btn{
+  &:focus, &:hover {
+    background-color: #a9e238;
+  }
+}
 
 .dm-space, 
 .dm-spacesidebar {
-    -webkit-transition: all 0.25s ease;
-    transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 .dm-spacesidebar-user {
-    position: absolute;
-    bottom: 28px;
-    left: 0;
-    right: 0;
-    border-top: 1px solid #333;
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #333;
 
-    a {
-        color: #888888;
-    }
+  a {
+    color: #888888;
+  }
 }
 
 .dm-spacesidebar-right {
+  height: 100%;
+  > div {
     height: 100%;
-    > .nav li {
-        width: 35px;
-        text-align: center;
-        a {
-          padding: 5px;
-        }
-    }
+  }
 
-    .nav {
-        li {
-            a {
-                border-radius: 0;
-                margin: 0;
-            }
-        }
-    }  
+  > .nav, > div > .nav {
+    border-bottom: 0;
 
-    > .nav > li.active > a,
-    > .nav > li.active > a:hover {
-        background-color: rgb(86,171,205);
+    li {
+      width: 35px;
+      text-align: center;
+      a {
+        border-radius: 0;
+        margin: 0;
+        padding: 5px;
+        font-size: 12px;
+      }
     }
+    li.active > a,
+    li.active > a:hover {
+      border-bottom: none;
+      background-color: rgb(86,171,205);
+    }
+  }  
 
-    .tab-content {
-        height: calc(~"100% - 42px");
-        overflow-y: auto;
-            
-        .tab-pane {
-            height: 100%;
-        }
+  .tab-content {
+    height: calc(~"100% - 42px");
+    overflow-y: auto;
+
+    .tab-pane {
+      height: 100%;
     }
+  }
 }
 
 .dm-spacesidebar-left {
-    height: calc(~"100% - 55px");
-    overflow-y: auto;
-    font-size: 15px;
+  height: calc(~"100% - 55px");
+  overflow-y: auto;
+  font-size: 15px;
 
-    .nav > li {
-        margin: 5px 0;
-    }
-    .nav > li > a {
-        border-radius: 0;
-    }
-    .nav > li.active > a {
-        transition: background-color 0.2s ease;
-        background-color: rgb(86,171,205);
-    }
+  .nav > li {
+    margin: 5px 0;
+  }
+  .nav > li > a {
+    border-radius: 0;
+  }
+  .nav > li.active > a {
+    transition: background-color 0.2s ease;
+    background-color: rgb(86,171,205);
+  }
 
-    .active .show-if-active, .hide-if-active {
-        display: inline-block;
-    }
+  .active .show-if-active, .hide-if-active {
+    display: inline-block;
+  }
 
-    .active .hide-if-active, .show-if-active {
-        display: none;
-    }
-    li > a {
-        padding: 5px 5px;
-    }
-    li > ul > li > a {
-        padding-left: 15px;
-    }
+  .active .hide-if-active, .show-if-active {
+    display: none;
+  }
+  li > a {
+    padding: 5px 5px;
+  }
+  li > ul > li > a {
+    padding-left: 15px;
+  }
 
-    .btn-success {
-        background-color: #7DAA25;
-        border-color: #4B6615;
-    }
-    .workspace-btn {
-        border-radius: 0;
-    }
+  .btn-success {
+    background-color: #7DAA25;
+    border-color: #4B6615;
+  }
+  .workspace-btn {
+    border-radius: 0;
+  }
 }
 
 .nav-icon {
-    width: 30px;
-    text-align: center;
-    display: inline-block;
+  width: 30px;
+  text-align: center;
+  display: inline-block;
 }
 
 .dm-space-checkbox {
-    padding: 0.2em 0 0.5em 1.0em;
-    font-size: 18px;
+  padding: 0.2em 0 0.5em 1.0em;
+  font-size: 18px;
 }
 
 .dm-space-questions {
-    position: relative;
-    height: calc(~"100% - 48px");
-    overflow-y: auto;
+  position: relative;
+  height: calc(~"100% - 48px");
+  overflow-y: auto;
 
-    button {
-        border-radius: 0;
-    }
+  button {
+    border-radius: 0;
+  }
 }
 
 .dm-space-saves {
-    overflow-y: auto;
-    height: 100%;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .dm-space-alert {
-    border-radius: 0;
-    margin: 0;
+  border-radius: 0;
+  margin: 0;
 }
 
