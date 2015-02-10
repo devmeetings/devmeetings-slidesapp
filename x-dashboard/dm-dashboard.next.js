@@ -1,7 +1,7 @@
 /* jshint esnext:true */
 this.AdminConfig = {
   name: 'EventTimings',
-  baseRoute: '/admin2',
+  baseRoute: '/live/admin/admin',
   collections: {
     EventTimings: {
       icon: 'pencil',
