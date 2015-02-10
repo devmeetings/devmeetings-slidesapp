@@ -19,7 +19,7 @@
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
-            ng-style='{"width": right.current}',
+            ng-style='{"width": right.current, "overflow": "visible"}',
             analytics-category='spacesidebar',
             analytics-on='mouse-enter',
             ng-mouseleave='toggleRight(false)'
@@ -31,7 +31,7 @@
                     select='toggleRight(true)',
                     ng-click='toggleRight(true)'
                 )
-                    tab-heading.cursor-pointer(tooltip='Menu', tooltip-placement='bottom')
+                    tab-heading.cursor-pointer(tooltip='Iterations', tooltip-placement='left')
                         span.fa.fa-align-justify
                     include ./dm-xplatform-space-menu
 
@@ -41,10 +41,38 @@
                     select='toggleRight(true)',
                     ng-click='toggleRight(true)'
                 )
-                    tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='bottom')
+                    tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left')
                         span.fa.fa-newspaper-o
                     .col-xs-12.full-height
                         .row.full-height(ui-view='first')
+
+                tab.cursor-pointer(
+                    analytics-category='spacesidebar',
+                    analytics-on='click', analytics-event='spacesidebar.user',
+                    select='toggleRight(true)',
+                    ng-click='toggleRight(true)'
+                )
+                    tab-heading.cursor-pointer(
+                      tooltip='{{ user.result.name }}', 
+                      tooltip-placement='left')
+                        img(
+                          ng-src='{{user.result.avatar | dmGravatar:16}}')
+
+                    .full-height.text-center
+                      br
+                      img.avatar-holder(
+                          ng-src='{{user.result.avatar | dmGravatar:120}}',
+                          ui-sref='index.devhero({id: user.result._id})',
+                          analytics-category='menu',
+                          analytics-on='click', analytics-event='profile.photo')
+                      br
+                      h3
+                        a.ng-cloak(
+                            ui-sref="index.devhero({id: user.result._id})",
+                            analytics-category='menu',
+                            analytics-on='click', analytics-event='navbar.profile.text')
+                            | {{user.result.name}}
+
 
                 tab.cursor-pointer(
                     analytics-category='spacesidebar',
@@ -52,7 +80,7 @@
                     disabled="true",
                     ng-click='changeFullScreen(true)'
                 )
-                    tab-heading.cursor-pointer(tooltip='Zen Mode', tooltip-placement='bottom')
+                    tab-heading.cursor-pointer(tooltip='Zen Mode', tooltip-placement='left')
                         span.fa.fa-dashboard
 
     .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
