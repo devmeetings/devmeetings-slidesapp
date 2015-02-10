@@ -1,4 +1,4 @@
-tr
+tr(class="{{ rowClass }}")
   td.text-right
     strong {{ asTime startTime }} - {{ asTime endTime }}
   td.text-center
@@ -11,15 +11,16 @@ tr
         role="item-time") #{time}
 
     span m
-  td.col-xs-8
-    div.pull-right
-      if startedAt
-        unless finishedAt
-          button.btn.btn-xs.btn-success(role='cancel-timer')
-            span.fa.fa-stop
-      else if isNext
-        button.text-muted.btn.btn-link.btn-xs(role='start-timer')
-          span.fa.fa-play
+  td.col-xs-7
+    if isAdmin
+      div.pull-right
+        if startedAt
+          unless finishedAt
+            button.btn.btn-xs.btn-success(role='cancel-timer')
+              span.fa.fa-stop
+        else if isNext
+          button.text-muted.btn.btn-link.btn-xs(role='start-timer')
+            span.fa.fa-play
     p 
       span.fa.fa-fw(class="fa-{{icon}}")
       if link

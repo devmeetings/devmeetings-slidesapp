@@ -1,11 +1,11 @@
 /* jshint esnext:true */
 
 this.EventUtils = {
-
   mapItems(ev) {
       Events.listen('tpl.eventRow.changed');
 
-      var time = Session.get('currentTime');
+      var isPlanning = Session.get('isPlanning');
+      var time = isPlanning ? ev.startTime : Session.get('currentTime');
 
       return ev.items.reduce((memo, x, k) => {
         var startTime = x.startedAt ? x.startedAt.getTime() : memo.startTime;

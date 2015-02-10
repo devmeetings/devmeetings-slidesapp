@@ -8,6 +8,20 @@ const updateGuiLater = _.debounce(function() {
   Events.trigger('tpl.eventRow.changed');
 }, 500);
 
+Template.EventRow.helpers({
+
+  isAdmin() {
+    return Session.get('isAdmin');
+  },
+
+  rowClass() {
+    if (this.startedAt && !this.finishedAt) {
+      return 'active';
+    }
+    return '';
+  }
+  
+});
 
 Template.EventRow.events({
 

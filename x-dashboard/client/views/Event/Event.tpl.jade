@@ -1,15 +1,15 @@
 .container-fluid
   .row
-    .col-sm-6
+    .col-sm-5
       with currentItem
         +EventRowDetails
-    .col-sm-6
+    .col-sm-7
       hr.visible-xs
       h3.text-center #{event.eventTitle}
       h5.text-muted.text-center {{asDate event.eventDate}}
       if event.announcement
         h3 #{event.announcement}
-      table.table.table-hover
+      table.table
         tbody
           each mapItems
             +EventRow

@@ -1,0 +1,12 @@
+tr(class="{{ rowClass }}")
+  td.text-right
+    strong {{ asTime startTime }} - {{ asTime endTime }}
+  td.col-xs-10
+    p 
+      span.fa.fa-fw(class="fa-{{icon}}")
+      if link
+        a(href=link, target="_parent")
+          | #{title}
+      else
+        | #{title}
+
