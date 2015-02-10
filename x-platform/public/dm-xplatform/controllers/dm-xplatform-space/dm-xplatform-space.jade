@@ -57,11 +57,12 @@
                     analytics-category='spacesidebar',
                     analytics-on='click', analytics-event='spacesidebar.agenda',
                     select='toggleRight(true)',
-                    ng-click='toggleRight(true)'
+                    ng-click='toggleRight(true)',
+                    ng-if="event.liveLink"
                 )
                     tab-heading.cursor-pointer(tooltip='Agenda', tooltip-placement='left')
                         span.fa.fa-calendar
-                    iframe.full-frame(src="http://localhost:3001/live/testEvent/agenda")
+                    iframe.full-frame(ng-src="{{ event.liveLink | liveLinkUrl:'agenda' }}")
 
                 tab.cursor-pointer(id='stream', active='tabs.stream',
                     analytics-category='spacesidebar',

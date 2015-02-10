@@ -6,6 +6,7 @@ var Event = new Schema({
     image: String,
     order: Number,
     description: String,
+    liveLink: String,
     visible: Boolean,
     intro: {
         type: Schema.Types.ObjectId,

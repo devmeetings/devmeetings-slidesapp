@@ -15,6 +15,7 @@ define(['angular',
             function($sceDelegateProvider) {
                 $sceDelegateProvider.resourceUrlWhitelist([
                     'self',
+                    'http://localhost:3001/**',
                     'http://devmeetings.pl/**',
                     'http://*.xplatform.org/**',
                     'http://xplatform.org/**'
