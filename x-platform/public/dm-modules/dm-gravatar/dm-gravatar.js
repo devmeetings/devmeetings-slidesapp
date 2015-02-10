@@ -3,8 +3,11 @@ define(['angular'], function(angular) {
     angular.module('dm-gravatar', []).filter('dmGravatar', [
         function() {
             return function(input, size) {
+                if (!input) {
+                  return '';
+                }
                 input = input.replace('http:', 'https:');
-                return input ? input + '?s=' + size + '&d=monsterid' : '';
+                return input + '?s=' + size + '&d=monsterid';
             };
         }
     ]);
