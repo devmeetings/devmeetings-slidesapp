@@ -5,7 +5,9 @@
         span.fa.fa-fw(class="fa-{{currentItem.icon}}")
     else
       span.fa.fa-fw(class="fa-{{currentItem.icon}}")
-      span {{ timeLeft currentItem }}
+
+    span {{ timeLeft currentItem }}
+
     if embedBig
       span {{ currentItem.title }}
 
