@@ -27,7 +27,7 @@ server {
 	}
 
 	location /public {
-		root /home/xplatform/Projects/devmeetings-slidesapp/platform/;
+		root /home/xplatform/Projects/devmeetings-slidesapp/x-platform/;
 		gzip on;
 		gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
 		
@@ -47,6 +47,12 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_cache_valid 200 60m;
     add_header X-Cache-Status $upstream_cache_status;
+  }
+
+  location /ext/testReporter/ {
+    proxy_pass  http://localhost:3002/;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
   }
 
  	location / {
