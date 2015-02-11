@@ -137,6 +137,7 @@ module.exports = function(app) {
     app.get('/api/users/:id', apiAuthenticated, users.get);
     app.put('/api/users', apiAuthenticated, users.edit);
     app.get('/api/users', apiAuthenticated, users.current);
+    app.get('/api/session', apiAuthenticated, users.session);
 
     var observes = require('../app/controllers/observes');
     app.get('/api/observes', apiAuthenticated, observes.get);

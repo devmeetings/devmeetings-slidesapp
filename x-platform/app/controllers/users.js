@@ -22,6 +22,9 @@ var Users = {
             res.send(200);
         });
     },
+    session: function(req, res) {
+      res.send(req.sessionID);
+    },
     current: function (req, res) {
         var userId = req.user._id.toString();
         User.findOne({

@@ -16,6 +16,5 @@ accounts-base
 aldeed:collection2
 copleykj:livestamp
 rzymek:moment-locale-pl
-accounts-ui
-accounts-password
 reneberwanger:bootstrap-cyborg
+http
