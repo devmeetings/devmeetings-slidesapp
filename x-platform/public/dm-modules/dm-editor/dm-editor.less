@@ -16,16 +16,15 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    opacity: 0;
+    color: #0f0f0f;
     text-shadow: 0 0 3px 3px #444;
     padding: 10px;
-    transition: opacity 1s ease-in-out;
+    transition: color 1s ease-in-out;
   }
 
   &:hover {
     .editor-expand {
-      opacity: 1.0;
-      color: #2F2F2F;
+      color: #777;
     }
   }
 
@@ -51,6 +50,7 @@
   }
 
   transition: opacity .3s ease-in-out;
+  transform: translateZ(0);
 
   &.expanded-add-active, &.expaded-remove-active {
     opacity: 1.0;
