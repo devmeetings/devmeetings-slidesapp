@@ -50,13 +50,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             var oldFrame = currentFrame;
             currentFrame += 1;
             currentFrame = currentFrame % $iframes.length;
-            if (scope.workspace.singleOutput) {
+            if (scope.workspace.singleOutput || $rootScope.performance.indexOf('workspace_output_anim') > -1) {
               currentFrame = 0;
             }
 
             // Toggle classes
             var oldOutput = angular.element($iframes[currentFrame]);
             var newOutput = angular.element($iframes[oldFrame]);
+
             oldOutput.addClass('fadeOut');
             newOutput.removeClass('fadeOut hidden');
 
@@ -64,6 +65,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             $timeout(function() {
               oldOutput.addClass('onBottom hidden');
               newOutput.removeClass('onBottom');
+
+              if (oldFrame === currentFrame) {
+                newOutput.removeClass('fadeOut hidden');
+              }
             }, 250);
 
           }, 700, {

@@ -1,6 +1,7 @@
 doctype 5
 html.full-height(
   lang='en',
+  ng-init="$root.performance = []",
   ng-class="{'performance-anims': $root.performance.indexOf('anims') > -1, 'performance-shadows': $root.performance.indexOf('shadows') > -1 }")
   head
     meta(charset='UTF-8')
