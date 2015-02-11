@@ -2,7 +2,25 @@
   position: relative;
   float: left;
   height: 100%;
+
+  .dm-space-live {
+    position: absolute;
+    bottom: 30px;
+    left: ~"calc(50% - 55px)";
+    width: 110px;
+    height: 30px;
+  }
 }
+.dm-spacesidebar {
+  .dm-space-live {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    height: 30px;
+  }
+}
+
 
 .full-frame {
   border: none;
@@ -56,18 +74,29 @@
 }
 .dm-spacesidebar-user {
   position: absolute;
-  bottom: 28px;
+  bottom: 30px;
   left: 0;
   right: 0;
   border-top: 1px solid #333;
+  transition: bottom 0.5s ease-in-out;
 
   a {
     color: #888888;
   }
 }
+.dm-spacesidebar.pinned {
+  .dm-spacesidebar-user {
+    bottom: 65px;
+  }
+  .dm-spacesidebar-right {
+    padding-bottom: 60px;
+  }
+}
 
 .dm-spacesidebar-right {
   height: 100%;
+  padding-bottom: 30px;
+  transition: padding-bottom 0.5s ease-in-out;
   > div {
     height: 100%;
   }

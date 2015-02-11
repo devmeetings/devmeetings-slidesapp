@@ -11,23 +11,34 @@
                         analytics-on='click', analytics-event='navbar.logo')
                         img(src="static/images/navbar/xplatform_logo.png")
                 
-            
         .dm-space(
           ng-class="{'zen-mode': $root.isZenMode }",
           ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
             .full-height
                 .row.full-height(ng-if='!showTutorial', ui-view='content')
+                .dm-space-live(ng-if="event.liveLink && !right.pinned")
+                  iframe.full-frame(
+                    seamless=true,
+                    dm-iframe,
+                    ng-src="{{ event.liveLink | liveLinkUrl:'embed' }}")
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
             ng-style='{"width": right.current, "overflow": "visible"}',
+            ng-class="{'pinned': right.pinned}",
             analytics-category='spacesidebar',
             analytics-on='mouse-enter',
             ng-mouseleave='right.pinned || toggleRight(false)'
         )
+          .dm-space-live(ng-if="event.liveLink && right.pinned")
+            iframe.full-frame(
+              seamless=true,
+              dm-iframe,
+              ng-src="{{ event.liveLink | liveLinkUrl:'embedBig' }}")
+
           .dm-spacesidebar-right
             ul.nav.nav-tabs.pull-right
-              li(ng-show="right.opened")
-                a.cursor-pointer(ng-click="togglePinRight()")
+              li
+                a.cursor-pointer(ng-click="toggleRight(true);togglePinRight()")
                   span.fa.fa-thumb-tack(ng-hide="right.pinned")
                   span.fa.fa-toggle-right(ng-show="right.pinned")
             ul.nav.nav-tabs.pull-left
@@ -62,7 +73,10 @@
                 )
                     tab-heading.cursor-pointer(tooltip='Agenda', tooltip-placement='left')
                         span.fa.fa-calendar
-                    iframe.full-frame(ng-src="{{ event.liveLink | liveLinkUrl:'agenda' }}")
+                    iframe.full-frame(
+                            seamless=true,
+                            dm-iframe,
+                            ng-src="{{ event.liveLink | liveLinkUrl:'agenda' }}")
 
                 tab.cursor-pointer(id='stream', active='tabs.stream',
                     analytics-category='spacesidebar',

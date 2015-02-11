@@ -71,17 +71,18 @@ this.EventTimings = EventTimings;
 
 
 function updateEventProp(eventId, itemIdx, prop, val) {
-  EventTimings.update(eventId, {
+  let update =  {
     $set: {
       ['items.' + itemIdx + '.' + prop]: val
     }
-  });
+  };
+  EventTimings.update(eventId, update);
 }
 
 Meteor.methods({
 
   "EventTimings.updateTime": (eventId, itemIdx, newTime) => {
-    updateEventProp(eventId, itemIdx, 'actualTime', newTime);
+    updateEventProp(eventId, itemIdx, 'time', newTime);
   },
 
   "EventTimings.startItem": (eventId, itemIdx, startTime) => {

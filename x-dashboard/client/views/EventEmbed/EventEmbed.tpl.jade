@@ -1,0 +1,12 @@
+.text-center.embed-box
+  h4(class="text-{{ textClass currentItem }}")
+    if currentItem.link
+      a.embed-link-plain(href=currentItem.link, target="_parent")
+        span.fa.fa-fw(class="fa-{{currentItem.icon}}")
+    else
+      span.fa.fa-fw(class="fa-{{currentItem.icon}}")
+      span {{ timeLeft currentItem }}
+    if embedBig
+      span {{ currentItem.title }}
+
+

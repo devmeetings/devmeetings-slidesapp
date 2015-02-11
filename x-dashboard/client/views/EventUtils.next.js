@@ -1,7 +1,25 @@
 /* jshint esnext:true */
 
 this.EventUtils = {
-  mapItems(ev) {
+  timeLeft(currentItem) {
+      let currentTime = Session.get('currentTime');
+      currentItem.endTime = currentItem.endTime || new Date().getTime();
+      let timeLeft2 = (currentItem.endTime - currentTime) / 1000 / 60;
+      return timeLeft2.toFixed(1);
+    },
+
+    textClass(currentItem) {
+      let time = EventUtils.timeLeft(currentItem);
+      if (time < 3) {
+        return 'danger';
+      }
+      if (time < 7) {
+        return 'warning';
+      }
+      return 'success';
+    },
+
+    mapItems(ev) {
       Events.listen('tpl.eventRow.changed');
 
       var isPlanning = Session.get('isPlanning');

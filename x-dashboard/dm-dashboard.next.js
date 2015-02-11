@@ -35,13 +35,6 @@ Router.map(function() {
     }
   });
 
-  this.route('login', {
-    path: '/live/login',
-    action: function() {
-      this.render('LoginButtons');
-    }
-  });
-
   this.route('event', {
     path: '/live/:id',
     waitOn: function() {
@@ -80,4 +73,54 @@ Router.map(function() {
       });
     }
   });
+
+  this.route('event-embed', {
+    path: '/live/:id/embed',
+    waitOn: function() {
+      return Meteor.subscribe('events');
+    },
+    onBeforeAction: function() {
+      $('body').addClass('embed-small');
+      this.next();
+    },
+    onStop: function() {
+      $('body').removeClass('embed-small');
+    },
+    action: function() {
+      this.render('EventEmbed', {
+        data: {
+          embedBig: false,
+          event: EventTimings.findOne({
+            id: this.params.id
+          })
+        }
+      });
+    }
+  });
+
+
+  this.route('event-embedBig', {
+    path: '/live/:id/embedBig',
+    waitOn: function() {
+      return Meteor.subscribe('events');
+    },
+    onBeforeAction: function() {
+      $('body').addClass('embed-small');
+      this.next();
+    },
+    onStop: function() {
+      $('body').removeClass('embed-small');
+    },
+    action: function() {
+      this.render('EventEmbed', {
+        data: {
+          embedBig: true,
+          event: EventTimings.findOne({
+            id: this.params.id
+          })
+        }
+      });
+    }
+  });
+
 });
