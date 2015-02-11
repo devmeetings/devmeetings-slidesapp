@@ -85,11 +85,12 @@ define([
                 var rect = cursor.getBoundingClientRect();
                 var positionTop = Math.max(20, rect.top - (myself.height() - 40) / 2);
                 positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 200, positionTop);
+                var middle = document.documentElement.clientWidth / 2;  
 
                 myself.css({
-                  left: 'calc(45% + ' + (rect.left / 50) + 'px)',
-                  top: positionTop + 'px'
+                  transform: 'translate(' + (middle + rect.left / 50) + 'px, ' + positionTop +'px)',
                 });
+
                 if ($scope.anno) {
                   myself.toggleClass('small', !$scope.anno.description);
                 }
