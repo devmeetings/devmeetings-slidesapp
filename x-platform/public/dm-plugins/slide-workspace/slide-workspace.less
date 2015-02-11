@@ -1,5 +1,48 @@
+.layout-chooser {
+  position: absolute;
+  bottom: 25px;
+  left: 22px;
+  z-index: 10000;
+  cursor: pointer;
+}
 .slide-workspace {
   position: relative;
+
+  .size-half-width1, .size-half-width2 {
+    width: 50%;
+    position: absolute;
+    transform: translate(0, 0), translateZ(0);
+  }
+  .size-half-width2 {
+    transform: translate(99%, 0);
+  }
+
+  .size-half2-width1 {
+    width: 59.5%;
+    position: absolute;
+    transform: translate(0, 0), translateZ(0);
+  }
+
+  .size-half2-width2 {
+    width: 40%;
+    position: absolute;
+    transform: translate(149%, 0);
+  }
+
+  .size-half-height1 {
+    position: absolute;
+    height: 53%;
+    width: 100%;
+  }
+  .size-half-height2 {
+    position: absolute;
+    height: 45%;
+    width: 100%;
+    transform: translate(0, 118%);
+  }
+
+
+
 
   .sw-col {
     transition: width 0.4s ease;
