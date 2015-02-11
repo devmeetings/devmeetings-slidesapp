@@ -15,8 +15,14 @@
           ng-class="{'zen-mode': $root.isZenMode }",
           ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
             .full-height
-                .row.full-height(ng-if='!showTutorial', ui-view='content')
-                .dm-space-live(ng-if="event.liveLink && !right.pinned")
+              iframe.full-frame(
+                  seamless=true,
+                  dm-iframe,
+                  ng-src="{{event.liveLink | liveLinkUrl:''}}",
+                  ng-if="event.liveLink && showTutorial")
+              .row.full-height(ng-if='!showTutorial', ui-view='content')
+
+              .dm-space-live(ng-if="event.liveLink && !right.pinned")
                   iframe.full-frame(
                     seamless=true,
                     dm-iframe,
