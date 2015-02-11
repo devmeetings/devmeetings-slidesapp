@@ -1,7 +1,7 @@
 div
   .dm-timeline-point.info-color(
     ng-repeat='p in annotations track by p._id',
-    ng-style='{"left": p.timestamp / length * 100 + "%"}',
+    ng-style='{"transform": "translate(" + (p.timestamp / length * size + "px") + ", 0)" }',
     tooltip-html-unsafe='{{p.title + "<br/>" + p.timestamp + " second" }}',
     tooltip-placement='top',
     ng-if='length')
