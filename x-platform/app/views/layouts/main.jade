@@ -1,5 +1,7 @@
 doctype 5
-html.full-height(lang='en')
+html.full-height(
+  lang='en',
+  ng-class="{'performance-anims': $root.performance.indexOf('anims') > -1, 'performance-shadows': $root.performance.indexOf('shadows') > -1 }")
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
