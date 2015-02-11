@@ -6,7 +6,8 @@
     .col-sm-7
       hr.visible-xs
       h3.text-center #{event.eventTitle}
-      h3(style="display:none") #{event._id}
+      h3(style="display:none") 
+        a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") #{event._id}
       h5.text-muted.text-center {{asDate event.eventDate}}
       if event.announcement
         h3 #{event.announcement}
