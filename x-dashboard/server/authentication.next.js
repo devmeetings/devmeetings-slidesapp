@@ -24,11 +24,11 @@ Accounts.registerLoginHandler(function(loginRequest) {
   }
   var sess = JSON.parse(x.session);
   var userId = sess.passport.user;
+  var mongoUserId = new Meteor.Collection.ObjectID(userId);
 
-  var user = Meteor.users.findOne(userId);
+  var user = Meteor.users.findOne({userId: mongoUserId});
   if (!user) {
     //Convert to mongo objectID?
-    var mongoUserId = new Meteor.Collection.ObjectID(userId);
     user = Meteor.users.findOne(mongoUserId);
     if (!user) {
       return;
@@ -42,6 +42,8 @@ Accounts.registerLoginHandler(function(loginRequest) {
          verified: true
       }]
     });
+  } else {
+    userId = user._id;
   }
 
   //creating the token and adding to the user

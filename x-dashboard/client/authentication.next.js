@@ -12,11 +12,14 @@ Meteor.loginAsXplaUser = function(session, callback) {
 };
 
 Meteor.startup( () => {
+  if (!Meteor.userId) {
+    return;
+  }
   HTTP.get('/api/session', function(err, sess) {
     if (err || !sess) {
       return;
     }
-    Meteor.loginAsXplaUser(sess);
+    Meteor.loginAsXplaUser(sess.content);
   });
 });
 

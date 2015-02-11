@@ -32,6 +32,7 @@ var config = {
         db: 'mongodb://' + mongoHost + '/platform-prod-pracuj',
         queue: rabbitHost,
         graylog: false,
+        meteorProxy: 'http://localhost:3001/',
         logger: 'dev'
     },
 
@@ -59,6 +60,7 @@ var config = {
         db: 'mongodb://' + mongoHost + '/platform-test',
         queue: rabbitHost,
         graylog: false,
+        meteorProxy: false,
         logger: 'dev'
     },
 
@@ -91,6 +93,7 @@ var config = {
             host: 'pinkiepie.todr.me',
             port: 1782
         },
+        meteorProxy: false,
         logger: 'dev'
     },
 

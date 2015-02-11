@@ -18,6 +18,11 @@ EventTimings.attachSchema(new SimpleSchema({
       type: 'datetime-local'
     }
   },
+  authorId: {
+    type: String,
+    label: 'Author Id',
+    optional: true
+  },
   announcement: {
     type: String,
     label: 'Announcement',
