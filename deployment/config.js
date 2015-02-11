@@ -57,7 +57,7 @@ module.exports = {
                 "buildMeteor": true,
                 "startFile": "main.js",
                 "logName": "dashboard.log",
-                "env": "PORT=\"4001\" MONGO_URL=\"mongodb://localhost:27017/platform-meteor-prod\" ROOT_URL=\"https://xplatform.org\"",
+                "env": "PORT=\"4001\" MONGO_URL=\"mongodb://localhost:27017/platform-production\" ROOT_URL=\"https://xplatform.org\"",
             },
             "btn": {
                 "confirm": true,
