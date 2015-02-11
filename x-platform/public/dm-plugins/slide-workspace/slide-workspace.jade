@@ -4,6 +4,7 @@ div.text-muted(
   span.fa.fa-code(ng-click="showLayoutChooser = !showLayoutChooser")
   select(ng-model="layout.name", ng-show="showLayoutChooser", ng-change="showLayoutChooser = false")
     option(value="tabs") Classic
+    option(value="tabs-v") Classic V
     option(value="angular") Angular
     option(value="html-js") HTML+JS
     option(value="three") Three
@@ -14,6 +15,8 @@ div.text-muted(
 .slide-workspace.full-height
   .full-height(ng-if="layout.name === 'tabs'")
     include ./layout/workspace-layout-old
+  .full-height(ng-if="layout.name === 'tabs-v'")
+    include ./layout/workspace-layout-tabs-v
   .full-height(ng-if="layout.name === 'angular'")
     include ./layout/workspace-layout-angular
   .full-height(ng-if="layout.name === 'html-js'")
