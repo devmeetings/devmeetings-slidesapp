@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-taskicon/dm-taskicon'], function (angular, xplatformApp) {
-  xplatformApp.directive('dmTimeline', ["$window", function($window) {
+  xplatformApp.directive('dmTimeline', ["$window", "$timeout", function($window, $timeout) {
     return {
       restrict: 'E',
       scope: {
@@ -17,7 +17,11 @@ define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-taskicon/
         function fixSize() {
           scope.size = element[0].clientWidth;
         }
-        fixSize();
+  
+        $timeout(function(){
+          fixSize();
+        }, 500);
+
         $window.addEventListener('resize', fixSize);
         scope.$on('$destroy', function(){
           $window.removeEventListener('resize', fixSize);
