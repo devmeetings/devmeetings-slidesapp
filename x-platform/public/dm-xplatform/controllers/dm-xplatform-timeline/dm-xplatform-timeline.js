@@ -61,7 +61,13 @@ define(['angular', 'xplatform/xplatform-app',
 
       $scope.move = function(ev) {
         var width = ev.currentTarget.clientWidth;
-        var x = ev.target.clientWidth === ev.currentTarget.clientWidth ? (ev.offsetX || ev.originalEvent.layerX) : ev.target.offsetLeft;
+        var x;
+        if (ev.target.clientWidth === ev.currentTarget.clientWidth) {
+          x = (ev.offsetX || ev.originalEvent.layerX);
+        } else {
+          var rect = ev.target.getBoundingClientRect();
+          x = rect.left;
+        }
         $scope.state.currentSecond = x / width * $scope.state.max;
       };
 
