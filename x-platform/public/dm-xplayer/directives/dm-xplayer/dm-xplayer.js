@@ -88,7 +88,7 @@ define([
                 var middle = document.documentElement.clientWidth / 2;  
 
                 myself.css({
-                  transform: 'translate(' + (middle + rect.left / 50) + 'px, ' + positionTop +'px)',
+                  transform: 'translate(' + (middle + rect.left / 50) + 'px, ' + positionTop +'px) scale(1.2)',
                 });
 
                 if ($scope.anno) {
