@@ -2,6 +2,9 @@
 
 this.EventUtils = {
   timeLeft(currentItem) {
+      if (!currentItem) {
+        return 0;
+      }
       let currentTime = Session.get('currentTime');
       currentItem.endTime = currentItem.endTime || new Date().getTime();
       let timeLeft2 = (currentItem.endTime - currentTime) / 1000 / 60;

@@ -92,6 +92,10 @@ Meteor.methods({
     updateEventProp(eventId, itemIdx, 'startedAt', startTime);
   },
 
+  "EventTimings.finishEvent": (eventId, itemIdx, startTime) => {
+    updateEventProp(eventId, itemIdx, 'finishedAt', startTime);
+  },
+
   "EventTimings.cancelItem": (eventId, itemIdx) => {
     EventTimings.update(eventId, {
       $unset: {

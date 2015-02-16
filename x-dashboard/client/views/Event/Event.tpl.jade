@@ -7,7 +7,6 @@
       hr.visible-xs
       h3.text-center #{event.eventTitle}
       h3(style="display:none") 
-        a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") #{event._id}
       h5.text-muted.text-center {{asDate event.eventDate}}
       if event.announcement
         h3 #{event.announcement}
@@ -15,3 +14,16 @@
         tbody
           each mapItems
             +EventRow
+      .pull-right
+        if isAdmin
+          a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
+
+          unless currentItem
+            button.btn.btn-default.btn-xs(role="togglePlanningMode")
+              span.fa.fa-fw.fa-calendar
+              span Toggle planning Mode
+          else
+            button.btn.btn-default.btn-xs(role="finishEvent")
+              span.fa.fa-fw.fa-stop
+              span Finish Event
+            
