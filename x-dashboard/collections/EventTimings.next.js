@@ -28,6 +28,18 @@ EventTimings.attachSchema(new SimpleSchema({
     label: 'Announcement',
     optional: true
   },
+  ranking: {
+    type: [Object]
+  },
+  "ranking.$.username": {
+    type: String
+  },
+  "ranking.$.finished": {
+    type: [String]
+  },
+  tasks: {
+    type: [Number]
+  },
   items: {
     type: [Object]
   },
@@ -71,7 +83,7 @@ this.EventTimings = EventTimings;
 
 
 function updateEventProp(eventId, itemIdx, prop, val) {
-  let update =  {
+  let update = {
     $set: {
       ['items.' + itemIdx + '.' + prop]: val
     }
@@ -102,6 +114,44 @@ Meteor.methods({
         ['items.' + itemIdx + '.startedAt']: ""
       }
     });
+  },
+
+  "EventTimings.joinRanking": (eventId) => {
+    let join = {
+      ['ranking']: {
+        username: Meteor.user().username,
+        finished: []
+      }
+    };
+
+    EventTimings.update(eventId, {
+      $push: join
+    });
+  },
+
+  "EventTimings.toggleRanking": (eventId, taskId, completed) => {
+    var event = EventTimings.find({
+        _id: eventId
+    }).fetch()[0];
+    var idx = event.ranking.map(x => x.username).indexOf(Meteor.user().username);
+    if (idx === -1) {
+      Meteor.call("EventTimings.joinRanking", event._id);
+    }
+    //Updated idx
+    idx = event.ranking.map(x => x.username).indexOf(Meteor.user().username);
+
+    let update = {
+      ['ranking.' + idx + '.finished']: taskId
+    };
+    if (completed) {
+      EventTimings.update(eventId, {
+        $push: update
+      });
+    } else {
+      EventTimings.update(eventId, {
+        $pull: update
+      });
+    }
   }
 
 });
