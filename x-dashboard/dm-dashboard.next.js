@@ -2,7 +2,7 @@
 this.AdminConfig = {
   name: 'EventTimings',
   baseRoute: '/live/admin/admin',
-  adminEmails: ['tomasz.drwiega@gmail.com'],
+  adminEmails: ['tomasz.drwiega@gmail.com', 'maciek.zir@gmail.com'],
   collections: {
     EventTimings: {
       icon: 'pencil',
