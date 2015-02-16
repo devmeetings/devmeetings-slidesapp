@@ -7,7 +7,7 @@ var mime = require('mime');
 
 exports.onSocket = function(log, socket, io) {
     socket.on('slide.slide-workspace.change', function(data, ack) {
-        var files = getFiles(data);
+        var files = getFiles(data.workspace);
         var hash = calculateHash(files);
 
         var upsert = Workspaces.upsertWorkspace(hash, files, socket.handshake.user._id);
@@ -16,12 +16,14 @@ exports.onSocket = function(log, socket, io) {
 
             ack({
                 ok: true,
+                timestamp: data.timestamp,
                 hash: hash
             });
         }, function(err) {
 
             ack({
                 ok: false,
+                timestamp: data.timestamp,
                 err: err
             });
         });

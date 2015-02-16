@@ -3,7 +3,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
   var path = sliderPlugins.extractPath(module);
 
+  var lastTimestamp = 0;
   var refreshOutput = _.throttle(function(scope, contentUrl) {
+
+    if (lastTimestamp > contentUrl.timestamp) {
+      return;
+    }
+    lastTimestamp = contentUrl.timestamp;
+
     scope.$apply(function() {
       scope.isWaiting = false;
 
@@ -27,7 +34,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
           sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
             scope.isWaiting = true;
-            Sockets.emit('slide.slide-workspace.change', workspace, function(contentUrl) {
+            Sockets.emit('slide.slide-workspace.change', {
+                timestamp: new Date().getTime(),
+                workspace: workspace
+            }, function(contentUrl) {
               refreshOutput(scope, contentUrl);
             });
           });
@@ -57,6 +67,12 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             // Toggle classes
             var oldOutput = angular.element($iframes[currentFrame]);
             var newOutput = angular.element($iframes[oldFrame]);
+
+            // Fix for old output lfashing.
+            if (newOutput[0].src.indexOf(scope.contentUrl) === -1) {
+              currentFrame = Math.max(0, currentFrame - 1);
+              return;
+            }
 
             oldOutput.addClass('fadeOut');
             newOutput.removeClass('fadeOut hidden');
