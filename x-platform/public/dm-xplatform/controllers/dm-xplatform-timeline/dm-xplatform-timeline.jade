@@ -17,9 +17,13 @@ a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond - 0.25)")
     span -0.25
 a.btn.dm-timeline-button(
-    ng-if='editMode', 
     tooltip='Current second', tooltip-placement='top')
-    span {{state.currentSecond | number: 1}} 
+    span(ng-show="!editSecond", ng-click="editSecond = true") {{state.currentSecond | number: 1}} 
+    input.form-control.input-sm(
+      type="number",
+      ng-show="editSecond", 
+      ng-model="state.currentSecond", 
+      ng-blur="setTime(state.currentSecond - 1.0); editSecond = false") 
 a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond + 0.25)"
     ng-if="editMode")
@@ -32,7 +36,7 @@ a.btn.dm-timeline-button(
     ng-click='changeRate()', 
     tooltip='Change the speed to {{nextRate | number: 2}}', tooltip-placement='top')
     span {{state.rate | number: 2}}x
-.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 110px)"}')
+.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 180px)"}')
     dm-timeline(
       second='state.currentSecond',
       length='state.max', 
