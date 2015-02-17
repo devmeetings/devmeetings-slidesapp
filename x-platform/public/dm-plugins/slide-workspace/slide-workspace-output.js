@@ -58,11 +58,16 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
           var swapFramesLater = _.throttle(function() {
             var oldFrame = currentFrame;
-            currentFrame += 1;
-            currentFrame = currentFrame % $iframes.length;
-            if (scope.workspace.singleOutput || $rootScope.performance.indexOf('workspace_output_anim') > -1) {
-              currentFrame = 0;
+
+            function swapFrameNumbers(){
+              currentFrame += 1;
+              currentFrame = currentFrame % $iframes.length;
+              if (scope.workspace.singleOutput || $rootScope.performance.indexOf('workspace_output_anim') > -1) {
+                currentFrame = 0;
+              }
             }
+
+            swapFrameNumbers();
 
             // Toggle classes
             var oldOutput = angular.element($iframes[currentFrame]);
