@@ -84,6 +84,21 @@
                             dm-iframe,
                             ng-src="{{ event.liveLink | liveLinkUrl:'agenda' }}")
 
+                tab.cursor-pointer(
+                    analytics-category='spacesidebar',
+                    analytics-on='click', analytics-event='spacesidebar.ranking',
+                    select='toggleRight(true)',
+                    ng-click='toggleRight(true)',
+                    ng-if="event.liveLink"
+                )
+                    tab-heading.cursor-pointer(tooltip='Ranking', tooltip-placement='left')
+                        span.fa.fa-line-chart
+                    iframe.full-frame(
+                            seamless=true,
+                            dm-iframe,
+                            ng-src="{{ event.liveLink | liveLinkUrl:'ranking' }}")
+ 
+
                 tab.cursor-pointer(id='stream', active='tabs.stream',
                     analytics-category='spacesidebar',
                     analytics-on='click', analytics-event='spacesidebar.stream',
