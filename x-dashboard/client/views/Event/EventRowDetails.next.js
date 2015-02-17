@@ -7,6 +7,11 @@ Template.EventRowDetails.helpers({
       return this.endTime;
     },
 
+    progressPrcnt() {
+      let current = this;
+      return EventUtils.progress(current) * 100;
+    },
+
     timeLeft() {
       let current = this;
       return EventUtils.timeLeft(current);

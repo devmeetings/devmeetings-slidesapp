@@ -11,6 +11,17 @@ this.EventUtils = {
       return timeLeft2.toFixed(1);
     },
 
+    progress(currentItem) {
+      if (!currentItem) {
+        return 0;
+      }
+
+      let timeLeft = EventUtils.timeLeft(currentItem);
+      let predictedTime = currentItem.time;
+
+      return (1 - timeLeft / predictedTime);
+    },
+
     textClass(currentItem) {
       let time = EventUtils.timeLeft(currentItem);
       if (time < 3) {

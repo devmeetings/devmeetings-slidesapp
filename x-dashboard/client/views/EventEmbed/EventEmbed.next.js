@@ -8,6 +8,10 @@ Template.EventEmbed.helpers({
         return item.startedAt && !item.finishedAt;
       });
     },
+  
+    progressPrcnt(currentItem) {
+      return EventUtils.progress(currentItem) * 100;
+    },
 
     timeLeft(currentItem) {
       return EventUtils.timeLeft(currentItem);
