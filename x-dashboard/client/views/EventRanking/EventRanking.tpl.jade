@@ -1,25 +1,26 @@
 h3.text-center #{event.eventTitle}
 h5.text-muted.text-center Ranking
 
-table.table.table-border.dm-ranking-table
-  thead
-    tr
-      th.text-right User
-      each tasks
-        th #{name}
-  tbody
-    each ranking
+.table-responsive
+  table.table.table-border.dm-ranking-table
+    thead
       tr
-        td.text-right #{username}
+        th.text-right User
+        each tasks
+          th #{name}
+    tbody
+      each ranking
+        tr
+          td.text-right #{username}
+          each tasks
+            td
+              .dm-ranking-cell
+                each subtasks
+                  .dm-ranking-sq(class="{{hasFinishedClass ../../finished id}}")
+      tr
+        td.text-right #{currentUserName}
         each tasks
           td
-            .dm-ranking-cell
-              each subtasks
-                .dm-ranking-sq(class="{{hasFinishedClass ../../finished id}}")
-    tr
-      td.text-right #{currentUserName}
-      each tasks
-        td
-          each subtasks
-            input(type="checkbox", checked="{{ currentUserFinished ../../event id}}", role="taskCompleted", data-id="{{id}}")
+            each subtasks
+              input(type="checkbox", checked="{{ currentUserFinished ../../event id}}", role="taskCompleted", data-id="{{id}}")
 
