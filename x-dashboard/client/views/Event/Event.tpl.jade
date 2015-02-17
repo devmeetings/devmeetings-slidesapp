@@ -6,7 +6,8 @@
     .col-sm-7
       hr.visible-xs
       h3.text-center #{event.eventTitle}
-      h3(style="display:none") 
+      h3(style="display:none")
+          a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
       h5.text-muted.text-center {{asDate event.eventDate}}
       if event.announcement
         h3 #{event.announcement}
@@ -14,6 +15,9 @@
         tbody
           each mapItems
             +EventRow
+      .pull-left
+        h5
+          a(href="/live/{{event.id}}/ranking") Ranking
       .pull-right
         if isAdmin
           a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
