@@ -123,4 +123,29 @@ Router.map(function() {
     }
   });
 
+
+  this.route('event-ranking', {
+    path: '/live/:id/ranking',
+    waitOn: function() {
+      return Meteor.subscribe('events');
+    },
+    onBeforeAction: function() {
+      $('body').addClass('embed');
+      this.next();
+    },
+    onStop: function() {
+      $('body').removeClass('embed');
+    },
+    action: function() {
+      this.render('EventRanking', {
+        data: {
+          event: EventTimings.findOne({
+            id: this.params.id
+          })
+        }
+      });
+    }
+  });
+
+
 });
