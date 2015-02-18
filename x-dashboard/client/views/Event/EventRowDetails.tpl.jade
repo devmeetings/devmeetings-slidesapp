@@ -1,4 +1,8 @@
-.text-center
+.text-center.event-row-details
+  .progress
+    .progress-bar(style="width: {{progressPrcnt}}%")
+  br
+
   h1 #{title}
   h3.text-muted {{asTime startedAt}} - {{asTime endTime2}}
   br
@@ -9,9 +13,4 @@
   h1.text-muted
     span.fa.fa-fw(class="fa-{{icon}}")
 
-  br
-
-  .progress
-    .progress-bar.progress-bar-striped(style="width: {{progressPrcnt}}%")
-
-
+  
