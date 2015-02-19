@@ -66,7 +66,8 @@ define(['angular', 'xplatform/xplatform-app',
           x = (ev.offsetX || ev.originalEvent.layerX);
         } else {
           var rect = ev.target.getBoundingClientRect();
-          x = rect.left;
+          var parentRect = ev.target.parentElement.getBoundingClientRect();
+          x = rect.left - parentRect.left;
         }
         $scope.state.currentSecond = x / width * $scope.state.max;
       };
