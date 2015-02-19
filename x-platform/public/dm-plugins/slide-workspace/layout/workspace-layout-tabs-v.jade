@@ -1,25 +1,9 @@
+include ./file-tabs
+
 .col-xs-12.sw-col.size-half-height1
-    .row.full-height
-        ul.nav.nav-tabs
-            li.workspace-tab.workspace-file-tab(
-                tooltip="{{ ((workspace.tabs | objectKeys).length > 4 ? toFileName(tabName) : '') }}",
-                tooltip-placement="bottom",
-                ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
-                ng-class="{'workspace-tab-active': workspace.active === tabName && !output.show }")
-                a.cursor-pointer(
-                    class="{{ 'type-' + getType(tabName) }}",
-                    ng-click="workspace.active = tabName;output.show = false") 
-                    span.fa.fa-circle.type-icon
-                    |  {{ toFileName(tabName) }}
-                a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",
-                    analytics-event="workspace-deleteTab", analytics-category="workspace")
-                    | x
-                a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit name", tooltip-placement="right",
-                    analytics-event="workspace-editTab", analytics-category="workspace")
-                    span.fa.fa-pencil
-            li.workspace-tab.add-tab
-                a.cursor-pointer(ng-click="insertTab()", title="Add New File")
-                    | +
+  .row.full-height
+      .clearfix
+        ul.nav.nav-tabs.pull-right
             li.workspace-tab.pull-right.workspace-tab-condensed
               a.cursor-pointer(
                 title="Open Your Page in New Window",
@@ -43,20 +27,22 @@
                     span.fa.fa-upload
             li.workspace-tab.pull-right(ng-if="hasFormatting()")
                 a.cursor-pointer(title="Reformat your code", ng-click="formatTab()")
-                    span.fa.fa-indent
-
-        .tab-content(ng-show="!output.show")
-            .tab-pane.active.fade.in.scrollable-container
-              dm-editor(
-                size='workspace.size', 
-                data='activeTab',
-                name='workspace.active',
-                undo-manager='undoManager',
-                options='workspace',
-                trigger-save='triggerSave()',
-                trigger-change-later='triggerChangeLater()'
-              )
-            .errors.alert.alert-danger.errors-fiddle {{ errors }}
+                  span.fa.fa-indent
+        +tabs()
+        
+      +tabsStacked()
+      .tab-content(ng-show="!output.show")
+          .tab-pane.active.fade.in.scrollable-container
+            dm-editor(
+              size='workspace.size', 
+              data='activeTab',
+              name='workspace.active',
+              undo-manager='undoManager',
+              options='workspace',
+              trigger-save='triggerSave()',
+              trigger-change-later='triggerChangeLater()'
+            )
+          .errors.alert.alert-danger.errors-fiddle {{ errors }}
 .col-xs-12.sw-col.size-half-height2
     .row.full-height
         slide-workspace-output.full-height
