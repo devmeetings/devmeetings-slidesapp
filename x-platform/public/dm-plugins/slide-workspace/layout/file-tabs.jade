@@ -1,5 +1,5 @@
 mixin tabs()
-  div(ng-if="(workspace.tabs | objectKeys).length < 5")
+  div(ng-if="(workspace.tabs | objectKeys).length < 7")
     ul.nav.nav-tabs
       li.workspace-tab.workspace-file-tab(
         ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
@@ -20,7 +20,7 @@ mixin tabs()
         a.cursor-pointer(ng-click="insertTab()", title="Add New File")
           | +
 mixin tabsStacked()
-  .pull-left(ng-if="(workspace.tabs | objectKeys).length >= 5", style="height:95%;overflow-y:auto")
+  .pull-left(ng-if="(workspace.tabs | objectKeys).length >= 7", style="height:95%;overflow-y:auto")
     ul.nav.nav-pills.nav-stacked
       li.workspace-tab.workspace-file-tab(
         ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
