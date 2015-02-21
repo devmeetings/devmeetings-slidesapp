@@ -8,7 +8,8 @@ define(['angular',
             
 
             $scope.deck = $stateParams.deck;
-            dmBrowserTab.setTitleAndIcon('Slides'); 
+            dmBrowserTab.setTitleAndIcon($stateParams.name, 'slide').
+              withBadge(1 + parseInt($stateParams.iteration, 10)); 
 
             var params = [];
             if ($stateParams.from) {

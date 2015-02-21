@@ -360,7 +360,7 @@ require(['angular',
                 });
 
                 $stateProvider.state('index.space.deck', {
-                    url: '/deck/:iteration/:deck?from&to',
+                    url: '/deck/:iteration/:deck?from&to&name',
                     views: {
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck.html',
