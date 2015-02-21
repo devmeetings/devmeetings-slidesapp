@@ -1,20 +1,35 @@
-define(['angular'], function(angular) {
-    'use strict';
+define(['angular', 'lib/favicojs'], function(angular, Favico) {
+  'use strict';
 
-    angular.module('dm-browsertab', []).service('dmBrowserTab', function($rootScope) {
-      return {
+  angular.module('dm-browsertab', []).service('dmBrowserTab', function($rootScope, $timeout) {
 
-        setTitleAndIcon: function(title, icon) {
-          $rootScope.title = title;
-          this.setIcon(icon || 'xplatform');
-          return this;
-        },
+    return {
 
-        setIcon: function(icon) {
-          $rootScope.icon = icon;
-          return this;
-        }
-        
-      };
-    });
+      setTitleAndIcon: function(title, icon) {
+        $rootScope.title = title;
+        this.withIcon(icon || 'icon');
+        return this;
+      },
+
+      withIcon: function(icon) {
+        $rootScope.icon = icon;
+        return this;
+      },
+
+      withBadge: function(badge) {
+        //we have to wait for new icon to load.
+        $timeout(function() {
+          var favico = new Favico({
+            animation: 'none',
+            bgColor: '#000',
+            textColor: '#eee',
+            fontStyle: 'normal',
+            element: document.querySelector('link[rel="icon"][type="image/png"]')
+          });
+          favico.badge(badge);
+        }, 1000);
+      }
+
+    };
+  });
 });

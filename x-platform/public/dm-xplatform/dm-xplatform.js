@@ -87,7 +87,7 @@ require(['angular',
                         }
                     },
                     onEnter: function($rootScope, dmBrowserTab) {
-                        dmBrowserTab.setTitleAndIcon('xPlatform', 'xplatform');
+                        dmBrowserTab.setTitleAndIcon('XPlatform', 'xplatform');
                         $rootScope.xplatformData = {
                             navbar: {},
                             columns: {}

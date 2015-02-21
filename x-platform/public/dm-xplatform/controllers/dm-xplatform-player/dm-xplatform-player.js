@@ -12,7 +12,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
         return elem._id === $stateParams.material;
       });
 
-      dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie');
+      dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie')
+        .withBadge(1 + parseInt($stateParams.iteration, 10));
       return dmRecordings.getRecording(material.material);
     }).then(function(recording) {
       $scope.recording = recording;

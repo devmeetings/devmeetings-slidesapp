@@ -41,6 +41,7 @@ require.config({
         "lib/beautify-js": "../components/js-beautify/js/lib/beautify-js",
         "lib/beautify-html": "../components/js-beautify/js/lib/beautify-html",
         "lib/file-saver":  "../components/FileSaver/FileSaver",
+        "lib/favicojs": "../components/favico.js/favico",
 
         // Angular
         "angular": "../components/angular/angular",

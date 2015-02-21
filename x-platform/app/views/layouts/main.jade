@@ -9,13 +9,13 @@ html.full-height(
     block title
       title(ng-bind="title")= title
     link(rel="icon", type="image/svg+xml", href="/static/images/xplatform-icon.svg")
-    link(rel="icon", type="image/png", href="/static/images/xplatform-icon.png")
+    link(rel="icon", type="image/png", href="/static/images/xplatform-{{$root.icon}}.png")
     block css
       link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')
     block js2
       if doLiveReload
         script(src='http://localhost:35729/livereload.js')
-  body.full-height(ng-init="$root.modes = {};$root.title='#{title}'")
+  body.full-height(ng-init="$root.modes = {};$root.title='#{title}';$root.icon='icon'")
     block content
     block scripts
       script(src='/static/components/jquery/dist/jquery.js')
