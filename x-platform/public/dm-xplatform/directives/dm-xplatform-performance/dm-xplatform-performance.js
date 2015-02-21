@@ -24,7 +24,9 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
 
         prop('anims');
         prop('shadows');
-        prop('workspace_output_anim');
+        prop('workspace_output_noanim');
+        prop('workspace_output_noauto');
+        prop('workspace_output_scalling');
 
         function prop(name) {
           scope.$watch('performance.' + name, function(enabled) {
