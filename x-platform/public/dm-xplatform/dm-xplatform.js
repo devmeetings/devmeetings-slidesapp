@@ -86,7 +86,8 @@ require(['angular',
                             controller: 'XplatformIndexCtrl'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('xPlatform', 'xplatform');
                         $rootScope.xplatformData = {
                             navbar: {},
                             columns: {}
@@ -102,17 +103,18 @@ require(['angular',
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('Login');
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
                             title: 'Log in',
                             searchText: ''
-                        },
+                        };
                         $rootScope.xplatformData.columns = {
                             left: 12,
                             mid: 0,
                             right: 0
-                        }
+                        };
                     }
                 });
 
@@ -125,17 +127,18 @@ require(['angular',
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('Register');
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
                             title: 'Register',
                             searchText: ''
-                        },
+                        };
                         $rootScope.xplatformData.columns = {
                             left: 0,
                             mid: 0,
                             right: 12
-                        }
+                        };
                     }
                 });
 
@@ -147,17 +150,18 @@ require(['angular',
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-privacy/dm-xplatform-privacy.html'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('Polityka Prywatności');
                         $rootScope.xplatformData.navbar = {
                             title: 'Polityka prywatności',
                             showTitle: true,
                             searchText: ''
-                        },
+                        };
                         $rootScope.xplatformData.columns = {
                             left: 12,
                             mid: 0,
                             right: 0
-                        }
+                        };
                     }
                 });
 
@@ -178,7 +182,8 @@ require(['angular',
                             controller: 'dmXplatformObserved'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('News Feed');
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
                             title: 'News Feed',
@@ -226,7 +231,8 @@ require(['angular',
                             controller: 'dmXplatformWorkshoplist'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('Courses');
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
                             title: 'Workshops',
@@ -252,7 +258,8 @@ require(['angular',
                             controller: 'dmXplatformObserved'
                         }
                     },
-                    onEnter: function($rootScope) {
+                    onEnter: function($rootScope, dmBrowserTab) {
+                        dmBrowserTab.setTitleAndIcon('Profile');
                         $rootScope.xplatformData.navbar = {
                             showTitle: true,
                             title: 'Edycja profilu',
@@ -330,6 +337,11 @@ require(['angular',
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
                             controller: 'dmXplatformAnnos'
                         }
+                    },
+                    onEnter: function($timeout, dmBrowserTab) {
+                      $timeout(function(){
+                        dmBrowserTab.setTitleAndIcon('Your Code', 'code');
+                      }, 1000);
                     }
                 });
 

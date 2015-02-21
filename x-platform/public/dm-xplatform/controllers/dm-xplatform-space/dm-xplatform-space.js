@@ -6,8 +6,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
   'xplatform/filters/liveLinkUrl',
 ], function(angular, xplatformApp, _) {
-  xplatformApp.controller('dmXplatformSpace', ['$scope', '$rootScope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen',
-    function($scope, $rootScope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen) {
+  xplatformApp.controller('dmXplatformSpace', ['$scope', '$rootScope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen', 'dmBrowserTab',
+    function($scope, $rootScope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen, dmBrowserTab) {
 
       $scope.changeFullScreen = function(enable) {
          if (!enable) {
@@ -135,8 +135,11 @@ define(['angular', 'xplatform/xplatform-app', '_',
         $scope.user = data;
       });
 
+      dmBrowserTab.setTitleAndIcon('xPlatform');
+
       dmEvents.getEvent($stateParams.event, true).then(function(data) {
         $scope.event = data;
+        dmBrowserTab.setTitleAndIcon(data.title);
         dmUser.getCurrentUser().then(function(data) { // Q All!
           $scope.currentUserId = data.result._id;
           markTasks($scope.event);

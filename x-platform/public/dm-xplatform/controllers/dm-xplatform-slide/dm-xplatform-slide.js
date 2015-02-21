@@ -4,10 +4,13 @@ define(['angular',
         'directives/plugins-loader',
         'xplatform/services/dm-slidesaves/dm-slidesaves'
         ], function (angular, _, xplatformApp, pluginsLoader) {
-    xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$state', '$stateParams', 'dmSlidesaves', 'dmEvents', function ($scope, $q, $state, $stateParams, dmSlidesaves, dmEvents) {
+    xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$state', '$stateParams', 'dmSlidesaves', 'dmEvents', 'dmBrowserTab',
+        function ($scope, $q, $state, $stateParams, dmSlidesaves, dmEvents, dmBrowserTab) {
+//
 
         dmSlidesaves.saveWithId($stateParams.slide).then(function (save) {
             $scope.slide = save;
+            dmBrowserTab.setTitleAndIcon(save.name, 'slide');
         });
         
          

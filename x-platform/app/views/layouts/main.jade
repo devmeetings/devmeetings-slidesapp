@@ -7,7 +7,7 @@ html.full-height(
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
     block title
-      title= title
+      title(ng-bind="title")= title
     link(rel="icon", type="image/svg+xml", href="/static/images/xplatform-icon.svg")
     link(rel="icon", type="image/png", href="/static/images/xplatform-icon.png")
     block css
@@ -15,7 +15,7 @@ html.full-height(
     block js2
       if doLiveReload
         script(src='http://localhost:35729/livereload.js')
-  body.full-height(ng-init="$root.modes = {}")
+  body.full-height(ng-init="$root.modes = {};$root.title='#{title}'")
     block content
     block scripts
       script(src='/static/components/jquery/dist/jquery.js')

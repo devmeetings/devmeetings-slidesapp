@@ -2,7 +2,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/services/dm-events/dm-events'
 ], function(angular, xplatformApp, _) {
   'use strict';
-  xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', '$timeout', 'dmEvents', 'dmRecordings', function($scope, $stateParams, $timeout, dmEvents, dmRecordings) {
+  xplatformApp.controller('dmXplatformPlayer', ['$scope', '$stateParams', '$timeout', 'dmEvents', 'dmRecordings', 'dmBrowserTab',
+      function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab) {
 
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 
@@ -10,6 +11,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
       var material = _.find(data.iterations[$stateParams.iteration].materials, function(elem) {
         return elem._id === $stateParams.material;
       });
+
+      dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie');
       return dmRecordings.getRecording(material.material);
     }).then(function(recording) {
       $scope.recording = recording;
