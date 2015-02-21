@@ -34,11 +34,6 @@ server {
 		expires 3d;
 	}
 
-	location /lorempixel {
-		proxy_pass http://lorempixel.com;
-		proxy_set_header REFERER "http://xplatform.org";	
-	}
-
   location /convert {
     proxy_cache one;
     proxy_ignore_headers "Cache-Control";
@@ -49,8 +44,23 @@ server {
     add_header X-Cache-Status $upstream_cache_status;
   }
 
+
+	location /ext/lorempixel {
+    proxy_cache one;
+		proxy_pass http://lorempixel.com;
+		proxy_set_header REFERER "http://xplatform.org";
+    proxy_cache_valid 200 60m;
+    add_header X-Cache-Status $upstream_cache_status;
+	}
+
   location /ext/testReporter/ {
     proxy_pass  http://localhost:3002/;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+
+  location /ext/requestbin {
+    proxy_pass http://requestb.in/;
     proxy_set_header Host      $host;
     proxy_set_header X-Real-IP $remote_addr;
   }
@@ -84,9 +94,9 @@ server {
 	}
 
 	location /nginx_status {
-	    # copied from http://blog.kovyrin.net/2006/04/29/monitoring-nginx-with-rrdtool/
-	    stub_status on;
-	    access_log   off;
-  	}
+    # copied from http://blog.kovyrin.net/2006/04/29/monitoring-nginx-with-rrdtool/
+    stub_status on;
+    access_log   off;
+  }
 }
 
