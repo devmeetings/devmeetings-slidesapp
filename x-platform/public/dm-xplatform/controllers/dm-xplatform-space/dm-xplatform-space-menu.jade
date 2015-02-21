@@ -58,25 +58,11 @@
                             span.fa.fa-square-o(ng-if='!task.done')
                             span.fa.fa-check-square-o.text-success(ng-if='task.done')
 
-
         li(ng-if='editMode'
             ui-sref-active='active')
             a.cursor-pointer(ng-click='createIteration()')
                 span Dodaj Iteracje
-        //li
-            a.cursor-pointer(ng-click='openWorkspace()')
-                span.fa.fa-wrench.nav-icon
-                span Workspace
-        li
-            a(ng-href="{{event.rankingLink}}", ng-if="event.rankingLink", target="ranking")
-                span.nav-icon.fa.fa-bar-chart
-                span.pull-right.fa.fa-external-link
-                span Ranking
-        //li(ui-sref-active='active')
-            a(ui-sref='index.space.ranking')
-                span.nav-icon.fa.fa-bar-chart
-                span Ranking
-
+        
     .dm-spacesidebar-user.text-center(ng-if="user")
         a.btn.btn-block.btn-default.workspace-btn(
             ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
