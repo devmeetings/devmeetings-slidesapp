@@ -1,8 +1,9 @@
 include ./file-tabs
 
 .sw-col.full-height(
-    ng-class="{'col-xs-12': !output.sideBySide, 'col-xs-10': output.width == 2,'col-xs-8': output.width == 4,'col-xs-6': output.width == 6,'side-by-side': output.sideBySide }")
-    .row.full-height
+    ng-class="{'side-by-side': output.sideBySide, 'no-preview': !output.sideBySide }",
+    ng-style="{width: output.leftSize}")
+    .full-height
         .clearfix
           ul.nav.nav-tabs.pull-right
               li.workspace-tab.workspace-sidebyside.pull-right
@@ -55,12 +56,13 @@ include ./file-tabs
               )
             .errors.alert.alert-danger.errors-fiddle {{ errors }}
         .tab-content(ng-show="output.show", ng-if="!output.sideBySide")
-            slide-workspace-output.full-height    
-
+          slide-workspace-output.full-height
+sw-splitter(left="output.leftSize", right="output.rightSize", drag-active="output.dragActive")
 .sw-col.full-height(
+    ng-style="{width: output.rightSize}"
     ng-if="output.sideBySide"
-    ng-class="{'col-xs-2': output.width == 2, 'col-xs-4': output.width == 4, 'col-xs-6': output.width == 6}"
     )
-    .row.full-height
+    .full-height
+        .overlay(ng-if="output.dragActive")
         slide-workspace-output.full-height
 

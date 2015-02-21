@@ -12,14 +12,16 @@
     width: 50%;
     float: left;
   }
+  
   .size-half2-width1 {
     width: 60%;
     float: left;
   }
 
   .size-half2-width2 {
-    width: 40%;
     float: left;
+    width: ~"calc(40% - 3px)";
+    margin-left: 1px;
   }
 
   .size-half-height1 {
@@ -31,7 +33,22 @@
 
 
   .sw-col {
-    transition: width 0.4s ease;
+    transition: width 0.15s ease;
+    float: left;
+  }
+  .sw-col-grip {
+    float: left;
+    width: 3px;
+    cursor: col-resize;
+    background-color: #222;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
   }
 
   .editor {
@@ -130,7 +147,10 @@
       }
     }
   }
-
+  
+  .no-preview {
+    width: 100% !important;
+  }
   .side-by-side {
     .workspace-sidebyside {
       margin-right: 0;

@@ -5,14 +5,17 @@ include ./workspace-layout.mixins.jade
       ng-class="{'editor-focus': workspace.active === layout.options[0] }")
       +editor(0)
 .size-half-height2
-  .full-height.size-half2-width1
+  .sw-col.full-height(ng-style="{width: output.leftSize}")
     .editor-focusable.size-half-height1(
       ng-class="{'editor-focus': workspace.active === layout.options[1] }")
       +editor(1)
     .editor-focusable.size-half-height2(
       ng-class="{'editor-focus': workspace.active === layout.options[2] }")
       +editor(2)
-  .full-height.size-half2-width2
+
+  sw-splitter(left="output.leftSize", right="output.rightSize", drag-active="output.dragActive")
+  .sw-col.full-height(ng-style="{width: output.rightSize}")
+    .overlay(ng-if="output.dragActive")
     slide-workspace-output.full-height
 
 

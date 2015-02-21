@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager'],
+define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager', './sw-splitter'],
   function(module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
     'use strict';
 
@@ -101,12 +101,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             scope.getType = getExtension;
 
             scope.output = {
-              width: 6,
               show: false,
               sideBySide: true
             };
 
-            scope.$watch('output.width', function() {
+            scope.$watch('output.sideBySide', function() {
               // Because of animation we have to make timeout
               $timeout(function() {
                 scope.$broadcast('resize');
@@ -122,14 +121,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
             scope.changeWidth = function() {
               var out = scope.output;
-              out.width -= 2;
-              out.sideBySide = true;
-              if (out.width === 0) {
-                out.sideBySide = false;
-              }
-              if (out.width < 0) {
-                out.width = 6;
-              }
+              out.sideBySide = !out.sideBySide;
             };
 
             scope.$watch('workspace.tabs', function() {
