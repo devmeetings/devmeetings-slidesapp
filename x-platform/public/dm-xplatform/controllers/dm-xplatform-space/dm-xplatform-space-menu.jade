@@ -33,16 +33,19 @@
 
             ul.nav.nav-stacked(ng-show="(i.open && (editMode || i.status ==='available')) || activeIteration == $index")
               li(ui-sref-active="active", ng-repeat='material in i.materials')
-                a.dm-external-link(ng-href="/decks/{{material.deck.deck}}?from={{material.deck.from}}&to={{material.deck.to}}&name={{material.title}}", target="_blank", ng-if="material.deck.deck")
+                  a.dm-external-link(ng-href="/decks/{{material.deck.deck}}?from={{material.deck.from}}&to={{material.deck.to}}&name={{material.title}}", target="_blank", ng-if="material.deck.deck")
                       span.fa.fa-external-link
 
-                    a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
-                        span.fa.fa-film.nav-icon
-                        span {{material.title}}
-                    a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})',
-                        ng-if="material.deck.deck")
-                        span.fa.fa-university.nav-icon
-                        span {{material.title}}
+                  a.dm-external-link(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id, withVoice:true})',
+                    ng-if="material.url")
+                      span.fa.fa-volume-up
+                  a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
+                      span.fa.fa-film.nav-icon
+                      span {{material.title}}
+                  a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})',
+                      ng-if="material.deck.deck")
+                      span.fa.fa-university.nav-icon
+                      span {{material.title}}
                 li
                     a.cursor-pointer(ng-if='editMode', ng-click='createMaterial(i)')
                         span.fa.fa-plus.nav-icon
