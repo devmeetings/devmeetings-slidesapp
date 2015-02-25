@@ -36,12 +36,12 @@ define(['angular', 'xplatform/xplatform-app', '_',
       });
 
       function fetchAnnotations() {
-        dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
+        dmEvents.getEventAnnotations($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(annotations) {
           if ($stateParams.withVoice) {
             return;
           }
 
-          $scope.annotations = material.annotations.sort(function(a, b) {
+          $scope.annotations = annotations.sort(function(a, b) {
             return a.timestamp - b.timestamp;
           }).filter(function(anno) {
             return anno.type !== 'snippet';

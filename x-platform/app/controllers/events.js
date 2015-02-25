@@ -1,6 +1,5 @@
 var Event = require('../models/event'),
-    User = require('../models/user'),
-    Activity = require('../models/activity'),
+    Annotations = require('../models/annotations'),
     _ = require('lodash'),
     Q = require('q'),
     srt = require('srt'),
@@ -13,6 +12,7 @@ var Event = require('../models/event'),
 var soundsDir = path.join(__dirname, '..', '..', 'public', 'sounds');
 var soundsUrl = '/static/sounds/';
 var idPattern = /ID\: (.+)$/;
+
 
 var onError = function (res) {
     return function (err) {
@@ -36,46 +36,11 @@ var Events = {
         
         Q.ninvoke(Event.findOne({
             _id: id
-        }).populate('trainingId').lean(), 'exec').then(function (event) {
+        }).lean(), 'exec').then(function (event) {
             res.send(event);
         }).fail(onError(res)).done(onDone);
     },
-        
-    eventTaskDone: function (req, res) {
-        var done = req.params.done === 'true' ? true : false;
-        var update = {};
-        if (done) {
-            update.$set = {};
-            update.$set['ranking.people.$.tasks.' + req.params.task] = true; 
-        } else {
-            update.$unset = {};
-            update.$unset['ranking.people.$.tasks.' + req.params.task] = '';
-        }
-
-        Q.ninvoke(Event.findOneAndUpdate({
-            _id: req.params.event,
-            'ranking.people.user': {
-                $ne: req.user._id
-            }
-        }, {
-            $push: {
-                'ranking.people': {
-                    user: req.user._id,
-                    name: req.user.name,
-                    avatar: req.user.avatar,
-                    tasks: {}
-                }
-            }
-        }).lean(), 'exec').then(function (event) {
-            return Q.ninvoke(Event.findOneAndUpdate({
-                _id: req.params.event,
-                'ranking.people.user': req.user._id
-            }, update).lean(), 'exec');
-        }).then(function (event) {
-            res.send(200);
-        }).fail(onError(res)).done(onDone);
-    },
-    
+   
     changeVisibility: function (req, res) {
         var event = req.params.event;
         var visible = req.params.visible === 'true' ? true : false;
@@ -91,57 +56,6 @@ var Events = {
         }).fail(onError(res)).done(onDone);
     },
 
-    delete: function (req, res) {
-        Q.ninvoke(Event.findOneAndRemove({
-            _id: req.params.event
-        }).lean(), 'exec').then(function () {
-            res.send(200);
-        }).fail(onError(res)).done(onDone);
-    },
-
-    create: function (req, res) {
-        Q.ninvoke(Event, 'create', req.body).then(function (event) {
-            res.send(event); 
-        }).fail(onError(res)).done(onDone);
-    },
-
-    eventIterationCreate: function (req, res) {
-        Q.ninvoke(Event.findOneAndUpdate({
-            _id: req.params.event
-        }, {
-            $push: {
-                iterations: req.body
-            }
-        }).lean(), 'exec').then(function (event) {
-            res.send(event.iterations.pop());
-        }).fail(onError(res)).done(onDone);
-    },
-    eventIterationStatus: function(req, res) {
-        Q.ninvoke(Event.findOneAndUpdate({
-            _id: req.params.event,
-            "iterations._id": req.params.iteration
-        }, {
-            $set: {
-                "iterations.$.status": req.body.status
-            }
-        }).lean(), 'exec').then(function(event) {
-            res.send(200);
-        }).fail(onError(res)).done(onDone);
-    },
-    eventIterationDelete: function (req, res) {
-        Q.ninvoke(Event.findOneAndUpdate({
-            _id: req.params.event
-        }, {
-            $pull: {
-                iterations: {
-                    _id: req.params.iteration            
-                }
-            }
-        }).lean(), 'exec').then(function (event) {
-            res.send(200);
-        }).fail(onError(res)).done(onDone);
-    },
-
     eventMaterialCreate: function (req, res) {
         var title = req.body.title || 'no name';
 
@@ -149,7 +63,7 @@ var Events = {
             captions = _.values(captions);
             // convert captions to recordings
             var slides = captions.map(function(caption) {
-                var idData = idPattern.exec(caption.text);
+                // var idData = idPattern.exec(caption.text);
                 var id = idData ? idData[1] : null;
 
                 return {
@@ -214,8 +128,33 @@ var Events = {
         }).fail(onError(res)).done(onDone);
     }, 
 
-    eventMaterialDelete: function (req, res) {
-                         
+    getAllAnnotations: function(req, res) {
+      var eventId = req.params.id;
+      Q.ninvoke(Event.findOne({
+            _id: eventId
+      }).lean(), 'exec').then(function gatherAllAnnotations(event) {
+          return _.reduce(event.iterations, function(acc, iteration) {
+              return acc.concat(_.reduce(iteration.materials, function(subacc, material) {
+                  return subacc.concat(material.annotations);
+              }, []));
+          }, []);
+      }).then(function fetchFromDb(annotations) {
+        return Q.ninvoke(Annotations.find({
+          _id: {
+            $in: annotations
+          }
+        }), 'exec');
+      }).then(function sendResponse(annos) {
+        res.send(annos.reduce(function(memo, a) {
+          return memo.concat(a.annotations);
+        }, []));
+      }).done(onDone);
+    },
+
+    getAnnotations: function(req, res) {
+      Events._findAnnotation(req.params.annotationId).then(function(anno){
+        res.send(anno.annotations);
+      }).done(onDone);
     },
 
     _findEventAndMaterial: function(eventId, iterationIdx, materialId) {
@@ -234,25 +173,26 @@ var Events = {
         });
     },
 
+    _findAnnotation: function(annotationId) {
+      return Q.ninvoke(Annotations, 'findById', annotationId);
+    },
+
     annotationCreate: function(req, res) {
         var eventId = req.params.event;
         var iterationIdx = req.params.iteration;
         var materialId = req.params.material;
 
         Events._findEventAndMaterial(eventId, iterationIdx, materialId).then(function(data){
-            var ev = data[0];
             var material = data[1];
+            
+            return Q.ninvoke(Annotations.findOneAndUpdate({
+              _id: material.annotations
+            },{
+              $push: {
+                'annotations': req.body
+              }
+            }).lean(), 'exec');
 
-            material.annotations.push(req.body);
-            var def = Q.defer();
-            ev.save(function(err) {
-                if (err) {
-                    def.reject(err);
-                } else {
-                    def.resolve(ev);
-                }
-            });
-            return def.promise;
         }).fail(onError(res)).done(function(data){
             res.send(data);
         });
@@ -265,27 +205,20 @@ var Events = {
         var annotationId = req.params.id;
 
          Events._findEventAndMaterial(eventId, iterationIdx, materialId).then(function(data){
-            var ev = data[0];
             var material = data[1];
 
-            var annoIdx = _.map(material.annotations, function(x){
-                return x._id.toString();
-            }).indexOf(annotationId);
+            return Events._findAnnotation(material.annotations).then(function(anno){
+              var annoIdx = _.map(anno.annotations, function(x){
+                  return x._id.toString();
+              }).indexOf(annotationId);
 
-            var annotation = material.annotations[annoIdx];
-            _.each(req.body, function(val, k) {
-                annotation[k] = val;
+              var annotation = anno.annotations[annoIdx];
+              _.each(req.body, function(val, k) {
+                  annotation[k] = val;
+              });
+              return Q.ninvoke(anno, 'save');
             });
 
-            var def = Q.defer();
-            ev.save(function(err) {
-                if (err) {
-                    def.reject(err);
-                } else {
-                    def.resolve(ev);
-                }
-            });
-            return def.promise;
         }).fail(onError(res)).done(function(data){
             res.send(data);
         });

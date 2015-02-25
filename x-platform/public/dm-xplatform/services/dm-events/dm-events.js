@@ -51,9 +51,6 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                 changeEventVisibility: function(event, visible) {
                     $http.post('/api/event_visibility/' + event + '/' + visible);
                 },
-                eventTaskDone: function(event, task, done) {
-                    $http.post('/api/event_task_done/' + event + '/' + task + '/' + done);
-                },
                 getEventMaterial: function(event, iteration, material) {
                     return this.getEvent(event, false).then(function(data) {
                         var result = _.find(data.iterations[iteration].materials, function(elem) {
@@ -63,6 +60,15 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                         return $q.when(result);
                     });
                 },
+                
+                getEventAnnotations: function(event, iteration, material) {
+                  return this.getEventMaterial(event, iteration, material).then(function(data){
+                    return wrap($http.get('/api/events/' + event + '/annotations/' + data.annotations).then(function(data){
+                      return data.data;
+                    }));
+                  });
+                },
+
                 getEventTask: function(event, iteration, task) {
                     return this.getEvent(event, false).then(function(data) {
                         var result = _.find(data.iterations[iteration].tasks, function(elem) {
@@ -73,18 +79,9 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                     });
                 },
                 getAllAnnotations: function(event) {
-                    return this.getEvent(event, false).then(function(data) {
-                        var result = _.reduce(data.iterations, function(acc, iteration, index) {
-                            return acc.concat(_.reduce(iteration.materials, function(subacc, material) {
-                                material.annotations.forEach(function(anno) {
-                                    anno.index = index;
-                                });
-                                return subacc.concat(material.annotations);
-                            }, []));
-                        }, []);
-
-                        return $q.when(result);
-                    });
+                    return wrap($http.get('/api/events/' + event +'/annotations').then(function(data) {
+                          return data.data;
+                    }));
                 },
                 removeEvent: function(event) {
                     var result = $q.defer();
@@ -101,42 +98,6 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                         result.resolve(data.data);
                     }, function() {
                         result.reject();
-                    });
-                    return result.promise;
-                },
-                createEventIteration: function(event, iteration) {
-                    var result = $q.defer();
-                    var that = this;
-                    $http.post('/api/event_iteration/' + event, iteration).then(function(data) {
-                        var i = data.data;
-                        that.getEvent(event, false).then(function(eventObject) {
-                            eventObject.iterations.push(i);
-                            result.resolve(i);
-                        });
-                    }, function() {
-                        result.reject();
-                    });
-                    return result.promise;
-                },
-                changeEventIterationStatus: function(event, iteration, status) {
-                    return wrap($http.put('/api/event_iteration/' + event +'/' + iteration + '/status', {
-                        status: status
-                    }).then(function(d){
-                        return d.data;
-                    }));
-                },
-                removeEventIteration: function(event, iteration) {
-                    var result = $q.defer();
-                    var that = this;
-                    $http.delete('/api/event_iteration/' + event + '/' + iteration).then(function() {
-                        that.getEvent(event, false).then(function(eventObject) {
-                            _.remove(eventObject.iterations, function(i) {
-                                return i._id === iteration;
-                            });
-                            result.resolve();
-                        }, function() {
-                            result.reject();
-                        });
                     });
                     return result.promise;
                 },

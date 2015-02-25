@@ -1,76 +1,63 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 var Event = new Schema({
+  title: String,
+  image: String,
+  order: Number,
+  description: String,
+  liveLink: String,
+  visible: Boolean,
+
+  intro: {
+    type: Schema.Types.ObjectId,
+    ref: 'slides'
+  },
+
+  baseSlide: {
+    type: Schema.Types.ObjectId,
+    ref: 'slide'
+  },
+
+  iterations: [{
     title: String,
-    image: String,
-    order: Number,
-    description: String,
-    liveLink: String,
-    visible: Boolean,
-    intro: {
+
+    materials: [{
+      title: String,
+      url: String,
+
+      material: {
         type: Schema.Types.ObjectId,
-        ref: "slides"
-    },
-    iterations: [{
-        title: String,
-        status: String,
-        materials: [{
-            title: String,
-            url: String,
-            material: {
-                type: Schema.Types.ObjectId,
-                ref: 'recording'
-            },
-            deck: {
-                deck: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'decks'
-                },
-                from: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'slides'
-                },
-                to: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'slides'
-                }
-            },
-            annotations: [{
-                title: String,
-                description: String,
-                timestamp: Number,
-                type: {
-                    type: String,
-                    enum: ['snippet', 'issue', 'task', 'comment']
-                },
-                meta: String
-            }]
-        }],
-        tasks: [{
-            title: String,
-            url: String
-        }]
+        ref: 'recording'
+      },
+
+      annotations: {
+        type: Schema.Types.ObjectId,
+        ref: 'annotations'
+      },
+
+      deck: {
+        deck: {
+          type: Schema.Types.ObjectId,
+          ref: 'decks'
+        },
+        from: {
+          type: Schema.Types.ObjectId,
+          ref: 'slides'
+        },
+        to: {
+          type: Schema.Types.ObjectId,
+          ref: 'slides'
+        }
+      }
     }],
 
-    rankingLink: String,
-    ranking: {
-        people: [{
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            name: String,
-            avatar: String,
-            tasks: Schema.Types.Mixed
-        }]
-    },
+    tasks: [{
+      title: String,
+      url: String
+    }]
 
-    baseSlide: {
-        type: Schema.Types.ObjectId,
-        ref: 'slide'
-    }
-
+  }]
 });
 
 module.exports = mongoose.model('event', Event);

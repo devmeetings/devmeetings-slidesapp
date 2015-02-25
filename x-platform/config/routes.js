@@ -88,19 +88,10 @@ module.exports = function(app) {
 
     var events = require('../app/controllers/events');
     app.get('/api/events', events.all);
-    app.post('/api/events', apiAuthenticated, authorized('admin:events'), events.create);
     app.get('/api/events/:id', apiAuthenticated, events.get);
-    app.delete('/api/events/:event', apiAuthenticated, authorized('admin:events'), events.delete);
-
-    app.post('/api/event_task_done/:event/:task/:done', apiAuthenticated, events.eventTaskDone);
+    app.get('/api/events/:id/annotations', apiAuthenticated, events.getAllAnnotations);
+    app.get('/api/events/:id/annotations/:annotationId', apiAuthenticated, events.getAnnotations);
     app.post('/api/event_visibility/:event/:visible', apiAuthenticated, authorized('admin:events'), events.changeVisibility);
-
-    app.post('/api/event_iteration/:event', apiAuthenticated, authorized('admin:events'), events.eventIterationCreate);
-    app.delete('/api/event_iteration/:event/:iteration', apiAuthenticated, authorized('admin:events'), events.eventIterationDelete);
-    app.put('/api/event_iteration/:event/:iteration/status', apiAuthenticated, authorized('admin:events'), events.eventIterationStatus);
-
-    app.post('/api/event_iteration_material/:event/:iteration', apiAuthenticated, authorized('admin:events'), events.eventMaterialCreate);
-    app.delete('/api/event_iteration_material/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.eventMaterialDelete);
 
     app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.annotationCreate);
     app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);

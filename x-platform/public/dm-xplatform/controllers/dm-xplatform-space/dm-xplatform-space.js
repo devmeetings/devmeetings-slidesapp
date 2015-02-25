@@ -179,29 +179,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
         });
       };
 
-      $scope.markTaskAsDone = function(task, done) {
-        dmEvents.eventTaskDone($scope.event._id, task._id, done);
-      };
-
-      $scope.createIteration = function() {
-        dmEvents.createEventIteration($scope.event._id, {
-          title: 'new iteration'
-        });
-      };
-
-      $scope.changeIterationStatus = function(iteration) {
-        var newStatus = iteration.status === 'available' ? 'unavailable' : 'available';
-        dmEvents.changeEventIterationStatus($scope.event._id, iteration._id, newStatus).then(function() {
-          iteration.status = newStatus;
-        });
-      };
-
-      $scope.removeIteration = function(iteration) {
-        if (confirm("Really remove iteration?")) {
-          dmEvents.removeEventIteration($scope.event._id, iteration._id);
-        }
-      };
-
       $scope.createMaterial = function(i) {
         var modalInstance = $modal.open({
           templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',

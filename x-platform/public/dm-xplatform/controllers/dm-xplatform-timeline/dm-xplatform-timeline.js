@@ -10,7 +10,10 @@ define(['angular', 'xplatform/xplatform-app',
       function fetchAnnotations() {
         dmEvents.getEventMaterial($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(material) {
           $scope.audio = material.url;
-          $scope.annotations = material.annotations;
+        });
+
+        dmEvents.getEventAnnotations($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(annos) {
+          $scope.annotations = annos;
         });
       }
       fetchAnnotations();
