@@ -10,6 +10,10 @@ server {
   rewrite ^ https://$server_name$request_uri? permanent;
 }
 
+server {
+  server_name test.xplatform.org;
+  return 301 https://xplatform.org/?anon=true#/space/53dfb356870cd20000458e35/player/0/54350e9d7311332b5378a9ad;
+}
 
 server {
 	listen  443; ## listen for ipv4; this line is default and implied
