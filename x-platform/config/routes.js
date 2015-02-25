@@ -58,7 +58,7 @@ var authenticateAsAnon = function(req, res, next) {
     }
 };
 var nonAnon = function(req, res, next) {
-    if (req.user && req.user.email === 'anon@todr.me') {
+    if (req.user && req.user.email === 'anon@todr.me' && !req.query.anon) {
         req.logout();
     }
     next();
@@ -186,7 +186,7 @@ module.exports = function(app) {
     var devmeetings = require('../app/controllers/devmeetings');
     //app.get('/', authenticated, devmeetings.xplatform);
     app.get('/admin', authenticated, authorized('admin:events'), devmeetings.admin);
-    app.get('/', redirectIfNeeded, nonAnon, authorizedForEditMode('admin:events'), devmeetings.xplatform);
+    app.get('/', authenticateAsAnon, nonAnon, redirectIfNeeded, authorizedForEditMode('admin:events'), devmeetings.xplatform);
 
     // registration
     var registration = require('../app/controllers/registration');
