@@ -1,5 +1,5 @@
 /* jshint esnext:true */
-moment.locale("pl");
+moment.locale("en");
 
 UI.registerHelper('asTime', (time) => {
     return time ? moment(time).format('HH:mm') : null;
