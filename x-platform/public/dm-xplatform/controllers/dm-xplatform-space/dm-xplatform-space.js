@@ -147,7 +147,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
 
         // Fetch current workspace
-        $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function(data) {
+        $http.post('/api/events/' + $scope.event._id + '/base_slide/' + $scope.event.baseSlide).then(function(data) {
           $scope.workspaceId = data.data.slidesave;
           dmSlidesaves.refresh();
         });
@@ -155,7 +155,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
 
       $scope.openWorkspace = function() {
-        $http.post('/api/base_slide/' + $scope.event.baseSlide).then(function(data) {
+        $http.post('/api/events/' + $scope.event._id + '/base_slide/' + $scope.event.baseSlide).then(function(data) {
           dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
           $state.go('index.space.task', {
             slide: data.data.slidesave

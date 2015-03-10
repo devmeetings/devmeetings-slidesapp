@@ -13,6 +13,10 @@ var Slidesave = new Schema({
     slide: {
         type: Schema.Types.Mixed
     },
+    event: {
+        type: Schema.Types.ObjectId,
+        ref: 'events'
+    },
     title: String,
     timestamp: Date
 });

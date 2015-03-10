@@ -44,6 +44,7 @@
     "angular-fullscreen": "~1.0.0",
     "json-edit": "~0.2.0",
     "FileSaver": "*",
-    "favico.js": "~0.3.5"
+    "favico.js": "~0.3.5",
+    "requirejs-babel": "*"
   }
 }

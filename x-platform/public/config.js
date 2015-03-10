@@ -20,6 +20,8 @@ require.config({
         "dm-courses": "../dm-courses",
 
         // libs
+        "es6": "../components/requirejs-babel/es6",
+        "babel": "../components/requirejs-babel/babel-4.6.6.min",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/jquery-ui",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",

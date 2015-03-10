@@ -56,7 +56,7 @@ module.exports = function(grunt) {
             nodemon.on('config:update', function() {
               setTimeout(function() {
                 open('http://localhost:' + SERVER_PORT);
-              }, 3000);
+              }, 5000);
             });
 
             nodemon.on('restart', function() {
@@ -72,8 +72,8 @@ module.exports = function(grunt) {
       compile: {
         files: [{
           expand: true,
-          ext: ".html",
-          src: ["public/**/*.jade", "!public/components/**"]
+          ext: '.html',
+          src: ['public/**/*.jade', '!public/components/**']
         }]
       }
     },

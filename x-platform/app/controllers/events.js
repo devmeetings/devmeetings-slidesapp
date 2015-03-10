@@ -1,4 +1,5 @@
 var Event = require('../models/event'),
+    Slidesave = require('../models/slidesave'),
     Annotations = require('../models/annotations'),
     _ = require('lodash'),
     Q = require('q'),
@@ -29,6 +30,19 @@ var Events = {
         Q.ninvoke(Event.find({}).select('title description image order visible').lean(), 'exec').then(function (events) {
             res.send(events); 
         }).fail(onError(res)).done(onDone);
+    },
+
+    userEvents: function(req, res) {
+      Q.ninvoke(Slidesave.find({
+        user: req.params.userId,
+        event: {
+          $exists: true
+        }
+      }).select('event').lean(), 'exec').then(function(events){
+        res.send(events.map(function(e){
+          return e.event;
+        }));
+      }).fail(onError(res));
     },
 
     get: function (req, res) {

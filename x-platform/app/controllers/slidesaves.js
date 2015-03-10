@@ -13,15 +13,27 @@ var onError = function (res) {
 var onDone = function () {
 };
 
-var transformToSlidesave = function (slide, user) {
+var transformToSlidesave = function (slide, user, eventId) {
     return {
         user: user, 
         slide: slide.content,
         baseSlide: slide._id,
+        event: eventId || null,
         title: 'default workspace',
         timestamp: new Date()
     };
 };
+
+function updateEvent(slidesave, eventId) {
+  Slidesave.update({
+    _id: slidesave._id
+  },    
+  {
+    $set: {
+      event: eventId 
+    }
+  }).exec();
+}
 
 var Slidesaves = {
     doEdit: function(userId, slide, data, callback) {
@@ -92,18 +104,22 @@ var Slidesaves = {
 
     baseSlide: function (req, res) {
         var slide = req.params.slide;
+        var eventId = req.params.eventId;
 
         Q.ninvoke(Slidesave.findOne({
             user: req.user._id,
             baseSlide: slide
         }).lean(), 'exec').then(function (slidesave) {
             if (slidesave) {
+                if (!slidesave.event) {
+                  updateEvent(slidesave, eventId);
+                }
                 return slidesave;
             }
             return Q.ninvoke(Slide.findOne({
                 _id: slide
             }).lean(), 'exec').then(function (slide) {
-                var toInsert = transformToSlidesave(slide, req.user._id);
+                var toInsert = transformToSlidesave(slide, req.user._id, eventId);
                 return Q.ninvoke(Slidesave, 'create', toInsert);
             });
         }).then(function (slidesave) {
