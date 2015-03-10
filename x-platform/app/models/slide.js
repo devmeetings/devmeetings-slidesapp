@@ -3,6 +3,10 @@ var mongoose = require('mongoose'),
 
 var SlideSchema = new Schema({
     parentId: Schema.ObjectId,
+    name: {
+      type: String,
+      unique: true
+    },
     content: Schema.Types.Mixed
 });
 

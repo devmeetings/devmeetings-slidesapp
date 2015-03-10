@@ -3,6 +3,10 @@ var mongoose = require('mongoose'),
 
 var Event = new Schema({
   title: String,
+  name: {
+    type: String,
+    unique: true
+  },
   image: String,
   order: Number,
   description: String,

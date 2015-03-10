@@ -5,6 +5,10 @@ var mongoose = require('mongoose'),
 
 var DeckSchema = new Schema({
     title: String,
+    name: {
+      type: String,
+      unique: true
+    },
     slides: [String]
 });
 

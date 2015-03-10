@@ -56,7 +56,7 @@ module.exports = function(grunt) {
             nodemon.on('config:update', function() {
               setTimeout(function() {
                 open('http://localhost:' + SERVER_PORT);
-              }, 5000);
+              }, 2000);
             });
 
             nodemon.on('restart', function() {
