@@ -12,8 +12,8 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
             }
 
             return {
-                getUsersWorkspaces: function(baseSlide) {
-                    return wrap($http.get('/api/workspaces/' + baseSlide));
+                getUsersWorkspaces: function(eventId) {
+                    return wrap($http.get('/api/events/'+ eventId + '/workspaces'));
                 },
                 getUserAllPages: function(userId) {
                     return wrap($http.get('/api/workspaces/users/' + userId));

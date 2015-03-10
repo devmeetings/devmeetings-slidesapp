@@ -10,7 +10,7 @@ define([
             var eventId = $stateParams.event;
             dmEvents.getEvent(eventId).then(function(event) {
                 $scope.eventTitle = event.title;
-                dmWorkspaces.getUsersWorkspaces(event.baseSlide).then(function(workspaces) {
+                dmWorkspaces.getUsersWorkspaces(event._id).then(function(workspaces) {
                     $scope.workspaces = workspaces;
                 });
 

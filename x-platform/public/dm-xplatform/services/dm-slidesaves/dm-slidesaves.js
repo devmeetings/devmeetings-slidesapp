@@ -40,17 +40,6 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
                 return result.promise;
             },
-            isMySave: function (save) {
-                var result = $q.defer();
-                this.allSaves(false).then(function (all) {
-                    var is = !!_.find(all, function (a) {
-                        return a._id === save;
-                    });
-                    result.resolve(is);
-                });
-
-                return result.promise;
-            },
             getSaveType: function (save,  force) {
                 // workspace, mine, other
                 
@@ -67,19 +56,6 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
                     return result.resolve(saveObject.baseSlide ? 'workspace' : 'mine');
                 });
     
-                return result.promise;
-            },
-            createSaveCopy: function (save) {
-                var result = $q.defer();
-
-                var saveCopy = {};
-
-                $http.put('/api/slidesaves', saveCopy).then(function (data) {
-                    result.resolve(data.data);
-                }, function () {
-                    result.reject();
-                });
-
                 return result.promise;
             }
         };

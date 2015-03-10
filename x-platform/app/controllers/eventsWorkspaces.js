@@ -25,18 +25,11 @@ function findWorkspaces(limit, userId, res, callback) {
 
 var EventsWorkspaces = {
 
-  get: function(req, res) {
-    var baseSlide = req.params.baseSlide;
+  getForEvent: function(req, res) {
+    var eventId = req.params.eventId;
 
     Q.ninvoke(Slidesaves.find({
-      baseSlide: baseSlide,
-      $or: [{
-        title: 'default workspace'
-      }, {
-        title: {
-          $exists: false
-        }
-      }]
+        event: eventId
     }).populate('user').lean(), 'exec').then(function(saves) {
       res.send(saves);
     }).fail(onError(res)).done(onDone);

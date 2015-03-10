@@ -102,13 +102,11 @@ module.exports = function(app) {
     app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
     app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
     app.post('/api/slidesaves', apiAuthenticated, slidesaves.create);
-    app.post('/api/slidesave_from_slide/:slide', apiAuthenticated, slidesaves.slidesaveFromSlide);
-    app.put('/api/slidesaves/:slide', apiAuthenticated, slidesaves.edit);
     app.delete('/api/slidesaves/:slide', apiAuthenticated, slidesaves.delete);
     app.post('/api/events/:eventId/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
 
     var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
-    app.get('/api/workspaces/:baseSlide', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.get);
+    app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getForEvent);
     app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getPages);
     app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
     app.post('/api/workspaces/users/:userId/recording', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.convertToRecording);
