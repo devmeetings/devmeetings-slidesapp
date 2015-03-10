@@ -1,4 +1,4 @@
-define(['module', 'angular', '_', 'angular-deckgrid', 'xplatform/xplatform-app', 'slider/slider', 'utils/ExtractPath'], function(module, angular, _, angularDeckgrid, xplatformApp, slider, ExtractPath) {
+define(['module', 'angular', '_', 'xplatform/xplatform-app', 'slider/slider', 'utils/ExtractPath'], function(module, angular, _, xplatformApp, slider, ExtractPath) {
 
     var path = ExtractPath(module);
 

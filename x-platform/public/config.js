@@ -20,6 +20,7 @@ require.config({
         "dm-courses": "../dm-courses",
 
         // libs
+        "d3": "../components/d3/d3.min",
         "es6": "../components/requirejs-babel/es6",
         "babel": "../components/requirejs-babel/babel-4.6.6.min",
         "jquery": "../components/jquery/dist/jquery",
@@ -29,9 +30,7 @@ require.config({
         "asEvented": "../components/asEvented/asevented",
         "socket.io": "/socket.io/socket.io",
         "howler": "../components/howler/howler",
-        "peerjs": "../components/peerjs/peer.min",
         "lz-string": "../components/lz-string/libs/lz-string-1.3.3",
-        "d3": "../components/d3/d3.min",
         "moment": "../components/moment/moment",
         "marked": "../components/marked/lib/marked",
         "coffee": "../components/coffee-script/extras/coffee-script",
@@ -56,7 +55,6 @@ require.config({
         "angular-animate": "../components/angular-animate/angular-animate",
         "angular-touch": "../components/angular-touch/angular-touch",
         "angular-slider": "../components/venturocket-angular-slider/build/angular-slider",
-        "angular-deckgrid": "../components/angular-deckgrid/angular-deckgrid",
         "angular-gravatar-md5": "../components/angular-gravatar/build/md5",
         "angular-gravatar": "../components/angular-gravatar/build/angular-gravatar",
         "angular-ui-router": "../components/angular-ui-router/release/angular-ui-router",
@@ -135,10 +133,6 @@ require.config({
             "exports": "angular"
         },
         "angular-animate": {
-            "deps": ["angular"],
-            "exports": "angular"
-        },
-        "angular-deckgrid": {
             "deps": ["angular"],
             "exports": "angular"
         },

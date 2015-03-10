@@ -17,23 +17,11 @@
     .collapse.navbar-collapse.navbar-inverse-collapse
         ul.nav.navbar-nav.navbar-left
             li
-                a(href='#', 
+                a(href='#/', 
                     analytics-category='menu',
                     analytics-on='click', analytics-event='navbar.logo')
                     img(src="static/images/navbar/xplatform_logo.png")
-            //li
-                a(ng-click="$root.headerHidden = !$root.headerHidden")
-                    span.fa.fa-arrows-v
-
         ul.nav.navbar-nav.navbar-right
-            //li
-                a(href='#')
-                    img(src="static/images/navbar/ico_bell.png")
-                    span.badge.badge-notification 3
-            //li
-                a(href='#')
-                    img(src="static/images/navbar/ico_msg.png")
-                    span.badge.badge-notification 7
             li(ng-if='user')
                 img.avatar-holder(
                     ng-src='{{user.result.avatar | dmGravatar:30}}', 

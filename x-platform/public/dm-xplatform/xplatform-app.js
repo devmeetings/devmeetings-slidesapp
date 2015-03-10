@@ -1,8 +1,6 @@
 define(['angular',
   'angular-ui-router',
-  'angular-deckgrid',
   'angular-gravatar',
-  'angular-slider',
   'angular-moment',
   'angular-hotkeys',
   'angular-bootstrap',
@@ -32,7 +30,7 @@ define(['angular',
     'slider', 'slider.plugins',
     'dm-xplayer',
     'ui.gravatar', 'ui.router', 'ui.bootstrap',
-    'akoenig.deckgrid', 'vr.directives.slider', 'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular',
+    'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular',
     'dm-training', 'dm-user', 'dm-observe', 'dm-stream', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'ngAnimate', 'dm-browsertab'
   ]);
 });

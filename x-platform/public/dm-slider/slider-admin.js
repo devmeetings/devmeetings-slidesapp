@@ -1,6 +1,6 @@
 require(['../config'], function () {
-    require(['angular', 'restangular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (angular, restangular, _, angularSortable, angularRouter) {
-        var module = angular.module('slider-admin', ['restangular', 'ui.sortable', 'ui.router']);
+    require(['angular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (angular, restangular, _, angularSortable, angularRouter) {
+        var module = angular.module('slider-admin', ['ui.sortable', 'ui.router']);
 
         module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $stateProvider.state('list', {
@@ -11,13 +11,13 @@ require(['../config'], function () {
             $urlRouterProvider.otherwise('/list');
         }]);
 
-        module.controller('AdminSlidesListCtrl', ['$scope', 'Restangular', '$http', function ($scope, Restangular, $http) {
+        module.controller('AdminSlidesListCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.deckSlidesSearch = "";
             $scope.allSlidesSearch = "";
-            var decks = Restangular.all('api/decks');
+
             var fetchDecks = function () {
-                 decks.getList().then(function (deckList) {
-                    $scope.decks = deckList;
+                $http.get('/api/decks').then(function(data){
+                  $scope.decks = data.data;
                 });
             };
             fetchDecks();
@@ -69,15 +69,16 @@ require(['../config'], function () {
             };
 
             $scope.removeDeck = function (id) {
-                decks.one(id).remove().then(fetchDecks);
+                $http.delete('/api/decks/' + id).then(fetchDecks);
             };
 
             $scope.addDeck = function () {
                 var title = $scope.deckTitle;
                 $scope.deckTitle = "";
+  
 
-                decks.post({
-                    title: title
+                $http.post('/api/decks', {
+                  title: title
                 }).then(fetchDecks);
             };
 
@@ -85,7 +86,7 @@ require(['../config'], function () {
                 require(['data-slides', 'data-deck'], function (slides, deck) {
                     $http.post('/api/slides', slides).success( function (data, status) {
                         deck.slides = data;
-                        decks.post(deck).then(function (){
+                        $http.post('/api/decks', deck).then(function (){
                             $scope.decks.push(deck);
                         });
                     });
