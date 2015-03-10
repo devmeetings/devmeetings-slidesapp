@@ -113,16 +113,6 @@ module.exports = function(app) {
     app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
     app.post('/api/workspaces/users/:userId/recording', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.convertToRecording);
 
-    var trainings = require('../app/controllers/trainings');
-    app.get('/api/trainings', apiAuthenticated, trainings.list);
-    app.post('/api/trainings', apiAuthenticated, authorized('admin:events'), trainings.create);
-    app.get('/api/trainings/:id', apiAuthenticated, trainings.get);
-    app.put('/api/trainings/:id', apiAuthenticated, authorized('admin:events'), trainings.edit);
-    app.delete('/api/trainings/:id', apiAuthenticated, authorized('admin:events'), trainings.delete);
-
-    var uploadTraining = require('../app/controllers/uploadTraining');
-    app.post('/uploadTraining', authenticated, authorized('admin:events'), uploadTraining.upload);
-
     var users = require('../app/controllers/users');
     app.get('/api/users/:id', apiAuthenticated, users.get);
     app.put('/api/users', apiAuthenticated, users.edit);
@@ -190,11 +180,6 @@ module.exports = function(app) {
     app.get('/decks/:slides', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
     app.get('/decks/:slides/trainer', authenticated, authorized('trainer'), slider.trainer);
     app.get('/slides/:slide', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.slide);
-
-    // Admin panel
-    var admin = require('../app/controllers/admin');
-    app.get('/admin_old', authenticated, authorized('admin:slides'), admin.index);
-    app.get('/admin_old/partials/:name', authenticated, authorized('admin:slides'), admin.partials);
 
     // Courses
     var courses = require('../app/controllers/courses');

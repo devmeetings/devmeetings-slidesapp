@@ -6,17 +6,11 @@ define(['module',
     adminApp.controller('dmAdminSlider', ['$scope',
         function($scope) {
             $scope.options = [{
-                title: 'Trainings',
-                sref: 'index.trainings'
-            }, {
                 title: 'Decks',
                 sref: 'index.decks'
             }, {
                 title: 'Wavesurfer',
                 sref: 'index.waves'
-            }, {
-                title: 'Upload',
-                sref: 'index.upload'
             }, {
                 title: 'Quiz',
                 sref: 'index.quiz'

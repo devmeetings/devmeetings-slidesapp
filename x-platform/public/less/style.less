@@ -1,7 +1,5 @@
 @components: '../components';
-@xplatform: '../dm-xplatform';
 @plugins: '../dm-plugins';
-@admin: '../dm-admin';
 @modules: '../dm-modules';
 
 @import '@{components}/font-awesome/css/font-awesome.css';
@@ -13,27 +11,9 @@
 @import "base.less";
 @import "performance.less";
 
-@import '@{xplatform}/dm-xplatform-app.less';
-@import '@{xplatform}/controllers/dm-xplatform-navbar/xplatform-navbar.less';
-@import '@{xplatform}/controllers/dm-xplatform-index/xplatform-index.less';
-@import '@{xplatform}/controllers/dm-xplatform-devhero/dm-xplatform-devhero.less';
-@import '@{xplatform}/controllers/dm-xplatform-profile/dm-xplatform-profile.less';
-@import '@{xplatform}/controllers/dm-xplatform-options/dm-xplatform-options.less';
-@import '@{xplatform}/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.less';
-@import '@{xplatform}/controllers/dm-xplatform-users/dm-xplatform-users.less';
-@import '@{xplatform}/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.less';
-@import '@{xplatform}/controllers/dm-xplatform-slide/dm-xplatform-slide.less';
-@import '@{xplatform}/controllers/dm-xplatform-space/dm-xplatform-space.less';
-@import '@{xplatform}/controllers/dm-xplatform-timeline/dm-xplatform-timeline.less';
-@import '@{xplatform}/controllers/dm-xplatform-todo/dm-xplatform-todo.less';
-@import '@{xplatform}/controllers/dm-xplatform-annos/dm-xplatform-annos.less';
-@import '@{xplatform}/controllers/dm-xplatform-question/dm-xplatform-question.less';
-@import '@{xplatform}/controllers/dm-xplatform-trainer/dm-xplatform-trainer.less';
-@import '@{xplatform}/controllers/dm-xplatform-deck/dm-xplatform-deck.less';
-@import '@{xplatform}/controllers/dm-xplatform-player/dm-xplatform-player.less';
-@import '@{xplatform}/directives/dm-timeline/dm-timeline.less';
-@import '@{xplatform}/directives/dm-sidebar/dm-sidebar.less';
-@import '@{xplatform}/directives/dm-iframe/dm-iframe.less';
+@import '../dm-xplatform/dm-xplatform-app.less';
+@import '../dm-admin/dm-admin-app.less';
+
 
 @import '@{modules}/dm-wavesurfer/dm-wavesurfer.less';
 @import '@{modules}/dm-editor/dm-editor.less';
@@ -49,5 +29,4 @@
 @import '@{plugins}/slide-workspace/slide-workspace.less';
 @import '@{plugins}/slide-burger/slide-burger.less';
 
-@import '@{admin}/dm-admin-app.less';
 

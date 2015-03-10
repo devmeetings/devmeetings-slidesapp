@@ -1,19 +1,21 @@
-require(['../config'], function () {
-    require(['angular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (angular, restangular, _, angularSortable, angularRouter) {
-        var module = angular.module('slider-admin', ['ui.sortable', 'ui.router']);
+    define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (require, angular, _, angularSortable, angularRouter) {
+        var module = angular.module('slider.admin', ['ui.sortable', 'ui.router']);
 
-        module.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-            $stateProvider.state('list', {
-                url: '/list',
-                templateUrl: '/admin_old/partials/admin-list',
-                controller: 'AdminSlidesListCtrl'
+        module.config(['$stateProvider', function ($stateProvider) {
+            $stateProvider.state('index.decks', {
+                url: '/decks',
+                views: {
+                  content: {
+                    templateUrl: '/static/dm-admin/slider-admin.html',
+                    controller: 'AdminSlidesListCtrl'
+                  }
+                }
             });
-            $urlRouterProvider.otherwise('/list');
         }]);
 
         module.controller('AdminSlidesListCtrl', ['$scope', '$http', function ($scope, $http) {
-            $scope.deckSlidesSearch = "";
-            $scope.allSlidesSearch = "";
+            $scope.deckSlidesSearch = '';
+            $scope.allSlidesSearch = '';
 
             var fetchDecks = function () {
                 $http.get('/api/decks').then(function(data){
@@ -83,7 +85,7 @@ require(['../config'], function () {
             };
 
             $scope.addExemplaryDeck = function () {
-                require(['data-slides', 'data-deck'], function (slides, deck) {
+              require([require.toUrl('./exemplary-deck/data-slides.js'), require.toUrl('./exemplary-deck/data-deck.js')], function (slides, deck) {
                     $http.post('/api/slides', slides).success( function (data, status) {
                         deck.slides = data;
                         $http.post('/api/decks', deck).then(function (){
@@ -93,7 +95,4 @@ require(['../config'], function () {
                 });
             };
         }]);
-
-        angular.bootstrap(document, ['slider-admin']);
-    });
 });
