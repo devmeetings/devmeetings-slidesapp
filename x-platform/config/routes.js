@@ -129,15 +129,6 @@ module.exports = function(app) {
     app.get('/api/users', apiAuthenticated, users.current);
     app.get('/api/session', apiAuthenticated, users.session);
 
-    var observes = require('../app/controllers/observes');
-    app.get('/api/observes', apiAuthenticated, observes.get);
-    app.post('/api/observes', apiAuthenticated, observes.observe);
-    app.delete('/api/observes/:id', apiAuthenticated, observes.unobserve);
-
-    var streams = require('../app/controllers/streams');
-    app.get('/api/streams', streams.all);
-    app.get('/api/streams/:id', apiAuthenticated, streams.get);
-
     var snapshots = require('../app/controllers/snapshots');
     app.get('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.list);
     app.post('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.import);

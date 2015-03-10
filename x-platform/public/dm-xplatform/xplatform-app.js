@@ -13,8 +13,6 @@ define(['angular',
   'dm-xplayer/dm-xplayer',
   'dm-modules/dm-training/dm-training',
   'dm-modules/dm-user/dm-user',
-  'dm-modules/dm-observe/dm-observe',
-  'dm-modules/dm-stream/dm-stream',
   'dm-modules/dm-mongotime/dm-mongotime',
   'dm-modules/dm-gravatar/dm-gravatar',
   'dm-modules/dm-wavesurfer/dm-wavesurfer',
@@ -31,6 +29,6 @@ define(['angular',
     'dm-xplayer',
     'ui.gravatar', 'ui.router', 'ui.bootstrap',
     'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular',
-    'dm-training', 'dm-user', 'dm-observe', 'dm-stream', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'ngAnimate', 'dm-browsertab'
+    'dm-training', 'dm-user', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'ngAnimate', 'dm-browsertab'
   ]);
 });

@@ -3,13 +3,6 @@
         p.dm-devhero-name {{user.name}}
         p
             img(ng-src='{{user.avatar | dmGravatar:90}}')
-    .col-md-12.dm-devhero-buttons
-        button.btn(ng-if='canBeObserved', ng-click='observe()', 
-            analytics-category='devhero',
-            analytics-on='click', analytics-event='devhero.observe') Obserwuj
-        button.btn(ng-if='!canBeObserved', ng-click='unobserve()',
-            analytics-category='devhero', 
-            analytics-on='click', analytics-event='devhero.unobserve') Zrezygnuj
     .col-md-12
         .dm-devhero-separator 
         p BIO

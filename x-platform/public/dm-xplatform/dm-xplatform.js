@@ -10,8 +10,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-player/dm-xplatform-player',
         'xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero',
         'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
-        'xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed',
-        'xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream',
         'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
         'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
         'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
@@ -21,7 +19,6 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
         'xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline',
         'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo',
-        'xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking',
         'xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos',
         'xplatform/controllers/dm-xplatform-question/dm-xplatform-question',
         'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
@@ -165,59 +162,19 @@ require(['angular',
                     }
                 });
 
-                $stateProvider.state('index.stream', {
-                    anonymous: true,
-                    url: '/newsfeed',
-                    views: {
-                        left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar.html',
-                            controller: 'dmXplatformLeftbar'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream.html',
-                            controller: 'dmXplatformStream'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
-                            controller: 'dmXplatformObserved'
-                        }
-                    },
-                    onEnter: function($rootScope, dmBrowserTab) {
-                        dmBrowserTab.setTitleAndIcon('News Feed');
-                        $rootScope.xplatformData.navbar = {
-                            showTitle: true,
-                            title: 'News Feed',
-                            searchText: ''
-                        };
-                        $rootScope.xplatformData.columns = {
-                            left: 2,
-                            mid: 7,
-                            right: 3
-                        };
-                    }
-                });
-
                 $stateProvider.state('index.devhero', {
                     url: '/devhero/:id',
                     views: {
                         left: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero.html',
                             controller: 'dmXplatformDevhero'
-                        },
-                        mid: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-stream/dm-xplatform-stream.html',
-                            controller: 'dmXplatformStream'
-                        },
-                        right: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-observed/dm-xplatform-observed.html',
-                            controller: 'dmXplatformObserved'
                         }
                     },
                     onEnter: function($rootScope) {
                         $rootScope.xplatformData.columns = {
-                            left: 3,
-                            mid: 6,
-                            right: 3
+                            left: 12,
+                            mid: 0,
+                            right: 0
                         };
                     }
                 });
@@ -255,7 +212,6 @@ require(['angular',
                         },
                         mid: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-options/dm-xplatform-options.html',
-                            controller: 'dmXplatformObserved'
                         }
                     },
                     onEnter: function($rootScope, dmBrowserTab) {
@@ -383,20 +339,6 @@ require(['angular',
                         bottombar: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline.html',
                             controller: 'dmXplatformTimeline'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
-                        }
-                    }
-                });
-
-                $stateProvider.state('index.space.ranking', {
-                    url: '/ranking',
-                    views: {
-                        content: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-ranking/dm-xplatform-ranking.html',
-                            controller: 'dmXplatformRanking'
                         },
                         first: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
