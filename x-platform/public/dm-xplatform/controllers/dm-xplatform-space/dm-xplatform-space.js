@@ -116,21 +116,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
         }
       });
 
-      var isTaskDone = function(task) {
-        var person = _.find($scope.event.ranking.people, function(p) {
-          return p.user === $scope.currentUserId;
-        });
-        return person ? !!person.tasks[task._id] : false;
-      };
-
-      var markTasks = function(event) {
-        event.iterations.forEach(function(i) {
-          i.tasks.forEach(function(task) {
-            task.done = isTaskDone(task);
-          });
-        });
-      };
-
       dmUser.getCurrentUser().then(function(data) {
         $scope.user = data;
       });
@@ -142,7 +127,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
         dmBrowserTab.setTitleAndIcon(data.title);
         dmUser.getCurrentUser().then(function(data) { // Q All!
           $scope.currentUserId = data.result._id;
-          markTasks($scope.event);
         });
 
 
