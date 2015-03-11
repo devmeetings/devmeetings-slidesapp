@@ -7,14 +7,15 @@ define([
 
 
   xplayerApp.directive('dmXplayer', [
-    'RecordingsPlayerFactory', '$timeout',
-    function(RecordingsPlayerFactory, $timeout) {
+    'RecordingsPlayerFactory', '$timeout', '$window',
+    function(RecordingsPlayerFactory, $timeout, $window) {
       return {
         restrict: 'E',
         scope: {
           state: '=',
           recording: '=',
           annotations: '=',
+          onFirstRun: '&'
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
 
@@ -36,12 +37,16 @@ define([
 
           $scope.runNext = function() {
             $scope.showAnno = false;
+            if ($scope.state.firstRun) {
+              $scope.onFirstRun();
+            }
             $timeout(function() {
+              $scope.state.firstRun = false;
               $scope.state.isPlaying = true;
             }, 1000);
           };
 
-
+          $scope.state.firstRun = true;
           $scope.nextStop = 0.1;
           $scope.maxNextStop = 10000;
 
@@ -74,31 +79,8 @@ define([
               }
 
 
-              // TODO [ToDr] Fix me please :(
-              // Changing position of subtitles
-              var myself = $('.dm-player-subtitles');
-
-              setTimeout(function() {
-                var cursor = $('.editor-focus .ace_editor')[0];
-                cursor = cursor || $('.ace_editor')[0];
-
-                var rect = cursor.getBoundingClientRect();
-                var positionTop = Math.max(20, rect.bottom - myself.height());
-                positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, positionTop);
-
-                var translateLeft = parseInt(40 + rect.left, 10);
-                var translateTop = parseInt(positionTop, 10);
-
-                myself.css({
-                  top: translateTop + 'px',
-                  left: translateLeft + 'px'
-                });
-
-                if ($scope.anno) {
-                  myself.toggleClass('small', !$scope.anno.description);
-                }
-              }, 450);
-            } else if (Math.abs(curr - prev) > 3) {
+              fixSubtitlePosition($scope);
+            } else if (Math.abs(curr - prev) > 5) {
               // fix nextStop when we are going backwards or fast forward
 
               anno = _.find($scope.annotations, function(anno) {
@@ -124,8 +106,40 @@ define([
               $scope.showAnno = false;
             }
           });
+
+          $window.addEventListener('resize', fixSubtitlePosition.bind(null, $scope));
+          $scope.$on('$destroy', function(){
+            $window.removeEventListener('resize', fixSubtitlePosition.bind(null, $scope));
+          });
         }
       };
     }
   ]);
+
+  function fixSubtitlePosition($scope) {
+    // TODO [ToDr] Fix me please :(
+    // Changing position of subtitles
+    var myself = $('.dm-player-subtitles');
+
+    setTimeout(function() {
+      var cursor = $('.editor-focus .ace_editor')[0];
+      cursor = cursor || $('.ace_editor')[0];
+
+      var rect = cursor.getBoundingClientRect();
+      var positionTop = Math.max(20, rect.bottom - myself.height());
+      positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, positionTop);
+
+      var translateLeft = parseInt(40 + rect.left, 10);
+      var translateTop = parseInt(positionTop, 10);
+
+      myself.css({
+        top: translateTop + 'px',
+        left: translateLeft + 'px'
+      });
+
+      if ($scope.anno) {
+        myself.toggleClass('small', !$scope.anno.description);
+      }
+    }, 450);
+  }
 });

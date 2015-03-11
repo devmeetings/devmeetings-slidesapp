@@ -1,6 +1,6 @@
 .full-height
   .dm-player-subtitles(
-      ng-class="{'faded': showAnno == false, 'minimized': minimized, 'small': !anno.description }"
+      ng-class="{'faded': showAnno == false, 'minimized': minimized, 'first-run': state.firstRun }"
     )
       .dm-player-subtitles-hidden(ng-show="anno.description")
         .dm-annos-item(ng-if="anno.type !== 'pause'")
@@ -14,12 +14,11 @@
               ng-click="runNext(); minimized=false",
               ng-show="nextStop < maxNextStop")
                 span.fa.fa-play.fa-fw
-      // Comment            
-        a.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
-                ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
-                ng-show="nextStop === maxNextStop")
-                  span.fa.fa-wrench.fa-fw
-                  span Back to your Code
+
+      a.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
+            ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+            ng-show="nextStop === maxNextStop && !state.firstRun")
+              span.fa.fa-wrench.fa-fw
 
   .full-height
     plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''")

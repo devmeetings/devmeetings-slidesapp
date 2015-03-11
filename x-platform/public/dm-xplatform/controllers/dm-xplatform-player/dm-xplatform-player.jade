@@ -2,7 +2,11 @@
   div.dm-state-playing(ng-show="$root.isZenMode")
     span.fa.fa-play.text-muted(ng-show="state.isPlaying")
     span.fa.fa-pause.text-special(ng-show="!state.isPlaying", ng-click="state.isPlaying = true")
-  dm-xplayer.full-height(state='state', annotations='annotations', recording='recording')
+  dm-xplayer.full-height(
+    state='state', 
+    annotations='annotations', 
+    recording='recording',
+    on-first-run="changeFullScreen(true)")
 
   .dm-xplayer-timeline-zen
     dm-xplayer-timeline(
