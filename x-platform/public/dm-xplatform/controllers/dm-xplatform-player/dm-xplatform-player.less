@@ -1,8 +1,13 @@
 .dm-state-playing {
   position: absolute;
   top: 0;
-  left: 22px;
-  z-index:1000;
+  left: 20px;
+  z-index: 12;
+}
+.dm-xplayer-timeline {
+  .progress-bar {
+    background-color: #aa2;
+  }
 }
 .dm-xplayer-timeline-zen {
   position: absolute;
@@ -13,17 +18,24 @@
   opacity: 0.5;
 }
 .dm-player-subtitles {
+    @color: #aa0;
+
     position: absolute;
-    transition: transform 1s ease, opacity 0.7s ease-in-out;
-    z-index: 9;
-    font-size: 1.1em;
-    box-shadow: 0 0 60px rgba(0, 0, 0, .9);
-    width: 40%;
-    transform: scale(1.0);
+    transition: left 0.3s ease, top 0.3s ease, opacity 0.7s ease-in-out;
+    z-index: 13;
+    font-size: 15px;
+    width: auto;
+    padding-left: 30px;
+    color: @color;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #222;
+    background-color: rgba(16, 16, 16, 0.8);
+    min-height: 32px;
+
 
     .microtask-active .microtask-content {
       h1,h2,h3,h4,h5,h6,p {
-        color: #444;
+        color: @color;
       }
     }
 
@@ -41,26 +53,19 @@
       opacity: 0.0;
     }
 
-    &.minimized {
-      top: auto !important;
-      left: auto !important;
-      right: 16px;
-      top: 0;
-      width: 40%;
-      transform: translate(0, 0) !important;
-
-      .dm-player-subtitles-hidden {
-        padding: 2px;
-        font-size: 0.8em;
-        p {
-          margin: 0;
-        }
+    &:hover {
+      .dm-player-subtitles-minimize {
+        opacity: 1.0;
       }
-      .btn-next-subtitle {
-        float: right !important;
-        width: 50px;
-        padding: 5px;
-        font-size: 0.7em;
+    }
+
+    &.minimized {
+      left: 10px !important;
+      .dm-player-subtitles-hidden {
+        display: none;
+      }
+      .dm-player-subtitles-minimize {
+        display: none;
       }
     }
 }
@@ -68,37 +73,51 @@
 .dm-player-subtitles-minimize {
   position: absolute;
   top: 5px;
-  right: 5px;
-  color: #ddd;
+  right: -20px;
   cursor: pointer;
-
+  color: #aa2;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 .dm-player-subtitles-hidden {
     padding: 5px;
     position: relative;
     z-index: 100;
-    background-color: #fff;
 
-    &:hover {
-      opacity: 0.2;
+    p {
+      margin: 0;
     }
 }
 
 .btn-next-subtitle {
+    @color: #aa2;
+    @fg: #0f0f0f;
+
     border-radius: 0;
-    padding: 5px 15px;
+    padding: 0;
     z-index: 50;
-    background-color: #11627f;
+    background-color: @color;
     border: none;
+    color: @fg;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
 
     &:hover {
-      background-color: lighten(#11627f, 10%);
+      color: @fg;
+      background-color: lighten(@color, 10%);
     }
     &:focus {
-      background-color: darken(#11627f, 10%);
+      color: @fg;
+      background-color: darken(@color, 10%);
     }
     &:active {
-      background-color: darken(#11627f, 10%);
+      color: @fg;
+      background-color: darken(@color, 10%);
     }
 }

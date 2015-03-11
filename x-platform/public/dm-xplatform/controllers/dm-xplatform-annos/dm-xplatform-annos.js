@@ -69,7 +69,7 @@ define(['_', 'angular', 'xplatform/xplatform-app',
             }
 
             $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
-            $scope.showSearch = true;
+            $scope.showSearch = $scope.showAll;
             $scope.search = {
                 text: ''
             };

@@ -6,7 +6,8 @@
                 .col-sm-12
                     a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
                         span.fa.fa-align-justify
-                    a.pull-left.btn.btn-link(href='#/courses',
+                    a.pull-left.btn.btn-link(
+                        href='/',
                         analytics-category='menu',
                         analytics-on='click', analytics-event='navbar.logo')
                         img(src="static/images/navbar/xplatform_logo.png")
@@ -46,7 +47,7 @@
                   span.fa.fa-toggle-right(ng-show="right.pinned")
             ul.nav.nav-tabs.pull-left
               li(tooltip="XPlatform", tooltip-placement="left")
-                a(href="#",
+                a(href="#/",
                   analytics-category='menu',
                   analytics-on='click', analytics-event='navbar.logo')
                   img(src="static/images/xplatform-icon-trans.svg", width="20", height="20")
@@ -80,30 +81,30 @@
                             seamless=true,
                             dm-iframe="{{ event.liveLink | liveLinkUrl:'agenda' }}")
 
-                tab.cursor-pointer(
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.ranking',
-                    select='toggleRight(true)',
-                    ng-click='toggleRight(true)',
-                    ng-if="event.liveLink"
+                // tab.cursor-pointer(
+                //     analytics-category='spacesidebar',
+                //     analytics-on='click', analytics-event='spacesidebar.ranking',
+                //     select='toggleRight(true)',
+                //     ng-click='toggleRight(true)',
+                //     ng-if="event.liveLink"
+                // )
+                //     tab-heading.cursor-pointer(tooltip='Ranking', tooltip-placement='left')
+                //         span.fa.fa-line-chart
+                //     iframe.full-frame(
+                //             seamless=true,
+                //             dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
+                //
+                //
+                tab.cursor-pointer(id='stream', active='tabs.stream',
+                   analytics-category='spacesidebar',
+                   analytics-on='click', analytics-event='spacesidebar.stream',
+                   select='toggleRight(true)',
+                   ng-click='toggleRight(true)'
                 )
-                    tab-heading.cursor-pointer(tooltip='Ranking', tooltip-placement='left')
-                        span.fa.fa-line-chart
-                    iframe.full-frame(
-                            seamless=true,
-                            dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
- 
-
-                //tab.cursor-pointer(id='stream', active='tabs.stream',
-                //    analytics-category='spacesidebar',
-                //    analytics-on='click', analytics-event='spacesidebar.stream',
-                //    select='toggleRight(true)',
-                //    ng-click='toggleRight(true)'
-                //)
-                //    tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left')
-                //        span.fa.fa-newspaper-o
-                //    .col-xs-12.full-height
-                //        .row.full-height(ui-view='first')
+                   tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left')
+                       span.fa.fa-newspaper-o
+                   .col-xs-12.full-height
+                       .row.full-height(ui-view='first')
 
                 tab.cursor-pointer(
                     analytics-category='spacesidebar',

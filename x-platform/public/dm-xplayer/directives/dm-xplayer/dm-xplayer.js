@@ -79,16 +79,19 @@ define([
               var myself = $('.dm-player-subtitles');
 
               setTimeout(function() {
-                var cursor = $('.editor-focus .ace_cursor')[0];
-                cursor = cursor || $('.ace_cursor')[0];
+                var cursor = $('.editor-focus .ace_editor')[0];
+                cursor = cursor || $('.ace_editor')[0];
 
                 var rect = cursor.getBoundingClientRect();
-                var positionTop = Math.max(20, rect.top - (myself.height() - 40) / 2);
-                positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 200, positionTop);
-                var middle = document.documentElement.clientWidth / 2;  
+                var positionTop = Math.max(20, rect.bottom - myself.height());
+                positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, positionTop);
+
+                var translateLeft = parseInt(40 + rect.left, 10);
+                var translateTop = parseInt(positionTop, 10);
 
                 myself.css({
-                  transform: 'translate(' + (middle + rect.left / 50) + 'px, ' + positionTop +'px) scale(1.0)',
+                  top: translateTop + 'px',
+                  left: translateLeft + 'px'
                 });
 
                 if ($scope.anno) {

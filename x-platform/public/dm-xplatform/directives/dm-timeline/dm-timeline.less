@@ -1,8 +1,8 @@
 dm-timeline {
   position: absolute;
   width: 100%;
-  bottom: 0;
-  height: 25px;
+  bottom: -1px;
+  height: 20px;
   left: 0;
 
   .progress {
@@ -17,20 +17,19 @@ dm-timeline {
     z-index: 9;
 
     .progress-bar {
-      background-color: darken(#2a9fd6, 35%);
+      background-color: darken(#aa2, 10%);
     }
   }
 }
 
 .dm-timeline-point {
   position: absolute;
-  width: 3px;
-  border-left: 1px solid #1C1C1C;
-  border-right: 1px solid #333;
+  width: 1px;
   bottom: 0;
   height: 100%;
   margin-left: -1px;
   z-index: 10;
+  background-color: #000;
 
   &.info-color {
     background-color: darken(#5aabcb, 10%);

@@ -1,3 +1,10 @@
+
+.editor-focus {
+  .editor-name {
+    background-color: #333;
+  } 
+}
+
 .dm-editor {
   position: relative;
   
@@ -6,10 +13,11 @@
   .editor-name {
     position: absolute;
     bottom: 0;
-    right: @space;
-    color: #2F2F2F;
+    right: 0;
+    color: #8F8F8F;
     text-shadow: 0 0 3px #222;
-    padding: 10px;
+    padding: 5px;
+    padding-right: @space + 10px;
   }
 
   .editor-expand {
@@ -17,7 +25,7 @@
     bottom: 0;
     right: 0;
     color: #0f0f0f;
-    padding: 10px;
+    padding: 5px;
     transition: color 1s ease-in-out;
   }
 
@@ -45,7 +53,7 @@
       right: @margin;
     }
     .editor-name {
-      right: @margin + @space;
+      right: @margin;
     }
   }
 

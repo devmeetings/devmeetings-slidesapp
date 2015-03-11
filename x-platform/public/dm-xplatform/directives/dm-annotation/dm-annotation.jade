@@ -1,5 +1,7 @@
 div
-    span.label.label-info.pull-right {{annotation.title }}
+    span.label.label-info.pull-right(
+      ng-show="showIteration"
+    ) {{annotation.title }}
     h5(ng-if='showIteration') {{"Iteracja " + (annotation.index + 1)}}
     p.dm-anno-markdown(marked='annotation.description')
 

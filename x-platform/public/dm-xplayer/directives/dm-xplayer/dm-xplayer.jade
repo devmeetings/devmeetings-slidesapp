@@ -3,18 +3,17 @@
       ng-class="{'faded': showAnno == false, 'minimized': minimized, 'small': !anno.description }"
     )
       .dm-player-subtitles-hidden(ng-show="anno.description")
-        a.dm-player-subtitles-minimize(ng-click="minimized = !minimized")
-          span.fa.fa-minus.fa-fw(ng-show="!minimized")
-          span.fa.fa-plus.fa-fw(ng-show="minimized")
         .dm-annos-item(ng-if="anno.type !== 'pause'")
                 dm-annotation(annotation='anno', showIteration='showAll', ng-if='anno.type === "snippet" || anno.type === "comment"')
                 dm-microtask(microtask='anno', ng-if='anno.type === "task"')
 
+      a.dm-player-subtitles-minimize(ng-click="minimized = !minimized", ng-show="anno.description")
+          span.fa.fa-times.fa-fw(ng-show="!minimized")
+
       button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
-              ng-click="runNext()",
+              ng-click="runNext(); minimized=false",
               ng-show="nextStop < maxNextStop")
-                span Next
-                span.fa.fa-chevron-right.fa-fw
+                span.fa.fa-play.fa-fw
       // Comment            
         a.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
                 ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
