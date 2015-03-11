@@ -1,12 +1,16 @@
-@components: '../components';
 @plugins: '../dm-plugins';
 @modules: '../dm-modules';
 
-@import '@{components}/font-awesome/css/font-awesome.css';
-@import '@{components}/angular-hotkeys/build/hotkeys.css';
-@import '@{components}/bootstrap/dist/css/bootstrap.css';
-@import '@{components}/json-edit/css/styles.css';
-@import '../css/bootstrap-cyborg.css';
+@import (inline) '../components/angular-hotkeys/build/hotkeys.css';
+@import (inline) '../components/json-edit/css/styles.css';
+
+@import '../components/font-awesome/less/font-awesome.less';
+@import '../components/bootstrap/less/bootstrap.less';
+@import './theme.less';
+@import './theme-bootswatch.less';
+
+@icon-font-path: '../components/bootstrap/fonts/';
+@fa-font-path: '../components/font-awesome/fonts';
 
 @import "base.less";
 @import "performance.less";
