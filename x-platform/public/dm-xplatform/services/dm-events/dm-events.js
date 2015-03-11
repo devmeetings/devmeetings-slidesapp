@@ -3,7 +3,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
     function($http, $q) {
 
       var promises = {};
-
+      var annotationPromises = {};
       var states = {};
 
       function wrap(promise) {
@@ -39,10 +39,11 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
             return $q.when(result);
           }
 
-          return wrap($http.get('/api/events/' + event).then(function(data) {
-            promises[event] = data.data;
+          var promi = wrap($http.get('/api/events/' + event).then(function(data) {
             return data.data;
           }));
+          promises[event] = promi;
+          return promi;
         },
         getState: function(event, id) {
           var key = event + 'index' + id;
@@ -67,11 +68,18 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
         },
 
         getEventAnnotations: function(event, iteration, material) {
-          return this.getEventMaterial(event, iteration, material).then(function(data) {
+          var key = [event, iteration, material];
+          if (annotationPromises[key]) {
+            return annotationPromises[key];
+          }
+
+          var promi = this.getEventMaterial(event, iteration, material).then(function(data) {
             return wrap($http.get('/api/events/' + event + '/annotations/' + data.annotations).then(function(data) {
               return data.data;
             }));
           });
+          annotationPromises[key] = promi;
+          return promi;
         },
 
         getEventTask: function(event, iteration, task) {

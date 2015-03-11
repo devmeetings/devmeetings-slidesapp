@@ -6,10 +6,6 @@
             span.icon-bar
             span.icon-bar
 
-    .navbar-center.input-search(ng-if="!xplatformData.navbar.showTitle")
-        img.ico-search(src="static/images/navbar/ico_search.png")
-        input(type='text', placeholder='Szukaj szkoleń, ludzi, trenerów...', ng-model='xplatformData.navbar.searchText')
-        img.ico-triangle(src="static/images/navbar/input_search_triangle.png")
     .navbar-center(ng-if="xplatformData.navbar.showTitle")
         span.nav-title
             | {{xplatformData.navbar.title}}

@@ -24,7 +24,7 @@ module.exports = function(grunt) {
           "templates": "../bin/templates-" + version,
           "slider/bootstrap": "../bin/bootstrap",
           "require/plugins/paths": "../bin/plugins_paths",
-          "socket.io": "empty:",
+          //"socket.io": "empty:",
           "ace": "empty:",
           "ace_languageTools": "empty:"
         },
