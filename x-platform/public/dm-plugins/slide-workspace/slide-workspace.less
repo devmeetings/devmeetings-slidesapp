@@ -58,15 +58,19 @@
 
   .editor-focusable {
     border: 1px solid #000;
-    -webkit-filter: sepia(0.9);
-    filter: sepia(0.9);
+    .dm-editor {
+      -webkit-filter: sepia(0.9);
+      filter: sepia(0.9);
+    }
   }
 
   .editor-focus {
     border: 1px solid #666;
-    -webkit-filter: none;
-    filter: none;
-    z-index: 5;
+    .dm-editor {
+      -webkit-filter: none;
+      filter: none;
+    }
+
     .slide-workspace .editor {
       background-color: #00001a;
     }
