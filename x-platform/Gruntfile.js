@@ -23,6 +23,8 @@ module.exports = function(grunt) {
         paths: {
           "templates": "../bin/templates-" + version,
           "slider/bootstrap": "../bin/bootstrap",
+          "ace": "empty:",
+          "ace_languageTools": "empty:",
           "require/plugins/paths": "../bin/plugins_paths"
         },
         optimize: "none"
