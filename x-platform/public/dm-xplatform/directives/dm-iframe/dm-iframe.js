@@ -21,7 +21,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
 
           $timeout(function() {
             attr.$set('src', value);
-          }, 5000);
+          }, 3000);
         });
 
         element[0].addEventListener('load', removeClass);
