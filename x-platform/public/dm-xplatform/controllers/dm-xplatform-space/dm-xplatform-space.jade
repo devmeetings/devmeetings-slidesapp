@@ -17,16 +17,14 @@
             .full-height
               iframe.full-frame(
                   seamless=true,
-                  dm-iframe,
-                  ng-src="{{event.liveLink | liveLinkUrl:''}}",
+                  dm-iframe="{{event.liveLink | liveLinkUrl:''}}",
                   ng-if="event.liveLink && showTutorial")
               .row.full-height(ng-if='!showTutorial', ui-view='content')
 
               .dm-space-live(ng-if="event.liveLink && !right.pinned")
                   iframe.full-frame(
                     seamless=true,
-                    dm-iframe,
-                    ng-src="{{ event.liveLink | liveLinkUrl:'embed' }}")
+                    dm-iframe="{{ event.liveLink | liveLinkUrl:'embed' }}")
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
             ng-style='{"width": right.current, "overflow": "visible"}',
@@ -38,8 +36,7 @@
           .dm-space-live(ng-if="event.liveLink && right.pinned")
             iframe.full-frame(
               seamless=true,
-              dm-iframe,
-              ng-src="{{ event.liveLink | liveLinkUrl:'embedBig' }}")
+              dm-iframe="{{ event.liveLink | liveLinkUrl:'embedBig' }}")
 
           .dm-spacesidebar-right
             ul.nav.nav-tabs.pull-right
@@ -81,8 +78,7 @@
                         span.fa.fa-calendar
                     iframe.full-frame(
                             seamless=true,
-                            dm-iframe,
-                            ng-src="{{ event.liveLink | liveLinkUrl:'agenda' }}")
+                            dm-iframe="{{ event.liveLink | liveLinkUrl:'agenda' }}")
 
                 tab.cursor-pointer(
                     analytics-category='spacesidebar',
@@ -95,8 +91,7 @@
                         span.fa.fa-line-chart
                     iframe.full-frame(
                             seamless=true,
-                            dm-iframe,
-                            ng-src="{{ event.liveLink | liveLinkUrl:'ranking' }}")
+                            dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
  
 
                 //tab.cursor-pointer(id='stream', active='tabs.stream',
