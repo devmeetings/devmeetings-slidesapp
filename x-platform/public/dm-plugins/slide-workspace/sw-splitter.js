@@ -6,8 +6,11 @@ define(['module', '_', 'slider/slider.plugins'],
       return {
         replace: true,
         restrict: 'E',
-        template: '<div class="sw-col-grip full-height"></div>',
+        template: '<div ng-class="{'+
+            '\'sw-col-grip full-height\': isRow !== \'true\','+
+            '\'sw-row-grip\': isRow === \'true\' }"></div>',
         scope: {
+          isRow: '@',
           left: '=',
           right: '=',
           dragActive: '='
@@ -16,7 +19,10 @@ define(['module', '_', 'slider/slider.plugins'],
           scope.left = '50%';
           scope.right = 'calc(50% - 3px)';
 
-          function listenToClick() {
+          var currentDiff = 0;
+
+          function listenToClick(ev) {
+            calcDiff(ev);
             scope.$apply(function() {
               scope.dragActive = true;
               $window.addEventListener('mousemove', listenToDragSlowly);
@@ -33,12 +39,35 @@ define(['module', '_', 'slider/slider.plugins'],
             });
           }
 
+          function calcWidthDiff(ev) {
+            var width = parseFloat(scope.left);
+            var widthPx = width * $window.screen.availWidth / 100;
+            currentDiff = -ev.screenX + widthPx;
+          }
+
+          function fixWidth(ev) {
+            var width = 100 * (ev.screenX + currentDiff) / $window.screen.availWidth;
+            scope.left = width + '%';
+            scope.right = 'calc(' + (100 - width) + '% - 3px)';
+          }
+
+          function calcHeightDiff(ev) {
+            var height = parseFloat(scope.left);
+            var heightPx = height * $window.screen.availHeight / 100;
+            currentDiff = -ev.screenY + heightPx;
+          }
+
+          function fixHeight(ev) {
+            var height = 100 * (ev.screenY + currentDiff) / $window.screen.availHeight;
+            scope.left = height + '%';
+            scope.right = 'calc(' + (100 - height) + '% - 3px)';
+          }
+
+          var fixProps = scope.isRow === 'true' ? fixHeight : fixWidth;
+          var calcDiff = scope.isRow === 'true' ? calcHeightDiff : calcWidthDiff;
+
           function listenToDrag(ev) {
-            scope.$apply(function() {
-              var width = 100 * ev.screenX / $window.screen.availWidth;
-              scope.left = width + '%';
-              scope.right = 'calc(' + (100 - width) + '% - 3px)';
-            });
+            scope.$apply(fixProps.bind(null, ev));
           }
 
           var listenToDragSlowly = _.throttle(listenToDrag, 100);

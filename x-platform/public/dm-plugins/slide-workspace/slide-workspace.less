@@ -24,22 +24,23 @@
     margin-left: 1px;
   }
 
-  .size-half-height1 {
-    height: 54%;
-  }
-  .size-half-height2 {
-    height: 45%;
-  }
-
-
   .sw-col {
     transition: width 0.05s ease;
     float: left;
+  }
+  .sw-row {
+    transition: height 0.05s ease;
   }
   .sw-col-grip {
     float: left;
     width: 3px;
     cursor: col-resize;
+    background-color: #222;
+  }
+  .sw-row-grip {
+    height: 3px;
+    width: 100%;
+    cursor: row-resize;
     background-color: #222;
   }
   .overlay {
