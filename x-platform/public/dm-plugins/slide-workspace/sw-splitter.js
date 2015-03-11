@@ -41,7 +41,7 @@ define(['module', '_', 'slider/slider.plugins'],
             });
           }
 
-          var listenToDragSlowly = _.throttle(listenToDrag, 150);
+          var listenToDragSlowly = _.throttle(listenToDrag, 100);
 
           element[0].addEventListener('mousedown', listenToClick);
 
