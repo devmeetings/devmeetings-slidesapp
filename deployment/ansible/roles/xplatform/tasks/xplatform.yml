@@ -1,9 +1,18 @@
 ---
+- name: Mongo started
+  service: name=mongodb state=started
+
+- name: Mongo enabled
+  service: name=mongodb enabled=yes
+
+- name: Creating XPlatform user
+  user: name=xplatform comment="XPlatform Run" home=/srv
+
 - name: Create directory /srv
-  file: path=/srv state=directory mode=755
+  file: path=/srv state=directory mode=0755 owner=xplatform
 
 - name: Copy deployment key
-  copy: src=deployment.key dest=/srv mode=600
+  copy: src=deployment.key dest=/srv mode=0600
 
 - name: XPlatform from repo
   git:  
@@ -20,11 +29,21 @@
   args:
     chdir: /srv/xplatform/x-platform
 
-- name: Creating XPlatform user
-  user: name=xplatform comment="XPlatform Run" home=/srv
-
 - name: Copying run script
   copy: 
     src: run_platform
     dest: /srv/run_platform
-    mode: 755
+    owner: xplatform
+    mode: '0755'
+
+- name: Putting to Autostart
+  copy:
+    src: rc.local
+    dest: /etc/rc.local
+    mode: '0755'
+
+# This runs the service as root! Shitty as hell!
+# - name: Putting to Autostart
+#   command: forever-service install xplatform --script /srv/drop.js -e "NODE_ENV=production" --start
+#   args:
+#     chdir: /srv/xplatform/x-platform

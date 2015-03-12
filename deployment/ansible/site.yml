@@ -6,6 +6,6 @@
 - hosts: just_xplatform
   roles:
     - common
-    - bennojoy.mongo_mongod
+    - mongodb
     - xplatform
 

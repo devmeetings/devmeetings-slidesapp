@@ -1,0 +1,10 @@
+---
+- name: Repository
+  apt_repository:
+    repo: deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen
+    state: present
+- name: Mongodb
+  apt:
+    pkg: mongodb-org
+    state: present
+

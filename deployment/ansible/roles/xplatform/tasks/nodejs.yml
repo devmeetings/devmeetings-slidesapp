@@ -13,6 +13,7 @@
   with_items:
     - grunt-cli
     - forever
+    - forever-service
 
 - name: Ensuring build essential
   apt: name=build-essential
