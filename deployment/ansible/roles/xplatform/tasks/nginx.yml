@@ -29,6 +29,5 @@
 - name: Nginx | Enabling Xplatform
   file: src=/etc/nginx/sites-available/local.site dest=/etc/nginx/sites-enabled/local.site state=link
 
-
-
+- service: name=nginx state=restarted enabled=yes
 

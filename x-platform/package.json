@@ -6,7 +6,7 @@
     "prebuild": "npm install",
     "build": "grunt build",
     "start": "node app.js",
-    "postinstall": "bower install"
+    "postinstall": "bower --allow-root install"
   },
   "dependencies": {
     "amqplib": "^0.1.3",

@@ -16,7 +16,7 @@
   npm: path=/srv/xplatform/x-platform
 
 - name: Building XPlatform
-  command: npm run-script build
+  command: npm --unsafe-perm run-script build
   args:
     chdir: /srv/xplatform/x-platform
 
