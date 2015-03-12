@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /srv/xplatform/x-platform
+forever stop xplatform
+NODE_ENV="production" forever --uid xplatform start app

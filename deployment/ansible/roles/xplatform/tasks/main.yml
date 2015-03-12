@@ -1,0 +1,4 @@
+---
+- include: nodejs.yml
+- include: nginx.yml
+- include: xplatform.yml

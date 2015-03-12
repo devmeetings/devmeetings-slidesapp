@@ -1,0 +1,25 @@
+# ---
+#- authorized_key: user=root key=https://github.com/tomusdrw.keys
+
+- name: Installing Some utilities
+  apt: name={{item}} state=present
+  with_items:
+    - vim
+    - htop
+    - wget
+    - curl
+    - less
+    - man
+    - git
+
+- name: Xymon Client
+  apt: name=xymon-client state=present
+
+- service: name=xymon-client state=started
+
+- template: src=xymon-client dest=/etc/default/xymon-client owner=root group=root
+
+- service: name=xymon-client state=restarted enabled=yes
+
+- name: Apticron
+  apt: name=apticron state=present

@@ -1,0 +1,34 @@
+---
+- name: Nginx | Make sure the ansible required dependencies are installed
+  apt:
+    pkg: python-pycurl
+    state: present
+
+- name: Nginx | Add the nginx repository
+  apt_repository:
+    repo: ppa:nginx/stable
+
+- name: Nginx | Make sure nginx is installed (package)
+  apt:
+    pkg: nginx
+    state: present
+
+- name: Nginx | Copying Configuration file
+  copy:
+    src: nginx/xplatform.conf
+    dest: /etc/nginx/conf.d/xplatform.conf
+
+- name: Nginx | Copying Site file
+  copy:
+    src: nginx/local.site
+    dest: /etc/nginx/sites-available/local.site
+
+- name: Nginx | Disabling default website
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+
+- name: Nginx | Enabling Xplatform
+  file: src=/etc/nginx/sites-available/local.site dest=/etc/nginx/sites-enabled/local.site state=link
+
+
+
+

@@ -1,0 +1,11 @@
+---
+- hosts: common
+  roles:
+    - common
+
+- hosts: just_xplatform
+  roles:
+    - common
+    - bennojoy.mongo_mongod
+    - xplatform
+

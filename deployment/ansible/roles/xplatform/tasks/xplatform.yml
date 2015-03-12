@@ -1,0 +1,30 @@
+---
+- name: Create directory /srv
+  file: path=/srv state=directory mode=755
+
+- name: Copy deployment key
+  copy: src=deployment.key dest=/srv mode=600
+
+- name: XPlatform from repo
+  git:  
+    repo: git@github.com:devmeetings/devmeetings-slidesapp.git
+    dest: /srv/xplatform
+    key_file: /srv/deployment.key
+    accept_hostkey: yes
+
+- name: Installing Modules
+  npm: path=/srv/xplatform/x-platform
+
+- name: Building XPlatform
+  command: npm run-script build
+  args:
+    chdir: /srv/xplatform/x-platform
+
+- name: Creating XPlatform user
+  user: name=xplatform comment="XPlatform Run" home=/srv
+
+- name: Copying run script
+  copy: 
+    src: run_platform
+    dest: /srv/run_platform
+    mode: 755
