@@ -1,0 +1,17 @@
+---
+- name: monitor | required packages
+  apt: name={{item}}
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+
+- name: Add repository
+  apt_repository:
+    repo: https://github.com XavierBerger/RPi-Monitor-deb/raw/master/repo/
+
+- name: Installing rpimonitor
+  apt: name=rpimonitor
+
+- name: Update upgradedable
+  command: /usr/share/rpimonitor/scripts/updatePackagesStatus.pl
+

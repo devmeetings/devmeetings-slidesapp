@@ -1,2 +1,6 @@
 [just_xplatform]
 root@localhost:9022
+
+[raspberry]
+root@192.168.10.1
+[raspberry-provision]

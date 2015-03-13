@@ -9,3 +9,13 @@
     - mongodb
     - xplatform
 
+- hosts: raspberry-provision
+  gather_facts: no
+  tasks:
+    - name: Installing Python
+      raw: apt-get install python-simplejson python-apt -y
+
+- hosts: raspberry
+  roles:
+    - common
+    - rasbpi

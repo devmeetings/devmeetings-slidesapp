@@ -1,0 +1,59 @@
+---
+- name: Installing Required Software
+  apt: name={{ item }}
+  with_items:
+    - hostapd
+    - udhcpd
+    - wpasupplicant
+    - iptables
+    - netplug
+
+- name: Starting netplug
+  service: name=netplug state=started enabled=yes
+
+- name: WiFi Firmware
+  apt: name={{ item }}
+  with_items:
+    - firmware-realtek
+    - firmware-ralink
+    - firmware-atheros
+    - firmware-brcm80211
+  
+- name: Copying Interfaces
+  copy:
+    src: interfaces
+    dest: /etc/network/interfaces
+
+- name: Copying hostapd.conf
+  copy:
+    src: hostapd.conf
+    dest: /etc/hostapd/hostapd.conf
+
+- name: Copying default/hostpad 
+  copy:
+    src: default/hostapd
+    dest: /etc/default/hostapd
+
+- name: Copying udhcpd.conf
+  copy:
+    src: udhcpd.conf
+    dest: /etc/udhcpd.conf
+
+- name: Copying default/udhcpd
+  copy:
+    src: default/udhcpd
+    dest: /etc/default/udhcpd
+
+- name: Copying wpa_supplicant
+  copy:
+    src: wpa_supplicant.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+
+- name: Copying iptables configuration
+  copy:
+    src: iptables.ipv4.nat
+    dest: /etc/
+- name: Enabling IP Forwarding
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: net.ipv4.ip_forward=1

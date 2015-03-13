@@ -16,10 +16,25 @@
   apt: name=xymon-client state=present
 
 - service: name=xymon-client state=started
+  when: ansible_distribution != 'Debian'
 
 - template: src=xymon-client dest=/etc/default/xymon-client owner=root group=root
+  when: ansible_distribution != 'Debian'
 
 - service: name=xymon-client state=restarted enabled=yes
+  when: ansible_distribution != 'Debian'
+
+
+- service: name=hobbit-client state=started
+  when: ansible_distribution == 'Debian'
+
+- template: src=hobbit-client dest=/etc/default/hobbit-client owner=root group=root
+  when: ansible_distribution == 'Debian'
+
+- service: name=hobbit-client state=restarted enabled=yes
+  when: ansible_distribution == 'Debian'
+
+
 
 - name: Apticron
   apt: name=apticron state=present
