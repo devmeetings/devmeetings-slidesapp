@@ -6,7 +6,12 @@
 - name: NodeJS | Install PPA
   apt_repository: 
     repo: "ppa:chris-lea/node.js"
-  when: ansible_machine != 'armv7l'
+  when: ansible_machine != 'armv7l' and ansible_distribution == 'Ubuntu'
+
+- name: NodeJS | Debian Source
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_0.10 wheezy main
+  when: ansible_machine != 'armv7l' and ansible_distribution == 'Debian'
 
 - name: NodeJS | Install package
   apt: name=nodejs state=installed

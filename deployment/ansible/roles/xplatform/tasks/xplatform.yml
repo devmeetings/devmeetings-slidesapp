@@ -15,12 +15,6 @@
     key_file: /srv/deployment.key
     accept_hostkey: yes
 
-- name: Removing winston-graylog2 on ARM
-  lineinfile: 
-    regexp: "graylog2"
-    state: "absent"
-  when: ansible_machine == 'armv7l'
-
 - name: Installing Modules
   npm: path=/srv/xplatform/x-platform
 
