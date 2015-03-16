@@ -23,7 +23,7 @@ var config = {
         realmUrl: realmUrl || 'http://localhost:3000',
         fb: {
             id: 1431694133754278,
-            secret: "c2cb2cebdccca68ed630a061436ba012"
+            secret: 'c2cb2cebdccca68ed630a061436ba012'
         },
         github: {
             clientId: '106ca39a17b1ca369f6f',
@@ -49,7 +49,7 @@ var config = {
         port: 2000,
         fb: {
             id: 1431694133754278,
-            secret: "c2cb2cebdccca68ed630a061436ba012"
+            secret: 'c2cb2cebdccca68ed630a061436ba012'
         },
         github: {
             clientId: '81c1de02cccf83b4a849',
@@ -79,7 +79,7 @@ var config = {
         port: 7000,
         fb: {
             id: 503641503100997,
-            secret: "2161dca6f444c60837e0d7578f0a8a53"
+            secret: '2161dca6f444c60837e0d7578f0a8a53'
         },
         github: {
             clientId: '9bc4587bb4a474187812',
@@ -112,7 +112,7 @@ var config = {
         port: 4000,
         fb: {
             id: 1431693610420997,
-            secret: "c91cb7f914ed25e7d67e1278484f5979"
+            secret: 'c91cb7f914ed25e7d67e1278484f5979'
         },
         github: {
             clientId: '81c1de02cccf83b4a849',
@@ -126,6 +126,34 @@ var config = {
             host: 'pinkiepie.todr.me',
             port: 1782
         },
+        logger: 'prod'
+    },
+
+    box: {
+        root: rootPath,
+        staticsPath: staticsPath,
+        jsModulesPath: staticsPath + '/bin',
+        withGoogleAnalytics: 'UA-52669907-1',
+        cacheBustingVersion: '-' + fs.readFileSync('.version', {
+            encoding: 'utf8'
+        }),
+        app: {
+            name: 'platform'
+        },
+        port: 4000,
+        fb: {
+            id: 1431693610420997,
+            secret: 'c91cb7f914ed25e7d67e1278484f5979'
+        },
+        github: {
+            clientId: '4b7631db038a99b89c34',
+            clientSecret: '3c562e15cf5ed88ce132041f4a1033c7529d8ffe'
+        },
+        cookieName: 'xplatform.sid',
+        realmUrl: realmUrl || 'http://xplatform.local',
+        db: 'mongodb://' + mongoHost + '/platform-box',
+        queue: rabbitHost,
+        graylog: false,
         logger: 'prod'
     }
 };

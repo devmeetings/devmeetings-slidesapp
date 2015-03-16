@@ -8,6 +8,14 @@
     repo: "ppa:chris-lea/node.js"
   when: ansible_machine != 'armv7l' and ansible_distribution == 'Ubuntu'
 
+- name: NodeJS | Apt https
+  apt: name=apt-transport-https
+  when: ansible_machine != 'armv7l' and ansible_distribution == 'Debian'
+
+- name: NodeJS | Debian Key
+  command: curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+  when: ansible_machine != 'armv7l' and ansible_distribution == 'Debian'
+
 - name: NodeJS | Debian Source
   apt_repository:
     repo: deb https://deb.nodesource.com/node_0.10 wheezy main
