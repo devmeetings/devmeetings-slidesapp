@@ -8,3 +8,9 @@
     pkg: mongodb-org
     state: present
 
+- name: Mongo started
+  service: name=mongodb state=started
+
+- name: Mongo enabled
+  service: name=mongodb enabled=yes
+

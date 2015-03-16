@@ -7,6 +7,7 @@
 - name: Nginx | Add the nginx repository
   apt_repository:
     repo: ppa:nginx/stable
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Nginx | Make sure nginx is installed (package)
   apt:

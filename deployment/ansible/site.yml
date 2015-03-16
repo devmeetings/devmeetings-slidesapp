@@ -19,3 +19,5 @@
   roles:
     - common
     - rasbpi
+    - rasbpi-mongodb
+    - xplatform

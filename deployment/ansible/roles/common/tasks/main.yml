@@ -11,6 +11,13 @@
     - less
     - man
     - git
+    - python-pycurl
+
+- name: Managing PPA
+  apt: name={{ item }}
+  with_items:
+    - software-properties-common
+    - python-software-properties
 
 - name: Xymon Client
   apt: name=xymon-client state=present
@@ -33,8 +40,6 @@
 
 - service: name=hobbit-client state=restarted enabled=yes
   when: ansible_distribution == 'Debian'
-
-
 
 - name: Apticron
   apt: name=apticron state=present

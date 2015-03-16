@@ -1,12 +1,28 @@
 ---
 - name: NodeJS | Install ppa key
   apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+  when: ansible_machine != 'armv7l'
 
-- name: NodeJS | Install ppa
-  apt_repository: repo=ppa:chris-lea/node.js state=present
+- name: NodeJS | Install PPA
+  apt_repository: 
+    repo: "ppa:chris-lea/node.js"
+  when: ansible_machine != 'armv7l'
 
 - name: NodeJS | Install package
   apt: name=nodejs state=installed
+  when: ansible_machine != 'armv7l'
+
+- name: Installing NodeJS
+  get_url:
+    dest: /tmp/nodejs.deb
+    url: http://node-arm.herokuapp.com/node_latest_armhf.deb
+  when: ansible_machine == 'armv7l'
+
+- name: Installing
+  command: dpkg -i /tmp/nodejs.deb
+  args:
+    creates: /usr/local/bin/node
+  when: ansible_machine == 'armv7l'
 
 - name: NodeJS | Tools
   npm: name={{item}} global=yes

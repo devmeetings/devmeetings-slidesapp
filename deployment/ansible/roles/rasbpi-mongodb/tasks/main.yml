@@ -1,0 +1,24 @@
+---
+- name: Getting the repo
+  git:
+    repo: https://github.com/svvitale/mongo4pi.git
+    dest: /root/mongo4pi
+    accept_hostkey: yes
+
+- name: Running installation
+  command: sh install.sh
+  args:
+    chdir: /root/mongo4pi/
+    creates: /etc/mongodb.conf
+
+- name: Removing lock file at start if exists
+  lineinfile:
+    line: test -f /var/lib/mongodb/mongod.lock && rm /var/lib/mongodb/mongod.lock
+    dest: /etc/rc.local
+    insertbefore: ^exit
+
+- name: Running service
+  service:
+    name: mongod
+    state: started
+    enabled: yes

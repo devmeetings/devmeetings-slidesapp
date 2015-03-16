@@ -1,10 +1,4 @@
 ---
-- name: Mongo started
-  service: name=mongodb state=started
-
-- name: Mongo enabled
-  service: name=mongodb enabled=yes
-
 - name: Creating XPlatform user
   user: name=xplatform comment="XPlatform Run" home=/srv
 
@@ -20,6 +14,12 @@
     dest: /srv/xplatform
     key_file: /srv/deployment.key
     accept_hostkey: yes
+
+- name: Removing winston-graylog2 on ARM
+  lineinfile: 
+    regexp: "graylog2"
+    state: "absent"
+  when: ansible_machine == 'armv7l'
 
 - name: Installing Modules
   npm: path=/srv/xplatform/x-platform
