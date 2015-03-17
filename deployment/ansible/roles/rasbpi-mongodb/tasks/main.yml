@@ -25,6 +25,7 @@
 
 - name: Installing Mongo2.6
   unarchive:
+    copy: no
     src: /tmp/mongodb-26.tar.gz
     dest: /opt/mongo/
 

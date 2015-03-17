@@ -2,7 +2,7 @@ var Q = require('q'),
   fs = require('fs');
 
 var file = '/etc/wpa_supplicant/wpa_supplicant.conf';
-var file = '../../deployment/ansible/roles/rasbpi/files/wpa_supplicant.conf';
+//var file = '../../deployment/ansible/roles/rasbpi/files/wpa_supplicant.conf';
 
 
 var patterns = {

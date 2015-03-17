@@ -7,10 +7,13 @@
 
 - name: Add repository
   apt_repository:
-    repo: https://github.com XavierBerger/RPi-Monitor-deb/raw/master/repo/
+    repo: deb https://github.com XavierBerger/RPi-Monitor-deb/raw/master/repo/
+
+- name: Add Keys
+  command:  apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 2C0D3C0F
 
 - name: Installing rpimonitor
-  apt: name=rpimonitor
+  apt: name=rpimonitor force=yes
 
 - name: Update upgradedable
   command: /usr/share/rpimonitor/scripts/updatePackagesStatus.pl
