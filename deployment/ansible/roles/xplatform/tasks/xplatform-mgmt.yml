@@ -1,0 +1,22 @@
+---
+
+- name: Installing Modules
+  npm: path=/srv/xplatform/tools/raspberrypi-manager
+
+- name: Putting to Autostart
+  command: forever-service install xplatform-mgmt -e "NODE_ENV={{ node_env }}" --start
+  args:
+    chdir: /srv/xplatform/tools/raspberrypi-manager
+    creates: /etc/init.d/xplatform-mgmt
+
+- name: Starting service
+  service:
+    name: xplatform-mgmt
+    state: started
+
+- name: Enabling service
+  service:
+    name: xplatform-mgmt
+    enabled: yes 
+
+

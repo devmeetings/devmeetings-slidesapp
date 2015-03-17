@@ -125,7 +125,7 @@ app.post('/halt', function(req, res) {
 
 app.use(express.static('public'));
 
-app.listen(9911);
+app.listen(9911, "localhost");
 
 
 var exec = require('child_process').exec;
