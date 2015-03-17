@@ -1,0 +1,26 @@
+---
+- hosts: root@localhost:9080
+  tasks:
+    - name: Fetching latest platform-box
+      get_url: 
+        url: https://xplatform.org/static/resources/platform-box.tar.gz
+        dest: /tmp/platform-box.tar.gz
+        validate_certs: no
+
+    - name: Unpacking dump
+      unarchive:
+        copy: no
+        src: /tmp/platform-box.tar.gz
+        dest: /srv/
+
+    - name: Restoring database
+      command: /opt/mongo/bin/mongorestore platform-box --db platform-box
+      args:
+        chdir: /srv/
+      when: ansible_machine == 'armv7l'
+
+    - name: Restoring database
+      command: mongorestore platform-box --db platform-box
+      args:
+        chdir: /srv/
+      when: ansible_machine != 'armv7l'

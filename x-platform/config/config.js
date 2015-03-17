@@ -29,7 +29,7 @@ var config = {
             clientId: '106ca39a17b1ca369f6f',
             clientSecret: 'accf1a3f361eec1902172ce287acf46a34423cc2'
         },
-        db: 'mongodb://' + mongoHost + '/platform-prod-pracuj',
+        db: 'mongodb://' + mongoHost + '/platform-box',
         queue: rabbitHost,
         graylog: false,
         meteorProxy: 'http://localhost:3001/',
@@ -150,7 +150,7 @@ var config = {
             clientSecret: '3c562e15cf5ed88ce132041f4a1033c7529d8ffe'
         },
         cookieName: 'xplatform.sid',
-        realmUrl: realmUrl || 'http://xplatform.local',
+        realmUrl: realmUrl || 'http://192.168.10.1',
         db: 'mongodb://' + mongoHost + '/platform-box',
         queue: rabbitHost,
         graylog: false,

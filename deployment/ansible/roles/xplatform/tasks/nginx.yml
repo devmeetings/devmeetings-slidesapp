@@ -9,10 +9,27 @@
     repo: ppa:nginx/stable
   when: ansible_distribution == 'Ubuntu'
 
+- name: Nginx | Adding Keyring
+  apt: name=debian-keyring
+  when: ansible_distribution == 'Debian'
+
+- name: Nginx | Adding backports
+  apt_repository:
+    repo: deb http://http.debian.net/debian wheezy-backports main
+  when: ansible_distribution == 'Debian'
+
 - name: Nginx | Make sure nginx is installed (package)
   apt:
     pkg: nginx
     state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Nginx | Make sure nginx is installed (package)
+  apt:
+    pkg: nginx
+    state: present
+    default_release: 'wheezy-backports'
+  when: ansible_distribution == 'Debian'
 
 - name: Nginx | Copying Configuration file
   copy:
