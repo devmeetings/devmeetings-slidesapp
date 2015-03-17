@@ -17,6 +17,17 @@
     dest: /etc/rc.local
     insertbefore: ^exit
 
+- name: Fetching Mongo2.6
+  get_url:
+    url: https://xplatform.org/static/resources/mongodb-26.tar.gz
+    dest: /tmp/mongodb-26.tar.gz
+    validate_certs: no
+
+- name: Installing Mongo2.6
+  unarchive:
+    src: /tmp/mongodb-26.tar.gz
+    dest: /opt/mongo/
+
 - name: Running service
   service:
     name: mongod
