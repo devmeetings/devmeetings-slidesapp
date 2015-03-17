@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    title XPlatform Management
+    link(rel="stylesheet", href="/bower_components/bsw-yeti/css/bootstrap.min.css")
+  body
+    .container
+      .row
+        .col-xs-12
+          .jumbotron
+            h1 XPlatform Management
+            p Here you can manage and control your RaspberryPI XPlatform Box.
+      .row
+        .col-xs-9
+          block content
+        .col-xs-3
+          .panel.panel-default
+            .panel-heading
+              h3.panel-title Actions
+            .panel-body
+              form(action="/", method="get")
+                .form-group
+                  button.btn.btn-default.btn-block(type="submit")
+                    | Manage WiFi
+              form(action="/logs", method="get")
+                .form-group
+                  button.btn.btn-default.btn-block(type="submit")
+                    | Show Logs
+              form(action="/status", method="get")
+                .form-group
+                  button.btn.btn-default.btn-block(type="submit")
+                    | Show Status
+              form(action="/reboot", method="post")
+                .form-group
+                  button.btn.btn-default.btn-block(type="submit")
+                    | Reboot
+               form(action="/halt", method="post")
+                .form-group
+                  button.btn.btn-default.btn-block(type="submit")
+                    | Halt
+ 
+
+

@@ -1,0 +1,15 @@
+extends layout
+
+mixin status(data, title)
+  .panel.panel-primary
+    .panel-heading
+      h3.panel-title Status #{title}
+    .panel-body
+      textarea.form-control(rows="3")=data
+
+block content
+  +status(mongo, 'MongoDB')
+  +status(nginx, 'Nginx')
+  +status(hostapd, 'HostAPD')
+  +status(udhcpd, 'udhcpd')
+  +status(xpla, 'XPlatform')

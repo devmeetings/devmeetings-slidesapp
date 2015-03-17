@@ -22,7 +22,58 @@ app.get('/', function(req, res) {
       wifi: data
     });
 
-  });
+  }, onError(res));
+
+});
+
+app.get('/logs', function(req, res) {
+  function log(path) {
+    return execCommand('tail -n 100 ' + path).fail(function(err) {
+      return 'File Not Found. ' + err;
+    });
+  }
+  var mongo = log('/var/log/mongodb/mongod.log');
+  var xpla = log('/srv/.forever/xplatform.log');
+  var nginx = log('/var/log/nginx/error.log');
+
+  Q.all([mongo, xpla, nginx]).done(function(logs) {
+
+    res.render('logs', {
+      mongo: logs[0],
+      xpla: logs[1],
+      nginx: logs[2]
+    });
+
+  }, onError(res));
+});
+
+app.get('/status', function(req, res) {
+  function status(service) {
+    return execCommand('service ' + service + ' status').fail(function(err) {
+      return 'Err: ' + err;
+    });
+  }
+
+  function pidof(service) {
+    return execCommand('pidof ' + service);
+  }
+
+  Q.all([
+    status('mongod'),
+    status('nginx'),
+    status('hostapd'),
+    pidof('udhcpd'),
+    execCommand('sudo -u xplatform forever status').fail(function(err) {
+      return 'Cannot get status: ' + err;
+    })
+  ]).spread(function(mongo, nginx, hostapd, udhcpd) {
+    res.render('status', {
+      mongo: mongo,
+      nginx: nginx,
+      hostapd: hostapd,
+      udhcpd: udhcpd
+    });
+  }).done(onError(res));
 
 });
 
@@ -36,7 +87,7 @@ app.post('/', function(req, res) {
       wifi: data[1],
       networks: data[0]
     });
-  });
+  }, onError(res));
 
 });
 
@@ -51,7 +102,7 @@ app.post('/wifi', function(req, res) {
     })
     .done(function() {
       res.redirect('/');
-    });
+    }, onError(res));
 
 });
 
@@ -59,8 +110,18 @@ app.post('/reboot', function(req, res) {
 
   execCommand('reboot', function() {
     res.send(200);
-  });
+  }, onError(res));
+
 });
+
+app.post('/halt', function(req, res) {
+
+  execCommand('halt', function() {
+    res.send(200);
+  }, onError(res));
+
+});
+
 
 app.use(express.static('public'));
 
@@ -79,4 +140,10 @@ function execCommand(cmd) {
     }
   });
   return defer.promise;
+}
+
+function onError(res) {
+  return function(err) {
+    res.status(500).send(err);
+  };
 }
