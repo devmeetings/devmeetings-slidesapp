@@ -63,7 +63,7 @@ app.get('/status', function(req, res) {
     status('nginx'),
     status('hostapd'),
     pidof('udhcpd'),
-    execCommand('sudo -u xplatform forever status').fail(function(err) {
+    execCommand('su xplatform -c forever list').fail(function(err) {
       return 'Cannot get status: ' + err;
     })
   ]).spread(function(mongo, nginx, hostapd, udhcpd) {

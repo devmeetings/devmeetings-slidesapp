@@ -25,7 +25,7 @@
     creates: /srv/xplatform/x-platform/.version
 
 - name: Copying run script
-  copy: 
+  template: 
     src: run_platform
     dest: /srv/run_platform
     owner: xplatform

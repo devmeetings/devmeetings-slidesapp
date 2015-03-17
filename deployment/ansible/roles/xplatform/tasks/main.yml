@@ -4,3 +4,5 @@
 - include: xplatform.yml
 - include: xdashboard.yml
   when: with_dashboard
+- include: xplatform-mgmt.yml
+  when: with_management

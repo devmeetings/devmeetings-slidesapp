@@ -6,6 +6,8 @@
 - hosts: just_xplatform  
   vars:
     with_dashboard: false
+    with_management: false
+    node_env: 'box'
   roles:
     - common
     - mongodb
@@ -20,6 +22,8 @@
 - hosts: raspberry
   vars:
     with_dashboard: false
+    with_management: true
+    node_env: 'box'
   roles:
     - common
     - rasbpi
