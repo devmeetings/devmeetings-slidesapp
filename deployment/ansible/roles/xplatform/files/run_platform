@@ -1,10 +1,14 @@
 #!/bin/sh
 
 sleep 5
+
 cd /srv/xplatform/x-platform
 forever stop xplatform
 NODE_ENV="production" forever --uid xplatform -a start app
 
-cd /srv/xplatform/x-dashboard/build/bundle
-forever stop xdashboard
-PORT="4001" MONGO_URL="mongodb://localhost:27017/platform-production" ROOT_URL="http://xplatform.local/live" forever --uid xdashboard -a start main.js
+if [ -d /srv/xplatform/x-dashboard/build ];
+then
+  cd /srv/xplatform/x-dashboard/build/bundle
+  forever stop xdashboard
+  PORT="4001" MONGO_URL="mongodb://localhost:27017/platform-production" ROOT_URL="http://xplatform.local/live" forever --uid xdashboard -a start main.js
+fi

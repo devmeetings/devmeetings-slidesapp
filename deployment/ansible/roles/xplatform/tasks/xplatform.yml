@@ -22,6 +22,7 @@
   command: npm --unsafe-perm run-script build
   args:
     chdir: /srv/xplatform/x-platform
+    creates: /srv/xplatform/x-platform/.version
 
 - name: Copying run script
   copy: 
@@ -31,10 +32,10 @@
     mode: '0755'
 
 - name: Putting to Autostart
-  copy:
-    src: rc.local
+  lineinfile:
+    line: su xplatform -c "/srv/run_platform"
+    insertbefore: exit
     dest: /etc/rc.local
-    mode: '0755'
 
 # This runs the service as root! Shitty as hell!
 # - name: Putting to Autostart

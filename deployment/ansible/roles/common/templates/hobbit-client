@@ -6,11 +6,11 @@
 # names - DNS might not work if there's a problem.
 #
 # E.g. (a single Xymon server)
-#   XYMONSERVERS="192.168.1.1"
+#   HOBBITSERVERS="192.168.1.1"
 # or (multiple servers)
-#   XYMONSERVERS="10.0.0.1 192.168.1.1"
+#   HOBBITSERVERS="10.0.0.1 192.168.1.1"
 
-XYMONSERVERS="91.205.73.198"
+HOBBITSERVERS="91.205.73.198"
 
 # The defaults usually suffice for the rest of this file, 
 # but you can tweak the hostname that the client reports 

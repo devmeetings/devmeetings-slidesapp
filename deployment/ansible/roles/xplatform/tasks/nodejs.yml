@@ -13,7 +13,9 @@
   when: ansible_machine != 'armv7l' and ansible_distribution == 'Debian'
 
 - name: NodeJS | Debian Key
-  command: curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+  command: wget https://deb.nodesource.com/gpgkey/nodesource.gpg.key -O /tmp/nodesource.gpg.key && apt-key add /tmp/nodesource.gpg.key
+  args:
+    creates: /tmp/nodesource.gpg.key
   when: ansible_machine != 'armv7l' and ansible_distribution == 'Debian'
 
 - name: NodeJS | Debian Source

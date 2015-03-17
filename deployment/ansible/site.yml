@@ -3,7 +3,9 @@
   roles:
     - common
 
-- hosts: just_xplatform
+- hosts: just_xplatform  
+  vars:
+    with_dashboard: false
   roles:
     - common
     - mongodb
@@ -16,6 +18,8 @@
       raw: apt-get install python-simplejson python-apt -y
 
 - hosts: raspberry
+  vars:
+    with_dashboard: false
   roles:
     - common
     - rasbpi
