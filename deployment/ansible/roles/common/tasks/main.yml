@@ -12,6 +12,7 @@
     - man
     - git
     - python-pycurl
+    - unzip
 
 - name: Managing PPA
   apt: name={{ item }}
