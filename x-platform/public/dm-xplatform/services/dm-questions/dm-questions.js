@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
-    xplatformApp.service('dmQuestions', ['$http', '$q', 'Sockets', function ($http, $q, Sockets) {
+    xplatformApp.service('dmQuestions', ['$http', '$q', 'Sockets', '$rootScope', function ($http, $q, Sockets, $rootScope) {
        
         var promises = {
         };
@@ -8,6 +8,8 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             toReturn.allQuestionsForEvent(question.event, false).then(function (qs) {
                 qs.push(question);
             });
+
+            $rootScope.$broadcast('event.questions.update');
         });
 
         Sockets.on('event.questions.comment.new', function (question) {
@@ -18,6 +20,8 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
                 oldQ.comments = question.comments; 
             });
+
+            $rootScope.$broadcast('event.questions.update');
         });
 
         var toReturn = {

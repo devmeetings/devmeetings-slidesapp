@@ -32,7 +32,8 @@
             ng-class="{'pinned': right.pinned, 'opened': right.opened}",
             analytics-category='spacesidebar',
             analytics-on='mouse-enter',
-            ng-mouseleave='right.pinned || toggleRight(false)'
+            ng-mouseenter='right.mouseOn=true; right.pinned || toggleRightDelayed(true)',
+            ng-mouseleave='right.mouseOn=false; right.pinned || toggleRightDelayed(false)'
         )
           .dm-space-live(ng-if="event.liveLink && right.pinned")
             iframe.full-frame(

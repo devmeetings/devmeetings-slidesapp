@@ -10,18 +10,23 @@ define(['angular', 'xplatform/xplatform-app', '_',
     function($scope, $rootScope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen, dmBrowserTab) {
 
       $scope.changeFullScreen = function(enable) {
-         if (!enable) {
+        if (!enable) {
           Fullscreen.cancel();
-         } else {
+        } else {
           Fullscreen.all();
-         }
+        }
       };
-      var removeFullscreenHandler = Fullscreen.$on('FBFullscreen.change', function(){
-        $rootScope.$apply(function(){
+      var removeFullscreenHandler = Fullscreen.$on('FBFullscreen.change', function() {
+        $rootScope.$apply(function() {
           $rootScope.isZenMode = Fullscreen.isEnabled();
         });
       });
       $scope.$on('$destroy', removeFullscreenHandler);
+
+      $scope.notifications = {};
+      $scope.$on('event.questions.update', function() {
+        $scope.notifications.unread = true;
+      });
 
       $scope.left = {
         min: '0px',
@@ -48,13 +53,24 @@ define(['angular', 'xplatform/xplatform-app', '_',
         if (!right.defaultMin) {
           right.defaultMin = right.min;
         }
-      
+
         if (right.pinned) {
           right.min = right.defaultMin;
         } else {
           right.min = right.max;
         }
         right.pinned = !right.pinned;
+      };
+
+      $scope.toggleRightDelayed = function(open) {
+        var delay = open ? 600 : 1500;
+        $timeout(function() {
+          if ($scope.right.mouseOn !== open) {
+            return;
+          }
+          $scope.toggleRight(open);
+
+        }, delay);
       };
 
       $scope.toggleRight = function(open, force) {
@@ -91,8 +107,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
         right.current = right.min;
       };
 
-      $timeout(function(){
-        $scope.toggleRight(false);
+      $timeout(function() {
+        $scope.toggleRightDelayed(false);
       }, 2000);
 
       if ($scope.editMode) {
