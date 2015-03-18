@@ -21,7 +21,7 @@
 
 - name: Enabling Mgmt
   lineinfile:
-    line: service xplatform-mgmt start
+    line: sleep 5 && su root -c "service xplatform-mgmt start"
     dest: /etc/rc.local
     insertbefore: ^exit
 

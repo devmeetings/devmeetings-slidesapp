@@ -7,6 +7,7 @@
     - wpasupplicant
     - iptables
     - netplug
+    - wireless-tools
 
 - name: Starting netplug
   service: name=netplug state=started enabled=yes
