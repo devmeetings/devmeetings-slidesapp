@@ -40,105 +40,11 @@
               dm-iframe="{{ event.liveLink | liveLinkUrl:'embedBig' }}")
 
           .dm-spacesidebar-right
-            ul.nav.nav-tabs.pull-right
-              li
-                a.cursor-pointer(ng-click="toggleRight(true);togglePinRight()")
-                  span.fa.fa-thumb-tack(ng-hide="right.pinned")
-                  span.fa.fa-toggle-right(ng-show="right.pinned")
-            ul.nav.nav-tabs.pull-left
-              li(tooltip="XPlatform", tooltip-placement="left")
-                a(href="#/",
-                  analytics-category='menu',
-                  analytics-on='click', analytics-event='navbar.logo')
-                  img(src="static/images/xplatform-icon-trans.svg", width="20", height="20")
-
-            .separator
-            ul.nav.nav-tabs.pull-left
-              li(tooltip="Your code", tooltip-placement="left")
-                a.btn.btn-block.workspace-btn(
-                  ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
-                  ui-sref-active='btn-success active', ng-if="event.baseSlide")
-                  span.fa.fa-wrench
-
+            include ./space-sidebar-buttons.jade
             tabset(ng-class='{"active": !right.opened}')
-                tab.cursor-pointer(id='menu', active='tabs.menu',
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.menu',
-                    select='toggleRight(true)',
-                    ng-click='toggleRight(true)'
-                )
-                    tab-heading.cursor-pointer(tooltip='Iterations', tooltip-placement='left')
-                        span.fa.fa-tasks
-                    include ./dm-xplatform-space-menu
-                    
-                tab.cursor-pointer(
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.agenda',
-                    select='toggleRight(true)',
-                    ng-click='toggleRight(true)',
-                    ng-if="event.liveLink"
-                )
-                    tab-heading.cursor-pointer(tooltip='Agenda', tooltip-placement='left')
-                        span.fa.fa-calendar
-                    iframe.full-frame(
-                            seamless=true,
-                            dm-iframe="{{ event.liveLink | liveLinkUrl:'agenda' }}")
-
-                // tab.cursor-pointer(
-                //     analytics-category='spacesidebar',
-                //     analytics-on='click', analytics-event='spacesidebar.ranking',
-                //     select='toggleRight(true)',
-                //     ng-click='toggleRight(true)',
-                //     ng-if="event.liveLink"
-                // )
-                //     tab-heading.cursor-pointer(tooltip='Ranking', tooltip-placement='left')
-                //         span.fa.fa-line-chart
-                //     iframe.full-frame(
-                //             seamless=true,
-                //             dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
-                //
-                //
-                tab.cursor-pointer(id='stream', active='tabs.stream',
-                   analytics-category='spacesidebar',
-                   analytics-on='click', analytics-event='spacesidebar.stream',
-                   select='toggleRight(true)',
-                   ng-click='toggleRight(true)'
-                )
-                   tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left')
-                       span.fa.fa-newspaper-o
-                   .col-xs-12.full-height
-                       .row.full-height(ui-view='first')
+                include ./space-tabs-main.jade
                 .separator
-                tab.cursor-pointer(
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.user',
-                    select='toggleRight(true)',
-                    ng-click='toggleRight(true)'
-                )
-                    tab-heading.cursor-pointer(
-                      tooltip='{{ user.result.name }}', 
-                      tooltip-placement='left')
-                        img(
-                          ng-src='{{user.result.avatar | dmGravatar:24}}')
-
-                    .full-height.text-center
-                      br
-                      img.avatar-holder(
-                          ng-src='{{user.result.avatar | dmGravatar:120}}',
-                          ui-sref='index.devhero({id: user.result._id})',
-                          analytics-category='menu',
-                          analytics-on='click', analytics-event='profile.photo')
-                      br
-                      h3
-                        a.ng-cloak(
-                            ui-sref="index.devhero({id: user.result._id})",
-                            analytics-category='menu',
-                            analytics-on='click', analytics-event='navbar.profile.text')
-                            | {{user.result.name}}
-                      br
-                      dm-xplatform-performance
-
-
+                include ./space-tab-user.jade
                 tab.cursor-pointer(
                     analytics-category='spacesidebar',
                     analytics-on='click', analytics-event='spacesidebar.zen',

@@ -14,7 +14,7 @@ div
             form(ng-submit='createComment(question)', ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
                 .form-group
                     .input-group
-                        input.input-sm.form-control(required, ng-model='question.text', autofocus, placeholder="Wpisz swoją odpowiedź")
+                        input.input-sm.form-control(required, ng-model='question.text', autofocus, placeholder="Write Your Answer Here")
                         span.input-group-btn
                             button.btn.btn-default.btn-sm(type='submit')
                                 span.fa.fa-reply

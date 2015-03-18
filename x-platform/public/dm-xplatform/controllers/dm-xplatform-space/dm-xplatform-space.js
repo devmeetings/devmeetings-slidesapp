@@ -107,13 +107,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
         $scope.activeIteration = $state.params.iteration;
         $scope.showTutorial = $state.current.name === 'index.space';
         $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '20px' : '0px';
-        if ($state.current.name === 'index.space.task') {
-          dmSlidesaves.getSaveType($state.params.slide, true).then(function(type) {
-            $scope.warningType = type;
-          });
-        } else {
-          $scope.warningType = undefined;
-        }
       });
 
       dmUser.getCurrentUser().then(function(data) {

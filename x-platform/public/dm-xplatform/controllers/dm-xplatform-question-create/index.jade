@@ -1,10 +1,10 @@
 .panel(ng-controller="dmXplatformQuestionCreate")
     .panel-body
-        p Zaznacz fragment kodu, który chcesz wyróżnić i dodaj opis.
+        p Select the code that you want to highlight.
         form(ng-submit='createQuestion()')
             .form-group
                 input.input-sm.form-control(
-                    placeholder="Opis",
+                    placeholder="Description",
                     ng-model='question.description', type='text', required, autofocus)
-            button.btn.btn-sm.btn-primary.btn-block(type='submit') Opublikuj kod
+            button.btn.btn-sm.btn-primary.btn-block(type='submit') Publish Code Anonymously
 

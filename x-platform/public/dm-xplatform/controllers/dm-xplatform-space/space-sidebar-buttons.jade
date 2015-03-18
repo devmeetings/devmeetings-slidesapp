@@ -1,0 +1,21 @@
+ul.nav.nav-tabs.pull-right
+  li
+    a.cursor-pointer(ng-click="toggleRight(true);togglePinRight()")
+      span.fa.fa-thumb-tack(ng-hide="right.pinned")
+      span.fa.fa-toggle-right(ng-show="right.pinned")
+ul.nav.nav-tabs.pull-left
+  li(tooltip="XPlatform", tooltip-placement="left")
+    a(href="#/",
+      analytics-category='menu',
+      analytics-on='click', analytics-event='navbar.logo')
+      img(src="static/images/xplatform-icon-trans.svg", width="20", height="20")
+
+.separator
+ul.nav.nav-tabs.pull-left
+  li(tooltip="Your code", tooltip-placement="left")
+    a.btn.btn-block.workspace-btn(
+      ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+      ui-sref-active='btn-success active', ng-if="event.baseSlide")
+      span.fa.fa-wrench
+
+

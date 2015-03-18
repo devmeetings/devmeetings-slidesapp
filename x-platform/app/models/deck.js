@@ -9,7 +9,10 @@ var DeckSchema = new Schema({
       type: String,
       unique: true
     },
-    slides: [String]
+    slides: [{
+      type: Schema.Types.ObjectId,
+      ref: 'slides'
+    }]
 });
 
 DeckSchema.virtual('date')

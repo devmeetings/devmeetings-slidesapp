@@ -6,6 +6,7 @@ define(['angular', 'xplatform/xplatform-app', '_', '../dm-xplatform-question-cre
             $scope.activeQuestion = $stateParams.slide;
             $scope.activeQuestionParent = $stateParams.parent;
         });
+
         dmQuestions.allQuestionsForEvent($stateParams.event, false).then(function (questions) {
             $scope.questions = questions;
         });

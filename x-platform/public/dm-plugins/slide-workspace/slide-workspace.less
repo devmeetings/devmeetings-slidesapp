@@ -5,6 +5,18 @@
   z-index: 10000;
   cursor: pointer;
 }
+
+.warning-editor {
+    -webkit-filter: sepia(0.9);
+    filter: sepia(0.9);
+}
+.warning-content {
+  .dm-editor {
+    .warning-editor;
+  }
+}
+
+
 .slide-workspace {
   position: relative;
 
@@ -59,8 +71,7 @@
   .editor-focusable {
     border: 1px solid #000;
     .dm-editor {
-      -webkit-filter: sepia(0.9);
-      filter: sepia(0.9);
+      .warning-editor;
     }
   }
 
@@ -74,6 +85,7 @@
       background-color: #00001a;
     }
   }
+
   .editor-container {
     margin: 10px;
   }
