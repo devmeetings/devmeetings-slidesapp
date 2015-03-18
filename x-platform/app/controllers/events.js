@@ -39,9 +39,10 @@ var Events = {
           $exists: true
         }
       }).select('event').lean(), 'exec').then(function(events){
-        res.send(events.map(function(e){
-          return e.event;
+        var eventsIds = _.unique(events.map(function(e) {
+          return e.event.toString();
         }));
+        res.send(eventsIds);
       }).fail(onError(res));
     },
 

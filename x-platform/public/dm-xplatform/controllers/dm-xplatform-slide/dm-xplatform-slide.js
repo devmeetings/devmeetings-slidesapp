@@ -4,8 +4,8 @@ define(['angular',
   'directives/plugins-loader',
   'xplatform/services/dm-slidesaves/dm-slidesaves'
 ], function(angular, _, xplatformApp) {
-  xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$state', '$stateParams', 'dmSlidesaves', 'dmEvents', 'dmBrowserTab',
-    function($scope, $q, $state, $stateParams, dmSlidesaves, dmEvents, dmBrowserTab) {
+  xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$state', '$stateParams', '$timeout', 'dmSlidesaves', 'dmEvents', 'dmBrowserTab',
+    function($scope, $q, $state, $stateParams, $timeout, dmSlidesaves, dmEvents, dmBrowserTab) {
       //
 
       dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
@@ -15,6 +15,12 @@ define(['angular',
 
       dmSlidesaves.getSaveType($state.params.slide).then(function(type) {
         $scope.slideWarningType = type;
+
+        if (type && type !== 'workspace') {
+          $scope.mode = 'player';
+        } else {
+          $scope.mode = '';
+        }
       });
 
       var sendWithDebounce = _.debounce(function(slide) {
@@ -26,12 +32,26 @@ define(['angular',
 
       $scope.state = dmEvents.getState($stateParams.event, 'save');
 
-      $scope.$watch('slide', function() {
+      $scope.mode = '';
+
+      $scope.$watch('slide', function(a, b) {
         if ($scope.slide) {
           sendWithDebounce($scope.slide);
           $scope.state.save = $scope.slide;
+          // Disable player mode (TODO: Timeout because this is not best method to determine if something should actually be disabled)
+          if (a === b) {
+            return;
+          }
+
+          $timeout(function(){
+            $scope.mode = '';
+          }, 3000);
         }
       }, true);
+
+      $scope.getMode = function() {
+        return 'player';
+      };
     }
   ]);
 });

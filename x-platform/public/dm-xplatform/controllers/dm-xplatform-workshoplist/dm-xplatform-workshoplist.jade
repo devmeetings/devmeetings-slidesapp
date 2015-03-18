@@ -21,7 +21,7 @@ mixin course()
   .col-md-12
     .dm-workshoplist-container
       .row(ng-if="my_courses.length")
-        .col-sm-4(ng-repeat="cours in my_courses | orderBy:['order', 'title']")
+        .col-sm-4(ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title']")
           +course
         .col-sm-12
           hr

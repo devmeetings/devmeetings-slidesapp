@@ -2,5 +2,5 @@
   ng-init='$root.modes.isTaskMode=true',
   ng-class="{'warning-content': !!slideWarningType && slideWarningType !== 'workspace' }"
 )
-    plugins-loader.full-height(namespace="'slide'", context="slide.slide")
+  plugins-loader.full-height(namespace="'slide'", context="slide.slide", mode="mode")
 

@@ -20,8 +20,9 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
           undoManager: '=',
           data: '=',
           name: '=',
+          editorMode: '=',
           triggerSave: '&',
-          triggerChangeLater: '&'
+          triggerChangeLater: '&',
         },
         templateUrl: '/static/dm-modules/dm-editor/dm-editor.html',
         link: function(scope, element) {
@@ -128,7 +129,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 return;
               }
 
-              if (scope.mode === 'player') {
+              if (scope.editorMode !== 'player') {
                 withoutSync(function() {
                   updateEditorContent(editor, scope.data);
                 });
@@ -138,12 +139,15 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
 
 
             scope.$watch('data.editor', function() {
-              if (scope.mode !== 'player') {
+              if (scope.editorMode !== 'player') {
                 return;
               }
-              withoutSync(function() {
-                updateEditorOptions(editor, scope.data);
-              });
+              // sometimes editor is not visible yet
+              $timeout(function(){
+                withoutSync(function() {
+                  updateEditorOptions(editor, scope.data);
+                });
+              }, 100);
             });
 
             scope.$watch('data', function() {
