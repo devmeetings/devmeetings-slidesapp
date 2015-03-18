@@ -19,4 +19,9 @@
     name: xplatform-mgmt
     enabled: yes 
 
+- name: Enabling Mgmt
+  lineinfile:
+    line: service xplatform-mgmt start
+    dest: /etc/rc.local
+    insertbefore: ^exit
 

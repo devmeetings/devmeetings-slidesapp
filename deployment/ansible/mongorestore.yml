@@ -1,5 +1,5 @@
 ---
-- hosts: root@192.168.10.1
+- hosts: root@xpla.org:2255
   tasks:
     - name: Fetching latest platform-box
       get_url: 

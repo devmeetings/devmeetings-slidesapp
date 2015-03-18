@@ -2,6 +2,7 @@ auto lo
 auto wlan0
 allow-hotplug wlan1
 allow-hotplug wlan2
+allow-hotplug wlan3
 
 
 iface lo inet loopback
@@ -14,7 +15,7 @@ iface wlan0 inet static
 	up iptables-restore < /etc/iptables.ipv4.nat
 	post-up service udhcpd start
 	post-up service hostapd start
-  post-up service nginx start
+	post-up service nginx start
 
 iface wlan1 inet manual
 	wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
@@ -22,6 +23,10 @@ iface wlan1 inet manual
 
 iface wlan2 inet manual
 	wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+iface wlan3 inet manual
+	wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
 
 
 iface wifi inet dhcp
