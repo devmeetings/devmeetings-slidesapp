@@ -29,7 +29,7 @@
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
             ng-style='{"width": right.current, "overflow": "visible"}',
-            ng-class="{'pinned': right.pinned}",
+            ng-class="{'pinned': right.pinned, 'opened': right.opened}",
             analytics-category='spacesidebar',
             analytics-on='mouse-enter',
             ng-mouseleave='right.pinned || toggleRight(false)'
@@ -51,6 +51,9 @@
                   analytics-category='menu',
                   analytics-on='click', analytics-event='navbar.logo')
                   img(src="static/images/xplatform-icon-trans.svg", width="20", height="20")
+
+            .separator
+            ul.nav.nav-tabs.pull-left
               li(tooltip="Your code", tooltip-placement="left")
                 a.btn.btn-block.workspace-btn(
                   ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
@@ -105,7 +108,7 @@
                        span.fa.fa-newspaper-o
                    .col-xs-12.full-height
                        .row.full-height(ui-view='first')
-
+                .separator
                 tab.cursor-pointer(
                     analytics-category='spacesidebar',
                     analytics-on='click', analytics-event='spacesidebar.user',
@@ -116,7 +119,7 @@
                       tooltip='{{ user.result.name }}', 
                       tooltip-placement='left')
                         img(
-                          ng-src='{{user.result.avatar | dmGravatar:16}}')
+                          ng-src='{{user.result.avatar | dmGravatar:24}}')
 
                     .full-height.text-center
                       br
