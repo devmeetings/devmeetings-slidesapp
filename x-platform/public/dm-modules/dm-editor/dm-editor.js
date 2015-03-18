@@ -129,7 +129,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 return;
               }
 
-              if (scope.editorMode !== 'player') {
+              if (scope.editorMode === 'player') {
                 withoutSync(function() {
                   updateEditorContent(editor, scope.data);
                 });
