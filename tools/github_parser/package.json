@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "js-yaml": "^3.2.7"
+    "adm-zip": "^0.4.7",
+    "js-yaml": "^3.2.7",
+    "octonode": "^0.6.16",
+    "prompt": "^0.2.14",
+    "temp": "^0.8.1"
   }
 }

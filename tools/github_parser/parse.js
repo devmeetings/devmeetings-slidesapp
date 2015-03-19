@@ -27,6 +27,7 @@ var WorkspaceType = new yaml.Type('!workspace', {
 
     var hasIndex = files.indexOf('index.html') !== -1;
     var tabs = files.reduce(function(memo, file) {
+
       var key = getKeyFromFileName(file);
       var content = fs.readFileSync(path.join(d.path, file), 'utf8');
       memo[key] = {
@@ -46,6 +47,7 @@ var WorkspaceType = new yaml.Type('!workspace', {
     };
   }
 });
+
 var IncludeType = new yaml.Type('!include', {
   kind: 'scalar',
 
@@ -103,6 +105,11 @@ function parseFile(dirname, filePath) {
   });
   currentDirectory.pop();
   return loaded;
+}
+
+if (require.main !== module) {
+  module.exports = parseFile;
+  return;
 }
 
 if (process.argv.length < 3) {
