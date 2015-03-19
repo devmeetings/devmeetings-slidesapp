@@ -11,17 +11,22 @@ var fs = require('fs'),
 var currentDirectory = [];
 
 var WorkspaceType = new yaml.Type('!workspace', {
-  kind: 'scalar',
+  kind: 'mapping',
   resolve: function(dirName) {
     if (!dirName) {
       return;
     }
-    var d = getDirAndFileName(dirName);
+    if (!dirName.path) {
+      return;
+    }
+
+    var d = getDirAndFileName(dirName.path);
 
     return fs.statSync(d.path).isDirectory;
   },
 
-  construct: function(fileName) {
+  construct: function(workspace) {
+    var fileName = workspace.path;
     var d = getDirAndFileName(fileName);
     var files = fs.readdirSync(d.path);
 
@@ -34,13 +39,15 @@ var WorkspaceType = new yaml.Type('!workspace', {
         content: content
       };
       return memo;
-      
+
     }, {});
 
     return {
       content: {
+        name: workspace.name,
         workspace: {
           active: hasIndex ? 'index|html' : Object.keys(tabs)[0],
+          size: 'xxl',
           tabs: tabs
         }
       }
@@ -100,7 +107,7 @@ function getKeyFromFileName(fileName) {
 function parseFile(dirname, filePath) {
   currentDirectory.push(dirname);
   var content = fs.readFileSync(path.join(dirname, filePath), 'utf8');
-  var loaded = yaml.load(content, {
+  var loaded = yaml.safeLoad(content, {
     schema: EventType
   });
   currentDirectory.pop();

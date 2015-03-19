@@ -13,7 +13,9 @@ temp.track();
 
 var parse = require('./parse');
 
-function fetchAndParse(file, wd, cb) {
+function fetchAndParse(file, cb) {
+  'use strict';
+
   temp.mkdir('fetch', function(err, dirPath) {
     var tmpFile = path.join(dirPath, 'tmp.zip');
     var fileStream = fs.createWriteStream(tmpFile);
@@ -24,16 +26,19 @@ function fetchAndParse(file, wd, cb) {
 
       stream.pipe(fileStream).on('error', function() {
 
-        return cb("Problem writing to tmp stream: " + tmpFile, null);
+        return cb('Problem writing to tmp stream: ' + tmpFile, null);
 
       }).on('finish', function() {
 
-          var zip = new AdmZip(tmpFile);
-          // Extract
-          zip.extractAllTo(dirPath);
-          // And Parse
+        var zip = new AdmZip(tmpFile);
+        // Extract
+        zip.extractAllTo(dirPath);
+        // And Parse
+        try {
           return cb(null, parse(dirPath, 'event.yml'));
-
+        } catch (e) {
+          return cb(e, null);
+        }
       });
 
     }).on('error', function(err) {
@@ -43,22 +48,24 @@ function fetchAndParse(file, wd, cb) {
 }
 
 
-if (require.main === module) {
-
-  if (process.argv.length < 3) {
-    console.error("provide url with zip file");
-    process.exit(-1);
-  }
-
-  var file = process.argv[2];
-
-  fetchAndParse(file, __dirname, function(err, data) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(data);
-    }
-  });
-} else {
+if (require.main !== module) {
   exports.fetchAndParse = fetchAndParse;
+  return;
 }
+
+if (process.argv.length < 3) {
+  console.error('provide url with zip file');
+  process.exit(-1);
+}
+
+var file = process.argv[2];
+
+fetchAndParse(file, function(err, data) {
+  'use strict';
+
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(data);
+  }
+});

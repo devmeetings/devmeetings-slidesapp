@@ -7,6 +7,7 @@ var Event = new Schema({
     type: String,
     unique: true
   },
+  removed: Boolean,
   image: String,
   order: Number,
   description: String,

@@ -97,6 +97,8 @@ module.exports = function(app) {
     app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.annotationCreate);
     app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);
 
+    var fetchEvent = require('../app/controllers/fetchEvent');
+    app.post('/api/events', apiAuthenticated, authorized('admin:events'), fetchEvent.createEventFromZip);
 
     var slidesaves = require('../app/controllers/slidesaves');
     app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
