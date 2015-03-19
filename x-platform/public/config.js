@@ -43,6 +43,7 @@ require.config({
         "lib/beautify-html": "../components/js-beautify/js/lib/beautify-html",
         "lib/file-saver":  "../components/FileSaver/FileSaver",
         "lib/favicojs": "../components/favico.js/favico",
+        "lib/introjs": "../components/intro.js/intro",
 
         // Angular
         "angular": "../components/angular/angular",
@@ -98,6 +99,9 @@ require.config({
         },
         "lz-string": {
             "exports": "LZString"
+        },
+        "lib/introjs": {
+            "exports": "introJs"
         },
 
         // Angular

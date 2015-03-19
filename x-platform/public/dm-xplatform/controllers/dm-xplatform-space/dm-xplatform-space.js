@@ -4,6 +4,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/services/dm-questions/dm-questions',
   'xplatform/directives/dm-iframe/dm-iframe',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
+  'xplatform/directives/dm-intro/dm-intro',
   'xplatform/filters/liveLinkUrl',
 ], function(angular, xplatformApp, _) {
   xplatformApp.controller('dmXplatformSpace', ['$scope', '$rootScope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen', 'dmBrowserTab',
