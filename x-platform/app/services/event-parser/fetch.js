@@ -15,6 +15,8 @@ var parse = require('./parse');
 
 function fetchAndParse(file, cb) {
   'use strict';
+  
+  var idsCache = {};
 
   temp.mkdir('fetch', function(err, dirPath) {
     var tmpFile = path.join(dirPath, 'tmp.zip');
