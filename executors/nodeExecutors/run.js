@@ -14,6 +14,7 @@ var path = require('path'),
   fs = require('fs'),
   Q = require('q'),
   vm = require('vm'),
+  mkdirp = Q.denodeify(require('mkdirp')),
   requireLike = require('require-like');
 
 temp.track();
@@ -35,7 +36,16 @@ function run(obj, env, consoleMock, cb) {
 
       var content = files[file];
       var filename = path.join(dir, file);
-      return Q.ninvoke(fs, 'writeFile', filename, content);
+      
+      var currentDir = path.dirname(filename);
+      var promise = Q.when();
+      if (currentDir !== dir) {
+        promise = mkdirp(currentDir);
+      }
+
+      return promise.then(function(){
+        return Q.ninvoke(fs, 'writeFile', filename, content);
+      });
 
     })).then(function() {
 

@@ -30,6 +30,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                             scope.stacktrace = data.stacktrace;
                         });
 
+                        sliderPlugins.trigger('slide.serverRunner.result', data);
+
                         if (data.success) {
                             sliderPlugins.trigger('slide.jsonOutput.display', data.result);
                         } else {
@@ -50,7 +52,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
                     }, EXECUTION_DELAY));
 
-                    sliderPlugins.listen(scope, 'slide.slide-workspace.change', _.debounce(function(workspace) {
+                    sliderPlugins.listen(scope, 'slide.slide-workspace.run', _.debounce(function(workspace) {
                       var files = Object.keys(workspace.tabs).reduce(function(memo, fileName) {
                         var content = workspace.tabs[fileName].content;
                         var toName = '/' + fileName.replace('|', '.');

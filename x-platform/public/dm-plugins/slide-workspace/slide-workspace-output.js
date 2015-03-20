@@ -4,64 +4,99 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   var path = sliderPlugins.extractPath(module);
 
   var lastTimestamp = 0;
-  var refreshOutput = _.throttle(function($rootScope, scope, contentUrl) {
+  var refreshOutput = _.throttle(function($rootScope, scope, contentData, force) {
 
-    if (lastTimestamp > contentUrl.timestamp) {
+    if (lastTimestamp > contentData.timestamp) {
       return;
     }
-    lastTimestamp = contentUrl.timestamp;
+    lastTimestamp = contentData.timestamp;
 
     scope.$apply(function() {
       scope.isWaiting = false;
-      scope.output.hash = contentUrl.hash;
+      scope.output.hash = contentData.hash;
+      scope.output.newUrl = contentData.url;
 
-      if ($rootScope.performance.indexOf('workspace_output_noauto') > -1) {
+      if (!force && $rootScope.performance.indexOf('workspace_output_noauto') > -1) {
+        scope.requiresRefresh = true;
         return;
       }
-
-      scope.contentUrl = contentUrl.hash;
+      doReloadOutput(scope);
     });
   }, 800, {
     trailing: true,
     leading: false
   });
 
-
+  function doReloadOutput(scope) {
+      if( scope.slide.serverRunner === 'expressjs') {
+        sliderPlugins.trigger('slide.slide-workspace.run', scope.workspace);
+      } else {
+        scope.requiresRefresh = false;
+        scope.contentUrl = scope.output.newUrl;
+      }
+  }
 
   sliderPlugins.directive('slideWorkspaceOutput', [
-    '$timeout', '$window', '$rootScope', 'Sockets',
-    function($timeout, $window, $rootScope, Sockets) {
+    '$timeout', '$window', '$rootScope', '$location', 'Sockets',
+    function($timeout, $window, $rootScope, $location, Sockets) {
       return {
         restrict: 'E',
         templateUrl: path + '/slide-workspace-output.html',
         link: function(scope, element) {
 
-          sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
-            scope.isWaiting = true;
-            Sockets.emit('slide.slide-workspace.change', {
-                timestamp: new Date().getTime(),
-                workspace: workspace
-            }, function(contentUrl) {
-              refreshOutput($rootScope, scope, contentUrl);
+          if (scope.slide.serverRunner === 'expressjs') {
+
+            sliderPlugins.listen(scope, 'slide.serverRunner.result', function(result) {
+              var port = result.port;
+              scope.requiresRefresh = false;
+              scope.output.newUrl = '//' + $location.host() + ':' + port;
+              scope.contentUrl = scope.output.newUrl;
+              scope.refreshIframe(scope.contentUrl);
             });
-          });
+
+            sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+              if ($rootScope.performance.indexOf('workspace_output_noauto') > -1) {
+                scope.requiresRefresh = true;
+              } else {
+                doReloadOutput(scope);
+              }
+            });
+          } else {
+            sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+              scope.isWaiting = true;
+              Sockets.emit('slide.slide-workspace.change', {
+                  timestamp: new Date().getTime(),
+                  workspace: workspace
+              }, function(contentData) {
+                contentData.url = '/api/page/' + contentData.hash + '/';
+                refreshOutput($rootScope, scope, contentData);
+              });
+            });
+          }
 
           var currentFrame = 0;
           var $iframes = element.find('iframe');
-          scope.$watch('contentUrl', function(hash) {
-            if (!hash || hash === 'waiting') {
+          scope.refreshIframe = function(contentUrl) {
+            if (!contentUrl || contentUrl === 'waiting') {
               return;
             }
+
             if (scope.workspace.singleOutput) {
               currentFrame = 0;
             }
-            $iframes[currentFrame].src = '/api/page/' + hash + "/";
+            
+            var src = $iframes[currentFrame].src;
+            $iframes[currentFrame].src = contentUrl;
+            if (src === contentUrl) {
+              $iframes[currentFrame].contentWindow.location.reload(true);
+            }
             // Swap frames on load
             angular.element($iframes[currentFrame]).one('load', swapFramesLater);
-          });
+          };
+          scope.$watch('contentUrl', scope.refreshIframe);
 
           scope.updateContentUrl= function() {
-            scope.contentUrl = scope.output.hash;
+            doReloadOutput(scope);
           };
 
           var swapFramesLater = _.throttle(function() {

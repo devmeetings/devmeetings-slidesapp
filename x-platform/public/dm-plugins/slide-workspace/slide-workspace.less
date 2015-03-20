@@ -277,6 +277,27 @@
   position: relative;
   display: block;
   transform-origin: top left;
+
+  &.with-address {
+    height: ~"calc(100% - 34px)";
+  }
+}
+
+.workspace-address {
+  height: 34px;
+  border-bottom: 1px solid #000;
+  box-shadow: 0 0 2px #ddd;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+
+  .form-control, button {
+    border-radius: 0;
+    height: 34px;
+    box-sizing: border-box;
+    background-color: #ccc;
+    border: none;
+  }
 }
 
 .iframe-fiddle-output {
@@ -304,7 +325,7 @@
   }
 
   &.frame-background {
-    background: #777;
+    background: #eee;
   }
 }
 

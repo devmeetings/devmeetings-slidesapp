@@ -41,7 +41,7 @@ connection.then(function(conn) {
                     workers[msg.client].worker.destroy();
                 }
 
-                console.log("  Forking new worker", msg);
+                console.log("  Forking new worker");
                 var worker = cluster.fork();
                 workers[msg.client] = {
                     port: port,
@@ -60,7 +60,7 @@ connection.then(function(conn) {
                     }
                     thing.port = port;
                     
-                    console.log("Replying", thing, msg2.properties.correlationId);
+                    console.log("Replying", thing, "with correlationId", msg2.properties.correlationId);
                     ch.sendToQueue(msg2.properties.replyTo, 
                         new Buffer(JSON.stringify(thing)), {
                         correlationId: msg2.properties.correlationId
@@ -84,7 +84,7 @@ connection.then(function(conn) {
                 worker.send({
                     msg: msg,
                     env: {
-                      port: port
+                      PORT: port
                     }
                 }); //Send the code to run for the worker
             });

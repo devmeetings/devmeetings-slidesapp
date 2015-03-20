@@ -176,7 +176,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             };
 
             scope.tabsOrdering = function(tab) {
-              return getExtension(tab);
+              var tabNameParts = tab.split('/');
+              var file = tabNameParts.pop();
+              var dir = tabNameParts.join('/');
+
+              return dir + '/' + getExtension(file);
             };
 
             scope.toFileName = function(tab) {
