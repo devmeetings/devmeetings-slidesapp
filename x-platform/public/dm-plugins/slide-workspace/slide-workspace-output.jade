@@ -1,4 +1,19 @@
 mixin workspaceOutputs()
+  .form-group.workspace-address(
+      ng-show="workspace.showUrl || output.showUrl"
+    )
+      .input-group
+        input.form-control(
+            type="text", 
+            ng-model="contentUrl",
+            ng-model-options="{updateOn: 'change'}"
+          )
+        .input-group-btn
+          button.btn(
+            ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",
+            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(contentUrl)"
+            )
+            span.fa.fa-refresh
   .slide-workspace-outputs.full-height(
       ng-class="{'with-address': workspace.showUrl || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
     iframe.iframe-fiddle-output.scrollable-container(
@@ -16,22 +31,6 @@ mixin workspaceOutputs()
     span.fa.fa-expand(ng-hide="outputDialog")
     span.fa.fa-compress(ng-show="outputDialog")
 
-  .form-group.workspace-address(
-      ng-show="workspace.showUrl || output.showUrl"
-    )
-      .input-group
-        input.form-control(
-            type="text", 
-            ng-model="contentUrl",
-            ng-model-options="{updateOn: 'change'}"
-          )
-        .input-group-btn
-          button.btn(
-            ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",
-            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(contentUrl)"
-            )
-            span.fa.fa-refresh
-
   .loading-spinner(ng-if="isWaiting")
     span.fa.fa-spin.fa-spinner.fa-3x
   .refresh-button(
@@ -43,5 +42,14 @@ mixin workspaceOutputs()
       ng-show="requiresRefresh")
       span.fa.fa-refresh.fa-2x
 
-  +workspaceOutputs 
+  .full-height(ng-if="slide.serverRunner !== 'expressjs'")
+    +workspaceOutputs 
+  .full-height(ng-if="slide.serverRunner === 'expressjs'")
+    .sw-row(ng-style="{height: output.topSizeFrame}")
+      .overlay(ng-if="output.dragActive")
+      +workspaceOutputs 
+    sw-splitter(left="output.topSizeFrame", right="output.bottomSizeFrame", drag-active="output.dragActive", is-row="true")
+    .sw-row(ng-style="{height: output.bottomSizeFrame}")
+      slide-jsonoutput.full-size(data="true", context="slide")
+
 
