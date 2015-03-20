@@ -1,79 +1,110 @@
-var requireWhitelist = [
-  'express', 'http', 'path', 'vm', 'cors',
-  'crypto', 'net', 'https', 'util', 'url', 'zlib', 'tty',
-  'socket.io', 'connect', 'concat-stream', 'websocket', 'npmlog', 'semver',
-  'events', 'stream', 'domain', 'fs', 'edge'
-];
+var builtInModules = require('./modules/builtin.json');
+var requireWhitelist = require('./modules/readModules');
+var safeGlobals = require('./modules/globals');
 
 
-var SandboxedModule = require('sandboxed-module'),
-  path = require('path');
+var safeRequires = [].concat(requireWhitelist).concat(builtInModules).reduce(function(memo, mod) {
+  memo[mod] = true;
+  return memo;
+}, {});
 
-function run(obj, env, consoleMock) {
+
+var path = require('path'),
+  temp = require('temp'),
+  fs = require('fs'),
+  Q = require('q'),
+  vm = require('vm'),
+  requireLike = require('require-like');
+
+temp.track();
+
+function run(obj, env, consoleMock, cb) {
+
   var files = obj.files || {
     '/index.js': obj.code
   };
-  
-  var options = {
-    requires: {
-      fs: {
-        readFileSync: function(name) {
-          return files[name];
-        }
-      }
-    },
-    globals: {
-      console: consoleMock,
-      process: {
-        env: env,
-        cwd: function() {
-          return '/';
-        }
-      }
-    },
+  var indexFile = '/index.js';
 
-    locals: {
-      __dirname: '/',
-      __filename: 'index.js',
-    },
-
-    readFileSync: function(name) {
-      if (name.indexOf('node_modules') !== -1) {
-        return require('fs').readFileSync(name, 'utf8');
-      }
-      return readFile(files, name);
-    },
-
-    requireLikeResolve: function(origin, name) {
-      if (origin.indexOf('node_modules') !== -1) {
-        return require('require-like')(origin).resolve(name);
-      }
-      if (name.indexOf('/') === 0) {
-        return name;
-      }
-      if (name.indexOf('.') === 0) {
-        var dir = path.dirname(origin);
-        return path.join(dir, name + '.js');
-      }
-      return require('require-like')(origin).resolve(name);
-    },
-
-    requireLike: function(origin, name) {
-      return require('require-like')(origin)(name); 
-    }
-  };
-
-  SandboxedModule.require('./index', options);
-
-}
-
-function readFile(files, name) {
-  name = name.replace(__dirname, '');
-
-  if (!files[name]) {
-    throw new Error('File not found: ' + name);
+  if (!files[indexFile]) {
+    throw new Error('Missing ' + indexFile);
   }
-  return files[name];
+
+  Q.ninvoke(temp, 'mkdir', 'node_runner').then(function(dir) {
+
+    return Q.all(Object.keys(files).map(function(file) {
+
+      var content = files[file];
+      var filename = path.join(dir, file);
+      return Q.ninvoke(fs, 'writeFile', filename, content);
+
+    })).then(function() {
+
+      return dir;
+
+    });
+
+  }).then(function(dir) {
+
+    fs.symlinkSync(
+      path.join(__dirname, 'modules', 'node_modules'),
+      path.join(dir, 'node_modules')
+    );
+
+    process.chdir(dir);
+
+    // [ToDr] We need to provide a filename to make sure it works
+    var requireInPath = requireLike(path.join(dir, 'index.js'));
+    var globals = prepareGlobals(indexFile);
+    var sandbox = vm.createContext(globals);
+
+    function prepareGlobals(fileName) {
+      var mod = {
+        exports: {}
+      };
+      var globals = safeGlobals();
+      globals.console = consoleMock;
+      globals.require = requireMock;
+      globals.module = mod;
+      globals.exports = mod.exports;
+      globals.process = {
+        env: env
+      };
+      globals.__filename = fileName.replace('/', '');
+      globals.__dirname = dir;
+
+      return globals;
+    }
+
+    function requireMock(mod) {
+      var file = requireInPath.resolve(mod).replace(dir, '');
+      var isSafeModule = !!safeRequires[mod];
+      var isFile = !!files[file];
+
+      if (!isSafeModule && !isFile) {
+        throw Error('Unknown / Not allowed module: ' + mod);
+      }
+
+      if (isFile) {
+        var prev = globals.__filename;
+        globals.__filename = file.replace('/', '');
+        var ret = vm.runInContext(files[file], sandbox);
+        globals.__filename = prev;
+        return ret;
+      }
+  
+      return requireInPath(mod);
+    }
+
+   
+    // Invoke index.js file
+    return vm.runInContext(files[indexFile], sandbox);
+
+  }).done(function(data) {
+    cb(null, data);
+  }, function(err) {
+    cb(err);
+  });
+
 }
 
 module.exports = run;

@@ -13,7 +13,7 @@ describe('Runner', function() {
 
   describe("Runninng simple code", function(){
 
-    it("should run simple code", function() {
+    it("should run simple code", function(done) {
 
       // given
       var x, obj = {
@@ -25,14 +25,18 @@ describe('Runner', function() {
         log: function(arg) {
           x = arg;
         }
-      });
+      }, function(err) {
 
-      // then
-      expect(x).to.equal('hello');
+        // then
+        expect(err).to.equal(null);
+        expect(x).to.equal('hello');
+        done();
+
+      });
 
     });
 
-    it('should run code and load core module', function(){
+    it('should run code and load core module', function(done){
 
       // given
       var x, obj = {
@@ -44,14 +48,18 @@ describe('Runner', function() {
         log: function(arg) {
           x = arg;
         }
-      });
+      }, function(err) {
 
-      // then
-      expect(x).to.equal('hello');
+        // then
+        expect(err).to.equal(null);
+        expect(x).to.equal('hello');
+        done();
+
+      });
 
     });
 
-    it('should display filename & dirname', function(){
+    it('should display filename & dirname', function(done){
 
       // given
       var f, d, obj = {
@@ -64,11 +72,16 @@ describe('Runner', function() {
           f = arg;
           d = arg2;
         }
-      });
+      }, function(err) {
 
-      // then
-      expect(f).to.equal('index.js');
-      expect(d).to.equal('/');
+        // then
+        expect(err).to.equal(null);
+        expect(f).to.equal('index.js');
+        // TODO [ToDr] In perfect chroot it should be just /
+        //expect(d).to.equal('/');
+        done();
+
+      });
 
     });
 
@@ -76,7 +89,7 @@ describe('Runner', function() {
 
   describe('Running code with files', function() {
 
-    it('should run index.js file', function() {
+    it('should run index.js file', function(done) {
 
       // given
       var x, obj = {
@@ -90,15 +103,19 @@ describe('Runner', function() {
         log: function(arg) {
           x = arg;
         }
-      });
+      }, function(err) {
 
-      // then
-      expect(x).to.equal('hello');
+        // then
+        expect(err).to.equal(null);
+        expect(x).to.equal('hello');
+        done();
+
+      });
 
     });
 
 
-    it('should allow to include other file', function() {
+    it('should allow to include other file', function(done) {
 
       // given
       var x, obj = {
@@ -113,14 +130,18 @@ describe('Runner', function() {
         log: function(arg) {
           x = arg;
         }
-      });
+      }, function(err) {
 
-      // then
-      expect(x).to.equal('hello');
+        // then
+        expect(err).to.equal(null);
+        expect(x).to.equal('hello');
+        done();
+
+      });
 
     });
 
-    it('should allow to include other file with nested require to inner module', function() {
+    it('should allow to include other file with nested require to inner module', function(done) {
 
       // given
       var x, obj = {
@@ -136,16 +157,20 @@ describe('Runner', function() {
         log: function(arg) {
           x = arg;
         }
-      });
+      }, function(err) {
 
-      // then
-      expect(x).to.equal('hello');
+        // then
+        expect(err).to.equal(null);
+        expect(x).to.equal('hello');
+        done();
+
+      });
 
     });
 
   });
 
-  it('should allow to include big library', function() {
+  it('should allow to include big library', function(done) {
 
     // given
     var x, obj = {
@@ -159,14 +184,17 @@ describe('Runner', function() {
       log: function(arg) {
         x = arg;
       }
+    }, function(err) {
+
+      // then
+      expect(err).to.equal(null);
+      expect(x).to.equal('hello');
+      done();
+
     });
-
-    // then
-    expect(x).to.equal('hello');
-
   });
 
-  it('should start express server', function(){
+  it('should start express server', function(done) {
     // given
     var x, obj = {
       files: {
@@ -179,10 +207,14 @@ describe('Runner', function() {
       log: function(arg) {
         x = arg;
       }
-    });
+    }, function(err) {
 
-    // then
-    expect(x).to.equal('hello');
+      // then
+      expect(err).to.equal(null);
+      expect(x).to.equal('hello');
+      done();
+
+    });
   });
 
 });
