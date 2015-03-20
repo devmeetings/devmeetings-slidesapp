@@ -1,0 +1,16 @@
+{
+  "name": "nodeExecutorsCommon",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "mocha",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "sandboxed-module": "https://github.com/tomusdrw/node-sandboxed-module.git"
+  },
+  "devDependencies": {
+    "chai": "^2.1.2",
+    "mocha": "^2.2.1"
+  }
+}

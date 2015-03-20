@@ -1,4 +1,4 @@
-var requireWhitelist = ['fs', 'http', 'os', 'path', 'crypto', 'net', 'https', 'util', 'url', 'zlib', 'tty', 'edge'];
+var common = require('../nodeExecutorsCommon');
 
 process.on("uncaughtException", function(e) {
     process.send({
@@ -13,26 +13,16 @@ process.on("uncaughtException", function(e) {
 process.on('message', function(msg) {
     var obj = JSON.parse(msg);
 
-    var vm = require("vm");
+    var consoleMock = common.consoleMock();
 
-    var output = [];
-    vm.runInNewContext(obj.code, {
-        console: {
-            log: function() {
-                var args = [].slice.call(arguments);
-                output.push(args);
-                console.log.apply(console, args);
-            }
-        },
-        require: function(module) {
-            if (requireWhitelist.indexOf(module) === -1) {
-                throw Error("Unknown module " + module);
-            }
-            return require(module);
-        }
-    });
+    common.run(
+      obj,
+      {},
+      consoleMock.console
+    );
+
     process.send({
         success: true,
-        result: output
+        result: consoleMock.output
     }); //Send the finished message to the parent process
 });
