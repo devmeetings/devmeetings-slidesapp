@@ -1,3 +1,12 @@
+mixin workspaceOutputs()
+  .slide-workspace-outputs.full-height(
+      ng-class="{'with-address': workspace.showUrl || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
+    iframe.iframe-fiddle-output.scrollable-container(
+      ng-class="{'frame-background': workspace.withBackground}")
+    iframe.iframe-fiddle-output.scrollable-container(
+        ng-show="!workspace.singleOutput && $root.performance.indexOf('workspace_output_noanim') === -1",
+        ng-class="{'frame-background': workspace.withBackground}")
+
 .full-height.slide-workspace-output2(
     ng-animate,
     ng-class="{'slide-workspace-output-dialog' : outputDialog}"
@@ -17,21 +26,22 @@
             ng-model-options="{updateOn: 'change'}"
           )
         .input-group-btn
-          button.btn.btn-default(ng-click="refreshIframe(contentUrl)")
+          button.btn(
+            ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",
+            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(contentUrl)"
+            )
             span.fa.fa-refresh
 
   .loading-spinner(ng-if="isWaiting")
     span.fa.fa-spin.fa-spinner.fa-3x
-  .refresh-button(ng-if="$root.performance.indexOf('workspace_output_noauto') !== -1")
+  .refresh-button(
+        ng-hide="workspace.showUrl || output.showUrl",
+        ng-if="$root.performance.indexOf('workspace_output_noauto') !== -1"
+      )
     button.btn.btn-xs.btn-success(
       ng-click="updateContentUrl()", 
       ng-show="requiresRefresh")
       span.fa.fa-refresh.fa-2x
 
-  .slide-workspace-outputs.full-height(
-      ng-class="{'with-address': workspace.showUrl || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
-    iframe.iframe-fiddle-output.scrollable-container(
-      ng-class="{'frame-background': workspace.withBackground}")
-    iframe.iframe-fiddle-output.scrollable-container(
-        ng-show="!workspace.singleOutput && $root.performance.indexOf('workspace_output_noanim') === -1",
-        ng-class="{'frame-background': workspace.withBackground}")
+  +workspaceOutputs 
+
