@@ -82,7 +82,7 @@ module.exports = {
         },
         "nodeExecutor": {
             "name": "nodeExecutor",
-            "path": xplatformDir + "executors/nodeExecutor",
+            "path": xplatformDir + "executors/nodeExecutors/runner_node",
             "options": {
                 "startFile": "app.js",
                 "logName": "exec-node.log",
@@ -96,7 +96,7 @@ module.exports = {
         },
         "expressExecutor": {
             "name": "expressExecutor",
-            "path": xplatformDir + "executors/expressExecutor",
+            "path": xplatformDir + "executors/nodeExecutors/runner_express",
             "options": {
                 "startFile": "app.js",
                 "logName": "exec-express.log",
