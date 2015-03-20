@@ -93,7 +93,6 @@ exports.onSocket = function(log, socket, io) {
 
     socket.on('serverRunner.code.run', function(data) {
 
-        console.log(data);
         Workers.send('exec_' + data.runner, data, function(response) {
             socket.emit('serverRunner.code.result', response);
         });

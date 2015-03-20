@@ -42,12 +42,30 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         var code = codeEditor.getValue();
 
                         sliderPlugins.trigger('slide.serverRunner.code.run');
+                        sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
                         Sockets.emit('serverRunner.code.run', {
                             runner: scope.runner,
                             code: code
                         });
 
                     }, EXECUTION_DELAY));
+
+                    sliderPlugins.listen(scope, 'slide.slide-workspace.change', _.debounce(function(workspace) {
+                      var files = Object.keys(workspace.tabs).reduce(function(memo, fileName) {
+                        var content = workspace.tabs[fileName].content;
+                        var toName = '/' + fileName.replace('|', '.');
+
+                        memo[toName] = content;
+
+                        return memo;
+                      }, {});
+
+                      sliderPlugins.trigger('slide.serverRunner.code.run');
+                      Sockets.emit('serverRunner.code.run', {
+                        runner: scope.runner,
+                        files: files
+                      });
+                    }));
                 }
             };
         }
