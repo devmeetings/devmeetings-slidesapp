@@ -2,17 +2,17 @@
 
 var Queue = 'exec_expressjs';
 
-console.log("Connecting to RabbitMQ");
+console.log('Connecting to RabbitMQ');
 
 
 var cluster = require('cluster');
 var amqp = require('amqplib');
-var host = process.env.RABBITMQ_HOST || "localhost";
+var host = process.env.RABBITMQ_HOST || 'localhost';
 
 var connection = amqp.connect('amqp://' + host);
 
 cluster.setupMaster({
-    exec: "runner.js",
+    exec: 'express_runner.js',
     silent: false
 });
 cluster.on('exit', function(worker, code, signal) {

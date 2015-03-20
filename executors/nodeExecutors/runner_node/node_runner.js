@@ -1,4 +1,4 @@
-var common = require('../nodeExecutorsCommon');
+var common = require('../index');
 
 process.on("uncaughtException", function(e) {
     process.send({

@@ -15,9 +15,9 @@ RUN apt-get install npm -y
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Configure executors
-ADD . /nodeExecutor
-RUN cd /nodeExecutor; npm install
+ADD .. /nodeExecutors
+RUN cd /nodeExecutors; npm install
 
-WORKDIR /nodeExecutor
+WORKDIR /nodeExecutors/runner_express
 # Run the whole stuff
-CMD ["npm", "start"]
+CMD ["node", "app"]

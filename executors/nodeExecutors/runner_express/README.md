@@ -3,4 +3,4 @@ Express.js executor
 
 `npm install`
 
-`npm start`
+`npm run-script express`

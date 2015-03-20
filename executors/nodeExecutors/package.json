@@ -5,9 +5,12 @@
   "scripts": {
     "test": "mocha",
     "start": "node app.js",
-    "postinstall": "cd modules; npm install"
+    "postinstall": "cd modules; npm install",
+    "node": "cd runner_node; node app",
+    "express": "cd runner_express; node app"
   },
   "dependencies": {
+    "amqplib": "^0.3.1",
     "q": "^1.2.0",
     "require-like": "^0.1.2",
     "temp": "^0.8.1"
