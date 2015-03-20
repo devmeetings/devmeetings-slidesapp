@@ -3,17 +3,17 @@ mixin workspaceOutputs()
       ng-show="workspace.showUrl || output.showUrl"
     )
       .input-group
-        input.form-control(
-            type="text", 
-            ng-model="contentUrl",
-            ng-model-options="{updateOn: 'change'}"
-          )
         .input-group-btn
           button.btn(
             ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",
             ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(contentUrl)"
             )
             span.fa.fa-refresh
+        input.form-control(
+            type="text", 
+            ng-model="contentUrl",
+            ng-model-options="{updateOn: 'change'}"
+          )
   .slide-workspace-outputs.full-height(
       ng-class="{'with-address': workspace.showUrl || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
     iframe.iframe-fiddle-output.scrollable-container(
