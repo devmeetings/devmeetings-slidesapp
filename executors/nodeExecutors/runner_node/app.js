@@ -12,7 +12,7 @@ var host = process.env.RABBITMQ_HOST || "localhost";
 var connection = amqp.connect('amqp://' + host);
 
 cluster.setupMaster({
-    exec: "node_runner.js",
+    exec: "../proc_runner.js",
     silent: false
 });
 
@@ -49,7 +49,6 @@ connection.then(function(conn) {
                     clearTimeout(timer); //The worker responded in under 5 seconds, clear the timeout
                     // prepare reply
                     reply(rep);
-                    worker.destroy(); //Don't leave him hanging 
                 });
                 worker.on("exit", function() {
                     clearTimeout(timer); //The worker responded in under 5 seconds, clear the timeout
@@ -71,7 +70,10 @@ connection.then(function(conn) {
                     console.log("  worker timed out");
                     worker.destroy(); //Give it 5 seconds to run, then abort it
                 }, 5000);
-                worker.send(msg.content.toString()); //Send the code to run for the worker
+                worker.send({
+                  msg: JSON.parse(msg.content),
+                  env: {}
+                }); //Send the code to run for the worker
             });
         });
     });

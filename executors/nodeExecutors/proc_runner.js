@@ -1,11 +1,15 @@
-var common = require('../index');
+var common = require('./index');
 
-process.on("uncaughtException", function(e) {
+function sendError(e) {
   process.send({
     success: false,
     errors: [e.toString()],
     stacktrace: e.stack.split("\n")
   });
+}
+
+process.on("uncaughtException", function(e) {
+  sendError(e);
   process.exit(-1);
 });
 
@@ -22,14 +26,21 @@ process.on('message', function(msg) {
     });
   };
 
-  var env = {
-    PORT: msg.port
-  };
+  var env = msg.env;
 
   common.run(
     obj,
     env,
-    consoleMock.console
+    consoleMock.console,
+    function(err) {
+
+      if (err) {
+        sendError(err);     
+        return;
+      }
+
+      consoleMock.onMessage();
+    }
   );
 
 });

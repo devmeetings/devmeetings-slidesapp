@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
 var Queue = 'exec_expressjs';
 
@@ -12,7 +12,7 @@ var host = process.env.RABBITMQ_HOST || 'localhost';
 var connection = amqp.connect('amqp://' + host);
 
 cluster.setupMaster({
-    exec: 'express_runner.js',
+    exec: '../proc_runner.js',
     silent: false
 });
 cluster.on('exit', function(worker, code, signal) {
@@ -83,7 +83,9 @@ connection.then(function(conn) {
                 });
                 worker.send({
                     msg: msg,
-                    port: port
+                    env: {
+                      port: port
+                    }
                 }); //Send the code to run for the worker
             });
         });
