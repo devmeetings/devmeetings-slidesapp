@@ -10,7 +10,7 @@ define([
       $scope.groups = _.groupBy(recordings.data, function(rec){
         return rec.group;
       }).sort(function(g1, g2){
-        return g1.recordings[0].group < g2.recordings[0].group;
+        return g1.recordings[0].date < g2.recordings[0].date;
       });
     });
   }]);
