@@ -100,7 +100,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
               if (!needsRefresh) {
                 return;
               }
-              lastWorkspace = workspace;
+              lastWorkspace = JSON.parse(JSON.stringify(workspace));
               if ($rootScope.performance.indexOf('workspace_output_noauto') > -1) {
                 scope.requiresRefresh = true;
               } else {
