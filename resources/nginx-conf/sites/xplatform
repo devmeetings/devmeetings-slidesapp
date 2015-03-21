@@ -6,8 +6,20 @@ proxy_cache_path /var/cache/nginx keys_zone=one:10m;
 server {
   listen 80;
   server_name xplatform.org www.xplatform.org *.xplatform.org;
-  
-  rewrite ^ https://$server_name$request_uri? permanent;
+ 
+  location /ext/soundcloud/tracks.json {
+      gzip off;
+      proxy_cache one;
+      proxy_ignore_headers "Cache-Control";
+      proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&; # TODO [ToDr] This is Wkwiatek's client_id
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_cache_valid 200 60m;
+      add_header X-Cache-Status $upstream_cache_status;
+  } 
+
+  location ^ {
+    rewrite ^ https://$server_name$request_uri? permanent;
+  }
 }
 
 server {
@@ -48,6 +60,14 @@ server {
     add_header X-Cache-Status $upstream_cache_status;
   }
 
+  location /ext/soundcloud/tracks.json {
+     proxy_cache one;
+     proxy_ignore_headers "Cache-Control";
+     proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&; # TODO [ToDr] This is Wkwiatek's client_id
+     proxy_set_header X-Real-IP $remote_addr;
+     proxy_cache_valid 200 60m;
+     add_header X-Cache-Status $upstream_cache_status;
+  }
 
 	location /ext/lorempixel {
     proxy_cache one;
