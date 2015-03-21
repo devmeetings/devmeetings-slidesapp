@@ -23,9 +23,9 @@ mixin course()
       .row
         .col-md-4(ng-repeat="cours in courses | orderBy:['order','title']", ng-if='cours.visible || editMode')
           +course
-        .col-xs-12
-          hr
       .row(ng-if="my_courses.length")
+        .col-xs-12
+          h3 Your Previous Workshops
         .col-sm-4(ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title']")
           +course
 
