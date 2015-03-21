@@ -11,7 +11,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
           // Let the page render in background
           $timeout(function(){
             element.removeClass('dm-iframe-hidden');
-          }, 1000);
+          }, 700);
         }
 
         // Setting iframe src is dealyed.
@@ -21,7 +21,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
 
           $timeout(function() {
             attr.$set('src', value);
-          }, 3000);
+          }, 1500);
         });
 
         element[0].addEventListener('load', removeClass);

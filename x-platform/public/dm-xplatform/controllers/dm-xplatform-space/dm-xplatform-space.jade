@@ -20,6 +20,11 @@
                   seamless=true,
                   dm-iframe="{{event.liveLink | liveLinkUrl:''}}",
                   ng-if="event.liveLink && showTutorial")
+              iframe.full-frame(
+                  seamless=true,
+                  dm-iframe="/slides/{{event.intro}}",
+                  ng-if="event.intro && showTutorial")
+
               .row.full-height(ng-if='!showTutorial', ui-view='content')
 
               .dm-space-live(ng-if="event.liveLink && !right.pinned")
