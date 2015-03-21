@@ -141,6 +141,34 @@ describe('Runner', function() {
 
     });
 
+
+    it('should allow to include other file when in subfolder', function(done) {
+
+      // given
+      var x, obj = {
+        files: {
+          '/test/main.js': 'module.exports = function() { console.log(require("./myfile")); };',
+          '/test/myfile.js': 'module.exports = "hello";',
+          '/index.js': 'require("./test/main")();'
+        }
+      };
+
+      // when
+      run(obj, {}, {
+        log: function(arg) {
+          x = arg;
+        }
+      }, function(err) {
+
+        // then
+        expect(err).to.equal(null);
+        expect(x).to.equal('hello');
+        done();
+
+      });
+
+    });
+
     it('should allow to include other file with nested require to inner module', function(done) {
 
       // given
@@ -208,11 +236,14 @@ describe('Runner', function() {
         x = arg;
       }
     }, function(err) {
-
+      
       // then
       expect(err).to.equal(null);
-      expect(x).to.equal('hello');
-      done();
+
+      setTimeout(function(){
+        expect(x).to.equal('hello');
+        done();
+      }, 1000);
 
     });
   });

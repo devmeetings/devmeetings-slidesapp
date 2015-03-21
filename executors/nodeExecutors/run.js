@@ -62,12 +62,28 @@ function run(obj, env, consoleMock, cb) {
 
     process.chdir(dir);
 
-    // [ToDr] We need to provide a filename to make sure it works
-    var requireInPath = requireLike(path.join(dir, 'index.js'));
-    var globals = prepareGlobals(indexFile);
-    var sandbox = vm.createContext(globals);
+    function prepareGlobals(fileName, fileDir) {
 
-    function prepareGlobals(fileName) {
+      function requireMock(mod) {
+        var requireInPath = requireLike(path.join(fileDir, fileName));
+        var newFile = requireInPath.resolve(mod);
+        var file = newFile.replace(dir, '');
+
+        var isSafeModule = !!safeRequires[mod];
+        var isFile = !!files[file];
+
+        if (!isSafeModule && !isFile) {
+          throw Error('Unknown / Not allowed module: ' + mod);
+        }
+
+        if (isFile) {
+          var globals = prepareGlobals('/' + path.basename(newFile), path.dirname(newFile));
+          return vm.runInNewContext(files[file], globals);
+        }
+    
+        return requireInPath(mod);
+      }
+
       var mod = {
         exports: {}
       };
@@ -80,34 +96,14 @@ function run(obj, env, consoleMock, cb) {
         env: env
       };
       globals.__filename = fileName.replace('/', '');
-      globals.__dirname = dir;
+      globals.__dirname = fileDir;
 
       return globals;
     }
-
-    function requireMock(mod) {
-      var file = requireInPath.resolve(mod).replace(dir, '');
-      var isSafeModule = !!safeRequires[mod];
-      var isFile = !!files[file];
-
-      if (!isSafeModule && !isFile) {
-        throw Error('Unknown / Not allowed module: ' + mod);
-      }
-
-      if (isFile) {
-        var prev = globals.__filename;
-        globals.__filename = file.replace('/', '');
-        var ret = vm.runInContext(files[file], sandbox);
-        globals.__filename = prev;
-        return ret;
-      }
-  
-      return requireInPath(mod);
-    }
-
    
+    var globals = prepareGlobals(indexFile, dir);
     // Invoke index.js file
-    return vm.runInContext(files[indexFile], sandbox);
+    return vm.runInNewContext(files[indexFile], globals);
 
   }).done(function(data) {
     cb(null, data);
