@@ -20,17 +20,12 @@ mixin course()
 .container
   .col-md-12
     .dm-workshoplist-container
+      .row
+        .col-md-4(ng-repeat="cours in courses | orderBy:['order','title']", ng-if='cours.visible || editMode')
+          +course
+        .col-xs-12
+          hr
       .row(ng-if="my_courses.length")
         .col-sm-4(ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title']")
           +course
-        .col-sm-12
-          hr
-      .row
-        .col-sm-4(ng-if='editMode')
-          .workshoplist-col
-            .workshopdesc-detailsholder
-              .whoplist-details
-                span.fa.fa-4x.fa-plus.text-success(ng-click='create()')
 
-        .col-md-4(ng-repeat="cours in courses | orderBy:['order','title']", ng-if='cours.visible || editMode')
-          +course
