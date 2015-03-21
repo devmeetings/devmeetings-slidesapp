@@ -4,11 +4,12 @@ tab.cursor-pointer(
     select='toggleRight(true)',
     ng-click='toggleRight(true)'
 )
-    tab-heading.cursor-pointer(
-      tooltip='Your Profile & Settings', 
-      title='Your Profile & Settings',
-      tooltip-placement='left')
-        img(
+    tab-heading.cursor-pointer()
+      img(
+        tooltip='Settings', 
+        tooltip-animation='false',
+        title='Settings',
+        tooltip-placement='left',
           ng-src='{{user.result.avatar | dmGravatar:24}}')
 
     .full-height.text-center

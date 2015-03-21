@@ -4,7 +4,8 @@ tab.cursor-pointer(id='menu', active='tabs.menu',
     select='toggleRight(true)',
     ng-click='toggleRight(true)'
 )
-    tab-heading.cursor-pointer(tooltip='Iterations', tooltip-placement='left', tooltip-append-to-body="true", title='Materials')
+  tab-heading.cursor-pointer(
+    tooltip-animation='false',tooltip='Iterations', tooltip-placement='left', tooltip-append-to-body="true", title='Materials')
         span.fa.fa-tasks
     include ./dm-xplatform-space-menu
     
@@ -15,7 +16,8 @@ tab.cursor-pointer(
     ng-click='toggleRight(true)',
     ng-if="event.liveLink"
 )
-    tab-heading.cursor-pointer(tooltip='Agenda', tooltip-placement='left', tooltip-append-to-body="true", title="Agenda")
+  tab-heading.cursor-pointer(
+    tooltip-animation='false',tooltip='Agenda', tooltip-placement='left', tooltip-append-to-body="true", title="Agenda")
         span.fa.fa-calendar
     iframe.full-frame(
             seamless=true,
@@ -42,7 +44,7 @@ tab.cursor-pointer(id='issues', active='tabs.issues',
   ng-click='toggleRight(true); notifications.unread=false',
 )
   tab-heading.cursor-pointer(
-      tooltip='Share Code',
+      tooltip='Share Code',tooltip-animation='false',
       title="Share Code",
       tooltip-placement='left',
       tooltip-append-to-body="true"
@@ -63,7 +65,9 @@ tab.cursor-pointer(id='stream', active='tabs.stream',
    select='toggleRight(true)',
    ng-click='toggleRight(true)'
 )
-   tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left', title='Docs')
+  tab-heading.cursor-pointer(
+    tooltip-animation='false',
+    tooltip='Docs', tooltip-placement='left', title='Docs')
        span.fa.fa-book
    .col-xs-12.full-height
        .row.full-height(ui-view='first')

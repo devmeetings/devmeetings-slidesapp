@@ -9,10 +9,10 @@ mixin tabs()
             ng-click="workspace.active = tabName;output.show = false") 
             span.fa.fa-circle.type-icon
             |  {{ toFileName(tabName) }}
-        a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",
+        a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", tooltip="Delete", tooltip-placement="right",tooltip-animation='false',
               analytics-event="workspace-deleteTab", analytics-category="workspace")
             | x
-        a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit name", tooltip-placement="right",
+        a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", tooltip="Edit name", tooltip-placement="right",tooltip-animation='false',
             analytics-event="workspace-editTab", analytics-category="workspace")
           span.fa.fa-pencil
             
@@ -31,11 +31,11 @@ mixin tabsStacked()
             span.fa.fa-circle.type-icon
             |  {{ toFileName(tabName) }}
         a.cursor-pointer.workspace-tab-close(ng-click="removeTab(tabName)", 
-            tooltip="Delete", tooltip-placement="right",
+            tooltip="Delete", tooltip-placement="right", tooltip-animation='false',
               analytics-event="workspace-deleteTab", analytics-category="workspace")
             | x
         a.cursor-pointer.workspace-tab-edit(ng-click="editTabName(tabName)", 
-            tooltip="Edit name", tooltip-placement="right",
+            tooltip="Edit name", tooltip-placement="right", tooltip-animation='false',
             analytics-event="workspace-editTab", analytics-category="workspace")
           span.fa.fa-pencil
             
