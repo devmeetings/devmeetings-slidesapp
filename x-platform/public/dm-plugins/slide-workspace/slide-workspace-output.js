@@ -85,7 +85,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
               var port = result.port;
               scope.isWaiting = false;
               scope.requiresRefresh = false;
-              scope.output.newUrl = '//' + $location.host() + ':' + port;
+              scope.output.newUrl = 'http://' + $location.host() + ':' + port;
               scope.contentUrl = scope.output.newUrl;
               scope.refreshIframe(scope.contentUrl);
             });
