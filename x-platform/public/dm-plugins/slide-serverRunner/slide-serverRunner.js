@@ -5,7 +5,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 3800).directive('slideServerRunner', [
+    sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 4000).directive('slideServerRunner', [
         'Sockets',
         function(Sockets) {
 
