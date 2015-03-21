@@ -171,7 +171,11 @@ var Events = {
     },
 
     getAnnotations: function(req, res) {
-      Events._findAnnotation(req.params.annotationId).then(function(anno){
+      var id = req.params.annotationId;
+      if (id) {
+        return res.send([]);
+      }
+      Events._findAnnotation(id).then(function(anno){
         res.send(anno.annotations);
       }).done(onDone);
     },
