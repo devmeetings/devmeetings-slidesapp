@@ -115,7 +115,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             scope.$watch('output.sideBySide', function() {
               scope.output.show = false;
               // Refresh view
-              triggerChangeLater(scope);
+              triggerChangeLater(scope, false);
               scope.$broadcast('resize');
             });
 

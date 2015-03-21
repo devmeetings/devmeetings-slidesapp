@@ -11,7 +11,7 @@ mixin workspaceOutputs()
             span.fa.fa-refresh
         input.form-control(
             type="text", 
-            ng-model="contentUrl",
+            ng-model="$parent.contentUrl",
             ng-model-options="{updateOn: 'change'}"
           )
   .slide-workspace-outputs.full-height(

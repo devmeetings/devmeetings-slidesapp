@@ -29,11 +29,42 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
   function doReloadOutput(scope) {
     if (scope.slide.serverRunner === 'expressjs') {
+      scope.isWaiting = true;
       sliderPlugins.trigger('slide.slide-workspace.run', scope.workspace);
     } else {
       scope.requiresRefresh = false;
       scope.contentUrl = scope.output.newUrl;
     }
+  }
+
+  function getTabsContent(t, w) {
+    return t.map(function(x) {
+      return w.tabs[x].content;
+    });
+  }
+
+  function hasCodeChanged(w1, w2) {
+    var t1 = Object.keys(w1.tabs);
+    var t2 = Object.keys(w2.tabs);
+
+    if (t1.length !== t2.length) {
+      return true;
+    }
+
+    // Tab rename
+    if (!_.isEqual(t1, t2)) {
+      return true;
+    }
+
+    //Compare content
+    var c1 = getTabsContent(t1, w1);
+    var c2 = getTabsContent(t2, w2);
+
+    if (!_.isEqual(c1, c2)) {
+      return true;
+    }
+
+    return false;
   }
 
   sliderPlugins.directive('slideWorkspaceOutput', [
@@ -44,17 +75,32 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         templateUrl: path + '/slide-workspace-output.html',
         link: function(scope, element) {
 
-          if (scope.slide.serverRunner === 'expressjs') {
+          scope.isWaiting = true;
 
+          if (scope.slide.serverRunner === 'expressjs') {
             sliderPlugins.listen(scope, 'slide.serverRunner.result', function(result) {
+              if (!scope.isWaiting) {
+                return;
+              }
               var port = result.port;
+              scope.isWaiting = false;
               scope.requiresRefresh = false;
               scope.output.newUrl = '//' + $location.host() + ':' + port;
               scope.contentUrl = scope.output.newUrl;
               scope.refreshIframe(scope.contentUrl);
             });
 
+
+            var lastWorkspace = {
+              tabs: {}
+            };
+
             sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+              var needsRefresh = hasCodeChanged(lastWorkspace, workspace);
+              if (!needsRefresh) {
+                return;
+              }
+              lastWorkspace = workspace;
               if ($rootScope.performance.indexOf('workspace_output_noauto') > -1) {
                 scope.requiresRefresh = true;
               } else {
