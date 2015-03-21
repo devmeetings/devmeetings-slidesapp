@@ -4,7 +4,7 @@ tab.cursor-pointer(id='menu', active='tabs.menu',
     select='toggleRight(true)',
     ng-click='toggleRight(true)'
 )
-    tab-heading.cursor-pointer(tooltip='Iterations', tooltip-placement='left')
+    tab-heading.cursor-pointer(tooltip='Iterations', tooltip-placement='left', tooltip-append-to-body="true", title='Materials')
         span.fa.fa-tasks
     include ./dm-xplatform-space-menu
     
@@ -15,7 +15,7 @@ tab.cursor-pointer(
     ng-click='toggleRight(true)',
     ng-if="event.liveLink"
 )
-    tab-heading.cursor-pointer(tooltip='Agenda', tooltip-placement='left')
+    tab-heading.cursor-pointer(tooltip='Agenda', tooltip-placement='left', tooltip-append-to-body="true", title="Agenda")
         span.fa.fa-calendar
     iframe.full-frame(
             seamless=true,
@@ -43,11 +43,13 @@ tab.cursor-pointer(id='issues', active='tabs.issues',
 )
   tab-heading.cursor-pointer(
       tooltip='Share Code',
+      title="Share Code",
       tooltip-placement='left',
+      tooltip-append-to-body="true"
   )
       span.tabs-badge.text-danger(ng-show="notifications.unread")
         span.fa.fa-circle
-      span.fa.fa-warning
+      span.fa.fa-share-alt
   .col-xs-12.dm-space-questions
       h3 Share Your Code
       div(
@@ -61,8 +63,8 @@ tab.cursor-pointer(id='stream', active='tabs.stream',
    select='toggleRight(true)',
    ng-click='toggleRight(true)'
 )
-   tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left')
-       span.fa.fa-newspaper-o
+   tab-heading.cursor-pointer(tooltip='Docs', tooltip-placement='left', title='Docs')
+       span.fa.fa-book
    .col-xs-12.full-height
        .row.full-height(ui-view='first')
 

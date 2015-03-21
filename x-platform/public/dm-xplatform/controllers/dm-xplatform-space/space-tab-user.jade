@@ -5,7 +5,8 @@ tab.cursor-pointer(
     ng-click='toggleRight(true)'
 )
     tab-heading.cursor-pointer(
-      tooltip='{{ user.result.name }}', 
+      tooltip='Your Profile & Settings', 
+      title='Your Profile & Settings',
       tooltip-placement='left')
         img(
           ng-src='{{user.result.avatar | dmGravatar:24}}')

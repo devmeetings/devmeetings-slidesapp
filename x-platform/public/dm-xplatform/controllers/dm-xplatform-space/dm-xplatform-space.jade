@@ -51,9 +51,11 @@
                     analytics-on='click', analytics-event='spacesidebar.zen',
                     disabled="true",
                     ng-click='changeFullScreen(true)'
-                )
-                    tab-heading.cursor-pointer(tooltip='Zen Mode', tooltip-placement='left')
-                        span.fa.fa-dashboard
+                  )
+                    tab-heading.cursor-pointer(
+                      tooltip='Open Full Screen', tooltip-placement='left', title="Open Full Screen"
+                      )
+                      span.fa.fa-desktop
 
     .row(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
 

@@ -7,7 +7,7 @@ define(['angular'], function(angular) {
                   return '';
                 }
                 input = input.replace('http:', 'https:');
-                return input + '?s=' + size + '&d=monsterid';
+                return input + '?s=' + size + '&d=identicon';
             };
         }
     ]);
