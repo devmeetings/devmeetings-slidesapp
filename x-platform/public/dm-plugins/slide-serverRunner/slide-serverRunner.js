@@ -47,6 +47,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                         sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
                         Sockets.emit('serverRunner.code.run', {
                             runner: scope.runner,
+                            timestamp: new Date().getTime(),
                             code: code
                         });
 
@@ -65,6 +66,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                       sliderPlugins.trigger('slide.serverRunner.code.run');
                       Sockets.emit('serverRunner.code.run', {
                         runner: scope.runner,
+                        timestamp: new Date().getTime(),
                         files: files
                       });
                     }));

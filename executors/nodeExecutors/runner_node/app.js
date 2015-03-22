@@ -30,6 +30,7 @@ connection.then(function(conn) {
             // Read queue
             console.log("[*] Waiting for messages.");
             ch.consume(qok.queue, function(msg) {
+                var msgContent = JSON.parse(msg.content);
                 console.log("  Forking new worker");
                 var worker = cluster.fork();
                 var timer = 0;
@@ -40,6 +41,7 @@ connection.then(function(conn) {
                         ch.ack(msg);
                         acked = true;
                     }
+                    thing.timestamp = msgContent.timestamp;
 
                     ch.sendToQueue(msg.properties.replyTo, new Buffer(JSON.stringify(thing)), {
                         correlationId: msg.properties.correlationId
@@ -71,7 +73,7 @@ connection.then(function(conn) {
                     worker.destroy(); //Give it 5 seconds to run, then abort it
                 }, 5000);
                 worker.send({
-                  msg: JSON.parse(msg.content),
+                  msg: msgContent,
                   env: {}
                 }); //Send the code to run for the worker
             });

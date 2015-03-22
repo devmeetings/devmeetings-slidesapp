@@ -82,6 +82,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
               if (!scope.isWaiting) {
                 return;
               }
+              if (lastTimestamp > result.timestamp) {
+                return;
+              }
+              lastTimestamp = result.timestamp;
               var port = result.port;
               scope.isWaiting = false;
               scope.requiresRefresh = false;

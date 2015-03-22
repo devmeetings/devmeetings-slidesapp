@@ -59,6 +59,7 @@ connection.then(function(conn) {
                         acked = true;
                     }
                     thing.port = port;
+                    thing.timestamp = msg.timestamp;
                     
                     console.log("Replying", thing, "with correlationId", msg2.properties.correlationId);
                     ch.sendToQueue(msg2.properties.replyTo, 
