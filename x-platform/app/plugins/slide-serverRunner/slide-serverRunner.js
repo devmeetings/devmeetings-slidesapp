@@ -92,7 +92,8 @@ exports.init = function(config) {
 exports.onSocket = function(log, socket, io) {
 
     socket.on('serverRunner.code.run', function(data) {
-
+        
+        data.client = socket.handshake.user._id;
         Workers.send('exec_' + data.runner, data, function(response) {
             socket.emit('serverRunner.code.result', response);
         });
