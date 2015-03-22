@@ -71,7 +71,8 @@ var Recordings = {
         return false;
       }
 
-      var annotations = recording.slides.reduce(function(memo, slide) {
+      var lastIdx= recording.slides.length - 1;
+      var annotations = recording.slides.reduce(function(memo, slide, idx) {
         var workspace = slide.code.workspace;
 
         if (workspace.active !== memo.active) {
@@ -88,6 +89,8 @@ var Recordings = {
         } else if (movementDetected(memo, slide)) {
           pushAnno(memo, slide);
           memo.movement = 0;
+        } else if (lastIdx === idx) {
+          pushAnno(memo, slide);
         }
 
         memo.previousContent = workspace.tabs[workspace.active].content;
