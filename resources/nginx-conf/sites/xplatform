@@ -67,6 +67,7 @@ server {
      proxy_set_header X-Real-IP $remote_addr;
      proxy_cache_valid 200 60m; 
      add_header X-Cache-Status $upstream_cache_status;
+     add_header User-Agent xplatform;
   }
 
   location /ext/soundcloud/tracks.json {
