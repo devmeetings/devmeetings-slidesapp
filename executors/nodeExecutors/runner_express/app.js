@@ -73,10 +73,6 @@ connection.then(function(conn) {
                     }
                     ch.ack(msg2);
                     acked = true;
-                    reply({
-                        success: true,
-                        result: []
-                    });
                 });
                 worker.on("message", function(rep) {
                     // prepare reply

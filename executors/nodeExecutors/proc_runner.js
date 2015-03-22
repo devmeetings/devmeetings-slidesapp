@@ -1,9 +1,11 @@
 var common = require('./index');
 
 function sendError(e) {
+  var output = consoleMock ? consoleMock.output : [];
+
   process.send({
     success: false,
-    errors: [e.toString()],
+    result: output.concat([e.toString()]),
     stacktrace: e.stack.split("\n")
   });
 }
@@ -13,11 +15,12 @@ process.on("uncaughtException", function(e) {
   process.exit(-1);
 });
 
+var consoleMock;
 //The runner.js is ran in a separate process and just listens for the message which contains code to be executed
 process.on('message', function(msg) {
   var obj = msg.msg;
 
-  var consoleMock = common.consoleMock();
+  consoleMock = common.consoleMock();
 
   consoleMock.onMessage = function() {
     process.send({

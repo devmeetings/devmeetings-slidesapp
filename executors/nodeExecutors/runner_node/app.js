@@ -59,10 +59,6 @@ connection.then(function(conn) {
                     }
                     ch.ack(msg);
                     acked = true;
-                    reply({
-                        success: true,
-                        result: []
-                    });
                 });
                 timer = setTimeout(function() {
                     reply({

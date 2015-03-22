@@ -9,7 +9,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         'Sockets',
         function(Sockets) {
 
-            var updateScope = function(data) {};
+            var updateScope = function() {};
             Sockets.on('serverRunner.code.result', function(data) {
                 updateScope(data);
             });
@@ -22,21 +22,16 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     slide: '=context'
                 },
                 templateUrl: path + '/slide-serverRunner.html',
-                link: function(scope, element) {
+                link: function(scope) {
                     updateScope = function(data) {
                         scope.$apply(function() {
                             scope.success = data.success;
-                            scope.errors = data.errors || "";
+                            scope.errors = data.errors || '';
                             scope.stacktrace = data.stacktrace;
                         });
 
                         sliderPlugins.trigger('slide.serverRunner.result', data);
-
-                        if (data.success) {
-                            sliderPlugins.trigger('slide.jsonOutput.display', data.result);
-                        } else {
-                            sliderPlugins.trigger('slide.jsonOutput.display', data.errors);
-                        }
+                        sliderPlugins.trigger('slide.jsonOutput.display', data.result);
                     };
 
                     sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {

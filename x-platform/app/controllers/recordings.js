@@ -102,6 +102,7 @@ var Recordings = {
         var workspace = slide.code.workspace;
 
         if (workspace.active !== memo.active) {
+          slide.timestamp -= 700;
           pushAnno(memo, slide);
           memo.active = workspace.active;
           memo.movement = 0;
