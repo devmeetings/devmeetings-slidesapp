@@ -172,7 +172,7 @@ var Events = {
 
     getAnnotations: function(req, res) {
       var id = req.params.annotationId;
-      if (id) {
+      if (!id || id === 'undefined') {
         return res.send([]);
       }
       Events._findAnnotation(id).then(function(anno){
