@@ -33,6 +33,9 @@ var Recordings = {
         return;
       }
 
+      
+      //var jslint = require('jslint');
+      var yaml = require('js-yaml');
 
       var start = {
         annotations: [],
@@ -44,12 +47,12 @@ var Recordings = {
         description = description || '';
         memo.annotations.push({
           description: description,
-          timestamp: slide.timestamp,
+          timestamp: slide.timestamp / 1000,
           type: 'comment'
         });
       }
 
-      res.send(recording.slides.reduce(function(memo, slide) {
+      var annotations = recording.slides.reduce(function(memo, slide) {
 
         if (slide.code.workspace.active !== memo.active) {
           pushAnno(memo, slide);
@@ -63,6 +66,10 @@ var Recordings = {
 
       }, start).annotations.sort(function(a, b) {
         return a.timestamp - b.timestamp;
+      });
+
+      res.send(yaml.safeDump({
+        annotations: annotations
       }));
     });
   },
