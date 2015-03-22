@@ -155,7 +155,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         var src = $iframes[currentFrame].src;
         $iframes[currentFrame].src = contentUrl;
         if (src === contentUrl) {
-          $iframes[currentFrame].contentWindow.location.reload(true);
+          $iframes[currentFrame].src = '';
+          setTimeout(function() {
+            $iframes[currentFrame].src = contentUrl;
+          },3);
         }
         // Swap frames on load
         angular.element($iframes[currentFrame]).one('load', swapFramesLater);
