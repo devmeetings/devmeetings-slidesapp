@@ -50,12 +50,15 @@ var Recordings = {
 
       function pushAnno(memo, slide, description, isPauseAfter) {
         description = description || '';
-        memo.annotations.push({
+        var anno = {
           description: description,
           timestamp: Math.max(0, (slide.timestamp - 1000) / 1000),
           type: 'comment',
-          isPauseAfter: isPauseAfter
-        });
+        };
+        if (isPauseAfter) {
+          anno.isPauseAfter = isPauseAfter;
+        }
+        memo.annotations.push(anno);
       }
 
       function movementDetected(memo, slide) {
