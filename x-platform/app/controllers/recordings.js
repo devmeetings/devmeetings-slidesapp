@@ -33,7 +33,6 @@ var Recordings = {
         return;
       }
 
-      
       //var jslint = require('jslint');
       var yaml = require('js-yaml');
 
@@ -47,7 +46,7 @@ var Recordings = {
         description = description || '';
         memo.annotations.push({
           description: description,
-          timestamp: slide.timestamp / 1000,
+          timestamp: (slide.timestamp - 100) / 1000,
           type: 'comment'
         });
       }
@@ -68,6 +67,7 @@ var Recordings = {
         return a.timestamp - b.timestamp;
       });
 
+      res.header('Content-Type', 'application/yaml');
       res.send(yaml.safeDump({
         annotations: annotations
       }));
