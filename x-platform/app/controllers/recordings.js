@@ -48,12 +48,13 @@ var Recordings = {
         }
       };
 
-      function pushAnno(memo, slide, description) {
+      function pushAnno(memo, slide, description, isPauseAfter) {
         description = description || '';
         memo.annotations.push({
           description: description,
           timestamp: Math.max(0, (slide.timestamp - 1000) / 1000),
-          type: 'comment'
+          type: 'comment',
+          isPauseAfter: isPauseAfter
         });
       }
 
@@ -107,8 +108,7 @@ var Recordings = {
           // After the switch
           slide.timestamp += 1300;
           // [ToDr] prevent removing 
-          slide.isPauseAfter = true;
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, '', true);
 
           memo.active = workspace.active;
           memo.movement = 0;
