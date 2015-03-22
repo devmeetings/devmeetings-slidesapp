@@ -16,6 +16,10 @@
 .bottom-bar  {
   position: relative;
   background-color: #060606;
+
+  &.zen-mode {
+    z-index: 25;
+  }
 }
 
 .dm-spacesidebar {
@@ -42,8 +46,9 @@
   top: 0px;
   left: 0px;
   right: 0px;
-  bottom: 0px;
+  bottom: 25px;
   width: 100%;
+  height: auto;
   z-index: 20;
   background: rgb(0, 0, 0);
   width: 100% !important;

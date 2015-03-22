@@ -63,5 +63,10 @@
                       )
                       span.fa.fa-desktop
 
-    .row.bottom-bar(ng-style='{"height": bottombarHeight}', ui-view='bottombar')
+                        
+    .row.bottom-bar(
+      ng-class="{'zen-mode': $root.isZenMode }",
+      ng-style='{"height": bottombarHeight}', ui-view='bottombar'
+    )
+
 
