@@ -83,7 +83,7 @@ var Recordings = {
           pushAnno(memo, slide);
           slide.url = workspace.url;
           memo.movement = 0;
-        } else if (Math.abs(slide.timestamp - memo.timestamp) > 2500) {
+        } else if (Math.abs(slide.timestamp - memo.timestamp) > 3000) {
           pushAnno(memo, slide);
           memo.movement = 0;
         } else if (movementDetected(memo, slide)) {
