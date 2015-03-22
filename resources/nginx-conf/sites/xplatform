@@ -9,6 +9,7 @@ server {
  
   location /ext/soundcloud/tracks.json {
       gzip off;
+      resolver 8.8.8.8;
       proxy_cache one;
       proxy_ignore_headers "Cache-Control";
       proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&$args; # TODO [ToDr] This is Wkwiatek's client_id
@@ -72,6 +73,7 @@ server {
 
   location /ext/soundcloud/tracks.json {
      proxy_cache one;
+     resolver 8.8.8.8;
      proxy_ignore_headers "Cache-Control";
      proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&$args; # TODO [ToDr] This is Wkwiatek's client_id
      proxy_set_header X-Real-IP $remote_addr;
