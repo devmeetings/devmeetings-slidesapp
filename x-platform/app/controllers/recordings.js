@@ -40,7 +40,9 @@ var Recordings = {
         annotations: [],
         active: null,
         timestamp: 0,
-        url: null
+        url: null,
+        movement: 0,
+        previousContent: ''
       };
 
       function pushAnno(memo, slide, description) {
@@ -52,18 +54,43 @@ var Recordings = {
         });
       }
 
-      var annotations = recording.slides.reduce(function(memo, slide) {
+      function movementDetected(memo, slide) {
+        var workspace = slide.code.workspace;
+        var active = workspace.active;
+        var tab = workspace.tabs[active];
 
-        if (slide.code.workspace.active !== memo.active) {
+        if (tab.content === memo.previousContent) {
+          memo.movement++;
+        } else {
+          memo.movement = 0;
+        }
+        
+        if (memo.movement > 10) {
+          return true;
+        }
+        return false;
+      }
+
+      var annotations = recording.slides.reduce(function(memo, slide) {
+        var workspace = slide.code.workspace;
+
+        if (workspace.active !== memo.active) {
           pushAnno(memo, slide);
-          memo.active = slide.code.workspace.active;
-        } else if (slide.code.workspace.url !== slide.url) {
+          memo.active = workspace.active;
+          memo.movement = 0;
+        } else if (workspace.url !== slide.url) {
           pushAnno(memo, slide);
-          slide.url = slide.code.workspace.url;
+          slide.url = workspace.url;
+          memo.movement = 0;
         } else if (Math.abs(slide.timestamp - memo.timestamp) > 1500) {
           pushAnno(memo, slide);
+          memo.movement = 0;
+        } else if (movementDetected(memo, slide)) {
+          pushAnno(memo, slide);
+          memo.movement = 0;
         }
 
+        memo.previousContent = workspace.tabs[workspace.active].content;
         memo.timestamp = slide.timestamp;
         return memo;
 
