@@ -65,7 +65,7 @@ var Recordings = {
           memo.movement = 0;
         }
         
-        if (memo.movement > 10) {
+        if (memo.movement > 5) {
           return true;
         }
         return false;
