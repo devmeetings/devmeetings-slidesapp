@@ -90,7 +90,7 @@ var Recordings = {
         var currentRow = getRow(tab);
   
         // TODO [ToDr] Amount choose after some serious big data analysisi ;)
-        if (Math.abs( lastRow - currentRow ) > 7) {
+        if (Math.abs( lastRow - currentRow ) > 10) {
           return true;
         }
 
@@ -109,7 +109,7 @@ var Recordings = {
           pushAnno(memo, slide);
           slide.url = workspace.url;
           memo.movement = 0;
-        } else if (Math.abs(slide.timestamp - memo.timestamp) > 3000) {
+        } else if (Math.abs(slide.timestamp - memo.timestamp) > 4000) {
           pushAnno(memo, slide);
           memo.movement = 0;
         } else if (movementDetected(memo, slide)) {
@@ -127,7 +127,16 @@ var Recordings = {
 
       }, start).annotations.sort(function(a, b) {
         return a.timestamp - b.timestamp;
-      });
+      }).reduce(function(memo, anno) {
+        if (!memo.length) {
+          return [anno];
+        }
+        var last = memo[memo.length - 1];
+        if (Math.abs(last.timestamp - anno.timestamp) > 1.5) {
+          return memo.concat([anno]);
+        }
+        return memo;
+      }, []);
 
       res.header('Content-Type', 'application/yaml');
       res.send(yaml.safeDump({
