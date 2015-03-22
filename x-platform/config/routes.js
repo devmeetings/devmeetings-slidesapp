@@ -83,6 +83,7 @@ module.exports = function(app) {
     var recordings = require('../app/controllers/recordings');
     app.get('/api/recordings', apiAuthenticated, recordings.list);
     app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
+    app.get('/api/recordings/:id/annotations', apiAuthenticated, recordings.autoAnnotations);
     app.post('/api/recordings/:id/split/:time', apiAuthenticated, authorized('admin:super'), recordings.split);
     app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'), recordings.cutout);
 
