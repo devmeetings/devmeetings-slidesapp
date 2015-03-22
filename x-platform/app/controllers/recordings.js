@@ -49,7 +49,7 @@ var Recordings = {
         description = description || '';
         memo.annotations.push({
           description: description,
-          timestamp: (slide.timestamp - 1000) / 1000,
+          timestamp: Math.max(0, (slide.timestamp - 1000) / 1000),
           type: 'comment'
         });
       }
