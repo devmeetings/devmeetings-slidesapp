@@ -44,7 +44,7 @@ define(['angular', 'xplatform/xplatform-app',
       if ($scope.withVoice) {
         $scope.state.rate = rates[0];
       } else {
-        $scope.state.rate = rates[rates.length - 3];
+        $scope.state.rate = rates[rates.length - 4];
       }
 
       $scope.changeRate = function() {

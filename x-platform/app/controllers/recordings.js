@@ -46,7 +46,7 @@ var Recordings = {
         description = description || '';
         memo.annotations.push({
           description: description,
-          timestamp: (slide.timestamp - 100) / 1000,
+          timestamp: (slide.timestamp - 500) / 1000,
           type: 'comment'
         });
       }
