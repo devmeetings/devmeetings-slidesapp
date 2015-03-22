@@ -39,6 +39,7 @@ var Recordings = {
       var start = {
         annotations: [],
         active: null,
+        timestamp: 0,
         url: null
       };
 
@@ -59,8 +60,11 @@ var Recordings = {
         } else if (slide.code.workspace.url !== slide.url) {
           pushAnno(memo, slide);
           slide.url = slide.code.workspace.url;
+        } else if (Math.abs(slide.timestamp - memo.timestamp) > 1500) {
+          pushAnno(memo, slide);
         }
 
+        memo.timestamp = slide.timestamp;
         return memo;
 
       }, start).annotations.sort(function(a, b) {
