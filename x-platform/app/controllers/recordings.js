@@ -42,7 +42,10 @@ var Recordings = {
         timestamp: 0,
         url: null,
         movement: 0,
-        previousContent: ''
+        previousTabData: {
+          content: '',
+          editor: null
+        }
       };
 
       function pushAnno(memo, slide, description) {
@@ -59,7 +62,7 @@ var Recordings = {
         var active = workspace.active;
         var tab = workspace.tabs[active];
 
-        if (tab.content === memo.previousContent) {
+        if (tab.content === memo.previousTabData.content) {
           memo.movement++;
         } else {
           memo.movement = 0;
@@ -68,6 +71,29 @@ var Recordings = {
         if (memo.movement > 5) {
           return true;
         }
+        return false;
+      }
+
+      function largeJumpDetected(memo, slide) {
+        var workspace = slide.code.workspace;
+        var active = workspace.active;
+        var tab = workspace.tabs[active];
+
+        function getRow(tab) {
+          if (!tab.editor || !tab.editor.cursorPosition) {
+            return null;
+          }
+          return tab.editor.cursorPosition.row;
+        }
+
+        var lastRow = getRow(memo.previousTabData);
+        var currentRow = getRow(tab);
+  
+        // TODO [ToDr] Amount choose after some serious big data analysisi ;)
+        if (Math.abs( lastRow - currentRow ) > 7) {
+          return true;
+        }
+
         return false;
       }
 
@@ -89,11 +115,13 @@ var Recordings = {
         } else if (movementDetected(memo, slide)) {
           pushAnno(memo, slide);
           memo.movement = 0;
+        } else if (largeJumpDetected(memo, slide)) {
+          pushAnno(memo, slide);
         } else if (lastIdx === idx) {
           pushAnno(memo, slide);
         }
 
-        memo.previousContent = workspace.tabs[workspace.active].content;
+        memo.previousTabData = workspace.tabs[workspace.active];
         memo.timestamp = slide.timestamp;
         return memo;
 
