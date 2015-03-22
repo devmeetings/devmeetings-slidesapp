@@ -17,7 +17,7 @@ server {
       add_header X-Cache-Status $upstream_cache_status;
   } 
 
-  location ^ {
+  location / {
     rewrite ^ https://$server_name$request_uri? permanent;
   }
 }
@@ -58,6 +58,15 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_cache_valid 200 60m;
     add_header X-Cache-Status $upstream_cache_status;
+  }
+
+  location /ext/github {
+     proxy_cache one;
+     proxy_ignore_headers "Cache-Control";
+     proxy_pass https://api.github.com;
+     proxy_set_header X-Real-IP $remote_addr;
+     proxy_cache_valid 200 5m; 
+     add_header X-Cache-Status $upstream_cache_status;
   }
 
   location /ext/soundcloud/tracks.json {
