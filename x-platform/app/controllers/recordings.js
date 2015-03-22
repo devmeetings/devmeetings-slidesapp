@@ -105,7 +105,9 @@ var Recordings = {
           slide.timestamp -= 1000;
           pushAnno(memo, slide);
           // After the switch
-          slide.timestamp += 1000;
+          slide.timestamp += 1300;
+          // [ToDr] prevent removing 
+          slide.isPauseAfter = true;
           pushAnno(memo, slide);
 
           memo.active = workspace.active;
@@ -137,7 +139,7 @@ var Recordings = {
           return [anno];
         }
         var last = memo[memo.length - 1];
-        if (Math.abs(last.timestamp - anno.timestamp) > 1.5) {
+        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || anno.isPauseAfter)  {
           return memo.concat([anno]);
         }
         return memo;
