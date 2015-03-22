@@ -1,13 +1,14 @@
 include ./file-tabs
 
-.col-xs-12.sw-col.size-half-height1
-  .row.full-height
+.sw-row(
+  ng-style="{height: output.topSize}")
+  .full-height
       .clearfix
         ul.nav.nav-tabs.pull-right
             li.workspace-tab.pull-right.workspace-tab-condensed
               a.cursor-pointer(
                 title="Open Your Page in New Window",
-                ng-href="/api/page/{{ output.hash }}/", 
+                ng-href="{{ output.newUrl }}", 
                 target="_blank", 
                 tooltip="Open your page in new window",
                 analytics-event="workspace-newWindow",
@@ -29,22 +30,26 @@ include ./file-tabs
                 a.cursor-pointer(title="Reformat your code", ng-click="formatTab()")
                   span.fa.fa-indent
         +tabs()
-        
-      +tabsStacked()
-      .tab-content(ng-show="!output.show")
-          .tab-pane.active.fade.in.scrollable-container
-            dm-editor(
-              size='workspace.size', 
-              data='activeTab',
-              name='workspace.active',
-              undo-manager='undoManager',
-              options='workspace',
-              editor-mode='mode',
-              trigger-save='triggerSave()',
-              trigger-change-later='triggerChangeLater()'
-            )
-          .errors.alert.alert-danger.errors-fiddle {{ errors }}
-.col-xs-12.sw-col.size-half-height2
-    .row.full-height
+      .tab-content
+        +tabsStacked()
+        .full-height(ng-show="!output.show")
+            .tab-pane.active.fade.in.scrollable-container
+              dm-editor(
+                size='workspace.size', 
+                data='activeTab',
+                name='workspace.active',
+                undo-manager='undoManager',
+                options='workspace',
+                editor-mode='mode',
+                trigger-save='triggerSave()',
+                trigger-change-later='triggerChangeLater()'
+              )
+            .errors.alert.alert-danger.errors-fiddle {{ errors }}
+
+sw-splitter(left="output.topSize", right="output.bottomSize", drag-active="output.dragActive", is-row="true")
+.sw-row(
+    ng-style="{height: output.bottomSize}")
+    .full-height(ng-init="outputInCols=true")
+        .overlay(ng-if="output.dragActive")
         slide-workspace-output.full-height
 

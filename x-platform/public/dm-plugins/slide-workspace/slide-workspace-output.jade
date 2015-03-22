@@ -45,12 +45,20 @@ mixin workspaceOutputs()
 
   .full-height(ng-if="slide.serverRunner !== 'expressjs'")
     +workspaceOutputs 
-  .full-height(ng-if="slide.serverRunner === 'expressjs'")
+  .full-height(ng-if="slide.serverRunner === 'expressjs' && !outputInCols")
     .sw-row(ng-style="{height: output.topSizeFrame}")
       .overlay(ng-if="output.dragActive")
       +workspaceOutputs 
     sw-splitter(left="output.topSizeFrame", right="output.bottomSizeFrame", drag-active="output.dragActive", is-row="true")
     .sw-row(ng-style="{height: output.bottomSizeFrame}")
       slide-jsonoutput.full-size(data="true", context="slide")
+  .full-height(ng-if="slide.serverRunner === 'expressjs' && outputInCols")
+    .sw-col.full-height(ng-style="{width: output.leftSizeFrame}")
+      .overlay(ng-if="output.dragActive")
+      +workspaceOutputs 
+    sw-splitter(left="output.leftSizeFrame", right="output.rightSizeFrame", drag-active="output.dragActive")
+    .sw-col.full-height(ng-style="{width: output.rightSizeFrame}")
+      slide-jsonoutput.full-size(data="true", context="slide")
+
 
 
