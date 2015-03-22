@@ -11,7 +11,7 @@ server {
       gzip off;
       proxy_cache one;
       proxy_ignore_headers "Cache-Control";
-      proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&; # TODO [ToDr] This is Wkwiatek's client_id
+      proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&$args; # TODO [ToDr] This is Wkwiatek's client_id
       proxy_set_header X-Real-IP $remote_addr;
       proxy_cache_valid 200 60m;
       add_header X-Cache-Status $upstream_cache_status;
@@ -60,27 +60,27 @@ server {
     add_header X-Cache-Status $upstream_cache_status;
   }
 
-  location /ext/github {
+  location /ext/github/ {
      proxy_cache one;
      proxy_ignore_headers "Cache-Control";
-     proxy_pass https://api.github.com;
+     proxy_pass https://api.github.com/;
      proxy_set_header X-Real-IP $remote_addr;
-     proxy_cache_valid 200 5m; 
+     proxy_cache_valid 200 60m; 
      add_header X-Cache-Status $upstream_cache_status;
   }
 
   location /ext/soundcloud/tracks.json {
      proxy_cache one;
      proxy_ignore_headers "Cache-Control";
-     proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&; # TODO [ToDr] This is Wkwiatek's client_id
+     proxy_pass http://api.soundcloud.com/tracks.json?client_id=288c3b51bc9cfb269d1a89d92e4196a3&$args; # TODO [ToDr] This is Wkwiatek's client_id
      proxy_set_header X-Real-IP $remote_addr;
      proxy_cache_valid 200 60m;
      add_header X-Cache-Status $upstream_cache_status;
   }
 
-	location /ext/lorempixel {
+	location /ext/lorempixel/ {
     proxy_cache one;
-		proxy_pass http://lorempixel.com;
+		proxy_pass http://lorempixel.com/;
 		proxy_set_header REFERER "http://xplatform.org";
     proxy_cache_valid 200 60m;
     add_header X-Cache-Status $upstream_cache_status;
