@@ -102,8 +102,12 @@ var Recordings = {
         var workspace = slide.code.workspace;
 
         if (workspace.active !== memo.active) {
-          slide.timestamp -= 700;
+          slide.timestamp -= 1000;
           pushAnno(memo, slide);
+          // After the switch
+          slide.timestamp += 1000;
+          pushAnno(memo, slide);
+
           memo.active = workspace.active;
           memo.movement = 0;
         } else if (workspace.url !== slide.url) {
