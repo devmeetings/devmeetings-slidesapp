@@ -116,9 +116,9 @@ var produceFinalSnaps = function(snaps, chapters, timeoffset, group) {
         console.log("Found recording: " + title, niceDate);
         return {
             slides: snap.slides,
-            group: group ? group + "-" + v : title + " " + niceDate,
+            group: group ? group : title + " " + niceDate,
             date: date,
-            title: title
+            title: group ? title + '-' + v : title
         };
     });
 };

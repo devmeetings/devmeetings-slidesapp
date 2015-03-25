@@ -142,6 +142,7 @@ var Recordings = {
           return [anno];
         }
         var last = memo[memo.length - 1];
+
         if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || anno.isPauseAfter)  {
           return memo.concat([anno]);
         }
