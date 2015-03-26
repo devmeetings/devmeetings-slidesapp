@@ -8,7 +8,8 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
             _initialize: function() {
                 var deckId = (typeof slides === 'undefined') ? "-" : slides;
                 var protocol = $location.protocol();
-                this._socket = io.connect(protocol+'://' + $location.host() + "/?deck=" + deckId);
+                var url = $location.host() + ':' + $location.port();
+                this._socket = io.connect(protocol+'://' + url + "/?deck=" + deckId);
                 var s = this._socket;
                 this.emit = s.emit.bind(s);
                 this.on = s.on.bind(s);

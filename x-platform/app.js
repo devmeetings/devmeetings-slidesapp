@@ -28,7 +28,7 @@ if (config.meteorProxy) {
   var proxy = require('http-proxy').createProxyServer({
     target: config.meteorProxy
   });
-  console.log("Configuring proxy.");
+  console.log('Configuring proxy.');
   server.on('upgrade', function(req) {
     if (req.url.indexOf('/live') === 0) {
       return proxy.ws.apply(proxy, arguments);
@@ -37,8 +37,7 @@ if (config.meteorProxy) {
   app.all('/live/*', proxy.web.bind(proxy));
 }
 // Configure socketio after proxy
-var io = socketio.listen(server);
-io.set('destroy upgrade', false);
+var io = socketio(server);
 require('./config/sockets')(io, sessionConfig);
 
 console.log('Server listening on port:', config.port);

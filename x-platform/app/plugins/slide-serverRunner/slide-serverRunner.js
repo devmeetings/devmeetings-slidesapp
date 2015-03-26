@@ -129,7 +129,7 @@ exports.onSocket = function(log, socket, io) {
   socket.on('serverRunner.code.run', function(clientData) {
 
     fillData(clientData).done(function(data) {
-      data.client = socket.handshake.user._id;
+      data.client = socket.request.user._id;
       Workers.send('exec_' + data.runner, data, function(response) {
         socket.emit('serverRunner.code.result', response);
       });

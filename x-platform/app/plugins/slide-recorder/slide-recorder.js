@@ -6,8 +6,7 @@ exports.onSocket = function(log, socket) {
 
 
   function patchState(data, ack) {
-
-    States.fetchState(data._id, socket.handshake.user).then(function(save) {
+    States.fetchState(data._id, socket.request.user).then(function(save) {
       var patches = data.patches;
 
       var originalTime = save.originalTimestamp.getTime();

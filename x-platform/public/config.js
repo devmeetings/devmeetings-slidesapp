@@ -26,7 +26,7 @@ require.config({
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
         "lodash": "../components/lodash/dist/lodash",
         "asEvented": "../components/asEvented/asevented",
-        "socket.io": "../components/socket.io-client/dist/socket.io",
+        "socket.io": "../components/socket.io-client/socket.io",
         "howler": "../components/howler/howler",
         "lz-string": "../components/lz-string/libs/lz-string-1.3.3",
         "moment": "../components/moment/moment",

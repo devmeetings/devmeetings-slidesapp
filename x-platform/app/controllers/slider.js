@@ -48,7 +48,7 @@ exports.slide = function(req, res) {
 
 exports.trainer = function(req, res) {
     res.render('slider/trainer', stdReq(req, {
-        title: "Trainer's Screen",
+        title: "Trainers Screen",
         slides: req.params.slides
     }));
 };
