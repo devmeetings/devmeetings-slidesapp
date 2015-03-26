@@ -37,8 +37,8 @@
                 a.ng-cloak
                     button.btn.btn-xs.btn-success(ui-sref='index.login') Log In
             li(ng-if='user')
-                .dropdown
-                    #dropdownNav.dropdown-toggle(type='button', data-toggle='dropdown')
+                .dropdown(dropdown)
+                    #dropdownNav.dropdown-toggle(dropdown-toggle)
                         span.glyphicon.glyphicon-cog
                     ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
                         li(role='presentation')
