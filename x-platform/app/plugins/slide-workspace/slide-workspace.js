@@ -4,10 +4,10 @@ var States = require('../../services/states');
 var Zip = require('node-zip');
 
 
-exports.initApi = function(prefix, app, authenticated) {
+exports.initApi = function(app, authenticated) {
   'use strict';
 
-  app.post(prefix + 'upload', authenticated, function(req, res) {
+  app.post('/upload', authenticated, function(req, res) {
     require('fs').readFile(req.files.file.path, 'binary', function(err, data) {
       if (err) {
         res.send(400, err);
@@ -32,7 +32,7 @@ exports.initApi = function(prefix, app, authenticated) {
     });
   });
 
-  app.get(prefix + 'download/:hash', authenticated, function(req, res) {
+  app.get('/download/:hash', authenticated, function(req, res) {
     States.createFromId(req.params.hash).then(function(slide) {
       var workspace = getFiles(slide.workspace);
       // Create zip file
@@ -57,8 +57,12 @@ exports.initApi = function(prefix, app, authenticated) {
       res.send(400, err);
     }).then(null, console.error);
   });
+  
+  
+  app.get('/page/:hash/:file*', returnFile);
+  app.get('/page/:hash', returnFile);
 
-  app.get(prefix + 'page/:hash/:file?*', function(req, res) {
+  function returnFile(req, res) {
     var file = req.params.file || 'index.html';
     var first = req.params[0];
 
@@ -67,7 +71,6 @@ exports.initApi = function(prefix, app, authenticated) {
     }
 
     var internalFile = getInternalFileName(file);
-
     States.createFromId(req.params.hash).done(function(slide) {
       var workspace = getFiles(slide.workspace);
       var file = findFile(workspace, internalFile);
@@ -79,7 +82,7 @@ exports.initApi = function(prefix, app, authenticated) {
       res.set('Content-Type', guessType(internalFile));
       res.send(file);
     }, console.error);
-  });
+  }
 };
 
 function findFile(files, fileName) {

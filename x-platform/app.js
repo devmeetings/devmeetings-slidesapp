@@ -16,10 +16,11 @@ plugins.invokePlugins('init', [config]);
 
 var app = express();
 
-var sessionConfig = require('./config/express')(app, config);
+var router = express.Router();
+var sessionConfig = require('./config/express')(app, config, router);
 
 require('./config/mail')(app);
-require('./config/routes')(app);
+require('./config/routes')(router);
 require('./config/passport');
 
 var server = http.Server(app);

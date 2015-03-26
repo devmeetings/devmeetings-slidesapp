@@ -193,5 +193,7 @@ module.exports = function(app) {
 
 
     var plugins = require('./plugins');
-    plugins.invokePlugins('initApi', ['/api/', app, authenticated]);
+    var router = require('express').Router();
+    plugins.invokePlugins('initApi', [router, authenticated, app]);
+    app.use('/api/', router);
 };

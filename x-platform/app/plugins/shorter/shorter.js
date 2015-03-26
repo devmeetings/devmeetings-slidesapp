@@ -3,7 +3,7 @@ var Q = require('q'),
   Slides = require('../../models/slide'),
   Events = require('../../models/event');
 
-exports.initApi = function(prefix, app, authenticated) {
+exports.initApi = function(router, authenticated, app) {
   'use strict';
 
   function search(id, res, collection, link, next) {

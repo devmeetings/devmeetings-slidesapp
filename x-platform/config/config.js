@@ -126,7 +126,7 @@ var config = {
             host: 'pinkiepie.todr.me',
             port: 1782
         },
-        logger: 'prod'
+        logger: 'combined'
     },
 
     box: {
@@ -154,7 +154,7 @@ var config = {
         db: 'mongodb://' + mongoHost + '/platform-box',
         queue: rabbitHost,
         graylog: false,
-        logger: 'prod'
+        logger: 'combined'
     }
 };
 
