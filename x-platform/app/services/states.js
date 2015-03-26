@@ -25,7 +25,7 @@ var States = (function() {
     },
 
     createFromId: function(compoundId) {
-      var idParts = compoundId.split('/');
+      var idParts = compoundId.split('_');
       var id = idParts[0];
       var patchIdx = idParts[1];
 

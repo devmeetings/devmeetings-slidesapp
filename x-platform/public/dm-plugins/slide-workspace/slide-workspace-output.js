@@ -22,7 +22,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       }
       doReloadOutput(scope);
     });
-  }, 800, {
+  }, 600, {
     trailing: true,
     leading: false
   });
@@ -34,7 +34,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     } else {
       scope.requiresRefresh = false;
       var url = scope.workspace.url || '/';
-      scope.contentUrl = scope.output.urlBase + url;
+      if (scope.output.urlBase) {
+        scope.output.contentUrl = scope.output.urlBase + url;
+      }
     }
   }
 
@@ -75,15 +77,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     scope.workspace.permaUrl = scope.workspace.url;
   }
 
-  function listenToServerRunnerEvents(scope, $location, $rootScope) {
+  function listenToServerRunnerEvents(scope, $location, $rootScope, dmRecorder) {
     function updateUrls(result) {
       var port = result.port;
       scope.isWaiting = false;
       scope.requiresRefresh = false;
       scope.output.urlBase = 'http://' + $location.host() + ':' + port;
       var url = scope.workspace.url || '/';
-      scope.contentUrl = scope.output.urlBase + url;
-      scope.refreshIframe(scope.contentUrl);
+      scope.output.contentUrl = scope.output.urlBase + url;
+      scope.refreshIframe(scope.output.contentUrl);
     }
 
     sliderPlugins.listen(scope, 'slide.serverRunner.result', function(result) {
@@ -116,19 +118,25 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       } else {
         doReloadOutput(scope);
       }
+
+      dmRecorder.getCurrentStateId().then(function(stateId) {
+        scope.output.hash = stateId;
+      });
     });
   }
 
-  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope) {
-    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmRecorder) {
+    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
-      Sockets.emit('slide.slide-workspace.change', {
-        timestamp: new Date().getTime(),
-        workspace: workspace
-      }, function(contentData) {
-        contentData.url = '/api/page/' + contentData.hash;
-        refreshOutput($rootScope, scope, contentData);
+      
+      dmRecorder.getCurrentStateId().then(function(stateId) {
+        refreshOutput($rootScope, scope, {
+          hash: stateId,
+          url: '/api/page/' + stateId,
+          timestamp: new Date().getTime()
+        });
       });
+
     });
   }
 
@@ -185,7 +193,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       var newOutput = angular.element($iframes[oldFrame]);
 
       // Fix for old output lfashing.
-      if (newOutput[0].src.indexOf(scope.contentUrl) === -1) {
+      if (newOutput[0].src.indexOf(scope.output.contentUrl) === -1) {
         currentFrame = Math.max(0, currentFrame - 1);
         return;
       }
@@ -222,8 +230,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   }
 
   sliderPlugins.directive('slideWorkspaceOutput', [
-    '$timeout', '$window', '$rootScope', '$location', 'Sockets',
-    function($timeout, $window, $rootScope, $location, Sockets) {
+    '$timeout', '$window', '$rootScope', '$location', 'Sockets', 'dmRecorder',
+    function($timeout, $window, $rootScope, $location, Sockets, dmRecorder) {
       return {
         restrict: 'E',
         templateUrl: path + '/slide-workspace-output.html',
@@ -233,14 +241,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           scope.isWaiting = true;
 
           if (scope.slide.serverRunner === 'expressjs') {
-            listenToServerRunnerEvents(scope, $location, $rootScope);
+            listenToServerRunnerEvents(scope, $location, $rootScope, dmRecorder);
           } else {
-            listenToFrontendRunnerEvents(scope, Sockets, $rootScope);
+            listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmRecorder);
           }
 
           handleIframes(scope, element, $timeout, $rootScope);
 
-          scope.$watch('contentUrl', scope.refreshIframe);
+          scope.$watch('output.contentUrl', scope.refreshIframe);
           // when playing we need to have it also!
           scope.$watch('workspace.permaUrl', function() {
             doReloadOutput(scope);

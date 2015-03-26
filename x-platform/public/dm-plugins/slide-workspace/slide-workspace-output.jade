@@ -6,7 +6,7 @@ mixin workspaceOutputs()
         .input-group-btn
           button.btn(
             ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",
-            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(contentUrl)"
+            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(output.contentUrl)"
             )
             span.fa.fa-refresh
         input.form-control(

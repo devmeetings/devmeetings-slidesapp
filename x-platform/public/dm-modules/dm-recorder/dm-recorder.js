@@ -13,14 +13,14 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
         if (worker.syncing) {
           return worker.idDefer.promise;
         }
-        return $q.when(worker.getId() + '/' + worker.getLastPatch());
+        return $q.when(worker.getId() + '_' + worker.getLastPatch());
       },
 
       stopSyncingAndSetId: function(id, lastPatch) {
         worker.syncing = false;
         worker.setId(id);
         worker.setLastPatch(lastPatch);
-        worker.idDefer.resolve(id + '/' + lastPatch);
+        worker.idDefer.resolve(id + '_' + lastPatch);
       },
 
       startSyncingAndGetId: function() {
