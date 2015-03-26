@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var mime = require('mime');
 var States = require('../../services/states');
+var Zip = require('node-zip');
 
 
 exports.initApi = function(prefix, app, authenticated) {
@@ -14,7 +15,7 @@ exports.initApi = function(prefix, app, authenticated) {
       }
 
       try {
-        var zip = new require('node-zip')(data, {
+        var zip = new Zip(data, {
           base64: false,
           checkCRC32: true
         });
@@ -35,7 +36,7 @@ exports.initApi = function(prefix, app, authenticated) {
     States.createFromId(req.params.hash).then(function(slide) {
       var workspace = getFiles(slide.workspace);
       // Create zip file
-      var zip = new require('node-zip')();
+      var zip = new Zip();
       _.each(workspace, function(val, name) {
         zip.file(getRealFileName(name), val);
       });

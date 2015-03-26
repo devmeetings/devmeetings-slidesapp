@@ -20,6 +20,14 @@ var States = (function() {
       return fetchState(id, user);
     },
 
+    fetchForUser: function(userId, limit) {
+      return Q.ninvoke(Statesave.find({
+        user: userId
+      }).sort({
+        _id: -1
+      }).limit(limit).lean(), 'exec');
+    },
+
     getData: function(object, path) {
       return getData(object, preparePath(path));
     },
