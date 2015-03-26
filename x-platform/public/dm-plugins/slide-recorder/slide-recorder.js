@@ -24,11 +24,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           Sockets.emit('state.patch', {
             _id: id,
             patches: toSend
-          }, function(stateId) {
+          }, function(stateId, lastPatch) {
             console.timeEnd('Server sync');
 
             // TODO [ToDr] Should recorder know that server received the event?
-            dmRecorder.stopSyncingAndSetId(stateId);
+            dmRecorder.stopSyncingAndSetId(stateId, lastPatch);
             // TODO [ToDr] Publish results to other plugins?
             
             // Send queue one more time - new patches are waiting

@@ -29,6 +29,14 @@ class Worker {
     return this.state.idOnServer;
   }
 
+  setLastPatch(p) {
+    this.state.lastPatchOnServer = p;
+  }
+
+  getLastPatch() {
+    return this.state.lastPatchOnServer;
+  }
+
   clear() {
     this.state = {
       idOnServer: null,

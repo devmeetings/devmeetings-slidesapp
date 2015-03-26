@@ -89,43 +89,24 @@ exports.init = function(config) {
   }(config.queue));
 };
 
-var Statesave = require('../../models/statesave');
-var Q = require('q');
 
-function getData(context, path) {
-  'use strict';
-  if (path.length === 0) {
-    return context;
-  }
-  var part = path[0];
-  if (context[part]) {
-    return getData(context[part], path.slice(1));
-  }
-  return null;
-}
-
-function preparePath(path) {
-  'use strict';
-
-  return path.replace('.', '').split('.');
-}
+var States = require('../../services/states');
 
 function fillData(clientData) {
   'use strict';
 
   if (clientData.code) {
-    return Q.ninvoke(Statesave, 'findById', clientData.code).then(function(save) {
-      // Todo extract code
-      var code = getData(save.current, preparePath(clientData.path));
+    return States.createFromId(clientData.code).then(function(save){
+      var code = States.getData(save, clientData.path);
       clientData.code = code.content;
       return clientData;
     });
   }
 
   if (clientData.files) {
-    return Q.ninvoke(Statesave, 'findById', clientData.files).then(function(save) {
+    return States.createFromId(clientData.files).then(function(save){
+      var workspace = States.getData(save, clientData.path);
       // Todo extract files
-      var workspace = getData(save.current, preparePath(clientData.path));
       var files = Object.keys(workspace.tabs).reduce(function(memo, fileName) {
         var content = workspace.tabs[fileName].content;
         var toName = '/' + fileName.replace('|', '.');
@@ -134,12 +115,13 @@ function fillData(clientData) {
 
         return memo;
       }, {});
+
       clientData.files = files;
       return clientData;
     });
   }
 
-  return Q.when(clientData);
+  return require('q').when(clientData);
 }
 
 exports.onSocket = function(log, socket, io) {

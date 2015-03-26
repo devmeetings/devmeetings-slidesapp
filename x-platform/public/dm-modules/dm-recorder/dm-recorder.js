@@ -7,20 +7,20 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
     return {
       updateState: function(slide) {
-        console.log("Updating state", JSON.stringify(slide), JSON.stringify(worker.state.current));
         return worker.newState(slide);
       },
       getCurrentStateId: function() {
         if (worker.syncing) {
           return worker.idDefer.promise;
         }
-        return $q.when(worker.getId());
+        return $q.when(worker.getId() + '/' + worker.getLastPatch());
       },
 
-      stopSyncingAndSetId: function(id) {
+      stopSyncingAndSetId: function(id, lastPatch) {
         worker.syncing = false;
         worker.setId(id);
-        worker.idDefer.resolve(id);
+        worker.setLastPatch(lastPatch);
+        worker.idDefer.resolve(id + '/' + lastPatch);
       },
 
       startSyncingAndGetId: function() {
