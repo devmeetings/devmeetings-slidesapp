@@ -31,6 +31,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
           scope: {
             workspace: '=data',
             slide: '=context',
+            path: '@',
             mode: '='
           },
           templateUrl: path + '/slide-workspace.html',

@@ -21,8 +21,6 @@ require.config({
 
         // libs
         "d3": "../components/d3/d3.min",
-        "es6": "../components/requirejs-babel/es6",
-        "babel": "../components/requirejs-babel/babel-4.6.6.min",
         "jquery": "../components/jquery/dist/jquery",
         "jquery-ui": "../components/jquery-ui/jquery-ui",
         "bootstrap": "../components/bootstrap/dist/js/bootstrap",
@@ -44,6 +42,12 @@ require.config({
         "lib/file-saver":  "../components/FileSaver/FileSaver",
         "lib/favicojs": "../components/favico.js/favico",
         "lib/introjs": "../components/intro.js/intro",
+        "lib/json-diff": "../components/jsondiffpatch/public/build/jsondiffpatch-full",
+
+        // Plugins
+        "es6": "../components/requirejs-babel/es6",
+        "babel": "../components/requirejs-babel/babel-4.6.6.min",
+
 
         // Angular
         "angular": "../components/angular/angular",
@@ -102,6 +106,9 @@ require.config({
         },
         "lib/introjs": {
             "exports": "introJs"
+        },
+        "lib/json-diff": {
+            "exports": "json_diff"
         },
 
         // Angular

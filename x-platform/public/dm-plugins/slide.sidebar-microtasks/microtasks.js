@@ -27,7 +27,8 @@ define([
                 restrict: 'E',
                 scope: {
                     microtasks: '=data',
-                    slide: '=context'
+                    slide: '=context',
+                    path: '@'
                 },
                 templateUrl: path + '/microtasks.html',
                 link: function(scope, element) {

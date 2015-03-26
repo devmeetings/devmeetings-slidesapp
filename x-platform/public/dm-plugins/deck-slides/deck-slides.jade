@@ -16,11 +16,11 @@
     .dm-slide-left(
       ng-class="{'col-xs-9' : slide.content.sidebar, 'col-xs-12': !slide.content.sidebar }"
     )
-        plugins-loader(namespace="'slide'", context="slide.content")
-        plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content")
+        plugins-loader(namespace="'slide'", context="slide.content", path='')
+        plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content", path='')
 
     .col-xs-offset-9.col-xs-3.dm-slide-panel(
       ng-if="slide.content.sidebar"
     )
-        plugins-loader.full-height(namespace="'slide'", context="slide.content.sidebar")
-        plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content")
+        plugins-loader.full-height(namespace="'slide'", context="slide.content.sidebar", path='')
+        plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content", path='')

@@ -34,7 +34,7 @@ h1 Quiz Answers
                     p {{a.description}}
                  
                     .slide-content(style="height: 500px",  ng-if="showSlide")
-                        plugins-loader(namespace="'slide'", context="a.content")
+                        plugins-loader(namespace="'slide'", context="a.content", path='')
                     pre(ng-show="showMore") {{ a.content | json }}
                     
                     pre(ng-show="showAll") {{ a | json }}

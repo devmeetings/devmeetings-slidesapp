@@ -23,7 +23,7 @@
                 button.btn.btn-default.btn-xs(ng-click="convertRecentWorkspaces(ws)")
                     | Convert to Recording
 
-                plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'")
+                plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'", path='')
 
                 .list-group(ng-if="!ws.hideWorkspace")
                     .list-group-item(ng-repeat="up in ws.userPages track by $index | orderBy:'_id'")

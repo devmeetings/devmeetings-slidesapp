@@ -2,12 +2,16 @@ define(
   ['_', 'angular', 'angular-sanitize', 'asEvented',
     'dm-modules/dm-sockets/dm-sockets',
     'dm-modules/dm-editor/dm-editor',
+    'dm-modules/dm-recorder/dm-recorder',
     '../utils/Plugins', '../utils/ExtractPath'
   ],
-  function(_, angular, angularSanitize, asEvented, Editor, Sockets, Plugins, ExtractPath) {
+  function(_, angular, angularSanitize, asEvented, Editor, Sockets, DmRecorder, Plugins, ExtractPath) {
     'use strict';
 
-    var module = angular.module('slider.plugins', ['ngSanitize', 'angularFileUpload', 'dm-sockets', 'dm-editor']);
+    var module = angular.module('slider.plugins', [
+      'ngSanitize', 'angularFileUpload', 
+      'dm-sockets', 'dm-editor', 'dm-recorder'
+    ]);
 
     module.extractPath = ExtractPath;
 

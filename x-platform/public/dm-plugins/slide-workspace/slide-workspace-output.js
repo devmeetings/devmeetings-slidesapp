@@ -30,7 +30,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   function doReloadOutput(scope) {
     if (scope.slide.serverRunner === 'expressjs') {
       scope.isWaiting = true;
-      sliderPlugins.trigger('slide.slide-workspace.run', scope.workspace);
+      sliderPlugins.trigger('slide.slide-workspace.run', scope.workspace, scope.path);
     } else {
       scope.requiresRefresh = false;
       var url = scope.workspace.url || '/';

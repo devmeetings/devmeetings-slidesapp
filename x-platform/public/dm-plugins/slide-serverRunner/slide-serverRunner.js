@@ -1,73 +1,66 @@
 define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
-    'use strict';
+  'use strict';
 
-    var EXECUTION_DELAY = 1000;
+  var EXECUTION_DELAY = 1000;
 
-    var path = sliderPlugins.extractPath(module);
+  var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 4000).directive('slideServerRunner', [
-        'Sockets',
-        function(Sockets) {
+  sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 4000).directive('slideServerRunner', [
+    'Sockets', 'dmRecorder',
+    function(Sockets, dmRecorder) {
 
-            var updateScope = function() {};
-            Sockets.on('serverRunner.code.result', function(data) {
-                updateScope(data);
+      var updateScope = function() {};
+      Sockets.on('serverRunner.code.result', function(data) {
+        updateScope(data);
+      });
+
+
+      return {
+        restrict: 'E',
+        scope: {
+          runner: '=data',
+          slide: '=context'
+        },
+        templateUrl: path + '/slide-serverRunner.html',
+        link: function(scope) {
+          updateScope = function(data) {
+            scope.$apply(function() {
+              scope.success = data.success;
+              scope.errors = data.errors || '';
+              scope.stacktrace = data.stacktrace;
             });
 
+            sliderPlugins.trigger('slide.serverRunner.result', data);
+            sliderPlugins.trigger('slide.jsonOutput.display', data.result);
+          };
 
-            return {
-                restrict: 'E',
-                scope: {
-                    runner: '=data',
-                    slide: '=context'
-                },
-                templateUrl: path + '/slide-serverRunner.html',
-                link: function(scope) {
-                    updateScope = function(data) {
-                        scope.$apply(function() {
-                            scope.success = data.success;
-                            scope.errors = data.errors || '';
-                            scope.stacktrace = data.stacktrace;
-                        });
-
-                        sliderPlugins.trigger('slide.serverRunner.result', data);
-                        sliderPlugins.trigger('slide.jsonOutput.display', data.result);
-                    };
-
-                    sliderPlugins.listen(scope, 'slide.slide-code.change', _.debounce(function(ev, codeEditor) {
-
-                        var code = codeEditor.getValue();
-
-                        sliderPlugins.trigger('slide.serverRunner.code.run');
-                        sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
-                        Sockets.emit('serverRunner.code.run', {
-                            runner: scope.runner,
-                            timestamp: new Date().getTime(),
-                            code: code
-                        });
-
-                    }, EXECUTION_DELAY));
-
-                    sliderPlugins.listen(scope, 'slide.slide-workspace.run', _.debounce(function(workspace) {
-                      var files = Object.keys(workspace.tabs).reduce(function(memo, fileName) {
-                        var content = workspace.tabs[fileName].content;
-                        var toName = '/' + fileName.replace('|', '.');
-
-                        memo[toName] = content;
-
-                        return memo;
-                      }, {});
-
-                      sliderPlugins.trigger('slide.serverRunner.code.run');
-                      Sockets.emit('serverRunner.code.run', {
-                        runner: scope.runner,
-                        timestamp: new Date().getTime(),
-                        files: files
-                      });
-                    }));
-                }
+          function emitRun(prop, path, stateId) {
+            var data = {
+              runner: scope.runner,
+              path: path,
+              timestamp: new Date().getTime(),
             };
+            data[prop] = stateId;
+            Sockets.emit('serverRunner.code.run', data);
+          }
+
+          var emitRunCodeDebounced = _.debounce(emitRun.bind(null, 'code'), EXECUTION_DELAY);
+          var emitRunFilesDebounced = _.debounce(emitRun.bind(null, 'files'), EXECUTION_DELAY);
+
+          sliderPlugins.listen(scope, 'slide.slide-code.change', function(ev, editor, path) {
+            sliderPlugins.trigger('slide.serverRunner.code.run');
+            sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
+            dmRecorder.getCurrentStateId().then(emitRunCodeDebounced.bind(null, path));
+          });
+
+          sliderPlugins.listen(scope, 'slide.slide-workspace.run', function(workspace, path) {
+            sliderPlugins.trigger('slide.serverRunner.code.run');
+            sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
+            dmRecorder.getCurrentStateId().then(emitRunFilesDebounced.bind(null, path));
+          });
         }
-    ]);
+      };
+    }
+  ]);
 
 });

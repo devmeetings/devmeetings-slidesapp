@@ -9,11 +9,13 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                 restrict: 'E',
                 scope: {
                     data: '=data',
-                    slide: '=context'
+                    slide: '=context',
+                    path: '@'
                 },
                 templateUrl: path + '/part.html',
                 link: function(scope) {
                     scope.size = 60;
+
                 }
             };
         }
