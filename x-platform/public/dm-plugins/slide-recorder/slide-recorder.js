@@ -33,13 +33,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             
             // Send queue one more time - new patches are waiting
             if (toSend.length) {
-              sendQueue();
+              sendQueueLater();
             }
           });
 
           // Clear queue
           toSend = [];
         }
+
+        var sendQueueLater = _.throttle(sendQueue, 300);
 
         // TODO [ToDr] Object.observe might be better?
         scope.$watch('slide', function(a) {
@@ -54,7 +56,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return;
           }
 
-          sendQueue();
+          sendQueueLater();
         }, true);
 
       }
