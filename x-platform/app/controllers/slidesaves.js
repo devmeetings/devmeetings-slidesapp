@@ -1,5 +1,6 @@
 var Slidesave = require('../models/slidesave'),
     Slide = require('../models/slide'),
+    States = require('../services/states'),
     Q = require('q');
 
 
@@ -37,11 +38,17 @@ function updateEvent(slidesave, eventId) {
 
 var Slidesaves = {
 
-    doEdit: function(userId, slide, data, callback) {
+    doEdit: function(userId, slide, stateId, callback) {
+      States.createFromId(stateId).done(function(state){
         Slidesave.findOneAndUpdate({
             user: userId,
             _id: slide
-        }, data).lean().exec(callback);
+        }, {
+          $set: {
+            slide: state
+          }
+        }).lean().exec(callback);
+      });
     },
 
     create: function (req, res) {

@@ -28,12 +28,12 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
                
                 return result.promise;
             },
-            saveModified: function (save) {
+            saveModified: function (myId, stateId) {
                 var result = $q.defer();
 
                 Sockets.emit('slidesaves.save', {
-                    slide: save._id,
-                    data: save
+                    slide: myId,
+                    stateId: stateId
                 }, function(res){
                     result.resolve(res);
                 });

@@ -23,10 +23,12 @@ define(['angular',
         }
       });
 
-      var sendWithDebounce = _.debounce(function(slide) {
+      var saveSlideWithDebounce = _.debounce(function(myId) {
         var type = $scope.slideWarningType;
         if (type !== 'mine' && type !== 'other') {
-          dmSlidesaves.saveModified(slide);
+          dmRecorder.getCurrentStateId().then(function(stateId) {
+            dmSlidesaves.saveModified(myId, stateId);
+          });
         }
       }, 200);
 
@@ -36,14 +38,14 @@ define(['angular',
 
       $scope.$watch('slide', function(a, b) {
         if ($scope.slide) {
-          sendWithDebounce($scope.slide);
+          saveSlideWithDebounce($scope.slide._id);
           $scope.state.save = $scope.slide;
           // Disable player mode (TODO: Timeout because this is not best method to determine if something should actually be disabled)
           if (a === b) {
             return;
           }
 
-          $timeout(function(){
+          $timeout(function() {
             $scope.mode = '';
           }, 3000);
         }

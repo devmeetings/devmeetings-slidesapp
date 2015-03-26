@@ -37,7 +37,7 @@ var States = (function() {
       var id = idParts[0];
       var patchIdx = idParts[1];
 
-      return Q.ninvoke(Statesave, 'findById', id).then(function(save) {
+      return Q.ninvoke(Statesave.findById(id).lean(), 'exec').then(function(save) {
         // Apply patches
         var state = save.original || {};
         States.applyPatches(state, save.patches.slice(0, patchIdx + 1));
