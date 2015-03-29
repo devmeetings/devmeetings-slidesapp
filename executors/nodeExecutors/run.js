@@ -93,6 +93,8 @@ function run(obj, env, consoleMock, cb) {
       globals.module = mod;
       globals.exports = mod.exports;
       globals.process = {
+        on: process.on.bind(process),
+        exit: process.exit.bind(process),
         env: env
       };
       globals.__filename = fileName.replace('/', '');
