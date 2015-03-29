@@ -40,7 +40,7 @@ var Recordings = {
         annotations: [],
         active: null,
         timestamp: 0,
-        url: null,
+        permaUrl: null,
         movement: 0,
         previousTabData: {
           content: '',
@@ -115,9 +115,9 @@ var Recordings = {
 
           memo.active = workspace.active;
           memo.movement = 0;
-        } else if (workspace.url !== slide.url) {
-          pushAnno(memo, slide, 'urlChange: ' + workspace.url + ', ' + slide.url);
-          slide.url = workspace.url;
+        } else if (workspace.permaUrl !== memo.permaUrl) {
+          pushAnno(memo, slide, 'urlChange: ' + workspace.permaUrl + ', ' + memo.permaUrl);
+          memo.permaUrl = workspace.permaUrl;
           memo.movement = 0;
         } else if (Math.abs(slide.timestamp - memo.timestamp) > 5000) {
           pushAnno(memo, slide, 'longPause: ' + (slide.timestamp - memo.timestamp));
