@@ -107,7 +107,7 @@ var Recordings = {
 
         if (workspace.active !== memo.active) {
           slide.timestamp -= 1000;
-          pushAnno(memo, slide, 'beforeTab');
+          pushAnno(memo, slide, 'beforeTab: ' + workspace.active + ', ' + memo.active);
           // After the switch
           slide.timestamp += 1300;
           // [ToDr] prevent removing 
@@ -116,11 +116,11 @@ var Recordings = {
           memo.active = workspace.active;
           memo.movement = 0;
         } else if (workspace.url !== slide.url) {
-          pushAnno(memo, slide, 'urlChange');
+          pushAnno(memo, slide, 'urlChange: ' + workspace.url + ', ' + slide.url);
           slide.url = workspace.url;
           memo.movement = 0;
         } else if (Math.abs(slide.timestamp - memo.timestamp) > 5000) {
-          pushAnno(memo, slide, 'longPause');
+          pushAnno(memo, slide, 'longPause: ' + (slide.timestamp - memo.timestamp));
           memo.movement = 0;
         } else if (movementDetected(memo, slide)) {
           pushAnno(memo, slide, 'movement');
@@ -143,7 +143,7 @@ var Recordings = {
         }
         var last = memo[memo.length - 1];
 
-        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || anno.reason === 'afterTab')  {
+        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || (anno.reason === 'afterTab' && anno.timestamp !== 0)) {
           return memo.concat([anno]);
         }
         return memo;
