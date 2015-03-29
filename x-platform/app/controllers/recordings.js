@@ -52,7 +52,7 @@ var Recordings = {
         description = description || '';
         var anno = {
           description: description,
-          timestamp: Math.max(0, (slide.timestamp - 1000) / 1000),
+          timestamp: Math.max(0, (slide.timestamp - 1300) / 1000),
           type: 'comment',
         };
         if (isPauseAfter) {
@@ -119,7 +119,7 @@ var Recordings = {
           pushAnno(memo, slide);
           slide.url = workspace.url;
           memo.movement = 0;
-        } else if (Math.abs(slide.timestamp - memo.timestamp) > 4000) {
+        } else if (Math.abs(slide.timestamp - memo.timestamp) > 5000) {
           pushAnno(memo, slide);
           memo.movement = 0;
         } else if (movementDetected(memo, slide)) {
