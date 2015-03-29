@@ -48,15 +48,15 @@ var Recordings = {
         }
       };
 
-      function pushAnno(memo, slide, description, isPauseAfter) {
+      function pushAnno(memo, slide, reason, description) {
         description = description || '';
         var anno = {
           description: description,
           timestamp: Math.max(0, (slide.timestamp - 1300) / 1000),
           type: 'comment',
         };
-        if (isPauseAfter) {
-          anno.isPauseAfter = isPauseAfter;
+        if (reason) {
+          anno.reason = reason;
         }
         memo.annotations.push(anno);
       }
@@ -107,28 +107,28 @@ var Recordings = {
 
         if (workspace.active !== memo.active) {
           slide.timestamp -= 1000;
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, 'beforeTab');
           // After the switch
           slide.timestamp += 1300;
           // [ToDr] prevent removing 
-          pushAnno(memo, slide, '', true);
+          pushAnno(memo, slide, 'afterTab', '');
 
           memo.active = workspace.active;
           memo.movement = 0;
         } else if (workspace.url !== slide.url) {
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, 'urlChange');
           slide.url = workspace.url;
           memo.movement = 0;
         } else if (Math.abs(slide.timestamp - memo.timestamp) > 5000) {
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, 'longPause');
           memo.movement = 0;
         } else if (movementDetected(memo, slide)) {
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, 'movement');
           memo.movement = 0;
         } else if (largeJumpDetected(memo, slide)) {
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, 'largeJump');
         } else if (lastIdx === idx) {
-          pushAnno(memo, slide);
+          pushAnno(memo, slide, 'last');
         }
 
         memo.previousTabData = workspace.tabs[workspace.active];
@@ -143,7 +143,7 @@ var Recordings = {
         }
         var last = memo[memo.length - 1];
 
-        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || anno.isPauseAfter)  {
+        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || anno.reason === 'afterTab')  {
           return memo.concat([anno]);
         }
         return memo;
