@@ -35,6 +35,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       scope.requiresRefresh = false;
       var url = scope.workspace.url || '/';
       scope.contentUrl = scope.output.urlBase + url;
+      scope.output.newUrl = scope.contentUrl;
     }
   }
 
@@ -83,6 +84,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       scope.output.urlBase = 'http://' + $location.host() + ':' + port;
       var url = scope.workspace.url || '/';
       scope.contentUrl = scope.output.urlBase + url;
+      scope.output.newUrl = scope.contentUrl;
       scope.refreshIframe(scope.contentUrl);
     }
 
