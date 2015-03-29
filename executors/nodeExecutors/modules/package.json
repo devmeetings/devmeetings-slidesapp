@@ -25,6 +25,7 @@
     "passport-local": "^1.0.0",
     "q": "^1.2.0",
     "request": "^2.53.0",
+    "rewire": "^2.3.1",
     "semver": "^4.3.1",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0",
