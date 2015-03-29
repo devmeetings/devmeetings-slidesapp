@@ -106,10 +106,11 @@ var Recordings = {
         var workspace = slide.code.workspace;
 
         if (workspace.active !== memo.active) {
-          slide.timestamp -= 1000;
+          var currentTime = slide.timestamp;
+          slide.timestamp = memo.timestamp + 500;
           pushAnno(memo, slide, 'beforeTab: ' + workspace.active + ', ' + memo.active);
           // After the switch
-          slide.timestamp += 1300;
+          slide.timestamp = currentTime + 300;
           // [ToDr] prevent removing 
           pushAnno(memo, slide, 'afterTab', '');
 
