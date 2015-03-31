@@ -6,191 +6,50 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
   'xplatform/directives/dm-intro/dm-intro',
   'xplatform/filters/liveLinkUrl',
+  'es6!./space-visuals'
 ], function(angular, xplatformApp, _) {
-  xplatformApp.controller('dmXplatformSpace', ['$scope', '$rootScope', '$timeout', '$state', '$stateParams', '$location', '$http', '$modal', 'dmEvents', 'dmUser', 'dmQuestions', 'dmSlidesaves', 'Fullscreen', 'dmBrowserTab',
-    function($scope, $rootScope, $timeout, $state, $stateParams, $location, $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, Fullscreen, dmBrowserTab) {
+  xplatformApp.controller('dmXplatformSpace', function(
+    $scope, $stateParams, dmSpaceVisuals,
+    $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab) {
 
-      $scope.changeFullScreen = function(enable) {
-        if (!enable) {
-          Fullscreen.cancel();
-        } else {
-          Fullscreen.all();
-        }
-      };
-      var removeFullscreenHandler = Fullscreen.$on('FBFullscreen.change', function() {
-        $rootScope.$apply(function() {
-          $rootScope.isZenMode = Fullscreen.isEnabled();
-        });
+    dmSpaceVisuals.initialize($scope);
+    dmBrowserTab.setTitleAndIcon('xPlatform');
+
+    dmUser.getCurrentUser().then(function(data) {
+      $scope.user = data;
+    });
+
+    dmQuestions.allQuestionsForEvent($stateParams.event, true);
+    dmSlidesaves.allSaves(true);
+
+    dmEvents.getEvent($stateParams.event, true).then(function(data) {
+      $scope.event = data;
+      dmBrowserTab.setTitleAndIcon(data.title);
+      dmUser.getCurrentUser().then(function(data) { // Q All!
+        $scope.currentUserId = data.result._id;
       });
-      $scope.$on('$destroy', removeFullscreenHandler);
 
-      $scope.notifications = {};
-      $scope.$on('event.questions.update', function() {
-        $scope.notifications.unread = true;
+      // Fetch current workspace
+      $http.post('/api/events/' + $scope.event._id + '/base_slide/' + $scope.event.baseSlide).then(function(data) {
+        $scope.workspaceId = data.data.slidesave;
+        dmSlidesaves.refresh();
       });
+    });
 
-      $scope.left = {
-        min: '0px',
-        max: '0px',
-        current: '0px'
-      };
-
-      $scope.right = {
-        min: '35px',
-        max: '330px',
-        current: '35px',
-        opened: false
-      };
-
-      $scope.bottombarHeight = '0px';
-
-      $scope.keys = {};
-      $scope.tabs = {};
-      var aSpeed = 0.2;
-
-      $scope.togglePinRight = function() {
-        var right = $scope.right;
-
-        if (!right.defaultMin) {
-          right.defaultMin = right.min;
-        }
-
-        if (right.pinned) {
-          right.min = right.defaultMin;
-        } else {
-          right.min = right.max;
-        }
-        right.pinned = !right.pinned;
-      };
-
-      $scope.toggleRightDelayed = function(open) {
-        var delay = open ? 600 : 1500;
-        $timeout(function() {
-          if ($scope.right.mouseOn !== open) {
-            return;
+    $scope.createMaterial = function(i) {
+      $modal.open({
+        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',
+        controller: 'dmXplatformUpload',
+        resolve: {
+          event: function() {
+            return $scope.event;
+          },
+          iteration: function() {
+            return i;
           }
-          $scope.toggleRight(open);
-
-        }, delay);
-      };
-
-      $scope.toggleRight = function(open, force) {
-        if ($scope.editMode && !force) {
-          return;
         }
-
-        var right = $scope.right;
-        open = open === undefined ? !right.opened : open;
-
-        if (open === right.opened) {
-          return;
-        }
-
-        if (open) {
-
-          $timeout(function() {
-
-            right.current = right.max;
-            $timeout(function() {
-              right.opened = open;
-
-              $('.dm-spacesidebar-right .tab-content').fadeIn(600 * aSpeed);
-            }, 250 * aSpeed);
-
-          }, 500 * aSpeed);
-
-          return;
-        }
-
-        $('.dm-spacesidebar-right .tab-content').hide();
-
-        right.opened = open;
-        right.current = right.min;
-      };
-
-      $timeout(function() {
-        $scope.toggleRightDelayed(false);
-      }, 1000);
-
-      if ($scope.editMode) {
-        $scope.right.min = $scope.right.max;
-        $scope.toggleRight(true, true);
-      }
-
-
-
-      $scope.currentLocation = $location;
-      $scope.$watch('currentLocation.$$absUrl', function() {
-        $scope.activeIteration = $state.params.iteration;
-        $scope.showTutorial = $state.current.name === 'index.space';
-        $scope.bottombarHeight = $state.current.name === 'index.space.player' ? '20px' : '0px';
       });
+    };
 
-      dmUser.getCurrentUser().then(function(data) {
-        $scope.user = data;
-      });
-
-      dmBrowserTab.setTitleAndIcon('xPlatform');
-
-      dmEvents.getEvent($stateParams.event, true).then(function(data) {
-        $scope.event = data;
-        dmBrowserTab.setTitleAndIcon(data.title);
-        dmUser.getCurrentUser().then(function(data) { // Q All!
-          $scope.currentUserId = data.result._id;
-        });
-
-
-        // Fetch current workspace
-        $http.post('/api/events/' + $scope.event._id + '/base_slide/' + $scope.event.baseSlide).then(function(data) {
-          $scope.workspaceId = data.data.slidesave;
-          dmSlidesaves.refresh();
-        });
-      }, function() {});
-
-
-      $scope.openWorkspace = function() {
-        $http.post('/api/events/' + $scope.event._id + '/base_slide/' + $scope.event.baseSlide).then(function(data) {
-          dmSlidesaves.allSaves(true); // ugly! update saves list, TODO ugly
-          $state.go('index.space.task', {
-            slide: data.data.slidesave
-          });
-          $scope.workspaceId = data.data.slidesave;
-        });
-      };
-
-      $scope.selectedAudio = function(audio) {
-        var index = _.findIndex($scope.event.audios, function(elem) {
-          return elem._id === audio;
-        });
-        $state.go('index.space.player', {
-          index: index
-        });
-      };
-
-      $scope.selectedTodo = function(todo) {
-        $state.go('index.space.todo', {
-          todo: todo
-        });
-      };
-
-      $scope.createMaterial = function(i) {
-        var modalInstance = $modal.open({
-          templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',
-          controller: 'dmXplatformUpload',
-          resolve: {
-            event: function() {
-              return $scope.event;
-            },
-            iteration: function() {
-              return i;
-            }
-          }
-        });
-      };
-
-      dmQuestions.allQuestionsForEvent($stateParams.event, true);
-      dmSlidesaves.allSaves(true);
-
-    }
-  ]);
+  });
 });
