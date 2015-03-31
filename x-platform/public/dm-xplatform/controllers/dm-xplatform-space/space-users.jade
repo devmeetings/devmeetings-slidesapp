@@ -23,6 +23,7 @@ ul.nav.nav-tabs.nav-stacked.users
     ui-sref-active='active'
     )
     a(
+      ui-sref="index.space.workspace({slide: user.workspaceId, parent:null})",
       )
       img(
         alt="{{user.name}}"

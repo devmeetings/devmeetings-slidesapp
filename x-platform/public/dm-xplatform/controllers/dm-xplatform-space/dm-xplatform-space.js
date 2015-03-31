@@ -16,47 +16,35 @@ define([
     $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab) {
 
     dmSpaceVisuals.initialize($scope);
-    dmBrowserTab.setTitleAndIcon('xPlatform');
 
     dmUser.getCurrentUser().then(function(data) {
       $scope.user = data;
+      $scope.currentUserId = data.result._id;
     });
 
     dmQuestions.allQuestionsForEvent($stateParams.event, true);
     dmSlidesaves.allSaves(true);
 
-
+    dmBrowserTab.setTitleAndIcon('xPlatform');
     dmEvents.getEvent($stateParams.event, true).then(function(data) {
+      if (!data) {
+        return;
+      }
       $scope.event = data;
       dmBrowserTab.setTitleAndIcon(data.title);
-      dmUser.getCurrentUser().then(function(data) { // Q All!
-        $scope.currentUserId = data.result._id;
-      });
-
-      // Fetch current workspace
-      $http.post('/api/events/' + $scope.event._id + '/base_slide/' + $scope.event.baseSlide).then(function(data) {
-        $scope.workspaceId = data.data.slidesave;
-        dmSlidesaves.refresh();
-      });
     });
 
-    $scope.createMaterial = function(i) {
-      $modal.open({
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',
-        controller: 'dmXplatformUpload',
-        resolve: {
-          event: function() {
-            return $scope.event;
-          },
-          iteration: function() {
-            return i;
-          }
-        }
-      });
-    };
+    // Fetch current workspace
+    dmEvents.getWorkspace($stateParams.event).then(function(workspaceId) {
+      $scope.workspaceId = workspaceId;
+      // Listen to users inside event
+      dmEventLive.listenToUsersOnline($scope, $stateParams.event, workspaceId, onUserInSpace);
+      dmSlidesaves.refresh();
+    });
 
     $scope.users = [];
-    dmEventLive.listenToUsersOnline($scope, $stateParams.event, function(userData) {
+
+    function onUserInSpace(userData) {
       var user = userData.user;
       if (userData.action === 'joined') {
         $scope.users.push(user);
@@ -74,6 +62,21 @@ define([
         $scope.users = userData.users;
         return;
       }
-    });
+    }
+
+    $scope.createMaterial = function(i) {
+      $modal.open({
+        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',
+        controller: 'dmXplatformUpload',
+        resolve: {
+          event: function() {
+            return $scope.event;
+          },
+          iteration: function() {
+            return i;
+          }
+        }
+      });
+    };
   });
 });

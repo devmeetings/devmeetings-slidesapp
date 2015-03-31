@@ -1,5 +1,6 @@
 var Slidesave = require('../models/slidesave'),
     Slide = require('../models/slide'),
+    Event = require('../models/event'),
     States = require('../services/states'),
     Q = require('q');
 
@@ -89,29 +90,32 @@ var Slidesaves = {
     },
 
     baseSlide: function (req, res) {
-        var slide = req.params.slide;
         var eventId = req.params.eventId;
 
-        Q.ninvoke(Slidesave.findOne({
-            user: req.user._id,
-            baseSlide: slide
-        }).lean(), 'exec').then(function (slidesave) {
-            if (slidesave) {
-                if (!slidesave.event) {
-                  updateEvent(slidesave, eventId);
-                }
-                return slidesave;
-            }
-            return Q.ninvoke(Slide.findOne({
-                _id: slide
-            }).lean(), 'exec').then(function (slide) {
-                var toInsert = transformToSlidesave(slide, req.user._id, eventId);
-                return Q.ninvoke(Slidesave, 'create', toInsert);
-            });
-        }).then(function (slidesave) {
-            res.send({
-                slidesave: slidesave._id
-            });
+        Q.ninvoke(Event.findById(eventId).lean(), 'exec').then(function(event) {
+          var slide = event.baseSlide;
+
+          return Q.ninvoke(Slidesave.findOne({
+              user: req.user._id,
+              baseSlide: slide
+          }).lean(), 'exec').then(function (slidesave) {
+              if (slidesave) {
+                  if (!slidesave.event) {
+                    updateEvent(slidesave, eventId);
+                  }
+                  return slidesave;
+              }
+              return Q.ninvoke(Slide.findOne({
+                  _id: slide
+              }).lean(), 'exec').then(function (slide) {
+                  var toInsert = transformToSlidesave(slide, req.user._id, eventId);
+                  return Q.ninvoke(Slidesave, 'create', toInsert);
+              });
+          }).then(function (slidesave) {
+              res.send({
+                  slidesave: slidesave._id
+              });
+          });
         }).fail(onError(res)).done(onDone);
     }
 

@@ -10,8 +10,10 @@ class EventLive {
     });
   }
 
-  listenToUsersOnline($scope, eventId, cb) {
-    this.Sockets.emit('event.join', eventId, function(users) {
+  listenToUsersOnline($scope, eventId, workspaceId, cb) {
+    this.Sockets.emit('event.join', {
+      eventId, workspaceId
+    }, function(users) {
       cb({
         action: 'initial',
         eventId: eventId,

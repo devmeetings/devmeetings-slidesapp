@@ -106,7 +106,7 @@ module.exports = function(app) {
     app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
     app.post('/api/slidesaves', apiAuthenticated, slidesaves.create);
     app.delete('/api/slidesaves/:slide', apiAuthenticated, slidesaves.delete);
-    app.post('/api/events/:eventId/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
+    app.post('/api/events/:eventId/base_slide', apiAuthenticated, slidesaves.baseSlide);
 
     var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
     app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getForEvent);
