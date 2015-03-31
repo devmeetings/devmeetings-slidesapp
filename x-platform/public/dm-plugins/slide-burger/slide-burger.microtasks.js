@@ -1,4 +1,4 @@
-define(['_', 'utils/Plugins', '../slide.sidebar-microtasks/evalAssertion', './slide-burger.mapping'], function(_, Plugins, evalAssertion, mapping) {
+define(['_', 'utils/Plugins', '../slide-microtasks/evalAssertion', './slide-burger.mapping'], function(_, Plugins, evalAssertion, mapping) {
   'use strict';
 
   function mapToBase(ingridient) {

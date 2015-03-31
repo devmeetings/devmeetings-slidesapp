@@ -176,7 +176,7 @@ module.exports = function(grunt) {
     },
     complexity: {
       build: {
-        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide.sidebar-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**'],
+        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**'],
         options: {
           breakOnErrors: true,
           errorsOnly: true,

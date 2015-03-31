@@ -46,22 +46,25 @@ define([
 
     function onUserInSpace(userData) {
       var user = userData.user;
-      if (userData.action === 'joined') {
-        $scope.users.push(user);
-        return;
-      }
 
-      if (userData.action === 'left') {
-        _.remove($scope.users, function(u) {
-          return u._id === user._id;
-        });
-        return;
-      }
+      $scope.$apply(function() {
+        if (userData.action === 'joined') {
+          $scope.users.push(user);
+          return;
+        }
 
-      if (userData.action === 'initial') {
-        $scope.users = userData.users;
-        return;
-      }
+        if (userData.action === 'left') {
+          _.remove($scope.users, function(u) {
+            return u._id === user._id;
+          });
+          return;
+        }
+
+        if (userData.action === 'initial') {
+          $scope.users = userData.users;
+          return;
+        }
+      });
     }
 
     $scope.createMaterial = function(i) {

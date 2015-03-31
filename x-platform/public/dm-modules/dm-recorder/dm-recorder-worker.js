@@ -32,7 +32,7 @@ export class Recorder extends Common {
 
   newState(slide) {
     // Now calcualte diff
-    var patch = jsondiffpatch.diff(this.state.current, slide);
+    var patch = jsondiffpatch.diff(this.state.current, slide) || {};
     jsondiffpatch.patch(this.state.current, JSON.parse(JSON.stringify(patch)));
 
     return {
