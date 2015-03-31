@@ -137,6 +137,9 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               triggerChangeLater(scope);
             });
 
+            scope.$watch('editorMode', function(){
+              editor.setReadOnly(scope.editorMode === 'player');
+            });
 
             scope.$watch('data.editor', function() {
               if (scope.editorMode !== 'player') {
