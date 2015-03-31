@@ -14,7 +14,7 @@ server {
 		rewrite ^/static/(.*)$ /public/$1;
 	}
 	location /public {
-		root /home/xplatform/Projects/devmeetings-slidesapp-staging/platform/;
+		root /home/xplatform/Projects/devmeetings-slidesapp-staging/x-platform/;
 
 		gzip on;
 		gzip_types text/plain application/javascript text/css;
