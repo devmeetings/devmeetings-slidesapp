@@ -158,7 +158,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
             };
 
             scope.removeTab = function(tabName) {
-              var sure = $window.confirm('Sure to remove the file?');
+              var sure = $window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
               if (!sure) {
                 return;
               }
