@@ -77,7 +77,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     scope.workspace.permaUrl = scope.workspace.url;
   }
 
-  function listenToServerRunnerEvents(scope, $location, $rootScope, dmRecorder) {
+  function listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer) {
     function updateUrls(result) {
       var port = result.port;
       scope.isWaiting = false;
@@ -119,17 +119,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         doReloadOutput(scope);
       }
 
-      dmRecorder.getCurrentStateId().then(function(stateId) {
+      dmPlayer.getCurrentStateId().then(function(stateId) {
         scope.output.hash = stateId;
       });
     });
   }
 
-  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmRecorder) {
+  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer) {
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
       
-      dmRecorder.getCurrentStateId().then(function(stateId) {
+      dmPlayer.getCurrentStateId().then(function(stateId) {
         refreshOutput($rootScope, scope, {
           hash: stateId,
           url: '/api/page/' + stateId,
@@ -230,8 +230,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   }
 
   sliderPlugins.directive('slideWorkspaceOutput', [
-    '$timeout', '$window', '$rootScope', '$location', 'Sockets', 'dmRecorder',
-    function($timeout, $window, $rootScope, $location, Sockets, dmRecorder) {
+    '$timeout', '$window', '$rootScope', '$location', 'Sockets', 'dmPlayer',
+    function($timeout, $window, $rootScope, $location, Sockets, dmPlayer) {
       return {
         restrict: 'E',
         templateUrl: path + '/slide-workspace-output.html',
@@ -241,9 +241,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           scope.isWaiting = true;
 
           if (scope.slide.serverRunner === 'expressjs') {
-            listenToServerRunnerEvents(scope, $location, $rootScope, dmRecorder);
+            listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer);
           } else {
-            listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmRecorder);
+            listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer);
           }
 
           handleIframes(scope, element, $timeout, $rootScope);

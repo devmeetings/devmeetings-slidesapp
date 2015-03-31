@@ -4,9 +4,9 @@ import * as _ from '_';
 
 class EventLive {
 
-  constructor(Sockets) {
+  constructor(Sockets, dmPlayer) {
     _.extend(this, {
-      Sockets
+      Sockets, dmPlayer
     });
   }
 
@@ -28,13 +28,23 @@ class EventLive {
     });
   }
 
-  listenToUserEvents($scope, userId, cb) {
-    this.Sockets.emit('state.subscribe', userId);
+  watchWorkspace($scope, workspaceId, cb) {
+    this.Sockets.emit('state.subscribe', workspaceId);
     this.Sockets.on('state.patches', cb);
 
     $scope.$on('$destroy', () => {
-      this.Sockets.emit('state.unsubscribe', userId);
+      this.Sockets.emit('state.unsubscribe', workspaceId);
       this.Sockets.off('state.patches', cb);
+    });
+  }
+
+  createWorkspacePlayerSource($scope, workspaceId, initialState) {
+    let player = this.dmPlayer.createPlayerSource(initialState);
+
+    this.watchWorkspace($scope, workspaceId, (patches) => {
+      $scope.$apply(() => {
+        player.applyPatchesAndId(patches);
+      });
     });
   }
 }

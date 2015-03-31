@@ -45,6 +45,7 @@ exports.onSocket = function(log, socket) {
 
       ack(id, patchNo);
 
+      log('Emitting patches to ' + workspaceRoom);
       // Broadcast new patches to listeners
       socket.broadcast.to(workspaceRoom).emit('state.patches', {
         id: id + '_' + patchNo,
@@ -63,18 +64,23 @@ exports.onSocket = function(log, socket) {
   }
 
   function getRoom(data) {
+    console.log(data);
     if (data.workspaceId) {
       return workspaceRoom(data.workspaceId);
     }
     return userRoom(socket.request.user._id);
   }
 
-  function subscribeToStates(userId) {
-    socket.join(userRoom(userId));
+  function subscribeToStates(workspaceId) {
+    var room = workspaceRoom(workspaceId);
+    log(socket.request.user.name + ' started listening to ' + room);
+    socket.join(room);
   }
 
-  function unsubscribeFromStates(userId) {
-    socket.leave(userRoom(userId));
+  function unsubscribeFromStates(workspaceId) {
+    var room = workspaceRoom(workspaceId);
+    log(socket.request.user.name + ' stopped listening to ' + room);
+    socket.leave(room);
   }
 
   socket.on('state.patch', patchState);

@@ -6,8 +6,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   var path = sliderPlugins.extractPath(module);
 
   sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 4000).directive('slideServerRunner', [
-    'Sockets', 'dmRecorder',
-    function(Sockets, dmRecorder) {
+    'Sockets', 'dmPlayer',
+    function(Sockets, dmPlayer) {
 
       var updateScope = function() {};
       Sockets.on('serverRunner.code.result', function(data) {
@@ -50,13 +50,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           sliderPlugins.listen(scope, 'slide.slide-code.change', function(ev, editor, path) {
             sliderPlugins.trigger('slide.serverRunner.code.run');
             sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
-            dmRecorder.getCurrentStateId().then(emitRunCodeDebounced.bind(null, path));
+            dmPlayer.getCurrentStateId().then(emitRunCodeDebounced.bind(null, path));
           });
 
           sliderPlugins.listen(scope, 'slide.slide-workspace.run', function(workspace, path) {
             sliderPlugins.trigger('slide.serverRunner.code.run');
             sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
-            dmRecorder.getCurrentStateId().then(emitRunFilesDebounced.bind(null, path));
+            dmPlayer.getCurrentStateId().then(emitRunFilesDebounced.bind(null, path));
           });
         }
       };

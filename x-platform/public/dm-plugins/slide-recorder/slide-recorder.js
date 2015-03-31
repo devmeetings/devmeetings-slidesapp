@@ -15,7 +15,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
         var toSend = [];
 
-        function sendQueue(workspaceId) {
+        function sendQueue() {
           console.debug('In queue: ', toSend.length);
 
           console.time('Server sync');
@@ -25,7 +25,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           Sockets.emit('state.patch', {
             _id: id,
             // TODO [ToDr] Do we always should send workspaceId?
-            workspaceId: workspaceId,
+            workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
           }, function(stateId, lastPatch) {
             console.timeEnd('Server sync');
@@ -52,7 +52,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return;
           }
 
-          if (scope.mode === 'player') {
+          if (!dmRecorder.isRecording()) {
             return;
           }
 
@@ -63,7 +63,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return;
           }
 
-          sendQueueLater(scope.slide._id);
+          sendQueueLater();
         }, true);
 
       }

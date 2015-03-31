@@ -148,7 +148,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                   updateEditorOptions(editor, scope.data);
                 });
               }, 100);
-            });
+            }, true);
 
             scope.$watch('data', function() {
               if (!scope.data) {

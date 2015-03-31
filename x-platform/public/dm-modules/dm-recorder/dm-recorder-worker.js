@@ -3,12 +3,31 @@
 
 import jsondiffpatch from 'lib/json-diff';
 
-class Worker {
-
+class Common {
   constructor() {
     this.state = null;
     this.clear();
   }
+
+  getId() {
+    return this.state.idOnServer;
+  }
+
+  getLastPatch() {
+    return this.state.lastPatchOnServer;
+  }
+
+  clear() {
+    this.state = {
+      idOnServer: null,
+      lastPatchOnServer: null,
+      current: {},
+    };
+  }
+
+}
+
+export class Recorder extends Common {
 
   newState(slide) {
     // Now calcualte diff
@@ -25,25 +44,27 @@ class Worker {
     this.state.idOnServer = id;
   }
 
-  getId() {
-    return this.state.idOnServer;
-  }
-
   setLastPatch(p) {
     this.state.lastPatchOnServer = p;
   }
 
-  getLastPatch() {
-    return this.state.lastPatchOnServer;
-  }
-
-  clear() {
-    this.state = {
-      idOnServer: null,
-      current: {},
-    };
-  }
-
 }
 
-export default Worker;
+export class Player extends Common {
+  
+  setState(slide) {
+    this.state.current = slide;
+  }
+
+  applyPatchesAndId(patches) {
+
+    patches.patches.map((patch) => {
+      jsondiffpatch.patch(this.state.current, patch.patch);
+    });
+
+    var idPatch = patches.id.split('_');
+    this.state.idOnServer = idPatch[0];
+    this.state.lastPatchOnServer = idPatch[1];
+  }
+}
+

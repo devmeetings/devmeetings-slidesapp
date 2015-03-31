@@ -1,2 +1,3 @@
---ignore-dir=platform/public/components
---ignore-dir=platform/public/bin
+--ignore-dir=x-platform/public/components
+--ignore-dir=x-platform/public/bin
+--ignore-dir=node_modules
