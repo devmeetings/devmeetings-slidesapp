@@ -1,6 +1,7 @@
 .modal-body
     form(action="/auth/login", method="post")
-        .col-md-12
+        .row.auth-holder
+          .col-md-12
             .login-header Log in
                 span.login-switch.pull-right
                     a.dm-cursor(ng-click='gotoRegister()') 
@@ -22,11 +23,11 @@
         .row
             .auth-holder.col-md-12
                 a(href="/auth/google")
-                    .gp-auth-holder.col-md-4
+                    .gp-auth-holder.col-xs-4
                         img(src='static/images/login/ico_googleplus.png')
                 a(href="/auth/facebook")
-                    .fb-auth-holder.col-md-4
+                    .fb-auth-holder.col-xs-4
                         img(src='static/images/login/ico_facebook.png')
                 a(href="/auth/github")
-                    .gith-auth-holder.col-md-4
+                    .gith-auth-holder.col-xs-4
                         img(src='static/images/login/ico_github.png')
