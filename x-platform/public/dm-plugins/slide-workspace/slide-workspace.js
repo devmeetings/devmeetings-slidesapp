@@ -223,7 +223,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               if (newTab !== oldTab) {
                 undoManager.setUpTabsSwitched(true);
               }
-
               scope.$broadcast('update');
             });
           }

@@ -64,6 +64,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               enableSnippets: !scope.options.noAutocomplete,
               behavioursEnabled: !scope.options.noAutocomplete
             });
+            editor.focus();
 
             (function vimMode() {
               if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
@@ -85,6 +86,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               }
               updateMode(scope.name);
               updateEditorContent(editor, scope.data);
+              editor.focus();
               triggerSave();
             });
 
