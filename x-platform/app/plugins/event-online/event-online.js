@@ -1,14 +1,28 @@
+
+var userWorkspacesForEvent = {};
+
 exports.onSocket = function(log, socket, io) {
   'use strict';
 
-  function joinEvent(eventId, ack) {
+
+  function joinEvent(eventData, ack) {
+    var eventId = eventData.eventId;
     var user = getUser();
     var room = eventRoom(eventId);
+    var userWorkspaces = userWorkspacesForEvent[eventId];
+    if (!userWorkspaces) {
+      userWorkspacesForEvent[eventId] = userWorkspaces = {};
+    }
+
+    // Update user's workspaceId;
+    userWorkspaces[user._id] = eventData.workspaceId;
+    user.workspaceId = eventData.workspaceId;
     log(user.name + ' joining ' + room);
 
     socket.join(room);
     // sending initial list of users
-    ack(getAllUsers(room));
+    var allUsers = getAllUsers(room, userWorkspaces);
+    ack(allUsers);
 
     socket.broadcast.to(room).emit('event.user', {
       action: 'joined',
@@ -24,6 +38,10 @@ exports.onSocket = function(log, socket, io) {
   function leaveEvent(eventId) {
     var user = getUser();
     var room = eventRoom(eventId);
+
+    var userWorkspaces = userWorkspacesForEvent[eventId] || {};
+    delete userWorkspaces[user._id];
+
     log(user.name + ' left ' + room);
 
     socket.leave(room);
@@ -46,9 +64,12 @@ exports.onSocket = function(log, socket, io) {
     };
   }
 
-  function getAllUsers(room) {
+  function getAllUsers(room, userWorkspaces) {
     var users = findClientsSocket(room).map(function(socket) {
       return getUser(socket);
+    }).map(function(user) {
+      user.workspaceId = userWorkspaces[user._id];
+      return user;
     });
     return users;
   }

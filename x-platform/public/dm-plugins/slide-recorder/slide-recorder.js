@@ -14,15 +14,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
         var toSend = [];
 
-        function sendQueue() {
+        function sendQueue(workspaceId) {
           console.debug('In queue: ', toSend.length);
-          
+
           console.time('Server sync');
-          
+
           var id = dmRecorder.startSyncingAndGetId();
           // TODO [ToDr] Gather data from other plugins?
           Sockets.emit('state.patch', {
             _id: id,
+            // TODO [ToDr] Do we always should send workspaceId?
+            workspaceId: workspaceId,
             patches: toSend
           }, function(stateId, lastPatch) {
             console.timeEnd('Server sync');
@@ -30,7 +32,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             // TODO [ToDr] Should recorder know that server received the event?
             dmRecorder.stopSyncingAndSetId(stateId, lastPatch);
             // TODO [ToDr] Publish results to other plugins?
-            
+
             // Send queue one more time - new patches are waiting
             if (toSend.length) {
               sendQueueLater();
@@ -56,7 +58,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return;
           }
 
-          sendQueueLater();
+          sendQueueLater(scope.slide._id);
         }, true);
 
       }
