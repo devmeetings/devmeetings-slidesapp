@@ -293,13 +293,23 @@ require(['angular',
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
                             controller: 'dmXplatformAnnos'
                         }
-                    },
-                    onEnter: function($timeout, dmBrowserTab) {
-                      $timeout(function(){
-                        dmBrowserTab.setTitleAndIcon('Your Code', 'code');
-                      }, 1000);
                     }
                 });
+
+                $stateProvider.state('index.space.watch', {
+                    url: '/watch/:slide',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
+                            controller: 'dmXplatformSlide'
+                        },
+                        first: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
+                            controller: 'dmXplatformAnnos'
+                        }
+                    }
+                });
+
 
                 $stateProvider.state('index.space.todo', {
                     url: '/todo/:iteration/:todo',

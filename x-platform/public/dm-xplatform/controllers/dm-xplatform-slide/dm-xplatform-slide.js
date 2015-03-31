@@ -7,53 +7,51 @@ define(['angular',
   xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$state', '$stateParams', '$timeout', 'dmSlidesaves', 'dmRecorder', 'dmEvents', 'dmBrowserTab',
     function($scope, $q, $state, $stateParams, $timeout, dmSlidesaves, dmRecorder, dmEvents, dmBrowserTab) {
       //
+      var state = $state.current.name.split('.')[2];
+
+      $scope.state = dmEvents.getState($stateParams.event, 'save');
+      $scope.mode = 'player';
+      $scope.slideState = state;
 
       dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
         $scope.slide = save;
-        dmBrowserTab.setTitleAndIcon(save.name, 'slide');
-      });
 
-      dmSlidesaves.getSaveType($state.params.slide).then(function(type) {
-        $scope.slideWarningType = type;
-
-        if (type && type !== 'workspace') {
-          $scope.mode = 'player';
-        } else {
+        if (state === 'workspace') {
+          dmBrowserTab.setTitleAndIcon('Your code', 'code');
           $scope.mode = '';
+        } else if (state === 'question') {
+          $timeout(function(){
+            $scope.mode = '';
+          }, 5000);
+          dmBrowserTab.setTitleAndIcon('Question', 'slide');
+        } else if (state === 'watch')  {
+          dmBrowserTab.setTitleAndIcon(save.title, 'movie');
+        } else {
+          dmBrowserTab.setTitleAndIcon(save.title, 'slide');
         }
       });
 
       var saveSlideWithDebounce = _.debounce(function(myId) {
-        var type = $scope.slideWarningType;
-        if (type !== 'mine' && type !== 'other') {
-          dmRecorder.getCurrentStateId().then(function(stateId) {
-            dmSlidesaves.saveModified(myId, stateId);
-          });
+        if (state !== 'workspace') {
+          return;
         }
+        if ($scope.slide.user !== $scope.currentUserId) {
+          return;
+        }
+
+        dmRecorder.getCurrentStateId().then(function(stateId) {
+          dmSlidesaves.saveModified(myId, stateId);
+        });
       }, 200);
 
-      $scope.state = dmEvents.getState($stateParams.event, 'save');
-
-      $scope.mode = '';
-
-      $scope.$watch('slide', function(a, b) {
-        if ($scope.slide) {
-          saveSlideWithDebounce($scope.slide._id);
-          $scope.state.save = $scope.slide;
-          // Disable player mode (TODO: Timeout because this is not best method to determine if something should actually be disabled)
-          if (a === b) {
-            return;
-          }
-
-          $timeout(function() {
-            $scope.mode = '';
-          }, 3000);
+      $scope.$watch('slide', function() {
+        if (!$scope.slide) {
+          return;
         }
-      }, true);
 
-      $scope.getMode = function() {
-        return 'player';
-      };
+        saveSlideWithDebounce($scope.slide._id);
+        $scope.state.save = $scope.slide;
+      }, true);
     }
   ]);
 });

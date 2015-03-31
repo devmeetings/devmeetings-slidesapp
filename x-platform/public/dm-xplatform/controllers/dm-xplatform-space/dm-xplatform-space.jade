@@ -40,7 +40,7 @@
 
           .dm-spacesidebar-right
             include ./space-sidebar-buttons.jade
-            tabset(ng-class='{"active": !right.opened}')
+            tabset(ng-class='{"inactive": !right.opened}')
                 include ./space-tabs-main.jade
                 .separator
                 include ./space-tab-user.jade

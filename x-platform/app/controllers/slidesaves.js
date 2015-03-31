@@ -17,11 +17,11 @@ var onDone = function () {
 
 var transformToSlidesave = function (slide, user, eventId) {
     return {
-        user: user, 
+        user: user._id, 
         slide: slide.content,
         baseSlide: slide._id,
         event: eventId || null,
-        title: 'default workspace',
+        title: user.name + ' workspace',
         timestamp: new Date()
     };
 };
@@ -108,7 +108,7 @@ var Slidesaves = {
               return Q.ninvoke(Slide.findOne({
                   _id: slide
               }).lean(), 'exec').then(function (slide) {
-                  var toInsert = transformToSlidesave(slide, req.user._id, eventId);
+                  var toInsert = transformToSlidesave(slide, req.user, eventId);
                   return Q.ninvoke(Slidesave, 'create', toInsert);
               });
           }).then(function (slidesave) {

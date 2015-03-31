@@ -79,8 +79,10 @@
         border-radius: 50%;
       }
     }
-    .users-self {
-      
+    .users-self.active {
+      a {
+        .btn-success;
+      }
     }
   }
 }
@@ -137,6 +139,12 @@
   transition: padding-bottom 0.5s ease-in-out;
   > div {
     height: 100%;
+  }
+
+  .inactive .nav li.active {
+    a, a:hover {
+      background: none;
+    }
   }
   
   .tabs-badge {

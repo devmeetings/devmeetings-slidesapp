@@ -8,7 +8,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     return {
       restrict: 'E',
       scope: {
-        slide: '=context'
+        slide: '=context',
+        mode: '='
       },
       link: function(scope) {
 
@@ -48,6 +49,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         // TODO [ToDr] Object.observe might be better?
         scope.$watch('slide', function(a) {
           if (a === undefined) {
+            return;
+          }
+
+          if (scope.mode === 'player') {
             return;
           }
 
