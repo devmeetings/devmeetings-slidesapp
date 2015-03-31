@@ -2,6 +2,7 @@
 'use strict';
 
 import jsondiffpatch from 'lib/json-diff';
+import _ from '_';
 
 class Common {
   constructor() {
@@ -57,10 +58,18 @@ export class Player extends Common {
   }
 
   applyPatchesAndId(patches) {
-
-    patches.patches.map((patch) => {
-      jsondiffpatch.patch(this.state.current, patch.patch);
-    });
+    if (patches.current) {
+      // We have to keep the same reference! So let's just clear the object
+      var obj = this.state.current;
+      Object.keys(obj).forEach(function(key){
+        delete obj[key];
+      });
+      _.extend(obj, patches.current);
+    } else {
+      patches.patches.map((patch) => {
+        jsondiffpatch.patch(this.state.current, patch.patch);
+      });
+    }
 
     var idPatch = patches.id.split('_');
     this.state.idOnServer = idPatch[0];

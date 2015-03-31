@@ -19,7 +19,7 @@ exports.onSocket = function(log, socket) {
 
 
       States.applyPatches(save.current, patches);
-    
+
       save.currentTimestamp = new Date(_.last(patches).timestamp);
       // fix timestamps
       patches.map(function(patchData) {
@@ -31,8 +31,8 @@ exports.onSocket = function(log, socket) {
       save.workspaceId = data.workspaceId;
       save.markModified('current');
 
-      return States.save(save).then(function(save){
-        
+      return States.save(save).then(function(save) {
+
         return {
           save: save[0],
           patches: patches
@@ -45,10 +45,19 @@ exports.onSocket = function(log, socket) {
       var patchNo = save.patches.length - 1;
 
       ack(id, patchNo);
-
       log('Emitting patches to ' + workspaceRoom);
+
+      // Broadcast the whole slide
+      var room = socket.broadcast.to(workspaceRoom);
+      if (data._id !== id.toString()) {
+        room.emit('state.patches', {
+          id: id + '_' + patchNo,
+          current: save.current
+        });
+        return;
+      }
       // Broadcast new patches to listeners
-      socket.broadcast.to(workspaceRoom).emit('state.patches', {
+      room.emit('state.patches', {
         id: id + '_' + patchNo,
         patches: d.patches
       });
