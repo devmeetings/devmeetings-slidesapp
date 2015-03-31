@@ -153,8 +153,10 @@ module.exports = function(app) {
     };
 
     app.post('/auth/login', passport.authenticate('local', redirections));
-    app.get('/auth/google', passport.authenticate('google'));
-    app.get('/auth/google/return', passport.authenticate('google', redirections));
+    app.get('/auth/google', passport.authenticate('google', {
+      scope: ['email']
+    }));
+    app.get('/auth/google/callback', passport.authenticate('google', redirections));
     app.get('/auth/github', passport.authenticate('github'));
     app.get('/auth/github/callback', passport.authenticate('github', redirections));
     app.get('/auth/facebook', passport.authenticate('facebook', {

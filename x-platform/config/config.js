@@ -21,6 +21,10 @@ var config = {
         port: 3000,
         cookieDomain: undefined,
         realmUrl: realmUrl || 'http://localhost:3000',
+        google: {
+          id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
+          secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
+        },
         fb: {
             id: 1431694133754278,
             secret: 'c2cb2cebdccca68ed630a061436ba012'
@@ -47,6 +51,10 @@ var config = {
             name: 'platform'
         },
         port: 2000,
+        google: {
+          id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
+          secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
+        },
         fb: {
             id: 1431694133754278,
             secret: 'c2cb2cebdccca68ed630a061436ba012'
@@ -77,6 +85,10 @@ var config = {
             name: 'platform'
         },
         port: 7000,
+        google: {
+          id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
+          secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
+        },
         fb: {
             id: 503641503100997,
             secret: '2161dca6f444c60837e0d7578f0a8a53'
@@ -110,6 +122,10 @@ var config = {
             name: 'platform'
         },
         port: 4000,
+        google: {
+          id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
+          secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
+        },
         fb: {
             id: 1431693610420997,
             secret: 'c91cb7f914ed25e7d67e1278484f5979'
@@ -141,6 +157,10 @@ var config = {
             name: 'platform'
         },
         port: 4000,
+        google: {
+          id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
+          secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
+        },
         fb: {
             id: 1431693610420997,
             secret: 'c91cb7f914ed25e7d67e1278484f5979'

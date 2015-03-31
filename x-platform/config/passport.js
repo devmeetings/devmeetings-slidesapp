@@ -1,6 +1,6 @@
 var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    GoogleStrategy = require('passport-google').Strategy,
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
     GithubStrategy = require('passport-github').Strategy,
     config = require('./config'),
@@ -27,10 +27,11 @@ function createUser(id, profile, type, done) {
 passport.use(new LocalStrategy(users.authFields, users.verify));
 
 passport.use(new GoogleStrategy({
-    returnURL: config.realmUrl + "/auth/google/return",
-    realm: config.realmUrl
-}, function(identifier, profile, done) {
-    createUser(identifier, profile, 'g+', done);
+    clientID: config.google.id,
+    clientSecret: config.google.secret,
+    callbackURL: config.realmUrl + "/auth/google/callback"
+}, function(accessToken, refreshToken, profile, done) {
+    createUser(profile.id, profile, 'g+', done);
 }));
 
 
