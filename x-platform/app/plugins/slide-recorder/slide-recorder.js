@@ -8,7 +8,7 @@ exports.onSocket = function(log, socket) {
   function patchState(data, ack) {
     var workspaceRoom = getRoom(data);
 
-    States.fetchState(data._id, socket.request.user).then(function(save) {
+    States.fetchStateForWriting(data._id, socket.request.user).then(function(save) {
       var patches = data.patches;
 
       var originalTime = save.originalTimestamp.getTime();
@@ -28,6 +28,7 @@ exports.onSocket = function(log, socket) {
       // append Patches
       save.patches = save.patches.concat(patches);
 
+      save.workspaceId = data.workspaceId;
       save.markModified('current');
 
       return States.save(save).then(function(save){

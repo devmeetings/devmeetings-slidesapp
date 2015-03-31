@@ -6,7 +6,14 @@ var Statesave = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'user'
   },
-
+  previousState: {
+    type: Schema.Types.ObjectId,
+    ref: 'statesave'
+  },
+  workspaceId: {
+    type: Schema.Types.ObjectId,
+    ref: 'slidesave'
+  },
   originalTimestamp: Date,
   original: {
     type: Schema.Types.Mixed

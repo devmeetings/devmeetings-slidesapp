@@ -16,6 +16,16 @@ var States = (function() {
       return Q.ninvoke(data, 'save');
     },
 
+    fetchStateForWriting: function(id, user) {
+      return fetchState(id, user).then(function(save) {
+        if (save.patches.length < 100) {
+          return save;
+        }
+        // Create new item in collection
+        return createFork(save);
+      });
+    },
+
     fetchState: function(id, user) {
       return fetchState(id, user);
     },
@@ -50,6 +60,23 @@ var States = (function() {
 }());
 
 module.exports = States;
+
+function createFork(state) {
+  'use strict';
+
+  var obj = new Statesave({
+    user: state.user,
+    previousState: state._id,
+    workspaceId: state.workspaceId,
+    originalTimestamp: state.currentTimestamp,
+    original: state.current,
+    currentTimestamp: state.currentTimestamp,
+    current: JSON.parse(JSON.stringify(state.current)),
+    patches: []
+  });
+
+  return Q.when(obj);
+}
 
 function fetchState(id, user) {
   'use strict';
