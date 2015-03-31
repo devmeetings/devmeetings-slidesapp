@@ -7,7 +7,7 @@ var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
         req.session.redirect_to = req.url;
         res.redirect('/login');
     } else {
-        res.send(401);
+        res.sendStatus(401);
     }
 };
 
@@ -16,7 +16,7 @@ var authorized = function(role) {
         if (req.user && req.user.acl.indexOf(role) !== -1) {
             next();
         } else {
-            res.send(403);
+            res.sendStatus(403);
         }
     };
 };

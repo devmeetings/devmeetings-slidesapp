@@ -7,7 +7,7 @@ var Slidesave = require('../models/slidesave'),
 var onError = function (res) {
     return function (err) {
         console.error(err);
-        res.send(400);
+        res.sendStatus(400);
     };
 };
 

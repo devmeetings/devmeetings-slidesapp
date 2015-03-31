@@ -1,1 +1,2 @@
 --ignore-dir=platform/public/components
+--ignore-dir=platform/public/bin

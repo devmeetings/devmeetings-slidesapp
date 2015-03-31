@@ -1,0 +1,31 @@
+ul.nav.nav-tabs.nav-stacked.users
+  li.users-self(
+    tooltip="Your Workspace ({{user.result.name}})"
+    tooltip-placement="right"
+    tooltip-animation="false"
+    title="Your Workspace ({{user.result.name}})"
+    ui-sref-active='active'
+    )
+    a(
+      ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+      )
+      img.img-rounded(
+        alt="{{user.result.name}}"
+        ng-src='{{user.result.avatar | dmGravatar:30}}'
+        )
+
+  li(
+    ng-repeat="user in users"
+    title="{{user.name}}"
+    tooltip="{{user.name}}"
+    tooltip-animation="false"
+    tooltip-placement="right"
+    ui-sref-active='active'
+    )
+    a(
+      )
+      img(
+        alt="{{user.name}}"
+        ng-src="{{user.avatar | dmGravatar:24}}"
+        )
+

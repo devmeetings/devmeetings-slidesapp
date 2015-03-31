@@ -28,11 +28,42 @@ exports.onSocket = function(log, socket) {
 
       save.markModified('current');
 
-      return States.save(save);
-    }).done(function(save) {
-      ack(save[0]._id, save[0].patches.length - 1);
+      return States.save(save).then(function(save){
+        
+        return {
+          save: save[0],
+          patches: patches
+        };
+
+      });
+    }).done(function(d) {
+      var save = d.save;
+      var id = save._id;
+      var patchNo = save.patches.length - 1;
+
+      ack(id, patchNo);
+
+      // Broadcast new patches to listeners
+      socket.broadcast.to(userRoom(socket.request.user._id)).emit('state.patches', {
+        id: id + '_' + patchNo,
+        patches: d.patches
+      });
     });
   }
 
+  function userRoom(userId) {
+    return 'user_' + userId;
+  }
+
+  function subscribeToStates(userId) {
+    socket.join(userRoom(userId));
+  }
+
+  function unsubscribeFromStates(userId) {
+    socket.leave(userRoom(userId));
+  }
+
   socket.on('state.patch', patchState);
+  socket.on('state.subscribe', subscribeToStates);
+  socket.on('state.unsubscribe', unsubscribeFromStates);
 };

@@ -5,12 +5,12 @@ tab.cursor-pointer(
     ng-click='toggleRight(true)'
 )
     tab-heading.cursor-pointer()
-      img(
+      span.fa.fa-cog(
         tooltip='Settings', 
         tooltip-animation='false',
         title='Settings',
         tooltip-placement='left',
-          ng-src='{{user.result.avatar | dmGravatar:24}}')
+      )
 
     .full-height.text-center
       br

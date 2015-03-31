@@ -1,15 +1,18 @@
-define(['angular', 'xplatform/xplatform-app', '_',
-  'xplatform/services/dm-events/dm-events',
+define([
+  '_',
+  'xplatform/xplatform-app',
   'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload',
+  'xplatform/services/dm-events/dm-events',
   'xplatform/services/dm-questions/dm-questions',
+  'es6!xplatform/services/dm-event-live/dm-event-live',
   'xplatform/directives/dm-iframe/dm-iframe',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
   'xplatform/directives/dm-intro/dm-intro',
   'xplatform/filters/liveLinkUrl',
   'es6!./space-visuals'
-], function(angular, xplatformApp, _) {
+], function(_, xplatformApp) {
   xplatformApp.controller('dmXplatformSpace', function(
-    $scope, $stateParams, dmSpaceVisuals,
+    $scope, $stateParams, dmSpaceVisuals, dmEventLive,
     $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab) {
 
     dmSpaceVisuals.initialize($scope);
@@ -21,6 +24,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
     dmQuestions.allQuestionsForEvent($stateParams.event, true);
     dmSlidesaves.allSaves(true);
+
 
     dmEvents.getEvent($stateParams.event, true).then(function(data) {
       $scope.event = data;
@@ -51,5 +55,25 @@ define(['angular', 'xplatform/xplatform-app', '_',
       });
     };
 
+    $scope.users = [];
+    dmEventLive.listenToUsersOnline($scope, $stateParams.event, function(userData) {
+      var user = userData.user;
+      if (userData.action === 'joined') {
+        $scope.users.push(user);
+        return;
+      }
+
+      if (userData.action === 'left') {
+        _.remove($scope.users, function(u) {
+          return u._id === user._id;
+        });
+        return;
+      }
+
+      if (userData.action === 'initial') {
+        $scope.users = userData.users;
+        return;
+      }
+    });
   });
 });

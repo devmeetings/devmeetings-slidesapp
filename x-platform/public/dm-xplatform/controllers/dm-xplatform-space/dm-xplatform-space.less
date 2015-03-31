@@ -55,7 +55,6 @@
   overflow: hidden;
 }
 
-
 .dm-space-top {
   outline: none;
 }
@@ -65,7 +64,25 @@
   height: 100%;
   float: left;
   background-color: rgb(30,30,30);
-  overflow: hidden;
+
+  .users {
+    li.active a {
+      background-color: #666;
+    }
+    a {
+      margin: 0;
+      display: block;
+      text-align: center;
+      border-radius: 0;
+      padding: 5px 0;
+      img {
+        border-radius: 50%;
+      }
+    }
+    .users-self {
+      
+    }
+  }
 }
 .dm-spacesidebar-right-container {
   top: 0;

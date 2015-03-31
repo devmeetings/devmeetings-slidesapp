@@ -3,15 +3,8 @@
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
             .row.clearfix
-                .col-sm-12
-                    a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
-                        span.fa.fa-align-justify
-                    a.pull-left.btn.btn-link(
-                        href='/',
-                        analytics-category='menu',
-                        analytics-on='click', analytics-event='navbar.logo')
-                        img(src="static/images/navbar/xplatform_logo.png")
-                
+              .col-sm-12
+                include ./space-users.jade
         .dm-space(
           ng-class="{'zen-mode': $root.isZenMode }",
           ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')

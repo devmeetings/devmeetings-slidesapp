@@ -33,9 +33,9 @@ class SpaceVisuals {
     let $timeout = this.$timeout;
 
     $scope.left = {
-      min: '0px',
-      max: '0px',
-      current: '0px'
+      min: '35px',
+      max: '35px',
+      current: '35px'
     };
 
     $scope.right = {
@@ -113,7 +113,7 @@ class SpaceVisuals {
 
     $timeout(function() {
       $scope.toggleRightDelayed(false);
-    }, 1000);
+    }, 2000);
 
     if ($scope.editMode) {
       $scope.right.min = $scope.right.max;
