@@ -21,6 +21,13 @@ class SpaceVisuals {
       }
     };
 
+    $scope.autoGoFullScreen = () => {
+      if (this.$rootScope.performance.indexOf('player_no_full_screen') > -1) {
+        return;
+      }
+      $scope.changeFullScreen(true);
+    };
+
     let removeFullscreenHandler = this.Fullscreen.$on('FBFullscreen.change', () => {
       this.$rootScope.$apply(() => {
         this.$rootScope.isZenMode = this.Fullscreen.isEnabled();
