@@ -16,7 +16,8 @@ define(['angular',
   'dm-modules/dm-gravatar/dm-gravatar',
   'dm-modules/dm-wavesurfer/dm-wavesurfer',
   'dm-modules/dm-browsertab/dm-browsertab',
-  'dm-modules/dm-recorder/dm-recorder'
+  'dm-modules/dm-recorder/dm-recorder',
+  'es6!dm-modules/dm-history/dm-history'
 ], function(angular) {
 
   'use strict';
@@ -26,9 +27,9 @@ define(['angular',
 
   return angular.module('xplatform', [
     'slider', 'slider.plugins',
-    'dm-xplayer',
     'ui.gravatar', 'ui.router', 'ui.bootstrap',
     'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular', 'ngAnimate',
-    'dm-user', 'dm-mongotime', 'dm-gravatar', 'dm-wavesurfer', 'dm-browsertab', 'dm-recorder'
+    'dm-xplayer', 'dm-user', 'dm-mongotime', 'dm-gravatar', 
+    'dm-wavesurfer', 'dm-browsertab', 'dm-recorder', 'dm-history'
   ]);
 });

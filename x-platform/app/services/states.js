@@ -54,6 +54,14 @@ var States = (function() {
 
         return state;
       });
+    },
+
+    getForWorkspaceId: function(workspaceId) {
+      return Q.ninvoke(Statesave.find({
+        workspaceId: workspaceId
+      }).limit(100).select('current _id previousState currentTimestamp').sort({
+        'currentTimestamp': 1
+      }), 'exec');
     }
   };
 

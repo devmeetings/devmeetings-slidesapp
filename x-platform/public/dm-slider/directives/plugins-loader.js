@@ -1,77 +1,90 @@
 define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) {
 
-    var keys = function(obj) {
-        return Object.keys(obj || {});
-    };
+  var keys = function(obj) {
+    return Object.keys(obj || {});
+  };
 
-    var hasSameKeys = function(obj1, obj2) {
-        var keys1 = keys(obj1),
-            keys2 = keys(obj2);
+  var hasSameKeys = function(obj1, obj2) {
+    var keys1 = keys(obj1),
+      keys2 = keys(obj2);
 
-        if (keys1.length !== keys2.length) {
-            return false;
-        }
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
 
-        var newKeys = keys1.filter(function(val) {
-            return keys2.indexOf(val) === -1;
-        });
-        return newKeys.length === 0;
-    };
+    var newKeys = keys1.filter(function(val) {
+      return keys2.indexOf(val) === -1;
+    });
+    return newKeys.length === 0;
+  };
 
-    slider.directive('pluginsLoader', ['$compile',
-        function($compile) {
-            return {
-                restrict: 'E',
-                scope: {
-                    namespace: '=',
-                    context: '=',
-                    mode: '=',
-                    path: '@'
-                },
-                template: '',
-                controller: ['$scope', '$element', '$rootScope',
-                    function($scope, $element, $rootScope) {
-                        var tpl = _.template('<<%= pluginName %> data="context[\'<%=trigger%>\']" context="context" mode="mode" path="<%=path%>"></<%= pluginName%>>');
+  function tpl(obj) {
+    var elem = document.createElement(obj.pluginName);
+    elem.setAttribute('data', 'context["' + obj.trigger + '"]');
+    elem.setAttribute('context', 'context');
+    elem.setAttribute('mode', 'mode');
+    elem.setAttribute('path', 'path');
+    return elem;
+  }
 
-                        var childScope = $scope.$new();
+  slider.directive('pluginsLoader', ['$compile',
+    function($compile) {
+      return {
+        restrict: 'E',
+        scope: {
+          namespace: '=',
+          context: '=',
+          mode: '=',
+          path: '@'
+        },
+        template: '',
+        controller: ['$scope', '$element', '$rootScope',
+          function($scope, $element, $rootScope) {
 
-                        var refresh = function(newContext, oldContext) {
-                            if (!newContext) {
-                                return;
-                            }
-                            if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
-                                // Just broadcast info about new context
-                                childScope.$broadcast('slide:update');
-                                return;
-                            }
+            var childScope = $scope.$new();
 
-                            $element.empty();
-                            childScope.$destroy();
-                            childScope = $scope.$new();
-
-                            var pluginTpl = function(plugin) {
-                                return tpl({
-                                    pluginName: plugin.plugin,
-                                    trigger: plugin.trigger,
-                                    path: $scope.path + '.' + plugin.trigger
-                                });
-                            };
-                            var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
-                                if (plugin.trigger !== '*' && newContext[plugin.trigger] === undefined) {
-                                    return memo;
-                                }
-
-                                return memo + pluginTpl(plugin);
-
-                            }, '');
-                            var el = $compile(plugins)(childScope);
-                            $element.append(el);
-                        };
-
-                        $scope.$watch('context', refresh);
-                    }
-                ]
+            var pluginTpl = function(plugin) {
+              return tpl({
+                pluginName: plugin.plugin,
+                trigger: plugin.trigger,
+                path: $scope.path + '.' + plugin.trigger
+              });
             };
-        }
-    ]);
+
+
+            var refresh = function(newContext, oldContext) {
+              if (!newContext) {
+                return;
+              }
+              if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
+                // Just broadcast info about new context
+                childScope.$broadcast('slide:update');
+                return;
+              }
+
+              $element.empty();
+              childScope.$destroy();
+              childScope = $scope.$new();
+
+              var el = document.createElement('div');
+              el.className = 'full-height';
+
+              var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
+                if (plugin.trigger !== '*' && newContext[plugin.trigger] === undefined) {
+                  return memo;
+                }
+
+                memo.appendChild(pluginTpl(plugin));
+                return memo;
+              }, el);
+              el = $compile(plugins)(childScope);
+              $element.append(el);
+            };
+
+            $scope.$watch('context', refresh);
+          }
+        ]
+      };
+    }
+  ]);
 });

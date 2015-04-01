@@ -6,8 +6,9 @@ tab.cursor-pointer(id='menu', active='tabs.menu',
 )
   tab-heading.cursor-pointer(
     tooltip-animation='false',tooltip='Iterations', tooltip-placement='left', tooltip-append-to-body="true", title='Materials')
-        span.fa.fa-tasks
-    include ./dm-xplatform-space-menu
+      span.fa.fa-tasks
+    div(ng-if="tabs.menu && right.opened")
+      include ./dm-xplatform-space-menu
     
 tab.cursor-pointer(
     analytics-category='spacesidebar',
@@ -55,21 +56,37 @@ tab.cursor-pointer(id='issues', active='tabs.issues',
   .col-xs-12.dm-space-questions
       h3 Share Your Code
       div(
+          ng-if="tabs.issues && right.opened"
           ng-controller='dmXplatformQuestion'
           ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"'
       )
+
+tab.cursor-pointer(id='issues', active='tabs.history',
+  analytics-category='spacesidebar',
+  analytics-on='click', analytics-event='spacesidebar.history',
+  select='toggleRight(true)',
+  ng-click='toggleRight(true);',
+)
+  tab-heading.cursor-pointer(
+      tooltip='History',tooltip-animation='false',
+      tooltip-placement='left',
+      tooltip-append-to-body="true"
+  )
+      span.fa.fa-history
+  .col-xs-12.full-height(ng-if="right.opened && tabs.history")
+    dm-history
 
 tab.cursor-pointer(id='stream', active='tabs.stream',
    analytics-category='spacesidebar',
    analytics-on='click', analytics-event='spacesidebar.stream',
    select='toggleRight(true)',
    ng-click='toggleRight(true)'
-)
+  )
   tab-heading.cursor-pointer(
     tooltip-animation='false',
     tooltip='Docs', tooltip-placement='left', title='Docs')
        span.fa.fa-book
    .col-xs-12.full-height
-       .row.full-height(ui-view='first')
+       .row.full-height(ui-view='first', ng-if="right.opened && tabs.stream")
 
 

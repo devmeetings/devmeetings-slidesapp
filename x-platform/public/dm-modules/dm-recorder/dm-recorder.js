@@ -5,11 +5,16 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
   rec.factory('dmRecorder', function($q) {
 
+    var listeners = {
+      'newState': [],
+      'newWorkspace': []
+    };
     var worker = new Worker.Recorder();
     var isRecording = false;
     var workspaceId = null;
 
     return {
+
       updateState: function(slide) {
         return worker.newState(slide);
       },
@@ -29,6 +34,7 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
         worker.setId(id);
         worker.setLastPatch(lastPatch);
         worker.idDefer.resolve(id + '_' + lastPatch);
+        this.trigger('newState', id, lastPatch, worker.state.current);
       },
 
       startSyncingAndGetId: function() {
@@ -48,6 +54,7 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
       setRecording: function(val, wsId) {
         isRecording = val;
         workspaceId = wsId;
+        this.trigger('newWorkspace', wsId);
       },
 
       getWorkspaceId: function() {
@@ -56,6 +63,17 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
       clear: function() {
         worker.clear();
+      },
+
+      trigger: function(evName, id) {
+        var list = listeners[evName];
+        list.map(function(cb) {
+          cb(id);
+        });
+      },
+
+      listen: function(evName, cb) {
+        listeners[evName].push(cb);
       }
     };
   });

@@ -51,7 +51,6 @@ define(['_', 'angular', 'xplatform/xplatform-app',
             var getAll = function() {
                 dmEvents.getAllAnnotations($stateParams.event).then(function(annotations) {
                     $scope.annotations = annotations;
-                    $scope.groups = groupAnnotations(annotations);
 
                     $scope.$watch('search.text', function(){
                         var s = $scope.search.text;

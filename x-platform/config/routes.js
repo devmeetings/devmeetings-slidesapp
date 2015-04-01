@@ -87,6 +87,9 @@ module.exports = function(app) {
     app.post('/api/recordings/:id/split/:time', apiAuthenticated, authorized('admin:super'), recordings.split);
     app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'), recordings.cutout);
 
+    var history = require('../app/controllers/history');
+    app.get('/api/history/:id', apiAuthenticated, history.get);
+
     var events = require('../app/controllers/events');
     app.get('/api/events', events.all);
     app.get('/api/users/:userId/events', apiAuthenticated, events.userEvents);
