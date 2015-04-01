@@ -3,7 +3,7 @@
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
             .row.clearfix
-              .col-sm-12
+              .col-sm-12(dm-defer="3500")
                 include ./space-users.jade
         .dm-space(
           ng-class="{'zen-mode': $root.isZenMode }",
@@ -26,6 +26,7 @@
                     dm-iframe="{{ event.liveLink | liveLinkUrl:'embed' }}")
 
         .dm-spacesidebar.dm-spacesidebar-right-container(
+            dm-defer="3000"
             ng-style='{"width": right.current, "overflow": "visible"}',
             ng-class="{'pinned': right.pinned, 'opened': right.opened}",
             analytics-category='spacesidebar',
