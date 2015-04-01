@@ -1,23 +1,16 @@
-.navbar.navbar-inverse.xplatform-navbar(role='navigation', ng-show="!$root.headerHidden")
-    .navbar-header
-        button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-inverse-collapse")
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-
+.navbar.navbar-inverse.xplatform-navbar(role='navigation', ng-if="!$root.headerHidden")
     .navbar-center(ng-if="xplatformData.navbar.showTitle")
         span.nav-title
             | {{xplatformData.navbar.title}}
+    ul.nav.navbar-nav.navbar-left
+        li
+            a(href='#/', 
+                analytics-category='menu',
+                analytics-on='click', analytics-event='navbar.logo')
+                img(src="static/images/navbar/xplatform_logo.png")
 
     .collapse.navbar-collapse.navbar-inverse-collapse
-        ul.nav.navbar-nav.navbar-left
-            li
-                a(href='#/', 
-                    analytics-category='menu',
-                    analytics-on='click', analytics-event='navbar.logo')
-                    img(src="static/images/navbar/xplatform_logo.png")
-        ul.nav.navbar-nav.navbar-right
+       ul.nav.navbar-nav.navbar-right
             li(ng-if='user')
                 img.avatar-holder(
                     ng-src='{{user.result.avatar | dmGravatar:30}}', 
@@ -41,15 +34,20 @@
                     #dropdownNav.dropdown-toggle(dropdown-toggle)
                         span.glyphicon.glyphicon-cog
                     ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
+                        li(role='presentation', ng-if="user.result.acl.indexOf('admin:super') !== -1")
+                          a(href='/admin', role='menuitem', tabindex='-1', 
+                            analytics-category='navbar',
+                              analytics-on='click', analytics-event='navbar.admin')
+                                | Administration
                         li(role='presentation')
-                            a(ui-sref='index.profile', role='menuitem', tabindex='-1', 
-                                analytics-category='devhero',
-                                analytics-on='click', analytics-event='navbar.editProfile')
+                          a(ui-sref='index.profile', role='menuitem', tabindex='-1', 
+                            analytics-category='navbar',
+                              analytics-on='click', analytics-event='navbar.editProfile')
                                 | Edit Profile
                         li(role='presentation')
-                            a(href="/logout", role='menuitem', tabindex='-1', 
-                                analytics-category='devhero',
-                                analytics-on='click', analytics-event='navbar.logout')
+                          a(href="/logout", role='menuitem', tabindex='-1', 
+                            analytics-category='navbar',
+                              analytics-on='click', analytics-event='navbar.logout')
                                 | Log Out
 
 
