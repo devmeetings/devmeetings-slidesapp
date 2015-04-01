@@ -10,6 +10,7 @@ html.full-height(
       title(ng-bind="title")= title
     link(rel="icon", type="image/svg+xml", href="/static/images/xplatform-icon.svg")
     link(rel="icon", type="image/png", ng-href="/static/images/xplatform-{{$root.icon}}.png")
+    base(href="/")
     block css
       link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')
     block js2

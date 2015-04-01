@@ -35,7 +35,7 @@
                         span.glyphicon.glyphicon-cog
                     ul.dropdown-menu(role='menu', aria-labelledby='dropdownNav')
                         li(role='presentation', ng-if="user.result.acl.indexOf('admin:super') !== -1")
-                          a(href='/admin', role='menuitem', tabindex='-1', 
+                          a(href='/admin', role='menuitem', tabindex='-1',  target="_self"
                             analytics-category='navbar',
                               analytics-on='click', analytics-event='navbar.admin')
                                 | Administration
@@ -45,7 +45,7 @@
                               analytics-on='click', analytics-event='navbar.editProfile')
                                 | Edit Profile
                         li(role='presentation')
-                          a(href="/logout", role='menuitem', tabindex='-1', 
+                          a(href="/logout", role='menuitem', tabindex='-1', target="_self" 
                             analytics-category='navbar',
                               analytics-on='click', analytics-event='navbar.logout')
                                 | Log Out

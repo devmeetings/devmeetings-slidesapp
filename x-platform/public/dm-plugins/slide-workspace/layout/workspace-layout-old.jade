@@ -30,7 +30,7 @@ include ./file-tabs
               li.workspace-tab.workspace-download.pull-right.workspace-tab-condensed
                 a.cursor-pointer(
                   title="Download ZIP with your code", tooltip-animation='false', tooltip="Download ZIP with your code",  tooltip-placement="bottom",
-                  ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
+                  target="_self", ng-href="/api/download/{{output.hash}}", analytics-event="workspace-download", analytics-category="workspace")
                       span.fa.fa-download
               li.workspace-tab.workspace-upload.pull-right.workspace-tab-condensed
                   a(ng-if="isUploading")

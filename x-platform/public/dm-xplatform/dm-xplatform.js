@@ -65,8 +65,8 @@ require(['angular',
             }
         ]);
 
-        xplatformApp.config(['$stateProvider', '$urlRouterProvider',
-            function($stateProvider, $urlRouterProvider) {
+        xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvider ) {
+                $locationProvider.html5Mode(true);
 
                 $stateProvider.state('redirect', {
                     url: '/redirect'
@@ -370,6 +370,6 @@ require(['angular',
                 $urlRouterProvider.when('/', '/courses');
                 $urlRouterProvider.otherwise('/courses');
             }
-        ]);
+        );
         bootstrap('xplatform');
     });

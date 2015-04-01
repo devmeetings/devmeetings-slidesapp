@@ -1,0 +1,3 @@
+--ignore-dir=public/components
+--ignore-dir=public/bin
+--ignore-dir=node_modules
