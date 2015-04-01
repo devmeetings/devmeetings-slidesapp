@@ -18,7 +18,7 @@
                   dm-iframe="/slides/{{event.intro}}",
                   ng-if="event.intro && showTutorial")
 
-              .row.full-height(ng-if='!showTutorial', ui-view='content')
+              .row.full-height.ui-view-animate(ng-if='!showTutorial', ui-view='content')
 
               .dm-space-live(ng-if="event.liveLink && !right.pinned")
                   iframe.full-frame(

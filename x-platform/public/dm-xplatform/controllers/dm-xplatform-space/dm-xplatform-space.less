@@ -11,6 +11,41 @@
     height: 33px;
     z-index: 9;
   }
+
+  .ui-view-animate.ng-enter, .ui-view-animate.ng-leave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: opacity 0.6s ease-in-out, transform 0.4s ease-in-out;
+
+    iframe {
+      transition: opacity 0.3s ease-out;
+    }
+  }
+
+  .ui-view-animate.ng-enter {
+    opacity: 0;
+    transform:scale3d(0.9, 0.9, 0.9);
+  }
+
+  .ui-view-animate.ng-enter-active {
+    opacity: 1;
+    transform:scale3d(1.0, 1.0, 1.0);
+  }
+
+  .ui-view-animate.ng-leave {
+    opacity: 1; 
+    transform:translate3d(0, 0, 0);
+  }
+
+  .ui-view-animate.ng-leave-active {
+    opacity: 0;
+    transform:translate3d(-100px, 0, 0);
+    iframe {
+      opacity: 0;
+    }
+
+  }
 }
 
 .bottom-bar  {
