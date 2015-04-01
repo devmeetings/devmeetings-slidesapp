@@ -56,7 +56,7 @@ tab.cursor-pointer(id='issues', active='tabs.issues',
   .col-xs-12.dm-space-questions
       h3 Share Your Code
       div(
-          ng-if="tabs.issues && right.opened"
+          ng-show="tabs.issues && right.opened"
           ng-controller='dmXplatformQuestion'
           ng-include='"/static/dm-xplatform/controllers/dm-xplatform-question/index.html"'
       )

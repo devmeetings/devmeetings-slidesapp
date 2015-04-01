@@ -152,7 +152,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 withoutSync(function() {
                   updateEditorOptions(editor, scope.data);
                 });
-              }, 100);
+              }, 30);
             }, true);
 
             scope.$watch('data', function() {
@@ -171,7 +171,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
             scope.$on('$destroy', function() {
               editor.destroy();
             });
-          }, 200);
+          }, 150);
         }
       };
 
