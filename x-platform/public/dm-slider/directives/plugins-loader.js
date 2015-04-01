@@ -66,19 +66,21 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
               childScope.$destroy();
               childScope = $scope.$new();
 
-              var el = document.createElement('div');
-              el.className = 'full-height';
-
               var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
                 if (plugin.trigger !== '*' && newContext[plugin.trigger] === undefined) {
                   return memo;
                 }
 
-                memo.appendChild(pluginTpl(plugin));
+                memo.push(pluginTpl(plugin));
                 return memo;
-              }, el);
-              el = $compile(plugins)(childScope);
-              $element.append(el);
+              }, []);
+
+              plugins.map(function(plugin, idx) {
+                setTimeout(function() {
+                  var el = $compile(plugin)(childScope);
+                  $element.append(el);
+                }, 100 * idx);
+              });
             };
 
             $scope.$watch('context', refresh);

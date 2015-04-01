@@ -5,7 +5,7 @@ define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-taskicon/
       scope: {
         second: '=',
         length: '=',
-        annotations: '='
+        annotations: '=*'
       },
       templateUrl: '/static/dm-xplatform/directives/dm-timeline/dm-timeline.html',
       link: function (scope, element) {
