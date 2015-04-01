@@ -74,7 +74,6 @@ exports.onSocket = function(log, socket) {
   }
 
   function getRoom(data) {
-    console.log(data);
     if (data.workspaceId) {
       return workspaceRoom(data.workspaceId);
     }

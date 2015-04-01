@@ -48,6 +48,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
               }
             }
 
+            if (!_.isArray(output)) {
+              scope.burgers = [];
+              return;
+            }
+
             var burgers = output.reduce(function(groups, item, key) {
               groups[groups.length - 1].push(item);
 

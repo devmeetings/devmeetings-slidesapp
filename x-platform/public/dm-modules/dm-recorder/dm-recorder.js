@@ -52,6 +52,10 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
       getWorkspaceId: function() {
         return workspaceId;
+      },
+
+      clear: function() {
+        worker.clear();
       }
     };
   });
@@ -65,6 +69,7 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
       setRecorderSource: function(workspaceId) {
         this.setSource(dmRecorder);
         dmRecorder.setRecording(true, workspaceId);
+        dmRecorder.clear();
       },
 
       createPlayerSource: function(slide) {

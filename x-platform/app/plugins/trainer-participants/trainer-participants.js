@@ -9,8 +9,7 @@ var trainersRoom = function(roomId) {
 };
 
 var updateClientData = function(socket, updater) {
-  updater(clientData);
-  socket.clientData = clientData;
+  updater(socket.clientData);
 };
 
 var broadcastClientsToTrainers = function(io, roomId) {

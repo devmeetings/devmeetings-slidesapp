@@ -1,5 +1,7 @@
 extends ../layouts/main
 
+append head
+    base(href="/")
 append scripts
     script(src='/static/components/requirejs/require.js')
     script(src='/static/config.js?v=#{cacheBustingVersion}')

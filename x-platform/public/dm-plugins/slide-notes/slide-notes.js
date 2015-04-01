@@ -13,7 +13,7 @@ define(['module',  'slider/slider.plugins'], function(module, sliderPlugins) {
           slide: '=context',
           mode: '='
         },
-        templateUrl: path + '/slide-notes.jade',
+        templateUrl: path + '/slide-notes.html',
       };
     }
   ]);

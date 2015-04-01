@@ -70,7 +70,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
                     }
 
                     //convert fiddle into workspace
-                    scope.workspace = {
+                    scope.slide.workspace = {
                         active: getActive(scope.fiddle),
                         tabs: convertTabs(scope.fiddle),
                         size: scope.fiddle.size
@@ -78,11 +78,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
 
 
                     scope.$watch('fiddle.active', function(){
-                        scope.workspace.active = getActive(scope.fiddle.active);   
+                        scope.slide.workspace.active = getActive(scope.fiddle.active);   
                     });
 
                     scope.$watch('fiddle.aceOptions', function(){
-                        var ws = scope.workspace;
+                        var ws = scope.slide.workspace;
                         if (ws[ws.active]) {
                             ws[ws.active].editor = scope.fiddle.aceOptions;
                         }
@@ -90,10 +90,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
 
                     ['html', 'css', 'js'].map(function(x){
                         scope.$watch('fiddle.'+x, function(){
-                            scope.workspace.tabs = convertTabs(scope.fiddle);
+                            scope.slide.workspace.tabs = convertTabs(scope.fiddle);
                             scope.fiddle.active = x;
                             // If something's happens there it should be active (not sure if needed)
-                            scope.workspace.active = getActive(scope.fiddle);
+                            scope.slide.workspace.active = getActive(scope.fiddle);
                         });
                     });
                 }

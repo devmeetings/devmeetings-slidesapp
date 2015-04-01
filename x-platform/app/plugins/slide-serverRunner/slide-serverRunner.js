@@ -96,7 +96,7 @@ function fillData(clientData) {
   'use strict';
 
   if (clientData.code) {
-    return States.createFromId(clientData.code).then(function(save){
+    return States.createFromId(clientData.code).then(function(save) {
       var code = States.getData(save, clientData.path);
       clientData.code = code.content;
       return clientData;
