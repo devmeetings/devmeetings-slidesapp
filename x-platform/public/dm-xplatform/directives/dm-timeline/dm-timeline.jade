@@ -1,4 +1,4 @@
-div(ng-if="length")
+div(ng-if="length", dm-defer="700")
   .dm-timeline-point(
     ng-repeat='p in ::annos',
     ng-style='{"transform": "translate(" + (p.timestamp / length * size + "px") + ", 0)" }',
