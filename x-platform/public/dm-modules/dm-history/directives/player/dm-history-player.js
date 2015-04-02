@@ -1,10 +1,6 @@
 /* jshint esnext:true */
 'use strict';
 
-import {
-  toUrl
-}
-from 'require';
 import * as _ from '_';
 
 function getTimestamp(x) {
@@ -105,7 +101,7 @@ export function dmHistoryPlayer(dmHistory, dmPlayer, $timeout) {
     scope: {
       historyId: '='
     },
-    templateUrl: toUrl('./dm-history-player.html'),
+    templateUrl: '/static/dm-modules/dm-history/directives/player/dm-history-player.html',
     link: history.link.bind(history)
   };
 }

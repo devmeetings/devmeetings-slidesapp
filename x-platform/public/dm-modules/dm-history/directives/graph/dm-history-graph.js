@@ -1,10 +1,6 @@
 /* jshint esnext:true */
 'use strict';
 
-import {
-  toUrl
-}
-from 'require';
 import * as _ from '_';
 
 class DmHistory {
@@ -29,7 +25,7 @@ export function dmHistoryGraph(dmHistory) {
   return {
     restrict: 'E',
     scope: {},
-    templateUrl: toUrl('./dm-history-graph.html'),
+    templateUrl: '/static/dm-modules/dm-history/directives/graph/dm-history-graph.html',
     link: history.link.bind(history)
   };
 }
