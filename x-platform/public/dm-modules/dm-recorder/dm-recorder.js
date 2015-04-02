@@ -1,8 +1,8 @@
-define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, angular, Worker) {
+define(['require', 'angular', './dm-player', 'es6!./dm-recorder-worker'], function(require, angular, player, Worker) {
   'use strict';
 
   var rec = angular.module('dm-recorder', []);
-
+  rec.factory('dmPlayer', player);
   rec.factory('dmRecorder', function($q) {
 
     var listeners = {
@@ -90,50 +90,4 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
     };
   });
 
-  rec.factory('dmPlayer', function($q, dmRecorder) {
-
-    var source = dmRecorder;
-
-    return {
-
-      setRecorderSource: function(workspaceId, statesaveId, content) {
-        this.setSource(dmRecorder);
-        dmRecorder.setRecording(true, workspaceId);
-        dmRecorder.clear();
-        dmRecorder.setState(statesaveId, content);
-      },
-
-      createPlayerSource: function(statesaveId, slide) {
-        dmRecorder.setRecording(false);
-        var worker = new Worker.Player();
-        worker.setState(statesaveId, slide);
-
-        var player = {
-          applyPatchesAndId: function(patchId) {
-            return worker.applyPatchesAndId(patchId);
-          },
-
-          getCurrentStateId: function() {
-            if (!worker.getId()) {
-              return $q.reject(null);
-            }
-            return $q.when(worker.getId() + '_' + worker.getLastPatch());
-          }
-        };
-
-        this.setSource(player);
-        return player;
-      },
-
-      setSource: function(s) {
-        source = s;
-      },
-
-      getCurrentStateId: function() {
-        return source.getCurrentStateId();
-      }
-
-    };
-
-  });
 });

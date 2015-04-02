@@ -1,14 +1,13 @@
 define([
   '$', '_',
   'dm-xplayer/dm-xplayer-app',
-  'services/RecordingsPlayerFactory'
+  'dm-xplayer/services/dm-player-factory'
 ], function($, _, xplayerApp) {
   'use strict';
 
 
-  xplayerApp.directive('dmXplayer', [
-    'RecordingsPlayerFactory', '$timeout', '$window',
-    function(RecordingsPlayerFactory, $timeout, $window) {
+  xplayerApp.directive('dmXplayer',
+    function(dmPlayerFactory, $timeout, $window) {
       return {
         restrict: 'E',
         scope: {
@@ -20,12 +19,16 @@ define([
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
 
         link: function($scope) {
+
+          var recordingPlayer = null;
+
           $scope.$watch('recording', function(recording) {
             if (!recording) {
+              recordingPlayer = null;
               return;
             }
             var layout = recording.layout || null;
-            $scope.recordingPlayer = RecordingsPlayerFactory(recording, function(slide) {
+            recordingPlayer = dmPlayerFactory(recording, function(slide) {
               $scope.slide = slide;
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
@@ -51,13 +54,13 @@ define([
           $scope.maxNextStop = 10000;
 
           var goToSecond = function(curr, prev) {
-            if (!$scope.recordingPlayer) {
+            if (!recordingPlayer) {
               return;
             }
             var second = $scope.state.currentSecond;
             var anno;
 
-            $scope.recordingPlayer.goToSecond(second);
+            recordingPlayer.goToSecond(second);
 
 
             if (second >= $scope.nextStop) {
@@ -114,7 +117,7 @@ define([
         }
       };
     }
-  ]);
+  );
 
   function fixSubtitlePosition($scope) {
     // TODO [ToDr] Fix me please :(
@@ -124,6 +127,9 @@ define([
     setTimeout(function() {
       var cursor = $('.editor-focus .ace_editor')[0];
       cursor = cursor || $('.ace_editor')[0];
+      if (!cursor) {
+        return;
+      }
 
       var rect = cursor.getBoundingClientRect();
       var positionTop = Math.max(20, rect.bottom - myself.height());

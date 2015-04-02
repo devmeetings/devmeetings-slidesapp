@@ -20,14 +20,10 @@ define([
             if (!recording) {
               return;
             }
-            // find max length
-            scope.maxLength = recording.slides.reduce(function(max, slide) {
-              return max > slide.timestamp ? max : slide.timestamp;
-            }, 0);
           });
 
           scope.$watch('state.currentSecond', function(second){
-            scope.value = second * 1000 * 100 / scope.maxLength;
+            scope.value = second * 100 / scope.state.max;
           });
 
         }

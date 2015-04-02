@@ -7,6 +7,10 @@ import {
 from 'require';
 import * as _ from '_';
 
+function getTimestamp(x) {
+  return new Date(x).getTime();
+}
+
 class DmHistoryPlayer {
 
   constructor(data) {
@@ -15,41 +19,35 @@ class DmHistoryPlayer {
 
   link(scope) {
     scope.mode = 'player';
+    scope.state = {};
+    scope.annotations = [];
+
     scope.$watch('historyId', (historyId) => {
       this.dmHistory.fetchHistorySince(historyId).then((history) => {
         var currentHist = _.find(history, function(h){
           return h._id === historyId;
         });
+        var idx = history.indexOf(currentHist);
         // Player
-        var player = this.dmPlayer.createPlayerSource(currentHist.patches[0].id, currentHist.current);
+        var current = JSON.parse(JSON.stringify(currentHist.original || {}));
+        var player = this.dmPlayer.createPlayerSource(currentHist.patches[0].id, current);
         this.dmHistory.setHistory(history);
-        // Temporary playe
-        var that = this;
-        (function() {
-          var current = 0;
-
-          function nextSlide() {
-            var p = currentHist.patches;
-            var patch = p[current];
-
-            player.applyPatchesAndId({
-              id: patch.id,
-              patches: [patch] 
-            });
-
-            current += 1;
-            if (current >= p.length) {
-              return;
-            }
-
-            that.$timeout(nextSlide, 100);
-          }
-
-          nextSlide();
-        }());
         // Player has to be fed with ne patches from external source.
         // We need to prepare ticker according to patches inside history.
-        scope.history = history[0];
+        scope.recording = {
+          player: player,
+          slides: history.slice(idx)
+        };
+
+        var start = getTimestamp(currentHist.originalTimestamp);
+
+        scope.annotations = [];
+        scope.state = {
+          isPlaying: false,
+          currentSecond: 0.1,
+          rate: 100,
+          max: (getTimestamp(_.last(history).currentTimestamp) - start) / 1000
+        };
       });
     });
   }

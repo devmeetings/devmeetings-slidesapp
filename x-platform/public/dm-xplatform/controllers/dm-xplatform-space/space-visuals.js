@@ -79,7 +79,7 @@ class SpaceVisuals {
     $scope.toggleRightDelayed = function(open) {
       var delay = open ? 600 : 1500;
       $timeout(function() {
-        if ($scope.right.mouseOn !== open) {
+        if ($scope.right.mouseOn !== open || $scope.right.pinned) {
           return;
         }
         $scope.toggleRight(open);
