@@ -45,12 +45,9 @@ var States = (function() {
     createFromId: function(compoundId) {
       var idParts = compoundId.split('_');
       var id = idParts[0];
-      var patchIdx = idParts[1];
+      var patchIdx = parseInt(idParts[1], 10);
 
       return Q.ninvoke(Statesave.findById(id).lean(), 'exec').then(function(save) {
-        if (!save) {
-          return save;
-        }
         // Apply patches
         var state = save.original || {};
         States.applyPatches(state, save.patches.slice(0, patchIdx + 1));

@@ -11,6 +11,46 @@ function getTimestamp(x) {
   return new Date(x).getTime();
 }
 
+
+function convertSlidesToPatches(slides) {
+  var start = getTimestamp(slides[0].originalTimestamp);
+
+  var patches = slides.reduce(function(patches, slide) {
+
+    let diff = getTimestamp(slide.originalTimestamp) - start;
+    let newPatches = slide.patches.map(function(patch) {
+      return {
+        id: patch.id,
+        timestamp: patch.timestamp + diff,
+        patch: patch.patch
+      };
+    });
+
+    return patches.concat(newPatches);
+
+  }, []);
+
+
+  //skip silence
+  var silenceThreshold = 1000 * 60;
+  var silenceGap = 1000 * 6;
+  patches.reduce(function(memo, patch) {
+    var diff = patch.timestamp - memo.last;
+    if (diff > silenceThreshold) {
+      memo.diff += diff - silenceGap;
+    }
+
+    memo.last = patch.timestamp;
+    patch.timestamp -= memo.diff;
+    return memo;
+  }, {
+    diff: 0,
+    last: 0
+  });
+
+  return patches;
+}
+
 class DmHistoryPlayer {
 
   constructor(data) {
@@ -24,7 +64,7 @@ class DmHistoryPlayer {
 
     scope.$watch('historyId', (historyId) => {
       this.dmHistory.fetchHistorySince(historyId).then((history) => {
-        var currentHist = _.find(history, function(h){
+        var currentHist = _.find(history, function(h) {
           return h._id === historyId;
         });
         var idx = history.indexOf(currentHist);
@@ -34,19 +74,18 @@ class DmHistoryPlayer {
         this.dmHistory.setHistory(history);
         // Player has to be fed with ne patches from external source.
         // We need to prepare ticker according to patches inside history.
+        var patches = convertSlidesToPatches(history.slice(idx));
         scope.recording = {
           player: player,
-          slides: history.slice(idx)
+          patches: patches
         };
-
-        var start = getTimestamp(currentHist.originalTimestamp);
 
         scope.annotations = [];
         scope.state = {
           isPlaying: false,
           currentSecond: 0.1,
           rate: 100,
-          max: (getTimestamp(_.last(history).currentTimestamp) - start) / 1000
+          max: _.last(patches).timestamp / 1000
         };
       });
     });

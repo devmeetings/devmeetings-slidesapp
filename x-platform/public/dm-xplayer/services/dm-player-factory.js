@@ -45,29 +45,9 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
       return patches.slice(startIdx, endIdx);
     }
 
-    function convertSlidesToPatches(slides) {
-      var start = new Date(slides[0].originalTimestamp).getTime();
-
-      return slides.reduce(function(patches, slide) {
-
-        var diff = new Date(slide.originalTimestamp).getTime() - start;
-        var newPatches = slide.patches.map(function(patch) {
-          return {
-            id: patch.id,
-            timestamp: patch.timestamp + diff,
-            patch: patch.patch
-          };
-        });
-
-        return patches.concat(newPatches);
-
-      }, []);
-
-    }
-
     function newRecordingPlayer(recording, callback) {
       var player = recording.player;
-      var recPatches = convertSlidesToPatches(recording.slides);
+      var recPatches = recording.patches;
 
       var lastSecond = -1;
 
@@ -83,18 +63,22 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
           if (lastSecond < second) {
             // Search for patches
             patches = searchForPatches(recPatches, lastSecond, second);
-            player.applyPatchesAndId({
-              id: _.last(patches).id,
-              patches: patches
-            });
+            if (patches.length) {
+              player.applyPatchesAndId({
+                id: _.last(patches).id,
+                patches: patches
+              });
+            }
             return callbackWithCode(second);
           }
           // We need to apply reverse patches
           patches = searchForPatches(recPatches, second, lastSecond);
-          player.applyReversePatchesAndId({
-            id: patches[0].id,
-            patches: patches
-          });
+          if (patches.length) {
+            player.applyReversePatchesAndId({
+              id: patches[0].id,
+              patches: patches
+            });
+          }
           return callbackWithCode(second);
         }
       };
