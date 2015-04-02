@@ -18,7 +18,7 @@ var States = (function() {
 
     fetchStateForWriting: function(id, user) {
       return fetchState(id, user).then(function(save) {
-        if (save.patches.length < 100) {
+        if (save.noOfPatches < 100) {
           return save;
         }
         // Create new item in collection
@@ -48,6 +48,9 @@ var States = (function() {
       var patchIdx = idParts[1];
 
       return Q.ninvoke(Statesave.findById(id).lean(), 'exec').then(function(save) {
+        if (!save) {
+          return save;
+        }
         // Apply patches
         var state = save.original || {};
         States.applyPatches(state, save.patches.slice(0, patchIdx + 1));
@@ -58,10 +61,41 @@ var States = (function() {
 
     getForWorkspaceId: function(workspaceId) {
       return Q.ninvoke(Statesave.find({
-        workspaceId: workspaceId
-      }).limit(100).select('current _id previousState currentTimestamp').sort({
+        workspaceId: workspaceId,
+        noOfPatches: {
+          $gte: 1
+        }
+      }).limit(100).select('current _id previousState currentTimestamp').lean().sort({
         'currentTimestamp': 1
       }), 'exec');
+    },
+
+    getSinceId: function(stateId) {
+
+      function fetchHistory(workspaceId, timestampQuery, limit) {
+        return Statesave.find({
+          workspaceId: workspaceId,
+          noOfPatches: {
+            $gte: 1
+          },
+          currentTimestamp: timestampQuery
+        }).lean().limit(limit).sort({
+          'currentTimestamp': 1
+        });
+      }
+
+      return Q.ninvoke(Statesave.findById(stateId).lean(), 'exec').then(function(save) {
+        var after = Q.ninvoke(fetchHistory(save.workspaceId, {
+          $gte: save.currentTimestamp
+        }, 100), 'exec');
+        var before = Q.ninvoke(fetchHistory(save.workspaceId, {
+          $lt: save.currentTimestamp
+        }, 10), 'exec');
+
+        return Q.all([before, after]).then(function(a) {
+          return a[0].concat(a[1]);
+        });
+      });
     }
   };
 
@@ -90,11 +124,18 @@ function fetchState(id, user) {
   'use strict';
 
   if (id) {
-    return Q.ninvoke(Statesave, 'findById', id);
+    return Q.ninvoke(Statesave, 'findById', id).then(function(save) {
+      if (!save) {
+        throw Error('State not found');
+      }
+      return save;
+    });
   }
+
   var obj = new Statesave({
     user: user._id,
     originalTimestamp: new Date(0),
+    noOfPatches: 0,
     original: {},
     current: {}
   });

@@ -12,14 +12,18 @@ var Statesave = new Schema({
   },
   workspaceId: {
     type: Schema.Types.ObjectId,
-    ref: 'slidesave'
+    ref: 'slidesave',
+    index: true
   },
   originalTimestamp: Date,
   original: {
     type: Schema.Types.Mixed
   },
-
+  noOfPatches: Number,
   patches: [{
+    id: {
+      type: String
+    },
     timestamp: {
       type: Number
     },

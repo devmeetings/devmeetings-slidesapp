@@ -57,6 +57,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           }
 
           var patch = dmRecorder.updateState(scope.slide);
+          if (!patch) {
+            return;
+          }
+
           toSend.push(patch);
 
           if (dmRecorder.isSyncing()) {

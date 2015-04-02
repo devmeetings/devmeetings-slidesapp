@@ -73,6 +73,11 @@ exports.initApi = function(app, authenticated) {
 
     var internalFile = getInternalFileName(file);
     States.createFromId(req.params.hash).done(function(slide) {
+      if (!slide) {
+        res.send(404);
+        return;
+      }
+
       var workspace = getFiles(slide.workspace);
       var file = findFile(workspace, internalFile);
       if (!workspace || !file) {

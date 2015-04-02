@@ -38,8 +38,8 @@ class EventLive {
     });
   }
 
-  createWorkspacePlayerSource($scope, workspaceId, initialState) {
-    let player = this.dmPlayer.createPlayerSource(initialState);
+  createWorkspacePlayerSource($scope, workspaceId, statesaveId, initialState) {
+    let player = this.dmPlayer.createPlayerSource(statesaveId, initialState);
 
     this.watchWorkspace($scope, workspaceId, (patches) => {
       $scope.$apply(() => {

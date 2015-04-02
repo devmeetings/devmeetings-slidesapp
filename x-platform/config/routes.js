@@ -88,6 +88,7 @@ module.exports = function(app) {
     app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'), recordings.cutout);
 
     var history = require('../app/controllers/history');
+    app.get('/api/history/since/:id', apiAuthenticated, history.since);
     app.get('/api/history/:id', apiAuthenticated, history.get);
 
     var events = require('../app/controllers/events');

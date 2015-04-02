@@ -10,6 +10,7 @@ var Slidesave = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'slide'
     },
+    statesaveId: String,
     slide: {
         type: Schema.Types.Mixed
     },

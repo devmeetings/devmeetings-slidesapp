@@ -20,16 +20,16 @@ class DmHistory {
 }
 
 
-export function dmHistoryDirective(dmRecorder, dmHistory) {
+export function dmHistoryGraph(dmHistory) {
 
   let history = new DmHistory({
-    dmRecorder, dmHistory
+    dmHistory
   });
 
   return {
     restrict: 'E',
     scope: {},
-    templateUrl: toUrl('./dm-history-directive.html'),
+    templateUrl: toUrl('./dm-history-graph.html'),
     link: history.link.bind(history)
   };
 }

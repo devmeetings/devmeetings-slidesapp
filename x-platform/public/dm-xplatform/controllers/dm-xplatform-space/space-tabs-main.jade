@@ -74,7 +74,7 @@ tab.cursor-pointer(id='issues', active='tabs.history',
   )
       span.fa.fa-history
   .col-xs-12.full-height(ng-if="right.opened && tabs.history")
-    dm-history
+    dm-history-graph
 
 tab.cursor-pointer(id='stream', active='tabs.stream',
    analytics-category='spacesidebar',
@@ -87,6 +87,7 @@ tab.cursor-pointer(id='stream', active='tabs.stream',
     tooltip='Docs', tooltip-placement='left', title='Docs')
        span.fa.fa-book
    .col-xs-12.full-height
-       .row.full-height(ui-view='first', ng-if="right.opened && tabs.stream")
+     .row.full-height(ng-if="right.opened && tabs.stream", ng-controller="dmXplatformAnnos")
+        include ../dm-xplatform-annos/dm-xplatform-annos.jade
 
 

@@ -12,10 +12,10 @@ define([
   'es6!./space-visuals'
 ], function(_, xplatformApp) {
   xplatformApp.controller('dmXplatformSpace', function(
-    $scope, $stateParams, dmSpaceVisuals, dmEventLive,
+    $window, $scope, $stateParams, dmSpaceVisuals, dmEventLive,
     $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab) {
 
-    dmSpaceVisuals.initialize($scope);
+    dmSpaceVisuals.initialize($scope, $window);
 
     dmUser.getCurrentUser().then(function(data) {
       $scope.user = data;

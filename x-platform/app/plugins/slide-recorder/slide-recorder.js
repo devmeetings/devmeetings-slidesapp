@@ -22,11 +22,14 @@ exports.onSocket = function(log, socket) {
 
       save.currentTimestamp = new Date(_.last(patches).timestamp);
       // fix timestamps
-      patches.map(function(patchData) {
+      var last = save.patches.length;
+      patches.map(function(patchData, idx) {
+        patchData.id = save._id + '_' + (last + idx);
         patchData.timestamp = patchData.timestamp - originalTime;
       });
       // append Patches
       save.patches = save.patches.concat(patches);
+      save.noOfPatches = save.patches.length;
 
       save.workspaceId = data.workspaceId;
       save.markModified('current');

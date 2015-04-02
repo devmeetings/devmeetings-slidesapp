@@ -4,7 +4,7 @@ define(['angular',
   'directives/plugins-loader',
   'xplatform/services/dm-slidesaves/dm-slidesaves'
 ], function(angular, _, xplatformApp) {
-  xplatformApp.controller('dmXplatformSlide', function($scope, $q, $state, $stateParams, $timeout, Sockets, dmSlidesaves, dmPlayer, dmEvents, dmBrowserTab, dmEventLive) {
+  xplatformApp.controller('dmXplatformSlide', function($scope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmRecorder, dmEvents, dmBrowserTab, dmEventLive) {
     //
     var state = $state.current.name.split('.')[2];
 
@@ -15,7 +15,7 @@ define(['angular',
     dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
       $scope.slide = save;
 
-      dmPlayer.setRecorderSource($stateParams.slide);
+      dmPlayer.setRecorderSource($stateParams.slide, save.statesaveId, save.slide);
 
       if (state === 'workspace') {
         dmBrowserTab.setTitleAndIcon('Your code', 'code');
@@ -26,11 +26,15 @@ define(['angular',
         }, 5000);
         dmBrowserTab.setTitleAndIcon('Question', 'slide');
       } else if (state === 'watch') {
-        dmEventLive.createWorkspacePlayerSource($scope, save._id, save.slide);
+        dmEventLive.createWorkspacePlayerSource($scope, save._id, save.statesaveId, save.slide);
         dmBrowserTab.setTitleAndIcon(save.title, 'movie');
       } else {
         dmBrowserTab.setTitleAndIcon(save.title, 'slide');
       }
+    });
+
+    $scope.$on('$destroy', function(){
+      dmRecorder.setRecording(false, null);   
     });
 
     var saveSlideWithDebounce = _.debounce(function(myId) {

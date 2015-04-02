@@ -46,6 +46,7 @@ var Slidesaves = {
             _id: slide
         }, {
           $set: {
+            statesaveId: stateId,
             slide: state
           }
         }).lean().exec(callback);

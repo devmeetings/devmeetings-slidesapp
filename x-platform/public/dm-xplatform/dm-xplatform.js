@@ -24,7 +24,8 @@ require(['angular',
         'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
         'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create',
         'xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck',
-        'xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide'
+        'xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide',
+        'es6!xplatform/controllers/dm-xplatform-history/dm-xplatform-history',
     ],
     function(angular, templates, angularRouter, bootstrap, xplatformApp) {
 
@@ -260,11 +261,7 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide.html',
                             controller: 'dmXplatformDeckSlide'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
-                        }
+                        } 
                     }
                 });
 
@@ -274,10 +271,6 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
@@ -288,10 +281,16 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
+                        }
+                    }
+                });
+
+                $stateProvider.state('index.space.history', {
+                    url: '/history/:historyId',
+                    views: {
+                        content: {
+                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-history/dm-xplatform-history.html',
+                            controller: 'dmXplatformHistory'
                         }
                     }
                 });
@@ -302,10 +301,6 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
                             controller: 'dmXplatformSlide'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
@@ -317,10 +312,6 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo.html',
                             controller: 'dmXplatformTodo'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
@@ -331,10 +322,6 @@ require(['angular',
                         content: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck.html',
                             controller: 'dmXplatformDeck'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });
@@ -349,10 +336,6 @@ require(['angular',
                         bottombar: {
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline.html',
                             controller: 'dmXplatformTimeline'
-                        },
-                        first: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-                            controller: 'dmXplatformAnnos'
                         }
                     }
                 });

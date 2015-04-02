@@ -25,7 +25,7 @@
                     seamless=true,
                     dm-iframe="{{ event.liveLink | liveLinkUrl:'embed' }}")
 
-        .dm-spacesidebar.dm-spacesidebar-right-container(
+        .dm-spacesidebar.dm-spacesidebar-right-container.ng-cloak(
             dm-defer="1000"
             ng-style='{"width": right.current, "overflow": "visible"}',
             ng-class="{'pinned': right.pinned, 'opened': right.opened}",

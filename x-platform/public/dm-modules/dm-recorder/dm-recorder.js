@@ -31,9 +31,9 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
       stopSyncingAndSetId: function(id, lastPatch) {
         worker.syncing = false;
-        worker.setId(id);
-        worker.setLastPatch(lastPatch);
-        worker.idDefer.resolve(id + '_' + lastPatch);
+        var idAndPatch = id + '_' + lastPatch;
+        worker.fillInIds(idAndPatch);
+        worker.idDefer.resolve(idAndPatch);
         this.trigger('newState', id, lastPatch, worker.state.current);
       },
 
@@ -49,6 +49,18 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
       isRecording: function() {
         return isRecording;
+      },
+
+      setState: function(statesaveId, content) {
+        if (!statesaveId) {
+          return;
+        }
+        // Cloning workspace
+        worker.setState(statesaveId, JSON.parse(JSON.stringify(content)));
+        if (worker.idDefer) {
+          worker.idDefer.resolve(statesaveId);
+        }
+        this.trigger('newState', worker.getId(), worker.getLastPatch(), worker.state.current);
       },
 
       setRecording: function(val, wsId) {
@@ -84,16 +96,17 @@ define(['require', 'angular', 'es6!./dm-recorder-worker'], function(require, ang
 
     return {
 
-      setRecorderSource: function(workspaceId) {
+      setRecorderSource: function(workspaceId, statesaveId, content) {
         this.setSource(dmRecorder);
         dmRecorder.setRecording(true, workspaceId);
         dmRecorder.clear();
+        dmRecorder.setState(statesaveId, content);
       },
 
-      createPlayerSource: function(slide) {
+      createPlayerSource: function(statesaveId, slide) {
         dmRecorder.setRecording(false);
         var worker = new Worker.Player();
-        worker.setState(slide);
+        worker.setState(statesaveId, slide);
 
         var player = {
           applyPatchesAndId: function(patchId) {

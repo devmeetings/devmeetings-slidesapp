@@ -36,7 +36,7 @@ class SpaceVisuals {
     $scope.$on('$destroy', removeFullscreenHandler);
   }
 
-  initSidebars($scope) {
+  initSidebars($scope, localStorage) {
     let $timeout = this.$timeout;
 
     $scope.left = {
@@ -49,7 +49,8 @@ class SpaceVisuals {
       min: '35px',
       max: '330px',
       current: '35px',
-      opened: false
+      opened: false,
+      pinned: false
     };
 
     $scope.bottombarHeight = '0px';
@@ -71,6 +72,8 @@ class SpaceVisuals {
         right.min = right.max;
       }
       right.pinned = !right.pinned;
+      right.opened = right.pinned;
+      localStorage.setItem('sidebar.pinned', right.pinned);
     };
 
     $scope.toggleRightDelayed = function(open) {
@@ -120,7 +123,11 @@ class SpaceVisuals {
 
     $timeout(function() {
       $scope.toggleRightDelayed(false);
-    }, 2000);
+      var isPinned = localStorage.getItem('sidebar.pinned') === 'true';
+      if (isPinned) {
+        $scope.togglePinRight();
+      }
+    }, 2500);
 
     if ($scope.editMode) {
       $scope.right.min = $scope.right.max;
@@ -144,9 +151,9 @@ class SpaceVisuals {
     });
   }
 
-  initialize($scope) {
+  initialize($scope, $window) {
     this.initFullScreen($scope);
-    this.initSidebars($scope);
+    this.initSidebars($scope, $window.localStorage);
     this.initNotifications($scope);
     this.initLocationWatching($scope);
   }

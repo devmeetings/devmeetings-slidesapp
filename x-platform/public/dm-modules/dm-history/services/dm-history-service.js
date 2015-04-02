@@ -21,26 +21,52 @@ export class History {
     });
   }
 
-  fetchHistory(id) {
-    this.$http.get('/api/history/' + id).then((res) => {
-      this.history = res.data;
+
+  getHistoryItem(id) {
+    return _.find(this.history, function(item) {
+      return item._id === id;
     });
   }
 
+  fetchWorkspaceHistory(id) {
+    return this.$http.get('/api/history/' + id).then((res) => {
+      return res.data;
+    });
+  }
+
+  // For player
+  fetchHistorySince(id) {
+    return this.$http.get('/api/history/since/' + id).then((res) => {
+      return res.data;
+    });
+  }
+
+  setHistory(history) {
+    this.history = history;
+  }
+
+  // For recorder
   onNewWorkspace(id) {
     this.history = [];
     if (!id) {
       return;
     }
-    this.fetchHistory(id);
+    this.fetchWorkspaceHistory(id).then((history) => {
+      this.history = history;
+    });
   }
 
   onNewState(id, patchId, current) {
-    console.log('New state', id, patchId, current);
-    // TODO if id is different save also current
-    // ignore patchId
+    let last = _.last(this.history);
+    let lastId = last ? last._id : null;
+    if (lastId === id) {
+      return;
+    }
+
     this.history.push({
       _id: id,
+      patches: [patchId],
+      current: current
     });
   }
 
