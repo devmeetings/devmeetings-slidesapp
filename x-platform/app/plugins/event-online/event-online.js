@@ -1,5 +1,5 @@
-
 var userWorkspacesForEvent = {};
+var userWorkspaceListeners = {};
 
 exports.onSocket = function(log, socket, io) {
   'use strict';
@@ -31,6 +31,10 @@ exports.onSocket = function(log, socket, io) {
     });
 
     socket.on('disconnect', function() {
+      unsubscribeFrom.slice().map(function(workspaceId) {
+        changeWorkspaceListenersCount(-1, workspaceId);
+      });
+
       leaveEvent(eventId);
     });
   }
@@ -69,6 +73,7 @@ exports.onSocket = function(log, socket, io) {
       return getUser(socket);
     }).map(function(user) {
       user.workspaceId = userWorkspaces[user._id];
+      user.workspaceListeners = userWorkspaceListeners[user.worskpaceId] || 0;
       return user;
     });
     return users;
@@ -78,9 +83,39 @@ exports.onSocket = function(log, socket, io) {
     return 'event_' + eventId;
   }
 
+  var unsubscribeFrom = [];
+
+  function changeWorkspaceListenersCount(mod, workspaceId) {
+    if (mod > 0) {
+      unsubscribeFrom.push(workspaceId);
+    } else {
+      unsubscribeFrom.splice(unsubscribeFrom.indexOf(workspaceId), 1);
+    }
+
+    var count = userWorkspaceListeners[workspaceId] || 0;
+    count += mod;
+    userWorkspaceListeners[workspaceId] = count;
+
+    socket.rooms.filter(function(room) {
+      return room.indexOf('event_') === 0;
+    }).map(function(roomName) {
+      var msg = {
+        action: 'state.count',
+        workspaceId: workspaceId,
+        count: count
+      };
+      // Broadcast
+      socket.broadcast.to(roomName).emit('event.user', msg);
+      // Send also to myself
+      socket.emit('event.user', msg);
+    });
+  }
+
   socket.on('event.join', joinEvent);
   socket.on('event.leave', leaveEvent);
 
+  socket.on('state.subscribe', changeWorkspaceListenersCount.bind(null, +1));
+  socket.on('state.unsubscribe', changeWorkspaceListenersCount.bind(null, -1));
 
   function findClientsSocket(roomId, namespace) {
     var res = [],

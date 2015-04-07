@@ -64,6 +64,19 @@ define([
           $scope.users = userData.users;
           return;
         }
+
+        if (userData.action === 'state.count') {
+          // find user with specific owrkspace
+          user = _.find($scope.users, {
+            workspaceId: userData.workspaceId
+          });
+          if (user) {
+            user.workspaceListeners = userData.count;
+          } else if (userData.workspaceId === $scope.workspaceId) {
+            $scope.user.result.workspaceListeners = userData.count;
+          }
+          return;
+        }
       });
     }
 

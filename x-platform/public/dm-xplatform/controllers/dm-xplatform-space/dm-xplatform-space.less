@@ -100,8 +100,22 @@
   z-index: 9;
 
   .users {
+    li {
+      position: relative;
+    }
     li.active a {
       background-color: #666;
+    }
+    .user-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0px;
+      font-size: 11px;
+      font-weight: bold;
+      z-index: 1000;
+      background: #1f1f1f;
+      border-radius: 50% 50% 0 50%;
+      padding: 0 3px;
     }
     a {
       margin: 0;
