@@ -5,7 +5,7 @@ include ./file-tabs
   .full-height
       .clearfix
         ul.nav.nav-tabs.pull-right
-            li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!output.showUrl && !workspace.showUrl")
+            li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!output.showUrl && workspace.showUrl === false")
               a.cursor-pointer(
                 title="Open Your Page in New Window",
                 ng-href="{{ output.contentUrl }}", 

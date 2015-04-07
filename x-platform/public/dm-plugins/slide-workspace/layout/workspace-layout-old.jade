@@ -12,13 +12,13 @@ include ./file-tabs
                   tooltip="Hide Preview", tooltip-animation='false', tooltip-placement="bottom",
                   ng-click="changeWidth()", analytics-event="workspace-changeWidth", analytics-category="workspace")
                       span.fa.fa-arrows-h
-              li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!workspace.showUrl")
+              li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="workspace.showUrl === false")
                 a.cursor-pointer(
                   title="Show / Hide URL",
                   tooltip="Show / Hide URL", tooltip-animation='false', tooltip-placement="bottom",
                   ng-click="output.showUrl = !output.showUrl", analytics-event="workspace-showUrl", analytics-category="workspace")
                       span.fa.fa-list-alt
-              li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!output.showUrl && !workspace.showUrl")
+              li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!output.showUrl && workspace.showUrl === false")
                 a.cursor-pointer(
                   title="Open Your Page in New Window",
                   ng-href="{{ output.contentUrl }}", 
