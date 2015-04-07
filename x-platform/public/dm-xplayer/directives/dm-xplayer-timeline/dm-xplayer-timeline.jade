@@ -44,13 +44,13 @@ a.btn.dm-timeline-button(
       ng-click="move($event)")
 
     dm-xplayer-ticker(
-      ng-if="!withVoice",
+      ng-if="!audioUrl",
       state='state'
     )
 
     dm-wavesurfer(
-      ng-if="withVoice"  
-      dm-src='audio',
+      ng-if="audioUrl"  
+      dm-src='audioUrl',
       dm-is-playing='state.isPlaying',
       dm-current-second='state.currentSecond',
       dm-playback-rate='state.rate',

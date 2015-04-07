@@ -11,6 +11,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $scope.state.startSecond = $scope.state.currentSecond;
     });
 
+    $scope.withVoice = $stateParams.withVoice;
+
     $scope.keys.keyUp = function(event) {
       if (event.keyCode !== 32 || event.target.type === 'textarea') {
         return;

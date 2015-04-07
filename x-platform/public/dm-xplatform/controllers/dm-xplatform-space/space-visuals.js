@@ -72,6 +72,9 @@ class SpaceVisuals {
         right.min = right.max;
       }
       right.pinned = !right.pinned;
+      if (right.pinned) {
+        $scope.toggleRight(true);
+      }
       localStorage.setItem('sidebar.pinned', right.pinned);
     };
 

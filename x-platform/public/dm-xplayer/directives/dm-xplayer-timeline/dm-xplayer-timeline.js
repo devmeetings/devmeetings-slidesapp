@@ -33,6 +33,7 @@ define([
             } else {
               $scope.state.rate = rates[rates.length - 5];
             }
+            $scope.changeRate();
           });
 
           $scope.changeRate = function() {
@@ -41,7 +42,6 @@ define([
             $scope.nextRate = rates[(nextRate + 1) % rates.length];
             $scope.state.rate = rates[nextRate];
           };
-          $scope.changeRate();
 
           $scope.move = function(ev) {
             var width = ev.currentTarget.clientWidth;

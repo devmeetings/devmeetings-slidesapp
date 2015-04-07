@@ -46,17 +46,6 @@
   }
 }
 
-.dm-spacesidebar {
-  .dm-space-live {
-    position: absolute;
-    bottom: 33px;
-    left: 0;
-    right: 0;
-    height: 33px;
-    z-index: 10;
-  }
-}
-
 
 .full-frame {
   border: none;
@@ -85,7 +74,7 @@
 
 .dm-spacesidebar {
   position: relative;
-  height: 100%;
+  height: ~"calc(100% - 3px)";
   float: left;
   background-color: rgb(30,30,30);
   z-index: 9;
@@ -95,9 +84,18 @@
       width: 100%;
     }
     a {
-      padding: 5px 0;
+      padding: 3px 0;
       text-align: center;
     }
+  }
+
+  .dm-space-live {
+    position: absolute;
+    bottom: 33px;
+    left: 0;
+    right: 0;
+    height: 33px;
+    z-index: 10;
   }
 
   .users {
@@ -186,8 +184,48 @@
   height: 100%;
   padding-bottom: 30px;
   transition: padding-bottom 0.5s ease-in-out;
+
+  .sidebar-title {
+    font-size: 17px;
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    text-align: center;
+    top: -31px;
+    color: #ddd;
+    margin: 0;
+  }
+
+  &:hover {
+    .sidebar-pin-btn {
+      opacity: 1.0;
+    }
+  }
+  .sidebar-pin-btn {
+    opacity: 0.2;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .sidebar-open-btn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #888;
+    padding: 50vh 9px 0;
+
+    &:hover {
+      background-color: #444;
+    }
+
+    > .fa {
+      height: 100%;
+      line-height: 100%;
+    }
+  }
   > div {
-    height: 100%;
+    height: ~"calc(100% - 30px)";
   }
 
   .inactive .nav li.active {
