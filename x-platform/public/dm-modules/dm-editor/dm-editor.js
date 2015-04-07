@@ -64,7 +64,11 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               enableSnippets: !scope.options.noAutocomplete,
               behavioursEnabled: !scope.options.noAutocomplete
             });
-            editor.focus();
+
+            // Don't lose focus when playing a movie!
+            if (scope.editorMode !== 'player') {
+              editor.focus();
+            }
 
             (function vimMode() {
               if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
