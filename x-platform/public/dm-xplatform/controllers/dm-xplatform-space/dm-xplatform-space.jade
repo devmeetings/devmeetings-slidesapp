@@ -42,20 +42,20 @@
           .dm-spacesidebar-right
             include ./space-sidebar-buttons.jade
             div(ui-view="context")
-            // tabset(ng-class='{"inactive": !right.opened}')
-            //     include ./space-tabs-main.jade
-            //     .separator
-            //     include ./space-tab-user.jade
-            //     tab.cursor-pointer(
-            //         analytics-category='spacesidebar',
-            //         analytics-on='click', analytics-event='spacesidebar.zen',
-            //         disabled="true",
-            //         ng-click='changeFullScreen(true)'
-            //       )
-            //         tab-heading.cursor-pointer(
-            //           tooltip='Full Screen', tooltip-placement='left', title="Full Screen",
-            //           tooltip-animation='false',
-            //           )
-            //           span.fa.fa-desktop
-            //
+            tabset(ng-class='{"inactive": !right.opened}')
+                include ./space-tabs-main.jade
+                .separator
+                include ./space-tab-user.jade
+                tab.cursor-pointer(
+                    analytics-category='spacesidebar',
+                    analytics-on='click', analytics-event='spacesidebar.zen',
+                    disabled="true",
+                    ng-click='changeFullScreen(true)'
+                  )
+                    tab-heading.cursor-pointer(
+                      tooltip='Full Screen', tooltip-placement='left', title="Full Screen",
+                      tooltip-animation='false',
+                      )
+                      span.fa.fa-desktop
+
 

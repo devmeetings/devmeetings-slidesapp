@@ -1,8 +1,7 @@
-define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-taskicon/dm-taskicon'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
+  'use strict';
 
-
-
-  xplatformApp.directive('dmTimeline', ["$window", "$timeout", function($window, $timeout) {
+  xplayerApp.directive('dmTimeline', ['$window', '$timeout', function($window, $timeout) {
     return {
       restrict: 'E',
       scope: {
@@ -10,7 +9,7 @@ define(['angular', 'xplatform/xplatform-app', 'xplatform/directives/dm-taskicon/
         length: '=',
         annotations: '=*'
       },
-      templateUrl: '/static/dm-xplatform/directives/dm-timeline/dm-timeline.html',
+      templateUrl: '/static/dm-xplayer/directives/dm-timeline/dm-timeline.html',
       link: function(scope, element) {
 
         scope.$watch('second', function(second) {

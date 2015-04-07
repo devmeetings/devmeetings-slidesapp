@@ -1,0 +1,15 @@
+div(
+  ng-style='{"height": "calc(100% - 23px)"}')
+  dm-xplayer(
+    state='state', 
+    annotations='annotations', 
+    recording='recording',
+    on-first-run='onFirstRun()')
+
+.bottom-bar(ng-style='{"height": "23px"}')
+  dm-xplayer-timeline(
+    state='state',
+    annotations='annotations',
+    audio-url='audioUrl'
+    )
+

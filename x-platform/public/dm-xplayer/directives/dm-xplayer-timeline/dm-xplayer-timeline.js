@@ -3,31 +3,60 @@ define([
 ], function(xplayerApp) {
   'use strict';
 
-  xplayerApp.directive('dmXplayerTimeline', [
-    function() {
+  xplayerApp.directive('dmXplayerTimeline',
+    function($window) {
       return {
         restrict: 'E',
         scope: {
           state: '=',
-          recording: '=',
-          annotations: '='
+          annotations: '=',
+          audioUrl: '='
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline.html',
 
-        link: function(scope) {
+        link: function($scope) {
+          $scope.setTime = function(time) {
+            $scope.setSecond = time;
+          };
+          $window.setTime = function(time) {
+            $scope.$apply(function() {
+              $scope.setSecond = time;
+            });
+          };
 
-          scope.$watch('recording', function(recording) {
-            if (!recording) {
-              return;
+          var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0];
+          $scope.$watch('audioUrl', function(audioUrl) {
+            $scope.withVoice = !!audioUrl;
+
+            if ($scope.withVoice) {
+              $scope.state.rate = rates[0];
+            } else {
+              $scope.state.rate = rates[rates.length - 5];
             }
           });
 
-          scope.$watch('state.currentSecond', function(second){
-            scope.value = second * 100 / scope.state.max;
-          });
+          $scope.changeRate = function() {
+            var nextRate = rates.indexOf($scope.state.rate) + 1;
+            nextRate = nextRate % rates.length;
+            $scope.nextRate = rates[(nextRate + 1) % rates.length];
+            $scope.state.rate = rates[nextRate];
+          };
+          $scope.changeRate();
 
+          $scope.move = function(ev) {
+            var width = ev.currentTarget.clientWidth;
+            var x;
+            if (ev.target.clientWidth === ev.currentTarget.clientWidth) {
+              x = (ev.offsetX || ev.originalEvent.layerX);
+            } else {
+              var rect = ev.target.getBoundingClientRect();
+              var parentRect = ev.target.parentElement.getBoundingClientRect();
+              x = rect.left - parentRect.left;
+            }
+            $scope.state.currentSecond = x / width * $scope.state.max;
+          };
         }
       };
     }
-  ]);
+  );
 });

@@ -1,0 +1,128 @@
+.dm-state-playing {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  z-index: 12;
+}
+.dm-xplayer-timeline {
+  .progress-bar {
+    background-color: #aa2;
+  }
+}
+.dm-player-subtitles {
+    @color: #aa0;
+
+    position: absolute;
+    transition: left 0.3s ease, top 0.3s ease, opacity 0.7s ease-in-out;
+    z-index: 13;
+    font-size: 15px;
+    width: auto;
+    padding-left: 30px;
+    color: @color;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #222;
+    background-color: rgba(16, 16, 16, 0.8);
+    min-height: 32px;
+
+    pre,code {
+      text-shadow: none;
+    }
+
+    .microtask-active .microtask-content {
+      h1,h2,h3,h4,h5,h6,p {
+        color: @color;
+      }
+    }
+
+
+    &.first-run {
+      width: 120px;
+      height: 120px;
+      top: ~"calc(50% - 140px)" !important;
+      left: ~"calc(50% - 140px)" !important;
+      .btn-next-subtitle {
+        width: 100px;
+        height: 100px;
+        font-size: 50px;
+        text-align: center;
+        top: 10px;
+        left: 10px;
+      }
+    }
+
+    overflow: visible;
+    opacity: 1.0;
+
+    &.faded {
+      opacity: 0.0;
+    }
+
+    &:hover {
+      .dm-player-subtitles-minimize {
+        opacity: 1.0;
+      }
+    }
+
+    &.minimized {
+      left: 10px !important;
+      .dm-player-subtitles-hidden {
+        display: none;
+      }
+      .dm-player-subtitles-minimize {
+        display: none;
+      }
+    }
+}
+
+.dm-player-subtitles-minimize {
+  position: absolute;
+  top: 5px;
+  right: -20px;
+  cursor: pointer;
+  color: #aa2;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.dm-player-subtitles-hidden {
+    padding: 5px;
+    position: relative;
+    z-index: 100;
+
+    p {
+      margin: 0;
+    }
+}
+
+.btn-next-subtitle {
+    @color: #aa2;
+    @fg: #0f0f0f;
+
+    border-radius: 0;
+    padding: 0;
+    z-index: 50;
+    background-color: @color;
+    border: none;
+    color: @fg;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    outline: none !important;
+
+    &:hover {
+      color: @fg;
+      background-color: lighten(@color, 10%);
+    }
+    &:focus {
+      color: @fg;
+      background-color: darken(@color, 10%);
+    }
+    &:active {
+      color: @fg;
+      background-color: darken(@color, 10%);
+    }
+ }

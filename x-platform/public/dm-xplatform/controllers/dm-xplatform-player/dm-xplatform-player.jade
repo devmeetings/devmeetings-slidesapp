@@ -1,15 +1,7 @@
-.col-xs-12(ng-style='{"height": "calc(100% - 23px)"}')
-  dm-xplayer.full-height(
+.col-xs-12.full-height
+  dm-xplayer-full(
     state='state', 
     annotations='annotations', 
     recording='recording',
+    audio-url='false'
     on-first-run='autoGoFullScreen()')
-
-.col-xs-12
-  .bottom-bar(
-    ng-class="{'zen-mode': $root.isZenMode }",
-    ng-style='{"height": "23px"}',
-    ng-controller="dmXplatformTimeline"
-    )
-    .full-height(ng-include="'/static/dm-xplatform/controllers/dm-xplatform-timeline/dm-xplatform-timeline.html'")
-

@@ -5,6 +5,19 @@ define(['angular', 'xplatform/xplatform-app', '_',
   xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmPlayer) {
 
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
+
+    $scope.$on('$destroy', function() {
+      // next time we will be here, just continue
+      $scope.state.startSecond = $scope.state.currentSecond;
+    });
+
+    $scope.keys.keyUp = function(event) {
+      if (event.keyCode !== 32 || event.target.type === 'textarea') {
+        return;
+      }
+      $scope.state.isPlaying = !$scope.state.isPlaying;
+    };
+
     dmPlayer.setRecorderSource(null);
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {
@@ -12,8 +25,11 @@ define(['angular', 'xplatform/xplatform-app', '_',
         return elem._id === $stateParams.material;
       });
 
+      $scope.audioUrl = material.url;
+
       dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie')
         .withBadge(1 + parseInt($stateParams.iteration, 10));
+
       return dmRecordings.getRecording(material.material);
     }).then(function(recording) {
       $scope.recording = recording;
@@ -51,6 +67,5 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
     fetchAnnotations();
     $scope.$on('newAnnotations', fetchAnnotations);
-
   });
 });
