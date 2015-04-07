@@ -72,7 +72,6 @@ class SpaceVisuals {
         right.min = right.max;
       }
       right.pinned = !right.pinned;
-      right.opened = right.pinned;
       localStorage.setItem('sidebar.pinned', right.pinned);
     };
 
