@@ -4,7 +4,7 @@ include ./file-tabs
     ng-class="{'side-by-side': output.sideBySide, 'no-preview': !output.sideBySide }",
     ng-style="{width: output.leftSize}")
     .full-height
-        .clearfix
+        .clearfix.sw-tabs
           ul.nav.nav-tabs.pull-right
               li.workspace-tab.workspace-sidebyside.pull-right.workspace-tab-condensed
                 a.cursor-pointer(
@@ -18,7 +18,7 @@ include ./file-tabs
                   tooltip="Show / Hide URL", tooltip-animation='false', tooltip-placement="bottom",
                   ng-click="output.showUrl = !output.showUrl", analytics-event="workspace-showUrl", analytics-category="workspace")
                       span.fa.fa-list-alt
-              li.workspace-tab.pull-right.workspace-tab-condensed
+              li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!output.showUrl && !workspace.showUrl")
                 a.cursor-pointer(
                   title="Open Your Page in New Window",
                   ng-href="{{ output.contentUrl }}", 
@@ -39,7 +39,7 @@ include ./file-tabs
                       title="Upload ZIP file with your code", tooltip-animation='false', tooltip="Upload ZIP file with your code",  tooltip-placement="bottom", tooltip-append-to-body="true")
                       input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)", title="Upload saved ZIP with files")
                       span.fa.fa-upload
-              li.workspace-tab.pull-right(ng-if="hasFormatting()")
+              li.workspace-tab.workspace-tab-condensed.pull-right(ng-if="hasFormatting()")
                   a.cursor-pointer(title="Reformat your code", ng-click="formatTab()", tooltip="Reformat your code", tooltip-animation='false',  tooltip-placement="bottom")
                       span.fa.fa-indent
 

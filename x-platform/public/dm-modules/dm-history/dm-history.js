@@ -1,4 +1,4 @@
-/* jshint esnext:true */
+/* jshint esnext:true,-W097 */
 'use strict';
 
 import '../dm-recorder/dm-recorder';

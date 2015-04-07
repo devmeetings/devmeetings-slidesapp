@@ -53,7 +53,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               $scope.$watch('workspace.layout', function(layout) {
                 $scope.layout = layout || defaultLayout;
               }, true);
-              $scope.$watch('layout.name', function(){
+              $scope.$watch('layout.name', function() {
                 fixLayoutOptions();
               });
 
@@ -155,6 +155,16 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                 'content': ''
               };
               undoManager.initTab(name);
+            };
+
+            scope.activateTab = function(tabName) {
+              
+              if (scope.workspace.active === tabName && !scope.output.show) {
+                scope.editTabName(tabName);
+              } else {
+                scope.workspace.active = tabName;
+                scope.output.show = false;
+              }
             };
 
             scope.removeTab = function(tabName) {

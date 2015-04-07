@@ -6,16 +6,16 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
         return {
             refresh: function(){
-                delete promises['all'];
+                delete promises.all;
             },
             allSaves: function (download) {
-                var result = promises['all'];
+                var result = promises.all;
                 if (!download && result) {
                     return $q.when(result);
                 }
 
                 return $http.get('/api/slidesaves').then(function (data) {
-                    promises['all'] = data.data;
+                    promises.all = data.data;
                     return data.data;
                 });
             },

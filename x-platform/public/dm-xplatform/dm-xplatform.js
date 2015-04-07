@@ -34,7 +34,7 @@ require(['angular',
 
                 $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
                     if (toState.name === 'redirect') {
-                        var destination = localStorage['redirectUrl'] || '/';
+                        var destination = localStorage.redirectUrl || '/';
                         window.location.href = destination;
                         return;
                     }
@@ -45,7 +45,7 @@ require(['angular',
 
                     event.preventDefault();
 
-                    localStorage['redirectUrl'] = $location.$$absUrl;
+                    localStorage.redirectUrl = $location.$$absUrl;
                     if (toState.anonymousForceRegister) {
                         $modal.open({
                             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-register/dm-xplatform-register.html',

@@ -120,7 +120,7 @@ module.exports = function(grunt) {
         }
       },
       js: {
-        files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js'],
+        files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', 'public/dm-modules/**/*.js', 'public/dm-xplayer/**/*.js'],
         tasks: ['jshint:public', 'complexity'],
         options: {
           livereload: true
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      public: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', '!public/bin/**'],
+      public: ['public/**/*.js', '!public/dm-slider/theme-todr.js', '!public/bin/**', '!public/components/**'],
       server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
     },
     less: {
@@ -176,7 +176,7 @@ module.exports = function(grunt) {
     },
     complexity: {
       build: {
-        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**'],
+        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**', '!public/components/**'],
         options: {
           breakOnErrors: true,
           errorsOnly: true,

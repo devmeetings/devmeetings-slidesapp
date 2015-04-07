@@ -1,5 +1,5 @@
 define(['angular'], function(angular) {
-    'use strict'
+    'use strict';
     angular.module('dm-gravatar', []).filter('dmGravatar', [
         function() {
             return function(input, size) {

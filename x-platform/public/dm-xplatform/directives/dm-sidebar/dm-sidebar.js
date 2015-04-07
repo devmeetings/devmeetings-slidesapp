@@ -13,7 +13,6 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
             templateUrl: '/static/dm-xplatform/directives/dm-sidebar/dm-sidebar.html',
             link: function (scope) {
                 scope.$watch('context', function () {
-                    scope.a;  
                     
                 });
             }

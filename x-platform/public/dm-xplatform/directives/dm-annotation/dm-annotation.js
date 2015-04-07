@@ -22,7 +22,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
 
                 scope.$watch('annotation', fixLinks);
             }
-        }
+        };
     }]);
 });
 

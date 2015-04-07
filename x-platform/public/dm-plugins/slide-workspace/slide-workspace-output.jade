@@ -15,6 +15,16 @@ mixin workspaceOutputs()
             ng-keypress="urlKeyPress($event, $parent, output.urlBase + workspace.url);",
             ng-blur="workspace.permaUrl = workspace.url"
           )
+        .input-group-btn
+          a.btn(
+            title="Open Your Page in New Window",
+            ng-href="{{ output.contentUrl }}", 
+            target="_blank", 
+            tooltip="Open your page in new window", tooltip-animation='false', tooltip-placement="left",
+            analytics-event="workspace-newWindow",
+            analytics-category="workspace")
+                span.fa.fa-external-link
+
   .slide-workspace-outputs.full-height(
       ng-class="{'with-address': workspace.showUrl || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
     iframe.iframe-fiddle-output.scrollable-container(

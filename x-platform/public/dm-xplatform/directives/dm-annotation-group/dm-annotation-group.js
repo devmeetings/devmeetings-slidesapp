@@ -10,7 +10,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
                     group: '=',
                 },
                 templateUrl: '/static/dm-xplatform/directives/dm-annotation-group/dm-annotation-group.html'
-            }
+            };
         }
     ]);
 });
