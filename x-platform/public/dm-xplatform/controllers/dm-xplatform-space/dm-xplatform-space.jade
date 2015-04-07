@@ -1,5 +1,5 @@
 .col-sm-12.full-height.dm-space-top(tabindex='1', ng-keyup='keys.keyUp($event)')
-    .row(ng-style='{"height": "calc(100% - 3px - " + bottombarHeight + ")"}')
+    .row.full-height
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
             .row.clearfix
@@ -41,26 +41,21 @@
 
           .dm-spacesidebar-right
             include ./space-sidebar-buttons.jade
-            tabset(ng-class='{"inactive": !right.opened}')
-                include ./space-tabs-main.jade
-                .separator
-                include ./space-tab-user.jade
-                tab.cursor-pointer(
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.zen',
-                    disabled="true",
-                    ng-click='changeFullScreen(true)'
-                  )
-                    tab-heading.cursor-pointer(
-                      tooltip='Full Screen', tooltip-placement='left', title="Full Screen",
-                      tooltip-animation='false',
-                      )
-                      span.fa.fa-desktop
-
-                        
-    .row.bottom-bar(
-      ng-class="{'zen-mode': $root.isZenMode }",
-      ng-style='{"height": bottombarHeight}', ui-view='bottombar'
-    )
-
+            div(ui-view="context")
+            // tabset(ng-class='{"inactive": !right.opened}')
+            //     include ./space-tabs-main.jade
+            //     .separator
+            //     include ./space-tab-user.jade
+            //     tab.cursor-pointer(
+            //         analytics-category='spacesidebar',
+            //         analytics-on='click', analytics-event='spacesidebar.zen',
+            //         disabled="true",
+            //         ng-click='changeFullScreen(true)'
+            //       )
+            //         tab-heading.cursor-pointer(
+            //           tooltip='Full Screen', tooltip-placement='left', title="Full Screen",
+            //           tooltip-animation='false',
+            //           )
+            //           span.fa.fa-desktop
+            //
 

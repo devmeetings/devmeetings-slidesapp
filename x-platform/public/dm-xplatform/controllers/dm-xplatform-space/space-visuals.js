@@ -76,7 +76,7 @@ class SpaceVisuals {
     };
 
     $scope.toggleRightDelayed = function(open) {
-      var delay = open ? 600 : 1500;
+      var delay = open ? 600 : 1200;
       $timeout(function() {
         if ($scope.right.mouseOn !== open || $scope.right.pinned) {
           return;
@@ -146,7 +146,6 @@ class SpaceVisuals {
     $scope.$watch('currentLocation.$$absUrl', () => {
       $scope.activeIteration = this.$state.params.iteration;
       $scope.showTutorial = this.$state.current.name === 'index.space';
-      $scope.bottombarHeight = this.$state.current.name === 'index.space.player' ? '20px' : '0px';
     });
   }
 
