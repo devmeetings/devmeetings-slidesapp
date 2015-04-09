@@ -2,8 +2,8 @@
     .row.full-height
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
-            .row.clearfix
-              .col-sm-12(dm-defer="1500")
+            .row.clearfix.full-height
+              .full-height.col-sm-12(dm-defer="1500")
                 include ./space-users.jade
         .dm-space(
           ng-class="{'zen-mode': $root.isZenMode }",
