@@ -15,13 +15,16 @@
       li(ng-repeat="x in with", ng-class="{'active': display.active === x}")
         a(ng-click="selectTab(x)") {{ names[x] }}
       li(style="flex:0.5", ng-if="!noEventMenu")
-        a(ng-click="selectTab(false);display.event=true")
+        a(
+          ng-show="display.active"
+          ng-click="selectTab(false);display.event=true")
           small.text-muted.fa.fa-chevron-down.fa-fw
     .scroll.full-height.text-left(
       ng-show="display.active === 'user'"
       ng-if="display.user"
       )
-      include ../../controllers/dm-xplatform-agenda/space-tab-user.jade
+      .col-xs-12
+        include ../../controllers/dm-xplatform-agenda/space-tab-user.jade
     .scroll.full-height(
       ng-show="display.active === 'history'"
       ng-if="display.history"
