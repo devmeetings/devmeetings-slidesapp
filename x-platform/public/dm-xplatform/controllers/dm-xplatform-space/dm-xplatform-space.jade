@@ -56,12 +56,7 @@
                   span.fa.fa-thumb-tack(ng-show="right.pinned")
                   span.glyphicon.glyphicon-pushpin(ng-show="!right.pinned")
 
-            .col-xs-12.half-height(ng-show="right.opened")
-              dm-event-menu(event="event", active-iteration="activeIteration")
-            .col-xs-12.half-height(
-              ng-if="right.opened"
-              )
-              .scroll(ui-view="context")
+            .full-height(ui-view="context")
 
             // tabset(ng-class='{"inactive": !right.opened}')
             //     include ./space-tabs-main.jade

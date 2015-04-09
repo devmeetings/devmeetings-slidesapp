@@ -79,13 +79,17 @@
   background-color: rgb(30,30,30);
   z-index: 9;
 
-  .nav {
+  .nav.menu, .nav.agenda, .nav.users {
     li {
       width: 100%;
     }
     li > a, li.active > a {
       padding: 12px 0;
       font-size: 1.7em;
+    }
+  }
+  .nav {
+    li > a , li.active > a {
       text-align: center;
       border: none;
       border-radius: 0;
@@ -196,6 +200,9 @@
     top: -31px;
     color: #ddd;
     margin: 0;
+    h4 {
+      margin-top: 0;
+    }
   }
 
   &:hover {
@@ -230,15 +237,16 @@
     height: ~"calc(100% - 30px)";
   }
 
+  .scroll {
+    height: 100%;
+    overflow: auto;
+  }
+
   .half-height {
     height: ~"calc(50% - 3px)";
     box-sizing: border-box;
     border-bottom: 1px solid #000;
 
-    .scroll {
-      height: 100%;
-      overflow: auto;
-    }
   }
 
   .inactive .nav li.active {

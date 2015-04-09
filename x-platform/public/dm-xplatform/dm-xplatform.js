@@ -260,22 +260,8 @@ require(['angular',
             controller: 'dmXplatformAgenda'
           },
           context: {
-            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-agenda/space-tab-user.html'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" no-event-menu="true" with="[\'user\', \'chat\']"></dm-xplatform-context>'
           }
-        },
-        onEnter: function($rootScope) {
-          $rootScope.xplatformData.columns = {
-            left: 0,
-            mid: 12,
-            right: 0
-          };
-        },
-        onExit: function($rootScope) {
-          $rootScope.xplatformData.columns = {
-            left: 0,
-            mid: 12,
-            right: 0
-          };
         }
       });
 
@@ -285,6 +271,9 @@ require(['angular',
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide.html',
             controller: 'dmXplatformDeckSlide'
+          },
+          context: {
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user"></dm-xplatform-context>'
           }
         }
       });
@@ -295,6 +284,9 @@ require(['angular',
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
             controller: 'dmXplatformSlide'
+          },
+          context: {
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" ></dm-xplatform-context>'
           }
         }
       });
@@ -307,7 +299,7 @@ require(['angular',
             controller: 'dmXplatformSlide'
           },
           context: {
-            template: '<dm-history-graph></dm-history-graph>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'history\', \'questions\', \'chat\']"></dm-xplatform-context>'
           }
         }
       });
@@ -320,7 +312,7 @@ require(['angular',
             controller: 'dmXplatformHistory'
           },
           context: {
-            template: '<dm-history-graph></dm-history-graph>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'history\', \'chat\']"></dm-xplatform-context>'
           }
         }
       });
@@ -333,7 +325,7 @@ require(['angular',
             controller: 'dmXplatformSlide'
           },
           context: {
-            template: '<dm-history-graph></dm-history-graph>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user"  with="[\'history\', \'chat\']"></dm-xplatform-context>'
           }
         }
       });
@@ -345,6 +337,9 @@ require(['angular',
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo.html',
             controller: 'dmXplatformTodo'
+          },
+          context: {
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user"></dm-xplatform-context>'
           }
         }
       });
@@ -355,6 +350,9 @@ require(['angular',
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck.html',
             controller: 'dmXplatformDeck'
+          },
+          context: {
+            template: '<dm-xplatform-context opened="right.opened" event="event" ></dm-xplatform-context>'
           }
         }
       });
@@ -367,8 +365,7 @@ require(['angular',
             controller: 'dmXplatformPlayer'
           },
           context: {
-            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos.html',
-            controller: 'dmXplatformAnnos'
+            template: '<dm-xplatform-context opened="right.opened" event="event"  with="[ \'annotations\', \'chat\']"></dm-xplatform-context>'
           }
         }
       });
@@ -379,6 +376,9 @@ require(['angular',
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer.html',
             controller: 'dmXplatformTrainer'
+          },
+          context: {
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'chat\', \'questions\']"></dm-xplatform-context>'
           }
         }
       });

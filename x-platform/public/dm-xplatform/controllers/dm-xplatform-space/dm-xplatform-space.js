@@ -8,6 +8,7 @@ define([
   'xplatform/directives/dm-iframe/dm-iframe',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
   'xplatform/directives/dm-intro/dm-intro',
+  'es6!xplatform/directives/dm-xplatform-context/dm-xplatform-context',
   'xplatform/filters/liveLinkUrl',
   'es6!./space-visuals'
 ], function(_, xplatformApp) {
