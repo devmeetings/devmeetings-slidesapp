@@ -1,16 +1,19 @@
 mixin materialsLinks()
   li(ui-sref-active="active", ng-repeat='material in iteration.active.materials')
     a(
+      tooltip="{{material.title}}"
+      tooltip-placement="top"
+      tooltip-animation="false"
       ui-sref='index.space.player({iteration: iteration.currentIdx, material: material._id})'
       ng-if="material.material"
       )
         span.fa.fa-film.nav-icon
-        span {{material.title}}
+        span(ng-if="iteration.active.materials.length < 4") {{material.title}}
     a(
       ui-sref='index.space.deck({iteration: iteration.currentIdx, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})'
       ng-if="material.deck.deck")
         span.fa.fa-university.nav-icon
-        span {{material.title}}
+        span(ng-if="iteration.active.materials.length < 4") {{material.title}}
 
 
 .dm-event-menu.full-height.ng-cloak
