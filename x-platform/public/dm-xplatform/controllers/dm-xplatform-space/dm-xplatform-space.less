@@ -79,13 +79,26 @@
   background-color: rgb(30,30,30);
   z-index: 9;
 
-  .menu {
+  .nav {
     li {
       width: 100%;
     }
+    li > a, li.active > a {
+      padding: 12px 0;
+      font-size: 1.7em;
+      text-align: center;
+      border: none;
+      border-radius: 0;
+      margin-right: 0;
+    }
+    li.active > a {
+      background-color: #666;
+    }
+  }
+
+  .nav.menu {
     a {
       padding: 3px 0;
-      text-align: center;
     }
   }
 
@@ -102,9 +115,7 @@
     li {
       position: relative;
     }
-    li.active a {
-      background-color: #666;
-    }
+
     .user-badge {
       position: absolute;
       bottom: 0;
