@@ -1,5 +1,9 @@
 .dm-event-menu {
-  
+
+  .full-frame {
+    min-height: 800px;
+  } 
+
   .nav > li > a, .nav > li.active > a {
     font-size: 1em;
   }
@@ -12,6 +16,18 @@
     h4 {
       display: inline-block;
     }
+  }
+
+  .task-link {
+    position: relative;
+    z-index: 10;
+    top: 0.7em;
+    display: block;
+    height: 0;
+    text-align: center;
+    margin: 0 auto;
+    width: 60px;
+    color: #999;
   }
 
   .nav.menu-hr {

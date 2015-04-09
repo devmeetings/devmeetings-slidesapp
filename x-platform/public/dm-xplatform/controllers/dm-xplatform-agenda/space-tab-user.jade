@@ -1,7 +1,7 @@
 .full-height.text-center
   br
   img.avatar-holder(
-      ng-src='{{user.result.avatar | dmGravatar:120}}',
+      ng-src='{{user.result.avatar | dmGravatar:40}}',
       ui-sref='index.devhero({id: user.result._id})',
       analytics-category='menu',
       analytics-on='click', analytics-event='profile.photo')

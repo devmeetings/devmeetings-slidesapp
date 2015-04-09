@@ -16,46 +16,49 @@ mixin materialsLinks()
 .dm-event-menu.full-height.ng-cloak
   .menu-header.sidebar-title
       button.btn.btn-link.btn-sm.text-muted(
-        ng-show="iteration.currentIdx > 0",
+        ng-style="{'visibility': iteration.currentIdx > 0 ? 'visible' : 'hidden' }",
         ng-click="iteration.currentIdx = iteration.currentIdx - 1")
         span.fa.nav-icon.fa-chevron-left
       h4 {{ iteration.active.title }}
       button.btn.btn-link.btn-sm.text-muted(
-        ng-show="iteration.currentIdx < event.iterations.length"
+        ng-show="iteration.currentIdx < event.iterations.length - 1"
         ng-click="iteration.currentIdx = iteration.currentIdx + 1")
         span.fa.nav-icon.fa-chevron-right
+  .scroll
+    ul.nav.nav-tabs.menu-hr(ng-show="iteration.active")
+      +materialsLinks()
 
-  ul.nav.nav-tabs.menu-hr(ng-show="iteration.active")
-    +materialsLinks()
-
-  ul.nav.nav-tabs.menu-hr(ng-show="iteration.active.tasks.length > 1")
-    li(
-      ng-class="{'active': iteration.currentTaskIdx === $index}"
-      ng-repeat="task in iteration.active.tasks"
-      )
-      a.cursor-pointer(
-        ng-click="iteration.currentTaskIdx = $index"
-        tooltip="{{task.title}}"
-        tooltip-placement="bottom"
-        tooltip-animation="false"
+    ul.nav.nav-tabs.menu-hr(ng-show="iteration.active.tasks.length > 1")
+      li(
+        ng-class="{'active': iteration.currentTaskIdx === $index}"
+        ng-repeat="task in iteration.active.tasks"
         )
-        span.fa.fa-pencil.nav-icon
-        span(ng-if="iteration.active.tasks.length < 3") {{ task.title }}
+        a.cursor-pointer(
+          ng-click="iteration.currentTaskIdx = $index"
+          tooltip="{{task.title}}"
+          tooltip-placement="bottom"
+          tooltip-animation="false"
+          )
+          span.fa.fa-pencil.nav-icon
+          span(ng-if="iteration.active.tasks.length < 3") {{ task.title }}
 
-  a.pull-right(
-    ng-href="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}"
-    target="_blank"
+    a.task-link(
+      ng-show="!isLoading"
+      ng-href="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}"
+      target="_blank",
+      tooltip="Open task in separate window",
+      tooltip-animation="false",
+      tooltip-placement="top"
+      )
+      span.fa.fa-external-link
+
+    .menu-loader.text-center(ng-show="isLoading")
+      span.fa.fa-spin.fa-spinner.fa-2x
+
+    iframe.full-frame(
+      seamless,
+      ng-show="iteration.active.tasks[iteration.currentTaskIdx].url"
+      dm-iframe="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}?embed"
+      dm-iframe-timeout="30"
+      dm-iframe-loading="isLoading"
     )
-    span.fa.fa-external-link
-
-  .menu-loader.text-center(ng-show="isLoading")
-    span.fa.fa-spin.fa-spinner.fa-2x
-
-  iframe.full-frame(
-    seamless,
-    ng-show="iteration.active.tasks[iteration.currentTaskIdx].url"
-    dm-iframe="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}?embed"
-    dm-iframe-timeout="30"
-    dm-iframe-loading="isLoading"
-    dm-iframe-autosize
-  )

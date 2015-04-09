@@ -239,12 +239,23 @@
     height: ~"calc(100% - 30px)";
   }
 
+  .half-height {
+    height: 50%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
+
+    .scroll {
+      height: 100%;
+      overflow: auto;
+    }
+  }
+
   .inactive .nav li.active {
     a, a:hover {
       background: none;
     }
   }
-  
+
   .tabs-badge {
     position: absolute;
     top: 0;
