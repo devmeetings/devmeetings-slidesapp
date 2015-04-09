@@ -137,12 +137,6 @@ class SpaceVisuals {
     }
   }
 
-  initNotifications($scope) {
-    $scope.notifications = {};
-    $scope.$on('event.questions.update', function() {
-      $scope.notifications.unread = true;
-    });
-  }
 
   initLocationWatching($scope) {
     $scope.currentLocation = this.$location;
@@ -155,7 +149,6 @@ class SpaceVisuals {
   initialize($scope, $window) {
     this.initFullScreen($scope);
     this.initSidebars($scope, $window.localStorage);
-    this.initNotifications($scope);
     this.initLocationWatching($scope);
   }
 }

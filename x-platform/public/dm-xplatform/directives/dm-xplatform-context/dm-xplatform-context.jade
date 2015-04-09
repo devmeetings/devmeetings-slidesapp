@@ -13,7 +13,10 @@
       ng-if="with.length > 1"
     )
       li(ng-repeat="x in with", ng-class="{'active': display.active === x}")
-        a(ng-click="selectTab(x)") {{ names[x] }}
+        a(ng-click="selectTab(x)") 
+          span.text-danger.tabs-badge(ng-show="x === 'questions' && notifications.unread")
+            span.fa.fa-circle
+          | {{ names[x] }}
       li(style="flex:0.5", ng-if="!noEventMenu")
         a(
           ng-show="display.active"

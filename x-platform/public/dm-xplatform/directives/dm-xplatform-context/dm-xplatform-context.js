@@ -59,6 +59,16 @@ class ContextMenuDir {
     });
 
     scope.names = names;
+
+    this.initNotifications(scope);
+  }
+
+
+  initNotifications($scope) {
+    $scope.notifications = {};
+    $scope.$on('event.questions.update', function() {
+      $scope.notifications.unread = true;
+    });
   }
 
 }
