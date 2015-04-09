@@ -299,7 +299,7 @@ require(['angular',
             controller: 'dmXplatformSlide'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'questions\', \'history\', \'chat\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'questions\', \'history\', \'notes\']"></dm-xplatform-context>'
           }
         }
       });
@@ -312,7 +312,7 @@ require(['angular',
             controller: 'dmXplatformHistory'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'history\', \'chat\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'history\']"></dm-xplatform-context>'
           }
         }
       });
@@ -325,7 +325,7 @@ require(['angular',
             controller: 'dmXplatformSlide'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event" user="user"  with="[\'history\', \'chat\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user"  with="[\'history\']"></dm-xplatform-context>'
           }
         }
       });
@@ -365,7 +365,7 @@ require(['angular',
             controller: 'dmXplatformPlayer'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event"  with="[ \'annotations\', \'chat\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event"  with="[ \'annotations\']"></dm-xplatform-context>'
           }
         }
       });
@@ -378,7 +378,7 @@ require(['angular',
             controller: 'dmXplatformTrainer'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'chat\', \'questions\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[ \'questions\']"></dm-xplatform-context>'
           }
         }
       });

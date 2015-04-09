@@ -11,6 +11,7 @@ const names = {
   user: 'User',
   questions: 'Questions',
   chat: 'Chat',
+  notes: 'Notes'
 };
 
 function hasBigScreen(window) {
