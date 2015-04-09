@@ -51,6 +51,8 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
         var timeout = attr.dmIframeTimeout || 700;
         var iframeLoading = attr.dmIframeLoading;
 
+        var $parent = element.parent();
+
         function setLoading(val) {
           if (!iframeLoading) {
             return;
@@ -71,11 +73,14 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
         // Setting iframe src is dealyed.
         attr.$observe('dmIframe', function(value) {
           element.addClass('dm-iframe-hidden');
+          // Remove from DOM to prevent modyfing the history!
+          element.detach();
           attr.$set('src', null);
           setLoading(true);
 
           $timeout(function() {
             attr.$set('src', value);
+            $parent.append(element);
           }, timeout * 2);
         });
 

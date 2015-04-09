@@ -13,6 +13,13 @@ class EventMenu {
       currentTaskIdx: 0
     };
 
+    scope.$watch('activeIteration', (idx) => {
+      if (!idx) {
+        return;
+      }
+      scope.iteration.currentIdx = idx;
+    });
+
     scope.$watch('iteration.currentIdx', (idx) => {
       scope.iteration.active = scope.event.iterations[idx];
       scope.iteration.currentTaskIdx = 0;

@@ -1,0 +1,27 @@
+.dm-xplatform-agenda{
+  li:hover {
+    .dm-external-link {
+      opacity: 1.0;
+    }
+  }
+
+  .dm-external-link {
+    opacity: 0.0;
+    position: absolute;
+    right: 4px;
+    top: 0;
+    z-index: 10;
+    color: #3f3f3f;
+    transition: color .5s ease-in-out, opacity .3s ease-in-out;
+
+    &:hover {
+      color: #ddd;
+    }
+  }
+  .nav.nav-pills li {
+    position: relative;
+  }
+  .nav.nav-pills li:hover > a {
+    background-color: #444;
+  }
+}
