@@ -2,7 +2,7 @@ mixin materialsLinks()
   li(ui-sref-active="active", ng-repeat='material in iteration.active.materials')
     a(
       tooltip="{{material.title}}"
-      tooltip-placement="top"
+      tooltip-placement="bottom"
       tooltip-animation="false"
       ui-sref='index.space.player({iteration: iteration.currentIdx, material: material._id})'
       ng-if="material.material"
