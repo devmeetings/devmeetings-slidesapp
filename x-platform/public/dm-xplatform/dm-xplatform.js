@@ -299,7 +299,7 @@ require(['angular',
             controller: 'dmXplatformSlide'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'history\', \'questions\', \'chat\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event" user="user" with="[\'questions\', \'history\', \'chat\']"></dm-xplatform-context>'
           }
         }
       });

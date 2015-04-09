@@ -15,6 +15,14 @@ var plugins = require('./config/plugins');
 plugins.invokePlugins('init', [config]);
 
 var app = express();
+var proxy;
+if (config.meteorProxy) {
+  var proxy = require('http-proxy').createProxyServer({
+    target: config.meteorProxy
+  });
+  console.log('Configuring proxy.');
+  app.all('/live/*', proxy.web.bind(proxy));
+}
 
 var router = express.Router();
 var sessionConfig = require('./config/express')(app, config, router);
@@ -26,16 +34,11 @@ require('./config/passport');
 var server = http.Server(app);
 
 if (config.meteorProxy) {
-  var proxy = require('http-proxy').createProxyServer({
-    target: config.meteorProxy
-  });
-  console.log('Configuring proxy.');
   server.on('upgrade', function(req) {
     if (req.url.indexOf('/live') === 0) {
       return proxy.ws.apply(proxy, arguments);
     }
   });
-  app.all('/live/*', proxy.web.bind(proxy));
 }
 // Configure socketio after proxy
 var io = socketio(server);

@@ -9,7 +9,7 @@ class EventMenu {
   link(scope) {
     scope.iteration = {
       active: {},
-      currentIdx: scope.activeIteration || 0,
+      currentIdx: 0,
       currentTaskIdx: 0
     };
 
@@ -17,7 +17,7 @@ class EventMenu {
       if (!idx) {
         return;
       }
-      scope.iteration.currentIdx = idx;
+      scope.iteration.currentIdx = parseInt(idx, 10);
     });
 
     scope.$watch('iteration.currentIdx', (idx) => {

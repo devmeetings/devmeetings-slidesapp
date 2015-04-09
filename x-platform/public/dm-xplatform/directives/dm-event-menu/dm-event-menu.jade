@@ -21,7 +21,7 @@ mixin materialsLinks()
         span.fa.nav-icon.fa-chevron-left
       h4 {{ iteration.active.title }}
       button.btn.btn-link.btn-sm.text-muted(
-        ng-show="iteration.currentIdx < event.iterations.length - 1"
+        ng-style="{'visibility': iteration.currentIdx < event.iterations.length - 1 ? 'visible' : 'hidden' }",
         ng-click="iteration.currentIdx = iteration.currentIdx + 1")
         span.fa.nav-icon.fa-chevron-right
   .scroll
