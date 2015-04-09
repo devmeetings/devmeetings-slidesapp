@@ -145,7 +145,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      public: ['public/**/*.js', '!public/dm-slider/theme-todr.js', '!public/bin/**', '!public/components/**'],
+      public: ['public/**/*.js', '!public/resources/**', '!public/dm-slider/theme-todr.js', '!public/bin/**', '!public/components/**'],
       server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
     },
     less: {
