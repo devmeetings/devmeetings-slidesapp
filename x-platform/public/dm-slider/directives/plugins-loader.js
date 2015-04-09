@@ -23,7 +23,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
     elem.setAttribute('data', 'context["' + obj.trigger + '"]');
     elem.setAttribute('context', 'context');
     elem.setAttribute('mode', 'mode');
-    elem.setAttribute('path', 'path');
+    elem.setAttribute('path', obj.path);
     return elem;
   }
 
