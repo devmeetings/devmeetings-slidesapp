@@ -60,7 +60,7 @@ mixin materialsLinks()
 
     iframe.full-frame(
       seamless,
-      ng-show="iteration.active.tasks[iteration.currentTaskIdx].url"
+      ng-if="iteration.active.tasks[iteration.currentTaskIdx]"
       dm-iframe="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}?embed"
       dm-iframe-timeout="30"
       dm-iframe-loading="isLoading"
