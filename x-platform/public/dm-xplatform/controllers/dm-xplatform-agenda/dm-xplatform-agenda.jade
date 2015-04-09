@@ -1,5 +1,43 @@
 .col-sm-6.col-sm-offset-3
-  include ../dm-xplatform-space/dm-xplatform-space-menu.jade
+  h1.text-center {{event.title}}
+  h3.text-center.text-muted(ng-if="event.name")
+    a(href="{{url}}/-{{event.name}}", target="blank")
+      | {{url}}/-{{event.name}}
+
+  br
+  .list-group
+    .list-group-item(
+      ng-repeat="i in event.iterations"
+      )
+      h4.list-group-item-heading {{$index + 1}}. {{i.title}}
+      .list-group-item-text
+        div(ng-repeat="material in i.materials")
+          a.dm-external-link(ng-href="/decks/{{material.deck.deck}}?from={{material.deck.from}}&to={{material.deck.to}}&name={{material.title}}", target="_blank", ng-if="material.deck.deck")
+              span.fa.fa-external-link
+
+          a.dm-external-link(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id, withVoice:true})',
+            ng-if="material.url")
+              span.fa.fa-volume-up
+          a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
+              span.fa.fa-film.nav-icon
+              span {{material.title}}
+          a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})',
+              ng-if="material.deck.deck")
+              span.fa.fa-university.nav-icon
+              span {{material.title}}
+        ul
+          li(ng-repeat='task in i.tasks', ui-sref-active="active")
+            a.dm-external-link(ng-href="{{task.url}}", target="_blank")
+              span.fa.fa-external-link
+            a(
+              ng-href="{{task.url}}"
+              target="_blank"
+              ng-click="$event.preventDefault();$parent.$parent.$parent.$parent.activeTask = task.url; toggleRight(true)"
+              )
+              span.fa.fa-pencil.nav-icon
+              span {{task.title}}
+
+
   iframe.full-frame(
     seamless=true,
     dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")

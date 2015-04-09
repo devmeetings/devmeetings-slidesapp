@@ -2,7 +2,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
   'use strict';
 
   xplatformApp.directive('dmDefer', function($compile) {
-    
+
     return {
       restrict: 'A',
       compile: function(tElement, tAttrs) {
@@ -12,38 +12,71 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
         timeout = timeout - 250 + Math.random() * 250;
 
         return function link(scope, element) {
-          setTimeout(function(){
-            overlay(scope, function(clone) { 
+          setTimeout(function() {
+            overlay(scope, function(clone) {
               element.append(clone);
             });
           }, timeout);
         };
       }
     };
-  
+
+  });
+
+  xplatformApp.directive('dmIframeAutosize', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element) {
+
+        function fixSize() {
+          if (!element[0].contentWindow) {
+            return;
+          }
+          element[0].style.height = element[0].contentWindow.document.body.scrollHeight + 'px';
+        }
+        fixSize();
+
+        element[0].addEventListener('load', fixSize);
+        scope.$on('$destroy', function() {
+          element[0].removeEventListener('load', fixSize);
+        });
+      }
+    };
   });
 
   xplatformApp.directive('dmIframe', function($timeout) {
     return {
       restrict: 'A',
       link: function(scope, element, attr) {
+        var timeout = attr.dmIframeTimeout || 700;
+        var iframeLoading = attr.dmIframeLoading;
+
+        function setLoading(val) {
+          if (!iframeLoading) {
+            return;
+          }
+          scope[iframeLoading] = val;
+        }
+
         element.addClass('dm-iframe');
 
         function removeClass() {
           // Let the page render in background
-          $timeout(function(){
+          $timeout(function() {
             element.removeClass('dm-iframe-hidden');
-          }, 700);
+            setLoading(false);
+          }, timeout);
         }
 
         // Setting iframe src is dealyed.
         attr.$observe('dmIframe', function(value) {
           element.addClass('dm-iframe-hidden');
           attr.$set('src', null);
+          setLoading(true);
 
           $timeout(function() {
             attr.$set('src', value);
-          }, 1500);
+          }, timeout * 2);
         });
 
         element[0].addEventListener('load', removeClass);

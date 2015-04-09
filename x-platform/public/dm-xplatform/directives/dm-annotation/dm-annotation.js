@@ -1,4 +1,6 @@
 define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
+  'use strict';
+
     xplatformApp.directive('dmAnnotation', ['$timeout', function ($timeout) {
         return {
             restrict: 'E',

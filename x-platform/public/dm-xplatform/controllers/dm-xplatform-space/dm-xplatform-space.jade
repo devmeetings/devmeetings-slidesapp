@@ -53,7 +53,11 @@
             ul.nav.nav-tabs.pull-right
               li.sidebar-pin-btn(tooltip="Pin Menu", tooltip-placement="left", title="Pin Menu", tooltip-animation='false')
                 a.cursor-pointer(ng-click="togglePinRight()")
-                  span.fa.fa-thumb-tack
+                  span.fa.fa-thumb-tack(ng-show="right.pinned")
+                  span.glyphicon.glyphicon-pushpin(ng-show="!right.pinned")
+
+            .col-xs-12.full-height(ng-show="right.opened")
+              dm-event-menu(event="event", active-iteration="activeIteration")
             .col-xs-12.full-height(
               ng-if="right.opened"
               ui-view="context"

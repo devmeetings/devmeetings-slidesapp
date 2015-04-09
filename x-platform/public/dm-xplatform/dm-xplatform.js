@@ -266,8 +266,8 @@ require(['angular',
         onEnter: function($rootScope) {
           $rootScope.xplatformData.columns = {
             left: 0,
-            mid: 8,
-            right: 4
+            mid: 12,
+            right: 0
           };
         },
         onExit: function($rootScope) {
