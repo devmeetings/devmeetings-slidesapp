@@ -3,8 +3,8 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
   var path = sliderPlugins.extractPath(module);
 
   sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-    '$timeout', '$rootScope', '$window', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys',
-    function($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
+    '$timeout', '$rootScope', '$window', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys', 'dmPlayer',
+    function($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys, dmPlayer) {
 
       return {
         restrict: 'E',
@@ -16,6 +16,7 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
 
         link: function(scope, element) {
           var onSlideChange = function onSlideChange(activeSlideId) {
+            dmPlayer.setRecorderSource();
             scope.slide = _.find(scope.deck.deckSlides, {
               _id: activeSlideId
             });

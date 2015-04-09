@@ -1,12 +1,14 @@
 var Slidesave = require('../models/slidesave'),
     Slide = require('../models/slide'),
+    Event = require('../models/event'),
+    States = require('../services/states'),
     Q = require('q');
 
 
 var onError = function (res) {
     return function (err) {
         console.error(err);
-        res.send(400);
+        res.sendStatus(400);
     };
 };
 
@@ -15,11 +17,11 @@ var onDone = function () {
 
 var transformToSlidesave = function (slide, user, eventId) {
     return {
-        user: user, 
+        user: user._id, 
         slide: slide.content,
         baseSlide: slide._id,
         event: eventId || null,
-        title: 'default workspace',
+        title: user.name + ' workspace',
         timestamp: new Date()
     };
 };
@@ -37,11 +39,18 @@ function updateEvent(slidesave, eventId) {
 
 var Slidesaves = {
 
-    doEdit: function(userId, slide, data, callback) {
+    doEdit: function(userId, slide, stateId, callback) {
+      States.createFromId(stateId).done(function(state){
         Slidesave.findOneAndUpdate({
             user: userId,
             _id: slide
-        }, data).lean().exec(callback);
+        }, {
+          $set: {
+            statesaveId: stateId,
+            slide: state
+          }
+        }).lean().exec(callback);
+      });
     },
 
     create: function (req, res) {
@@ -82,29 +91,32 @@ var Slidesaves = {
     },
 
     baseSlide: function (req, res) {
-        var slide = req.params.slide;
         var eventId = req.params.eventId;
 
-        Q.ninvoke(Slidesave.findOne({
-            user: req.user._id,
-            baseSlide: slide
-        }).lean(), 'exec').then(function (slidesave) {
-            if (slidesave) {
-                if (!slidesave.event) {
-                  updateEvent(slidesave, eventId);
-                }
-                return slidesave;
-            }
-            return Q.ninvoke(Slide.findOne({
-                _id: slide
-            }).lean(), 'exec').then(function (slide) {
-                var toInsert = transformToSlidesave(slide, req.user._id, eventId);
-                return Q.ninvoke(Slidesave, 'create', toInsert);
-            });
-        }).then(function (slidesave) {
-            res.send({
-                slidesave: slidesave._id
-            });
+        Q.ninvoke(Event.findById(eventId).lean(), 'exec').then(function(event) {
+          var slide = event.baseSlide;
+
+          return Q.ninvoke(Slidesave.findOne({
+              user: req.user._id,
+              baseSlide: slide
+          }).lean(), 'exec').then(function (slidesave) {
+              if (slidesave) {
+                  if (!slidesave.event) {
+                    updateEvent(slidesave, eventId);
+                  }
+                  return slidesave;
+              }
+              return Q.ninvoke(Slide.findOne({
+                  _id: slide
+              }).lean(), 'exec').then(function (slide) {
+                  var toInsert = transformToSlidesave(slide, req.user, eventId);
+                  return Q.ninvoke(Slidesave, 'create', toInsert);
+              });
+          }).then(function (slidesave) {
+              res.send({
+                  slidesave: slidesave._id
+              });
+          });
         }).fail(onError(res)).done(onDone);
     }
 

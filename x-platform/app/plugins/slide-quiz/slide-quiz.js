@@ -11,8 +11,8 @@ function toAnswer(body) {
 }
 
 
-exports.initApi = function(prefix, app, authenticated) {
-    app.post(prefix + "quiz", authenticated, function(req, res) {
+exports.initApi = function(app, authenticated) {
+    app.post("/quiz", authenticated, function(req, res) {
         QuizAnswers.create(req.body.quizId, toAnswer(req.body)).then(function(obj) {
             res.send(200, obj._id.toString());
         }).then(null, function(err) {
@@ -21,7 +21,7 @@ exports.initApi = function(prefix, app, authenticated) {
         });
     });
 
-    app.post(prefix + "quiz/:id", authenticated, function(req, res) {
+    app.post("/quiz/:id", authenticated, function(req, res) {
         QuizAnswers.addAnswer(req.params.id, toAnswer(req.body)).then(function(id) {
             res.send(200, id.toString());
         }, function(err) {
@@ -31,7 +31,7 @@ exports.initApi = function(prefix, app, authenticated) {
     });
 
 
-    app.get(prefix + "quizAnswers/:id", authenticated, function(req, res) {
+    app.get("/quizAnswers/:id", authenticated, function(req, res) {
         console.log(req.params.id);
         QuizAnswers.getByQuizId(req.params.id).then(function(answers) {
             res.send(answers);

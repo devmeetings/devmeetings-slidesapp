@@ -12,13 +12,8 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
     }, 200, throttleOptions);
 
     var triggerEventLater = _.throttle(function(scope, code, ev, editor) {
-        sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor]);
+        sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor, scope.path]);
     }, 100, throttleOptions);
-
-    var triggerSaveEventLater = _.throttle(function() {
-        sliderPlugins.trigger('slide.save');
-    }, 20);
-
 
     var getCodeData = function(code) {
         if (!_.isObject(code)) {
@@ -36,7 +31,6 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
         code.content = editor.getValue();
         updateScopeLater(scope);
         triggerEventLater(scope, code, ev, editor);
-        triggerSaveEventLater();
     };
 
     var triggerCursorChange = function(scope, code, editor) {
@@ -47,7 +41,6 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
             lastVisibleRow: editor.getLastVisibleRow()
         };
         updateScopeLater(scope);
-        triggerSaveEventLater();
     };
 
     sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
@@ -60,6 +53,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
                 restrict: 'E',
                 scope: {
                     code: '=data',
+                    path: '@',
                     slide: '=context'
                 },
                 template: '<div class="editor editor-{{ code.size }}"><div></div></div>',
@@ -68,7 +62,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
 
                     $timeout(function() {
                         editor = ace.edit(element[0].childNodes[0]);
-                        editor.setTheme("ace/theme/" + EDITOR_THEME);
+                        editor.setTheme('ace/theme/' + EDITOR_THEME);
                         editor.setOptions({
                             enableBasicAutocompletion: true,
                             enableSnippets: true,

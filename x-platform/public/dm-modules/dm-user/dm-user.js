@@ -1,5 +1,5 @@
 define(['angular'], function(angular) {
-    'use strict'
+    'use strict';
     angular.module('dm-user', []).factory('dmUser', ['$rootScope', '$http', '$q',
         function($rootScope, $http, $q) {
             var data = {};

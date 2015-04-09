@@ -15,12 +15,12 @@
         input.input-sm.form-control(placeholder="Search", ng-model='search.text')
     .row.dm-annos(ng-style='{"height": showSearch ? "calc(100% - 50px)" : "100%" }')
         .list-group(ng-if="showAll")
-            .list-group-item.animate.dm-annos-item(
+            .list-group-item.dm-annos-item(
                 ng-repeat='p in groups.sub')
                 dm-annotation-group(group='p')
 
         .list-group.dm-annos-subs(ng-if="!showAll && !$root.editMode")
-          .list-group-item.animate.dm-annos-item(
+          .list-group-item.dm-annos-item(
                 ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index"', 
                 ng-if='p.timestamp <= state.currentSecond && p.description')
                 dm-annotation(annotation='p', show-iteration='showAll', ng-if='p.type === "snippet" || p.type === "comment"')

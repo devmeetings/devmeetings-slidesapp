@@ -145,7 +145,11 @@ define(['angular'], function(angular) {
 
 
                     scope.$watch('dmIsPlaying', function() {
-                        scope.dmIsPlaying ? audio.play() : audio.pause();
+                        if (scope.dmIsPlaying) {
+                          audio.play();
+                        } else {
+                          audio.pause();
+                        }
                     });
 
                     scope.$watch('dmStartSecond', function() {
@@ -164,7 +168,7 @@ define(['angular'], function(angular) {
                         updatePosition();
                     };
                 }
-            }
+            };
         }
     ]);
 });

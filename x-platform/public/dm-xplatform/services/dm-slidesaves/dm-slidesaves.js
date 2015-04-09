@@ -6,16 +6,16 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
 
         return {
             refresh: function(){
-                delete promises['all'];
+                delete promises.all;
             },
             allSaves: function (download) {
-                var result = promises['all'];
+                var result = promises.all;
                 if (!download && result) {
                     return $q.when(result);
                 }
 
                 return $http.get('/api/slidesaves').then(function (data) {
-                    promises['all'] = data.data;
+                    promises.all = data.data;
                     return data.data;
                 });
             },
@@ -28,34 +28,16 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
                
                 return result.promise;
             },
-            saveModified: function (save) {
+            saveModified: function (myId, stateId) {
                 var result = $q.defer();
 
                 Sockets.emit('slidesaves.save', {
-                    slide: save._id,
-                    data: save
+                    slide: myId,
+                    stateId: stateId
                 }, function(res){
                     result.resolve(res);
                 });
 
-                return result.promise;
-            },
-            getSaveType: function (save,  force) {
-                // workspace, mine, other
-                
-                var result = $q.defer();
-                this.allSaves(force).then(function (all) {
-                    var saveObject = _.find(all, function (a) {
-                        return a._id === save;
-                    });
-
-                    if (!saveObject) {
-                        return result.resolve('other');
-                    }
-
-                    return result.resolve(saveObject.baseSlide ? 'workspace' : 'mine');
-                });
-    
                 return result.promise;
             }
         };

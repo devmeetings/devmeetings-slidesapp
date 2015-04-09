@@ -7,7 +7,7 @@ var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
         req.session.redirect_to = req.url;
         res.redirect('/login');
     } else {
-        res.send(401);
+        res.sendStatus(401);
     }
 };
 
@@ -16,7 +16,7 @@ var authorized = function(role) {
         if (req.user && req.user.acl.indexOf(role) !== -1) {
             next();
         } else {
-            res.send(403);
+            res.sendStatus(403);
         }
     };
 };
@@ -87,6 +87,10 @@ module.exports = function(app) {
     app.post('/api/recordings/:id/split/:time', apiAuthenticated, authorized('admin:super'), recordings.split);
     app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'), recordings.cutout);
 
+    var history = require('../app/controllers/history');
+    app.get('/api/history/since/:id', apiAuthenticated, history.since);
+    app.get('/api/history/:id', apiAuthenticated, history.get);
+
     var events = require('../app/controllers/events');
     app.get('/api/events', events.all);
     app.get('/api/users/:userId/events', apiAuthenticated, events.userEvents);
@@ -106,12 +110,11 @@ module.exports = function(app) {
     app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
     app.post('/api/slidesaves', apiAuthenticated, slidesaves.create);
     app.delete('/api/slidesaves/:slide', apiAuthenticated, slidesaves.delete);
-    app.post('/api/events/:eventId/base_slide/:slide', apiAuthenticated, slidesaves.baseSlide);
+    app.post('/api/events/:eventId/base_slide', apiAuthenticated, slidesaves.baseSlide);
 
     var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
     app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getForEvent);
     app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getPages);
-    app.get('/api/workspaces/users/:userId/timeline', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.getTimeline);
     app.post('/api/workspaces/users/:userId/recording', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.convertToRecording);
 
     var users = require('../app/controllers/users');
@@ -128,12 +131,22 @@ module.exports = function(app) {
     app.get('/api/rawRecordings', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordingsGroups);
     app.get('/api/rawRecordings/:group', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordings);
 
+    // This probably should be api calls?
+    var editor = require('../app/controllers/editor');
+    app.get('/editor/soundslist', authenticated, authorized('admin:events'), editor.soundsList);
+    app.get('/editor/reclist', authenticated, authorized('admin:events'), editor.recList);
+
     // We should change this to ordinary /api calls (except for plugins)
     var req = require('../app/controllers/require');
     app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
     app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
     app.get('/require/plugins/paths.js', req.pluginsPaths);
     app.get('/require/slides/:id.js', apiAuthenticated, req.getSlide);
+
+    var plugins = require('./plugins');
+    var router = require('express').Router();
+    plugins.invokePlugins('initApi', [router, authenticated, app]);
+    app.use('/api/', router);
 
     //login
     var login = require('../app/controllers/login');
@@ -154,20 +167,16 @@ module.exports = function(app) {
     };
 
     app.post('/auth/login', passport.authenticate('local', redirections));
-    app.get('/auth/google', passport.authenticate('google'));
-    app.get('/auth/google/return', passport.authenticate('google', redirections));
+    app.get('/auth/google', passport.authenticate('google', {
+      scope: ['email']
+    }));
+    app.get('/auth/google/callback', passport.authenticate('google', redirections));
     app.get('/auth/github', passport.authenticate('github'));
     app.get('/auth/github/callback', passport.authenticate('github', redirections));
     app.get('/auth/facebook', passport.authenticate('facebook', {
         scope: ['email']
     }));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirections));
-
-    //xplatform
-    var devmeetings = require('../app/controllers/devmeetings');
-    //app.get('/', authenticated, devmeetings.xplatform);
-    app.get('/admin', authenticated, authorized('admin:events'), devmeetings.admin);
-    app.get('/', authenticateAsAnon, nonAnon, redirectIfNeeded, authorizedForEditMode('admin:events'), devmeetings.xplatform);
 
     // registration
     var registration = require('../app/controllers/registration');
@@ -178,21 +187,19 @@ module.exports = function(app) {
 
     //home route
     var slider = require('../app/controllers/slider');
-    app.get('/decks/:slides', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
     app.get('/decks/:slides/trainer', authenticated, authorized('trainer'), slider.trainer);
+    app.get('/decks/:slides*', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
     app.get('/slides/:slide', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.slide);
 
     // Courses
     var courses = require('../app/controllers/courses');
-    app.get('/courses', authenticated, courses.index);
+    app.get('/courses2/*', authenticated, courses.index);
 
-    // This probably should be api calls?
-    var editor = require('../app/controllers/editor');
-    app.get('/editor/soundslist', authenticated, authorized('admin:events'), editor.soundsList);
-    app.get('/editor/reclist', authenticated, authorized('admin:events'), editor.recList);
+    //xplatform
+    var devmeetings = require('../app/controllers/devmeetings');
+    //app.get('/', authenticated, devmeetings.xplatform);
+    app.get('/admin/?*', authenticated, authorized('admin:events'), devmeetings.admin);
+    app.get('/*', authenticateAsAnon, nonAnon, redirectIfNeeded, authorizedForEditMode('admin:events'), devmeetings.xplatform);
 
 
-
-    var plugins = require('./plugins');
-    plugins.invokePlugins('initApi', ['/api/', app, authenticated]);
 };

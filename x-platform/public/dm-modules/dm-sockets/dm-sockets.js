@@ -8,10 +8,12 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
             _initialize: function() {
                 var deckId = (typeof slides === 'undefined') ? "-" : slides;
                 var protocol = $location.protocol();
-                this._socket = io.connect(protocol+'://' + $location.host() + "/?deck=" + deckId);
+                var url = $location.host() + ':' + $location.port();
+                this._socket = io.connect(protocol+'://' + url + "/?deck=" + deckId);
                 var s = this._socket;
                 this.emit = s.emit.bind(s);
                 this.on = s.on.bind(s);
+                this.off = s.off.bind(s);
 
                 $window.addEventListener('message', function(ev) {
                     var data = ev.data;
@@ -33,6 +35,9 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
                     }
                     if (data.type === 'socketListen') {
                         this.on(data.eventName, this._createEventForwarder(target, data.eventName));
+                    }
+                    if (data.type === 'socketStop') {
+                      this.off(data.eventName);
                     }
                 }.bind(this));
             },
@@ -88,6 +93,17 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
                         return org.apply(this, arguments);
                     };
                 }, this);
+
+                ['off'].map(function(method){
+                  var org = this[method];
+                  this[method] = function() {
+                    $window.parent.postMessage({
+                      type: 'socketStop',
+                      eventName: arguments[0]
+                    }, targetOrigin);
+                    return org.apply(this, arguments);
+                  };
+                });
 
                 $window.addEventListener('message', function(ev) {
                     var data = ev.data;

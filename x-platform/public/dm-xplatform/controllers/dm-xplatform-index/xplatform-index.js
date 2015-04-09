@@ -12,8 +12,8 @@ define(['module', 'angular', '_', 'xplatform/xplatform-app', 'slider/slider', 'u
                 element.removeClass();
                 element.addClass(className);
                 element.addClass(col);
-                element.toggle(width != 0);
-            }
+                element.toggle(width !== 0);
+            };
 
             var reloadCols = function() {
                 changeWidthTo('dm-xplatform-index-left', $scope.xplatformData.columns.left);

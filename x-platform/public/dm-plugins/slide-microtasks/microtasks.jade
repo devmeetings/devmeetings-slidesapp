@@ -1,0 +1,15 @@
+div
+  .microtasks(ng-repeat='task in microtasks',
+      tooltip-html-unsafe="{{ task.hint }}", tooltip-placement="bottom")
+    .microtask-holder(ng-class='{"microtask-active": !taskMeta[task.description].completed}')
+
+      .microtask-content
+        .microtask-desc(marked='task.description')
+          plugins-loader(namespace="'microtask'", context='{slide: slide, task: task, meta: taskMeta[task.description]}', path="{{path}}")
+      .microtask-col
+        dm-taskicon(type='taskMeta[task.description].completed ? "taskDone" : "task"')
+
+           
+.microtask-edit.jsonView(ng-if="$root.modes.isEditMode")
+  json(child="microtasks", default-collapsed="false", type="object")
+                

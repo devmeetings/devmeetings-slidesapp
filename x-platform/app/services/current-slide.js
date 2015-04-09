@@ -8,16 +8,15 @@ var slideRoom = function (slide) {
 
 exports.onSocket = function (log, socket, io) {
     socket.on('slide.current.change', function (slide) {
-        socket.get('slideData', function (err, slideData) {
-            if (err || !slideData) {
-                return;
-            }
-            socket.leave(slideRoom(slideData.slide));
-            socket.join(slideRoom(slide[0]));
-            socket.set('slideData', {
-                slide: slide[0]
-            });
-        });
+        var slideData = socket.slideData;
+        if (err || !slideData) {
+            return;
+        }
+        socket.leave(slideRoom(slideData.slide));
+        socket.join(slideRoom(slide[0]));
+        socket.slideData = {
+            slide: slide[0]
+        };
     });
 };
 

@@ -4,54 +4,60 @@ define(['angular',
   'directives/plugins-loader',
   'xplatform/services/dm-slidesaves/dm-slidesaves'
 ], function(angular, _, xplatformApp) {
-  xplatformApp.controller('dmXplatformSlide', ['$scope', '$q', '$state', '$stateParams', '$timeout', 'dmSlidesaves', 'dmEvents', 'dmBrowserTab',
-    function($scope, $q, $state, $stateParams, $timeout, dmSlidesaves, dmEvents, dmBrowserTab) {
-      //
+  xplatformApp.controller('dmXplatformSlide', function($scope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmRecorder, dmEvents, dmBrowserTab, dmEventLive) {
+    //
+    var state = $state.current.name.split('.')[2];
 
-      dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
-        $scope.slide = save;
-        dmBrowserTab.setTitleAndIcon(save.name, 'slide');
-      });
+    $scope.state = dmEvents.getState($stateParams.event, 'save');
+    $scope.mode = 'player';
+    $scope.slideState = state;
 
-      dmSlidesaves.getSaveType($state.params.slide).then(function(type) {
-        $scope.slideWarningType = type;
+    dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
+      $scope.slide = save;
 
-        if (type && type !== 'workspace') {
-          $scope.mode = 'player';
-        } else {
+      dmPlayer.setRecorderSource($stateParams.slide, save.statesaveId, save.slide);
+
+      if (state === 'workspace') {
+        dmBrowserTab.setTitleAndIcon('Your code', 'code');
+        $scope.mode = '';
+      } else if (state === 'question') {
+        $timeout(function() {
           $scope.mode = '';
-        }
+        }, 5000);
+        dmBrowserTab.setTitleAndIcon('Question', 'slide');
+      } else if (state === 'watch') {
+        dmEventLive.createWorkspacePlayerSource($scope, save._id, save.statesaveId, save.slide);
+        dmBrowserTab.setTitleAndIcon(save.title, 'movie');
+      } else {
+        dmBrowserTab.setTitleAndIcon(save.title, 'slide');
+      }
+    });
+
+    $scope.$on('$destroy', function(){
+      dmRecorder.setRecording(false, null);   
+    });
+
+    var saveSlideWithDebounce = _.debounce(function(myId) {
+      if (state !== 'workspace') {
+        return;
+      }
+
+      if ($scope.slide.user !== $scope.currentUserId) {
+        return;
+      }
+
+      dmPlayer.getCurrentStateId().then(function(stateId) {
+        dmSlidesaves.saveModified(myId, stateId);
       });
+    }, 200);
 
-      var sendWithDebounce = _.debounce(function(slide) {
-        var type = $scope.slideWarningType;
-        if (type !== 'mine' && type !== 'other') {
-          dmSlidesaves.saveModified(slide);
-        }
-      }, 200);
+    $scope.$watch('slide', function() {
+      if (!$scope.slide) {
+        return;
+      }
 
-      $scope.state = dmEvents.getState($stateParams.event, 'save');
-
-      $scope.mode = '';
-
-      $scope.$watch('slide', function(a, b) {
-        if ($scope.slide) {
-          sendWithDebounce($scope.slide);
-          $scope.state.save = $scope.slide;
-          // Disable player mode (TODO: Timeout because this is not best method to determine if something should actually be disabled)
-          if (a === b) {
-            return;
-          }
-
-          $timeout(function(){
-            $scope.mode = '';
-          }, 3000);
-        }
-      }, true);
-
-      $scope.getMode = function() {
-        return 'player';
-      };
-    }
-  ]);
+      saveSlideWithDebounce($scope.slide._id);
+      $scope.state.save = $scope.slide;
+    }, true);
+  });
 });

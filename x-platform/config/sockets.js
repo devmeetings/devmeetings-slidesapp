@@ -16,10 +16,11 @@ var plugins = require('./plugins');
 var pluginsEvents = require('../app/plugins/events');
 
 module.exports = function(io, sessionConfig) {
+    io.serveClient(false);
 
     plugins.invokePlugins('initSockets', [io]);
 
-    io.set('authorization', passportSocketIo.authorize({
+    io.use(passportSocketIo.authorize({
         cookieParser: sessionConfig.cookieParser,
         key: sessionConfig.key, // the name of the cookie where express/connect stores its session_id
         secret: sessionConfig.secret, // the session_secret to parse the cookie
@@ -27,32 +28,28 @@ module.exports = function(io, sessionConfig) {
     }));
 
     io.on('connection', function(socket) {
-        var l = log(socket, "main");
+        var l = log(socket, 'main');
 
         // Join deck room
-        var deck = socket.manager.handshaken[socket.id].query.deck;
+        var deck = socket.handshake.query.deck;
 
         if (!deck) {
-            l("Disconecting because no deck");
+            l('Disconecting because no deck');
             socket.disconnect();
             return;
         }
 
-        socket.set('clientData', {
-            deck: deck,
+        socket.clientData = {
             id: socket.id,
-            user: socket.handshake.user
-        });
-        socket.join(deck);
+            user: socket.request.user
+        };
         pluginsEvents.emit('room.joined', deck);
 
         // Disconnection
         socket.on('disconnect', function() {
-
-            socket.get('clientData', function(err, data) {
-                socket.leave(data.deck);
-                pluginsEvents.emit('room.left', data.deck);
-            });
+            var data = socket.clientData;
+            socket.leave(data.deck);
+            pluginsEvents.emit('room.left', data.deck);
         });
 
         // Plugins

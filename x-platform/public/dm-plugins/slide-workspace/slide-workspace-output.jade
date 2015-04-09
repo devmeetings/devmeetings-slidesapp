@@ -1,12 +1,12 @@
 mixin workspaceOutputs()
   .form-group.workspace-address(
-      ng-show="workspace.showUrl || output.showUrl"
+      ng-show="workspace.showUrl !== false || output.showUrl"
     )
       .input-group
         .input-group-btn
           button.btn(
             ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",
-            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(contentUrl)"
+            ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(output.contentUrl)"
             )
             span.fa.fa-refresh
         input.form-control(
@@ -15,8 +15,17 @@ mixin workspaceOutputs()
             ng-keypress="urlKeyPress($event, $parent, output.urlBase + workspace.url);",
             ng-blur="workspace.permaUrl = workspace.url"
           )
+        .input-group-btn
+          a.btn(
+            title="Open Your Page in New Window",
+            ng-href="{{ output.contentUrl }}", 
+            target="_blank", 
+            analytics-event="workspace-newWindow",
+            analytics-category="workspace")
+                span.fa.fa-external-link
+
   .slide-workspace-outputs.full-height(
-      ng-class="{'with-address': workspace.showUrl || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
+      ng-class="{'with-address': workspace.showUrl !== false || output.showUrl, 'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
     iframe.iframe-fiddle-output.scrollable-container(
       ng-class="{'frame-background': workspace.withBackground}")
     iframe.iframe-fiddle-output.scrollable-container(
@@ -35,7 +44,7 @@ mixin workspaceOutputs()
   .loading-spinner(ng-if="isWaiting")
     span.fa.fa-spin.fa-spinner.fa-3x
   .refresh-button(
-        ng-hide="workspace.showUrl || output.showUrl",
+        ng-hide="workspace.showUrl !== false || output.showUrl",
         ng-if="$root.performance.indexOf('workspace_output_noauto') !== -1"
       )
     button.btn.btn-xs.btn-success(

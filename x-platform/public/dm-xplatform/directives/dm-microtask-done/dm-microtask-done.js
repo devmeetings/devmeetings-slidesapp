@@ -16,7 +16,7 @@ define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins'], function
                         }
                     });
                 }
-            }
+            };
         }
     ]);
 });

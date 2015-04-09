@@ -32,6 +32,11 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
 
           return result.promise;
         },
+        getWorkspace: function(event) {
+          return $http.post('/api/events/' + event + '/base_slide').then(function(data) {
+            return data.data.slidesave;
+          });
+        },
         getEvent: function(event, download) {
           var result = promises[event];
 

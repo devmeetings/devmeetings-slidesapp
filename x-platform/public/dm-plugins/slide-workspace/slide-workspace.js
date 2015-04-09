@@ -31,6 +31,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
           scope: {
             workspace: '=data',
             slide: '=context',
+            path: '@',
             mode: '='
           },
           templateUrl: path + '/slide-workspace.html',
@@ -52,7 +53,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               $scope.$watch('workspace.layout', function(layout) {
                 $scope.layout = layout || defaultLayout;
               }, true);
-              $scope.$watch('layout.name', function(){
+              $scope.$watch('layout.name', function() {
                 fixLayoutOptions();
               });
 
@@ -156,8 +157,18 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               undoManager.initTab(name);
             };
 
+            scope.activateTab = function(tabName) {
+              
+              if (scope.workspace.active === tabName && !scope.output.show) {
+                scope.editTabName(tabName);
+              } else {
+                scope.workspace.active = tabName;
+                scope.output.show = false;
+              }
+            };
+
             scope.removeTab = function(tabName) {
-              var sure = $window.confirm('Sure to remove the file?');
+              var sure = $window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
               if (!sure) {
                 return;
               }
@@ -222,7 +233,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
               if (newTab !== oldTab) {
                 undoManager.setUpTabsSwitched(true);
               }
-
               scope.$broadcast('update');
             });
           }

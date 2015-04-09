@@ -1,11 +1,18 @@
 var User = require('../models/user');
+var gravatar = require('gravatar');
+
+function fixAvatar(user) {
+  user.avatar = user.avatar || gravatar.url(user.email);
+}
 
 var Users = {
     get: function (req, res) {
         var userId = req.params.id;
         User.findOne({
             _id: userId
-        }).select('name avatar bio').exec().then(function (user) { 
+        }).select('name email avatar bio').exec().then(function (user) {
+            fixAvatar(user);
+            delete user.email;
             res.send(user);
         });
     }, 
@@ -35,6 +42,7 @@ var Users = {
                 res.send(400);
                 return;
             }
+            fixAvatar(user);
             res.send(user);
         });
     

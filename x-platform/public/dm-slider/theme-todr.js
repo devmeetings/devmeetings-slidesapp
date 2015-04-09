@@ -33,8 +33,8 @@ ace.define('ace/theme/todr', ['require', 'exports', 'module' , 'ace/lib/dom'], f
 exports.isDark = true;
 exports.cssClass = "ace-todr";
 exports.cssText = ".ace-todr .ace_gutter {\
-background: #1a1a1a;\
-color: #BEBEBE\
+background: #0f0f0f;\
+color: #bebebe\
 }\
 .ace-todr .ace_type {\
 color: #F2F257;\

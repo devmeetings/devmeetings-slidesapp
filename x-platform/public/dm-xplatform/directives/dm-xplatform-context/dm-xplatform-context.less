@@ -1,0 +1,45 @@
+.dm-xplatform-context {
+
+  > div {
+    clear: both;
+    transition: height .3s ease-in-out;
+  }
+
+  .small-height {
+    height: 28px;
+  }
+
+  .no-height {
+    height: 0 !important;
+    visibility: hidden;
+  }
+
+  .big-height {
+    height: ~"calc(100% - 28px)";
+    overflow-y: visible;
+  }
+
+  .nav-context-menu {
+    background-color: #161616;
+
+    > li.active a {
+      background-color: #1e1e1e;
+    }
+    > li > a, > li.active > a {
+      cursor: pointer;
+    }
+  }
+  .nav.nav-tabs {
+    display: flex;
+
+    > li {
+      flex: 1;
+    }
+
+    > li > a, > li.active > a {
+      font-size: 1em;
+      padding: 5px 6px;
+      text-align: left;
+    }
+  }
+}

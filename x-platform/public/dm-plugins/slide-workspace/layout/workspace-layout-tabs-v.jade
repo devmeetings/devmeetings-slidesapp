@@ -5,10 +5,10 @@ include ./file-tabs
   .full-height
       .clearfix
         ul.nav.nav-tabs.pull-right
-            li.workspace-tab.pull-right.workspace-tab-condensed
+            li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="!output.showUrl && workspace.showUrl === false")
               a.cursor-pointer(
                 title="Open Your Page in New Window",
-                ng-href="{{ output.newUrl }}", 
+                ng-href="{{ output.contentUrl }}", 
                 target="_blank", 
                 tooltip="Open your page in new window",
                 analytics-event="workspace-newWindow",
@@ -26,7 +26,7 @@ include ./file-tabs
                     title="Upload ZIP file with your code")
                     input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)")
                     span.fa.fa-upload
-            li.workspace-tab.pull-right(ng-if="hasFormatting()")
+            li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="hasFormatting()")
                 a.cursor-pointer(title="Reformat your code", ng-click="formatTab()")
                   span.fa.fa-indent
         +tabs()

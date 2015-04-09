@@ -1,18 +1,17 @@
+var _ = require('lodash');
 var Q = require('q');
 
 exports.getParticipants = function(io, roomId) {
-    var clients = io.sockets.clients(roomId).map(function(socket) {
-        return Q.ninvoke(socket, 'get', 'clientData');
+    var clients = _.values(io.sockets.connected).filter(function(socket) {
+      return socket.rooms.indexOf(roomId) !== -1;
+    }).map(function(socket) {
+      return socket.clientData;
     });
-    return Q.all(clients);
+    return Q.when(clients);
 };
 
 exports.getClientData = function(socket) {
-    var result = Q.defer();
-    socket.get('clientData', function(err, clientData) {
-        result.resolve(clientData);
-    });
-    return result.promise;
+  return Q.when(socket.clientData);
 };
 
 exports.getParticipantsCount = function(io, roomId) {

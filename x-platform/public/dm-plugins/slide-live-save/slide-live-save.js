@@ -3,7 +3,7 @@ define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/S
 
     var THROTTLE_SAVING = 300;
 
-    sliderPlugins.registerPlugin('slide', 'live-save', 'slide-live-save', 5000).directive('slideLiveSave', [
+    sliderPlugins.registerPlugin('slide', 'live-save', 'slide-live-save', 50000).directive('slideLiveSave', [
         'SlideLiveSave', 'localStorageService', '$timeout',
         function(SlideLiveSave, localStorageService, $timeout) {
             return {

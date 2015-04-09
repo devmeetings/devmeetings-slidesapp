@@ -1,0 +1,55 @@
+.dm-xplatform-context.full-height(
+    ng-show="opened")
+  div(
+    ng-class="{'full-height': with.length === 0, 'half-height': with.length > 0 && display.active, 'big-height': with.length > 0 && !display.active, 'no-height': !display.event}"
+    ng-if="!noEventMenu")
+    .col-xs-12.full-height
+      dm-event-menu(event="event", active-iteration="activeIteration")
+  div(
+    ng-if="opened"
+    ng-class="{'full-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
+  )
+    ul.nav.nav-tabs.nav-context-menu(
+      ng-if="with.length > 1"
+    )
+      li(ng-repeat="x in with", ng-class="{'active': display.active === x}")
+        a(ng-click="selectTab(x)") 
+          span.text-danger.tabs-badge(ng-show="x === 'questions' && notifications.unread")
+            span.fa.fa-circle
+          | {{ names[x] }}
+      li(style="flex:0.5", ng-if="!noEventMenu")
+        a(
+          ng-show="display.active"
+          ng-click="selectTab(false);display.event=true")
+          small.text-muted.fa.fa-chevron-down.fa-fw
+    .scroll.big-height.text-left(
+      ng-show="display.active === 'user'"
+      ng-if="display.user"
+      )
+      .col-xs-12
+        include ../../controllers/dm-xplatform-agenda/space-tab-user.jade
+    .scroll.big-height(
+      ng-show="display.active === 'history'"
+      ng-if="display.history"
+      )
+      dm-history-graph
+    .scroll.big-height.text-left(
+      ng-show="display.active === 'questions'"
+      ng-if="display.questions"
+      ng-controller="dmXplatformQuestion"
+      )
+      include ../../controllers/dm-xplatform-question/index.jade
+    .scroll.big-height.text-left(
+      ng-show="display.active === 'annotations'"
+      ng-if="display.annotations"
+      ng-controller="dmXplatformAnnos"
+      )
+      include ../../controllers/dm-xplatform-annos/dm-xplatform-annos.jade
+    .scroll.big-height(
+      ng-show="display.active === 'chat'"
+      ng-if="display.chat"
+      )
+      h1 Czat
+
+
+

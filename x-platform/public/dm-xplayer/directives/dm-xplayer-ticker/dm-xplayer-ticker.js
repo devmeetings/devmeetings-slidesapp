@@ -32,7 +32,12 @@ define([
             $scope.state.currentSecond = s + 0.1;
 
             var step = 100.0 / $scope.state.rate;
-            $timeout(playerTick, step);
+            setTimeout(function() {
+              // Digest all changes before continuing
+              $scope.$apply(function() {
+                $timeout(playerTick, step);
+              });
+            });
           }
 
         }

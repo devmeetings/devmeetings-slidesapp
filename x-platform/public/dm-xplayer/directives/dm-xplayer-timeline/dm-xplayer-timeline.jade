@@ -1,2 +1,60 @@
-.dm-xplayer-timeline
-  progressbar(value='value', animate="false")
+a.btn.dm-timeline-button(
+    ng-click='state.isPlaying = !state.isPlaying', 
+    analytics-category='timeline',
+    analytics-on='click', analytics-event='audio.play_pause'
+    tooltip='{{state.isPlaying ? "Pause" : "Play"}}', tooltip-placement='top')
+    span.fa.fa-play(ng-if='!state.isPlaying')
+    span.fa.fa-pause(ng-if='state.isPlaying')
+
+
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond - 0.5)"
+    ng-if="editMode")
+      span -0.5
+
+a.btn.dm-timeline-button(
+    ng-if="editMode",
+    ng-click="setTime(state.currentSecond - 0.25)")
+    span -0.25
+a.btn.dm-timeline-button(
+    tooltip='Current second', tooltip-placement='top')
+    span(ng-show="!editSecond", ng-click="editSecond = true") {{state.currentSecond | number: 1}} 
+    input.form-control.input-sm(
+      type="number",
+      ng-show="editSecond", 
+      ng-model="state.currentSecond", 
+      ng-blur="setTime(state.currentSecond - 1.0); editSecond = false") 
+a.btn.dm-timeline-button(
+    ng-click="setTime(state.currentSecond + 0.25)"
+    ng-if="editMode")
+      span +0.25
+
+
+a.btn.dm-timeline-button(
+    analytics-category='timeline',
+    analytics-on='click', analytics-event='audio.rate-{{nextRate}}'
+    ng-click='changeRate()', 
+    tooltip='Change the speed to {{nextRate | number: 2}}', tooltip-placement='top')
+    span {{state.rate | number: 2}}x
+.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 170px)"}')
+    dm-timeline(
+      second='state.currentSecond',
+      length='state.max', 
+      annotations='annotations',
+      ng-click="move($event)")
+
+    dm-xplayer-ticker(
+      ng-if="!audioUrl",
+      state='state'
+    )
+
+    dm-wavesurfer(
+      ng-if="audioUrl"  
+      dm-src='audioUrl',
+      dm-is-playing='state.isPlaying',
+      dm-current-second='state.currentSecond',
+      dm-playback-rate='state.rate',
+      dm-start-second='state.startSecond',
+      dm-duration='state.duration',
+      dm-set-second='setSecond'
+    )

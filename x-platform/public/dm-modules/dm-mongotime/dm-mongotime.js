@@ -1,5 +1,5 @@
 define(['angular'], function(angular) {
-    'use strict'
+    'use strict';
     angular.module('dm-mongotime', []).filter('dmMongotime', [
         function() {
             return function(input) {

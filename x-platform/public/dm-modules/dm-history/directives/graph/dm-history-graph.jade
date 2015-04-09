@@ -1,0 +1,8 @@
+.dm-history.ng-cloak
+  h3 History
+  a.dm-history-item(
+    ui-sref="index.space.history({historyId: h._id})"
+    ui-sref-active="btn-success"
+    ng-repeat="h in history.history"
+    )
+    span.fa.fa-circle

@@ -16,7 +16,7 @@ block content
     div.full-height(ng-controller="SliderCtrl")
         .col-sm-12.full-height
             .row.full-height
-                plugins-loader(namespace="'deck.slides'", context="deckSlides")
-                plugins-loader(namespace="'deck'", context="deck")
-                plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck")  
+                plugins-loader(namespace="'deck.slides'", context="deckSlides", path='')
+                plugins-loader(namespace="'deck'", context="deck", path='')
+                plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck", path='')  
 

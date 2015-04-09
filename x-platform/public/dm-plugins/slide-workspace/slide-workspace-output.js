@@ -4,38 +4,34 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   var path = sliderPlugins.extractPath(module);
 
   var lastTimestamp = 0;
-  var refreshOutput = _.throttle(function($rootScope, scope, contentData, force) {
+  var refreshOutputNow = function($rootScope, scope, contentData, force) {
 
     if (lastTimestamp > contentData.timestamp) {
       return;
     }
     lastTimestamp = contentData.timestamp;
 
-    scope.$apply(function() {
-      scope.isWaiting = false;
-      scope.output.hash = contentData.hash;
-      scope.output.urlBase = contentData.url;
+    scope.isWaiting = false;
+    scope.output.hash = contentData.hash;
+    scope.output.urlBase = contentData.url;
 
-      if (!force && $rootScope.performance.indexOf('workspace_output_noauto') > -1) {
-        scope.requiresRefresh = true;
-        return;
-      }
-      doReloadOutput(scope);
-    });
-  }, 800, {
-    trailing: true,
-    leading: false
-  });
+    if (!force && $rootScope.performance.indexOf('workspace_output_noauto') > -1) {
+      scope.requiresRefresh = true;
+      return;
+    }
+    doReloadOutput(scope);
+  };
 
   function doReloadOutput(scope) {
     if (scope.slide.serverRunner === 'expressjs') {
       scope.isWaiting = true;
-      sliderPlugins.trigger('slide.slide-workspace.run', scope.workspace);
+      sliderPlugins.trigger('slide.slide-workspace.run', scope.workspace, scope.path);
     } else {
       scope.requiresRefresh = false;
       var url = scope.workspace.url || '/';
-      scope.contentUrl = scope.output.urlBase + url;
-      scope.output.newUrl = scope.contentUrl;
+      if (scope.output.urlBase) {
+        scope.output.contentUrl = scope.output.urlBase + url;
+      }
     }
   }
 
@@ -76,16 +72,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     scope.workspace.permaUrl = scope.workspace.url;
   }
 
-  function listenToServerRunnerEvents(scope, $location, $rootScope) {
+  function listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer) {
     function updateUrls(result) {
       var port = result.port;
       scope.isWaiting = false;
       scope.requiresRefresh = false;
       scope.output.urlBase = 'http://' + $location.host() + ':' + port;
       var url = scope.workspace.url || '/';
-      scope.contentUrl = scope.output.urlBase + url;
-      scope.output.newUrl = scope.contentUrl;
-      scope.refreshIframe(scope.contentUrl);
+      scope.output.contentUrl = scope.output.urlBase + url;
+      scope.refreshIframe(scope.output.contentUrl);
     }
 
     sliderPlugins.listen(scope, 'slide.serverRunner.result', function(result) {
@@ -118,19 +113,25 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       } else {
         doReloadOutput(scope);
       }
+
+      dmPlayer.getCurrentStateId().then(function(stateId) {
+        scope.output.hash = stateId;
+      });
     });
   }
 
-  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope) {
-    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
+  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer) {
+    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
-      Sockets.emit('slide.slide-workspace.change', {
-        timestamp: new Date().getTime(),
-        workspace: workspace
-      }, function(contentData) {
-        contentData.url = '/api/page/' + contentData.hash;
-        refreshOutput($rootScope, scope, contentData);
+
+      dmPlayer.getCurrentStateId().then(function(stateId) {
+        refreshOutputNow($rootScope, scope, {
+          hash: stateId,
+          url: '/api/page/' + stateId,
+          timestamp: new Date().getTime()
+        });
       });
+
     });
   }
 
@@ -150,7 +151,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       function updateFrames() {
         if (!$iframes[currentFrame]) {
           $iframes = element.find('iframe');
-          $timeout(updateFrames, 100);
+          $timeout(updateFrames, 60);
           return;
         }
 
@@ -160,7 +161,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           $iframes[currentFrame].src = '';
           setTimeout(function() {
             $iframes[currentFrame].src = contentUrl;
-          },3);
+          }, 3);
         }
         // Swap frames on load
         angular.element($iframes[currentFrame]).one('load', swapFramesLater);
@@ -187,7 +188,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       var newOutput = angular.element($iframes[oldFrame]);
 
       // Fix for old output lfashing.
-      if (newOutput[0].src.indexOf(scope.contentUrl) === -1) {
+      if (newOutput[0].src.indexOf(scope.output.contentUrl) === -1) {
         currentFrame = Math.max(0, currentFrame - 1);
         return;
       }
@@ -203,9 +204,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         if (oldFrame === currentFrame) {
           newOutput.removeClass('fadeOut hidden');
         }
-      }, 250);
+      }, 100);
 
-    }, 700, {
+    }, 500, {
       leading: false,
       trailing: true
     });
@@ -224,8 +225,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   }
 
   sliderPlugins.directive('slideWorkspaceOutput', [
-    '$timeout', '$window', '$rootScope', '$location', 'Sockets',
-    function($timeout, $window, $rootScope, $location, Sockets) {
+    '$timeout', '$window', '$rootScope', '$location', 'Sockets', 'dmPlayer',
+    function($timeout, $window, $rootScope, $location, Sockets, dmPlayer) {
       return {
         restrict: 'E',
         templateUrl: path + '/slide-workspace-output.html',
@@ -235,14 +236,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           scope.isWaiting = true;
 
           if (scope.slide.serverRunner === 'expressjs') {
-            listenToServerRunnerEvents(scope, $location, $rootScope);
+            listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer);
           } else {
-            listenToFrontendRunnerEvents(scope, Sockets, $rootScope);
+            listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer);
           }
 
           handleIframes(scope, element, $timeout, $rootScope);
 
-          scope.$watch('contentUrl', scope.refreshIframe);
+          scope.$watch('output.contentUrl', scope.refreshIframe);
           // when playing we need to have it also!
           scope.$watch('workspace.permaUrl', function() {
             doReloadOutput(scope);

@@ -65,6 +65,11 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               behavioursEnabled: !scope.options.noAutocomplete
             });
 
+            // Don't lose focus when playing a movie!
+            if (scope.editorMode !== 'player') {
+              editor.focus();
+            }
+
             (function vimMode() {
               if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
                 editor.setKeyboardHandler('ace/keyboard/vim');
@@ -85,6 +90,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               }
               updateMode(scope.name);
               updateEditorContent(editor, scope.data);
+              editor.focus();
               triggerSave();
             });
 
@@ -137,6 +143,9 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               triggerChangeLater(scope);
             });
 
+            scope.$watch('editorMode', function(){
+              editor.setReadOnly(scope.editorMode === 'player');
+            });
 
             scope.$watch('data.editor', function() {
               if (scope.editorMode !== 'player') {
@@ -147,8 +156,8 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 withoutSync(function() {
                   updateEditorOptions(editor, scope.data);
                 });
-              }, 100);
-            });
+              }, 30);
+            }, true);
 
             scope.$watch('data', function() {
               if (!scope.data) {
@@ -166,7 +175,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
             scope.$on('$destroy', function() {
               editor.destroy();
             });
-          }, 200);
+          }, 150);
         }
       };
 

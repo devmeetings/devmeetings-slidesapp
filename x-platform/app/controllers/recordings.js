@@ -2,7 +2,7 @@ var RecordingModel = require('../models/recording');
 
 var Recordings = {
   list: function(req, res) {
-    RecordingModel.find({}, '_id title group date', function(err, recordings) {
+    RecordingModel.find({}).select('_id title group date').lean().exec(function(err, recordings) {
       if (err) {
         console.error(err);
         res.send(404, err);
@@ -12,14 +12,21 @@ var Recordings = {
     });
   },
   get: function(req, res) {
+    // TODO [ToDr] Recordings can always be cached - don't wast time checking if something changed.
+    if (req.headers['if-none-match']) {
+      res.sendStatus(304);
+      return;
+    }
+
     RecordingModel.findOne({
       _id: req.params.id
-    }, function(err, recordings) {
+    }).lean().exec(function(err, recordings) {
       if (err) {
         console.error(err);
         res.send(404, err);
         return;
       }
+      res.setHeader('Cache-Control', 'public, max-age=' + 3600*24*7);
       res.send(recordings);
     });
   },

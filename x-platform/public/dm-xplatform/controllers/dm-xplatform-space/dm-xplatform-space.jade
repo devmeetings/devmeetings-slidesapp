@@ -1,17 +1,10 @@
 .col-sm-12.full-height.dm-space-top(tabindex='1', ng-keyup='keys.keyUp($event)')
-    .row(ng-style='{"height": "calc(100% - 3px - " + bottombarHeight + ")"}')
+    .row.full-height
 
         .dm-spacesidebar(ng-style='{"width": left.current}')
             .row.clearfix
-                .col-sm-12
-                    a.btn.pull-right.dm-space-toggle(ng-click='left.current = left.current === left.max ? left.min : left.max')
-                        span.fa.fa-align-justify
-                    a.pull-left.btn.btn-link(
-                        href='/',
-                        analytics-category='menu',
-                        analytics-on='click', analytics-event='navbar.logo')
-                        img(src="static/images/navbar/xplatform_logo.png")
-                
+              .col-sm-12(dm-defer="1500")
+                include ./space-users.jade
         .dm-space(
           ng-class="{'zen-mode': $root.isZenMode }",
           ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + ")"}')
@@ -25,19 +18,20 @@
                   dm-iframe="/slides/{{event.intro}}",
                   ng-if="event.intro && showTutorial")
 
-              .row.full-height(ng-if='!showTutorial', ui-view='content')
+              .row.full-height.ui-view-animate(ng-if='!showTutorial', ui-view='content')
 
               .dm-space-live(ng-if="event.liveLink && !right.pinned")
                   iframe.full-frame(
                     seamless=true,
                     dm-iframe="{{ event.liveLink | liveLinkUrl:'embed' }}")
 
-        .dm-spacesidebar.dm-spacesidebar-right-container(
+        .dm-spacesidebar.dm-spacesidebar-right-container.ng-cloak(
+            dm-defer="1000"
             ng-style='{"width": right.current, "overflow": "visible"}',
             ng-class="{'pinned': right.pinned, 'opened': right.opened}",
             analytics-category='spacesidebar',
             analytics-on='mouse-enter',
-            ng-mouseenter='right.mouseOn=true; right.pinned || toggleRightDelayed(true)',
+            ng-mouseenter='right.mouseOn=true;',
             ng-mouseleave='right.mouseOn=false; right.pinned || toggleRightDelayed(false)'
         )
           .dm-space-live(ng-if="event.liveLink && right.pinned")
@@ -46,27 +40,37 @@
               dm-iframe="{{ event.liveLink | liveLinkUrl:'embedBig' }}")
 
           .dm-spacesidebar-right
-            include ./space-sidebar-buttons.jade
-            tabset(ng-class='{"active": !right.opened}')
-                include ./space-tabs-main.jade
-                .separator
-                include ./space-tab-user.jade
-                tab.cursor-pointer(
-                    analytics-category='spacesidebar',
-                    analytics-on='click', analytics-event='spacesidebar.zen',
-                    disabled="true",
-                    ng-click='changeFullScreen(true)'
-                  )
-                    tab-heading.cursor-pointer(
-                      tooltip='Full Screen', tooltip-placement='left', title="Full Screen",
-                      tooltip-animation='false',
-                      )
-                      span.fa.fa-desktop
+            a.cursor-pointer.sidebar-open-btn(
+              ng-show="!right.opened"
+              ng-click="toggleRight(true)"
+              )
+              span.fa.fa-fw.fa-chevron-left(
+                tooltip="Additional options"
+                tooltip-placement="left"
+                tooltip-animation="false"
+                )
 
-                        
-    .row.bottom-bar(
-      ng-class="{'zen-mode': $root.isZenMode }",
-      ng-style='{"height": bottombarHeight}', ui-view='bottombar'
-    )
+            ul.nav.nav-tabs.pull-right
+              li.sidebar-pin-btn(tooltip="Pin Menu", tooltip-placement="left", title="Pin Menu", tooltip-animation='false')
+                a.cursor-pointer(ng-click="togglePinRight()")
+                  span.fa.fa-thumb-tack(ng-show="right.pinned")
+                  span.glyphicon.glyphicon-pushpin(ng-show="!right.pinned")
 
+            .full-height(ui-view="context")
+
+            // tabset(ng-class='{"inactive": !right.opened}')
+            //     include ./space-tabs-main.jade
+            //     .separator
+            //     tab.cursor-pointer(
+            //         analytics-category='spacesidebar',
+            //         analytics-on='click', analytics-event='spacesidebar.zen',
+            //         disabled="true",
+            //         ng-click='changeFullScreen(true)'
+            //       )
+            //         tab-heading.cursor-pointer(
+            //           tooltip='Full Screen', tooltip-placement='left', title="Full Screen",
+            //           tooltip-animation='false',
+            //           )
+            //           span.fa.fa-desktop
+            //
 

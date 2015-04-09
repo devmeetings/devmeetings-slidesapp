@@ -1,7 +1,7 @@
 .col-xs-12.full-height
-  dm-xplayer.full-height(
+  dm-xplayer-full(
     state='state', 
     annotations='annotations', 
     recording='recording',
-    on-first-run="changeFullScreen(true)")
-
+    audio-url='withVoice && audioUrl'
+    on-first-run='autoGoFullScreen()')

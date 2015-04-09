@@ -32,7 +32,7 @@ define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins',
                         scope.people = result.peopleFinished;
                     });
                 }
-            }
+            };
         }
     ]);
 });

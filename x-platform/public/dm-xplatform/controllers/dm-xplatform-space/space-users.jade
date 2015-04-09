@@ -1,0 +1,51 @@
+ul.nav.nav-tabs.menu
+  li(tooltip="XPlatform", tooltip-placement="right", tooltip-animation='false')
+    a(href="/",
+      analytics-category='menu',
+      analytics-on='click', analytics-event='leftbar.logo')
+      img(src="static/images/xplatform-icon-trans.svg", width="14", height="14")
+
+ul.nav.nav-tabs.agenda
+  li(tooltip="Event Agenda", tooltip-placement="right", tooltip-animation='false',
+    ui-sref-active="active"
+    )
+    a(ui-sref="index.space.agenda",
+      analytics-category='menu',
+      analytics-on='click', analytics-event='leftbar.agenda')
+      span.fa.fa-fw.fa-sitemap
+
+
+ul.nav.nav-tabs.nav-stacked.users
+  li.users-self(
+    tooltip="You - {{user.result.name}}"
+    tooltip-placement="right"
+    tooltip-animation="false"
+    title="{{user.result.name}}"
+    ui-sref-active='active'
+    )
+    span.user-badge(ng-show="user.result.workspaceListeners") {{user.result.workspaceListeners}}
+    a(
+      ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+      )
+      img.img-rounded(
+        alt="{{user.result.name}}"
+        ng-src='{{user.result.avatar | dmGravatar:30}}'
+        )
+
+  li(
+    ng-repeat="user in users"
+    title="{{user.name}}"
+    tooltip="{{user.name}}"
+    tooltip-animation="false"
+    tooltip-placement="right"
+    ui-sref-active='active'
+    )
+    span.user-badge(ng-show="user.workspaceListeners") {{user.workspaceListeners}}
+    a(
+      ui-sref="index.space.watch({slide: user.workspaceId, parent:null})",
+      )
+      img(
+        alt="{{user.name}}"
+        ng-src="{{user.avatar | dmGravatar:24}}"
+        )
+

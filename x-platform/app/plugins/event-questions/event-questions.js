@@ -29,7 +29,7 @@ exports.onSocket = function (log, socket, io) {
         }
     
         Q.ninvoke(Slidesave.findOne({
-            user: socket.handshake.user._id,
+            user: socket.request.user._id,
             baseSlide: data.baseSlide
         }).lean(), 'exec').then(function (slidesave) {
             if (slidesave) {
@@ -39,7 +39,7 @@ exports.onSocket = function (log, socket, io) {
                 _id: slide
             }).lean(), 'exec').then(function (slide) {
                 var toInsert = {
-                    user: socket.handshake.user._id,
+                    user: socket.request.user._id,
                     slide: slide.content,
                     title: 'default workspace',
                     baseSlide: slide._id,
