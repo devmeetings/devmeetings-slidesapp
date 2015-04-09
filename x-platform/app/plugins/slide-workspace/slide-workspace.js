@@ -137,7 +137,7 @@ function processFile(ext, content) {
     return require('coffee-script').compile(content);
   }
   if (ext === 'es6') {
-    return require('traceur').compile(content, {});
+    return require('babel').transform(content, {}).code;
   }
   return content;
 }
