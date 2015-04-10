@@ -32,7 +32,7 @@ define([
               $scope.slide = slide;
               // TODO [ToDr] Temporary (viewing of notes)
               $rootScope.slide = {
-                slide: slide
+                slide: slide,
                 mode: 'player'
               };
               if (layout && slide.workspace) {
