@@ -10,7 +10,8 @@ define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/S
                 restrict: 'E',
                 scope: {
                     data: '=data',
-                    slide: '=context'
+                    slide: '=context',
+                    mode: '='
                 },
                 templateUrl: path + '/slide-live-save.html',
                 link: function(scope, element) {
