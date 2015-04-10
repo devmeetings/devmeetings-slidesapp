@@ -7,11 +7,11 @@ div
             a.cursor-pointer(ui-sref='index.space.question({slide: question.slidesave, parent:null})')
                 small.pull-right(am-time-ago='question.timestamp')
                 span {{question.description}}
-            ul.nav.nav-stacked(ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
+            ul.nav.nav-stacked
                 li(ng-repeat='comment in question.comments', ui-sref-active="active")
                     a(ui-sref='index.space.question({slide: comment.slidesave, parent: question.slidesave})')
                         span {{comment.text}}
-            form(ng-submit='createComment(question)', ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
+            form(ng-submit='createComment(question)')
                 .form-group
                     .input-group
                         input.input-sm.form-control(required, ng-model='question.text', autofocus, placeholder="Write Your Answer Here")
