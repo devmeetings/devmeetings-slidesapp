@@ -7,7 +7,7 @@ define([
 
 
   xplayerApp.directive('dmXplayer',
-    function(dmPlayerFactory, $timeout, $window) {
+    function(dmPlayerFactory, $rootScope, $timeout, $window) {
       return {
         restrict: 'E',
         scope: {
@@ -30,6 +30,10 @@ define([
             var layout = recording.layout || null;
             recordingPlayer = dmPlayerFactory(recording, function(slide) {
               $scope.slide = slide;
+              // TODO [ToDr] Temporary (viewing of notes)
+              $rootScope.slide = {
+                slide: slide
+              };
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
               }
