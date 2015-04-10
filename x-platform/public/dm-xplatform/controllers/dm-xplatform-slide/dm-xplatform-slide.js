@@ -16,15 +16,18 @@ define(['angular',
       $scope.slide = save;
       //TODO [ToDr] Temporary!
       $rootScope.slide = save;
+      $rootScope.slide.mode = 'player';
 
       dmPlayer.setRecorderSource($stateParams.slide, save.statesaveId, save.slide);
 
       if (state === 'workspace') {
         dmBrowserTab.setTitleAndIcon('Your code', 'code');
         $scope.mode = '';
+        $rootScope.slide.mode = '';
       } else if (state === 'question') {
         $timeout(function() {
           $scope.mode = '';
+          $rootScope.slide.mode = '';
         }, 5000);
         dmBrowserTab.setTitleAndIcon('Question', 'slide');
       } else if (state === 'watch') {
