@@ -10,11 +10,13 @@ define(['module', '_', 'angular', 'howler', 'slider/slider.plugins', 'services/S
                 restrict: 'E',
                 scope: {
                     data: '=data',
-                    slide: '=context'
+                    slide: '=context',
+                    mode: '='
                 },
                 templateUrl: path + '/slide-live-save.html',
                 link: function(scope, element) {
                     scope.recording = localStorageService.get('dev.recording') === 'true';
+                    scope.showSave = localStorageService.get('dev.livesave') === 'true';
 
                     var updateSlide = _.throttle(function(newSlide) {
                         if (scope.recording) {

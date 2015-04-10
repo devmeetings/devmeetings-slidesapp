@@ -14,11 +14,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       link: function(scope) {
 
         var toSend = [];
+        var lastLog = new Date().getTime();
 
         function sendQueue() {
-          console.debug('In queue: ', toSend.length);
-
-          console.time('Server sync');
+          var shouldLog = (new Date()).getTime() - lastLog > 30 * 1000;
+          if (shouldLog) {
+            lastLog = new Date().getTime();
+            console.debug('In queue: ', toSend.length);
+            console.time('Server sync');
+          }
 
           var id = dmRecorder.startSyncingAndGetId();
           // TODO [ToDr] Gather data from other plugins?
@@ -28,7 +32,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
           }, function(stateId, lastPatch) {
-            console.timeEnd('Server sync');
+            if (shouldLog){
+              console.timeEnd('Server sync');
+            }
 
             // TODO [ToDr] Should recorder know that server received the event?
             dmRecorder.stopSyncingAndSetId(stateId, lastPatch);
