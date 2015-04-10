@@ -49,12 +49,13 @@
       ng-show="display.active === 'notes'"
       ng-if="display.notes"
       )
-      plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="''", path='')
+      plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
     .scroll.big-height(
       ng-show="display.active === 'chat'"
       ng-if="display.chat"
       )
-      h1 Czat
+        h1 Chat
+        h3 Not ready yet:(
 
 
 
