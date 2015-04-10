@@ -33,6 +33,7 @@ define([
               // TODO [ToDr] Temporary (viewing of notes)
               $rootScope.slide = {
                 slide: slide
+                mode: 'player'
               };
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
