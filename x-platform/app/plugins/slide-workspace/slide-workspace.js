@@ -137,8 +137,10 @@ function processFile(ext, content) {
     return require('coffee-script').compile(content);
   }
   if (ext === 'es6') {
+    var module = content.indexOf('import') !== -1 ? 'amd' : 'common';
+
     return require('babel').transform(content, {
-      modules: 'amd'
+      modules: module
     }).code;
   }
   return content;
