@@ -160,7 +160,7 @@ var Recordings = {
           pushAnno(memo, slide, 'largeJump');
         } else if (notesDetected(memo, slide)) {
           note = notesDetected(memo, slide);
-          pushAnno(memo, slide, note);
+          pushAnno(memo, slide, 'Notes', note);
         } else if (lastIdx === idx) {
           pushAnno(memo, slide, 'last');
         }
