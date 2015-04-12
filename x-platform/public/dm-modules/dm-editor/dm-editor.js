@@ -65,10 +65,13 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               behavioursEnabled: !scope.options.noAutocomplete
             });
 
-            // Don't lose focus when playing a movie!
-            if (scope.editorMode !== 'player') {
-              editor.focus();
+            function focusEditor() {
+              // Don't lose focus when playing a movie!
+              if (scope.editorMode !== 'player') {
+                editor.focus();
+              }
             }
+            focusEditor();
 
             (function vimMode() {
               if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
@@ -90,7 +93,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               }
               updateMode(scope.name);
               updateEditorContent(editor, scope.data);
-              editor.focus();
+              focusEditor();
               triggerSave();
             });
 

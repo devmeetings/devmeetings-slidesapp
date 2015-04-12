@@ -2,7 +2,7 @@
   .dm-player-subtitles(
       ng-class="{'faded': showAnno == false, 'minimized': minimized, 'first-run': state.firstRun }"
     )
-      .dm-player-subtitles-hidden(ng-show="anno.description")
+      .dm-player-subtitles-hidden(ng-show="anno.description && !state.firstRun")
         .dm-annos-item(ng-if="anno.type !== 'pause'")
                 dm-annotation(annotation='anno', showIteration='showAll', ng-if='anno.type === "snippet" || anno.type === "comment"')
                 dm-microtask(microtask='anno', ng-if='anno.type === "task"')
@@ -11,6 +11,8 @@
           span.fa.fa-times.fa-fw(ng-show="!minimized")
 
       button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
+              ng-show="!state.isPlaying"
+              autofocus,
               ng-click="runNext(); minimized=false",
               ng-show="nextStop < maxNextStop")
                 span.fa.fa-play.fa-fw
