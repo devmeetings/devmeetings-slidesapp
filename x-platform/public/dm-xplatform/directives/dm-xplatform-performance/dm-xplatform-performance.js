@@ -24,7 +24,7 @@ define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) 
 
         prop('anims');
         prop('shadows');
-        prop('player_no_full_screen');
+        prop('player_full_screen');
         prop('workspace_output_noanim');
         prop('workspace_output_noauto');
         prop('workspace_output_scalling');

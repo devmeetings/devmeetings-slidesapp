@@ -22,7 +22,7 @@ class SpaceVisuals {
     };
 
     $scope.autoGoFullScreen = () => {
-      if (this.$rootScope.performance.indexOf('player_no_full_screen') > -1) {
+      if (this.$rootScope.performance.indexOf('player_full_screen') === -1) {
         return;
       }
       $scope.changeFullScreen(true);
