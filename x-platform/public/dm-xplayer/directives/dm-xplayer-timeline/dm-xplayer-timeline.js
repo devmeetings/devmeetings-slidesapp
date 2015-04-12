@@ -31,7 +31,7 @@ define([
             if ($scope.withVoice) {
               $scope.state.rate = rates[0];
             } else {
-              $scope.state.rate = rates[rates.length - 5];
+              $scope.state.rate = rates[rates.length - 3];
             }
             $scope.changeRate();
           });
