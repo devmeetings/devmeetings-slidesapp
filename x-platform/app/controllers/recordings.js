@@ -73,7 +73,10 @@ var Recordings = {
         var active = workspace.active;
         var tab = workspace.tabs[active];
 
-        if (tab.content === memo.previousTabData.content) {
+        var isContentSame = tab.content === memo.previousTabData.content;
+        var isCursorDifferentColumn = tab.editor.cursorPosition.column !== memo.previousTabData.editor.cursorPosition.column;
+        var isCursorDifferentRow = tab.editor.cursorPosition.row !== memo.previousTabData.editor.cursorPosition.row;
+        if (isContentSame && (isCursorDifferentColumn || isCursorDifferentRow)) {
           memo.movement++;
         } else {
           memo.movement = 0;
