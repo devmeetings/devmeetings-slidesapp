@@ -365,7 +365,7 @@ require(['angular',
             controller: 'dmXplatformPlayer'
           },
           context: {
-            template: '<dm-xplatform-context opened="right.opened" event="event"  with="[ \'annotations\']"></dm-xplatform-context>'
+            template: '<dm-xplatform-context opened="right.opened" event="event"  with="[\'notes\', \'annotations\']"></dm-xplatform-context>'
           }
         }
       });
