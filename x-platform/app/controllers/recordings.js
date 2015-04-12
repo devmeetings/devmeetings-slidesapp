@@ -26,7 +26,7 @@ var Recordings = {
         res.send(404, err);
         return;
       }
-      res.setHeader('Cache-Control', 'public, max-age=' + 3600*24*7);
+      res.setHeader('Cache-Control', 'public, max-age=' + 3600 * 24 * 7);
       res.send(recordings);
     });
   },
@@ -73,15 +73,17 @@ var Recordings = {
         var active = workspace.active;
         var tab = workspace.tabs[active];
 
-        var isContentSame = tab.content === memo.previousTabData.content;
-        var isCursorDifferentColumn = tab.editor.cursorPosition.column !== memo.previousTabData.editor.cursorPosition.column;
-        var isCursorDifferentRow = tab.editor.cursorPosition.row !== memo.previousTabData.editor.cursorPosition.row;
-        if (isContentSame && (isCursorDifferentColumn || isCursorDifferentRow)) {
-          memo.movement++;
-        } else {
-          memo.movement = 0;
+        if (tab.editor && memo.previousTabData.editor) {
+          var isContentSame = tab.content === memo.previousTabData.content;
+          var isCursorDifferentColumn = tab.editor.cursorPosition.column !== memo.previousTabData.editor.cursorPosition.column;
+          var isCursorDifferentRow = tab.editor.cursorPosition.row !== memo.previousTabData.editor.cursorPosition.row;
+          if (isContentSame && (isCursorDifferentColumn || isCursorDifferentRow)) {
+            memo.movement++;
+          } else {
+            memo.movement = 0;
+          }
         }
-        
+
         if (memo.movement > 5) {
           return true;
         }
@@ -102,16 +104,16 @@ var Recordings = {
 
         var lastRow = getRow(memo.previousTabData);
         var currentRow = getRow(tab);
-  
+
         // TODO [ToDr] Amount choose after some serious big data analysisi ;)
-        if (Math.abs( lastRow - currentRow ) > 10) {
+        if (Math.abs(lastRow - currentRow) > 10) {
           return true;
         }
 
         return false;
       }
 
-      var lastIdx= recording.slides.length - 1;
+      var lastIdx = recording.slides.length - 1;
       var annotations = recording.slides.reduce(function(memo, slide, idx) {
         var workspace = slide.code.workspace;
 
