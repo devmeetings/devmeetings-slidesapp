@@ -77,7 +77,7 @@ var Recordings = {
 
         var lastNotes = slide.code.notes;
         // Naive detecting of new line
-        if (lastNotes + '\n' !== memo.previousNotes) {
+        if (lastNotes !== memo.previousNotes + '\n') {
           return false;
         }
 
