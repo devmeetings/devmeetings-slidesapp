@@ -49,6 +49,7 @@ var Recordings = {
         timestamp: 0,
         url: null,
         movement: 0,
+        previousNotes: null,
         previousTabData: {
           content: '',
           editor: null
@@ -66,6 +67,22 @@ var Recordings = {
           anno.isPauseAfter = isPauseAfter;
         }
         memo.annotations.push(anno);
+      }
+
+
+      function notesDetected(memo, slide) {
+        if (!slide.code.notes) {
+          return false;
+        }
+
+        var lastNotes = slide.code.notes;
+        // Naive detecting of new line
+        if (lastNotes + '\n' !== memo.previousNotes) {
+          return false;
+        }
+
+        var split = lastNotes.split('\n');
+        return split[split.length - 2];
       }
 
       function movementDetected(memo, slide) {
@@ -116,6 +133,7 @@ var Recordings = {
       var lastIdx = recording.slides.length - 1;
       var annotations = recording.slides.reduce(function(memo, slide, idx) {
         var workspace = slide.code.workspace;
+        var note;
 
         if (workspace.active !== memo.active) {
           slide.timestamp -= 1000;
@@ -139,11 +157,15 @@ var Recordings = {
           memo.movement = 0;
         } else if (largeJumpDetected(memo, slide)) {
           pushAnno(memo, slide);
+        } else if (notesDetected(memo, slide)) {
+          note = notesDetected(memo, slide);
+          pushAnno(memo, slide, note);
         } else if (lastIdx === idx) {
           pushAnno(memo, slide);
         }
 
         memo.previousTabData = workspace.tabs[workspace.active];
+        memo.previousNotes = slide.code.notes;
         memo.timestamp = slide.timestamp;
         return memo;
 
