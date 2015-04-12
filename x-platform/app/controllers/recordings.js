@@ -155,7 +155,7 @@ var Recordings = {
         }
         var last = memo[memo.length - 1];
 
-        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || anno.isPauseAfter) {
+        if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || (anno.reason === 'afterTab' && anno.timestamp !== 0)) {
           return memo.concat([anno]);
         }
         return memo;
