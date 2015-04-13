@@ -113,9 +113,13 @@
   .sw-tabs {
     background: #1e1e1e;
     .nav {
-      border: none;
       li > a {
         border-radius: 0;
+        border-left-width: 0;
+        border-right-width: 0;
+        &:hover {
+          border-color: transparent;
+        }
       }
     }
   }
@@ -144,6 +148,7 @@
         cursor: text;
         color: #ddd;
         background-color:#0f0f0f;
+        box-shadow: 0px 3px 5px #555 inset;
       }
     }
 
@@ -161,14 +166,6 @@
         .cursor-pointer {
           display: none;
         }
-        &:hover {
-          .cursor-pointer {
-            display: inline;
-          }
-          .type-icon {
-            display: none;
-          }
-        }
 
         .type-icon {
           font-size: 5px;
@@ -177,6 +174,17 @@
         top: -2px;
         position: relative;
         left: -2px;
+      }
+
+      &.workspace-tab-active .workspace-tab-icon {
+        &:hover {
+          .cursor-pointer {
+            display: inline;
+          }
+          .type-icon {
+            display: none;
+          }
+        }
       }
 
       .type-html .type-icon {
@@ -305,15 +313,15 @@
   transform-origin: top left;
 
   &.with-address {
-    height: ~"calc(100% - 25px)";
+    height: ~"calc(100% - 27px)";
   }
   &.sw-outputs-scaled.with-address {
-    height: ~"calc(133% - 25px)";
+    height: ~"calc(133% - 27px)";
   }
 }
 
 .workspace-address {
-  @addressHeight: 25px;
+  @addressHeight: 27px;
   @addressColor: #1e1e1e;
   color: #bbb;
 

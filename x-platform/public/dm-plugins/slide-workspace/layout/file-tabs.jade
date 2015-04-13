@@ -11,7 +11,7 @@ mixin tabs()
               span.fa.fa-circle.type-icon
               span.text-muted.fa.fa-close.cursor-pointer(
                 ng-click="removeTab(tabName); $event.stopPropagation()", 
-                tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false',
+                tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false',tooltip-append-to-body="true",
                 analytics-event="workspace-deleteTab", analytics-category="workspace")
 
             |  {{ toFileName(tabName) }}
@@ -32,7 +32,7 @@ mixin tabsStacked()
               span.fa.fa-circle.type-icon
               span.text-muted.fa.fa-close.cursor-pointer(
                 ng-click="removeTab(tabName); $event.stopPropagation()", 
-                tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false',
+                tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false', tooltip-append-to-body="true",
                 analytics-event="workspace-deleteTab", analytics-category="workspace")
 
             |  {{ toFileName(tabName) }}
