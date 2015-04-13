@@ -29,7 +29,7 @@ exports.initApi = function(router, authenticated, app) {
     };
     var searchSlides = searchFor.bind(null, Slides, '/slides', notFound);
     var searchDecks = searchFor.bind(null, Decks, '/decks', searchSlides);
-    var searchEvents = searchFor.bind(null, Events, '/#/space', searchDecks);
+    var searchEvents = searchFor.bind(null, Events, '/space', searchDecks);
 
   
     searchEvents();
