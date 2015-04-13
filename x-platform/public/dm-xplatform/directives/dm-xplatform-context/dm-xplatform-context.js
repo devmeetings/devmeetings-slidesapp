@@ -30,7 +30,8 @@ class ContextMenuDir {
       what = what || ['chat'];
 
       scope.display = {
-        event: true
+        event: true,
+        lastActive: false
       };
       what.map((w) => {
         scope.display[w] = true;
@@ -46,6 +47,18 @@ class ContextMenuDir {
         scope.toggleEventMenu();
       } else {
         scope.display.active = tab;
+        if (tab) {
+          scope.display.lastActive = tab;
+        }
+      }
+    };
+
+    scope.toggleVisibility = () => {
+      if (scope.display.active) {
+        scope.selectTab(false);
+        scope.display.event = true;
+      } else {
+        scope.selectTab(scope.display.lastActive);
       }
     };
 

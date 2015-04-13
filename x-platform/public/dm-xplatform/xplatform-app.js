@@ -8,6 +8,7 @@ define(['angular',
   'angular-charts',
   'angular-animate',
   'angular-fullscreen',
+  'angular-scrollbar',
   'slider/slider',
   'slider/slider.plugins',
   'dm-xplayer/dm-xplayer',
@@ -28,7 +29,7 @@ define(['angular',
   return angular.module('xplatform', [
     'slider', 'slider.plugins',
     'ui.gravatar', 'ui.router', 'ui.bootstrap',
-    'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular', 'ngAnimate',
+    'angularMoment', 'cfp.hotkeys', 'hc.marked', 'angularCharts', 'FBAngular', 'ngAnimate', 'ngScrollbar',
     'dm-xplayer', 'dm-user', 'dm-mongotime', 'dm-gravatar', 
     'dm-wavesurfer', 'dm-browsertab', 'dm-recorder', 'dm-history'
   ]);

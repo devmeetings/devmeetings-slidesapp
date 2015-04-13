@@ -30,20 +30,22 @@ ul.nav.nav-tabs.nav-stacked.users
         alt="{{user.result.name}}"
         ng-src='{{user.result.avatar | dmGravatar:28}}'
         )
-
-  li(
-    ng-repeat="user in users"
-    tooltip="{{user.name}}"
-    tooltip-animation="false"
-    tooltip-placement="right"
-    ui-sref-active='active'
-    )
-    span.user-badge(ng-show="user.workspaceListeners") {{user.workspaceListeners}}
-    a(
-      ui-sref="index.space.watch({slide: user.workspaceId, parent:null})",
+.users-all(ng-scrollbar rebuild-on-resize)
+  ul.nav.nav-tabs.nav-stacked.users.users-all
+    li(
+      ng-repeat="user in users"
+      tooltip="{{user.name}}"
+      tooltip-animation="false"
+      tooltip-placement="right"
+      tooltip-append-to-body="true"
+      ui-sref-active='active'
       )
-      img(
-        alt="{{user.name}}"
-        ng-src="{{user.avatar | dmGravatar:24}}"
+      span.user-badge(ng-show="user.workspaceListeners") {{user.workspaceListeners}}
+      a(
+        ui-sref="index.space.watch({slide: user.workspaceId, parent:null})",
         )
+        img(
+          alt="{{user.name}}"
+          ng-src="{{user.avatar | dmGravatar:20}}"
+          )
 

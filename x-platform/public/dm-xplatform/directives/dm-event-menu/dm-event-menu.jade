@@ -26,7 +26,7 @@ mixin materialsLinks()
         ng-style="{'visibility': iteration.currentIdx < event.iterations.length - 1 ? 'visible' : 'hidden' }",
         ng-click="iteration.currentIdx = iteration.currentIdx + 1")
         span.fa.nav-icon.fa-chevron-right
-  .scroll
+  .scroll(ng-scrollbar rebuild-on-resize)
     ul.nav.nav-tabs.menu-hr.dm-links-small(
       ng-show="iteration.active")
       +materialsLinks()

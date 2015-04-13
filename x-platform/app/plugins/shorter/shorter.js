@@ -18,10 +18,10 @@ exports.initApi = function(router, authenticated, app) {
     });
   }
 
-  app.get('/-:id', function(req, res) {
+  console.log(app);
+  app.get('/:id', function(req, res) {
 
     var id = req.params.id;
-    
     var searchFor = search.bind(null, id, res);
 
     var notFound = function() {

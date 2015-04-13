@@ -116,9 +116,11 @@
     z-index: 10;
   }
 
+  .users-all {
+    height: ~"calc(100% - 130px)";
+  }
+
   .users {
-    height: 85%;
-    overflow-y: auto;
     li {
       position: relative;
     }
@@ -140,9 +142,11 @@
       display: block;
       text-align: center;
       border-radius: 0;
-      padding: 5px 0;
+      padding: 3px 0 4px;
+      line-height: 1.0;
       img {
         border-radius: 50%;
+        margin: 0 auto;
       }
     }
     .users-self.active {

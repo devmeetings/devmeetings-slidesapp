@@ -71,7 +71,8 @@ require.config({
         "angular-charts": "../components/angular-charts/dist/angular-charts.min",
         "angular-file-upload": "../components/ng-file-upload/angular-file-upload.min",
         "angular-fullscreen": "../components/angular-fullscreen/src/angular-fullscreen",
-        "angular-jsonedit": "../components/json-edit/js/directives"
+        "angular-jsonedit": "../components/json-edit/js/directives",
+        "angular-scrollbar": "../components/ng-scrollbar/dist/ng-scrollbar",
     },
     "map": {
         "*": {
@@ -187,6 +188,9 @@ require.config({
           "deps": ["angular"]
         },
         "angular-jsonedit": {
+          "deps": ["angular"]
+        },
+        "angular-scrollbar": {
           "deps": ["angular"]
         }
     }

@@ -161,7 +161,7 @@ module.exports = function(app) {
 
     //auth
     var redirections = {
-        successRedirect: '/#/redirect',
+        successRedirect: '/redirect',
         failureRedirect: '/login',
         failureFlash: true
     };

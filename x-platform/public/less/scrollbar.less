@@ -9,3 +9,17 @@
     height:6px;
     width:6px;
 }
+
+.ngsb-wrap {
+  &:hover {
+    .ngsb-scrollbar {
+      opacity: 1.0 !important;
+    }
+  }
+
+  .ngsb-scrollbar {
+    opacity: 0.0 !important;
+    transition: opacity .5s ease;
+    transition-delay: .6s;
+  }
+}
