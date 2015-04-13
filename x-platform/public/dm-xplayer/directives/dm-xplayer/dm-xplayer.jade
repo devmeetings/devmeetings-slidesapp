@@ -11,10 +11,9 @@
           span.fa.fa-times.fa-fw(ng-show="!minimized")
 
       button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
-              ng-show="!state.isPlaying"
               autofocus,
               ng-click="runNext(); minimized=false",
-              ng-show="nextStop < maxNextStop")
+              ng-show="nextStop < maxNextStop && !state.isPlaying")
                 span.fa.fa-play.fa-fw
 
       a.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
