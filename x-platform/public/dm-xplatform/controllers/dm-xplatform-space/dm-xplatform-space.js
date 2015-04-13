@@ -43,32 +43,48 @@ define([
       dmSlidesaves.refresh();
     });
 
-    $scope.users = [];
+    $scope.allUsers = [];
+    $scope.uniqueUsers = [];
+
+    function rebuildUniqueUsers() {
+      $scope.uniqueUsers = _.uniq($scope.allUsers, 'name');
+      _.remove($scope.uniqueUsers, function(u){
+        return u._id === $scope.user.result._id;
+      });
+    }
 
     function onUserInSpace(userData) {
       var user = userData.user;
 
       $scope.$apply(function() {
         if (userData.action === 'joined') {
-          $scope.users.push(user);
+          $scope.allUsers.push(user);
+          rebuildUniqueUsers();
           return;
         }
 
         if (userData.action === 'left') {
-          _.remove($scope.users, function(u) {
+          // Remove only one user!
+          var user2 = _.find($scope.allUsers, function(u) {
             return u._id === user._id;
           });
+          if (!user2) {
+            return;
+          }
+          $scope.allUsers.splice($scope.allUsers.indexOf(user2), 1);
+          rebuildUniqueUsers();
           return;
         }
 
         if (userData.action === 'initial') {
-          $scope.users = userData.users;
+          $scope.allUsers = userData.users;
+          rebuildUniqueUsers();
           return;
         }
 
         if (userData.action === 'state.count') {
           // find user with specific owrkspace
-          user = _.find($scope.users, {
+          user = _.find($scope.allUsers, {
             workspaceId: userData.workspaceId
           });
           if (user) {

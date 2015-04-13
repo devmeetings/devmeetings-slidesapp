@@ -41,14 +41,12 @@
 
           .dm-spacesidebar-right
             a.cursor-pointer.sidebar-open-btn(
-              ng-show="!right.opened"
-              ng-click="toggleRight(true)"
+              ng-show="!right.pinned"
+              ng-click="toggleRight(!right.opened)"
               )
-              span.fa.fa-fw.fa-chevron-left(
-                tooltip="Additional options"
-                tooltip-placement="left"
-                tooltip-animation="false"
-                )
+              span.fa.fa-fw(
+                ng-class="{'fa-chevron-left': !right.opened, 'fa-chevron-right': right.opened}"
+              )
 
             ul.nav.nav-tabs.pull-right
               li.sidebar-pin-btn(tooltip="Pin Menu", tooltip-placement="left", title="Pin Menu", tooltip-animation='false')

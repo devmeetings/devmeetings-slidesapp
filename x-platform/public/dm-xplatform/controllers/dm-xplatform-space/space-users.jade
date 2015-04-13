@@ -33,7 +33,7 @@ ul.nav.nav-tabs.nav-stacked.users
 .users-all(ng-scrollbar rebuild-on-resize)
   ul.nav.nav-tabs.nav-stacked.users.users-all
     li(
-      ng-repeat="user in users"
+      ng-repeat="user in uniqueUsers"
       tooltip="{{user.name}}"
       tooltip-animation="false"
       tooltip-placement="right"
