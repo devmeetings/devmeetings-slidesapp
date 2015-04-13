@@ -9,7 +9,7 @@
     ng-if="opened"
     ng-class="{'full-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
   )
-    ul.nav.nav-tabs.nav-context-menu(
+    ul.nav.nav-tabs.nav-context-menu.nav-flex(
       ng-if="with.length > 1"
     )
       li(ng-repeat="x in with", ng-class="{'active': display.active === x}")

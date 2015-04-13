@@ -1,4 +1,14 @@
 .dm-event-menu {
+  
+  .dm-links-small.nav.menu-hr {
+    > li > a, >li.active > a {
+      font-size: 9px;
+
+      .nav-icon {
+        width: 16px;
+      }
+    }
+  }
 
   .full-frame {
     min-height: 800px;
@@ -31,19 +41,20 @@
   }
 
   .nav.menu-hr {
-    text-align: left;
     margin: 15px 15px 5px;
-    display: flex;
-    flex-wrap: wrap;
 
     > li {
       float: none;
-      width: auto;
-      flex: 1;
-      min-width: 38px;
+      display: inline-block;
+      width: 45%;
 
       > a {
-        padding: 6px 7px 6px 12px;
+        text-align: left;
+        padding: 3px 3px 3px 5px;
+        text-overflow: ellipsis;
+        /* Required for text-overflow to do anything */
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
   }
