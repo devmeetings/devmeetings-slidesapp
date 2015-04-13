@@ -4,6 +4,7 @@ mixin materialsLinks()
       tooltip="{{material.title}}"
       tooltip-placement="bottom"
       tooltip-animation="false"
+      tooltip-append-to-body="true"
       ui-sref='index.space.player({iteration: iteration.currentIdx, material: material._id})'
       ng-if="material.material"
       )
@@ -41,6 +42,7 @@ mixin materialsLinks()
           tooltip="{{task.title}}"
           tooltip-placement="bottom"
           tooltip-animation="false"
+          tooltip-append-to-body="true"
           )
           span.fa.fa-pencil.nav-icon
           span(ng-if="iteration.active.tasks.length < 3") {{ task.title }}
@@ -52,6 +54,7 @@ mixin materialsLinks()
       tooltip="Open task in separate window",
       tooltip-animation="false",
       tooltip-placement="top"
+      tooltip-append-to-body="true"
       )
       span.fa.fa-external-link
 
