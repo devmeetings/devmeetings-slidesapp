@@ -1,6 +1,7 @@
 var Statesave = require('../models/statesave');
 var recordings = require('../models/recording');
 var Q = require('q');
+var _ = require('lodash');
 var jsondiff = require('jsondiffpatch');
 
 var States = (function() {
@@ -43,13 +44,35 @@ var States = (function() {
       return getData(object, preparePath(path));
     },
 
+    reducePatchesContent: function(recording, reduceFunc, initialState) {
+
+      var currentState = initialState;
+      recording.patches.reduce(function(current, patch, idx) {
+
+        // Patch current state
+        jsondiff.patch(current, patch.patch);
+
+        // Clone to avoid conflicts
+        var state = _.cloneDeep(current);
+        //Run reduceFunc and store newState
+        currentState = reduceFunc(currentState, {
+          timestamp: patch.timestamp,
+          current: state
+        }, idx);
+
+        return current;
+      }, recording.original);
+
+      return currentState;
+    },
+
     createFromRecordingId: function(compoundId) {
       var parts = compoundId.split('_');
       var recId = parts[0].replace('r', ''),
         slideNo = parts[1],
         patchNo = parseInt(parts[2], 10);
-      
-      return Q.ninvoke(recordings.findById(recId).lean(), 'exec').then(function(recording){
+
+      return Q.ninvoke(recordings.findById(recId).lean(), 'exec').then(function(recording) {
         var state = recording.slides[slideNo];
         States.applyPatches(state.original, state.patches.slice(0, patchNo + 1));
         return state.original;

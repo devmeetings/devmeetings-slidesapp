@@ -1,7 +1,10 @@
 var RecordingModel = require('../models/recording');
+var states = require('../services/states');
 var _ = require('lodash');
 
-function convertRecordingToUnifiedHistoryFormat(recording) {
+function convertRecordingToUnifiedHistoryFormat(recording, filter) {
+  'use strict';
+
   var states = recording.slides;
   delete recording.slides;
 
@@ -25,8 +28,18 @@ function convertRecordingToUnifiedHistoryFormat(recording) {
   if (len > 1 && recording.patches[len - 1].timestamp === 0) {
     recording.patches[len - 1].timestamp = recording.patches[len - 2].timestamp + 1;
   }
+
+  if (filter) {
+    recording.patches = recording.patches.filter(function(val, idx){
+      return idx % filter === 0;
+    });
+  }
+
   return recording;
 }
+
+
+var recordingsFilter = 2;
 
 var Recordings = {
   list: function(req, res) {
@@ -44,12 +57,12 @@ var Recordings = {
     RecordingModel.findOne({
       _id: req.params.id
     }).lean().exec(function(err, recording) {
-      if (err) {
+      if (err || !recording) {
         console.error(err);
         res.send(404, err);
         return;
       }
-      var rec = convertRecordingToUnifiedHistoryFormat(recording);
+      var rec = convertRecordingToUnifiedHistoryFormat(recording, recordingsFilter);
       res.setHeader('Cache-Control', 'public, max-age=' + 3600 * 24 * 7);
       res.send(rec);
     });
@@ -60,18 +73,21 @@ var Recordings = {
 
     RecordingModel.findOne({
       _id: req.params.id
-    }, function(err, recording) {
+    }).lean().exec(function(err, rawRecording) {
       if (err) {
         console.error(err);
         res.status(404).send(err);
         return;
       }
-      if (!recording) {
+
+      if (!rawRecording || rawRecording.slides.length === 0) {
         res.send([]);
         return;
       }
 
-      if (!recording.slides[0] || !recording.slides[0].code.workspace) {
+      var recording = convertRecordingToUnifiedHistoryFormat(rawRecording, recordingsFilter + 1);
+
+      if (!recording.original || !recording.original.workspace) {
         res.send([]);
         return;
       }
@@ -164,8 +180,9 @@ var Recordings = {
         return false;
       }
 
-      var lastIdx = recording.slides.length - 1;
-      var annotations = recording.slides.reduce(function(memo, slide, idx) {
+      var lastIdx = recording.patches.length - 1;
+      var annotations = states.reducePatchesContent(recording, function(memo, slide, idx) {
+        slide.code = slide.current;
         var workspace = slide.code.workspace;
         var note;
 
