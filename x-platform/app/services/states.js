@@ -1,5 +1,7 @@
 var Statesave = require('../models/statesave');
 var recordings = require('../models/recording');
+var autoAnnotations = require('./autoAnnotations');
+
 var Q = require('q');
 var _ = require('lodash');
 var jsondiff = require('jsondiffpatch');
@@ -130,15 +132,90 @@ var States = (function() {
         }, 10), 'exec');
 
         return Q.all([before, after]).then(function(a) {
-          return a[0].concat(a[1]);
+          return {
+            before: a[0],
+            after: a[1]
+          };
         });
+      }).then(function(history) {
+
+        var patches = convertHistorySlidesToPatches(history.after);
+        var original = history.after[0].original;
+
+        return {
+          history: history.before.concat(history.after).map(function(x) {
+            // Remove patches - they would be sent twice
+            delete x.patches;
+            return x;
+          }),
+          recording: {
+            original: original,
+            patches: patches,
+            annotations: autoAnnotations({
+              original : original,
+              patches: patches
+            })
+          }
+        };
+
       });
-    }
+    },
+    skipSilence: skipSilence
   };
 
 }());
 
 module.exports = States;
+
+function getTimestamp(x) {
+  'use strict';
+  return new Date(x).getTime();
+}
+
+
+function convertHistorySlidesToPatches(slides) {
+  'use strict';
+  var start = getTimestamp(slides[0].originalTimestamp);
+
+  var patches = slides.reduce(function(patches, slide) {
+
+    var diff = getTimestamp(slide.originalTimestamp) - start;
+    var newPatches = slide.patches.map(function(patch) {
+      return {
+        id: patch.id,
+        timestamp: patch.timestamp + diff,
+        patch: patch.patch
+      };
+    });
+
+    return patches.concat(newPatches);
+
+  }, []);
+
+  skipSilence(patches);
+
+  return patches;
+}
+
+function skipSilence(patches) {
+  'use strict';
+
+  var silenceThreshold = 1000 * 30;
+  var silenceGap = 1000 * 5;
+  patches.reduce(function(memo, patch) {
+    var diff = patch.timestamp - memo.last;
+    if (diff > silenceThreshold) {
+      memo.diff += diff - silenceGap;
+    }
+
+    memo.last = patch.timestamp;
+    patch.timestamp -= memo.diff;
+    return memo;
+  }, {
+    diff: 0,
+    last: 0
+  });
+}
 
 function createFork(state) {
   'use strict';

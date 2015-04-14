@@ -54,7 +54,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           var key = event + 'index' + id;
           if (!states[key]) {
             states[key] = {
-              currentSecond: 0.1
+              currentSecond: 0
             };
           }
           return states[key];

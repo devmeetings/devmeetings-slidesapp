@@ -3,6 +3,7 @@ var states = require('../services/states');
 
 function sendError(res) {
   return function(err) {
+    console.error(err);
     res.status(400).send(err);
   };
 }
