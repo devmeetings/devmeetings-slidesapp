@@ -57,7 +57,7 @@ function safeGet(key, obj, default2) {
 }
 
 function shouldSkip(code) {
-  if (!code.workspace && !code.workspace.tabs) {
+  if (!code.workspace || !code.workspace.tabs) {
     return false;
   }
 
