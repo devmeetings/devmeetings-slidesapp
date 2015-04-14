@@ -149,6 +149,9 @@ connectToMongo().then(function(mongoDb) {
   var cur = db.collection('recordings').find({});
 
   cur.on('data', function(recording) {
+    if (recording.slides.length === 0) {
+      return;
+    }
     if (recording.slides[0].currentTimestamp) {
       return;
     }
