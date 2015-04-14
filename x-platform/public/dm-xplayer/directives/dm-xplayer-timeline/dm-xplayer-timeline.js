@@ -46,12 +46,18 @@ define([
           $scope.move = function(ev) {
             var width = ev.currentTarget.clientWidth;
             var x;
+            var offset = (ev.offsetX || ev.originalEvent.layerX);
             if (ev.target.clientWidth === ev.currentTarget.clientWidth) {
-              x = (ev.offsetX || ev.originalEvent.layerX);
+              // Clicking on timeline
+              x = offset;
+
             } else {
+              // Clicking on annotation
               var rect = ev.target.getBoundingClientRect();
               var parentRect = ev.target.parentElement.getBoundingClientRect();
               x = rect.left - parentRect.left;
+              // Clicking on progress bar
+              x = Math.max(x, offset);
             }
             $scope.state.currentSecond = x / width * $scope.state.max;
           };

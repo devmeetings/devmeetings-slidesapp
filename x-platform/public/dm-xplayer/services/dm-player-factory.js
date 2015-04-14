@@ -73,10 +73,11 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
           }
           // We need to apply reverse patches
           patches = searchForPatches(recPatches, second, lastSecond);
-          if (patches.length) {
+          if (patches.length > 1) {
             player.applyReversePatchesAndId({
               id: patches[0].id,
-              patches: patches
+              // We need to remove first slide (cause this will be the current state!)
+              patches: patches.slice(1)
             });
           }
           return callbackWithCode(second);

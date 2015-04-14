@@ -39,6 +39,9 @@ define([
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
               }
+              if (!$scope.state.isPlaying) {
+                $scope.$broadcast('update');
+              }
             });
             goToSecond();
           });
