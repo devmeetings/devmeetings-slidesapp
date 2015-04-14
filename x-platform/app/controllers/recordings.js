@@ -4,7 +4,7 @@ var _ = require('lodash');
 var autoAnnotations = require('../services/autoAnnotations');
 
 
-function convertRecordingToUnifiedHistoryFormat(recording, filter) {
+function convertRecordingToUnifiedHistoryFormat(recording) {
   'use strict';
 
   var slideStates = recording.slides;
@@ -31,20 +31,12 @@ function convertRecordingToUnifiedHistoryFormat(recording, filter) {
     recording.patches[len - 1].timestamp = recording.patches[len - 2].timestamp + 1;
   }
 
-  if (filter) {
-    recording.patches = recording.patches.filter(function(val, idx) {
-      return idx % filter === 0;
-    });
-  }
-
   // Skip silence
   states.skipSilence(recording.patches);
 
   return recording;
 }
 
-
-var recordingsFilter = 2;
 
 var Recordings = {
   list: function(req, res) {
@@ -67,7 +59,7 @@ var Recordings = {
         res.send(404, err);
         return;
       }
-      var rec = convertRecordingToUnifiedHistoryFormat(recording, recordingsFilter);
+      var rec = convertRecordingToUnifiedHistoryFormat(recording);
       res.setHeader('Cache-Control', 'public, max-age=' + 3600 * 24 * 7);
       res.send(rec);
     });
@@ -90,7 +82,7 @@ var Recordings = {
         return;
       }
 
-      var recording = convertRecordingToUnifiedHistoryFormat(rawRecording, recordingsFilter + 1);
+      var recording = convertRecordingToUnifiedHistoryFormat(rawRecording);
 
       var annotations = autoAnnotations(recording);
 
