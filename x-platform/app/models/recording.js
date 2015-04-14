@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Statesave = require('./statesave');
 
 var Recording = new Schema({
     title: String,
@@ -10,7 +11,7 @@ var Recording = new Schema({
     },
     date: Date,
     slides: {
-        type: [Schema.Types.Mixed],
+        type: [Statesave],
         editable: false
     }
 });
