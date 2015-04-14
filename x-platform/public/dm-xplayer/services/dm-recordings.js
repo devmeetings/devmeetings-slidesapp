@@ -1,47 +1,52 @@
-define(['angular', 'dm-xplayer/dm-xplayer-app'], function (angular, xplayerApp) {
-    'use strict';
+define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
+  'use strict';
 
-    xplayerApp.service('dmRecordings', ['$http', '$q', function ($http, $q) {
-        var recordings = {
-        };
-      
-        var TransformedRecording = function (options) {
-            this.slides = options.slides;
-            this.layout = options.layout;
-        };
+  xplayerApp.service('dmRecordings', ['$http', '$q', function($http, $q) {
+    var recordings = {};
 
-        var transform = function (data) {
-            return new TransformedRecording({
-                slides: data.slides,
-                layout: data.layout
-            });
-        };
+    var TransformedRecording = function(options) {
+      this.slides = options.slides;
+      this.layout = options.layout;
+    };
 
-        return {
+    var transform = function(data) {
+      return new TransformedRecording({
+        slides: data.slides,
+        layout: data.layout
+      });
+    };
 
-            getList: function() {
-              return $q.when($http.get('/api/recordings'));
-            },
+    return {
 
-            getRecording: function (recording) {
-                var result = recordings[recording];
+      getList: function() {
+        return $q.when($http.get('/api/recordings'));
+      },
 
-                if (result) {
-                    return result.promise;
-                }
+      getAutoAnnotations: function(recordingId) {
+        return $http.get('/api/recordings/' + recordingId + '/annotations').then(function(data) {
+          return data.data;
+        });
+      },
 
-                result = $q.defer();
-                recordings[recording] = result;
+      getRecording: function(recording) {
+        var result = recordings[recording];
 
-                $http.get('/api/recordings/' + recording).then(function (data) {
-                    result.resolve(transform(data.data)); 
-                }, function () {
-                    result.reject(); 
-                });
+        if (result) {
+          return result.promise;
+        }
 
-                return result.promise;
-            }
+        result = $q.defer();
+        recordings[recording] = result;
 
-        };
-    }]);
+        $http.get('/api/recordings/' + recording).then(function(data) {
+          result.resolve(transform(data.data));
+        }, function() {
+          result.reject();
+        });
+
+        return result.promise;
+      }
+
+    };
+  }]);
 });

@@ -31,17 +31,20 @@ var Recordings = {
     });
   },
   autoAnnotations: function(req, res) {
+    var format = req.query.format;
+
     RecordingModel.findOne({
       _id: req.params.id
     }, function(err, recording) {
       if (err) {
         console.error(err);
-        res.send(404, err);
+        res.status(404).send(err);
         return;
       }
-
-      //var jslint = require('jslint');
-      var yaml = require('js-yaml');
+      if (!recording) {
+        res.send([]);
+        return;
+      }
 
       var start = {
         annotations: [],
@@ -75,14 +78,15 @@ var Recordings = {
           return false;
         }
 
-        var lastNotes = slide.code.notes;
+        var lastNotes = slide.code.notes.split('\n');
+        var prevNotes = memo.previousNotes.split('\n');
+
         // Naive detecting of new line
-        if (lastNotes !== memo.previousNotes + '\n') {
+        if (lastNotes.length === prevNotes.length) {
           return false;
         }
 
-        var split = lastNotes.split('\n');
-        return split[split.length - 2];
+        return lastNotes[lastNotes.length - 2];
       }
 
       function movementDetected(memo, slide) {
@@ -184,10 +188,16 @@ var Recordings = {
         return memo;
       }, []);
 
-      res.header('Content-Type', 'application/yaml');
-      res.send(yaml.safeDump({
-        annotations: annotations
-      }));
+      if (format === 'yaml') {
+        var yaml = require('js-yaml');
+        res.header('Content-Type', 'application/yaml');
+        res.send(yaml.safeDump({
+          annotations: annotations
+        }));
+        return;
+      }
+      res.send(annotations);
+
     });
   },
   split: function(req, res) {

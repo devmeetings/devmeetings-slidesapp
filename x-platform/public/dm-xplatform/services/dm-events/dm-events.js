@@ -79,10 +79,16 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           }
 
           var promi = this.getEventMaterial(event, iteration, material).then(function(data) {
-            return wrap($http.get('/api/events/' + event + '/annotations/' + data.annotations).then(function(data) {
+            if (data.annotations) {
+              return wrap($http.get('/api/events/' + event + '/annotations/' + data.annotations).then(function(data) {
+                return data.data;
+              }));
+            }
+            return wrap($http.get('/api/recordings/' + data.material + '/annotations').then(function(data){
               return data.data;
             }));
           });
+
           annotationPromises[key] = promi;
           return promi;
         },

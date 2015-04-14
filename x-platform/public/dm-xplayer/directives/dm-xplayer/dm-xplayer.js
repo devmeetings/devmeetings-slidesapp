@@ -14,6 +14,7 @@ define([
           state: '=',
           recording: '=',
           annotations: '=',
+          withSidebar: '=',
           onFirstRun: '&'
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
