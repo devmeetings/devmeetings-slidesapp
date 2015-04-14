@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "jsondiffpatch": "^0.1.31",
+    "lodash": "^3.6.0",
     "mongodb": "^2.0.27",
     "q": "~1.0.1"
   }

@@ -116,15 +116,6 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           });
           return result.promise;
         },
-        createEvent: function(event) {
-          var result = $q.defer();
-          $http.post('/api/events', event).then(function(data) {
-            result.resolve(data.data);
-          }, function() {
-            result.reject();
-          });
-          return result.promise;
-        },
         addEventAnnotation: function(eventId, iterationId, materialId, snippet) {
           var that = this;
           return wrap($http.post(

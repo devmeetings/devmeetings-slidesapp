@@ -30,12 +30,5 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       });
     };
 
-    $scope.create = function() {
-      dmEvents.createEvent({
-        title: 'new event'
-      }).then(function(event) {
-        $scope.courses.push(event);
-      });
-    };
   });
 });

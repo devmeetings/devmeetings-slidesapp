@@ -1,4 +1,32 @@
 var RecordingModel = require('../models/recording');
+var _ = require('lodash');
+
+function convertRecordingToUnifiedHistoryFormat(recording) {
+  var states = recording.slides;
+  delete recording.slides;
+
+  recording.original = states[0].original;
+  recording.patches = states.reduce(function(patches, state) {
+
+    var timeDiff = (_.last(patches) || {}).timestamp || 0;
+    state.patches.map(function(patch) {
+      patch.timestamp += timeDiff;
+    });
+
+    // Apply current
+    state.patches[0].current = state.original;
+
+    // Udate patches
+    return patches.concat(state.patches);
+  }, []);
+
+  // [ToDr] Not sure why some old recordings have timestamp 0 at the end
+  var len = recording.patches.length;
+  if (len > 1 && recording.patches[len - 1].timestamp === 0) {
+    recording.patches[len - 1].timestamp = recording.patches[len - 2].timestamp + 1;
+  }
+  return recording;
+}
 
 var Recordings = {
   list: function(req, res) {
@@ -11,25 +39,22 @@ var Recordings = {
       res.send(recordings);
     });
   },
-  get: function(req, res) {
-    // TODO [ToDr] Recordings can always be cached - don't wast time checking if something changed.
-    if (req.headers['if-none-match']) {
-      res.sendStatus(304);
-      return;
-    }
 
+  get: function(req, res) {
     RecordingModel.findOne({
       _id: req.params.id
-    }).lean().exec(function(err, recordings) {
+    }).lean().exec(function(err, recording) {
       if (err) {
         console.error(err);
         res.send(404, err);
         return;
       }
+      var rec = convertRecordingToUnifiedHistoryFormat(recording);
       res.setHeader('Cache-Control', 'public, max-age=' + 3600 * 24 * 7);
-      res.send(recordings);
+      res.send(rec);
     });
   },
+
   autoAnnotations: function(req, res) {
     var format = req.query.format;
 
@@ -42,6 +67,11 @@ var Recordings = {
         return;
       }
       if (!recording) {
+        res.send([]);
+        return;
+      }
+
+      if (!recording.slides[0] || !recording.slides[0].code.workspace) {
         res.send([]);
         return;
       }
@@ -199,101 +229,7 @@ var Recordings = {
       res.send(annotations);
 
     });
-  },
-  split: function(req, res) {
-    var cut = req.params.time;
-
-    RecordingModel.findOne({
-      _id: req.params.id
-    }, function(err, recording) {
-      if (err) {
-        throw err;
-      }
-      var newModel = {
-        title: recording.title + " from " + cut,
-        group: recording.group,
-        date: recording.date
-      };
-      // Split slides
-      var slides = splitSlides(recording.slides, cut * 1000);
-      recording.slides = slides.before;
-      newModel.slides = slides.after;
-
-      recording.save();
-      RecordingModel.create(newModel).then(function(newModel) {
-        res.send(newModel);
-      }).then(null, function(err) {
-        res.send(400, err);
-      });
-    });
-  },
-  cutout: function(req, res) {
-    var from = req.params.from * 1000;
-    var to = req.params.to * 1000;
-
-    RecordingModel.findOne({
-      _id: req.params.id
-    }, function(err, recording) {
-      if (err) {
-        throw err;
-      }
-      var newModel = {
-        title: recording.title + " backup",
-        group: recording.group,
-        date: recording.date,
-        slides: recording.slides.slice()
-      };
-      recording.slides = cutoutSlides(recording.slides, from, to);
-      recording.save();
-      RecordingModel.create(newModel).then(function(newModel) {
-        res.send(newModel);
-      }).then(null, function(err) {
-        res.send(400, err);
-      });
-    });
   }
 };
-
-function cutoutSlides(slides, from, to) {
-  var before = slides.filter(function(x) {
-    return x.timestamp <= from;
-  });
-
-  var after = slides.filter(function(x) {
-    return x.timestamp >= to;
-  });
-  // Fix timestamps
-  var first = after[0];
-  if (first) {
-    after = after.map(function(x) {
-      x.timestamp -= to - from;
-      return x;
-    });
-  }
-  return before.concat(after);
-}
-
-
-function splitSlides(slides, split) {
-  var before = slides.filter(function(x) {
-    return x.timestamp <= split;
-  });
-  var after = slides.filter(function(x) {
-    return x.timestamp > split;
-  });
-  // Fix timestamps
-  var first = after[0];
-  if (first) {
-    after = after.map(function(x) {
-      x.timestamp -= first.timestamp;
-      return x;
-    });
-  }
-  return {
-    before: before,
-    after: after
-  };
-}
-
 
 module.exports = Recordings;

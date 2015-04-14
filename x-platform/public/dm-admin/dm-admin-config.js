@@ -3,7 +3,6 @@ require(['angular',
     'slider/bootstrap',
     'dm-admin/dm-admin-app',
     'dm-admin/controllers/dm-admin-slider/dm-admin-slider',
-    'dm-admin/controllers/dm-admin-waves/dm-admin-waves',
     'dm-admin/controllers/dm-admin-quiz/dm-admin-quiz',
     'directives/plugins-loader'
 ], function(angular, angularRouter, bootstrap, adminApp, adminSlider) {

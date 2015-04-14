@@ -84,8 +84,6 @@ module.exports = function(app) {
   app.get('/api/recordings', apiAuthenticated, recordings.list);
   app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
   app.get('/api/recordings/:id/annotations', apiAuthenticated, recordings.autoAnnotations);
-  app.post('/api/recordings/:id/split/:time', apiAuthenticated, authorized('admin:super'), recordings.split);
-  app.post('/api/recordings/:id/cutout/:from/:to', apiAuthenticated, authorized('admin:super'), recordings.cutout);
 
   var history = require('../app/controllers/history');
   app.get('/api/history/since/:id', apiAuthenticated, history.since);
@@ -115,26 +113,12 @@ module.exports = function(app) {
   var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
   app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getForEvent);
   app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getPages);
-  app.post('/api/workspaces/users/:userId/recording', apiAuthenticated, authorized('admin:events'), eventsWorkspaces.convertToRecording);
 
   var users = require('../app/controllers/users');
   app.get('/api/users/:id', apiAuthenticated, users.get);
   app.put('/api/users', apiAuthenticated, users.edit);
   app.get('/api/users', apiAuthenticated, users.current);
   app.get('/api/session', apiAuthenticated, users.session);
-
-  var snapshots = require('../app/controllers/snapshots');
-  app.get('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.list);
-  app.post('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.import);
-  app.put('/api/snapshots/:startTime?', apiAuthenticated, authorized('admin:events'), snapshots.convert);
-
-  app.get('/api/rawRecordings', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordingsGroups);
-  app.get('/api/rawRecordings/:group', apiAuthenticated, authorized('admin:events'), snapshots.getRawRecordings);
-
-  // This probably should be api calls?
-  var editor = require('../app/controllers/editor');
-  app.get('/editor/soundslist', authenticated, authorized('admin:events'), editor.soundsList);
-  app.get('/editor/reclist', authenticated, authorized('admin:events'), editor.recList);
 
   // We should change this to ordinary /api calls (except for plugins)
   var req = require('../app/controllers/require');

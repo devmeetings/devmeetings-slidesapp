@@ -1,4 +1,5 @@
 var Statesave = require('../models/statesave');
+var recordings = require('../models/recording');
 var Q = require('q');
 var jsondiff = require('jsondiffpatch');
 
@@ -42,7 +43,23 @@ var States = (function() {
       return getData(object, preparePath(path));
     },
 
+    createFromRecordingId: function(compoundId) {
+      var parts = compoundId.split('_');
+      var recId = parts[0].replace('r', ''),
+        slideNo = parts[1],
+        patchNo = parseInt(parts[2], 10);
+      
+      return Q.ninvoke(recordings.findById(recId).lean(), 'exec').then(function(recording){
+        var state = recording.slides[slideNo];
+        States.applyPatches(state.original, state.patches.slice(0, patchNo + 1));
+        return state.original;
+      });
+    },
+
     createFromId: function(compoundId) {
+      if (compoundId[0] === 'r') {
+        return States.createFromRecordingId(compoundId);
+      }
       var idParts = compoundId.split('_');
       var id = idParts[0];
       var patchIdx = parseInt(idParts[1], 10);

@@ -3,36 +3,6 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
 
   xplayerApp.factory('dmPlayerFactory', function() {
 
-    function oldRecordingPlayer(recording, callback) {
-
-      var currentTime = 0;
-      var currentSnapIdx = 0;
-
-      var getCode = function(index) {
-        return recording.slides[index].code;
-      };
-
-      var getTime = function(index) {
-        return recording.slides[index].timestamp;
-      };
-
-      return {
-        goToSecond: function(second) {
-          var millisecond = second * 1000;
-          var index = _.findIndex(recording.slides, function(slide) {
-            return slide.timestamp > millisecond;
-          });
-          if (index === -1) {
-            return;
-          }
-
-          currentTime = getTime(index);
-          currentSnapIdx = index;
-          callback(getCode(index));
-        }
-      };
-    }
-
     function searchForPatches(patches, startS, endS) {
       var startIdx = _.sortedIndex(patches, {
         timestamp: startS * 1000
@@ -86,11 +56,7 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
     }
 
     var dmPlayerFactory = function(recording, callback) {
-
-      var player = recording.player ? newRecordingPlayer : oldRecordingPlayer;
-
-      return player(recording, callback);
-
+      return newRecordingPlayer(recording, callback);
     };
 
     return dmPlayerFactory;

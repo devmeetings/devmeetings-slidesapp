@@ -21,7 +21,7 @@ class Common {
     }
     var idPatch = id.split('_');
     this.state.idOnServer = idPatch[0];
-    this.state.lastPatchOnServer = idPatch[1];
+    this.state.lastPatchOnServer = idPatch.slice(1).join('_');
   }
 
   getId() {

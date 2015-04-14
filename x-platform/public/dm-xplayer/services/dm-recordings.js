@@ -1,20 +1,8 @@
-define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
+define(['_', 'angular', 'dm-xplayer/dm-xplayer-app'], function(_, angular, xplayerApp) {
   'use strict';
 
-  xplayerApp.service('dmRecordings', ['$http', '$q', function($http, $q) {
+  xplayerApp.service('dmRecordings', function($http, $q, dmPlayer) {
     var recordings = {};
-
-    var TransformedRecording = function(options) {
-      this.slides = options.slides;
-      this.layout = options.layout;
-    };
-
-    var transform = function(data) {
-      return new TransformedRecording({
-        slides: data.slides,
-        layout: data.layout
-      });
-    };
 
     return {
 
@@ -28,25 +16,37 @@ define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
         });
       },
 
+      preparePlayerForRecording: function(recordingId) {
+        return this.getRecording(recordingId).then(function(recording) {
+          var current = JSON.parse(JSON.stringify(recording.original || {}));
+          var player = dmPlayer.createPlayerSource(recording.patches[0].id, current);
+          var rec = {
+            player: player,
+            patches: recording.patches
+          };
+          var max = _.last(recording.patches).timestamp / 1000;
+
+          return {
+            recording: rec,
+            max: max
+          };
+        });
+      },
+
       getRecording: function(recording) {
         var result = recordings[recording];
 
         if (result) {
-          return result.promise;
+          return result;
         }
 
-        result = $q.defer();
-        recordings[recording] = result;
-
-        $http.get('/api/recordings/' + recording).then(function(data) {
-          result.resolve(transform(data.data));
-        }, function() {
-          result.reject();
+        result = $http.get('/api/recordings/' + recording).then(function(data) {
+          return data.data;
         });
-
-        return result.promise;
+        recordings[recording] = result;
+        return result;
       }
 
     };
-  }]);
+  });
 });
