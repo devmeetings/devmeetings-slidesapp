@@ -24,14 +24,14 @@ define([
             });
           };
 
-          var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0];
+          var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 50.0, 100.0];
           $scope.$watch('audioUrl', function(audioUrl) {
             $scope.withVoice = !!audioUrl;
 
             if ($scope.withVoice) {
               $scope.state.rate = rates[0];
             } else {
-              $scope.state.rate = rates[rates.length - 3];
+              $scope.state.rate = rates[rates.length - 5];
             }
             $scope.changeRate();
           });
