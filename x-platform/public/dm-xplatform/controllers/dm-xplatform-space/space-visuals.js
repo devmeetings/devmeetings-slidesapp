@@ -47,6 +47,7 @@ class SpaceVisuals {
 
     $scope.right = {
       min: '35px',
+      baseMin: '35px',
       max: '330px',
       current: '35px',
       opened: false,
@@ -131,10 +132,15 @@ class SpaceVisuals {
       }
     }, 2500);
 
-    if ($scope.editMode) {
-      $scope.right.min = $scope.right.max;
-      $scope.toggleRight(true, true);
-    }
+    $scope.$watch('editMode', (isEditMode, oldVal) => {
+      if (isEditMode) {
+        $scope.right.min = $scope.right.max;
+        $scope.toggleRight(true, true);
+      } else if (oldVal === true) {
+        $scope.right.min = $scope.right.baseMin;
+        $scope.toggleRight(false, true);
+      }
+    });
   }
 
 

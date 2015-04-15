@@ -1,6 +1,7 @@
 ul.nav.nav-tabs.menu
   li(tooltip="XPlatform", tooltip-placement="right", tooltip-animation='false')
     a(href="/",
+      style="font-size: 1em",
       analytics-category='menu',
       analytics-on='click', analytics-event='leftbar.logo')
       img(src="static/images/xplatform-icon-trans.svg", width="14", height="14")
@@ -30,8 +31,11 @@ ul.nav.nav-tabs.nav-stacked.users
         alt="{{user.result.name}}"
         ng-src='{{user.result.avatar | dmGravatar:28}}'
         )
-.users-all(ng-scrollbar rebuild-on-resize)
-  ul.nav.nav-tabs.nav-stacked.users.users-all
+.users-all(
+  ng-scrollbar rebuild-on-resize
+  ng-class="{'is-admin': user.result.acl.indexOf('admin:events') > -1}"
+)
+  ul.nav.nav-tabs.nav-stacked.users
     li(
       ng-repeat="user in uniqueUsers"
       tooltip="{{user.name}}"
@@ -49,3 +53,22 @@ ul.nav.nav-tabs.nav-stacked.users
           ng-src="{{user.avatar | dmGravatar:20}}"
           )
 
+ul.nav.nav-tabs.nav-stacked.users
+  li(
+      ng-if="user.result.acl.indexOf('admin:events') > -1"
+      ng-class="{'active': $root.editMode}"
+    )
+    a.cursor-pointer(
+      ng-click="$root.editMode = !$root.editMode"
+      )
+      span.fa.fa-fw.fa-pencil-square-o(ng-show="!$root.editMode")
+      span.fa.fa-fw.fa-check-square-o(ng-show="$root.editMode")
+
+  li(
+      ng-if="user.result.acl.indexOf('trainer') > -1"
+      ui-sref-active='active'
+    )
+    a(ui-sref="index.space.trainer")
+      span.fa.fa-fw.fa-globe
+
+  

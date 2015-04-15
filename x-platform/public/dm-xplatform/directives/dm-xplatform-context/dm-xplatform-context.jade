@@ -22,6 +22,13 @@
           ng-click="toggleVisibility()")
           small.text-muted.fa.fa-chevron-down.fa-fw(ng-show="display.active")
           small.text-muted.fa.fa-chevron-up.fa-fw(ng-show="!display.active")
+
+    .scroll.big-height.text-left(
+      ng-scrollbar, rebuild-on-resize
+      ng-show="display.active === 'admin'"
+      ng-if="display.admin"
+      )
+      dm-event-admin
     .scroll.big-height.text-left(
       ng-scrollbar, rebuild-on-resize
       ng-show="display.active === 'user'"
