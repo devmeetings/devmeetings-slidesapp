@@ -2,7 +2,6 @@
 'use strict';
 
 import * as xplatformApp from 'xplatform/xplatform-app';
-import 'es6!xplatform/directives/dm-event-menu/dm-event-menu';
 
 function agendaCtrl($scope, $state, $stateParams, $location, dmBrowserTab, dmEvents) {
   dmBrowserTab.setTitleAndIcon('Agenda', 'slide');

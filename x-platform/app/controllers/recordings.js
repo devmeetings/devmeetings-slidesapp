@@ -2,6 +2,7 @@ var RecordingModel = require('../models/recording');
 var states = require('../services/states');
 var _ = require('lodash');
 var autoAnnotations = require('../services/autoAnnotations');
+var yamlReply = require('../services/yaml');
 
 
 function convertRecordingToUnifiedHistoryFormat(recording) {
@@ -66,7 +67,6 @@ var Recordings = {
   },
 
   autoAnnotations: function(req, res) {
-    var format = req.query.format;
 
     RecordingModel.findOne({
       _id: req.params.id
@@ -86,15 +86,11 @@ var Recordings = {
 
       var annotations = autoAnnotations(recording);
 
-      if (format === 'yaml') {
-        var yaml = require('js-yaml');
-        res.header('Content-Type', 'application/yaml');
-        res.send(yaml.safeDump({
-          annotations: annotations
-        }));
-        return;
-      }
-      res.send(annotations);
+      yamlReply(req, res, annotations, function(anno) {
+        return {
+          annotations: anno
+        };
+      });
 
     });
   }

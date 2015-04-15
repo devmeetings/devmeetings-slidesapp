@@ -2,7 +2,8 @@ var Event = require('../models/event'),
   Slidesave = require('../models/slidesave'),
   Annotations = require('../models/annotations'),
   _ = require('lodash'),
-  Q = require('q');
+  Q = require('q'),
+  yamlReply = require('../services/yaml');
 
 
 var onError = function(res) {
@@ -47,7 +48,23 @@ var Events = {
     Q.ninvoke(Event.findOne({
       _id: id
     }).lean(), 'exec').then(function(event) {
-      res.send(event);
+      yamlReply(req, res, event, function(event) {
+        function removeIdsAndConvertTypes(obj) {
+          Object.keys(obj).map(function(name) {
+            if (name === '_id' || name === '__v') {
+              delete obj[name];
+            }
+            if (_.isObject(obj[name])) {
+              removeIdsAndConvertTypes(obj[name]);
+            }
+            if (obj[name] && obj[name].getTimestamp) {
+              obj[name] = obj[name].toString();
+            }
+          });
+          return obj;
+        }
+        return removeIdsAndConvertTypes(event);
+      });
     }).fail(onError(res)).done(onDone);
   },
 

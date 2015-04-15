@@ -1,0 +1,19 @@
+div
+
+  p
+    form(action='post', enctype='multipart/encoded', action='')
+      .form-group
+        .input-group
+          input.form-control.input-sm(type='file', name='event')
+          .input-group-btn
+            button.btn.btn-default.btn-sm(type='submit')
+              span.fa.fa-fw.fa-upload
+              span Upload Event
+  p
+    a.btn.btn-primary.btn-block(
+      href="/api/events/{{event._id}}?format=yaml"
+      target="_blank"
+      )
+      span.fa.fa-fw.fa-download
+      span Download Event
+

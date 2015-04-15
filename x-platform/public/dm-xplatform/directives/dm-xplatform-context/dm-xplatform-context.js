@@ -4,6 +4,8 @@
 
 import * as xplatformApp from 'xplatform/xplatform-app';
 import * as _ from '_';
+import 'es6!xplatform/directives/dm-event-menu/dm-event-menu';
+import 'es6!xplatform/directives/dm-event-admin/dm-event-admin';
 
 const names = {
   admin: 'Admin',
@@ -31,17 +33,25 @@ class ContextMenuDir {
       if (!scope.display) {
         return;
       }
-      scope.display.admin = isEditMode;
+      var w = scope.with;
+      if (isEditMode) {
+        w.unshift('admin');
+      } else {
+        var idx = w.indexOf('admin');
+        if (idx > -1) {
+          w.splice(idx, 1);
+        }
+        scope.display.active = w[0];
+      }
     });
 
-    scope.$watch('with', (what) => {
+    scope.$watchCollection('with', (what) => {
       what = what || ['chat'];
 
       scope.display = {
         event: true,
         lastActive: false,
         lastEvent: true,
-        admin: scope.isEditMode
       };
       what.map((w) => {
         scope.display[w] = true;

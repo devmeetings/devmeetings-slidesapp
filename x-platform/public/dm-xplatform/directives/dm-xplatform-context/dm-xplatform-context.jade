@@ -23,56 +23,46 @@
           small.text-muted.fa.fa-chevron-down.fa-fw(ng-show="display.active")
           small.text-muted.fa.fa-chevron-up.fa-fw(ng-show="!display.active")
 
-    .scroll.big-height.text-left(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'admin'"
-      ng-if="display.admin"
-      )
-      dm-event-admin
-    .scroll.big-height.text-left(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'user'"
-      ng-if="display.user"
-      )
-      .col-xs-12
+    .scroll.big-height(ng-scrollbar, rebuild-on-resize)
+      .text-left(
+        ng-show="display.active === 'admin'"
+        ng-if="display.admin"
+        )
+        dm-event-admin(event="event")
+      .col-xs-12(
+        ng-show="display.active === 'user'"
+        ng-if="display.user"
+        )
         include ../../controllers/dm-xplatform-agenda/space-tab-user.jade
-    .scroll.big-height(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'history'"
-      ng-if="display.history"
-      )
-      dm-history-graph
-    .scroll.big-height.text-left(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'questions'"
-      ng-if="display.questions"
-      )
-      .full-height(
+      div(
+        ng-show="display.active === 'history'"
+        ng-if="display.history"
+        )
+          dm-history-graph
+      div(
+        ng-show="display.active === 'questions'"
+        ng-if="display.questions"
         ng-controller="dmXplatformQuestion"
         )
-        include ../../controllers/dm-xplatform-question/index.jade
-    .scroll.big-height.text-left(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'annotations'"
-      ng-if="display.annotations"
-      )
-        .full-height(
-          ng-controller="dmXplatformAnnos"
+          include ../../controllers/dm-xplatform-question/index.jade
+      div(
+        ng-show="display.active === 'annotations'"
+        ng-if="display.annotations"
+        ng-controller="dmXplatformAnnos"
           )
           include ../../controllers/dm-xplatform-annos/dm-xplatform-annos.jade
-    .scroll.big-height(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'notes'"
-      ng-if="display.notes"
-      )
-      plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
-    .scroll.big-height(
-      ng-scrollbar, rebuild-on-resize
-      ng-show="display.active === 'chat'"
-      ng-if="display.chat"
-      )
-        h1 Chat
-        h3 Not ready yet:(
+      div(
+        ng-show="display.active === 'notes'"
+        ng-if="display.notes"
+        )
+        plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
+          
+      div(
+        ng-show="display.active === 'chat'"
+        ng-if="display.chat"
+        )
+          h1 Chat
+          h3 Not ready yet:(
 
 
 
