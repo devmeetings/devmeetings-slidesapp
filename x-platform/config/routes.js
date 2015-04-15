@@ -93,9 +93,14 @@ module.exports = function(app) {
   app.get('/api/events', events.all);
   app.get('/api/users/:userId/events', apiAuthenticated, events.userEvents);
   app.get('/api/events/:id', apiAuthenticated, events.get);
+
+  app.post('/api/events', apiAuthenticated, authorized('admin:events'), events.create);
+  app.put('/api/events/:id', apiAuthenticated, authorized('admin:events'), events.update);
+  app.delete('/api/events/:id', apiAuthenticated, authorized('admin:events'), events.remove);
+  app.post('/api/event_visibility/:event/:visible', apiAuthenticated, authorized('admin:events'), events.changeVisibility);
+
   app.get('/api/events/:id/annotations', apiAuthenticated, events.getAllAnnotations);
   app.get('/api/events/:id/annotations/:annotationId', apiAuthenticated, events.getAnnotations);
-  app.post('/api/event_visibility/:event/:visible', apiAuthenticated, authorized('admin:events'), events.changeVisibility);
 
   app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.annotationCreate);
   app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);

@@ -81,6 +81,16 @@ require(['angular',
             windowClass: 'login-modal'
           });
         });
+
+        $rootScope.onEditModeSave = function(func) {
+          this.$watch('editMode', function(newVal, oldVal) {
+            if (newVal === oldVal || newVal) {
+              return;
+            }
+            func();
+          });
+        };
+
       }
     ]);
 
