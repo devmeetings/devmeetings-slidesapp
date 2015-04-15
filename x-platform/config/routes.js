@@ -117,7 +117,6 @@ module.exports = function(app) {
 
   var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
   app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getForEvent);
-  app.get('/api/workspaces/users/:userId', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getPages);
 
   var users = require('../app/controllers/users');
   app.get('/api/users/:id', apiAuthenticated, users.get);

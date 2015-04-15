@@ -2,15 +2,7 @@ var Event = require('../models/event'),
   Slidesave = require('../models/slidesave'),
   Annotations = require('../models/annotations'),
   _ = require('lodash'),
-  Q = require('q'),
-  srt = require('srt'),
-  path = require('path'),
-  fs = require('fs'),
-  config = require('../../config/config');
-
-var soundsDir = path.join(__dirname, '..', '..', 'public', 'sounds');
-var soundsUrl = '/static/sounds/';
-var idPattern = /ID\: (.+)$/;
+  Q = require('q');
 
 
 var onError = function(res) {
@@ -36,12 +28,14 @@ var Events = {
   userEvents: function(req, res) {
     Q.ninvoke(Slidesave.find({
       user: req.params.userId,
-      event: {
+      events: {
         $exists: true
       }
-    }).select('event').lean(), 'exec').then(function(events) {
-      var eventsIds = _.unique(events.map(function(e) {
-        return e.event.toString();
+    }).select('events').lean(), 'exec').then(function(events) {
+      var eventsIds = _.unique(events.reduce(function(memo, save) {
+        return memo.concat(save.events);
+      }, []).map(function(e) {
+        return e.toString();
       }));
       res.send(eventsIds);
     }).fail(onError(res));

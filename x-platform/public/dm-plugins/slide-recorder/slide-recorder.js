@@ -31,9 +31,18 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             // TODO [ToDr] Do we always should send workspaceId?
             workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
-          }, function(stateId, lastPatch) {
+          }, function(isOk, stateId, lastPatch) {
             if (shouldLog){
               console.timeEnd('Server sync');
+            }
+
+            if (!isOk) {
+              toSend = [{
+                timestamp: new Date().getTime(),
+                current: scope.slide
+              }];
+              sendQueue();
+              return;
             }
 
             // TODO [ToDr] Should recorder know that server received the event?

@@ -248,6 +248,7 @@ function fetchState(id, user) {
       original: {},
       current: {}
     });
+    obj.fresh = true;
     obj.markModified('original');
     return obj;
   }

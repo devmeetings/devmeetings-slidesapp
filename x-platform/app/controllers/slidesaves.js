@@ -29,8 +29,8 @@ function updateEvent(slidesave, eventId) {
   Slidesave.update({
     _id: slidesave._id
   }, {
-    $set: {
-      event: eventId
+    $push: {
+      events: eventId
     }
   }).exec();
 }
@@ -106,18 +106,22 @@ var Slidesaves = {
         user: req.user._id,
         baseSlide: slide
       }).lean(), 'exec').then(function(slidesave) {
+
         if (slidesave) {
-          if (!slidesave.event) {
+          // TODO [ToDr] Potential race. $addToSet would be nice (but we have older version of mongo)
+          if (slidesave.events.indexOf(eventId) === -1) {
             updateEvent(slidesave, eventId);
           }
           return slidesave;
         }
+
         return Q.ninvoke(Slide.findOne({
           _id: slide
         }).lean(), 'exec').then(function(slide) {
           var toInsert = transformToSlidesave(slide, req.user, eventId);
           return Q.ninvoke(Slidesave, 'create', toInsert);
         });
+
       }).then(function(slidesave) {
         res.send({
           slidesave: slidesave._id
