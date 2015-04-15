@@ -90,6 +90,9 @@ var States = (function() {
       var patchIdx = parseInt(idParts[1], 10);
 
       return Q.ninvoke(Statesave.findById(id).lean(), 'exec').then(function(save) {
+        if (!save) {
+          return save;
+        }
         // Apply patches
         var state = save.original || {};
         States.applyPatches(state, save.patches.slice(0, patchIdx + 1));
@@ -140,7 +143,7 @@ var States = (function() {
       }).then(function(history) {
 
         var patches = convertHistorySlidesToPatches(history.after);
-        var original = history.after[0].original;
+        var original = history.after[0].original || {};
 
         return {
           history: history.before.concat(history.after).map(function(x) {
@@ -152,7 +155,7 @@ var States = (function() {
             original: original,
             patches: patches,
             annotations: autoAnnotations({
-              original : original,
+              original: original,
               patches: patches
             })
           }
@@ -237,23 +240,28 @@ function createFork(state) {
 function fetchState(id, user) {
   'use strict';
 
+  function newStateSave() {
+    var obj = new Statesave({
+      user: user._id,
+      originalTimestamp: new Date(0),
+      noOfPatches: 0,
+      original: {},
+      current: {}
+    });
+    obj.markModified('original');
+    return obj;
+  }
+
   if (id) {
     return Q.ninvoke(Statesave, 'findById', id).then(function(save) {
       if (!save) {
-        throw Error('State not found');
+        return newStateSave();
       }
       return save;
     });
   }
 
-  var obj = new Statesave({
-    user: user._id,
-    originalTimestamp: new Date(0),
-    noOfPatches: 0,
-    original: {},
-    current: {}
-  });
-  obj.markModified('original');
+  var obj = newStateSave();
   return Q.when(obj);
 }
 

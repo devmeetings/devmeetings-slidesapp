@@ -74,7 +74,7 @@ exports.initApi = function(app, authenticated) {
     var internalFile = getInternalFileName(file);
     States.createFromId(req.params.hash).done(function(slide) {
       if (!slide) {
-        res.send(404);
+        res.sendStatus(404);
         return;
       }
 

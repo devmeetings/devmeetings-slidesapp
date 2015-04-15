@@ -4,11 +4,6 @@ module.exports = function generateAutoAnnotationsForUnifiedHistoryFormat(recordi
   // [ToDr] Included here because of circular dependencies.
   var states = require('./states');
 
-
-  if (!recording.original || !recording.original.workspace) {
-    return [];
-  }
-
   var start = {
     annotations: [],
     active: null,
@@ -25,6 +20,10 @@ module.exports = function generateAutoAnnotationsForUnifiedHistoryFormat(recordi
   var lastIdx = recording.patches.length - 1;
 
   return states.reducePatchesContent(recording, function(memo, slide, idx) {
+    if (!slide.current || !slide.current.workspace) {
+      return memo;
+    }
+    
     slide.code = slide.current;
     var workspace = slide.code.workspace;
     var note;

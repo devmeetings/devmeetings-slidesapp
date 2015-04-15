@@ -17,11 +17,13 @@ class DmHistoryPlayer {
 
     scope.$watch('historyId', (historyId) => {
       this.dmHistory.fetchHistorySince(historyId).then((history) => {
-        this.dmHistory.setHistory(history.history);
         var currentHist = history.recording;
         // Player
-        var current = JSON.parse(JSON.stringify(currentHist.original || {}));
+        var current = JSON.parse(JSON.stringify(currentHist.original));
         var player = this.dmPlayer.createPlayerSource(currentHist.patches[0].id, current);
+
+        // Setting history has to be done after player is created!
+        this.dmHistory.setHistory(history.history);
         // Player has to be fed with ne patches from external source.
         // We need to prepare ticker according to patches inside history.
         scope.recording = {
@@ -32,7 +34,7 @@ class DmHistoryPlayer {
         scope.annotations = currentHist.annotations;
         scope.state = {
           isPlaying: false,
-          currentSecond: 0,
+          currentSecond: 0.1,
           rate: 40,
           max: _.last(currentHist.patches).timestamp / 1000
         };

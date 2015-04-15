@@ -27,8 +27,8 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
     return elem;
   }
 
-  slider.directive('pluginsLoader', ['$compile',
-    function($compile) {
+  slider.directive('pluginsLoader',
+    function($compile, $rootScope) {
       return {
         restrict: 'E',
         scope: {
@@ -38,55 +38,53 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
           path: '@'
         },
         template: '',
-        controller: ['$scope', '$element', '$rootScope',
-          function($scope, $element, $rootScope) {
+        link: function($scope, $element) {
 
-            var childScope = $scope.$new();
+          var childScope = $scope.$new();
 
-            var pluginTpl = function(plugin) {
-              return tpl({
-                pluginName: plugin.plugin,
-                trigger: plugin.trigger,
-                path: $scope.path + '.' + plugin.trigger
-              });
-            };
+          var pluginTpl = function(plugin) {
+            return tpl({
+              pluginName: plugin.plugin,
+              trigger: plugin.trigger,
+              path: $scope.path + '.' + plugin.trigger
+            });
+          };
 
 
-            var refresh = function(newContext, oldContext) {
-              if (!newContext) {
-                return;
-              }
-              if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
-                // Just broadcast info about new context
-                childScope.$broadcast('slide:update');
-                return;
-              }
+          var refresh = function(newContext, oldContext) {
+            if (!newContext) {
+              return;
+            }
+            if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
+              // Just broadcast info about new context
+              childScope.$broadcast('slide:update');
+              return;
+            }
 
-              $element.empty();
-              childScope.$destroy();
-              childScope = $scope.$new();
+            $element.empty();
+            childScope.$destroy();
+            childScope = $scope.$new();
 
-              var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
-                if (plugin.trigger !== '*' && newContext[plugin.trigger] === undefined) {
-                  return memo;
-                }
-
-                memo.push(pluginTpl(plugin));
+            var plugins = Plugins.getPlugins($scope.namespace).reduce(function(memo, plugin) {
+              if (plugin.trigger !== '*' && newContext[plugin.trigger] === undefined) {
                 return memo;
-              }, []);
+              }
 
-              plugins.map(function(plugin, idx) {
-                setTimeout(function() {
-                  var el = $compile(plugin)(childScope);
-                  $element.append(el);
-                }, 100 * idx);
-              });
-            };
+              memo.push(pluginTpl(plugin));
+              return memo;
+            }, []);
 
-            $scope.$watch('context', refresh);
-          }
-        ]
+            plugins.map(function(plugin, idx) {
+              setTimeout(function() {
+                var el = $compile(plugin)(childScope);
+                $element.append(el);
+              }, 100 * idx);
+            });
+          };
+
+          $scope.$watch('context', refresh);
+        }
       };
     }
-  ]);
+  );
 });
