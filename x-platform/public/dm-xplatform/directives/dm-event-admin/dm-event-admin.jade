@@ -1,14 +1,13 @@
 div
 
-  p
-    form(action='post', enctype='multipart/encoded', action='')
-      .form-group
-        .input-group
-          input.form-control.input-sm(type='file', name='event')
-          .input-group-btn
-            button.btn.btn-default.btn-sm(type='submit')
-              span.fa.fa-fw.fa-upload
-              span Upload Event
+  form(method='post', enctype='multipart/form-data', action='/api/events/zip')
+    .form-group
+      .input-group
+        input.form-control.input-sm(type='file', name='file')
+        .input-group-btn
+          button.btn.btn-default.btn-sm(type='submit')
+            span.fa.fa-fw.fa-upload
+            span Upload ZIP with event
   p
     a.btn.btn-primary.btn-block(
       href="/api/events/{{event._id}}?format=yaml"

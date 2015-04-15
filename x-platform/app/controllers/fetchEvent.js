@@ -10,15 +10,11 @@ var Events = require('../models/event'),
 
 exports.createEventFromZip = function(req, res) {
   'use strict';
-
-  var zip = req.query.zip;
-  if (!zip) {
-    return res.send(400, 'Missing zip file');
-  }
+  var zip = req.files.file.path;
 
   parser.fetchAndParse(zip, function(err, events) {
     if (err) {
-      return res.send(400, 'Problem while fetching / parsing:' + err);
+      return res.status(400).send(err);
     }
 
     if (!_.isArray(events)) {
@@ -58,12 +54,12 @@ exports.createEventFromZip = function(req, res) {
         }, function() {
 
           var ev = new Events(event);
-          ev.save(function(err, ok) {
+          ev.save(function(err) {
             if (err) {
               return defer.reject(err);
             }
 
-            return defer.resolve(ok);
+            return defer.resolve(ev);
           });
 
         });
@@ -71,7 +67,7 @@ exports.createEventFromZip = function(req, res) {
         return defer.promise;
       }));
     }).done(function(events) {
-      res.send(events);
+      res.redirect('/space/' + events[0]._id);
     }, function(err) {
       console.error(err);
       res.send(400, err);

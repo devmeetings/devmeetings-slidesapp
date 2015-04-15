@@ -1,4 +1,5 @@
 var passport = require('passport');
+var multiparty = require('connect-multiparty');
 
 var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
   if (req.user) {
@@ -94,6 +95,8 @@ module.exports = function(app) {
   app.get('/api/users/:userId/events', apiAuthenticated, events.userEvents);
   app.get('/api/events/:id', apiAuthenticated, events.get);
 
+  var fetchEvent = require('../app/controllers/fetchEvent');
+  app.post('/api/events/zip', apiAuthenticated, authorized('admin:events'), multiparty(), fetchEvent.createEventFromZip);
   app.post('/api/events', apiAuthenticated, authorized('admin:events'), events.create);
   app.put('/api/events/:id', apiAuthenticated, authorized('admin:events'), events.update);
   app.delete('/api/events/:id', apiAuthenticated, authorized('admin:events'), events.remove);
@@ -105,8 +108,7 @@ module.exports = function(app) {
   app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.annotationCreate);
   app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);
 
-  var fetchEvent = require('../app/controllers/fetchEvent');
-  app.post('/api/events', apiAuthenticated, authorized('admin:events'), fetchEvent.createEventFromZip);
+
 
   var slidesaves = require('../app/controllers/slidesaves');
   app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);

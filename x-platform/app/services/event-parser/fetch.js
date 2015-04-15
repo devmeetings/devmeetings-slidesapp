@@ -13,18 +13,31 @@ temp.track();
 
 var parse = require('./parse');
 
+function openStream(file, cb, func) {
+  'use strict';
+
+  if (file.indexOf('https') === 0) {
+    return https.get(file, func);
+  }
+
+  if (file.indexOf('http') === 0) {
+    return http.get(file, func);
+  }
+  var rs = fs.createReadStream(file);
+  func(rs);
+  return rs;
+}
+
 function fetchAndParse(file, cb) {
   'use strict';
-  
+
   var idsCache = {};
 
   temp.mkdir('fetch', function(err, dirPath) {
     var tmpFile = path.join(dirPath, 'tmp.zip');
     var fileStream = fs.createWriteStream(tmpFile);
 
-    var mod = file.indexOf('https') === 0 ? https : http;
-
-    mod.get(file, function(stream) {
+    openStream(file, cb, function(stream) {
 
       stream.pipe(fileStream).on('error', function() {
 
@@ -35,6 +48,13 @@ function fetchAndParse(file, cb) {
         var zip = new AdmZip(tmpFile);
         // Extract
         zip.extractAllTo(dirPath);
+        var entries = zip.getEntries().map(function(entry) {
+          return entry.entryName;
+        }).filter(function(entryName){
+          return entryName.indexOf('event.yml') > -1;
+        });
+        var firstDir = entries[0].split('/');
+        dirPath = path.join.apply(path, [dirPath].concat(firstDir.slice(0, firstDir.length - 1)));
         // And Parse
         try {
           return cb(null, parse(dirPath, 'event.yml'));
@@ -43,9 +63,8 @@ function fetchAndParse(file, cb) {
         }
       });
 
-    }).on('error', function(err) {
-      return cb(err, null);
     });
+
   });
 }
 
