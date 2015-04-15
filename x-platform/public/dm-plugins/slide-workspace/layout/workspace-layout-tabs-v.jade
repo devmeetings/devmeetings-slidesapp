@@ -26,8 +26,11 @@ include ./file-tabs
                     title="Upload ZIP file with your code")
                     input.cursor-pointer(type="file", ng-file-select="onFileSelect($files)")
                     span.fa.fa-upload
-            li.workspace-tab.pull-right.workspace-tab-condensed(ng-if="hasFormatting()")
-                a.cursor-pointer(title="Reformat your code", ng-click="formatTab()")
+            li.workspace-tab.pull-right.workspace-tab-condensed
+              a.cursor-pointer(
+                title="Reformat your code", 
+                ng-disabled="!hasFormatting()"
+                ng-click="formatTab()")
                   span.fa.fa-indent
         +tabs()
       .tab-content
