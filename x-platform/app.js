@@ -5,7 +5,6 @@ var express = require('express'),
   config = require('./config/config'),
   logger = require('./config/logging');
 
-
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', function() {
@@ -49,7 +48,7 @@ logger.info('Server listening on port:', config.port);
 server.listen(config.port);
 
 // Configure blocked
-require('blocked')(function(ms) {
+require('./config/blocked')(function(ms) {
   'use strict';
 
   logger.warn('Blocked for ' + ms + 'ms', {

@@ -1,6 +1,6 @@
 var cache = require('./cache');
 
-module.exports = generateAutoAnnotationsCached;
+module.exports = generateAutoAnnotationsForUnifiedHistoryFormat;
 
 function generateAutoAnnotationsCached(recording) {
   'use strict';

@@ -52,23 +52,35 @@ var States = (function() {
       // TODO [ToDr] Spit operations to not block event loop!
 
       var currentState = initialState;
-      recording.patches.reduce(function(current, patch, idx) {
 
-        // Patch current state
-        jsondiff.patch(current, patch.patch);
+      var chunks = _.chunk(recording.patches, 15);
+      var currentResult = recording.original;
 
-        // Clone to avoid conflicts
-        var state = _.cloneDeep(current);
-        //Run reduceFunc and store newState
-        currentState = reduceFunc(currentState, {
-          timestamp: patch.timestamp,
-          current: state
-        }, idx);
+      return chunks.reduce(function(memo, chunk) {
+        return memo.then(function(x) {
+          return Q.delay(1).then(function() {
+            return x;
+          });
+        }).then(function(currentResult) {
+          return chunk.reduce(function(current, patch, idx) {
 
-        return current;
-      }, recording.original);
+            // Patch current state
+            jsondiff.patch(current, patch.patch);
 
-      return Q.when(currentState);
+            // Clone to avoid conflicts
+            var state = _.cloneDeep(current);
+            //Run reduceFunc and store newState
+            currentState = reduceFunc(currentState, {
+              timestamp: patch.timestamp,
+              current: state
+            }, idx);
+
+            return current;
+          }, currentResult);
+        });
+      }, Q.when(currentResult)).then(function() {
+        return currentState;
+      });
     },
 
     createFromRecordingId: function(compoundId) {
