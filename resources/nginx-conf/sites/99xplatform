@@ -21,7 +21,7 @@ server {
 }
 
 server {
-  listen  443; 
+  listen  443 ssl spdy; 
   server_name xplatform.org *.xplatform.org;
 
   client_header_buffer_size 64k;

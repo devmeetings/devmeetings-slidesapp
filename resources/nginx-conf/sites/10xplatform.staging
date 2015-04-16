@@ -4,11 +4,15 @@
 proxy_cache_path /var/cache/nginx/stwo keys_zone=stwo:50m;
 
 server {
-  listen 80;
+  listen  443 ssl spdy; 
   server_name staging.xplatform.org;
 
   client_header_buffer_size 64k;
   large_client_header_buffers 8 128k;
+
+  ssl on;
+  ssl_certificate /etc/nginx/keys/ssl-unified.crt;
+  ssl_certificate_key /etc/nginx/keys/ssl.key;
 
   location /static/ {
     rewrite ^/static/(.*)$ /public/$1;
