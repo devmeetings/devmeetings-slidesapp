@@ -2,14 +2,14 @@ div
 
   form(method='post', enctype='multipart/form-data', action='/api/events/zip')
     .form-group
-      .input-group
-        input.form-control.input-sm(type='file', name='file')
-        .input-group-btn
-          button.btn.btn-default.btn-sm(type='submit')
-            span.fa.fa-fw.fa-upload
-            span Upload ZIP with event
+      input.form-control.input-sm(type='file', name='file')
+    .form-group
+      button.btn.btn-primary.btn-sm(type='submit')
+        span.fa.fa-fw.fa-upload
+        span Upload ZIP with event
+  hr
   p
-    a.btn.btn-primary.btn-block(
+    a.btn.btn-default.btn-block(
       href="/api/events/{{event._id}}?format=yaml"
       target="_blank"
       )
