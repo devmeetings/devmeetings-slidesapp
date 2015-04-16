@@ -7,7 +7,7 @@ var forExpress = new winston.Logger({
 });
 
 if (config.graylog) {
-  var Graylog2 = require('winston-graylog2').Graylog2;
+  var Graylog2 = require('winston-graylog2');
   forExpress.add(new Graylog2({
     graylogHost: config.graylog.host,
     graylogPort: config.graylog.port
