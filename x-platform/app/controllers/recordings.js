@@ -39,6 +39,13 @@ function convertRecordingToUnifiedHistoryFormat(recording) {
   return recording;
 }
 
+function findRecording(id) {
+  'use strict';
+
+  return RecordingModel.findOne({
+    _id: id
+  }).select('original current _id layout slides.patches slides.original').lean();
+}
 
 var Recordings = {
   list: function(req, res) {
@@ -53,9 +60,7 @@ var Recordings = {
   },
 
   get: function(req, res) {
-    RecordingModel.findOne({
-      _id: req.params.id
-    }).lean().exec(function(err, recording) {
+    findRecording(req.params.id).exec(function(err, recording) {
       if (err || !recording) {
         logger.error(err);
         res.send(404, err);
@@ -68,9 +73,7 @@ var Recordings = {
   },
 
   autoAnnotations: function(req, res) {
-    RecordingModel.findOne({
-      _id: req.params.id
-    }).lean().exec(function(err, rawRecording) {
+    findRecording(req.params.id).exec(function(err, rawRecording) {
 
       if (err) {
         logger.error(err);

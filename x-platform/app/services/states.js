@@ -49,10 +49,10 @@ var States = (function() {
 
     reducePatchesContent: function(recording, reduceFunc, initialState) {
 
-      // TODO [ToDr] Spit operations to not block event loop!
 
       var currentState = initialState;
 
+      // [ToDr] Spit operations to not block event loop!
       var chunks = _.chunk(recording.patches, 15);
       var currentResult = recording.original;
 
@@ -86,12 +86,18 @@ var States = (function() {
     createFromRecordingId: function(compoundId) {
       var parts = compoundId.split('_');
       var recId = parts[0].replace('r', ''),
-        slideNo = parts[1],
+        slideNo = parseInt(parts[1], 10),
         patchNo = parseInt(parts[2], 10);
 
-      return Q.when(recordings.findById(recId).lean().exec()).then(function(recording) {
-        var state = recording.slides[slideNo];
-        States.applyPatches(state.original, state.patches.slice(0, patchNo + 1));
+      var query = recordings.findById(recId).
+      slice('slides.patches', [0, patchNo + 1]).
+      slice('slides', [slideNo, 1]).
+      lean();
+
+      return Q.when(query.exec()).then(function(recording) {
+        // Because of project we can take only first element and all patches
+        var state = recording.slides[0];
+        States.applyPatches(state.original, state.patches);
         return state.original;
       });
     },
