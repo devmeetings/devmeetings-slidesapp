@@ -1,6 +1,7 @@
 var express = require('express'),
   mongoose = require('mongoose'),
-  http = require('http'),
+  http2 = require('spdy'),
+  fs = require('fs'),
   socketio = require('socket.io'),
   config = require('./config/config'),
   logger = require('./config/logging');
@@ -31,7 +32,10 @@ require('./config/mail')(app);
 require('./config/routes')(router);
 require('./config/passport');
 
-var server = http.Server(app);
+var server = http2.createServer({
+  key: fs.readFileSync('./config/certs/server.key'),
+  cert: fs.readFileSync('./config/certs/server.crt')
+}, app);
 
 if (config.meteorProxy) {
   server.on('upgrade', function(req) {
