@@ -1,8 +1,7 @@
 # ##
 # Proxy Caching
 ##
-proxy_cache_path /var/cache/nginx/one keys_zone=one:20m;
-proxy_cache_path /var/cache/nginx/two keys_zone=two:50m;
+proxy_cache_path /var/cache/nginx/stwo keys_zone=stwo:50m;
 
 server {
   listen 80;
@@ -26,7 +25,7 @@ server {
   include xplatform.services;
 
   location /api/recordings {
-    proxy_cache two;
+    proxy_cache stwo;
     proxy_cache_valid 200 60m;
     add_header X-Cache-Status $upstream_cache_status;
 
