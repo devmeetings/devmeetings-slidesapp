@@ -5,6 +5,10 @@ var Slides = require('../services/slides');
 var glob = require('glob');
 var _ = require('lodash');
 
+
+// TODO [ToDr] Deprecated! Update Frontend to call normal API instead of this.
+// @see DeckAndSlides asPromise
+
 var sendAsRequireJSModule = function(object, res) {
     res.set('Content-Type', 'application/javascript');
     var data = (_.isArray(object) ? "define( []," : "define(") + JSON.stringify(object) + ");";

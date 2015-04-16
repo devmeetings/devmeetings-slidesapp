@@ -8,6 +8,9 @@ var trainersRoom = function(roomId) {
   return roomId + '_trainers';
 };
 
+/*
+ * TODO [ToDr] RemoveState! Data associated with socket
+ */
 var updateClientData = function(socket, updater) {
   updater(socket.clientData);
 };
