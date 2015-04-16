@@ -67,10 +67,10 @@ var Recordings = {
   },
 
   autoAnnotations: function(req, res) {
-
     RecordingModel.findOne({
       _id: req.params.id
     }).lean().exec(function(err, rawRecording) {
+
       if (err) {
         console.error(err);
         res.status(404).send(err);
@@ -83,15 +83,14 @@ var Recordings = {
       }
 
       var recording = convertRecordingToUnifiedHistoryFormat(rawRecording);
-
-      var annotations = autoAnnotations(recording);
-
-      yamlReply(req, res, annotations, function(anno) {
-        return {
-          annotations: anno
-        };
+      recording.cacheKey = 'annotations_' + rawRecording._id;
+      autoAnnotations(recording).done(function(annotations) {
+        yamlReply(req, res, annotations, function(anno) {
+          return {
+            annotations: anno
+          };
+        });
       });
-
     });
   }
 };

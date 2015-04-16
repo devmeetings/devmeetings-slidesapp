@@ -1,6 +1,7 @@
 var Statesave = require('../models/statesave');
 var recordings = require('../models/recording');
 var autoAnnotations = require('./autoAnnotations');
+var cache = require('./cache');
 
 var Q = require('q');
 var _ = require('lodash');
@@ -35,11 +36,11 @@ var States = (function() {
     },
 
     fetchForUser: function(userId, limit) {
-      return Q.ninvoke(Statesave.find({
+      return Q.when(Statesave.find({
         user: userId
       }).sort({
         _id: -1
-      }).limit(limit).lean(), 'exec');
+      }).limit(limit).lean().exec());
     },
 
     getData: function(object, path) {
@@ -47,6 +48,8 @@ var States = (function() {
     },
 
     reducePatchesContent: function(recording, reduceFunc, initialState) {
+
+      // TODO [ToDr] Spit operations to not block event loop!
 
       var currentState = initialState;
       recording.patches.reduce(function(current, patch, idx) {
@@ -65,7 +68,7 @@ var States = (function() {
         return current;
       }, recording.original);
 
-      return currentState;
+      return Q.when(currentState);
     },
 
     createFromRecordingId: function(compoundId) {
@@ -74,7 +77,7 @@ var States = (function() {
         slideNo = parts[1],
         patchNo = parseInt(parts[2], 10);
 
-      return Q.ninvoke(recordings.findById(recId).lean(), 'exec').then(function(recording) {
+      return Q.when(recordings.findById(recId).lean().exec()).then(function(recording) {
         var state = recording.slides[slideNo];
         States.applyPatches(state.original, state.patches.slice(0, patchNo + 1));
         return state.original;
@@ -82,34 +85,36 @@ var States = (function() {
     },
 
     createFromId: function(compoundId) {
-      if (compoundId[0] === 'r') {
-        return States.createFromRecordingId(compoundId);
-      }
-      var idParts = compoundId.split('_');
-      var id = idParts[0];
-      var patchIdx = parseInt(idParts[1], 10);
-
-      return Q.ninvoke(Statesave.findById(id).lean(), 'exec').then(function(save) {
-        if (!save) {
-          return save;
+      return cache.get(compoundId, function(compoundId) {
+        if (compoundId[0] === 'r') {
+          return States.createFromRecordingId(compoundId);
         }
-        // Apply patches
-        var state = save.original || {};
-        States.applyPatches(state, save.patches.slice(0, patchIdx + 1));
+        var idParts = compoundId.split('_');
+        var id = idParts[0];
+        var patchIdx = parseInt(idParts[1], 10);
 
-        return state;
+        return Q.when(Statesave.findById(id).lean().exec()).then(function(save) {
+          if (!save) {
+            return save;
+          }
+          // Apply patches
+          var state = save.original || {};
+          States.applyPatches(state, save.patches.slice(0, patchIdx + 1));
+
+          return state;
+        });
       });
     },
 
     getForWorkspaceId: function(workspaceId) {
-      return Q.ninvoke(Statesave.find({
+      return Q.when(Statesave.find({
         workspaceId: workspaceId,
         noOfPatches: {
           $gte: 1
         }
       }).limit(100).select('current _id previousState currentTimestamp').lean().sort({
         'currentTimestamp': 1
-      }), 'exec');
+      }).exec());
     },
 
     getSinceId: function(stateId) {
@@ -126,13 +131,13 @@ var States = (function() {
         });
       }
 
-      return Q.ninvoke(Statesave.findById(stateId).lean(), 'exec').then(function(save) {
-        var after = Q.ninvoke(fetchHistory(save.workspaceId, {
+      return Q.when(Statesave.findById(stateId).lean().exec()).then(function(save) {
+        var after = Q.when(fetchHistory(save.workspaceId, {
           $gte: save.currentTimestamp
-        }, 100), 'exec');
-        var before = Q.ninvoke(fetchHistory(save.workspaceId, {
+        }, 100).exec());
+        var before = Q.when(fetchHistory(save.workspaceId, {
           $lt: save.currentTimestamp
-        }, 10), 'exec');
+        }, 10).exec());
 
         return Q.all([before, after]).then(function(a) {
           return {
@@ -145,22 +150,23 @@ var States = (function() {
         var patches = convertHistorySlidesToPatches(history.after);
         var original = history.after[0].original || {};
 
-        return {
-          history: history.before.concat(history.after).map(function(x) {
-            // Remove patches - they would be sent twice
-            delete x.patches;
-            return x;
-          }),
-          recording: {
-            original: original,
-            patches: patches,
-            annotations: autoAnnotations({
+        return autoAnnotations({
+          original: original,
+          patches: patches
+        }).then(function(annotations) {
+          return {
+            history: history.before.concat(history.after).map(function(x) {
+              // Remove patches - they would be sent twice
+              delete x.patches;
+              return x;
+            }),
+            recording: {
               original: original,
-              patches: patches
-            })
-          }
-        };
-
+              patches: patches,
+              annotations: annotations
+            }
+          };
+        });
       });
     },
     skipSilence: skipSilence
@@ -254,7 +260,7 @@ function fetchState(id, user) {
   }
 
   if (id) {
-    return Q.ninvoke(Statesave, 'findById', id).then(function(save) {
+    return Q.when(Statesave.findById(id).exec()).then(function(save) {
       if (!save) {
         return newStateSave();
       }

@@ -1,7 +1,6 @@
 var uuid = require('node-uuid');
-var when = require('when');
-var defer = when.defer;
 var _ = require('lodash');
+var Q = require('q');
 
 var Workers = null;
 
@@ -121,7 +120,7 @@ function fillData(clientData) {
     });
   }
 
-  return require('q').when(clientData);
+  return Q.when(clientData);
 }
 
 exports.onSocket = function(log, socket, io) {

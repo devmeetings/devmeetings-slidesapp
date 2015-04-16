@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var States = require('../../services/states');
+var cache = require('../../services/cache');
 
 exports.onSocket = function(log, socket) {
   'use strict';
@@ -54,22 +55,25 @@ exports.onSocket = function(log, socket) {
         var save = d.save;
         var id = save._id;
         var patchNo = save.patches.length - 1;
+        var compoundId = id + '_' + patchNo;
 
         ack(true, id, patchNo);
-        log('Emitting patches to ' + workspaceRoom);
+
+        // Populating cache
+        cache.populate(compoundId, save.current).done();
 
         // Broadcast the whole slide
         var room = socket.broadcast.to(workspaceRoom);
         if (data._id !== id.toString()) {
           room.emit('state.patches', {
-            id: id + '_' + patchNo,
+            id: compoundId,
             current: save.current
           });
           return;
         }
         // Broadcast new patches to listeners
         room.emit('state.patches', {
-          id: id + '_' + patchNo,
+          id: compoundId,
           patches: d.patches
         });
       });

@@ -1,4 +1,5 @@
 var express = require('express'),
+  mongoose = require('mongoose'),
   compression = require('compression'),
   favicon = require('serve-favicon'),
   winston = require('express-winston'),
@@ -27,8 +28,8 @@ module.exports = function(app, config, router) {
     saveUninitialized: false,
     secret: 'ImSecretAndIKnowIt',
     store: new MongoStore({
-      url: config.db,
-      touchAfter: 3600
+      touchAfter: 3600,
+      mongooseConnection: mongoose.connection
     }),
     cookieParser: cookieParser
   };

@@ -1,6 +1,10 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
+/**
+ * This collection should be volatile.
+ * It should be safe to remove all documents and app will still work
+ */
 var Statesave = new Schema({
   user: {
     type: Schema.Types.ObjectId,

@@ -1,4 +1,21 @@
-module.exports = function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
+var cache = require('./cache');
+
+module.exports = generateAutoAnnotationsCached;
+
+function generateAutoAnnotationsCached(recording) {
+  'use strict';
+
+  if (recording.cacheKey) {
+    return cache.get(recording.cacheKey, function() {
+      return generateAutoAnnotationsForUnifiedHistoryFormat(recording);
+    });
+  }
+
+  return generateAutoAnnotationsForUnifiedHistoryFormat(recording);
+}
+
+
+function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
   'use strict';
 
   // [ToDr] Included here because of circular dependencies.
@@ -23,7 +40,7 @@ module.exports = function generateAutoAnnotationsForUnifiedHistoryFormat(recordi
     if (!slide.current || !slide.current.workspace) {
       return memo;
     }
-    
+
     slide.code = slide.current;
     var workspace = slide.code.workspace;
     var note;
@@ -63,20 +80,24 @@ module.exports = function generateAutoAnnotationsForUnifiedHistoryFormat(recordi
     memo.timestamp = slide.timestamp;
     return memo;
 
-  }, start).annotations.sort(function(a, b) {
-    return a.timestamp - b.timestamp;
-  }).reduce(function(memo, anno) {
-    if (!memo.length) {
-      return [anno];
-    }
-    var last = memo[memo.length - 1];
+  }, start).then(function(memo) {
 
-    if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || (anno.reason === 'afterTab' && anno.timestamp !== 0)) {
-      return memo.concat([anno]);
-    }
-    return memo;
-  }, []);
-};
+    return memo.annotations.sort(function(a, b) {
+      return a.timestamp - b.timestamp;
+    }).reduce(function(memo, anno) {
+      if (!memo.length) {
+        return [anno];
+      }
+      var last = memo[memo.length - 1];
+
+      if (Math.abs(last.timestamp - anno.timestamp) > 1.5 || (anno.reason === 'afterTab' && anno.timestamp !== 0)) {
+        return memo.concat([anno]);
+      }
+      return memo;
+    }, []);
+
+  });
+}
 
 
 

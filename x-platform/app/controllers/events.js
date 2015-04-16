@@ -9,7 +9,7 @@ var Event = require('../models/event'),
 var onError = function(res) {
   return function(err) {
     console.error(err);
-    res.send(400);
+    res.sendStatus(400);
   };
 };
 
@@ -17,22 +17,22 @@ var onDone = function() {};
 
 var Events = {
   all: function(req, res) {
-    Q.ninvoke(Event.find({
+    Q.when(Event.find({
       removed: {
         $ne: true
       }
-    }).select('title description image order visible').lean(), 'exec').then(function(events) {
+    }).select('title description image order visible').lean().exec()).then(function(events) {
       res.send(events);
     }).fail(onError(res)).done(onDone);
   },
 
   userEvents: function(req, res) {
-    Q.ninvoke(Slidesave.find({
+    Q.when(Slidesave.find({
       user: req.params.userId,
       events: {
         $exists: true
       }
-    }).select('events').lean(), 'exec').then(function(events) {
+    }).select('events').lean().exec()).then(function(events) {
       var eventsIds = _.unique(events.reduce(function(memo, save) {
         return memo.concat(save.events);
       }, []).map(function(e) {
@@ -45,9 +45,9 @@ var Events = {
   get: function(req, res) {
     var id = req.params.id;
 
-    Q.ninvoke(Event.findOne({
+    Q.when(Event.findOne({
       _id: id
-    }).lean(), 'exec').then(function(event) {
+    }).lean().exec()).then(function(event) {
       yamlReply(req, res, event, function(event) {
         function removeIdsAndConvertTypes(obj) {
           Object.keys(obj).map(function(name) {
@@ -90,22 +90,22 @@ var Events = {
     delete event._id;
     delete event.__v;
 
-    Q.ninvoke(Event.update({
+    Q.when(Event.update({
       _id: req.params.id,
-    }, event), 'exec').then(function(event) {
+    }, event).exec()).then(function(event) {
       res.send(event);
     }).fail(onError(res));
   },
 
   remove: function(req, res) {
 
-    Q.ninvoke(Event.update({
+    Q.when(Event.update({
       _id: req.params.id
     }, {
       $set: {
         removed: true
       }
-    }), 'exec').then(function(event) {
+    }).exec()).then(function(event) {
       res.send(event);
     }).fail(onError(res));
   },
@@ -114,33 +114,33 @@ var Events = {
     var event = req.params.event;
     var visible = req.params.visible === 'true' ? true : false;
 
-    Q.ninvoke(Event.findOneAndUpdate({
+    Q.when(Event.findOneAndUpdate({
       _id: event
     }, {
       $set: {
         visible: visible
       }
-    }).lean(), 'exec').then(function(event) {
-      res.send(200);
+    }).lean().exec()).then(function(event) {
+      res.sendStatus(200);
     }).fail(onError(res)).done(onDone);
   },
 
   getAllAnnotations: function(req, res) {
     var eventId = req.params.id;
-    Q.ninvoke(Event.findOne({
+    Q.when(Event.findOne({
       _id: eventId
-    }).lean(), 'exec').then(function gatherAllAnnotations(event) {
+    }).lean().exec()).then(function gatherAllAnnotations(event) {
       return _.reduce(event.iterations, function(acc, iteration) {
         return acc.concat(_.reduce(iteration.materials, function(subacc, material) {
           return subacc.concat(material.annotations);
         }, []));
       }, []);
     }).then(function fetchFromDb(annotations) {
-      return Q.ninvoke(Annotations.find({
+      return Q.when(Annotations.find({
         _id: {
           $in: annotations
         }
-      }), 'exec');
+      }).exec());
     }).then(function sendResponse(annos) {
       res.send(annos.reduce(function(memo, a) {
         return memo.concat(a.annotations);
@@ -159,23 +159,23 @@ var Events = {
   },
 
   _findEventAndMaterial: function(eventId, iterationIdx, materialId) {
-    return Q.ninvoke(Event.findOne({
+    return Q.when(Event.findOne({
       _id: eventId
-    }), 'exec').then(function(ev) {
+    }).exec()).then(function(ev) {
       var material = _.map(ev.iterations[iterationIdx].materials, function(x) {
         return x._id.toString();
       }).indexOf(materialId);
       material = ev.iterations[iterationIdx].materials[material];
 
       if (!material) {
-        throw new Error("Material not found");
+        throw new Error('Material not found');
       }
       return [ev, material];
     });
   },
 
   _findAnnotation: function(annotationId) {
-    return Q.ninvoke(Annotations, 'findById', annotationId);
+    return Q.when(Annotations, 'findById', annotationId);
   },
 
   annotationCreate: function(req, res) {
@@ -186,13 +186,13 @@ var Events = {
     Events._findEventAndMaterial(eventId, iterationIdx, materialId).then(function(data) {
       var material = data[1];
 
-      return Q.ninvoke(Annotations.findOneAndUpdate({
+      return Q.when(Annotations.findOneAndUpdate({
         _id: material.annotations
       }, {
         $push: {
           'annotations': req.body
         }
-      }).lean(), 'exec');
+      }).lean().exec());
 
     }).fail(onError(res)).done(function(data) {
       res.send(data);

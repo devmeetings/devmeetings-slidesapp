@@ -6,18 +6,17 @@ var Question = require('../../models/question'),
 exports.onSocket = function (log, socket, io) {
         
     var getAllQuestions = function (data, res) {
-        Q.ninvoke(Question.find({
+        Q.when(Question.find({
             event: data.event
-        }).lean(), 'exec').then(function (questions) {
+        }).lean().exec()).then(function (questions) {
             res(questions);
         });
     };
     
     var createQuestion = function (data, res) {
-        var s = socket;
 
         var doCreateQuestion = function() {
-            Q.ninvoke(Question, 'create', data).then(function (question) {
+            Q.when(Question.create(data)).then(function (question) {
                 res(question);
                 io.sockets.emit('event.questions.new', question);
             });
@@ -28,16 +27,16 @@ exports.onSocket = function (log, socket, io) {
             return;
         }
     
-        Q.ninvoke(Slidesave.findOne({
+        Q.when(Slidesave.findOne({
             user: socket.request.user._id,
             baseSlide: data.baseSlide
-        }).lean(), 'exec').then(function (slidesave) {
+        }).lean().exec()).then(function (slidesave) {
             if (slidesave) {
                 return slidesave;
             }
-            return Q.ninvoke(Slide.findOne({
+            return Q.when(Slide.findOne({
                 _id: slide
-            }).lean(), 'exec').then(function (slide) {
+            }).lean().exec()).then(function (slide) {
                 var toInsert = {
                     user: socket.request.user._id,
                     slide: slide.content,
@@ -45,14 +44,14 @@ exports.onSocket = function (log, socket, io) {
                     baseSlide: slide._id,
                     timestamp: new Date()
                 };
-                return Q.ninvoke(Slidesave, 'create', toInsert);
+                return Q.when(Slidesave.create(toInsert));
             });
         }).then(function (slidesave) {
             delete slidesave._id;
             delete slidesave.baseSlide;
             slidesave.timestamp = new Date();
             slidesave.title = data.description;
-            return Q.ninvoke(Slidesave, 'create', slidesave);
+            return Q.when(Slidesave.create(slidesave));
         }).then(function (slidesave) {
             delete data.baseSlide;
             data.slidesave = slidesave._id;
@@ -63,13 +62,13 @@ exports.onSocket = function (log, socket, io) {
 
     var createComment = function (data, res) {
         var createComment = function () {
-            return Q.ninvoke(Question.findOneAndUpdate({
+            return Q.when(Question.findOneAndUpdate({
                 _id: data.question,
             }, {
                 $push: {
                     comments: data.comment
                 }
-            }).lean(), 'exec').then(function (question) {
+            }).lean().exec()).then(function (question) {
                 res('ok');
                 io.sockets.emit('event.questions.comment.new', question);
             });
@@ -81,7 +80,7 @@ exports.onSocket = function (log, socket, io) {
         }
 
         delete data.save._id;
-        Q.ninvoke(Slidesave, 'create', data.save).then(function (slidesave) {
+        Q.when(Slidesave.create(data.save)).then(function (slidesave) {
             data.comment.slidesave = slidesave._id;
             return createComment();
         }).fail(log).done(function () {});

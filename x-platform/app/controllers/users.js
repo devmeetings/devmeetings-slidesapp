@@ -23,10 +23,10 @@ var Users = {
         User.findByIdAndUpdate(userId, req.body, {}, function (err, user) {
             if (err) {
                 console.error(err);
-                res.send(400);
+                res.sendStatus(400);
                 return;
             }
-            res.send(200);
+            res.sendStatus(200);
         });
     },
     session: function(req, res) {
@@ -39,7 +39,7 @@ var Users = {
         }, function (err, user) {
             if (err) {
                 console.error(err);
-                res.send(400);
+                res.sendStatus(400);
                 return;
             }
             fixAvatar(user);

@@ -41,7 +41,7 @@ exports.delete = function(req, res) {
             res.send(400, err);
             return;
         }
-        res.send(200);
+        res.sendStatus(200);
     });
 };
 
@@ -58,7 +58,7 @@ exports.edit = function(req, res) {
             res.send(400, err);
             return;
         }
-        res.send(200);
+        res.sendStatus(200);
     });
 };
 

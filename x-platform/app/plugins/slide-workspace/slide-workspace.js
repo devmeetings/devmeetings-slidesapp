@@ -3,13 +3,14 @@ var mime = require('mime');
 var States = require('../../services/states');
 var Zip = require('node-zip');
 var multiparty = require('connect-multiparty');
+var fs = require('fs');
 
 
 exports.initApi = function(app, authenticated) {
   'use strict';
   
   app.post('/upload', authenticated, multiparty(), function(req, res) {
-    require('fs').readFile(req.files.file.path, 'binary', function(err, data) {
+    fs.readFile(req.files.file.path, 'binary', function(err, data) {
       if (err) {
         res.send(400, err);
         return;
@@ -81,7 +82,7 @@ exports.initApi = function(app, authenticated) {
       var workspace = getFiles(slide.workspace);
       var file = findFile(workspace, internalFile);
       if (!workspace || !file) {
-        res.send(404);
+        res.sendStatus(404);
         return;
       }
 

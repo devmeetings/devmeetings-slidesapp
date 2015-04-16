@@ -93,7 +93,7 @@ function createEntityIfNeeded(obj, name, Entit, cache) {
   if (cache[obj[name]]) {
     promise = cache[obj[name]];
   } else {
-    promise = Q.ninvoke(Entit, 'create', obj[name]).then(function(e) {
+    promise = Q.when(Entit.create(obj[name])).then(function(e) {
       return e._id.toString();
     });
   }
