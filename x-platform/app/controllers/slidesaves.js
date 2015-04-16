@@ -2,12 +2,13 @@ var Slidesave = require('../models/slidesave'),
   Slide = require('../models/slide'),
   Event = require('../models/event'),
   States = require('../services/states'),
+  logger = require('../../config/logging'),
   Q = require('q');
 
 
 var onError = function(res) {
   return function(err) {
-    console.error(err);
+    logger.error(err);
     res.sendStatus(400);
   };
 };

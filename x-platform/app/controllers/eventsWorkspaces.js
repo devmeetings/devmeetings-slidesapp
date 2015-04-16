@@ -1,12 +1,12 @@
 var _ = require('lodash'),
   Q = require('q'),
-  mongoose = require('mongoose'),
+  logger = require('../../config/logging'),
   Slidesaves = require('../models/slidesave'),
   States = require('../services/states');
 
 var onError = function(res) {
   return function(err) {
-    console.error(err);
+    logger.error(err);
     res.sendStatus(400);
   };
 };

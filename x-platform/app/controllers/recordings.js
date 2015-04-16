@@ -3,6 +3,7 @@ var states = require('../services/states');
 var _ = require('lodash');
 var autoAnnotations = require('../services/autoAnnotations');
 var yamlReply = require('../services/yaml');
+var logger = require('../../config/logging');
 
 
 function convertRecordingToUnifiedHistoryFormat(recording) {
@@ -43,7 +44,7 @@ var Recordings = {
   list: function(req, res) {
     RecordingModel.find({}).select('_id title group date').lean().exec(function(err, recordings) {
       if (err) {
-        console.error(err);
+        logger.error(err);
         res.send(404, err);
         return;
       }
@@ -56,7 +57,7 @@ var Recordings = {
       _id: req.params.id
     }).lean().exec(function(err, recording) {
       if (err || !recording) {
-        console.error(err);
+        logger.error(err);
         res.send(404, err);
         return;
       }
@@ -72,7 +73,7 @@ var Recordings = {
     }).lean().exec(function(err, rawRecording) {
 
       if (err) {
-        console.error(err);
+        logger.error(err);
         res.status(404).send(err);
         return;
       }

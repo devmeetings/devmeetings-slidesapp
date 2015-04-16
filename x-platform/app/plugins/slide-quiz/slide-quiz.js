@@ -11,12 +11,12 @@ function toAnswer(body) {
 }
 
 
-exports.initApi = function(app, authenticated) {
+exports.initApi = function(app, authenticated, app2, router2, logger) {
     app.post("/quiz", authenticated, function(req, res) {
         QuizAnswers.create(req.body.quizId, toAnswer(req.body)).then(function(obj) {
             res.send(200, obj._id.toString());
         }).then(null, function(err) {
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
         });
     });
@@ -25,18 +25,18 @@ exports.initApi = function(app, authenticated) {
         QuizAnswers.addAnswer(req.params.id, toAnswer(req.body)).then(function(id) {
             res.send(200, id.toString());
         }, function(err) {
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
         });
     });
 
 
     app.get("/quizAnswers/:id", authenticated, function(req, res) {
-        console.log(req.params.id);
+        logger.log(req.params.id);
         QuizAnswers.getByQuizId(req.params.id).then(function(answers) {
             res.send(answers);
         }).then(null, function(err) {
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
         });
     });

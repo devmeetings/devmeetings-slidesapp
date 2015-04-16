@@ -6,7 +6,7 @@ var multiparty = require('connect-multiparty');
 var fs = require('fs');
 
 
-exports.initApi = function(app, authenticated) {
+exports.initApi = function(app, authenticated, app2, router2, logger) {
   'use strict';
   
   app.post('/upload', authenticated, multiparty(), function(req, res) {
@@ -57,7 +57,7 @@ exports.initApi = function(app, authenticated) {
 
     }, function(err) {
       res.send(400, err);
-    }).then(null, console.error);
+    }).then(null, logger.error);
   });
   
   
@@ -88,7 +88,7 @@ exports.initApi = function(app, authenticated) {
 
       res.set('Content-Type', guessType(internalFile));
       res.send(file);
-    }, console.error);
+    }, logger.error);
   }
 };
 

@@ -2,6 +2,7 @@ var pluginsEvents = require('../events');
 var DeckModel = require('../../models/deck');
 var Participants = require('../../services/participants');
 var _ = require('lodash');
+var logger = require('../../../config/logging');
 
 
 var trainersRoom = function(roomId) {
@@ -18,7 +19,7 @@ var updateClientData = function(socket, updater) {
 var broadcastClientsToTrainers = function(io, roomId) {
   Participants.getParticipants(io, roomId).then(function(participants) {
     io.sockets.in(trainersRoom(roomId)).emit('trainer.participants', participants);
-  }, console.error);
+  }, logger.error);
 };
 
 
@@ -34,7 +35,7 @@ var broadcastTrainerChangeSlide = function(userData, callback) {
   DeckModel.find().where('id').equals(userData.deck).exec(function(err, decks) {
     var deck;
     if (err) {
-      console.error(err);
+      logger.error(err);
       return;
     }
     deck = decks[0];
@@ -79,7 +80,7 @@ exports.onSocket = function(log, socket, io) {
     socket.join(trainersRoom(data.deck));
     Participants.getParticipants(io, data.deck).then(function(participants) {
       socket.emit('trainer.participants', participants);
-    }, console.error);
+    }, log.error);
   });
 
   socket.on('trainer.follow.nextSlide', function(data) {

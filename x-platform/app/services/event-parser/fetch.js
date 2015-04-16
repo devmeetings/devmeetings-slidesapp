@@ -31,8 +31,6 @@ function openStream(file, cb, func) {
 function fetchAndParse(file, cb) {
   'use strict';
 
-  var idsCache = {};
-
   temp.mkdir('fetch', function(err, dirPath) {
     var tmpFile = path.join(dirPath, 'tmp.zip');
     var fileStream = fs.createWriteStream(tmpFile);

@@ -1,5 +1,6 @@
 var passport = require('passport');
 var multiparty = require('connect-multiparty');
+var logger = require('./logging');
 
 var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
   if (req.user) {
@@ -140,7 +141,7 @@ module.exports = function(app) {
    *   to allow plugins to intercept calls that normally would be handled by /*
    */
   var router2 = require('express').Router();
-  plugins.invokePlugins('initApi', [router, authenticated, app, router2]);
+  plugins.invokePlugins('initApi', [router, authenticated, app, router2, logger]);
   app.use('/api/', router);
   app.use('/', router2);
 

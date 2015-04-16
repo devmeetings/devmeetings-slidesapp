@@ -1,5 +1,6 @@
 var User = require('../models/user');
 var gravatar = require('gravatar');
+var logger = require('../../config/logging');
 
 function fixAvatar(user) {
   user.avatar = user.avatar || gravatar.url(user.email);
@@ -22,7 +23,7 @@ var Users = {
 
         User.findByIdAndUpdate(userId, req.body, {}, function (err, user) {
             if (err) {
-                console.error(err);
+                logger.error(err);
                 res.sendStatus(400);
                 return;
             }
@@ -38,7 +39,7 @@ var Users = {
             _id: userId
         }, function (err, user) {
             if (err) {
-                console.error(err);
+                logger.error(err);
                 res.sendStatus(400);
                 return;
             }

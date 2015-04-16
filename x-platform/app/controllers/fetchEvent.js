@@ -3,6 +3,7 @@ var Events = require('../models/event'),
   Decks = require('../models/deck'),
   Q = require('q'),
   _ = require('lodash'),
+  logger = require('../../config/logging'),
   Annotations = require('../models/annotations'),
   parser = require('../services/event-parser');
 
@@ -69,7 +70,7 @@ exports.createEventFromZip = function(req, res) {
     }).done(function(events) {
       res.redirect('/space/' + events[0]._id);
     }, function(err) {
-      console.error(err);
+      logger.error(err);
       res.send(400, err);
     });
   });

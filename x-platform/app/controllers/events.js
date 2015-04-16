@@ -3,12 +3,13 @@ var Event = require('../models/event'),
   Annotations = require('../models/annotations'),
   _ = require('lodash'),
   Q = require('q'),
+  logger = require('../../config/logging'),
   yamlReply = require('../services/yaml');
 
 
 var onError = function(res) {
   return function(err) {
-    console.error(err);
+    logger.error(err);
     res.sendStatus(400);
   };
 };
@@ -76,7 +77,7 @@ var Events = {
 
     Event.create(event, function(err, ev) {
       if (err) {
-        console.error(err);
+        logger.error(err);
         res.status(400).send(err);
         return;
       }
