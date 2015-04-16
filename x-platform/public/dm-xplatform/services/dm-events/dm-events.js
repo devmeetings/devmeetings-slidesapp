@@ -6,35 +6,35 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       var annotationPromises = {};
       var states = {};
 
-      function wrap(promise) {
-        var res = $q.defer();
-        promise.then(function(d) {
-          res.resolve(d);
-        }, function(err) {
-          res.reject(err);
-        });
-        return res.promise;
+      function extractBody(data) {
+        return data.data;
       }
 
       return {
         userEvents: function(userId) {
-          return $http.get('/api/users/' + userId + '/events').then(function(data){
-            return data.data;
-          });
+          return $http.get('/api/users/' + userId + '/events').then(extractBody);
         },
         allEvents: function() {
-          var result = $q.defer();
-          $http.get('/api/events').then(function(data) {
-            result.resolve(data.data);
-          }, function() {
-            result.reject();
-          });
-
-          return result.promise;
+          return $http.get('/api/events').then(extractBody);
         },
         getWorkspace: function(event) {
           return $http.post('/api/events/' + event + '/base_slide').then(function(data) {
             return data.data.slidesave;
+          });
+        },
+        cloneEvent: function(event) {
+          event.visible = false;
+          event.removed = false;
+          event.title += ' (Clone)';
+          event.name += new Date();
+
+          return $http.post('/api/events', event).then(extractBody, function() {
+            window.alert('Could not clone event');
+          });
+        },
+        editEvent: function(event) {
+          return $http.put('/api/events/' + event._id, event).then(extractBody, function() {
+            window.alert('Could not save event!');
           });
         },
         getEvent: function(event, download) {
@@ -44,9 +44,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
             return $q.when(result);
           }
 
-          var promi = wrap($http.get('/api/events/' + event).then(function(data) {
-            return data.data;
-          }));
+          var promi = $http.get('/api/events/' + event).then(extractBody);
           promises[event] = promi;
           return promi;
         },
@@ -79,10 +77,12 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           }
 
           var promi = this.getEventMaterial(event, iteration, material).then(function(data) {
-            return wrap($http.get('/api/events/' + event + '/annotations/' + data.annotations).then(function(data) {
-              return data.data;
-            }));
+            if (data.annotations) {
+              return $http.get('/api/events/' + event + '/annotations/' + data.annotations).then(extractBody);
+            }
+            return $http.get('/api/recordings/' + data.material + '/annotations').then(extractBody);
           });
+
           annotationPromises[key] = promi;
           return promi;
         },
@@ -97,9 +97,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           });
         },
         getAllAnnotations: function(event) {
-          return wrap($http.get('/api/events/' + event + '/annotations').then(function(data) {
-            return data.data;
-          }));
+          return $http.get('/api/events/' + event + '/annotations').then(extractBody);
         },
         removeEvent: function(event) {
           var result = $q.defer();
@@ -110,20 +108,11 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           });
           return result.promise;
         },
-        createEvent: function(event) {
-          var result = $q.defer();
-          $http.post('/api/events', event).then(function(data) {
-            result.resolve(data.data);
-          }, function() {
-            result.reject();
-          });
-          return result.promise;
-        },
         addEventAnnotation: function(eventId, iterationId, materialId, snippet) {
           var that = this;
-          return wrap($http.post(
+          return $http.post(
             ['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'),
-            snippet)).then(function() {
+            snippet).then(function() {
             that.getEvent(eventId, false).then(function(eventObject) {
               var material = _.find(eventObject.iterations[iterationId].materials, {
                 _id: materialId
@@ -133,15 +122,14 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           });
         },
         editEventAnnotation: function(eventId, iterationId, materialId, snippet) {
-          var that = this;
-          return wrap($http.put(
+          return $http.put(
             ['/api/event_iteration_material_anno',
               eventId, iterationId, materialId, snippet._id
             ].join('/'),
-            snippet));
+            snippet);
         },
         deleteEventAnnotation: function(eventId, snippet) {
-          console.log("deleting anno", eventId, snippet);
+          console.log('deleting anno', eventId, snippet);
         }
       };
     }

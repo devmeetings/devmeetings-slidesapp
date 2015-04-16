@@ -19,6 +19,14 @@ define([
             playerTick();
           });
 
+          var timeout = 100;
+          var jump = 0.1;
+          $scope.$watch('state.rate', function(rate) {
+            var steps = 10 * rate / Math.sqrt(rate);
+            jump = 0.1 * rate / Math.sqrt(rate);
+            timeout = 1000.0 / steps;
+          });
+
           function playerTick() {
             if ($scope.state.currentSecond > $scope.state.max) {
               $scope.state.isPlaying = false;
@@ -29,13 +37,12 @@ define([
             }
 
             var s = $scope.state.currentSecond;
-            $scope.state.currentSecond = s + 0.1;
+            $scope.state.currentSecond = s + jump;
 
-            var step = 100.0 / $scope.state.rate;
             setTimeout(function() {
               // Digest all changes before continuing
               $scope.$apply(function() {
-                $timeout(playerTick, step);
+                $timeout(playerTick, timeout);
               });
             });
           }

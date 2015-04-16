@@ -1,7 +1,7 @@
 var uuid = require('node-uuid');
-var when = require('when');
-var defer = when.defer;
 var _ = require('lodash');
+var Q = require('q');
+var logger = require('../../../config/logging');
 
 var Workers = null;
 
@@ -10,7 +10,7 @@ exports.init = function(config) {
   var l = function( /* args */ ) {
     var args = [].slice.call(arguments);
     args.unshift("  [RabbitMQ]");
-    console.log.apply(console, args);
+    logger.info.apply(logger, args);
   };
 
   Workers = (function(host) {
@@ -80,7 +80,7 @@ exports.init = function(config) {
             return ok;
 
           }, function(err) {
-            console.error(err);
+            logger.error(err);
           });
         });
       }
@@ -121,7 +121,7 @@ function fillData(clientData) {
     });
   }
 
-  return require('q').when(clientData);
+  return Q.when(clientData);
 }
 
 exports.onSocket = function(log, socket, io) {

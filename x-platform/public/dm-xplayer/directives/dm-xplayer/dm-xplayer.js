@@ -14,6 +14,7 @@ define([
           state: '=',
           recording: '=',
           annotations: '=',
+          withSidebar: '=',
           onFirstRun: '&'
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
@@ -37,6 +38,9 @@ define([
               };
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
+              }
+              if (!$scope.state.isPlaying) {
+                $scope.$broadcast('update');
               }
             });
             goToSecond();

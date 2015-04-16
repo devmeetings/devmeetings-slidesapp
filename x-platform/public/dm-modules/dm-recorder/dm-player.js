@@ -31,6 +31,10 @@ define(['require', 'es6!./dm-recorder-worker'], function(require, Worker) {
             return worker.applyPatchesAndId(patchId);
           },
 
+          applyReversePatchesAndId: function(patchesAndId) {
+            return worker.applyReversePatchesAndId(patchesAndId);
+          },
+
           getCurrentStateId: function() {
             if (!worker.getId()) {
               return $q.reject(null);

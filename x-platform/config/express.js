@@ -1,4 +1,5 @@
 var express = require('express'),
+  mongoose = require('mongoose'),
   compression = require('compression'),
   favicon = require('serve-favicon'),
   winston = require('express-winston'),
@@ -8,12 +9,14 @@ var express = require('express'),
   session = require('express-session'),
   cookieParser = require('cookie-parser'),
   path = require('path'),
-  flash = require('connect-flash');
+  flash = require('connect-flash'),
+  connectJadeStatic = require('connect-jade-static');
 
+var winstonLogger = require('./logging');
 var MongoStore = require('connect-mongo')(session);
 
 module.exports = function(app, config, router) {
-  var jadeStatic = require('connect-jade-static')({
+  var jadeStatic = connectJadeStatic({
     baseDir: path.join(config.root, 'public'),
     baseUrl: '/static',
     jade: {
@@ -27,8 +30,8 @@ module.exports = function(app, config, router) {
     saveUninitialized: false,
     secret: 'ImSecretAndIKnowIt',
     store: new MongoStore({
-      url: config.db,
-      touchAfter: 3600
+      touchAfter: 3600,
+      mongooseConnection: mongoose.connection
     }),
     cookieParser: cookieParser
   };
@@ -46,17 +49,10 @@ module.exports = function(app, config, router) {
   app.set('view engine', 'jade');
   app.use(favicon(config.root + '/public/images/xplatform-icon.png'));
   app.use(morgan(config.logger));
-  if (config.graylog) {
-    var Graylog2 = require('winston-graylog2').Graylog2;
-    app.use(winston.logger({
-      transports: [
-        new Graylog2({
-          graylogHost: config.graylog.host,
-          graylogPort: config.graylog.port
-        })
-      ]
-    }));
-  }
+  app.use(winston.logger({
+    winstonInstance: winstonLogger.forExpress,
+    statusLevels: true
+  }));
   app.use(sessionConfig.cookieParser());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({

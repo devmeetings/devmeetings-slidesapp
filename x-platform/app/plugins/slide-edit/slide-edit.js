@@ -9,7 +9,7 @@ exports.onSocket = function(log, socket) {
         delete data._id;
 
         Slides.upsertSlide(slideId, data).then(res, function(err) {
-            console.error(err);
+            log.error(err);
         });
 
     };

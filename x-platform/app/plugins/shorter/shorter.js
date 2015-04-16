@@ -7,9 +7,9 @@ exports.initApi = function(router, authenticated, app, router2) {
   'use strict';
 
   function search(id, res, collection, link, postFix, next) {
-    Q.ninvoke(collection.findOne({
+    Q.when(collection.findOne({
       name: id
-    }).lean(), 'exec').done(function(x) {
+    }).lean().exec()).done(function(x) {
       if (x) {
         res.redirect(link + '/' + x._id + postFix);
       } else {

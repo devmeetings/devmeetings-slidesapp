@@ -130,11 +130,23 @@
         padding: 4px 6px;
       }
     }
+    .workspace-tab.workspace-tab-active {
+      >a {
+        padding-left: 12px;
+        margin-left: 5px;
+        box-shadow: 2px 0 3px #555 inset;
+      }
+    }
   }
 
   .workspace-tab {
     border-radius: 0;
     position: relative;
+
+    > a[disabled] {
+      cursor: not-allowed !important;
+      opacity: 0.1;
+    }
 
     &.workspace-upload > div, 
     > a {

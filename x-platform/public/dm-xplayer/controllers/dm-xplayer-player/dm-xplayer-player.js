@@ -1,7 +1,7 @@
 define(['dm-xplayer/dm-xplayer-app'], function(xplayerApp) {
   'use strict';
 
-  xplayerApp.controller('dmXplayerPlayer', ['$scope', '$stateParams', 'dmRecordings',
+  xplayerApp.controller('dmXplayerPlayer',
     function($scope, $stateParams, dmRecordings) {
       if (!$stateParams.id) {
         return;
@@ -16,11 +16,15 @@ define(['dm-xplayer/dm-xplayer-app'], function(xplayerApp) {
 
       $scope.annotations = [];
 
-      dmRecordings.getRecording($stateParams.id).then(function(recording) {
-        $scope.recording = recording;
-        $scope.state.max = recording.slides[recording.slides.length - 1].timestamp / 1000;
+      dmRecordings.getAutoAnnotations($stateParams.id).then(function(annotations) {
+        $scope.annotations = annotations;
+      });
+
+      dmRecordings.preparePlayerForRecording($stateParams.id).then(function(data) {       
+        $scope.recording = data.recording;
+        $scope.state.max = data.max;
       });
     }
-  ]);
+  );
 
 });

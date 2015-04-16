@@ -1,0 +1,18 @@
+{
+  "name": "recordings-to-patches",
+  "version": "0.0.0",
+  "description": "",
+  "main": "recordings.js",
+  "scripts": {
+    "start": "node recordings.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsondiffpatch": "^0.1.31",
+    "lodash": "^3.6.0",
+    "mongodb": "^2.0.27",
+    "q": "~1.0.1"
+  }
+}

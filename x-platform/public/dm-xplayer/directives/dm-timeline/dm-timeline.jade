@@ -1,7 +1,10 @@
 div(ng-if="length", dm-defer="700")
   .dm-timeline-point(
     ng-repeat='p in ::annos',
-    tooltip="{{p.description}}\n{{ p.timestamp | number:1 }}s", tooltip-animation="false", tooltip-placement="top",
+    tooltip="{{p.description}}\n{{ p.timestamp | number:1 }}s", 
+    tooltip-animation="false", 
+    tooltip-placement="top",
+    tooltip-append-to-body="true",
     ng-style='{"transform": "translate(" + (p.timestamp / length * size + "px") + ", 0)" }',
   )
 

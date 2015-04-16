@@ -2,8 +2,8 @@ var express = require('express'),
   mongoose = require('mongoose'),
   http = require('http'),
   socketio = require('socket.io'),
-  config = require('./config/config');
-
+  config = require('./config/config'),
+  logger = require('./config/logging');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -20,7 +20,7 @@ if (config.meteorProxy) {
   var proxy = require('http-proxy').createProxyServer({
     target: config.meteorProxy
   });
-  console.log('Configuring proxy.');
+  logger.info('Configuring proxy.');
   app.all('/live/*', proxy.web.bind(proxy));
 }
 
@@ -44,5 +44,14 @@ if (config.meteorProxy) {
 var io = socketio(server);
 require('./config/sockets')(io, sessionConfig);
 
-console.log('Server listening on port:', config.port);
+logger.info('Server listening on port:', config.port);
 server.listen(config.port);
+
+// Configure blocked
+require('./config/blocked')(function(ms) {
+  'use strict';
+
+  logger.warn('Blocked for ' + ms + 'ms', {
+    blockedFor: ms
+  });
+});

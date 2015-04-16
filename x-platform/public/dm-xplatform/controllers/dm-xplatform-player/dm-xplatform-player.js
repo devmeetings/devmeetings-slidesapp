@@ -20,7 +20,6 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $scope.state.isPlaying = !$scope.state.isPlaying;
     };
 
-    dmPlayer.setRecorderSource(null);
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {
       var material = _.find(data.iterations[$stateParams.iteration].materials, function(elem) {
@@ -32,25 +31,10 @@ define(['angular', 'xplatform/xplatform-app', '_',
       dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie')
         .withBadge(1 + parseInt($stateParams.iteration, 10));
 
-      return dmRecordings.getRecording(material.material);
+      return dmRecordings.preparePlayerForRecording(material.material);
     }).then(function(recording) {
-      $scope.recording = recording;
-
-      function getDeep(obj, path) {
-        if (!path || !obj) {
-          return obj;
-        }
-        var p = path.split('.');
-        return getDeep(obj[p[0]], p.slice(1).join('.'));
-      }
-      recording.slides = recording.slides.filter(function(slide) {
-        var js = getDeep(slide.code, 'workspace.tabs.main|js.content') || '';
-        var html = getDeep(slide.code, 'workspace.tabs.index|html.content') || '';
-        var jsValid = js.indexOf('html>') === -1;
-        var htmlValid = html.indexOf('function') === -1;
-        return jsValid && htmlValid;
-      });
-      $scope.state.max = recording.slides[recording.slides.length - 2].timestamp / 1000;
+      $scope.recording = recording.recording;
+      $scope.state.max = recording.max;
     });
 
     function fetchAnnotations() {

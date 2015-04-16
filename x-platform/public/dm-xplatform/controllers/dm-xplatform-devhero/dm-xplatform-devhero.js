@@ -1,4 +1,4 @@
-define(['angular', '_', 'angular-gravatar', 'xplatform/xplatform-app', 'slider/slider'], function(angular, _, angularGravatar, xplatformApp, slider) {
+define(['angular', '_', 'xplatform/xplatform-app', 'slider/slider'], function(angular, _, xplatformApp, slider) {
   xplatformApp.controller('dmXplatformDevhero', function($scope, $stateParams, dmUser, dmBrowserTab) {
 
     dmBrowserTab.setTitleAndIcon('Devhero');

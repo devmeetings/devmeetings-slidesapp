@@ -1,8 +1,9 @@
 var states = require('../services/states');
-
+var logger = require('../../config/logging');
 
 function sendError(res) {
   return function(err) {
+    logger.error(err);
     res.status(400).send(err);
   };
 }

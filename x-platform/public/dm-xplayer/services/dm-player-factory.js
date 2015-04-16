@@ -3,36 +3,6 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
 
   xplayerApp.factory('dmPlayerFactory', function() {
 
-    function oldRecordingPlayer(recording, callback) {
-
-      var currentTime = 0;
-      var currentSnapIdx = 0;
-
-      var getCode = function(index) {
-        return recording.slides[index].code;
-      };
-
-      var getTime = function(index) {
-        return recording.slides[index].timestamp;
-      };
-
-      return {
-        goToSecond: function(second) {
-          var millisecond = second * 1000;
-          var index = _.findIndex(recording.slides, function(slide) {
-            return slide.timestamp > millisecond;
-          });
-          if (index === -1) {
-            return;
-          }
-
-          currentTime = getTime(index);
-          currentSnapIdx = index;
-          callback(getCode(index));
-        }
-      };
-    }
-
     function searchForPatches(patches, startS, endS) {
       var startIdx = _.sortedIndex(patches, {
         timestamp: startS * 1000
@@ -73,10 +43,11 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
           }
           // We need to apply reverse patches
           patches = searchForPatches(recPatches, second, lastSecond);
-          if (patches.length) {
+          if (patches.length > 1) {
             player.applyReversePatchesAndId({
               id: patches[0].id,
-              patches: patches
+              // We need to remove first slide (cause this will be the current state!)
+              patches: patches.slice(1)
             });
           }
           return callbackWithCode(second);
@@ -85,11 +56,7 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
     }
 
     var dmPlayerFactory = function(recording, callback) {
-
-      var player = recording.player ? newRecordingPlayer : oldRecordingPlayer;
-
-      return player(recording, callback);
-
+      return newRecordingPlayer(recording, callback);
     };
 
     return dmPlayerFactory;

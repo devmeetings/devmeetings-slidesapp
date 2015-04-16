@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var States = require('../../services/states');
+var cache = require('../../services/cache');
 
 exports.onSocket = function(log, socket) {
   'use strict';
@@ -11,12 +12,21 @@ exports.onSocket = function(log, socket) {
     States.fetchStateForWriting(data._id, socket.request.user).then(function(save) {
       var patches = data.patches;
 
+      if (save.fresh && data._id) {
+        ack(false);
+        return;
+      }
+
       var originalTime = save.originalTimestamp.getTime();
       if (!originalTime) {
         save.originalTimestamp = new Date(patches[0].timestamp);
         originalTime = patches[0].timestamp;
       }
 
+      if (patches[0].current) {
+        save.current = patches[0].current;
+        patches = [];
+      }
 
       States.applyPatches(save.current, patches);
 
@@ -41,28 +51,31 @@ exports.onSocket = function(log, socket) {
           patches: patches
         };
 
-      });
-    }).done(function(d) {
-      var save = d.save;
-      var id = save._id;
-      var patchNo = save.patches.length - 1;
+      }).done(function(d) {
+        var save = d.save;
+        var id = save._id;
+        var patchNo = save.patches.length - 1;
+        var compoundId = id + '_' + patchNo;
 
-      ack(id, patchNo);
-      log('Emitting patches to ' + workspaceRoom);
+        ack(true, id, patchNo);
 
-      // Broadcast the whole slide
-      var room = socket.broadcast.to(workspaceRoom);
-      if (data._id !== id.toString()) {
+        // Populating cache
+        cache.populate(compoundId, save.current).done();
+
+        // Broadcast the whole slide
+        var room = socket.broadcast.to(workspaceRoom);
+        if (data._id !== id.toString()) {
+          room.emit('state.patches', {
+            id: compoundId,
+            current: save.current
+          });
+          return;
+        }
+        // Broadcast new patches to listeners
         room.emit('state.patches', {
-          id: id + '_' + patchNo,
-          current: save.current
+          id: compoundId,
+          patches: d.patches
         });
-        return;
-      }
-      // Broadcast new patches to listeners
-      room.emit('state.patches', {
-        id: id + '_' + patchNo,
-        patches: d.patches
       });
     });
   }

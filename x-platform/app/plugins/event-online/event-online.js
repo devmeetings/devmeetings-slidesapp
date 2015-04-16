@@ -1,3 +1,6 @@
+/*
+ * TODO [ToDr] RemoveState!
+ */
 var userWorkspacesForEvent = {};
 var userWorkspaceListeners = {};
 

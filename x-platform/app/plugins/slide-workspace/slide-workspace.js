@@ -3,13 +3,14 @@ var mime = require('mime');
 var States = require('../../services/states');
 var Zip = require('node-zip');
 var multiparty = require('connect-multiparty');
+var fs = require('fs');
 
 
-exports.initApi = function(app, authenticated) {
+exports.initApi = function(app, authenticated, app2, router2, logger) {
   'use strict';
   
   app.post('/upload', authenticated, multiparty(), function(req, res) {
-    require('fs').readFile(req.files.file.path, 'binary', function(err, data) {
+    fs.readFile(req.files.file.path, 'binary', function(err, data) {
       if (err) {
         res.send(400, err);
         return;
@@ -56,7 +57,7 @@ exports.initApi = function(app, authenticated) {
 
     }, function(err) {
       res.send(400, err);
-    }).then(null, console.error);
+    }).then(null, logger.error);
   });
   
   
@@ -74,20 +75,20 @@ exports.initApi = function(app, authenticated) {
     var internalFile = getInternalFileName(file);
     States.createFromId(req.params.hash).done(function(slide) {
       if (!slide) {
-        res.send(404);
+        res.sendStatus(404);
         return;
       }
 
       var workspace = getFiles(slide.workspace);
       var file = findFile(workspace, internalFile);
       if (!workspace || !file) {
-        res.send(404);
+        res.sendStatus(404);
         return;
       }
 
       res.set('Content-Type', guessType(internalFile));
       res.send(file);
-    }, console.error);
+    }, logger.error);
   }
 };
 

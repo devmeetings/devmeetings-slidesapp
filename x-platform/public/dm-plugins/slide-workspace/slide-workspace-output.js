@@ -138,6 +138,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   function handleIframes(scope, element, $timeout, $rootScope) {
     var currentFrame = 0;
     var $iframes;
+    var isRendering = false;
     scope.refreshIframe = function(contentUrl) {
       $iframes = element.find('iframe');
       if (!contentUrl || contentUrl === 'waiting') {
@@ -146,6 +147,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
       if (scope.workspace.singleOutput) {
         currentFrame = 0;
+      }
+
+      // If we are already rendering display what we have
+      if (isRendering) {
+        swapFramesNow();
       }
 
       function updateFrames() {
@@ -164,14 +170,22 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           }, 3);
         }
         // Swap frames on load
-        angular.element($iframes[currentFrame]).one('load', swapFramesLater);
+        angular.element($iframes[currentFrame]).one('load', function() {
+          isRendering = false;
+          swapFramesLater(currentFrame);
+        });
       }
+      isRendering = true;
       updateFrames();
     };
 
-
-    var swapFramesLater = _.throttle(function() {
+    var swapFramesNow = function(frameToDisplay) {
       var oldFrame = currentFrame;
+
+      // We might be late with swapping.
+      if (oldFrame !== frameToDisplay) {
+        return;
+      }
 
       function swapFrameNumbers() {
         currentFrame += 1;
@@ -206,7 +220,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         }
       }, 100);
 
-    }, 500, {
+    };
+    var swapFramesLater = _.throttle(swapFramesNow, 500, {
       leading: false,
       trailing: true
     });

@@ -1,5 +1,6 @@
 var fs = require('promised-io/fs'),
     _ = require('lodash'),
+    logger = require('./logging'),
     pluginsPath = 'app/plugins/';
 
 var plugins = fs.readdir(pluginsPath).then(function(files) {
@@ -12,7 +13,7 @@ var plugins = fs.readdir(pluginsPath).then(function(files) {
             mod.name = pluginName;
             return mod;
         } catch (e) {
-            console.error(e);
+            logger.error(e);
             throw new Error('Cannot load plugin ' + pluginName);
         }
     }).filter(function(plugin) {

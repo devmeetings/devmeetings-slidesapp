@@ -1,22 +1,24 @@
-.col-xs-12.full-height
-    .course-background.full-height
-        h3 Workspaces
-        .list-group.workspace-list.full-height
-            .list-group-item(ng-repeat="ws in workspaces")
-                small.text-muted.label.label-default.pull-right
-                    | User: {{ws.user._id}}
-                smal.text-muted.label.label-info.pull-right
-                    | WS: {{ws._id}}
-                h3 {{ ws.user.name}} ( {{ws.user.email}} )
-                button.btn.btn-primary.btn-xs(ng-click="ws.showWorkspace = !ws.showWorkspace")
-                    | Show Workspace
-                button.btn.btn-primary.btn-xs(ng-click="fetchRecentWorkspaces(ws); ws.showRaw = true")
-                    | Fetch Recent Workspaces (50)
-                button.btn.btn-default.btn-xs(ng-click="ws.showRaw = !ws.showRaw")
-                    | Show RAW
-                button.btn.btn-default.btn-xs(ng-click="convertRecentWorkspaces(ws)")
-                    | Convert to Recording
+.trainer-pane.col-xs-10.col-xs-offset-1.full-height(
+  ng-scrollbar rebuild-on-resize
+  )
+  .course-background
+    .row
+      .col-sm-3.text-center(
+        ng-repeat="ws in workspaces"
+        ng-class="{'is-offline': !ws.user.isOnline}"
+      )
+        a(ui-sref="index.space.watch({slide: ws._id})")
 
-                plugins-loader(ng-if="ws.showWorkspace", context="ws.slide", namespace="'slide'", path='')
-                pre(ng-if="ws.showRaw") {{ws | json}}
-                
+          img.img-rounded(
+            alt="{{ws.user.name}}"
+            ng-src='{{ws.user.avatar | dmGravatar:64}}'
+          )
+
+        h3
+          a(ui-sref="index.space.watch({slide: ws._id})")
+            | {{ ws.user.name}} 
+        h5.text-muted {{ws.user.email}}
+        p: small.text-muted.label.label-default
+          | User: {{ws.user._id}}
+        p: smal.text-muted.label.label-info
+          | WS: {{ws._id}}

@@ -23,16 +23,30 @@ define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
           });
         });
 
+        var el = element[0];
+
         function fixSize() {
-          scope.size = element[0].clientWidth;
+          if (!isRunning) {
+            return;
+          }
+
+          var newSize = el.clientWidth;
+          if (scope.size !== newSize) {
+            scope.size = newSize;
+            scope.$digest();
+          }
+
+          setTimeout(fixSize, 3000);
         }
 
-        $timeout(function() {
+        var isRunning = true;
+        setTimeout(function() {
           fixSize();
         }, 500);
 
         $window.addEventListener('resize', fixSize);
         scope.$on('$destroy', function() {
+          isRunning = false;
           $window.removeEventListener('resize', fixSize);
         });
       }

@@ -4,8 +4,11 @@
 
 import * as xplatformApp from 'xplatform/xplatform-app';
 import * as _ from '_';
+import 'es6!xplatform/directives/dm-event-menu/dm-event-menu';
+import 'es6!xplatform/directives/dm-event-admin/dm-event-admin';
 
 const names = {
+  admin: 'Admin',
   annotations: 'Annotations',
   history: 'History',
   user: 'User',
@@ -26,12 +29,29 @@ class ContextMenuDir {
 
   link(scope) {
 
-    scope.$watch('with', (what) => {
+    scope.$watch('isEditMode', (isEditMode) => {
+      if (!scope.display) {
+        return;
+      }
+      var w = scope.with;
+      if (isEditMode) {
+        w.unshift('admin');
+      } else {
+        var idx = w.indexOf('admin');
+        if (idx > -1) {
+          w.splice(idx, 1);
+        }
+        scope.display.active = w[0];
+      }
+    });
+
+    scope.$watchCollection('with', (what) => {
       what = what || ['chat'];
 
       scope.display = {
         event: true,
-        lastActive: false
+        lastActive: false,
+        lastEvent: true,
       };
       what.map((w) => {
         scope.display[w] = true;
@@ -56,9 +76,11 @@ class ContextMenuDir {
     scope.toggleVisibility = () => {
       if (scope.display.active) {
         scope.selectTab(false);
+        scope.display.lastEvent = scope.display.event;
         scope.display.event = true;
       } else {
         scope.selectTab(scope.display.lastActive);
+        scope.display.event = scope.display.lastEvent;
       }
     };
 
@@ -99,7 +121,8 @@ xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
       event: '=',
       user: '=',
       opened: '=',
-      noEventMenu: '=?'
+      noEventMenu: '=?',
+      isEditMode: '=?'
     },
     templateUrl: '/static/dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context.html',
     link: (scope) => {

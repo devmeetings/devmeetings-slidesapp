@@ -5,7 +5,33 @@
       h3.text-center.text-muted(ng-if="event.name")
         a(href="{{url}}/-{{event.name}}", target="blank")
           | {{url}}/-{{event.name}}
+      div(ng-if="$root.editMode")
+        input.form-control.input-sm(ng-model="event.title", placeholder="Event Title")
+        input.form-control.input-sm(ng-model="event.name", placeholder="Event Short Name")
+        button.btn.btn-primary(ng-click="cloneEvent()")
+          | Clone Event
+        button.btn.btn-link(ng-click="showMore = !showMore")
+          | Show More 
 
+        div(ng-if="showMore")
+          .form-group
+            label.form-label Base Slide Id
+            input.form-control.input-sm(ng-model="event.baseSlide", placeholder="Base Slide Id")
+          .form-group
+            label.form-label Image URL
+            input.form-control.input-sm(ng-model="event.image", placeholder="Image URL")
+            img.img-responsive(ng-src="{{event.image}}")
+          .form-group
+            label.form-label Live Link
+            input.form-control.input-sm(ng-model="event.liveLink")
+          .form-group
+            .checkbox
+              label.form-label Is Visible
+                input(ng-model="event.visible", type="checkbox")
+          .form-group
+            .checkbox
+              label.form-label Is Removed
+                input(ng-model="event.Removed", type="checkbox")
       br
       .list-group
         .list-group-item(
@@ -15,12 +41,14 @@
             a(ui-sref='index.space.slide({event: event._id, slide: event.intro})')
               span.nav-icon.fa.fa-question-circle
               span Intro
+        input.form-control.input-sm(ng-if="$root.editMode", ng-model="event.intro", placeholder="Intro Slide Id")
 
         .list-group-item(
           ng-repeat="i in event.iterations"
           )
           h4.list-group-item-heading {{$index + 1}}. {{i.title}}
           .list-group-item-text.clearfix
+            input.form-control.input-sm(ng-if="$root.editMode", ng-model="i.title", placeholder="Iteration Name")
             .row
               .col-md-6
                 ul.nav.nav-pills.nav-stacked
@@ -38,6 +66,7 @@
                         ng-if="material.deck.deck")
                         span.fa.fa-university.nav-icon
                         span {{material.title}}
+                    input.form-control.input-sm(ng-if="$root.editMode", ng-model="material.title", placeholder="Material Title")
               .col-md-6
                 ul.nav.nav-pills.nav-stacked
                   li(ng-repeat='task in i.tasks', ui-sref-active="active")
@@ -47,18 +76,20 @@
                     a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
                       span.fa.fa-pencil.nav-icon
                       span {{task.title}}
+                    input.form-control.input-sm(ng-if="$root.editMode", ng-model="task.title", placeholder="Task Title")
+                    input.form-control.input-sm(ng-if="$root.editMode", ng-model="task.url", placeholder="Task URL")
 
-    // .col-sm-6.full-height(ng-if="event.liveLink")
-      // iframe.full-frame(
-        // ng-if="event.liveLink"
-        // seamless=true,
-        // dm-iframe="{{ event.liveLink | liveLinkUrl:'' }}"
-        // dm-iframe-timeout="300"
-        // )
-       // iframe.full-frame(
-        // seamless=true,
-        // dm-iframe="{{ event.liveLink | liveLinkUrl:'agenda' }}")
-       // iframe.full-frame(
-        // seamless=true,
-        // dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
+// .col-sm-6.full-height(ng-if="event.liveLink")
+// iframe.full-frame(
+// ng-if="event.liveLink"
+// seamless=true,
+// dm-iframe="{{ event.liveLink | liveLinkUrl:'' }}"
+// dm-iframe-timeout="300"
+// )
+// iframe.full-frame(
+// seamless=true,
+// dm-iframe="{{ event.liveLink | liveLinkUrl:'agenda' }}")
+// iframe.full-frame(
+// seamless=true,
+// dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
 

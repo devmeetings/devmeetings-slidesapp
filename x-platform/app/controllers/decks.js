@@ -1,10 +1,11 @@
 var DeckModel = require('../models/deck');
 var _ = require('lodash');
+var logger = require('../../config/logging');
 
 exports.list = function(req, res) {
     DeckModel.find(function(err, decks) {
         if (err) {
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
             return;
         }
@@ -15,7 +16,7 @@ exports.list = function(req, res) {
 exports.get = function(req, res) {
     DeckModel.findById(req.params.id, function(err, data) {
         if (err) {
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
             return;
         }
@@ -26,7 +27,7 @@ exports.get = function(req, res) {
 exports.create = function(req, res) {
     DeckModel.create(req.body, function (err){
         if (err){
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
             return;
         }   
@@ -41,7 +42,7 @@ exports.delete = function(req, res) {
             res.send(400, err);
             return;
         }
-        res.send(200);
+        res.sendStatus(200);
     });
 };
 
@@ -54,11 +55,11 @@ exports.edit = function(req, res) {
         upsert: true
     }, function(err, deck) {
         if (err) {
-            console.error(err);
+            logger.error(err);
             res.send(400, err);
             return;
         }
-        res.send(200);
+        res.sendStatus(200);
     });
 };
 

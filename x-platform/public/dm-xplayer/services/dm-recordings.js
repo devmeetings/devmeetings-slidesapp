@@ -1,47 +1,52 @@
-define(['angular', 'dm-xplayer/dm-xplayer-app'], function (angular, xplayerApp) {
-    'use strict';
+define(['_', 'angular', 'dm-xplayer/dm-xplayer-app'], function(_, angular, xplayerApp) {
+  'use strict';
 
-    xplayerApp.service('dmRecordings', ['$http', '$q', function ($http, $q) {
-        var recordings = {
-        };
-      
-        var TransformedRecording = function (options) {
-            this.slides = options.slides;
-            this.layout = options.layout;
-        };
+  xplayerApp.service('dmRecordings', function($http, $q, dmPlayer) {
+    var recordings = {};
 
-        var transform = function (data) {
-            return new TransformedRecording({
-                slides: data.slides,
-                layout: data.layout
-            });
-        };
+    return {
 
-        return {
+      getList: function() {
+        return $q.when($http.get('/api/recordings'));
+      },
 
-            getList: function() {
-              return $q.when($http.get('/api/recordings'));
-            },
+      getAutoAnnotations: function(recordingId) {
+        return $http.get('/api/recordings/' + recordingId + '/annotations').then(function(data) {
+          return data.data;
+        });
+      },
 
-            getRecording: function (recording) {
-                var result = recordings[recording];
+      preparePlayerForRecording: function(recordingId) {
+        return this.getRecording(recordingId).then(function(recording) {
+          var current = JSON.parse(JSON.stringify(recording.original || {}));
+          var player = dmPlayer.createPlayerSource(recording.patches[0].id, current);
+          var rec = {
+            player: player,
+            patches: recording.patches
+          };
+          var max = _.last(recording.patches).timestamp / 1000;
 
-                if (result) {
-                    return result.promise;
-                }
+          return {
+            recording: rec,
+            max: max
+          };
+        });
+      },
 
-                result = $q.defer();
-                recordings[recording] = result;
+      getRecording: function(recording) {
+        var result = recordings[recording];
 
-                $http.get('/api/recordings/' + recording).then(function (data) {
-                    result.resolve(transform(data.data)); 
-                }, function () {
-                    result.reject(); 
-                });
+        if (result) {
+          return result;
+        }
 
-                return result.promise;
-            }
+        result = $http.get('/api/recordings/' + recording).then(function(data) {
+          return data.data;
+        });
+        recordings[recording] = result;
+        return result;
+      }
 
-        };
-    }]);
+    };
+  });
 });
