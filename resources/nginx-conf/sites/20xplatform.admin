@@ -1,27 +1,36 @@
 server {
-	listen  5081;
+  listen  5081;
 
-	location / {
-	    proxy_pass  http://localhost:5090;
-	    proxy_set_header Host      $host;
-	    proxy_set_header X-Real-IP $remote_addr;
+  ssl on;
+  ssl_certificate /etc/nginx/keys/ssl-unified.crt;
+  ssl_certificate_key /etc/nginx/keys/ssl.key;
 
-	    auth_basic "You shall not pass!";
-   	    auth_basic_user_file /etc/nginx/sites-available/deployment.htpasswd;
-	}
+  location / {
+    proxy_pass  http://localhost:5090;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    auth_basic "You shall not pass!";
+    auth_basic_user_file /etc/nginx/sites-available/deployment.htpasswd;
+  }
 }
 
 server {
-    listen  5082;
+  listen  5082;
 
-    location / {
-        proxy_pass  http://localhost:5091;
-        proxy_set_header Host      $host;
-        proxy_set_header X-Real-IP $remote_addr;
+  ssl on;
+  ssl_certificate /etc/nginx/keys/ssl-unified.crt;
+  ssl_certificate_key /etc/nginx/keys/ssl.key;
 
-        auth_basic "You shall not pass!";
-        auth_basic_user_file /etc/nginx/sites-available/deployment.htpasswd;
-    }
+
+  location / {
+    proxy_pass  http://localhost:5091;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    auth_basic "You shall not pass!";
+    auth_basic_user_file /etc/nginx/sites-available/deployment.htpasswd;
+  }
 }
 
 
