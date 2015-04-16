@@ -1,5 +1,8 @@
 ul.nav.nav-tabs.menu
-  li(tooltip="XPlatform", tooltip-placement="right", tooltip-animation='false')
+  li(
+    tooltip="XPlatform", tooltip-placement="right", tooltip-animation='false'
+    tooltip-append-to-body="true"
+    )
     a(href="/",
       style="font-size: 1em",
       analytics-category='menu',
@@ -8,6 +11,7 @@ ul.nav.nav-tabs.menu
 
 ul.nav.nav-tabs.agenda
   li(tooltip="Event Agenda", tooltip-placement="right", tooltip-animation='false',
+    tooltip-append-to-body="true"
     ui-sref-active="active"
     )
     a(ui-sref="index.space.agenda",
@@ -21,6 +25,7 @@ ul.nav.nav-tabs.nav-stacked.users
     tooltip="You - {{user.result.name}}"
     tooltip-placement="right"
     tooltip-animation="false"
+    tooltip-append-to-body="true"
     ui-sref-active='active'
     )
     span.user-badge(ng-show="user.result.workspaceListeners") {{user.result.workspaceListeners}}
