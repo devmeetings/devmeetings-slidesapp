@@ -37,6 +37,7 @@ server {
   location /api/page {
     proxy_cache stwo;
     proxy_cache_valid 200 60m;
+    proxy_cache_min_uses 2;
     add_header X-Cache-Status $upstream_cache_status;
 
     proxy_pass  http://localhost:7000;

@@ -47,7 +47,7 @@ server {
 
   location /api/recordings {
     proxy_cache two;
-    proxy_cache_valid 200 60m;
+    proxy_cache_valid 200 600m;
     add_header X-Cache-Status $upstream_cache_status;
 
     proxy_pass  http://localhost:4000;
@@ -58,6 +58,7 @@ server {
   location /api/page {
     proxy_cache two;
     proxy_cache_valid 200 60m;
+    proxy_cache_min_uses 2;
     add_header X-Cache-Status $upstream_cache_status;
 
     proxy_pass  http://localhost:7000;
