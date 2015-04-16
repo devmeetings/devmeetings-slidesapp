@@ -22,9 +22,19 @@ server {
     expires 3d;
   }
 
-  include xplatform.services;
+  #include xplatform.services;
 
   location /api/recordings {
+    proxy_cache stwo;
+    proxy_cache_valid 200 60m;
+    add_header X-Cache-Status $upstream_cache_status;
+
+    proxy_pass  http://localhost:7000;
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+
+  location /api/page {
     proxy_cache stwo;
     proxy_cache_valid 200 60m;
     add_header X-Cache-Status $upstream_cache_status;
