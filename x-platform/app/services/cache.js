@@ -6,6 +6,7 @@ module.exports = {
 
   get: function(key, generatingFunction) {
     'use strict';
+
     var that = this;
     return Q.when(Cache.findOne({
       key: key

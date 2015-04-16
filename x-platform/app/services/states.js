@@ -90,9 +90,10 @@ var States = (function() {
         patchNo = parseInt(parts[2], 10);
 
       var query = recordings.findById(recId).
-      slice('slides.patches', [0, patchNo + 1]).
-      slice('slides', [slideNo, 1]).
-      lean();
+        select('slides').
+        slice('slides.patches', [0, patchNo + 1]).
+        slice('slides', [slideNo, 1]).
+        lean();
 
       return Q.when(query.exec()).then(function(recording) {
         // Because of project we can take only first element and all patches
@@ -111,13 +112,18 @@ var States = (function() {
         var id = idParts[0];
         var patchIdx = parseInt(idParts[1], 10);
 
-        return Q.when(Statesave.findById(id).lean().exec()).then(function(save) {
+        var query = Statesave.findById(id)
+          .select('original patches')
+          .slice('patches', [0, patchIdx + 1])
+          .lean();
+
+        return Q.when(query.exec()).then(function(save) {
           if (!save) {
             return save;
           }
           // Apply patches
           var state = save.original || {};
-          States.applyPatches(state, save.patches.slice(0, patchIdx + 1));
+          States.applyPatches(state, save.patches);
 
           return state;
         });
@@ -278,7 +284,9 @@ function fetchState(id, user) {
   }
 
   if (id) {
-    return Q.when(Statesave.findById(id).exec()).then(function(save) {
+    var query = Statesave.findById(id)
+      .select('_id current currentTimestamp originalTimestamp patches.id noOfPatches');
+    return Q.when(query.exec()).then(function(save) {
       if (!save) {
         return newStateSave();
       }
