@@ -21,7 +21,7 @@ if (config.meteorProxy) {
   var proxy = require('http-proxy').createProxyServer({
     target: config.meteorProxy
   });
-  logger.log('Configuring proxy.');
+  logger.info('Configuring proxy.');
   app.all('/live/*', proxy.web.bind(proxy));
 }
 
@@ -45,10 +45,14 @@ if (config.meteorProxy) {
 var io = socketio(server);
 require('./config/sockets')(io, sessionConfig);
 
-logger.log('Server listening on port:', config.port);
+logger.info('Server listening on port:', config.port);
 server.listen(config.port);
 
 // Configure blocked
 require('blocked')(function(ms) {
-  logger.log('Blocked for %sms', ms);
+  'use strict';
+
+  logger.warn('Blocked for ' + ms + 'ms', {
+    blockedFor: ms
+  });
 });

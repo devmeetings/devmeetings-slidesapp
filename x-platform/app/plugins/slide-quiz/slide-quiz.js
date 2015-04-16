@@ -32,7 +32,7 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
 
 
     app.get("/quizAnswers/:id", authenticated, function(req, res) {
-        logger.log(req.params.id);
+        logger.info(req.params.id);
         QuizAnswers.getByQuizId(req.params.id).then(function(answers) {
             res.send(answers);
         }).then(null, function(err) {
