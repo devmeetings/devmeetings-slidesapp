@@ -1,5 +1,5 @@
 #Required packages:
 
 ```
-$ pip install pika===0.9.8
+$ pip install redis===2.10.3
 ```
