@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 
 var Queue = 'exec_nodejs';
+var address = process.env.REDIS_HOST || 'localhost:6379';
 
-console.log("Connecting to Redis");
+console.log("Connecting to Redis", address);
 
 var cluster = require('cluster');
 var redis = require('redis');
-var redisAddress = require('url').parse(process.env.REDIS_HOST || 'localhost:6379');
+var redisAddress = require('url').parse(address);
 
 var client = redis.createClient(redisAddress.host, redisAddress.port);
 var client2 = redis.createClient(redisAddress.host, redisAddress.port);
+
+client.on('error', function(err){
+  throw err;
+});
 
 cluster.setupMaster({
   exec: "../proc_runner.js",

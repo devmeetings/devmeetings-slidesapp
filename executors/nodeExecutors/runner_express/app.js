@@ -1,90 +1,80 @@
 #!/usr/bin/env node
 
 var Queue = 'exec_expressjs';
+var address = process.env.REDIS_HOST || 'localhost:6379';
 
-console.log('Connecting to RabbitMQ');
-
+console.log("Connecting to Redis", address);
 
 var cluster = require('cluster');
-var amqp = require('amqplib');
-var host = process.env.RABBITMQ_HOST || 'localhost';
+var redis = require('redis');
+var redisAddress = require('url').parse(address);
 
-var connection = amqp.connect('amqp://' + host);
+var client = redis.createClient(redisAddress.host, redisAddress.port);
+var client2 = redis.createClient(redisAddress.host, redisAddress.port);
+
+client.on('error', function(err) {
+  throw err;
+});
 
 cluster.setupMaster({
-    exec: '../proc_runner.js',
-    silent: false
-});
-cluster.on('exit', function(worker, code, signal) {
-    console.log('  worker %d died (%s)',
-        worker.process.pid, signal || code);
+  exec: '../proc_runner.js',
+  silent: false
 });
 
+cluster.on('exit', function(worker, code, signal) {
+  console.log('  worker %d died (%s)',
+    worker.process.pid, signal || code);
+});
 
 var workers = {};
 
-connection.then(function(conn) {
-    conn.createChannel().then(function(ch) {
-        var ok = ch.assertQueue(Queue, {
-            durable: false,
-            exclusive: false
-        }).then(function(qok) {
-            // Read queue
-            console.log("[*] Waiting for messages.");
-            ch.consume(qok.queue, function(msg2) {
-                var msg = JSON.parse(msg2.content);
-                var port = 9000 + Math.floor(Math.random() * 5000);
+client.on('message', function(channel, msgString) {
+  var msg2 = JSON.parse(msgString);
+  var msg = msg2.content;
+  var port = 9000 + Math.floor(Math.random() * 5000);
 
-                if (workers[msg.client]) {
-                    port = workers[msg.client].port;
-                    clearTimeout(workers[msg.client].timeout);
-                    workers[msg.client].worker.destroy();
-                }
+  if (workers[msg.client]) {
+    port = workers[msg.client].port;
+    clearTimeout(workers[msg.client].timeout);
+    workers[msg.client].worker.destroy();
+  }
 
-                console.log("  Forking new worker");
-                var worker = cluster.fork();
-                workers[msg.client] = {
-                    port: port,
-                    worker: worker,
-                    timeout: setTimeout(function(){
-                        delete workers[msg.client];
-                        worker.destroy();
-                    }, 900000)
-                };
+  console.log("  Forking new worker");
+  var worker = cluster.fork();
+  workers[msg.client] = {
+    port: port,
+    worker: worker,
+    timeout: setTimeout(function() {
+      delete workers[msg.client];
+      worker.destroy();
+    }, 900000)
+  };
 
-                var acked = false;
-                var reply = function(thing) {
-                    if (!acked) {
-                        ch.ack(msg2);
-                        acked = true;
-                    }
-                    thing.port = port;
-                    thing.timestamp = msg.timestamp;
-                    
-                    console.log("Replying", thing, "with correlationId", msg2.properties.correlationId);
-                    ch.sendToQueue(msg2.properties.replyTo, 
-                        new Buffer(JSON.stringify(thing)), {
-                        correlationId: msg2.properties.correlationId
-                    });
-                };
-                worker.on("exit", function() {
-                    if (acked) {
-                        return;
-                    }
-                    ch.ack(msg2);
-                    acked = true;
-                });
-                worker.on("message", function(rep) {
-                    // prepare reply
-                    reply(rep);
-                });
-                worker.send({
-                    msg: msg,
-                    env: {
-                      PORT: port
-                    }
-                }); //Send the code to run for the worker
-            });
-        });
-    });
+  var reply = function(thing) {
+    thing.port = port;
+    thing.timestamp = msg.timestamp;
+
+    console.log("Replying with correlationId", msg2.properties.correlationId);
+
+    client2.publish(msg2.properties.replyTo, JSON.stringify({
+      content: thing,
+      properties: {
+        correlationId: msg2.properties.correlationId
+      }
+    }));
+  };
+
+  worker.on("message", function(rep) {
+    // prepare reply
+    reply(rep);
+  });
+
+  worker.send({
+    msg: msg,
+    env: {
+      PORT: port
+    }
+  }); //Send the code to run for the worker
 });
+
+client.subscribe(Queue);
