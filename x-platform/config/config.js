@@ -5,8 +5,8 @@ var path = require('path'),
 var staticsPath = '/static';
 
 var realmUrl = process.env.REALM_URL || null;
-var mongoHost = process.env.MONGO_HOST || "localhost";
-var rabbitHost = process.env.RABBIT_HOST || "localhost";
+var mongoHost = process.env.MONGO_HOST || 'localhost';
+var redisConf = process.env.REDIS_HOST || 'localhost:6379';
 
 var config = {
   development: {
@@ -34,7 +34,7 @@ var config = {
       clientSecret: 'accf1a3f361eec1902172ce287acf46a34423cc2'
     },
     db: 'mongodb://' + mongoHost + '/platform-box',
-    queue: rabbitHost,
+    store: redisConf,
     graylog: false,
     meteorProxy: 'http://localhost:3001/',
     logger: 'dev'
@@ -66,7 +66,7 @@ var config = {
     cookieName: 'test.xplatform.sid',
     realmUrl: realmUrl || 'http://xplatform.org:2000',
     db: 'mongodb://' + mongoHost + '/platform-test',
-    queue: rabbitHost,
+    store: redisConf,
     graylog: false,
     meteorProxy: false,
     logger: 'dev'
@@ -100,7 +100,7 @@ var config = {
     cookieName: 'staging.xplatform.sid',
     realmUrl: realmUrl || 'http://staging.xplatform.org',
     db: 'mongodb://' + mongoHost + '/platform-staging',
-    queue: rabbitHost,
+    store: redisConf,
     graylog: {
       host: 'pinkiepie.todr.me',
       port: 1782
@@ -137,7 +137,7 @@ var config = {
     cookieName: 'xplatform.sid',
     realmUrl: realmUrl || 'https://xplatform.org',
     db: 'mongodb://' + mongoHost + '/platform-production',
-    queue: rabbitHost,
+    store: redisConf,
     graylog: {
       host: 'pinkiepie.todr.me',
       port: 1782
@@ -172,7 +172,7 @@ var config = {
     cookieName: 'xplatform.sid',
     realmUrl: realmUrl || 'http://192.168.10.1',
     db: 'mongodb://' + mongoHost + '/platform-box',
-    queue: rabbitHost,
+    store: redisConf,
     graylog: false,
     logger: 'combined'
   }

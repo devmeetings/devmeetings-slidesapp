@@ -13,7 +13,8 @@ var express = require('express'),
   connectJadeStatic = require('connect-jade-static');
 
 var winstonLogger = require('./logging');
-var MongoStore = require('connect-mongo')(session);
+var store = require('./store');
+var sessionInit = require('./session');
 
 module.exports = function(app, config, router) {
   var jadeStatic = connectJadeStatic({
@@ -29,10 +30,7 @@ module.exports = function(app, config, router) {
     resave: false,
     saveUninitialized: false,
     secret: 'ImSecretAndIKnowIt',
-    store: new MongoStore({
-      touchAfter: 3600,
-      mongooseConnection: mongoose.connection
-    }),
+    store: store.sessionStore(session),
     cookieParser: cookieParser
   };
 
@@ -58,7 +56,7 @@ module.exports = function(app, config, router) {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
-  app.use(session(sessionConfig));
+  sessionInit(app, session, sessionConfig);
   app.use(flash());
   app.use(passport.initialize());
   app.use(passport.session());

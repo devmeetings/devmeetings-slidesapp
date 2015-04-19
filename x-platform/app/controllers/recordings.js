@@ -63,7 +63,7 @@ var Recordings = {
     findRecording(req.params.id).exec(function(err, recording) {
       if (err || !recording) {
         logger.error(err);
-        res.send(404, err);
+        res.status(404).send(err);
         return;
       }
       var rec = convertRecordingToUnifiedHistoryFormat(recording);
