@@ -11,13 +11,14 @@ QUEUE = "exec_python"
 
 host = os.environ[
     'REDIS_HOST'] if 'REDIS_HOST' in os.environ else 'localhost:6379'
+host = host.split(':')
 
 client = redis.StrictRedis(
-    host=host.split(':')[0],
-    port=int(host.split(':')[1])
+    host=host[0],
+    port=int(host[1])
 )
 p = client.pubsub()
-print("Connected to %s" % host)
+print("Connected to %s" % ':'.join(host))
 
 
 def runCode(code):

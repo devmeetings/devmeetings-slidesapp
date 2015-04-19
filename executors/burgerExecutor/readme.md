@@ -1,5 +1,5 @@
 #Required packages:
 
 ```
-$ pip3 install git+git://github.com/renshawbay/pika-python3.git
+$ pip3 install redis===2.10.3
 ```

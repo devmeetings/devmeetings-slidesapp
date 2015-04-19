@@ -32,29 +32,25 @@ exports.onSocket = function(log, socket) {
 
       save.currentTimestamp = new Date(_.last(patches).timestamp);
       // fix timestamps
-      var last = save.patches.length;
+      var last = save.noOfPatches;
       patches.map(function(patchData, idx) {
         patchData.id = save._id + '_' + (last + idx);
         patchData.timestamp = patchData.timestamp - originalTime;
       });
       // append Patches
-      save.patches = save.patches.concat(patches);
-      save.noOfPatches = save.patches.length;
-
       save.workspaceId = data.workspaceId;
-      save.markModified('current');
 
-      return States.save(save).then(function(save) {
-
+      // NOTE [ToDr] For performance reasons not every field is being updated!
+      return States.update(save, patches).then(function(save) {
         return {
-          save: save[0],
+          save: save,
           patches: patches
         };
-
       }).done(function(d) {
+        // NOTE [ToDr] For performance reasons you won't get full document here!
         var save = d.save;
         var id = save._id;
-        var patchNo = save.patches.length - 1;
+        var patchNo = save.noOfPatches - 1;
         var compoundId = id + '_' + patchNo;
 
         ack(true, id, patchNo);

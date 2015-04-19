@@ -17,8 +17,35 @@ var States = (function() {
       });
     },
 
-    save: function(data) {
-      return Q.ninvoke(data, 'save');
+    update: function(data, newPatches) {
+      if (data.isNew) {
+        data.patches = newPatches;
+        data.noOfPatches = newPatches.length;
+        return Q.ninvoke(data, 'save').then(function(save) {
+          return save[0];
+        });
+      }
+
+      return Q.when(Statesave.update({
+        _id: data._id
+      }, {
+        $set: {
+          originalTimestamp: data.originalTimestamp,
+          currentTimestamp: data.currentTimestamp,
+          current: data.current,
+          workspaceId: data.workspaceId
+        },
+        $push: {
+          patches: {
+            $each: newPatches
+          }
+        },
+        $inc: {
+          noOfPatches: newPatches.length
+        }
+      }).lean().exec()).then(function() {
+        return data;
+      });
     },
 
     fetchStateForWriting: function(id, user) {
@@ -29,10 +56,6 @@ var States = (function() {
         // Create new item in collection
         return createFork(save);
       });
-    },
-
-    fetchState: function(id, user) {
-      return fetchState(id, user);
     },
 
     fetchForUser: function(userId, limit) {
@@ -90,10 +113,10 @@ var States = (function() {
         patchNo = parseInt(parts[2], 10);
 
       var query = recordings.findById(recId).
-        select('slides').
-        slice('slides.patches', [0, patchNo + 1]).
-        slice('slides', [slideNo, 1]).
-        lean();
+      select('slides').
+      slice('slides.patches', [0, patchNo + 1]).
+      slice('slides', [slideNo, 1]).
+      lean();
 
       return Q.when(query.exec()).then(function(recording) {
         // Because of project we can take only first element and all patches
@@ -263,6 +286,7 @@ function createFork(state) {
     current: JSON.parse(JSON.stringify(state.current)),
     patches: []
   });
+  obj.isNew = true;
 
   return Q.when(obj);
 }
@@ -278,14 +302,16 @@ function fetchState(id, user) {
       original: {},
       current: {}
     });
+    obj.isNew = true;
     obj.fresh = true;
-    obj.markModified('original');
     return obj;
   }
 
   if (id) {
-    var query = Statesave.findById(id)
-      .select('_id current currentTimestamp originalTimestamp patches.id noOfPatches');
+    var query = Statesave
+      .findById(id)
+      .select('_id current currentTimestamp originalTimestamp noOfPatches');
+
     return Q.when(query.exec()).then(function(save) {
       if (!save) {
         return newStateSave();

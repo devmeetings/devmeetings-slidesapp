@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import pika
+import redis
 import os
 import json
 import sys
@@ -11,11 +11,16 @@ from queue import Empty
 
 QUEUE = "exec_burger"
 
-host = os.environ['RABBITMQ_HOST'] if 'RABBITMQ_HOST' in os.environ else 'localhost'
+host = os.environ[
+    'REDIS_HOST'] if 'REDIS_HOST' in os.environ else 'localhost:6379'
+host = host.split(':')
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host))
-channel = connection.channel()
-print("Connected to %s" % host)
+client = redis.StrictRedis(
+    host=host[0],
+    port=int(host[1])
+)
+p = client.pubsub()
+print("Connected to %s" % ':'.join(host))
 
 
 def runCode(code, q):
@@ -42,11 +47,15 @@ def runCode(code, q):
         sys.stdout = org
 
 
-def onMessage(ch, method, properties, body):
+def onMessage(message):
+    if message['type'] != 'message':
+        return
+
+    body = message['data']
     jsonBody = json.loads(body.decode('utf-8'))
     print('[x] Received %r' % jsonBody)
     q = Queue()
-    p = Process(target=runCode, args=(jsonBody['code'], q, ))
+    p = Process(target=runCode, args=(jsonBody['content']['code'], q, ))
     p.start()
     try:
         timeout = 2
@@ -60,14 +69,18 @@ def onMessage(ch, method, properties, body):
             'errors': ['Timeout']
         }
 
-    channel.basic_publish(
-        exchange='',
-        routing_key=properties.reply_to,
-        properties=pika.BasicProperties(correlation_id = properties.correlation_id),
-        body=json.dumps(message))
+    client.publish(
+        jsonBody['properties']['replyTo'],
+        json.dumps({
+            'content': message,
+            'properties': {
+                'correlationId': jsonBody['properties']['correlationId']
+            }
+        })
+    )
 
 
-channel.queue_declare(queue=QUEUE)
-channel.basic_consume(onMessage, queue=QUEUE, no_ack=True)
+p.subscribe(QUEUE)
 print('[*] Waiting for messages on %s' % QUEUE)
-channel.start_consuming()
+for message in p.listen():
+    onMessage(message)

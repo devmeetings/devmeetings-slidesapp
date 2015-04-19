@@ -1,17 +1,20 @@
 define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
   'use strict';
 
-  var path = sliderPlugins.extractPath(module);
-
   sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', 4000).directive('slideRecorder', function(Sockets, dmRecorder) {
 
     return {
       restrict: 'E',
       scope: {
         slide: '=context',
-        mode: '='
+        mode: '=',
+        path: '@'
       },
       link: function(scope) {
+        // Disable recorder on some sub slides.
+        if (scope.path !== '.*') {
+          return;
+        }
 
         var toSend = [];
         var lastLog = new Date().getTime();
