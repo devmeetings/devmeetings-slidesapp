@@ -45,6 +45,21 @@ module.exports = {
     return address;
   },
 
+  get: function(prefix, key, callback) {
+    'use strict';
+    return client.get(prefix + '_' + key, callback);
+  },
+
+  set: function(prefix, key, value, callback) {
+    'use strict';
+    return client.set(prefix + '_' + key, value, callback);
+  },
+
+  del: function(prefix, key) {
+    'use strict';
+    return client.del(prefix + '_' + key);
+  },
+
   subscribe: function(channelName, callback) {
     'use strict';
     subscribtions[channelName] = subscribtions[channelName] || [];

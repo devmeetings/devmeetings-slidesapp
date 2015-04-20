@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var Q = require('q');
+var store = require('../../config/store');
 
 exports.getParticipants = function(io, roomId) {
     var clients = _.values(io.sockets.connected).filter(function(socket) {
@@ -11,7 +12,7 @@ exports.getParticipants = function(io, roomId) {
 };
 
 exports.getClientData = function(socket) {
-  return Q.when(socket.clientData);
+  return Q.ninvoke(store, 'get', 'socketClientData', socket.id);
 };
 
 exports.getParticipantsCount = function(io, roomId) {

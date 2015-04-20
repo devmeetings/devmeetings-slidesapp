@@ -3,17 +3,18 @@ var DeckModel = require('../../models/deck');
 var Participants = require('../../services/participants');
 var _ = require('lodash');
 var logger = require('../../../config/logging');
+var store = require('../../../config/store');
 
 
 var trainersRoom = function(roomId) {
   return roomId + '_trainers';
 };
 
-/*
- * TODO [ToDr] RemoveState! Data associated with socket
- */
 var updateClientData = function(socket, updater) {
-  updater(socket.clientData);
+  store.get('socketClientData', socket.id, function(clientData) {
+    updater(clientData);
+    store.set('socketClientData', socket.id);
+  });
 };
 
 var broadcastClientsToTrainers = function(io, roomId) {
@@ -73,14 +74,17 @@ exports.onSocket = function(log, socket, io) {
       isAuthorized: true
     });
 
-    data = socket.clientData;
-    data.isTrainer = true;
+    store.get('socketClientData', socket.id, function(data) {
+      updateClientData(socket, function(data) {
+        data.isTrainer = true;
+      });
 
-    // Join trainers room
-    socket.join(trainersRoom(data.deck));
-    Participants.getParticipants(io, data.deck).then(function(participants) {
-      socket.emit('trainer.participants', participants);
-    }, log.error);
+      // Join trainers room
+      socket.join(trainersRoom(data.deck));
+      Participants.getParticipants(io, data.deck).then(function(participants) {
+        socket.emit('trainer.participants', participants);
+      }, log.error);
+    });
   });
 
   socket.on('trainer.follow.nextSlide', function(data) {

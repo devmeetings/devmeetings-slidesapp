@@ -25,14 +25,14 @@ var passportSocketIo = require('passport.socketio');
 var plugins = require('./plugins');
 var pluginsEvents = require('../app/plugins/events');
 var redis = require('socket.io-redis');
-var address = require('./store').getAddress();
+var store = require('./store');
 
 module.exports = function(io, sessionConfig) {
   'use strict';
 
   io.serveClient(false);
 
-  io.adapter(redis(address));
+  io.adapter(redis(store.getAddress()));
 
   io.use(passportSocketIo.authorize({
     cookieParser: sessionConfig.cookieParser,
@@ -55,17 +55,19 @@ module.exports = function(io, sessionConfig) {
       return;
     }
 
-    socket.clientData = {
+    store.set('socketClientData', socket.id, {
       id: socket.id,
       user: socket.request.user
-    };
+    });
+
     pluginsEvents.emit('room.joined', deck);
 
     // Disconnection
     socket.on('disconnect', function() {
-      var data = socket.clientData;
-      socket.leave(data.deck);
-      pluginsEvents.emit('room.left', data.deck);
+      store.get('socketClientData', socket.id, function(data) {
+        store.del('socketClientData', socket.id);
+        pluginsEvents.emit('room.left', data.deck);
+      });
     });
 
     // Plugins
