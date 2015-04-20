@@ -7,10 +7,10 @@ console.log("Connecting to Redis", address);
 
 var cluster = require('cluster');
 var redis = require('redis');
-var redisAddress = require('url').parse(address);
+var redisAddress = address.split(':');
 
-var client = redis.createClient(redisAddress.host, redisAddress.port);
-var client2 = redis.createClient(redisAddress.host, redisAddress.port);
+var client = redis.createClient(redisAddress[0], parseInt(redisAddress[1], 10));
+var client2 = redis.createClient(redisAddress[0], parseInt(redisAddress[1], 10));
 
 client.on('error', function(err){
   throw err;

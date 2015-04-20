@@ -1,6 +1,5 @@
 var redis = require('redis');
 var redisStore = require('connect-redis');
-var url = require('url');
 
 var config = require('./config');
 var logger = require('./logging');
@@ -9,16 +8,16 @@ var logger = require('./logging');
 
 var address = (function(redisUrl) {
   'use strict';
-  var parse = url.parse(redisUrl);
+  var parse = redisUrl.split(':');
   return {
-    host: parse.host,
-    port: parse.port
+    host: parse[0],
+    port: parseInt(parse[1], 10)
   };
 }(config.store));
 
 logger.info('Connecting to Redis', config.store);
-var client = redis.createClient(address.host, address.port);
-var client2 = redis.createClient(address.host, address.port);
+var client = redis.createClient(address.port, address.host);
+var client2 = redis.createClient(address.port, address.host);
 
 client.on('error', function(err) {
   'use strict';
@@ -41,6 +40,10 @@ client2.on('message', function(channel, msg) {
 });
 
 module.exports = {
+  getAddress: function() {
+    'use strict';
+    return address;
+  },
 
   subscribe: function(channelName, callback) {
     'use strict';

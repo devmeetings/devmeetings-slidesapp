@@ -8,12 +8,12 @@ var log = function(socket, pluginName) {
     return args;
   }
 
-  var logx = function(/* args */) {
+  var logx = function( /* args */ ) {
     var args = appendSocketData(arguments);
     logger.info.apply(logger, args);
   };
 
-  logx.error = function(/* args */) {
+  logx.error = function( /* args */ ) {
     var args = appendSocketData(arguments);
     logger.error.apply(logger, args);
   };
@@ -21,19 +21,18 @@ var log = function(socket, pluginName) {
   return logx;
 };
 
-var ctrl = function(ctrlName) {
-  return require('../app/controllers/' + ctrlName);
-};
-
 var passportSocketIo = require('passport.socketio');
-
 var plugins = require('./plugins');
 var pluginsEvents = require('../app/plugins/events');
+var redis = require('socket.io-redis');
+var address = require('./store').getAddress();
 
 module.exports = function(io, sessionConfig) {
+  'use strict';
+
   io.serveClient(false);
 
-  plugins.invokePlugins('initSockets', [io]);
+  io.adapter(redis(address));
 
   io.use(passportSocketIo.authorize({
     cookieParser: sessionConfig.cookieParser,
@@ -41,6 +40,8 @@ module.exports = function(io, sessionConfig) {
     secret: sessionConfig.secret, // the session_secret to parse the cookie
     store: sessionConfig.store, // we NEED to use a sessionstore. no memorystore please
   }));
+
+  plugins.invokePlugins('initSockets', [io]);
 
   io.on('connection', function(socket) {
     var l = log(socket, 'main');
