@@ -20,7 +20,7 @@ var config = {
     },
     port: 3000,
     cookieDomain: undefined,
-    realmUrl: realmUrl || 'http://localhost:3000',
+    realmUrl: realmUrl || 'https://localhost:3000',
     google: {
       id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
       secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
@@ -36,7 +36,7 @@ var config = {
     db: 'mongodb://' + mongoHost + '/platform-box',
     store: redisConf,
     graylog: false,
-    meteorProxy: 'http://localhost:3001/',
+    meteorProxy: 'https://localhost:3001/',
     logger: 'dev'
   },
 
@@ -98,7 +98,7 @@ var config = {
       clientSecret: '676949bd66e064f68b8bd5a6367b61e3cd4bc7be'
     },
     cookieName: 'staging.xplatform.sid',
-    realmUrl: realmUrl || 'http://staging.xplatform.org',
+    realmUrl: realmUrl || 'https://staging.xplatform.org',
     db: 'mongodb://' + mongoHost + '/platform-staging',
     store: redisConf,
     graylog: {
