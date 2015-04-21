@@ -103,6 +103,7 @@ function convertSlidesToPatches(slides, rec) {
 
   var timestampDiff = 0;
   var first = newStatesave(rec.date, slides[0].code, 0);
+  first.originalTimestamp = first.originalTimestamp || new Date();
   newSlides.push(first);
 
 
