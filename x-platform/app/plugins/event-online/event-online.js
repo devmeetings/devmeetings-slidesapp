@@ -1,7 +1,5 @@
-/*
- * TODO [ToDr] RemoveState!
- */
-var userWorkspacesForEvent = {};
+var store = require('../../../config/store');
+
 var userWorkspaceListeners = {};
 
 exports.onSocket = function(log, socket, io) {
@@ -12,13 +10,13 @@ exports.onSocket = function(log, socket, io) {
     var eventId = eventData.eventId;
     var user = getUser();
     var room = eventRoom(eventId);
-    var userWorkspaces = userWorkspacesForEvent[eventId];
-    if (!userWorkspaces) {
-      userWorkspacesForEvent[eventId] = userWorkspaces = {};
-    }
 
     // Update user's workspaceId;
-    userWorkspaces[user._id] = eventData.workspaceId;
+
+
+    TODO [ToDr] Rewrite all usages of userWorkspaces to store.
+    store.set('userWorkspaces', eventId + '_' + user._id, eventData.workspaceId);
+
     user.workspaceId = eventData.workspaceId;
     log(user.name + ' joining ' + room);
 
