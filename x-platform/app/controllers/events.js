@@ -155,7 +155,6 @@ var Events = {
       return res.send([]);
     }
     Events._findAnnotation(id).then(function(anno) {
-      console.log(arguments);
       res.send(anno.annotations);
     }).done(onDone);
   },
