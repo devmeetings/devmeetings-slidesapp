@@ -1,0 +1,44 @@
+.dm-online-indicator {
+  @color: #e70;
+  @textColor: #fff;
+
+  position: fixed;
+  top: 0;
+  left: 45%;
+  right: 45%;
+  padding: 5px 5px 0;
+  z-index: 100;
+  color: @textColor;
+  background-color: @color;
+  border: 2px solid darken(@color, 15%);
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+  display: none;
+  opacity: 0.0;
+  transition: opacity .5s ease;
+  transition-delay: 1s;
+
+  &.active {
+    display: block;
+    opacity: 1.0;
+  }
+
+  &.down {
+    top: auto;
+    bottom: 0;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .move-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    opacity: 0.0;
+    transition: .5s opacity ease;
+  }
+  &:hover .move-btn {
+    opacity: 1.0;
+  }
+}

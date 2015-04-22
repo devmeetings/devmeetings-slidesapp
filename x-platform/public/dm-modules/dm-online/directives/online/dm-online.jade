@@ -1,0 +1,14 @@
+.dm-online-indicator(
+  ng-class="{'down': isMoved, 'active': !isOnline}"
+  )
+    .move-btn
+      button.btn.btn-link.btn-xs(
+          ng-click="isMoved = !isMoved"
+        )
+        span.text-muted.fa(
+          ng-class="{'fa-chevron-down': !isMoved, 'fa-chevron-up': isMoved}"
+          )
+    p 
+      strong You seem to be offline.
+      br
+      small Please check your connection.

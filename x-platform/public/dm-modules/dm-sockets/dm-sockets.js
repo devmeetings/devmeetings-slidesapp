@@ -164,18 +164,29 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
     return ForwardingSocket;
   };
 
-  var CreateBaseSocket = function($window) {
+  var CreateBaseSocket = function($window, $rootScope) {
     var BaseSocket = {
 
       _initialize: function() {
         $window.___hasSockets = true;
+        this.on('connect', function() {
+          $rootScope.$apply(function() {
+            $rootScope.isOffline = false;
+          });
+        });
+        this.on('disconnect', function() {
+          $rootScope.$apply(function() {
+            $rootScope.isOffline = true;
+          });
+        });
       }
+
     };
     return BaseSocket;
   };
 
-  angular.module('dm-sockets', []).factory('Sockets', ['$location', '$window',
-    function($location, $window) {
+  angular.module('dm-sockets', []).factory('Sockets',
+    function($location, $window, $rootScope) {
       var targetOrigin = $window.location;
 
       // ifowisko
@@ -187,13 +198,13 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
       }
 
       //initialize
-      var BaseSockets = CreateBaseSocket($window);
+      var BaseSockets = CreateBaseSocket($window, $rootScope);
       var Socket = _.extend({}, BaseSockets, Sockets);
-      BaseSockets._initialize.call(Socket);
       Sockets._initialize.call(Socket);
+      BaseSockets._initialize.call(Socket);
 
       return Socket;
     }
-  ]);
+  );
 
 });

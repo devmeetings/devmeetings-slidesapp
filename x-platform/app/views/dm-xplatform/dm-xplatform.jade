@@ -9,5 +9,6 @@ append scripts
 
 block content
     .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
+        dm-online(is-online='!$root.isOffline')
         div(ui-view='navbar')
         .content-height(ui-view='content', ng-class="{'header-hidden': $root.headerHidden}")
