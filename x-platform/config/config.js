@@ -13,7 +13,6 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '',
-    doLiveReload: true,
     cacheBustingVersion: '',
     app: {
       name: 'platform'

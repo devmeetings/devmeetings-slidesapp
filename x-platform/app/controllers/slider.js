@@ -5,7 +5,6 @@ var stdReq = function(req, obj) {
     return _.extend({
         editMode: req.query.edit,
         jsModulesPath: req.jsModulesPath,
-        doLiveReload: req.doLiveReload,
         withGoogleAnalytics: req.withGoogleAnalytics,
         withInspectlet: req.withInspectlet,
         cacheBustingVersion: req.cacheBustingVersion
