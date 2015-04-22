@@ -24,8 +24,6 @@ var log = function(socket, pluginName) {
 var passportSocketIo = require('passport.socketio');
 var plugins = require('./plugins');
 var pluginsEvents = require('../app/plugins/events');
-var redis = require('socket.io-redis');
-var storeConfig = require('./store');
 var store = require('../app/services/store');
 
 module.exports = function(io, sessionConfig) {
@@ -33,7 +31,7 @@ module.exports = function(io, sessionConfig) {
 
   io.serveClient(false);
 
-  io.adapter(redis(storeConfig.getAddress()));
+  io.adapter(store.getSocketsAdapter());
 
   io.use(passportSocketIo.authorize({
     cookieParser: sessionConfig.cookieParser,

@@ -1,23 +1,16 @@
-var redis = require('redis');
+var redisUrl = require('redis-url');
 var redisStore = require('connect-redis');
+var redisAdapter = require('socket.io-redis');
 
 var config = require('./config');
 var logger = require('./logging');
 
 
 
-var address = (function(redisUrl) {
-  'use strict';
-  var parse = redisUrl.split(':');
-  return {
-    host: parse[0],
-    port: parseInt(parse[1], 10)
-  };
-}(config.store));
 
 logger.info('Connecting to Redis', config.store);
-var client = redis.createClient(address.port, address.host);
-var client2 = redis.createClient(address.port, address.host);
+var client = redisUrl.connect(config.store);
+var client2 = redisUrl.connect(config.store);
 
 client.on('error', function(err) {
   'use strict';
@@ -30,9 +23,13 @@ module.exports = {
   client: client,
   client2: client2,
 
-  getAddress: function() {
+  getSocketsAdapter: function() {
     'use strict';
-    return address;
+    var url = redisUrl.parse(config.store);
+    return redisAdapter({
+      host: url.host,
+      port: url.port
+    });
   },
 
   sessionStore: function(session) {
