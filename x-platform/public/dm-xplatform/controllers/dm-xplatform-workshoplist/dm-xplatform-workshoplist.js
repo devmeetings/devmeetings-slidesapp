@@ -5,6 +5,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       $scope.courses = events;
 
       dmUser.getCurrentUser().then(function(user) {
+        $scope.user = user;
         return dmEvents.userEvents(user.result._id);
       }).then(function(userEvents) {
         $scope.my_courses = userEvents.map(function(evId) {

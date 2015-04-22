@@ -20,6 +20,15 @@ mixin course()
 .container
   .col-md-12
     .dm-workshoplist-container
+      .clearfix(ng-if="user.result.acl.indexOf('admin:events') > -1")
+        .pull-right
+          .checkbox
+            label.form-label
+              input(
+                type="checkbox"
+                ng-model="$root.editMode"
+                )
+              | Show All
       .row
         .col-md-4(ng-repeat="cours in courses | orderBy:['order','title']", ng-if='cours.visible || editMode')
           +course
