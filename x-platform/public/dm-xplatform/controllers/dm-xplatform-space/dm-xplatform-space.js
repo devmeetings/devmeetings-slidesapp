@@ -1,7 +1,6 @@
 define([
   '_',
   'xplatform/xplatform-app',
-  'xplatform/controllers/dm-xplatform-upload/dm-xplatform-upload',
   'xplatform/services/dm-events/dm-events',
   'xplatform/services/dm-questions/dm-questions',
   'es6!xplatform/services/dm-event-live/dm-event-live',
@@ -97,19 +96,5 @@ define([
       });
     }
 
-    $scope.createMaterial = function(i) {
-      $modal.open({
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-upload/index.html',
-        controller: 'dmXplatformUpload',
-        resolve: {
-          event: function() {
-            return $scope.event;
-          },
-          iteration: function() {
-            return i;
-          }
-        }
-      });
-    };
   });
 });
