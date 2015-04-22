@@ -57,6 +57,7 @@
     "socket.io-redis": "^0.1.4",
     "spdy": "^1.31.0",
     "srt": "0.0.3",
+    "sticky-session": "^0.1.0",
     "temp": "^0.8.1",
     "winston": "^1.0.0"
   },
