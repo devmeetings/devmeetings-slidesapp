@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var States = require('../../services/states');
 var cache = require('../../services/cache');
+var pluginEvents = require('../events');
 
 exports.onSocket = function(log, socket) {
   'use strict';
@@ -96,12 +97,22 @@ exports.onSocket = function(log, socket) {
     var room = workspaceRoom(workspaceId);
     log(socket.request.user.name + ' started listening to ' + room);
     socket.join(room);
+    pluginEvents.emit('rejoin', socket, {
+      joined: true,
+      name: room,
+      msg: 'state.subscribe',
+      args: workspaceId
+    });
   }
 
   function unsubscribeFromStates(workspaceId) {
     var room = workspaceRoom(workspaceId);
     log(socket.request.user.name + ' stopped listening to ' + room);
     socket.leave(room);
+    pluginEvents.emit('rejoin', socket, {
+      joined: false,
+      name: room
+    });
   }
 
   socket.on('state.patch', patchState);

@@ -1,6 +1,7 @@
 var store = require('../../services/store');
 var Q = require('q'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  pluginEvents = require('../events');
 
 function eventRoom(eventId) {
   'use strict';
@@ -11,7 +12,6 @@ function eventRoom(eventId) {
 store.del('listeners');
 store.smembers('events').done(function(events) {
   'use strict';
-
   events.forEach(function(ev) {
     store.del(eventRoom(ev));
   });
@@ -36,6 +36,12 @@ exports.onSocket = function(log, socket, io) {
     log(user.name + ' joining ' + room);
 
     socket.join(room);
+    pluginEvents.emit('rejoin', socket, {
+      joined: true,
+      name: room,
+      msg: 'event.join',
+      args: eventData
+    });
 
     // sending initial list of users
     getAllUsers(room).done(function(allUsers) {
@@ -69,6 +75,10 @@ exports.onSocket = function(log, socket, io) {
     log(user.name + ' left ' + room);
 
     socket.leave(room);
+    pluginEvents.emit('rejoin', socket, {
+      joined: false,
+      name: room
+    });
 
     socket.broadcast.to(room).emit('event.user', {
       action: 'left',

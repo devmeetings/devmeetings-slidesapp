@@ -11,9 +11,9 @@ var trainersRoom = function(roomId) {
 };
 
 var updateClientData = function(socket, updater) {
-  store.get('socketClientData', socket.id).done(function(clientData) {
+  store.get('socketClientData_' + socket.id).done(function(clientData) {
     updater(clientData);
-    store.set('socketClientData', socket.id);
+    store.set('socketClientData_' + socket.id, clientData);
   });
 };
 
@@ -74,13 +74,22 @@ exports.onSocket = function(log, socket, io) {
       isAuthorized: true
     });
 
-    store.get('socketClientData', socket.id).done(function(data) {
+    store.get('socketClientData_' + socket.id).done(function(data) {
       updateClientData(socket, function(data) {
         data.isTrainer = true;
       });
 
       // Join trainers room
-      socket.join(trainersRoom(data.deck));
+      var trainersRoomName = trainersRoom(data.deck);
+      socket.join(trainersRoomName);
+
+      pluginsEvents.emit('rejoin', socket, {
+        joined: true,
+        name: trainersRoomName,
+        msg: 'trainer.register',
+        args: data
+      });
+
       Participants.getParticipants(io, data.deck).then(function(participants) {
         socket.emit('trainer.participants', participants);
       }, log.error);

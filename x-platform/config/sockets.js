@@ -44,6 +44,11 @@ module.exports = function(io, sessionConfig) {
 
   plugins.invokePlugins('initSockets', [io]);
 
+
+  pluginsEvents.on('rejoin', function(socket, msg) {
+    socket.emit('rejoin', msg);
+  });
+
   io.on('connection', function(socket) {
     var l = log(socket, 'main');
 
@@ -56,7 +61,7 @@ module.exports = function(io, sessionConfig) {
       return;
     }
 
-    store.set('socketClientData', socket.id, {
+    store.set('socketClientData_' + socket.id, {
       id: socket.id,
       user: socket.request.user
     });
@@ -65,8 +70,8 @@ module.exports = function(io, sessionConfig) {
 
     // Disconnection
     socket.on('disconnect', function() {
-      store.get('socketClientData', socket.id).done(function(data) {
-        store.del('socketClientData', socket.id);
+      store.get('socketClientData_' + socket.id).done(function(data) {
+        store.del('socketClientData_' + socket.id);
         pluginsEvents.emit('room.left', data.deck);
       });
     });

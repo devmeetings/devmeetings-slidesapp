@@ -22,16 +22,16 @@ module.exports = (function() {
 
   return {
 
-    get: function(prefix, key) {
-      return Q.ninvoke(client, 'get', prefix + '_' + key);
+    get: function(key) {
+      return Q.ninvoke(client, 'get', key);
     },
 
-    set: function(prefix, key, value) {
-      return Q.ninvoke(client, 'set', prefix + '_' + key, value);
+    set: function(key, value) {
+      return Q.ninvoke(client, 'set', key, value);
     },
 
-    del: function(prefix, key) {
-      return Q.ninvoke(client, 'del', prefix + '_' + key);
+    del: function(key) {
+      return Q.ninvoke(client, 'del', key);
     },
 
     sadd: function(key, value) {

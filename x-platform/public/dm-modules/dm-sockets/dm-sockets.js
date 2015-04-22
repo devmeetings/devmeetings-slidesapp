@@ -9,11 +9,12 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
         var deckId = (typeof slides === 'undefined') ? "-" : slides;
         var protocol = $location.protocol();
         var url = $location.host() + ':' + $location.port();
-        this._socket = io.connect(protocol + '://' + url + "/?deck=" + deckId);
+        this._socket = io.connect(protocol + '://' + url + '/?deck=' + deckId);
         var s = this._socket;
         this.emit = s.emit.bind(s);
         this.on = s.on.bind(s);
         this.off = s.off.bind(s);
+        this._createRoomReconnector();
 
         $window.addEventListener('message', function(ev) {
           var data = ev.data;
@@ -50,6 +51,35 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
             data: data
           }, targetOrigin);
         };
+      },
+
+      _createRoomReconnector: function() {
+        var s = this._socket;
+
+        var rooms = [];
+
+        s.on('reconnect', function() {
+          // Clear out rooms because we will get another rejoin events.
+          var toJoin = rooms.slice();
+          rooms.length = 0;
+          toJoin.forEach(function(room) {
+            s.emit(room.msg, room.args, function() {});
+          });
+
+        });
+
+        s.on('rejoin', function(channel) {
+          // Save channel to join later
+          if (channel.joined) {
+            rooms.push(channel);
+            return;
+          }
+
+          // Remove channel
+          _.remove(rooms, {
+            name: channel.name
+          });
+        });
       }
     };
     return WebSocket;

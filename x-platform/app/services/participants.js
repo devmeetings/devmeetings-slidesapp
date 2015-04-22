@@ -12,7 +12,7 @@ exports.getParticipants = function(io, roomId) {
 };
 
 exports.getClientData = function(socket) {
-  return store.get('socketClientData', socket.id);
+  return store.get('socketClientData_' + socket.id);
 };
 
 exports.getParticipantsCount = function(io, roomId) {
