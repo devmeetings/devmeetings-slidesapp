@@ -28,14 +28,17 @@ module.exports = {
     'use strict';
 
     //[ToDr] Using upsert here to gently overcome possible race conditions.
-    return Q.when(Cache.create({
-      key: key,
-      createdAt: new Date(),
-      content: value
-    })).fail(function() {
-      // Silently ignore error
-      return null;
-    });
+    return Q.when(Cache.update({
+      key: key
+    }, {
+      $setOnInsert: {
+        key: key,
+        createdAt: new Date(),
+        content: value
+      }
+    }, {
+      upsert: true
+    }));
   }
 
 };
