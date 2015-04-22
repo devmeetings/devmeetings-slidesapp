@@ -3,7 +3,7 @@ var DeckModel = require('../../models/deck');
 var Participants = require('../../services/participants');
 var _ = require('lodash');
 var logger = require('../../../config/logging');
-var store = require('../../../config/store');
+var store = require('../../services/store');
 
 
 var trainersRoom = function(roomId) {
@@ -11,7 +11,7 @@ var trainersRoom = function(roomId) {
 };
 
 var updateClientData = function(socket, updater) {
-  store.get('socketClientData', socket.id, function(clientData) {
+  store.get('socketClientData', socket.id).done(function(clientData) {
     updater(clientData);
     store.set('socketClientData', socket.id);
   });
@@ -74,7 +74,7 @@ exports.onSocket = function(log, socket, io) {
       isAuthorized: true
     });
 
-    store.get('socketClientData', socket.id, function(data) {
+    store.get('socketClientData', socket.id).done(function(data) {
       updateClientData(socket, function(data) {
         data.isTrainer = true;
       });

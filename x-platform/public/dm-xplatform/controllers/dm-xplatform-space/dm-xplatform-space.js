@@ -47,7 +47,7 @@ define([
     $scope.uniqueUsers = [];
 
     function rebuildUniqueUsers() {
-      $scope.uniqueUsers = _.uniq($scope.allUsers, 'name');
+      $scope.uniqueUsers = _.uniq($scope.allUsers, 'workspaceId');
       _.remove($scope.uniqueUsers, function(u){
         return u._id === $scope.user.result._id;
       });
@@ -84,7 +84,7 @@ define([
 
         if (userData.action === 'state.count') {
           // find user with specific owrkspace
-          user = _.find($scope.allUsers, {
+          user = _.find($scope.uniqueUsers, {
             workspaceId: userData.workspaceId
           });
           if (user) {

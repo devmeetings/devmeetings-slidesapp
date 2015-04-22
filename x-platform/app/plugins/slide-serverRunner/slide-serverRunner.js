@@ -2,7 +2,7 @@ var uuid = require('node-uuid');
 var _ = require('lodash');
 var Q = require('q');
 var logger = require('../../../config/logging');
-var store = require('../../../config/store');
+var store = require('../../services/store');
 
 var Workers = null;
 

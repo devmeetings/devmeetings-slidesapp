@@ -26,51 +26,13 @@ client.on('error', function(err) {
   throw err;
 });
 
-var subscribtions = {};
-client2.on('message', function(channel, msg) {
-  'use strict';
-
-  if (!subscribtions[channel]) {
-    return;
-  }
-
-  subscribtions[channel].forEach(function(cb) {
-    cb(msg);
-  });
-});
-
 module.exports = {
+  client: client,
+  client2: client2,
+
   getAddress: function() {
     'use strict';
     return address;
-  },
-
-  get: function(prefix, key, callback) {
-    'use strict';
-    return client.get(prefix + '_' + key, callback);
-  },
-
-  set: function(prefix, key, value, callback) {
-    'use strict';
-    return client.set(prefix + '_' + key, value, callback);
-  },
-
-  del: function(prefix, key) {
-    'use strict';
-    return client.del(prefix + '_' + key);
-  },
-
-  subscribe: function(channelName, callback) {
-    'use strict';
-    subscribtions[channelName] = subscribtions[channelName] || [];
-    subscribtions[channelName].push(callback);
-    client2.subscribe(channelName);
-  },
-
-  publish: function(channelName, message) {
-    'use strict';
-
-    client.publish(channelName, message);
   },
 
   sessionStore: function(session) {
@@ -81,5 +43,4 @@ module.exports = {
       client: client
     });
   }
-
 };

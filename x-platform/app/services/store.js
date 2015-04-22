@@ -1,0 +1,73 @@
+var store = require('../../config/store');
+var Q = require('q');
+
+var client = store.client;
+var client2 = store.client2;
+
+var subscribtions = {};
+client2.on('message', function(channel, msg) {
+  'use strict';
+
+  if (!subscribtions[channel]) {
+    return;
+  }
+
+  subscribtions[channel].forEach(function(cb) {
+    cb(msg);
+  });
+});
+
+module.exports = (function() {
+  'use strict';
+
+  return {
+
+    get: function(prefix, key) {
+      return Q.ninvoke(client, 'get', prefix + '_' + key);
+    },
+
+    set: function(prefix, key, value) {
+      return Q.ninvoke(client, 'set', prefix + '_' + key, value);
+    },
+
+    del: function(prefix, key) {
+      return Q.ninvoke(client, 'del', prefix + '_' + key);
+    },
+
+    sadd: function(key, value) {
+      return Q.ninvoke(client, 'sadd', key, value);
+    },
+
+    smembers: function(key) {
+      return Q.ninvoke(client, 'smembers', key);
+    },
+
+    hset: function(key, field, value) {
+      return Q.ninvoke(client, 'hset', key, field, value);
+    },
+
+    hdel: function(key, field) {
+      return Q.ninvoke(client, 'hdel', key, field);
+    },
+
+    hgetall: function(key) {
+      return Q.ninvoke(client, 'hgetall', key);
+    },
+
+    hincrby: function(key, field, value) {
+      return Q.ninvoke(client, 'hincrby', key, field, value);
+    },
+
+    subscribe: function(channelName, callback) {
+      subscribtions[channelName] = subscribtions[channelName] || [];
+      subscribtions[channelName].push(callback);
+      client2.subscribe(channelName);
+    },
+
+    publish: function(channelName, message) {
+
+      client.publish(channelName, message);
+    },
+  };
+
+}());

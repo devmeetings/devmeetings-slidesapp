@@ -1,6 +1,21 @@
-var store = require('../../../config/store');
+var store = require('../../services/store');
+var Q = require('q'),
+  _ = require('lodash');
 
-var userWorkspaceListeners = {};
+function eventRoom(eventId) {
+  'use strict';
+  return 'event_' + eventId;
+}
+
+// Clearing on Start
+store.del('listeners');
+store.smembers('events').done(function(events) {
+  'use strict';
+
+  events.forEach(function(ev) {
+    store.del(eventRoom(ev));
+  });
+});
 
 exports.onSocket = function(log, socket, io) {
   'use strict';
@@ -11,20 +26,25 @@ exports.onSocket = function(log, socket, io) {
     var user = getUser();
     var room = eventRoom(eventId);
 
-    // Update user's workspaceId;
+    // Add event for cleanup later
+    store.sadd('events', eventId);
 
-
-    TODO [ToDr] Rewrite all usages of userWorkspaces to store.
-    store.set('userWorkspaces', eventId + '_' + user._id, eventData.workspaceId);
-
+    // Register in store
     user.workspaceId = eventData.workspaceId;
+    store.hset(room, user._id, JSON.stringify(user));
+
     log(user.name + ' joining ' + room);
 
     socket.join(room);
-    // sending initial list of users
-    var allUsers = getAllUsers(room, userWorkspaces);
-    ack(allUsers);
 
+    // sending initial list of users
+    getAllUsers(room).done(function(allUsers) {
+      ack(_.values(allUsers));
+    });
+
+
+    user.workspaceListeners = 0;
+    console.log('Broadcasting user joined');
     socket.broadcast.to(room).emit('event.user', {
       action: 'joined',
       eventId: eventId,
@@ -44,8 +64,7 @@ exports.onSocket = function(log, socket, io) {
     var user = getUser();
     var room = eventRoom(eventId);
 
-    var userWorkspaces = userWorkspacesForEvent[eventId] || {};
-    delete userWorkspaces[user._id];
+    store.hdel(room, user._id);
 
     log(user.name + ' left ' + room);
 
@@ -58,9 +77,8 @@ exports.onSocket = function(log, socket, io) {
     });
   }
 
-  function getUser(s) {
-    s = s || socket;
-    var user = s.request.user;
+  function getUser() {
+    var user = socket.request.user;
 
     return {
       _id: user._id,
@@ -69,21 +87,38 @@ exports.onSocket = function(log, socket, io) {
     };
   }
 
-  function getAllUsers(room, userWorkspaces) {
-    var users = findClientsSocket(room).map(function(socket) {
-      return getUser(socket);
-    }).map(function(user) {
-      user.workspaceId = userWorkspaces[user._id];
-      user.workspaceListeners = userWorkspaceListeners[user.worskpaceId] || 0;
-      return user;
+  function hashValuesToJson(obj) {
+    if (!obj) {
+      return {};
+    }
+    Object.keys(obj).map(function(k) {
+      obj[k] = JSON.parse(obj[k]);
     });
-    return users;
+    return obj;
   }
 
-  function eventRoom(eventId) {
-    return 'event_' + eventId;
+  function getAllUsers(room) {
+    var users = store.hgetall(room).then(hashValuesToJson);
+    var workspaceListeners = store.hgetall('listeners').then(hashValuesToJson);
+
+    return Q.all([users, workspaceListeners]).then(function(data) {
+      var users = data[0];
+      var listeners = data[1];
+
+      Object.keys(users).map(function(userId) {
+        var user = users[userId];
+        user.workspaceListeners = listeners[user.workspaceId] || 0;
+      });
+
+      return users;
+    });
   }
 
+  /*
+   *  TODO [ToDr] Not sure if we can store this in memory
+   *  In theory when sticky sessions are enabled it should be ok
+   *  (the data is local to the specifc socket)
+   */
   var unsubscribeFrom = [];
 
   function changeWorkspaceListenersCount(mod, workspaceId) {
@@ -93,22 +128,21 @@ exports.onSocket = function(log, socket, io) {
       unsubscribeFrom.splice(unsubscribeFrom.indexOf(workspaceId), 1);
     }
 
-    var count = userWorkspaceListeners[workspaceId] || 0;
-    count += mod;
-    userWorkspaceListeners[workspaceId] = count;
+    store.hincrby('listeners', workspaceId, mod).done(function(count) {
+      socket.rooms.filter(function(room) {
+        return room.indexOf('event_') === 0;
+      }).map(function(roomName) {
+        var msg = {
+          action: 'state.count',
+          workspaceId: workspaceId,
+          count: count
+        };
+        // Broadcast
+        socket.broadcast.to(roomName).emit('event.user', msg);
+        // Send also to myself
+        socket.emit('event.user', msg);
+      });
 
-    socket.rooms.filter(function(room) {
-      return room.indexOf('event_') === 0;
-    }).map(function(roomName) {
-      var msg = {
-        action: 'state.count',
-        workspaceId: workspaceId,
-        count: count
-      };
-      // Broadcast
-      socket.broadcast.to(roomName).emit('event.user', msg);
-      // Send also to myself
-      socket.emit('event.user', msg);
     });
   }
 
@@ -118,24 +152,4 @@ exports.onSocket = function(log, socket, io) {
   socket.on('state.subscribe', changeWorkspaceListenersCount.bind(null, +1));
   socket.on('state.unsubscribe', changeWorkspaceListenersCount.bind(null, -1));
 
-  function findClientsSocket(roomId, namespace) {
-    var res = [],
-      ns = io.of(namespace || '/'); // the default namespace is "/"
-
-    if (!ns) {
-      return res;
-    }
-
-    for (var id in ns.connected) {
-      if (roomId) {
-        var index = ns.connected[id].rooms.indexOf(roomId);
-        if (index !== -1) {
-          res.push(ns.connected[id]);
-        }
-      } else {
-        res.push(ns.connected[id]);
-      }
-    }
-    return res;
-  }
 };
