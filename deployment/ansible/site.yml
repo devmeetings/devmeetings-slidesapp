@@ -36,10 +36,11 @@
   vars:
     with_dashboard: false
     with_management: false
+    xpla_version: '61'
     server_env: 'staging'
     server_domain: 'test.local'
     server_short: 'test'
-    server_cluster: 1
+    server_cluster: 2
     server_port: 3000
     server_port2: 3001
     server_redis_url: 'redis://localhost:6379'

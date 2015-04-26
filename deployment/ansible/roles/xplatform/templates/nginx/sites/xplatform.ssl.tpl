@@ -4,6 +4,13 @@
 proxy_cache_path /var/cache/nginx/{{server_domain}}/one keys_zone={{server_short}}one:20m;
 proxy_cache_path /var/cache/nginx/{{server_domain}}/two keys_zone={{server_short}}two:50m;
 
+upstream xpla_{{server_short}} {
+  ip_hash;
+
+{% for n in range(server_cluster) %}
+  server localhost:{{server_port + n}};
+{% endfor %}
+}
 
 server {
   listen 80;

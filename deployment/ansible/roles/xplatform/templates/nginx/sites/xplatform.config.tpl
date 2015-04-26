@@ -1,11 +1,3 @@
-upstream xplatform {
-  ip_hash;
-  {% for n in range(server_cluster) %}
-
-  server https://localhost:{{server_port + n}};
-
-  {% endfor %}
-}
 
 location /static/ {
   rewrite ^/static/(.*)$ /public/$1;
@@ -26,7 +18,7 @@ location /api/recordings {
   proxy_cache_valid 200 600m;
   add_header X-Cache-Status $upstream_cache_status;
 
-  proxy_pass  xplatform;
+  proxy_pass  https://xpla_{{server_short}};
   proxy_set_header Host      $host;
   proxy_set_header X-Real-IP $remote_addr;
 }
@@ -37,13 +29,13 @@ location /api/page {
   proxy_cache_min_uses 2;
   add_header X-Cache-Status $upstream_cache_status;
 
-  proxy_pass  xplatform;
+  proxy_pass  https://xpla_{{server_short}};
   proxy_set_header Host      $host;
   proxy_set_header X-Real-IP $remote_addr;
 }
 
 location / {
-  proxy_pass  xplatform;
+  proxy_pass  https://xpla_{{server_short}};
   proxy_set_header Host      $host;
   proxy_set_header X-Real-IP $remote_addr;
 
