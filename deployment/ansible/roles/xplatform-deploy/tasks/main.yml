@@ -51,7 +51,7 @@
   sudo_user: xplatform
 
 - name: start pm2 process
-  command: 'pm2 start --name "{{server_short}}" app.js'
+  command: 'pm2 start -i {{server_cluster}} --name "{{server_short}}" app.js'
   args:
     chdir: "/srv/{{server_domain}}/x-platform/"
   sudo: yes
