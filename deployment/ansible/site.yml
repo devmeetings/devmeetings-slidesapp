@@ -33,6 +33,7 @@
 - hosts: xplatform-node
   vars:
     with_dashboard: false
+    with_management: false
     server_env: 'box'
     server_domain: 'test.local'
     server_short: 'test'

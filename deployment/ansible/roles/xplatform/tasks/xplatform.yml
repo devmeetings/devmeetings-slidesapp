@@ -17,14 +17,14 @@
     owner: xplatform
 
 - name: Fetching XPlatform build
-  command: "wget http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.bz2 --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}.tar.bz2"
+  command: "wget http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}.tar.gz"
   args:
-    creates: /srv/_packages/{{server_domain}}.tar.bz2
+    creates: /srv/_packages/{{server_domain}}.tar.gz
 
   # There is some problem with authorization
   # get_url:
-  #   url: http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.bz2
-  #   dest: "/tmp/{{server_domain}}.tar.bz2"
+  #   url: http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.gz
+  #   dest: "/tmp/{{server_domain}}.tar.gz"
   #   url_username: builder
   #   url_password: 123Builder
 
@@ -32,7 +32,7 @@
   unarchive:
     copy: no
     dest: "/srv/{{server_domain}}"
-    src: "/srv/_packages/{{server_domain}}.tar.bz2"
+    src: "/srv/_packages/{{server_domain}}.tar.gz"
 
 - name: Installing Modules
   npm: 
