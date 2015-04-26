@@ -1,9 +1,14 @@
 [none]
 root@xpla.org:2255
+root@192.168.10.1
+root@192.168.1.126
 
 [just_xplatform]
-root@localhost:9022
 
 [raspberry]
-root@192.168.10.1
+
 [raspberry-provision]
+
+[xplatform-node]
+root@localhost:8022 
+# root@192.168.1.126

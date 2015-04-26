@@ -13,6 +13,8 @@
     - git
     - python-pycurl
     - unzip
+    - bzip2
+    - sudo
 
 - name: Managing PPA
   apt: name={{ item }}

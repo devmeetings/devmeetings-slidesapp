@@ -1,7 +1,7 @@
 ---
 - name: NodeJS | Install ppa key
   apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
-  when: ansible_machine != 'armv7l'
+  when: ansible_machine != 'armv7l' and ansible_machine != 'armv61'
 
 - name: NodeJS | Install PPA
   apt_repository: 
@@ -44,9 +44,9 @@
   when: ansible_machine == 'armv7l'
 
 - name: NodeJS | Tools
-  npm: name={{item}} global=yes
-  with_items:
-    - pm2
+  npm: 
+    name: pm2
+    global: yes
 
 - name: Ensuring build essential
   apt: name=build-essential
