@@ -1,5 +1,5 @@
 location /ext/convert {
-  proxy_cache one;
+  proxy_cache {{server_short}}one;
   proxy_cache_valid 200 60m;
   add_header X-Cache-Status $upstream_cache_status;
 
@@ -10,7 +10,7 @@ location /ext/convert {
 }
 
 location /ext/github/ {
-  proxy_cache one;
+  proxy_cache {{server_short}}one;
   proxy_cache_valid 200 60m; 
   add_header X-Cache-Status $upstream_cache_status;
 
@@ -21,7 +21,7 @@ location /ext/github/ {
 }
 
 location /ext/soundcloud/tracks.json {
-  proxy_cache one;
+  proxy_cache {{server_short}}one;
   proxy_cache_valid 200 60m;
   add_header X-Cache-Status $upstream_cache_status;
   proxy_ignore_headers "Cache-Control";
@@ -33,7 +33,7 @@ location /ext/soundcloud/tracks.json {
 }
 
 location /ext/lorempixel/ {
-  proxy_cache one;
+  proxy_cache {{server_short}}one;
   proxy_cache_valid 200 60m;
   add_header X-Cache-Status $upstream_cache_status;
 

@@ -14,12 +14,6 @@
     state: present
   when: ansible_distribution == 'Debian'
 
-- name: MongoDB | Small Files
-  lineinfile:
-    line: smallfiles=true
-    insertbefore: nojournal
-    dest: /etc/mongod.conf
-
 - name: Mongodb
   apt:
     pkg: mongodb-org-server

@@ -33,33 +33,40 @@
 
 - name: Nginx | Copying Configuration file
   copy:
-    src: nginx/xplatform.conf
-    dest: /etc/nginx/conf.d/xplatform.conf
-
-- name: Nginx | Copying Site file
-  copy:
-    src: nginx/local.site
-    dest: /etc/nginx/sites-available/local.site
-
-- name: Nginx | Management site file
-  copy:
-    src: nginx/mgmt.site
-    dest: /etc/nginx/sites-available/mgmt.site
-
-- name: Nginx | Authorization file
-  copy:
-    src: nginx/mgmt.passwd
-    dest: /etc/nginx/
+    src: nginx/syslog.conf
+    dest: /etc/nginx/conf.d/syslog.conf
 
 - name: Nginx | Disabling default website
   file: dest=/etc/nginx/sites-enabled/default state=absent
 
-- name: Nginx | Enabling Xplatform
-  file: src=/etc/nginx/sites-available/local.site dest=/etc/nginx/sites-enabled/local.site state=link
+- name: Nginx | Copying site
+  copy:
+    src: nginx/sites/xplatform.ssl.tpl
+    dest: /etc/nginx/sites-available/{{server_domain}}
 
-- name: Nginx | Enabling Box Management
-  file: src=/etc/nginx/sites-available/mgmt.site dest=/etc/nginx/sites-enabled/mgmt.site state=link
+- name: Nginx | Copying Configuration
+  copy:
+    src: nginx/sites/xplatform.config.tpl
+    dest: /etc/nginx/xpla/{{server_domain}}
 
+- name: Nginx | Copying Services Configuration
+  copy:
+    src: nginx/sites/xplatform.services.tpl
+    dest: /etc/nginx/xpla/xplatform.services
+
+- name: Nginx | Copying Keys
+  copy:
+    src: keys/ssl-unified.crt
+    dest: /etc/nginx/xpla/keys/ssl-unified.crt
+- name: Nginx | Copying Keys2
+  copy:
+    src: keys/ssl.key
+    dest: /etc/nginx/xpla/keys/ssl.key 
+
+- name: Nginx | Enabling XPlatform
+  file: 
+    src: /etc/nginx/sites-available/{{server_domain}} 
+    dest: /etc/nginx/sites-enabled/{{server_domain}} state=link
 
 - service: name=nginx state=restarted 
 - service: name=nginx enabled=yes

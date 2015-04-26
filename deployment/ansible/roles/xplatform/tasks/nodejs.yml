@@ -46,9 +46,7 @@
 - name: NodeJS | Tools
   npm: name={{item}} global=yes
   with_items:
-    - grunt-cli
-    - forever
-    - forever-service
+    - pm2
 
 - name: Ensuring build essential
   apt: name=build-essential

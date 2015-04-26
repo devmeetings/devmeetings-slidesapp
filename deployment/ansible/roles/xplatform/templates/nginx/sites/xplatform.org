@@ -8,7 +8,7 @@ server {
   listen 80;
   server_name unsafe.xplatform.org;
  
-  include xplatform.config;
+  include xpla/xplatform.org.config;
 }
 
 server {
@@ -30,10 +30,10 @@ server {
   server_name xplatform.org *.xplatform.org;
 
   ssl on;
-  ssl_certificate /etc/nginx/keys/ssl-unified.crt;
-  ssl_certificate_key /etc/nginx/keys/ssl.key;
+  ssl_certificate /etc/nginx/xpla/keys/ssl-unified.crt;
+  ssl_certificate_key /etc/nginx/xpla/keys/ssl.key;
 
-  include xplatform.config;
+  include xpla/xplatform.org.config;
 
   location /nginx_status {
 # copied from http://blog.kovyrin.net/2006/04/29/monitoring-nginx-with-rrdtool/

@@ -23,9 +23,23 @@
   vars:
     with_dashboard: false
     with_management: true
-    node_env: 'box'
+    server_env: 'box'
   roles:
     - common
     - rasbpi
     - rasbpi-mongodb
+    - xplatform
+
+- hosts: xplatform-node
+  vars:
+    with_dashboard: false
+    server_env: 'box'
+    server_domain: 'test.local'
+    server_short: 'test'
+    server_port: 3000
+    server_port2: 3001
+    server_redis_url: 'redis://localhost:6379'
+    server_mongo_url: 'mongodb://localhost:27017/platform-box'
+  roles:
+    - common
     - xplatform

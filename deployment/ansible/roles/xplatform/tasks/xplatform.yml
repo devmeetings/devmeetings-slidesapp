@@ -5,40 +5,43 @@
 - name: Create directory /srv
   file: path=/srv state=directory mode=0755 owner=xplatform
 
-- name: Copy deployment key
-  copy: src=deployment.key dest=/srv mode=0600
 
-- name: XPlatform from repo
-  git:  
-    repo: git@github.com:devmeetings/devmeetings-slidesapp.git
-    dest: /srv/xplatform
-    key_file: /srv/deployment.key
-    accept_hostkey: yes
+- name: Create directory for Domain
+  file: path=/srv/{{server_domain}} state=directory mode=0755 owner=xplatform
+
+- name: Fetching XPlatform build
+  get_url:
+    url: http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.bz2
+    dest: /tmp/{{server_domain}}.tar.bz2
+    url_username: builder
+    url_password: 123Builder
+
+- name: Unpacking XPlatform
+  unarchive:
+    copy: no
+    dest: /srv/{{server_domain}}
+    src: /tmp/{{server_domain}}.tar.bz2
 
 - name: Installing Modules
-  npm: path=/srv/xplatform/x-platform
+  npm: path=/srv/{{server_domain}}/x-platform
 
-- name: Building XPlatform
-  command: npm --unsafe-perm run-script build
+- name: Run On Startup
+  command: pm2 startup -u xplatform
+  creates: /etc/init.d/pm2-init.sh
   args:
-    chdir: /srv/xplatform/x-platform
-    creates: /srv/xplatform/x-platform/.version
+    chdir: /srv/{{server_domain}}
 
-- name: Copying run script
-  template: 
-    src: run_platform
-    dest: /srv/run_platform
-    owner: xplatform
-    mode: '0755'
+- name: delete existing pm2 processes if running
+  command: pm2 delete {{server_domain}}
+  ignore_errors: True
 
-- name: Putting to Autostart
-  lineinfile:
-    line: su xplatform -c "/srv/run_platform"
-    insertbefore: exit
-    dest: /etc/rc.local
-
-# This runs the service as root! Shitty as hell!
-# - name: Putting to Autostart
-#   command: forever-service install xplatform --script /srv/drop.js -e "NODE_ENV=production" --start
-#   args:
-#     chdir: /srv/xplatform/x-platform
+- name: start pm2 process
+  command: pm2 --run-as-user xplatform start  --name "{{server_domain}}" app.js
+  args:
+    chdir: /srv/{{server_domain}}
+  environment:
+    NODE_ENV: {{server_env}}
+    PORT: {{server_port}}
+    REALM_URL: {{server_domain}}
+    MONGO_URL: {{server_mongo_url}} 
+    REDIS_URL: {{server_redis_url}}

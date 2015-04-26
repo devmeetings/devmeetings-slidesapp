@@ -1,5 +1,18 @@
 ---
 
+- name: Nginx | Management site file
+  copy:
+    src: nginx/mgmt.site
+    dest: /etc/nginx/sites-available/mgmt.site
+
+- name: Nginx | Authorization file
+  copy:
+    src: nginx/mgmt.passwd
+    dest: /etc/nginx/
+
+- name: Nginx | Enabling Box Management
+  file: src=/etc/nginx/sites-available/mgmt.site dest=/etc/nginx/sites-enabled/mgmt.site state=link
+
 - name: Installing Modules
   npm: path=/srv/xplatform/tools/raspberrypi-manager
 
