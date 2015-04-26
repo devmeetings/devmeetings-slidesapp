@@ -12,6 +12,7 @@
     - common
     - mongodb
     - xplatform
+    - xplatform-deploy
 
 - hosts: raspberry-provision
   gather_facts: no
@@ -29,18 +30,20 @@
     - rasbpi
     - rasbpi-mongodb
     - xplatform
+    - xplatform-deploy
 
 - hosts: xplatform-node
   vars:
     with_dashboard: false
     with_management: false
-    server_env: 'box'
+    server_env: 'staging'
     server_domain: 'test.local'
     server_short: 'test'
     server_port: 3000
     server_port2: 3001
     server_redis_url: 'redis://localhost:6379'
-    server_mongo_url: 'mongodb://localhost:27017/platform-box'
+    server_mongo_url: 'mongodb://localhost:27017/platform-staging'
   roles:
     - common
     - xplatform
+    - xplatform-deploy
