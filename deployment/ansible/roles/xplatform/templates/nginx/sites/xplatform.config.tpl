@@ -58,6 +58,6 @@ location /live {
 error_page 502 /offline.html;
 
 location = /offline.html {
-  root /srv/{{server_domain}}/;
+  root /srv/{{server_domain}}/x-platform;
 }
 

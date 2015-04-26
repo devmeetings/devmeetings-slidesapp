@@ -5,6 +5,10 @@
 - name: Create directory /srv
   file: path=/srv state=directory mode=0755 owner=xplatform
 
+- name: Create directory /srv/_packages
+  file: path=/srv/_packages state=directory mode=0755 owner=xplatform
+
+
 - name: Create directory for Domain
   file: 
     path: "/srv/{{server_domain}}"
@@ -13,9 +17,9 @@
     owner: xplatform
 
 - name: Fetching XPlatform build
-  command: "wget http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.bz2 --user builder --password 123Builder --auth-no-challenge -O /tmp/{{server_domain}}.tar.bz2"
+  command: "wget http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.bz2 --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}.tar.bz2"
   args:
-    creates: /tmp/{{server_domain}}.tar.bz2
+    creates: /srv/_packages/{{server_domain}}.tar.bz2
 
   # There is some problem with authorization
   # get_url:
@@ -28,7 +32,7 @@
   unarchive:
     copy: no
     dest: "/srv/{{server_domain}}"
-    src: "/tmp/{{server_domain}}.tar.bz2"
+    src: "/srv/_packages/{{server_domain}}.tar.bz2"
 
 - name: Installing Modules
   npm: 
@@ -43,16 +47,15 @@
 - name: delete existing pm2 processes if running
   command: "pm2 delete {{server_short}}"
   ignore_errors: True
-  args:
-    sudo: yes
-    sudo_user: xplatform
+  sudo: yes
+  sudo_user: xplatform
 
 - name: start pm2 process
   command: 'pm2 start --name "{{server_short}}" app.js'
   args:
     chdir: "/srv/{{server_domain}}/x-platform/"
-    sudo: yes
-    sudo_user: xplatform
+  sudo: yes
+  sudo_user: xplatform
   environment:
     NODE_ENV: "{{server_env}}"
     PORT: "{{server_port}}"
@@ -62,7 +65,6 @@
 
 - name: Register keymetrics
   command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'
-  args:
-    sudo: yes
-    sudo_user: xplatform
+  sudo: yes
+  sudo_user: xplatform
 
