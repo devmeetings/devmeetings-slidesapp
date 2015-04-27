@@ -1,6 +1,7 @@
 ---
 - include: nodejs.yml
 - include: nginx.yml
+- include: xplatform-tunnels.yml
 - include: xdashboard.yml
   when: with_dashboard
 - include: xplatform-mgmt.yml

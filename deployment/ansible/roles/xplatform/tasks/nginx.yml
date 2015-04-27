@@ -17,11 +17,6 @@
   apt_repository:
     repo: deb http://http.debian.net/debian wheezy-backports main
   when: ansible_distribution == 'Debian'
-#
-# - name: Nginx | Adding backports key
-#   command: wget -q http://http.debian.net/debian/dists/wheezy-backports/Release.gpg -O - | apt-key add -
-#   when: ansible_distribution == 'Debian'
-#
 
 - name: Nginx | Make sure nginx is installed (package)
   apt:

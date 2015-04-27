@@ -1,0 +1,44 @@
+---
+- name: Installing autossh
+  apt:
+    name: autossh
+    state: present
+
+- name: SSH dir
+  file:
+    name: /srv/.ssh
+    owner: xplatform
+    mode: 0700
+    state: directory
+
+- name: Copying keys
+  copy:
+    src: tunnels/tunnel
+    dest: /srv/.ssh/tunnel
+
+- name: Copying keys
+  copy:
+    src: tunnels/tunnel.pub
+    dest: /srv/.ssh/tunnel.pub
+
+- name: Known_hosts file
+  copy:
+    src: tunnels/known_hosts
+    dest: /srv/.ssh/known_hosts
+
+- name: Configuring AutoSSH tunnel
+  copy:
+    src: tunnels/autossh.config
+    dest: /etc/default/autossh
+
+- name: Creating Autostart Script
+  copy:
+    src: tunnels/autossh.init
+    dest: /etc/init.d/autossh
+    mode: 0755
+
+- name: Starting tunnels
+  service:
+    name: autossh
+    state: restarted
+

@@ -11,5 +11,5 @@ root@192.168.1.126
 
 [xplatform-node]
 root@localhost:8022
-#root@192.168.1.126
-#root@192.168.1.114
+root@192.168.0.100
+#root@192.168.0.102
