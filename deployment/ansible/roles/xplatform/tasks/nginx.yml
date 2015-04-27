@@ -77,7 +77,7 @@
 - name: Nginx | Copying Services Configuration
   template:
     src: nginx/sites/xplatform.services.tpl
-    dest: /etc/nginx/xpla/xplatform.services
+    dest: /etc/nginx/xpla/{{server_domain}}.services
 
 - name: Nginx | Copying Keys
   copy:

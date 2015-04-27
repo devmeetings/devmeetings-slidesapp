@@ -11,7 +11,7 @@ location /public {
   expires 3d;
 }
 
-include xpla/xplatform.services;
+include xpla/{{server_domain}}.services;
 
 location /api/recordings {
   proxy_cache {{server_short}}two;

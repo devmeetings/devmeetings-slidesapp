@@ -14,6 +14,13 @@ upstream xpla_{{server_short}} {
 
 server {
   listen 80;
+  server_name unsafe.{{server_domain}};
+ 
+  include xpla/{{server_domain}}.config;
+}
+
+server {
+  listen 80;
   server_name {{server_domain}} www.{{server_domain}} *.{{server_domain}};
 
   location / {
