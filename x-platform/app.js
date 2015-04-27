@@ -62,7 +62,7 @@ require('./config/blocked')(function(ms) {
 });
 
 
-server.listen(config.port, function() {
+server.listen(config.port, 'localhost', function() {
   var instance = process.env.NODE_APP_INSTANCE || 0;
   logger.info('Server listening on port:', parseInt(config.port, 10) + parseInt(instance, 10));
 });
