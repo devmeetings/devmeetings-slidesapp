@@ -14,11 +14,11 @@
     - xplatform
     - xplatform-deploy
 
-- hosts: raspberry-provision
+- hosts: python-provision
   gather_facts: no
   tasks:
     - name: Installing Python
-      raw: apt-get install python-simplejson python-apt -y
+      raw: apt-get update && apt-get install python python-simplejson python-apt -y
 
 - hosts: raspberry
   vars:
@@ -55,7 +55,7 @@
     with_dashboard: false
     with_management: false
     xpla_version: '62'
-    server_env: 'production'
+    server_env: 'staging'
     server_cluster: 1
     server_port: 3000
     server_port2: 3003

@@ -4,7 +4,7 @@
 
 - name: Repository Ubuntu
   apt_repository:
-    repo: deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 main 
+    repo: deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse
     state: present
   when: ansible_distribution == 'Ubuntu'
 
