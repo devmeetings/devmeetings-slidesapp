@@ -33,13 +33,13 @@
     - xplatform-deploy
 
 - hosts: xplatform-node
+  become: yes
+  become_user: root
   vars:
     with_dashboard: false
     with_management: false
     xpla_version: '62'
     server_env: 'staging'
-    server_domain: 'test.local'
-    server_short: 'test'
     server_cluster: 1
     server_port: 3000
     server_port2: 3003
@@ -47,5 +47,23 @@
     server_mongo_url: 'mongodb://localhost:27017/platform-staging'
   roles:
     - common
+    - xplatform
+    - xplatform-deploy
+
+- hosts: xplatform-main
+  vars:
+    with_dashboard: false
+    with_management: false
+    xpla_version: '62'
+    server_env: 'production'
+    server_cluster: 1
+    server_port: 3000
+    server_port2: 3003
+    server_redis_url: 'redis://localhost:6379'
+    server_mongo_url: 'mongodb://localhost:27017/platform-staging'
+  roles:
+    - common
+    - redis
+    - mongodb
     - xplatform
     - xplatform-deploy

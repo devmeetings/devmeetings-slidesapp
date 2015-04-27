@@ -1,0 +1,23 @@
+---
+- name: Creating Backups user
+  user: name=backups comment="Backups User" home=/home/backups shell=/bin/bash
+
+- name: Create directory /home/backups
+  file: path=/home/backups state=directory mode=0700 owner=backups
+
+- name: Create directory /home/backups/mongodb
+  file: path=/home/backups/mongodb state=directory mode=0700 owner=backups
+
+
+- name: Copying backups script
+  copy:
+    src: automongobackup.sh
+    dest: /home/backups/automongobackup.sh
+    owner: backups
+    mode: 0755
+
+- name: Copying cron job
+  copy:
+    src: mongo-backups
+    dest: /etc/cron.daily/mongo-backups
+    mode: 0755

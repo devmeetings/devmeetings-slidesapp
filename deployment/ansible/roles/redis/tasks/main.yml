@@ -1,0 +1,13 @@
+---
+- name: Redis
+  apt:
+    pkg: redis-server
+    state: present
+
+- name: Redis started
+  service: name=redis-server state=started
+
+- name: Redis enabled
+  service: name=redis-server enabled=yes
+
+# TODO [Authorization]!!!

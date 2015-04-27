@@ -1,26 +1,5 @@
 ---
-- name: Keys
-  apt_key: id=7F0CEB10 url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x9ECBEC467F0CEB10
+- include: mongodb.yml
+- include: backups.yml
 
-- name: Repository Ubuntu
-  apt_repository:
-    repo: deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 main 
-    state: present
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Repository Debian
-  apt_repository:
-    repo: deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.0 main 
-    state: present
-  when: ansible_distribution == 'Debian'
-
-- name: Mongodb
-  apt:
-    pkg: mongodb-org-server
-    state: present
-
-- name: Mongo started
-  service: name=mongod state=started
-
-- name: Mongo enabled
-  service: name=mongod enabled=yes
+# TODO [Authorization]!!!

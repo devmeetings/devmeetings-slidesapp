@@ -1,10 +1,4 @@
 ---
-- name: Creating XPlatform user
-  user: name=xplatform comment="XPlatform Run" home=/srv
-
-- name: Create directory /srv
-  file: path=/srv state=directory mode=0755 owner=xplatform
-
 - name: Create directory /srv/_packages
   file: path=/srv/_packages state=directory mode=0755 owner=xplatform
 
@@ -59,7 +53,7 @@
   environment:
     NODE_ENV: "{{server_env}}"
     PORT: "{{server_port}}"
-    REALM_URL: "{{server_domain}}"
+    REALM_URL: "https://{{server_domain}}"
     MONGO_URL: "{{server_mongo_url}}"
     REDIS_URL: "{{server_redis_url}}"
 

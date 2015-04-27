@@ -46,3 +46,8 @@
 
 - name: Apticron
   apt: name=apticron state=present
+
+
+- name: Setting hostname
+  hostname:
+    name: "{{hostname}}"
