@@ -14,7 +14,6 @@
   become_user: root
   vars:
     hostname: "{{server_domain}}"
-    with_tunnels: true
     xpla_job: 'XPlatform'
     xpla_version: '66'
     server_env: 'production'
@@ -24,6 +23,7 @@
   roles:
     - common
     - nodejs
+    - xplatform-tunnels
     - xplatform
     - xplatform-deploy
 
@@ -32,7 +32,6 @@
   become_user: root
   vars:
     hostname: "{{server_domain}}"
-    with_tunnels: false
     xpla_job: 'XPlatform'
     xpla_version: '66'
     server_env: 'production'

@@ -1,4 +1,10 @@
 ---
+- name: Create dir
+  file:
+    state: directory
+    name: /srv/executors
+    mode: 0755
+
 - name: Creating user for node-executor
   user:
     name: exec-node
@@ -7,7 +13,7 @@
     shell: /usr/sbin/nologin
 
 - name: Fetching build
-  command: "wget http://applejack.todr.me:8080/job/Executor.Node/{{exec_node_version}}/artifact/nodeExecutors.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_node_{{exec_node_version}}.tar.gz"
+  command: "wget http://applejack.todr.me:8080/job/Executor.Node/{{exec_node_version}}/artifact/executors/nodeExecutors.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_node_{{exec_node_version}}.tar.gz"
   args:
     creates: /srv/_packages/exec_node_{{exec_node_version}}.tar.gz
 
@@ -42,7 +48,7 @@
 - name: start pm2 process
   command: 'pm2 start -i {{exec_node_cluster}} --name "exec_express" app.js'
   args:
-    chdir: "/srv/executors/node/runner_express"
+    chdir: "/srv/executors/node/nodeExecutors/runner_express"
   sudo: yes
   sudo_user: exec-node
   environment:
@@ -51,7 +57,7 @@
 - name: start pm2 process
   command: 'pm2 start -i {{exec_node_cluster}} --name "exec_node" app.js'
   args:
-    chdir: "/srv/executors/node/runner_node"
+    chdir: "/srv/executors/node/nodeExecutors/runner_node"
   sudo: yes
   sudo_user: exec-node
   environment:
