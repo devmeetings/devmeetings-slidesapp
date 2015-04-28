@@ -176,7 +176,7 @@ var Events = {
   },
 
   _findAnnotation: function(annotationId) {
-    return Q.when(Annotations.findById(annotationId));
+    return Q.when(Annotations.findById(annotationId).exec());
   },
 
   annotationCreate: function(req, res) {
