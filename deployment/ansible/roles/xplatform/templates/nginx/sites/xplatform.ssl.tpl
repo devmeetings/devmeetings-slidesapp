@@ -33,8 +33,8 @@ server {
   server_name {{server_domain}} *.{{server_domain}};
 
   ssl on;
-  ssl_certificate /etc/nginx/xpla/keys/ssl-unified.crt;
-  ssl_certificate_key /etc/nginx/xpla/keys/ssl.key;
+  ssl_certificate /etc/nginx/xpla/keys/{{server_domain}}.crt;
+  ssl_certificate_key /etc/nginx/xpla/keys/{{server_domain}}.key;
 
   include xpla/{{server_domain}}.config;
 

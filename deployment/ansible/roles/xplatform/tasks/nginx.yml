@@ -72,21 +72,40 @@
 - name: Nginx | Copying Configuration
   template:
     src: nginx/sites/xplatform.config.tpl
-    dest: "/etc/nginx/xpla/{{server_domain}}.config"
+    dest: "/etc/nginx/xpla/{{server_domain}}.config"  
 
 - name: Nginx | Copying Services Configuration
   template:
     src: nginx/sites/xplatform.services.tpl
     dest: /etc/nginx/xpla/{{server_domain}}.services
 
+- name: Nginx | Checking if there is domain specific key
+  local_action: stat path="../files/keys/{{server_domain}}.crt"
+  register: result
+
 - name: Nginx | Copying Keys
   copy:
-    src: keys/ssl-unified.crt
-    dest: /etc/nginx/xpla/keys/ssl-unified.crt
+    src: keys/xplatform.org.crt
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.crt
+  when: result.exists == False
+
 - name: Nginx | Copying Keys2
   copy:
-    src: keys/ssl.key
-    dest: /etc/nginx/xpla/keys/ssl.key 
+    src: keys/xplatform.org.key
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.key 
+  when: result.exists == False
+
+- name: Nginx | Copying Domain Specific Keys
+  copy:
+    src: keys/{{server_domain}}.crt
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.crt
+  when: result.exists
+
+- name: Nginx | Copying Domain Specific Keys2
+  copy:
+    src: keys/{{server_domain}}.key
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.key 
+  when: result.exists
 
 - name: Nginx | Enabling XPlatform
   file: 
