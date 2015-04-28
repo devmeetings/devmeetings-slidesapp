@@ -64,7 +64,6 @@
   become_user: root
   vars:
     exec_node_version: '63'
-    exec_node_redis_url: 'redis://localhost:6379'
     exec_node_cluster: 2
   roles:
     - common
