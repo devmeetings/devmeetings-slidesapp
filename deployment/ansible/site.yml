@@ -45,4 +45,5 @@
     - mongodb
     - nodejs
     - xplatform
+    - xplatform-main
     - xplatform-deploy

@@ -1,10 +1,4 @@
 ---
-- name: Creating XPlatform user
-  user: name=xplatform comment="XPlatform Run" home=/srv
-
-- name: Create directory /srv
-  file: path=/srv state=directory mode=0755 owner=xplatform
-
 - name: Installing autossh
   apt:
     name: autossh
