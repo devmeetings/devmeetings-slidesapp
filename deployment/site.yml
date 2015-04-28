@@ -47,3 +47,15 @@
     - xplatform
     - xplatform-main
     - xplatform-deploy
+
+- hosts: xplatform-deploy
+  become: yes
+  become_user: root
+  vars:
+    xpla_job: 'XPlatform'
+    xpla_version: '65'
+    server_env: 'staging'
+    server_cluster: 4
+    server_port: 3000
+  roles:
+    - xplatform-deploy

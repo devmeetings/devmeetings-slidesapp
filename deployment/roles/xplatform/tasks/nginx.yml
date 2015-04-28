@@ -80,32 +80,34 @@
     dest: /etc/nginx/xpla/{{server_domain}}.services
 
 - name: Nginx | Checking if there is domain specific key
-  local_action: stat path="../files/keys/{{server_domain}}.crt"
+  local_action: "stat path={{role_path}}/files/keys/{{server_domain}}.crt"
+  sudo: no
+  become: no
   register: result
 
 - name: Nginx | Copying Keys
   copy:
     src: keys/xplatform.org.crt
     dest: /etc/nginx/xpla/keys/{{server_domain}}.crt
-  when: result.exists == False
+  when: result.stat.exists == False
 
 - name: Nginx | Copying Keys2
   copy:
     src: keys/xplatform.org.key
     dest: /etc/nginx/xpla/keys/{{server_domain}}.key 
-  when: result.exists == False
+  when: result.stat.exists == False
 
 - name: Nginx | Copying Domain Specific Keys
   copy:
     src: keys/{{server_domain}}.crt
     dest: /etc/nginx/xpla/keys/{{server_domain}}.crt
-  when: result.exists
+  when: result.stat.exists
 
 - name: Nginx | Copying Domain Specific Keys2
   copy:
     src: keys/{{server_domain}}.key
     dest: /etc/nginx/xpla/keys/{{server_domain}}.key 
-  when: result.exists
+  when: result.stat.exists
 
 - name: Nginx | Enabling XPlatform
   file: 
