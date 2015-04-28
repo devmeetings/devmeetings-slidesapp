@@ -7,6 +7,7 @@ var staticsPath = '/static';
 
 var config = {
   development: {
+    name: 'development',
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '',
@@ -36,6 +37,7 @@ var config = {
   },
 
   test: {
+    name: 'test',
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
@@ -68,6 +70,7 @@ var config = {
   },
 
   staging: {
+    name: 'staging',
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
@@ -105,6 +108,7 @@ var config = {
   },
 
   production: {
+    name: 'production',
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
@@ -141,6 +145,7 @@ var config = {
   },
 
   box: {
+    name: 'box',
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',

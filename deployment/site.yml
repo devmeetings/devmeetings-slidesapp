@@ -34,7 +34,7 @@
     hostname: "{{server_domain}}"
     with_tunnels: false
     xpla_job: 'XPlatform'
-    xpla_version: '62'
+    xpla_version: '65'
     server_env: 'staging'
     server_cluster: 4
     server_port: 3000
@@ -59,3 +59,13 @@
     server_port: 3000
   roles:
     - xplatform-deploy
+
+- hosts: exec-node
+  become: yes
+  become_user: root
+  vars:
+    exec_node_version: '63'
+    exec_node_redis_url: ''
+    exec_node_cluster: 2
+  roles:
+    - exec-node

@@ -1,2 +1,64 @@
 ---
+- name: Creating user for node-executor
+  user:
+    name: exec-node
+    comment: 'Node Executor'
+    home: /srv/executors/node
+    shell: /usr/sbin/nologin
 
+- name: Fetching build
+  command: "wget http://applejack.todr.me:8080/job/Executor.Node/{{exec_node_version}}/artifact/nodeExecutors.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_node_{{exec_node_version}}.tar.gz"
+  args:
+    creates: /srv/_packages/exec_node_{{exec_node_version}}.tar.gz
+
+- name: Unpacking Node Executor
+  unarchive:
+    copy: no
+    dest: "/srv/executors/node"
+    src: /srv/_packages/exec_node_{{exec_node_version}}.tar.gz
+
+- name: Installing Modules
+  npm:
+    path: "/srv/executors/node/nodeExecutors"
+
+- name: Run On Startup
+  command: pm2 startup -u exec-node && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-node.sh
+  args:
+    creates: /etc/init.d/pm2-exec-node.sh
+    chdir: "/srv/executors/node"
+
+- name: delete existing pm2 processes if running
+  command: "pm2 delete exec_express"
+  ignore_errors: True
+  sudo: yes
+  sudo_user: exec-node
+
+- name: delete existing pm2 processes if running
+  command: "pm2 delete exec_node"
+  ignore_errors: True
+  sudo: yes
+  sudo_user: exec-node
+
+- name: start pm2 process
+  command: 'pm2 start -i {{exec_node_cluster}} --name "exec_express" app.js'
+  args:
+    chdir: "/srv/executors/node/runner_express"
+  sudo: yes
+  sudo_user: exec-node
+  environment:
+    REDIS_URL: "{{exec_node_redis_url}}"
+
+- name: start pm2 process
+  command: 'pm2 start -i {{exec_node_cluster}} --name "exec_node" app.js'
+  args:
+    chdir: "/srv/executors/node/runner_node"
+  sudo: yes
+  sudo_user: exec-node
+  environment:
+    REDIS_URL: "{{exec_node_redis_url}}"
+
+- name: Register keymetrics
+  command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'
+  sudo: yes
+  sudo_user: exec-node
+  ignore_errors: true
