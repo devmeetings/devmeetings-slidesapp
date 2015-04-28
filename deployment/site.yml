@@ -64,7 +64,7 @@
   become_user: root
   vars:
     exec_node_version: 'lastSuccessfulBuild'
-    exec_node_cluster: 2
+    exec_node_cluster: 1
   roles:
     - common
     - nodejs
@@ -76,7 +76,7 @@
   become_user: root
   vars:
     exec_burger_version: 'lastSuccessfulBuild'
-    exec_burger_cluster: 2
+    exec_burger_cluster: 1
   roles:
     - common
     - xplatform-tunnels

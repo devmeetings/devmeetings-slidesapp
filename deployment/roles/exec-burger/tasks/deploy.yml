@@ -41,7 +41,7 @@
   sudo_user: exec-burger
 
 - name: start pm2 process
-  command: 'pm2 start -x -i {{exec_burger_cluster}} --name "exec_burger" /usr/bin/python3 -- app.py'
+  command: 'pm2 -x -i {{exec_burger_cluster}} --name "exec_burger" --interpreter python3 start app.py'
   args:
     chdir: "/srv/executors/burger/burgerExecutor"
   sudo: yes

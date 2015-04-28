@@ -3,6 +3,10 @@
   apt_repository:
     repo: "ppa:webupd8team/java"
 
+# Might need to run this manually?
+- name: JavaExec | Auto accepting Java8 license
+  shell: "echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections"
+
 - name: JavaExec | Installing deps
   apt: pkg={{item}}
   with_items:

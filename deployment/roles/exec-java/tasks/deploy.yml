@@ -41,7 +41,7 @@
   sudo_user: exec-java
 
 - name: start pm2 process
-  command: 'pm2 start -x --name "exec_java" javaExecutor'
+  command: 'pm2 start -x --name "exec_java" --interpreter bash javaExecutor'
   args:
     chdir: "/srv/executors/java/javaExecutor-1.0/bin"
   sudo: yes
