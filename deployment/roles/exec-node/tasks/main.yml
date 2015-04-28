@@ -11,6 +11,12 @@
     comment: 'Node Executor'
     home: /srv/executors/node
 
+- name: NodeExec | Verify newest version
+  file:
+    state: absent
+    path: /srv/_packages/exec_node_{{exec_node_version}}.tar.gz
+  when: exec_node_version == 'lastSuccessfulBuild'
+
 - name: Fetching build
   command: "wget http://applejack.todr.me:8080/job/Executor.Node/{{exec_node_version}}/artifact/executors/nodeExecutors.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_node_{{exec_node_version}}.tar.gz"
   args:

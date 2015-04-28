@@ -1,0 +1,10 @@
+---
+- name: JavaExec | Apt Repo
+  apt_repository:
+    repo: "ppa:webupd8team/java"
+
+- name: JavaExec | Installing deps
+  apt: pkg={{item}}
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default

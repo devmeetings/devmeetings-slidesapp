@@ -10,8 +10,13 @@
 [exec-node]
 root@xpla.org hostname=xpla.org
 
+[exec-burger]
+root@xpla.org hostname=xpla.org
+
+[exec-java]
+root@xpla.org hostname=xpla.org
+
 [xplatform-main]
 #root@148.251.220.116 server_domain=new.xplatform.org server_short=xpla_main
 
 [xplatform-deploy]
-#root@148.251.220.116 server_domain=new.xplatform.org server_short=xpla_main

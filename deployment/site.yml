@@ -63,10 +63,31 @@
   become: yes
   become_user: root
   vars:
-    exec_node_version: '63'
+    exec_node_version: 'lastSuccessfulBuild'
     exec_node_cluster: 2
   roles:
     - common
     - nodejs
     - xplatform-tunnels
     - exec-node
+
+- hosts: exec-burger
+  become: yes
+  become_user: root
+  vars:
+    exec_burger_version: 'lastSuccessfulBuild'
+    exec_burger_cluster: 2
+  roles:
+    - common
+    - xplatform-tunnels
+    - exec-burger
+
+- hosts: exec-java
+  become: yes
+  become_user: root
+  vars:
+    exec_java_version: 'lastSuccessfulBuild'
+  roles:
+    - common
+    - xplatform-tunnels
+    - exec-java
