@@ -3,67 +3,48 @@
   roles:
     - common
 
-- hosts: just_xplatform  
-  vars:
-    with_dashboard: false
-    with_management: false
-    node_env: 'box'
-  roles:
-    - common
-    - mongodb
-    - xplatform
-    - xplatform-deploy
-
 - hosts: python-provision
   gather_facts: no
   tasks:
     - name: Installing Python
       raw: apt-get update && apt-get install python python-simplejson python-apt -y
-
-- hosts: raspberry
-  vars:
-    with_dashboard: false
-    with_management: true
-    server_env: 'box'
-  roles:
-    - common
-    - rasbpi
-    - rasbpi-mongodb
-    - xplatform
-    - xplatform-deploy
-
+      
 - hosts: xplatform-node
   become: yes
   become_user: root
   vars:
     with_dashboard: false
     with_management: false
+    with_tunnels: true
+    xpla_job: 'XPlatform'
     xpla_version: '62'
     server_env: 'staging'
-    server_cluster: 1
+    server_cluster: 2
     server_port: 3000
     server_port2: 3003
-    server_redis_url: 'redis://localhost:6379'
-    server_mongo_url: 'mongodb://localhost:27017/platform-staging'
   roles:
     - common
+    - nodejs
     - xplatform
     - xplatform-deploy
 
 - hosts: xplatform-main
+  become: yes
+  become_user: root
   vars:
     with_dashboard: false
     with_management: false
+    with_tunnels: false
+    xpla_job: 'XPlatform'
     xpla_version: '62'
     server_env: 'staging'
-    server_cluster: 1
+    server_cluster: 4
     server_port: 3000
-    server_port2: 3003
-    server_redis_url: 'redis://localhost:6379'
-    server_mongo_url: 'mongodb://localhost:27017/platform-staging'
+    server_port2: 3100
   roles:
     - common
     - redis
     - mongodb
+    - nodejs
     - xplatform
     - xplatform-deploy

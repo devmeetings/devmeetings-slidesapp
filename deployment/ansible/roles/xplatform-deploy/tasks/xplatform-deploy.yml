@@ -45,7 +45,7 @@
   sudo_user: xplatform
 
 - name: start pm2 process
-  command: 'pm2 start -i {{server_cluster}} --name "{{server_short}}" app.js'
+  command: 'pm2 start -x -i {{server_cluster}} --name "{{server_short}}" app.js'
   args:
     chdir: "/srv/{{server_domain}}/x-platform/"
   sudo: yes
@@ -54,8 +54,6 @@
     NODE_ENV: "{{server_env}}"
     PORT: "{{server_port}}"
     REALM_URL: "https://{{server_domain}}"
-    MONGO_URL: "{{server_mongo_url}}"
-    REDIS_URL: "{{server_redis_url}}"
 
 - name: Register keymetrics
   command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'
