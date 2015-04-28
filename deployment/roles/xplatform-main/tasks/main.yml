@@ -10,5 +10,7 @@
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0HzCZtIpZuVu3ZFjymGS+WSAZ7ktnf9Ull8PgCnUw+REHtQeuZ3nurQ7rfFPTdGNZ93x2VfQWV8HucbSr/OMuNwFEycd7Wy36HQujVh9p+T8VpixZ+iumdRIea6tjcBtxRATkaDBSTbldjBP5hcbL9e0Wu/2ab6O7E0InAiR/SzuyoeK0banJedzZp8WEpC5Dw0YEWPvYJHgmsEXLs5teYJnlUdfWw/3DPBwoVHCjURmoJeB0XfAjT9KuauHwpzU+c/VFgRHEoX7MVMGRmAPK4ROaBYq4UDE2jTLRcaLu1t/uUfVJ167JcVsNkA5RFepNVz6lYDw9WbP4sOXoL/1J ansible@tunnels"
 
 - name: Add mongodb tools
-  apt:
-    name: mongodb-org-tools
+  apt: name={{item}}
+  with_items:
+    - mongodb-org-tools
+    - mongodb-org-shell

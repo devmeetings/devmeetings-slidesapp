@@ -6,5 +6,3 @@
   file: path=/srv state=directory mode=0755 owner=xplatform
 
 - include: nginx.yml
-- include: xplatform-tunnels.yml
-  when: with_tunnels

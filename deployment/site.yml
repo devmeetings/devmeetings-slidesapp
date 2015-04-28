@@ -16,11 +16,11 @@
     hostname: "{{server_domain}}"
     with_tunnels: true
     xpla_job: 'XPlatform'
-    xpla_version: '62'
-    server_env: 'staging'
+    xpla_version: '66'
+    server_env: 'production'
     server_cluster: 2
     server_port: 3000
-    server_port2: 3003
+    server_port2: 3100
   roles:
     - common
     - nodejs
@@ -34,8 +34,8 @@
     hostname: "{{server_domain}}"
     with_tunnels: false
     xpla_job: 'XPlatform'
-    xpla_version: '65'
-    server_env: 'staging'
+    xpla_version: '66'
+    server_env: 'production'
     server_cluster: 4
     server_port: 3000
     server_port2: 3100
@@ -53,9 +53,9 @@
   become_user: root
   vars:
     xpla_job: 'XPlatform'
-    xpla_version: '65'
-    server_env: 'staging'
-    server_cluster: 4
+    xpla_version: '66'
+    server_env: 'production'
+    server_cluster: 2
     server_port: 3000
   roles:
     - xplatform-deploy
@@ -65,7 +65,10 @@
   become_user: root
   vars:
     exec_node_version: '63'
-    exec_node_redis_url: ''
+    exec_node_redis_url: 'redis://'
     exec_node_cluster: 2
   roles:
+    - common
+    - nodejs
+    - xplatform-tunnels
     - exec-node
