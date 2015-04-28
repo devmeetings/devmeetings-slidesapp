@@ -54,6 +54,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
 
             var indentSize = 2;
             var editor = ace.edit($e[0]);
+            editor.$blockScrolling = Infinity;
             editor.setTheme('ace/theme/' + EDITOR_THEME);
             editor.setValue('');
             editor.getSession().setTabSize(indentSize);
