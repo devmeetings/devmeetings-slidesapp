@@ -1,17 +1,11 @@
 [none]
-[just_xplatform]
-[raspberry]
-
-[xplatform-node]
-# root@localhost:8022 hostname=xpla.vm
-# root@192.168.0.103 hostname=rasp2.1
-# root@192.168.0.102 hostname=rasp1.1
-# ubuntu@54.213.26.120 hostname=us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us
-# ubuntu@52.28.62.197 hostname=de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de
-root@xpla.org hostname=xpla.org server_domain=xpla.org server_short=xpla_xpla
 
 [python-provision]
-root@xpla.org
+
+[xplatform-node]
+ubuntu@54.213.26.120 server_domain=us-west.xplatform.org server_short=xpla_us
+ubuntu@52.28.62.197 server_domain=de.xplatform.org server_short=xpla_de
+root@xpla.org server_domain=xpla.org server_short=xpla_xpla
 
 [xplatform-main]
-# root@148.251.220.116 hostname=new.xplatform.org server_domain=new.xplatform.org server_short=xpla_main
+root@148.251.220.116 server_domain=new.xplatform.org server_short=xpla_main

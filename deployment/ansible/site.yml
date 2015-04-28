@@ -13,8 +13,7 @@
   become: yes
   become_user: root
   vars:
-    with_dashboard: false
-    with_management: false
+    hostname: "{{server_domain}}"
     with_tunnels: true
     xpla_job: 'XPlatform'
     xpla_version: '62'
@@ -32,8 +31,7 @@
   become: yes
   become_user: root
   vars:
-    with_dashboard: false
-    with_management: false
+    hostname: "{{server_domain}}"
     with_tunnels: false
     xpla_job: 'XPlatform'
     xpla_version: '62'

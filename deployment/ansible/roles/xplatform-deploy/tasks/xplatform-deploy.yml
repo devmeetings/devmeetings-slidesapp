@@ -11,7 +11,7 @@
     owner: xplatform
 
 - name: Fetching XPlatform build
-  command: "wget http://applejack.todr.me:8080/job/XPlatform/{{xpla_version}}/artifact/xplatform.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}_{{xpla_version}}.tar.gz"
+  command: "wget http://applejack.todr.me:8080/job/{{xpla_job}}/{{xpla_version}}/artifact/xplatform.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}_{{xpla_version}}.tar.gz"
   args:
     creates: /srv/_packages/{{server_domain}}_{{xpla_version}}.tar.gz
 
