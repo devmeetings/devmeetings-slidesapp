@@ -7,6 +7,7 @@ var stdReq = function(req, obj) {
         jsModulesPath: req.jsModulesPath,
         withGoogleAnalytics: req.withGoogleAnalytics,
         withInspectlet: req.withInspectlet,
+            version: req.version,
         cacheBustingVersion: req.cacheBustingVersion
     }, obj);
 };

@@ -179,6 +179,12 @@ var config = {
 };
 
 var currentConfig = config[env];
+// Append version
+require('fs').readFile(__dirname + '/../public/version', 'utf8', function(err, version) {
+  'use strict';
+  currentConfig.version = version || '';
+});
+
 
 // Parse ENV variables
 var fromEnv = {

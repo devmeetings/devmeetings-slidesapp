@@ -61,7 +61,7 @@ module.exports = function(app, config, router) {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(function(req, res, next) {
-    var configRewrite = ['jsModulesPath', 'withGoogleAnalytics', 'withInspectlet', 'cacheBustingVersion'];
+    var configRewrite = ['jsModulesPath', 'withGoogleAnalytics', 'withInspectlet', 'cacheBustingVersion', 'version'];
     configRewrite.map(function(what) {
       req[what] = config[what];
     });

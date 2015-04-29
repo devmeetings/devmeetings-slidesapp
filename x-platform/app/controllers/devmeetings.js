@@ -1,5 +1,6 @@
 var Devmeetings = {
     xplatform: function(req, res) {
+        
         res.render('dm-xplatform/dm-xplatform', {
             title: 'XPlatform',
             editMode: req.query.edit,
@@ -7,6 +8,7 @@ var Devmeetings = {
             withGoogleAnalytics: req.withGoogleAnalytics,
             cacheBustingVersion: req.cacheBustingVersion,
             jsModulesPath: req.jsModulesPath,
+            version: req.version,
             isLoggedIn: req.user !== undefined
         });
     },
@@ -16,7 +18,8 @@ var Devmeetings = {
             withInspectlet: req.withInspectlet,
             withGoogleAnalytics: req.withGoogleAnalytics,
             cacheBustingVersion: req.cacheBustingVersion,
-            jsModulesPath: req.jsModulesPath
+            jsModulesPath: req.jsModulesPath,
+            version: req.version,
         });
     }
 };

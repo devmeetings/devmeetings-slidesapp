@@ -6,6 +6,7 @@ exports.index = function(req, res) {
         withGoogleAnalytics: req.withGoogleAnalytics,
         cacheBustingVersion: req.cacheBustingVersion,
         jsModulesPath: req.jsModulesPath,
+        version: req.version,
         isLoggedIn: req.user !== undefined
     });
 };
