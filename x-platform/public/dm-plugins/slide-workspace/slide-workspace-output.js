@@ -141,16 +141,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
 
     dmPlayer.onCurrentStateId(scope, function(stateId) {
-      console.log("Update", latestStateId, stateId);
       latestStateId = stateId;
     });
 
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
 
-      console.log("Changed", latestStateId);
       dmPlayer.getCurrentStateId().then(function() {
-        console.log("Rendering", latestStateId);
         render();
       });
     });
