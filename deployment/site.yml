@@ -15,7 +15,7 @@
   vars:
     hostname: "{{server_domain}}"
     xpla_job: 'XPlatform'
-    xpla_version: '66'
+    xpla_version: '69'
     server_env: 'production'
     server_cluster: 2
     server_port: 3000
@@ -33,7 +33,7 @@
   vars:
     hostname: "{{server_domain}}"
     xpla_job: 'XPlatform'
-    xpla_version: '66'
+    xpla_version: '69'
     server_env: 'production'
     server_cluster: 4
     server_port: 3000
@@ -52,7 +52,7 @@
   become_user: root
   vars:
     xpla_job: 'XPlatform'
-    xpla_version: '66'
+    xpla_version: '69'
     server_env: 'production'
     server_cluster: 2
     server_port: 3000

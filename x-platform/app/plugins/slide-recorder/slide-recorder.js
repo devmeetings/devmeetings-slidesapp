@@ -29,6 +29,11 @@ exports.onSocket = function(log, socket) {
         patches = [];
       }
 
+      if (!save.current) {
+        ack(false);
+        return;
+      }
+
       States.applyPatches(save.current, patches);
 
       save.currentTimestamp = new Date(_.last(patches).timestamp);
