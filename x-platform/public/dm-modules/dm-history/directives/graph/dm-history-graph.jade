@@ -1,8 +1,45 @@
 .dm-history.ng-cloak
   h3 History
-  a.dm-history-item(
-    ui-sref="index.space.history({historyId: h._id})"
-    ui-sref-active="btn-success"
-    ng-repeat="h in history.history"
-    )
-    span.fa.fa-circle
+  .col-xs-12(ng-if="$root.editMode")
+    .row
+      .col-xs-6
+        input.form-control.input-sm(
+          ng-model="cutModel.start"
+          placeholder="Recording Start"
+        )
+      .col-xs-6
+        button.btn.btn-block.btn-sm(
+            ng-class="{'btn-primary': !cutModel.start}"
+            ng-click="setCurrentTime(cutModel, 'start')"
+        )
+          | Set Start Mark
+    .row
+      .col-xs-6
+        input.form-control.input-sm(
+          ng-model="cutModel.end"
+          placeholder="Recording End"
+        )
+      .col-xs-6
+        button.btn.btn-block.btn-sm(
+            ng-class="{'btn-primary': cutModel.start && !cutModel.end}"
+            ng-click="setCurrentTime(cutModel, 'end')"
+        )
+          | Set End Mark
+    .row
+      .col-xs-12
+        button.btn.btn-block.btn-sm(
+          ng-class="{'btn-primary': cutModel.start && cutModel.end}"
+          ng-disabled="!cutModel.start || !cutModel.end"
+          ng-click="convertToRecording(cutModel)"
+        )
+          | Create Recording
+    hr
+
+
+  .col-xs-12
+    a.dm-history-item(
+      ui-sref="index.space.history({historyId: h._id})"
+      ui-sref-active="btn-success"
+      ng-repeat="h in history.history"
+      )
+      span.fa.fa-circle
