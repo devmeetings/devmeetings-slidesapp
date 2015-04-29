@@ -1,19 +1,18 @@
-define(['require', 'angular', './dm-player', 'es6!./dm-recorder-worker'], function(require, angular, player, Worker) {
+define(
+  ['require', '_', 'angular', './dm-player', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenable'], 
+  function(require, _, angular, player, Worker, newListenable) {
   'use strict';
 
   var rec = angular.module('dm-recorder', []);
   rec.factory('dmPlayer', player);
   rec.factory('dmRecorder', function($q) {
 
-    var listeners = {
-      'newState': [],
-      'newWorkspace': []
-    };
+
     var worker = new Worker.Recorder();
     var isRecording = false;
     var workspaceId = null;
 
-    return {
+    return _.extend(newListenable(), {
 
       updateState: function(slide) {
         return worker.newState(slide);
@@ -34,6 +33,7 @@ define(['require', 'angular', './dm-player', 'es6!./dm-recorder-worker'], functi
         var idAndPatch = id + '_' + lastPatch;
         worker.fillInIds(idAndPatch);
         worker.idDefer.resolve(idAndPatch);
+        this.trigger('newId', idAndPatch);
         this.trigger('newState', id, lastPatch, worker.state.current);
       },
 
@@ -60,6 +60,7 @@ define(['require', 'angular', './dm-player', 'es6!./dm-recorder-worker'], functi
         if (worker.idDefer) {
           worker.idDefer.resolve(statesaveId);
         }
+        this.trigger('newId', statesaveId);
         this.trigger('newState', worker.getId(), worker.getLastPatch(), worker.state.current);
       },
 
@@ -75,19 +76,9 @@ define(['require', 'angular', './dm-player', 'es6!./dm-recorder-worker'], functi
 
       clear: function() {
         worker.clear();
-      },
-
-      trigger: function(evName, id) {
-        var list = listeners[evName];
-        list.map(function(cb) {
-          cb(id);
-        });
-      },
-
-      listen: function(evName, cb) {
-        listeners[evName].push(cb);
       }
-    };
+
+    });
   });
 
 });

@@ -8,7 +8,6 @@ define(['angular',
     //
     var state = $state.current.name.split('.')[2];
 
-    $scope.state = dmEvents.getState($stateParams.event, 'save');
     $scope.mode = 'player';
     $scope.slideState = state;
 
@@ -38,11 +37,18 @@ define(['angular',
       }
     });
 
-    $scope.$on('$destroy', function(){
-      dmRecorder.setRecording(false, null);   
+    $scope.$on('$destroy', function() {
+      dmRecorder.setRecording(false, null);
     });
 
-    var saveSlideWithDebounce = _.debounce(function(myId) {
+
+
+    // TODO [ToDr] Sharing state for questions!
+    var questionState = dmEvents.getState($stateParams.event, 'save');
+
+    dmPlayer.onCurrentStateId($scope, function(stateId) {
+      questionState.save = $scope.slide;
+
       if (state !== 'workspace') {
         return;
       }
@@ -51,18 +57,8 @@ define(['angular',
         return;
       }
 
-      dmPlayer.getCurrentStateId().then(function(stateId) {
-        dmSlidesaves.saveModified(myId, stateId);
-      });
-    }, 200);
+      dmSlidesaves.saveModified($scope.slide._id, stateId);
+    });
 
-    $scope.$watch('slide', function() {
-      if (!$scope.slide) {
-        return;
-      }
-
-      saveSlideWithDebounce($scope.slide._id);
-      $scope.state.save = $scope.slide;
-    }, true);
   });
 });

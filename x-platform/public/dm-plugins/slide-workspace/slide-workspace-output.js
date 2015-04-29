@@ -113,25 +113,26 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       } else {
         doReloadOutput(scope);
       }
+    });
 
-      dmPlayer.getCurrentStateId().then(function(stateId) {
-        scope.output.hash = stateId;
-      });
+    dmPlayer.onCurrentStateId(scope, function(stateId) {
+      scope.output.hash = stateId;
     });
   }
 
   function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer) {
-    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
-      scope.isWaiting = true;
+    dmPlayer.onCurrentStateId(scope, function(stateId) {
 
-      dmPlayer.getCurrentStateId().then(function(stateId) {
-        refreshOutputNow($rootScope, scope, {
-          hash: stateId,
-          url: '/api/page/' + stateId,
-          timestamp: new Date().getTime()
-        });
+      refreshOutputNow($rootScope, scope, {
+        hash: stateId,
+        url: '/api/page/' + stateId,
+        timestamp: new Date().getTime()
       });
 
+    });
+
+    sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
+      scope.isWaiting = true;
     });
   }
 

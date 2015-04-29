@@ -44,6 +44,8 @@ var States = (function() {
           noOfPatches: newPatches.length
         }
       }).lean().exec()).then(function() {
+        // Increase currently added patches
+        data.noOfPatches += newPatches.length;
         return data;
       });
     },
@@ -109,8 +111,8 @@ var States = (function() {
     createFromRecordingId: function(compoundId) {
       var parts = compoundId.split('_');
       var recId = parts[0].replace('r', ''),
-        slideNo = parseInt(parts[1], 10),
-        patchNo = parseInt(parts[2], 10);
+        slideNo = parseInt(parts[1], 10) || 0,
+        patchNo = parseInt(parts[2], 10) || 0;
 
       var query = recordings.findById(recId).
       select('slides').
@@ -133,7 +135,7 @@ var States = (function() {
         }
         var idParts = compoundId.split('_');
         var id = idParts[0];
-        var patchIdx = parseInt(idParts[1], 10);
+        var patchIdx = parseInt(idParts[1], 10) || 0;
 
         var query = Statesave.findById(id)
           .select('original patches')

@@ -25,6 +25,7 @@ define(['angular', 'xplatform/xplatform-app', '_', '../dm-xplatform-question-cre
         };
         
         $scope.createComment = function (question) {
+          // TODO[ToDr] Sharing state from workspace? WTF?!
             var state = dmEvents.getState($stateParams.event, 'save');
             dmQuestions.commentQuestion(question, {
                 text: question.text 

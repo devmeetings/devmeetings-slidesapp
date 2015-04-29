@@ -3,6 +3,16 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
   sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', 4000).directive('slideRecorder', function(Sockets, dmRecorder) {
 
+    var lastId;
+
+    Sockets.on('disconnect', function() {
+      if (!lastId) {
+        return;
+      }
+      var id = lastId.split('_');
+      dmRecorder.stopSyncingAndSetId(id[0], id[1]);
+    });
+
     return {
       restrict: 'E',
       scope: {
@@ -27,15 +37,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             console.time('Server sync');
           }
 
-          var id = dmRecorder.startSyncingAndGetId();
+          lastId = dmRecorder.startSyncingAndGetId();
           // TODO [ToDr] Gather data from other plugins?
           Sockets.emit('state.patch', {
-            _id: id,
+            _id: lastId,
             // TODO [ToDr] Do we always should send workspaceId?
             workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
           }, function(isOk, stateId, lastPatch) {
-            if (shouldLog){
+            if (shouldLog) {
               console.timeEnd('Server sync');
             }
 

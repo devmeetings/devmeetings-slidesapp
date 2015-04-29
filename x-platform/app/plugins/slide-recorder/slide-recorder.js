@@ -10,76 +10,75 @@ exports.onSocket = function(log, socket) {
   function patchState(data, ack) {
     var workspaceRoom = getRoom(data);
 
-    States.fetchStateForWriting(data._id, socket.request.user).then(function(save) {
-      var patches = data.patches;
+    setTimeout(function() {
 
-      if (save.fresh && data._id) {
-        ack(false);
-        return;
-      }
+      States.fetchStateForWriting(data._id, socket.request.user).done(function(save) {
+        var patches = data.patches;
 
-      var originalTime = save.originalTimestamp.getTime();
-      if (!originalTime) {
-        save.originalTimestamp = new Date(patches[0].timestamp);
-        originalTime = patches[0].timestamp;
-      }
-
-      if (patches[0].current) {
-        save.current = patches[0].current;
-        patches = [];
-      }
-
-      if (!save.current) {
-        ack(false);
-        return;
-      }
-
-      States.applyPatches(save.current, patches);
-
-      save.currentTimestamp = new Date(_.last(patches).timestamp);
-      // fix timestamps
-      var last = save.noOfPatches;
-      patches.map(function(patchData, idx) {
-        patchData.id = save._id + '_' + (last + idx);
-        patchData.timestamp = patchData.timestamp - originalTime;
-      });
-      // append Patches
-      save.workspaceId = data.workspaceId;
-
-      // NOTE [ToDr] For performance reasons not every field is being updated!
-      return States.update(save, patches).then(function(save) {
-        return {
-          save: save,
-          patches: patches
-        };
-      }).done(function(d) {
-        // NOTE [ToDr] For performance reasons you won't get full document here!
-        var save = d.save;
-        var id = save._id;
-        var patchNo = save.noOfPatches - 1;
-        var compoundId = id + '_' + patchNo;
-
-        ack(true, id, patchNo);
-
-        // Populating cache
-        cache.populate(compoundId, save.current).done();
-
-        // Broadcast the whole slide
-        var room = socket.broadcast.to(workspaceRoom);
-        if (data._id !== id.toString()) {
-          room.emit('state.patches', {
-            id: compoundId,
-            current: save.current
-          });
+        if (save.fresh && data._id && !patches[0].current) {
+          ack(false);
           return;
         }
-        // Broadcast new patches to listeners
-        room.emit('state.patches', {
-          id: compoundId,
-          patches: d.patches
+
+        var originalTime = save.originalTimestamp.getTime();
+        if (!originalTime) {
+          save.originalTimestamp = new Date(patches[0].timestamp);
+          originalTime = patches[0].timestamp;
+        }
+
+
+        if (patches[0].current) {
+          save.current = patches[0].current;
+          patches[0].patch = {};
+        }
+
+        States.applyPatches(save.current, patches);
+
+        save.currentTimestamp = new Date(_.last(patches).timestamp);
+        // fix timestamps
+        var last = save.noOfPatches;
+        patches.map(function(patchData, idx) {
+          patchData.id = save._id + '_' + (last + idx);
+          patchData.timestamp = patchData.timestamp - originalTime;
+        });
+        // append Patches
+        save.workspaceId = data.workspaceId;
+
+        // NOTE [ToDr] For performance reasons not every field is being updated!
+        return States.update(save, patches).then(function(save) {
+          return {
+            save: save,
+            patches: patches
+          };
+        }).done(function(d) {
+          // NOTE [ToDr] For performance reasons you won't get full document here!
+          var save = d.save;
+          var id = save._id;
+          var patchNo = save.noOfPatches - 1;
+          var compoundId = id + '_' + patchNo;
+
+          ack(true, id, patchNo);
+
+          // Populating cache
+          cache.populate(compoundId, save.current).done();
+
+          // Broadcast the whole slide
+          var room = socket.broadcast.to(workspaceRoom);
+          if (data._id !== id.toString()) {
+            room.emit('state.patches', {
+              id: compoundId,
+              current: save.current
+            });
+            return;
+          }
+          // Broadcast new patches to listeners
+          room.emit('state.patches', {
+            id: compoundId,
+            patches: d.patches
+          });
         });
       });
-    });
+    }, 1000);
   }
 
 

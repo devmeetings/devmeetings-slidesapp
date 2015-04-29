@@ -44,19 +44,28 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             Sockets.emit('serverRunner.code.run', data);
           }
 
-          var emitRunCodeDebounced = _.debounce(emitRun.bind(null, 'code'), EXECUTION_DELAY);
-          var emitRunFilesDebounced = _.debounce(emitRun.bind(null, 'files'), EXECUTION_DELAY);
+          var emitRunDebounced = _.debounce(emitRun, EXECUTION_DELAY);
+          // TODO [ToDr] That's terrible!
+          var lastType = {};
+
+          dmPlayer.onCurrentStateId(scope, function(stateId) {
+            emitRunDebounced(lastType.type, lastType.path, stateId);
+          });
 
           sliderPlugins.listen(scope, 'slide.slide-code.change', function(ev, editor, path) {
             sliderPlugins.trigger('slide.serverRunner.code.run');
             sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
-            dmPlayer.getCurrentStateId().then(emitRunCodeDebounced.bind(null, path));
+
+            lastType.type = 'code';
+            lastType.path = path;
           });
 
           sliderPlugins.listen(scope, 'slide.slide-workspace.run', function(workspace, path) {
             sliderPlugins.trigger('slide.serverRunner.code.run');
             sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
-            dmPlayer.getCurrentStateId().then(emitRunFilesDebounced.bind(null, path));
+
+            lastType.type = 'files';
+            lastType.path = path;
           });
         }
       };

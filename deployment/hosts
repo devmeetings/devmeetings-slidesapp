@@ -3,26 +3,27 @@
 [python-provision]
 
 [xplatform-node]
-#ubuntu@54.213.26.120 server_domain=us-west.xplatform.org server_short=xpla_us
-#ubuntu@52.28.62.197 server_domain=de.xplatform.org server_short=xpla_de
-#root@xpla.org server_domain=xpla.org server_short=xpla_xpla
+#ubuntu@us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us
+#ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de
+#root@pl-1.xplatform.org server_domain=pl-1.xplatform.org server_short=xpla_pl1
 
 [exec-node]
-#root@xpla.org hostname=xpla.org
+#root@pl-1.xplatform.org hostname=pl-1.xplatform.org
+
 
 [exec-burger]
-#root@xpla.org hostname=xpla.org
+#root@pl-1.xplatform.org hostname=pl-1.xplatform.org
 
 [exec-java]
-#root@xpla.org hostname=xpla.org
+#root@pl-1.xplatform.org hostname=pl-1.xplatform.org
 
 [xplatform-main]
-root@148.251.220.116 server_domain=new.xplatform.org server_short=xpla_main
+#root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_main
 
 [xplatform-deploy]
-#ubuntu@54.213.26.120 server_domain=us-west.xplatform.org server_short=xpla_us
-#ubuntu@52.28.62.197 server_domain=de.xplatform.org server_short=xpla_de
-#root@xpla.org server_domain=xpla.org server_short=xpla_xpla
-root@148.251.220.116 server_domain=new.xplatform.org server_short=xpla_main
+#ubuntu@us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us
+#ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de
+#root@pl-1.xplatform.org server_domain=pl-1.xplatform.org server_short=xpla_pl1
+#root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_main
 
 
