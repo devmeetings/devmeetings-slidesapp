@@ -176,16 +176,16 @@ var States = (function() {
           },
           currentTimestamp: timestampQuery
         }).lean().limit(limit).sort({
-          'currentTimestamp': 1
+          'originalTimestamp': 1
         });
       }
 
       return Q.when(Statesave.findById(stateId).lean().exec()).then(function(save) {
         var after = Q.when(fetchHistory(save.workspaceId, {
-          $gte: save.currentTimestamp
+          $gte: save.originalTimestamp
         }, 100).exec());
         var before = Q.when(fetchHistory(save.workspaceId, {
-          $lt: save.currentTimestamp
+          $lt: save.originalTimestamp
         }, 10).exec());
 
         return Q.all([before, after]).then(function(a) {
@@ -197,10 +197,11 @@ var States = (function() {
       }).then(function(history) {
 
         var patches = convertHistorySlidesToPatches(history.after);
+        console.dir(history.after[0].original.workspace.tabs);
         var original = history.after[0].original || {};
 
         return autoAnnotations({
-          original: original,
+          original: JSON.parse(JSON.stringify(original)),
           patches: patches
         }).then(function(annotations) {
           return {

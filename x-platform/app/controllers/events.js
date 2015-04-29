@@ -94,7 +94,7 @@ var Events = {
     Q.when(Event.update({
       _id: req.params.id,
     }, event).exec()).then(function(event) {
-      res.send(event);
+      res.sendStatus(200);
     }).fail(onError(res));
   },
 
@@ -107,7 +107,7 @@ var Events = {
         removed: true
       }
     }).exec()).then(function(event) {
-      res.send(event);
+      res.sendStatus(200);
     }).fail(onError(res));
   },
 
