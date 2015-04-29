@@ -7,7 +7,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
     var triggerChangeLater = _.throttle(function(scope) {
       sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
       triggerSave();
-    }, 750, {
+    }, 500, {
       leading: false,
       trailing: true
     });

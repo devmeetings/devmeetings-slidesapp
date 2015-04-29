@@ -26,17 +26,17 @@ exports.onSocket = function(log, socket) {
           originalTime = patches[0].timestamp;
         }
 
+        save.currentTimestamp = new Date(_.last(patches).timestamp);
 
         if (patches[0].current) {
           save.current = patches[0].current;
-          patches[0].patch = {};
+          patches = [];
+        } else {
+          States.applyPatches(save.current, patches);
         }
 
-        States.applyPatches(save.current, patches);
-
-        save.currentTimestamp = new Date(_.last(patches).timestamp);
         // fix timestamps
-        var last = save.noOfPatches;
+        var last = save.noOfPatches || 0;
         patches.map(function(patchData, idx) {
           patchData.id = save._id + '_' + (last + idx);
           patchData.timestamp = patchData.timestamp - originalTime;

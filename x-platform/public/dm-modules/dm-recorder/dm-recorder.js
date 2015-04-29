@@ -32,9 +32,9 @@ define(
         worker.syncing = false;
         var idAndPatch = id + '_' + lastPatch;
         worker.fillInIds(idAndPatch);
-        worker.idDefer.resolve(idAndPatch);
         this.trigger('newId', idAndPatch);
         this.trigger('newState', id, lastPatch, worker.state.current);
+        worker.idDefer.resolve(idAndPatch);
       },
 
       startSyncingAndGetId: function() {
@@ -57,11 +57,11 @@ define(
         }
         // Cloning workspace
         worker.setState(statesaveId, JSON.parse(JSON.stringify(content)));
+        this.trigger('newId', statesaveId);
+        this.trigger('newState', worker.getId(), worker.getLastPatch(), worker.state.current);
         if (worker.idDefer) {
           worker.idDefer.resolve(statesaveId);
         }
-        this.trigger('newId', statesaveId);
-        this.trigger('newState', worker.getId(), worker.getLastPatch(), worker.state.current);
       },
 
       setRecording: function(val, wsId) {

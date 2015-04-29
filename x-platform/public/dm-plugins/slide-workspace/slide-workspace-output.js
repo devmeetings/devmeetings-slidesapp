@@ -102,6 +102,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       tabs: {}
     };
 
+    // [ToDr] Handling race conditions?
+    var latestStateId;
+    function render() {
+      scope.output.hash = latestStateId;
+    }
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
       var needsRefresh = hasCodeChanged(lastWorkspace, workspace);
       if (!needsRefresh) {
@@ -113,26 +118,41 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       } else {
         doReloadOutput(scope);
       }
+      dmPlayer.getCurrentStateId().then(function() {
+        render();
+      });
     });
 
     dmPlayer.onCurrentStateId(scope, function(stateId) {
-      scope.output.hash = stateId;
+      latestStateId = stateId;
     });
   }
 
   function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer) {
-    dmPlayer.onCurrentStateId(scope, function(stateId) {
 
+    // [ToDr] Handling race conditions?
+    var latestStateId;
+    function render() {
       refreshOutputNow($rootScope, scope, {
-        hash: stateId,
-        url: '/api/page/' + stateId,
+        hash: latestStateId,
+        url: '/api/page/' + latestStateId,
         timestamp: new Date().getTime()
       });
+    }
 
+    dmPlayer.onCurrentStateId(scope, function(stateId) {
+      console.log("Update", latestStateId, stateId);
+      latestStateId = stateId;
     });
 
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
+
+      console.log("Changed", latestStateId);
+      dmPlayer.getCurrentStateId().then(function() {
+        console.log("Rendering", latestStateId);
+        render();
+      });
     });
   }
 

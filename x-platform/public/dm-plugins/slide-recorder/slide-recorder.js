@@ -37,10 +37,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             console.time('Server sync');
           }
 
-          lastId = dmRecorder.startSyncingAndGetId();
+          dmRecorder.getCurrentStateId().then(function(stateId){
+            lastId = stateId;
+          });
+
+          var id = dmRecorder.startSyncingAndGetId();
           // TODO [ToDr] Gather data from other plugins?
           Sockets.emit('state.patch', {
-            _id: lastId,
+            _id: id,
             // TODO [ToDr] Do we always should send workspaceId?
             workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
@@ -72,7 +76,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           toSend = [];
         }
 
-        var sendQueueLater = _.throttle(sendQueue, 300);
+        var sendQueueLater = _.throttle(sendQueue, 300, {
+          leading: false,
+          trailing: true
+        });
 
         // TODO [ToDr] Object.observe might be better?
         scope.$watch('slide', function(a) {
