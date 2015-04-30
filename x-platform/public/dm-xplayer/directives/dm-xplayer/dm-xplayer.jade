@@ -17,7 +17,7 @@ mixin withSubtitles()
 .full-height
   .dm-player-subtitles-btn(
       ng-if="state.firstRun && !state.isPlaying"
-      ng-class="{'faded': !hideBtn}"
+      ng-class="{'faded': hideBtn}"
     )
     button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
       autofocus,
