@@ -34,6 +34,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
       return dmRecordings.preparePlayerForRecording(material.material);
     }).then(function(recording) {
       $scope.recording = recording.recording;
+      $scope.state.rate = recording.recording.original.playbackRate;
       $scope.state.max = recording.max;
     });
 

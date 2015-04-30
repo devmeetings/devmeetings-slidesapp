@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var Recording = new Schema({
     title: String,
     group: String,
+    playbackRate: Number,
     layout: {
       name: String,
       options: Schema.Types.Mixed

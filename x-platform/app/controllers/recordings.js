@@ -44,7 +44,7 @@ function findRecording(id) {
 
   return RecordingModel.findOne({
     _id: id
-  }).select('original current _id layout slides.patches slides.original').lean();
+  }).select('original current _id layout playbackRate slides.patches slides.original').lean();
 }
 
 var Recordings = {

@@ -1,6 +1,7 @@
 define([
+  '_',
   'dm-xplayer/dm-xplayer-app',
-], function(xplayerApp) {
+], function(_, xplayerApp) {
   'use strict';
 
   xplayerApp.directive('dmXplayerTimeline',
@@ -27,20 +28,34 @@ define([
           var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 50.0, 100.0];
           $scope.$watch('audioUrl', function(audioUrl) {
             $scope.withVoice = !!audioUrl;
-
-            if ($scope.withVoice) {
-              $scope.state.rate = rates[0];
-            } else {
-              $scope.state.rate = rates[rates.length - 5];
-            }
-            $scope.changeRate();
           });
 
+          function getNextRateIndex(nextRate) {
+            return (nextRate + 1) % rates.length;
+          }
+
+          $scope.$watch('state.rate', function(rate) {
+            if (rate) {
+              var currentRateIdx = _.sortedIndex(rates, rate);
+              $scope.nextRate = rates[getNextRateIndex(currentRateIdx)];
+              return;
+            }
+
+            if ($scope.withVoice) {
+              $scope.setRate(1.0);
+            } else {
+              $scope.setRate(15.0);
+            }
+
+          });
+
+          $scope.setRate = function(rate) {
+            $scope.state.rate = rate;
+          };
+
           $scope.changeRate = function() {
-            var nextRate = rates.indexOf($scope.state.rate) + 1;
-            nextRate = nextRate % rates.length;
-            $scope.nextRate = rates[(nextRate + 1) % rates.length];
-            $scope.state.rate = rates[nextRate];
+            var currentRateIdx = _.sortedIndex(rates, $scope.state.rate);
+            $scope.setRate(rates[getNextRateIndex(currentRateIdx)]);
           };
 
           $scope.move = function(ev) {

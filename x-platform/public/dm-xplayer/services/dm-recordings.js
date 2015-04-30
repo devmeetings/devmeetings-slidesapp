@@ -22,7 +22,8 @@ define(['_', 'angular', 'dm-xplayer/dm-xplayer-app'], function(_, angular, xplay
           var player = dmPlayer.createPlayerSource(recording.patches[0].id, current);
           var rec = {
             player: player,
-            patches: recording.patches
+            patches: recording.patches,
+            original: recording
           };
           var max = _.last(recording.patches).timestamp / 1000;
 

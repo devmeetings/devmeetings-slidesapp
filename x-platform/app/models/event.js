@@ -13,6 +13,7 @@ var Event = new Schema({
   description: String,
   liveLink: String,
   visible: Boolean,
+  shouldRedirectToUnsafe: Boolean,
 
   intro: {
     type: Schema.Types.ObjectId,
