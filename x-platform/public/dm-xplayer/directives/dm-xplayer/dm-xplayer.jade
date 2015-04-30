@@ -1,31 +1,42 @@
+mixin withSubtitles()
+  .dm-player
+    block
+  .dm-player-subtitles
+    .dm-annos-item(ng-if="anno.type !== 'pause'")
+      dm-annotation(
+        annotation='anno'
+        showIteration='showAll'
+        ng-if='anno.type === "snippet" || anno.type === "comment"'
+        )
+      dm-microtask(
+        microtask='anno'
+        ng-if='anno.type === "task"'
+        )
+
+
 .full-height
-  .dm-player-subtitles(
-      ng-class="{'faded': showAnno == false, 'minimized': minimized, 'first-run': state.firstRun }"
+  .dm-player-subtitles-btn(
+      ng-if="state.firstRun && !state.isPlaying"
+      ng-class="{'faded': !hideBtn}"
     )
-      .dm-player-subtitles-hidden(ng-show="anno.description && !state.firstRun")
-        .dm-annos-item(ng-if="anno.type !== 'pause'")
-                dm-annotation(annotation='anno', showIteration='showAll', ng-if='anno.type === "snippet" || anno.type === "comment"')
-                dm-microtask(microtask='anno', ng-if='anno.type === "task"')
+    button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
+      autofocus,
+      ng-click="runNext()",
+      ng-show="nextStop < maxNextStop && !state.isPlaying")
+        span.fa.fa-play.fa-fw
 
-      a.dm-player-subtitles-minimize(ng-click="minimized = !minimized", ng-show="anno.description")
-          span.fa.fa-times.fa-fw(ng-show="!minimized")
-
-      button.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
-              autofocus,
-              ng-click="runNext(); minimized=false",
-              ng-show="nextStop < maxNextStop && !state.isPlaying")
-                span.fa.fa-play.fa-fw
-
-      a.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
-            ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
-            ng-show="nextStop === maxNextStop && !state.firstRun")
-              span.fa.fa-code.fa-fw
+    a.btn.btn-default.pull-left.btn-next-subtitle.btn-block(
+      ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
+      ng-show="nextStop >= maxNextStop && !state.firstRun")
+        span.fa.fa-code.fa-fw
 
   .full-height(ng-if="!withSidebar")
-    plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+    +withSubtitles
+      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
   .full-height(ng-if="withSidebar")
     .col-xs-10.full-height
-      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+      +withSubtitles
+        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
     .col-xs-2.full-height
       plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
 

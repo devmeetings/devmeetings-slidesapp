@@ -48,7 +48,7 @@ define([
 
 
           $scope.runNext = function() {
-            $scope.showAnno = false;
+            $scope.hideBtn = true;
             if ($scope.state.firstRun) {
               $scope.onFirstRun();
             }
@@ -75,10 +75,6 @@ define([
             if (second >= $scope.nextStop) {
               $scope.anno = $scope.next;
               $scope.state.isPlaying = false;
-              // WTF? I have no idea why sometimes annoation is not displayed.
-              $timeout(function() {
-                $scope.showAnno = true;
-              }, 10);
 
               anno = _.find($scope.annotations, function(anno) {
                 return anno.timestamp > second;
@@ -90,8 +86,6 @@ define([
                 $scope.nextStop = $scope.maxNextStop;
               }
 
-
-              fixSubtitlePosition($scope);
             } else if (Math.abs(curr - prev) > 5) {
               // fix nextStop when we are going backwards or fast forward
 
@@ -115,46 +109,12 @@ define([
           $scope.$watch('state.currentSecond', goToSecond);
           $scope.$watch('state.isPlaying', function(isPlaying) {
             if (isPlaying) {
-              $scope.showAnno = false;
+              $scope.hideBtn = true;
+              $scope.state.firstRun = false;
             }
-          });
-
-          $window.addEventListener('resize', fixSubtitlePosition.bind(null, $scope));
-          $scope.$on('$destroy', function(){
-            $window.removeEventListener('resize', fixSubtitlePosition.bind(null, $scope));
           });
         }
       };
     }
   );
-
-  function fixSubtitlePosition($scope) {
-    // TODO [ToDr] Fix me please :(
-    // Changing position of subtitles
-    var myself = $('.dm-player-subtitles');
-
-    setTimeout(function() {
-      var cursor = $('.editor-focus .ace_editor')[0];
-      cursor = cursor || $('.ace_editor')[0];
-      if (!cursor) {
-        return;
-      }
-
-      var rect = cursor.getBoundingClientRect();
-      var positionTop = Math.max(20, rect.bottom - myself.height());
-      positionTop = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, positionTop);
-
-      var translateLeft = parseInt(40 + rect.left, 10);
-      var translateTop = parseInt(positionTop, 10);
-
-      myself.css({
-        top: translateTop + 'px',
-        left: translateLeft + 'px'
-      });
-
-      if ($scope.anno) {
-        myself.toggleClass('small', !$scope.anno.description);
-      }
-    }, 450);
-  }
 });
