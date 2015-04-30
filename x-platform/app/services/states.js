@@ -1,5 +1,6 @@
 var Statesave = require('../models/statesave');
 var recordings = require('../models/recording');
+var RecordingsService = require('./recordings');
 var autoAnnotations = require('./autoAnnotations');
 var cache = require('./cache');
 
@@ -168,19 +169,7 @@ var States = (function() {
 
     getSinceId: function(stateId) {
 
-      function fetchHistory(workspaceId, timestampQuery, limit) {
-        return Statesave.find({
-          workspaceId: workspaceId,
-          noOfPatches: {
-            $gte: 1
-          },
-          currentTimestamp: timestampQuery
-        }).lean().limit(limit).sort({
-          'originalTimestamp': 1
-        });
-      }
-
-      return Q.when(Statesave.findById(stateId).lean().exec()).then(function(save) {
+      return Q.when(Statesave.findById(stateId).select('workspaceId originalTimestamp').lean().exec()).then(function(save) {
         var after = Q.when(fetchHistory(save.workspaceId, {
           $gte: save.originalTimestamp
         }, 100).exec());
@@ -197,7 +186,6 @@ var States = (function() {
       }).then(function(history) {
 
         var patches = convertHistorySlidesToPatches(history.after);
-        console.dir(history.after[0].original.workspace.tabs);
         var original = history.after[0].original || {};
 
         return autoAnnotations({
@@ -219,6 +207,94 @@ var States = (function() {
         });
       });
     },
+
+    convertToRecording: function(eventId, sinceId, fromTimestamp, toTimestamp) {
+      fromTimestamp = parseFloat(fromTimestamp) * 1000 || 0;
+      toTimestamp = parseFloat(toTimestamp) * 1000 || 0;
+
+      return Q.when(Statesave.findById(sinceId).lean().exec()).then(function(save) {
+
+        var toTime = new Date(save.originalTimestamp.getTime() + toTimestamp);
+
+        var others = Q.when(fetchHistory(save.workspaceId), {
+          $lt: toTime
+        });
+
+        return others.then(function(items) {
+          return [save].concat(items);
+        });
+      }).then(function(history) {
+
+        var patches = convertHistorySlidesToPatches(history);
+
+        var recordingStartIdx = _.sortedIndex(patches, {
+          timestamp: fromTimestamp
+        }, 'timestamp');
+
+        var recordingEndIdx = _.sortedIndex(patches, {
+          timestamp: toTimestamp
+        }, 'timestamp');
+
+        var patchesToApply = patches.slice(0, recordingStartIdx);
+        var patchesToStore = patches.slice(recordingStartIdx, recordingEndIdx);
+
+        var saveData = history[0];
+        var current = saveData.original;
+        States.applyPatches(current, patchesToApply);
+        var timestampDiff = patchesToApply.length ? _.last(patchesToApply).timestamp : 0;
+        var currentTimestamp = new Date(saveData.originalTimestamp + timestampDiff);
+
+        var slides = _.chunk(patchesToStore, 100);
+
+        // Convert to slides format
+        slides = slides.map(function(patches) {
+          return {
+            user: saveData.user,
+            workspaceId: saveData.workspaceId,
+            original: null,
+            originalTimestamp: null,
+            current: null,
+            currentTimestamp: null,
+            noOfPatches: patches.length,
+            patches: patches
+          };
+        });
+
+        // Fix timestamps & original / current
+        slides.reduce(function(memo, slide) {
+          var current = JSON.parse(JSON.stringify(memo.current));
+
+          slide.original = JSON.parse(JSON.stringify(current));
+          slide.originalTimestamp = memo.currentTimestamp;
+
+          // subtract timestamp diff
+          slide.patches.map(function(patch) {
+            patch.timestamp -= memo.timestampDiff;
+          });
+
+          var lastTimestamp = _.last(slide.patches).timestamp;
+          // Apply patches
+          States.applyPatches(current, slide.patches);
+
+          // Save current
+          slide.current = current;
+          slide.currentTimestamp = new Date(memo.currentTimestamp.getTime() + lastTimestamp);
+            
+          memo.timestampDiff += lastTimestamp;
+          memo.current = current;
+          memo.currentTimestamp = slide.currentTimestamp;
+
+          return memo;
+        }, {
+          current: current,
+          currentTimestamp: currentTimestamp,
+          timestampDiff: timestampDiff
+        });
+
+        return RecordingsService.createRecordingForEvent(eventId, slides);
+      });
+    },
+
     skipSilence: skipSilence
   };
 
@@ -226,11 +302,24 @@ var States = (function() {
 
 module.exports = States;
 
+function fetchHistory(workspaceId, timestampQuery, limit) {
+  'use strict';
+
+  return Statesave.find({
+    workspaceId: workspaceId,
+    noOfPatches: {
+      $gte: 1
+    },
+    originalTimestamp: timestampQuery
+  }).lean().limit(limit).sort({
+    'originalTimestamp': 1
+  });
+}
+
 function getTimestamp(x) {
   'use strict';
   return new Date(x).getTime();
 }
-
 
 function convertHistorySlidesToPatches(slides) {
   'use strict';

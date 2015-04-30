@@ -182,7 +182,9 @@ var currentConfig = config[env];
 // Append version
 require('fs').readFile(__dirname + '/../public/version', 'utf8', function(err, version) {
   'use strict';
+
   currentConfig.version = version || '';
+  currentConfig.version += '[' + currentConfig.name.slice(0, 3) + ']';
 });
 
 
@@ -194,8 +196,8 @@ var fromEnv = {
   store: process.env.REDIS_URL,
 };
 
-Object.keys(fromEnv).map(function(k){
-  'use strict'; 
+Object.keys(fromEnv).map(function(k) {
+  'use strict';
   if (fromEnv[k]) {
     currentConfig[k] = fromEnv[k];
   }

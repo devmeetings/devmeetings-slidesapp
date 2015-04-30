@@ -5,6 +5,7 @@ import * as xplatformApp from 'xplatform/xplatform-app';
 
 function historyCtrl($scope, $stateParams, dmBrowserTab) {
   $scope.historyId = $stateParams.historyId;
+  $scope.eventId = $stateParams.event;
   dmBrowserTab.setTitleAndIcon('History', 'slide');
 }
 

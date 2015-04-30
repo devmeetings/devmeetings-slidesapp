@@ -32,12 +32,14 @@ class DmHistoryPlayer {
         };
 
         scope.annotations = currentHist.annotations;
-        scope.state = {
+        scope.state = this.dmHistory.setPlayerState({
+          sinceId: historyId,
+          eventId: scope.eventId,
           isPlaying: false,
           currentSecond: 0.1,
           rate: 40,
           max: _.last(currentHist.patches).timestamp / 1000
-        };
+        });
       });
     });
   }
@@ -54,7 +56,8 @@ export function dmHistoryPlayer(dmHistory, dmPlayer, $timeout) {
   return {
     restrict: 'E',
     scope: {
-      historyId: '='
+      historyId: '=',
+      eventId: '='
     },
     templateUrl: '/static/dm-modules/dm-history/directives/player/dm-history-player.html',
     link: history.link.bind(history)

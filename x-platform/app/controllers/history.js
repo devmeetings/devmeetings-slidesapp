@@ -24,3 +24,13 @@ exports.since = function(req, res) {
   }, sendError(res));
 
 };
+
+exports.convertToRecording = function(req, res) {
+  'use strict';
+
+  var eventId = req.params.eventId;
+  states.convertToRecording(eventId, req.params.id, req.params.from, req.params.to).done(function() {
+    res.sendStatus(200);
+  }, sendError(res));
+
+};

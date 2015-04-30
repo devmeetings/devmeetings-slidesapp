@@ -3,23 +3,40 @@
 
 import * as _ from '_';
 
-class DmHistory {
+class DmHistoryGraph {
 
   constructor(data) {
     _.extend(this, data);
   }
 
   link(scope) {
-    scope.history = this.dmHistory;
+    let that = this;
+    scope.history = that.dmHistory;
+  
+    scope.cutModel = {};
+    
+    scope.setCurrentTime = (model, prop) => {
+      model[prop] = scope.history.historyPlayerState.currentSecond;
+    };
+
+    scope.convertToRecording = (model) => {
+      let sinceId = scope.history.historyPlayerState.sinceId;
+      let eventId = scope.history.historyPlayerState.eventId;
+      scope.history.createRecordingFromHistory(eventId, sinceId, model.start, model.end)
+        .then(
+          ()=> that.$window.alert('Recording Created'), 
+          () => that.$window.alert('Error while creating recording')
+        );
+    };
   }
 
 }
 
 
-export function dmHistoryGraph(dmHistory) {
+export function dmHistoryGraph(dmHistory, $window) {
 
-  let history = new DmHistory({
-    dmHistory
+  let history = new DmHistoryGraph({
+    dmHistory, $window
   });
 
   return {

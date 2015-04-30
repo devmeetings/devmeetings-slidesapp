@@ -89,6 +89,7 @@ module.exports = function(app) {
 
   var history = require('../app/controllers/history');
   app.get('/api/history/since/:id', apiAuthenticated, history.since);
+  app.post('/api/history/since/:id/recording/:from/:to/event/:eventId', apiAuthenticated, authorized('admin:events'), history.convertToRecording);
   app.get('/api/history/:id', apiAuthenticated, history.get);
 
   var events = require('../app/controllers/events');

@@ -34,6 +34,12 @@ export class History {
     });
   }
 
+  createRecordingFromHistory(eventId, sinceId, from, to) {
+    return this.$http.post('/api/history/since/' + sinceId + '/recording/' + from + '/' + to + '/event/' + eventId).then((res) => {
+      return res.data;
+    });
+  }
+
   // For player
   fetchHistorySince(id) {
     return this.$http.get('/api/history/since/' + id).then((res) => {
@@ -43,6 +49,11 @@ export class History {
 
   setHistory(history) {
     this.history = history;
+  }
+
+  setPlayerState(playerState) {
+    this.historyPlayerState = playerState;
+    return playerState;
   }
 
   // For recorder

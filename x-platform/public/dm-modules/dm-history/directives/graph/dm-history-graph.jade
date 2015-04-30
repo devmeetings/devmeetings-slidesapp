@@ -1,6 +1,6 @@
 .dm-history.ng-cloak
   h3 History
-  .col-xs-12(ng-if="$root.editMode")
+  .col-xs-12(ng-if="$root.editMode && history.historyPlayerState")
     .row
       .col-xs-6
         input.form-control.input-sm(
