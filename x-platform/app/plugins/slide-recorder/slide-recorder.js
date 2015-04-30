@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var States = require('../../services/states');
 var cache = require('../../services/cache');
+var logger = require('../../../config/logging');
 var pluginEvents = require('../events');
 
 exports.onSocket = function(log, socket) {
@@ -31,7 +32,14 @@ exports.onSocket = function(log, socket) {
         save.current = patches[0].current;
         patches = [];
       } else {
-        States.applyPatches(save.current, patches);
+        try {
+          States.applyPatches(save.current, patches);
+        } catch (e) {
+          logger.warn('Could not apply patches!');
+          logger.warn(e);
+          ack(false);
+          return;
+        }
       }
 
       // fix timestamps
