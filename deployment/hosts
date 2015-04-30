@@ -5,7 +5,8 @@
 [xplatform-node]
 #ubuntu@us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us
 #ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de
-#root@pl-1.xplatform.org server_domain=pl-1.xplatform.org server_short=xpla_pl1
+#root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2
+root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2
 
 [exec-node]
 #root@pl-1.xplatform.org hostname=pl-1.xplatform.org
