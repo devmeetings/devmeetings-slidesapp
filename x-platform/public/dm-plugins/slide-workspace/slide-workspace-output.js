@@ -21,8 +21,20 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
     doReloadOutput(scope);
   };
-  var refreshOutputLater = _.throttle(function($rootScope, scope, contentData, force){
-    scope.$apply(function(){
+  // TODO [ToDr] SafeApply?
+  function safeApply(scope, fn) {
+    var phase = scope.$root.$$phase;
+    if (phase === '$apply' || phase === '$digest') {
+      if (fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      scope.$apply(fn);
+    }
+  }
+
+  var refreshOutputLater = _.throttle(function($rootScope, scope, contentData, force) {
+    safeApply(scope, function() {
       refreshOutputNow($rootScope, scope, contentData, force);
     });
   }, 300);
@@ -109,6 +121,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     // [ToDr] Handling race conditions?
     var latestStateId;
+
     function render() {
       scope.output.hash = latestStateId;
     }
@@ -137,6 +150,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     // [ToDr] Handling race conditions?
     var latestStateId;
+
     function render() {
       refreshOutputLater($rootScope, scope, {
         hash: latestStateId,
