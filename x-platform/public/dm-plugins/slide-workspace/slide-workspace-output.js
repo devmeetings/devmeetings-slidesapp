@@ -4,14 +4,17 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   var path = sliderPlugins.extractPath(module);
 
   var lastTimestamp = 0;
-  var refreshOutputNow = function($rootScope, scope, contentData, force) {
+  var refreshOutputNow = function($timeout, $rootScope, scope, contentData, force) {
 
     if (lastTimestamp > contentData.timestamp) {
       return;
     }
     lastTimestamp = contentData.timestamp;
 
-    scope.isWaiting = false;
+    $timeout(function() {
+      scope.isWaiting = false;
+    }, 100);
+
     scope.output.hash = contentData.hash;
     scope.output.urlBase = contentData.url;
 
@@ -21,6 +24,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
     doReloadOutput(scope);
   };
+
   // TODO [ToDr] SafeApply?
   function safeApply(scope, fn) {
     var phase = scope.$root.$$phase;
@@ -33,9 +37,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
   }
 
-  var refreshOutputLater = _.throttle(function($rootScope, scope, contentData, force) {
+  var refreshOutputLater = _.throttle(function($timeout, $rootScope, scope, contentData, force) {
     safeApply(scope, function() {
-      refreshOutputNow($rootScope, scope, contentData, force);
+      refreshOutputNow($timeout, $rootScope, scope, contentData, force);
     });
   }, 300);
 
@@ -146,13 +150,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     });
   }
 
-  function listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer) {
+  function listenToFrontendRunnerEvents($timeout, scope, Sockets, $rootScope, dmPlayer) {
 
     // [ToDr] Handling race conditions?
     var latestStateId;
 
     function render() {
-      refreshOutputLater($rootScope, scope, {
+      refreshOutputLater($timeout, $rootScope, scope, {
         hash: latestStateId,
         url: '/api/page/' + latestStateId,
         timestamp: new Date().getTime()
@@ -290,7 +294,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           if (scope.slide.serverRunner === 'expressjs') {
             listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer);
           } else {
-            listenToFrontendRunnerEvents(scope, Sockets, $rootScope, dmPlayer);
+            listenToFrontendRunnerEvents($timeout, scope, Sockets, $rootScope, dmPlayer);
           }
 
           handleIframes(scope, element, $timeout, $rootScope);
