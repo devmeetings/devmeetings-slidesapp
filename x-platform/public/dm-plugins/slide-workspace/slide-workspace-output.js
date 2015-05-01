@@ -11,37 +11,25 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
     lastTimestamp = contentData.timestamp;
 
-    $timeout(function() {
-      scope.isWaiting = false;
-    }, 100);
-
     scope.output.hash = contentData.hash;
     scope.output.urlBase = contentData.url;
 
     if (!force && $rootScope.performance.indexOf('workspace_output_noauto') > -1) {
       scope.requiresRefresh = true;
+      scope.isWaiting = false;
       return;
     }
+
     doReloadOutput(scope);
   };
 
-  // TODO [ToDr] SafeApply?
-  function safeApply(scope, fn) {
-    var phase = scope.$root.$$phase;
-    if (phase === '$apply' || phase === '$digest') {
-      if (fn && (typeof(fn) === 'function')) {
-        fn();
-      }
-    } else {
-      scope.$apply(fn);
-    }
-  }
-
   var refreshOutputLater = _.throttle(function($timeout, $rootScope, scope, contentData, force) {
-    safeApply(scope, function() {
+
+    $timeout(function(){
       refreshOutputNow($timeout, $rootScope, scope, contentData, force);
-    });
-  }, 300);
+    }, 200);
+
+  }, 2000);
 
   function doReloadOutput(scope) {
     if (scope.slide.serverRunner === 'expressjs') {
@@ -255,6 +243,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       $timeout(function() {
         oldOutput.addClass('onBottom hidden');
         newOutput.removeClass('onBottom');
+        
+        scope.isWaiting = false;
 
         if (oldFrame === currentFrame) {
           newOutput.removeClass('fadeOut hidden');
@@ -262,7 +252,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       }, 100);
 
     };
-    var swapFramesLater = _.throttle(swapFramesNow, 500, {
+    var swapFramesLater = _.throttle(swapFramesNow, 150, {
       leading: false,
       trailing: true
     });
