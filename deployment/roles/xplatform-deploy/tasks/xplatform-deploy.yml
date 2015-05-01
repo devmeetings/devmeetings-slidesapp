@@ -32,6 +32,13 @@
   npm: 
     path: "/srv/{{server_domain}}/x-platform"
 
+- name: Creating directory for local Cache
+  file:
+    path: "/srv/{{server_domain}}/x-platform/data"
+    state: directory
+    mode: 0755
+    owner: xplatform
+
 - name: Run On Startup
   command: pm2 startup -u xplatform && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-xplatform.sh
   args:

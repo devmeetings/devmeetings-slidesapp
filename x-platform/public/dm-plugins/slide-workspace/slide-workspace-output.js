@@ -21,6 +21,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
     doReloadOutput(scope);
   };
+  var refreshOutputLater = _.throttle(function($rootScope, scope, contentData, force){
+    scope.$apply(function(){
+      refreshOutputNow($rootScope, scope, contentData, force);
+    });
+  }, 300);
 
   function doReloadOutput(scope) {
     if (scope.slide.serverRunner === 'expressjs') {
@@ -133,7 +138,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     // [ToDr] Handling race conditions?
     var latestStateId;
     function render() {
-      refreshOutputNow($rootScope, scope, {
+      refreshOutputLater($rootScope, scope, {
         hash: latestStateId,
         url: '/api/page/' + latestStateId,
         timestamp: new Date().getTime()
@@ -142,14 +147,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     dmPlayer.onCurrentStateId(scope, function(stateId) {
       latestStateId = stateId;
+
+      dmPlayer.getCurrentStateId().then(render);
     });
 
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
 
-      dmPlayer.getCurrentStateId().then(function() {
-        render();
-      });
+      dmPlayer.getCurrentStateId().then(render);
     });
   }
 
