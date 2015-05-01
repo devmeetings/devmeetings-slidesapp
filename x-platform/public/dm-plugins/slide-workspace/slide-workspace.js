@@ -6,15 +6,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
     var triggerChangeLater = _.throttle(function(scope) {
       sliderPlugins.trigger('slide.slide-workspace.change', scope.workspace);
-      triggerSave();
-    }, 500, {
+    }, 250, {
       leading: false,
       trailing: true
     });
-
-    var triggerSave = _.throttle(function() {
-      sliderPlugins.trigger('slide.save');
-    }, 20);
 
     sliderPlugins.filter('objectKeys', function() {
       return function(object) {
@@ -83,7 +78,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
                       };
                     });
                     refreshActiveTab($scope);
-                    triggerSave();
                     $scope.$apply();
                   });
                 });
@@ -95,7 +89,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspa
 
             // Expose functions
             scope.undoManager = undoManager;
-            scope.triggerSave = triggerSave;
             scope.triggerChangeLater = function() {
               triggerChangeLater(scope);
             };

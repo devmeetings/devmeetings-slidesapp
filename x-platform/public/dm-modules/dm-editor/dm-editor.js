@@ -21,7 +21,6 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
           data: '=',
           name: '=',
           editorMode: '=',
-          triggerSave: '&',
           triggerChangeLater: '&',
         },
         templateUrl: '/static/dm-modules/dm-editor/dm-editor.html',
@@ -29,7 +28,6 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
           // Editor
 
           var triggerChangeLater = scope.triggerChangeLater;
-          var triggerSave = scope.triggerSave;
 
           function updateMode(name) {
             if (!scope.data) {
@@ -95,7 +93,6 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               updateMode(scope.name);
               updateEditorContent(editor, scope.data);
               focusEditor();
-              triggerSave();
             });
 
 
@@ -113,7 +110,6 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 return;
               }
               syncEditorContent(editor, scope.data);
-              triggerSave();
               applyChangesLater(scope);
             });
 
@@ -123,7 +119,6 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               }
               scope.data.editor = scope.data.editor || {};
               syncEditorOptions(editor, scope.data.editor);
-              triggerSave();
               applyChangesLater(scope);
             });
 
