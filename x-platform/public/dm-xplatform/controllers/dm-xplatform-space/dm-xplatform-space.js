@@ -9,11 +9,13 @@ define([
   'xplatform/directives/dm-intro/dm-intro',
   'es6!xplatform/directives/dm-xplatform-context/dm-xplatform-context',
   'xplatform/filters/liveLinkUrl',
-  'es6!./space-visuals'
+  'es6!./space-visuals',
+  'es6!./space-redirect'
 ], function(_, xplatformApp) {
   xplatformApp.controller('dmXplatformSpace', function(
     $window, $scope, $stateParams, dmSpaceVisuals, dmEventLive,
-    $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab) {
+    $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab,
+    dmSpaceRedirect) {
 
     dmSpaceVisuals.initialize($scope, $window);
 
@@ -26,12 +28,16 @@ define([
     dmSlidesaves.allSaves(true);
 
     dmBrowserTab.setTitleAndIcon('xPlatform');
-    dmEvents.getEvent($stateParams.event, true).then(function(data) {
-      if (!data) {
+    dmEvents.getEvent($stateParams.event, true).then(function(event) {
+      if (!event) {
         return;
       }
-      $scope.event = data;
-      dmBrowserTab.setTitleAndIcon(data.title);
+      $scope.event = event;
+      dmBrowserTab.setTitleAndIcon(event.title);
+
+      if (event.shouldRedirectToUnsafe) {
+        dmSpaceRedirect.redirectIfNeeded();       
+      }
     });
 
     // Fetch current workspace

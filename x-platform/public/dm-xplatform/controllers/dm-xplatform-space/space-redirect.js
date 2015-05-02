@@ -1,0 +1,26 @@
+/* jshint esnext:true */
+
+import * as xplatformApp from 'xplatform/xplatform-app';
+import _ from '_';
+
+class SpaceRedirect {
+
+  constructor($location, $window) {
+    _.extend(this, {
+      $location, $window
+    });
+  }
+
+  redirectIfNeeded() {
+    var $loc = this.$location;
+    var host = $loc.host();
+    if (host.indexOf('unsafe') === 0) {
+      return;
+    }
+
+    this.$window.location = $loc.absUrl().replace(host, 'unsafe.' + host).replace('https', 'http');
+  }
+
+}
+
+xplatformApp.service('dmSpaceRedirect', SpaceRedirect);
