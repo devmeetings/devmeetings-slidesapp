@@ -31,7 +31,12 @@
           .form-group
             .checkbox
               label.form-label Is Removed
-                input(ng-model="event.Removed", type="checkbox")
+                input(ng-model="event.removed", type="checkbox")
+          .form-group
+            .checkbox
+              label.form-label Should Redirect To Unsafe
+                input(ng-model="event.shouldRedirectToUnsafe", type="checkbox")
+
       br
       .list-group
         .list-group-item(
