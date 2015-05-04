@@ -32,6 +32,11 @@
   npm:
     path: "/srv/executors/node/nodeExecutors"
 
+- name: Installing Modules
+  npm:
+    path: "/srv/executors/node/nodeExecutors/modules"
+
+
 - name: Run On Startup
   command: pm2 startup -u exec-node && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-node.sh
   args:
