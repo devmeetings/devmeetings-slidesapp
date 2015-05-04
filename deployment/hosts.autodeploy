@@ -2,7 +2,8 @@
 ubuntu@us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us
 #ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de
 root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2
-root@new.xplatform.org server_domain=xplatform.org server_short=xpla_main
+root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1
+root@xplatform.org server_domain=xplatform.org server_short=xpla_main
 root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new
 
 
