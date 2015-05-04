@@ -6,7 +6,6 @@
 #ubuntu@us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us
 #ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de
 #root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2
-root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2
 
 [exec-node]
 #root@pl-1.xplatform.org hostname=pl-1.xplatform.org
@@ -19,4 +18,5 @@ root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2
 #root@pl-1.xplatform.org hostname=pl-1.xplatform.org
 
 [xplatform-main]
-#root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_main
+root@xplatform.org server_domain=xplatform.org server_short=xpla_main
+root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000
