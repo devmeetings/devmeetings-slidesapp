@@ -82,6 +82,7 @@ exports.onSocket = function (log, socket, io) {
         delete data.save._id;
         Q.when(Slidesave.create(data.save)).then(function (slidesave) {
             data.comment.slidesave = slidesave._id;
+            delete data.comment.statesaveId;
             return createComment();
         }).fail(log).done(function () {});
     };

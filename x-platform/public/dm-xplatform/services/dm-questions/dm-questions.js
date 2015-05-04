@@ -1,5 +1,5 @@
 define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
-    xplatformApp.service('dmQuestions', ['$http', '$q', 'Sockets', '$rootScope', function ($http, $q, Sockets, $rootScope) {
+    xplatformApp.service('dmQuestions', function ($http, $q, Sockets, $rootScope, dmPlayer) {
        
         var promises = {
         };
@@ -57,18 +57,21 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             commentQuestion: function (question, comment, save) {
                 var result = $q.defer();
                 var that = this;
-                Sockets.emit('event.questions.comment.create', {
-                    question: question._id, 
-                    comment: comment,
-                    save: save
-                }, function (message) {
-                    result.resolve();
+
+                dmPlayer.getCurrentStateId().then(function(stateId) {
+                  Sockets.emit('event.questions.comment.create', {
+                      question: question._id, 
+                      comment: comment,
+                      save: save
+                  }, function (message) {
+                      result.resolve();
+                  });
                 });
                 return result.promise;
             }
             
         };
         return toReturn;
-    }]);
+    });
 });
 
