@@ -12,6 +12,7 @@ exports.onSocket = function(log, socket) {
     var workspaceRoom = getRoom(data);
 
     States.fetchStateForWriting(data._id, socket.request.user).done(function(save) {
+      
       var patches = data.patches;
 
       if (save.fresh && data._id && !patches[0].current) {

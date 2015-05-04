@@ -42,13 +42,10 @@ define(['angular',
     });
 
 
-
     // TODO [ToDr] Sharing state for questions!
     var questionState = dmEvents.getState($stateParams.event, 'save');
 
-    dmPlayer.onCurrentStateId($scope, function(stateId) {
-      questionState.save = $scope.slide;
-
+    var saveLater = _.throttle(function() {
       if (state !== 'workspace') {
         return;
       }
@@ -57,8 +54,20 @@ define(['angular',
         return;
       }
 
-      dmSlidesaves.saveModified($scope.slide._id, stateId);
+      dmPlayer.getCurrentStateId().then(function(stateId) {
+        dmSlidesaves.saveModified($scope.slide._id, stateId);
+      });
+
+    }, 1000, {
+      leading: false,
+      trailing: true
     });
+
+    $scope.$watch('slide', function() {
+      questionState.save = $scope.slide;
+
+      saveLater();
+    }, true);
 
   });
 });

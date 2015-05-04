@@ -61,7 +61,6 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
         source = s;
       },
 
-      // TODO [ToDr] Consider using onCurrentStateId!
       getCurrentStateId: function() {
         return source.getCurrentStateId();
       },
@@ -84,6 +83,7 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
         };
         var off = source.listen('newId', cb);
         scope.$on('$destroy', off);
+
         // Invoke callback
         this.getCurrentStateId().then(callback);
       }

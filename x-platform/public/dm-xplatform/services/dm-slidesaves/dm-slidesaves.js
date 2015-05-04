@@ -31,6 +31,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatform
             saveModified: function (myId, stateId) {
                 var result = $q.defer();
 
+                console.log("Saving!", stateId);
                 Sockets.emit('slidesaves.save', {
                     slide: myId,
                     stateId: stateId
