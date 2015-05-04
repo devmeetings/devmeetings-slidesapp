@@ -54,7 +54,7 @@
     xpla_job: 'XPlatform'
     xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
-    server_cluster: 1
+    server_cluster: 2
     server_port: 3000
   roles:
     - xplatform-deploy

@@ -3,7 +3,9 @@ var Cache = require('../models/cache'),
   cap = require('level-capped'),
   Q = require('q');
 
-var databaseLocation = __dirname + '/../../data';
+
+var instance = process.env.NODE_APP_INSTANCE || 0;
+var databaseLocation = __dirname + '/../../data/' + instance + '/';
 var db = level(databaseLocation);
 
 cap(db, 'cache', 5000);
