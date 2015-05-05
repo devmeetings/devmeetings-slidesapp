@@ -32,7 +32,12 @@ module.exports = function(app, config, router) {
     store: store.sessionStore(session),
     cookie: {
       domain: config.cookieDomain,
-      secure: !config.isDev,
+      /*
+       *  TODO [ToDr] We cannot use secure cookie :(
+       *  The reason for this are unsafe.* domains that 
+       *  cannot require from you logging one more time
+       */
+      secure: false, 
       httpOnly: true
     },
     cookieParser: cookieParser
