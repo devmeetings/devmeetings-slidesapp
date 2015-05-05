@@ -129,31 +129,25 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       tabs: {}
     };
 
-    // [ToDr] Handling race conditions?
-    var latestStateId;
-
-    function render() {
-      scope.output.hash = latestStateId;
+    function reloadIfNeeded() {
+      if ($rootScope.performance.indexOf('workspace_output_noauto') > -1) {
+        scope.requiresRefresh = true;
+      } else {
+        doReloadOutput(scope);
+      }
     }
+
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function(workspace) {
       var needsRefresh = hasCodeChanged(lastWorkspace, workspace);
       if (!needsRefresh) {
         return;
       }
       lastWorkspace = JSON.parse(JSON.stringify(workspace));
-      if ($rootScope.performance.indexOf('workspace_output_noauto') > -1) {
-        scope.requiresRefresh = true;
-      } else {
-        doReloadOutput(scope);
-      }
-      dmPlayer.getCurrentStateId().then(function() {
-        render();
-      });
+      reloadIfNeeded();
     });
 
-    dmPlayer.onCurrentStateId(scope, function(stateId) {
-      latestStateId = stateId;
-    });
+    // Trigger initial reload
+    reloadIfNeeded();
   }
 
   function listenToFrontendRunnerEvents($timeout, scope, Sockets, $rootScope, dmPlayer) {

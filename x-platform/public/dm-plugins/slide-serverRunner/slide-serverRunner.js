@@ -34,22 +34,26 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             sliderPlugins.trigger('slide.jsonOutput.display', data.result);
           };
 
-          function emitRun(prop, path, stateId) {
+          var lastStateId;
+          function emitRun(prop, path) {
+            if (!lastStateId) {
+              return;
+            }
+
             var data = {
               runner: scope.runner,
               path: path,
               timestamp: new Date().getTime(),
             };
-            data[prop] = stateId;
+            data[prop] = lastStateId;
             Sockets.emit('serverRunner.code.run', data);
           }
 
           var emitRunDebounced = _.debounce(emitRun, EXECUTION_DELAY);
           // TODO [ToDr] That's terrible!
           var lastType = {};
-
           dmPlayer.onCurrentStateId(scope, function(stateId) {
-            emitRunDebounced(lastType.type, lastType.path, stateId);
+            lastStateId = stateId;
           });
 
           sliderPlugins.listen(scope, 'slide.slide-code.change', function(ev, editor, path) {
@@ -58,6 +62,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
             lastType.type = 'code';
             lastType.path = path;
+            emitRunDebounced(lastType.type, lastType.path);
           });
 
           sliderPlugins.listen(scope, 'slide.slide-workspace.run', function(workspace, path) {
@@ -66,6 +71,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
             lastType.type = 'files';
             lastType.path = path;
+            emitRunDebounced(lastType.type, lastType.path);
           });
         }
       };
