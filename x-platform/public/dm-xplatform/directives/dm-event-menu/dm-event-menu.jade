@@ -6,13 +6,13 @@ mixin materialsLinks()
       ng-if="material.material"
       )
         span.fa.fa-film.nav-icon
-        span {{$index}}. {{material.title}}
+        span {{material.title}}
     a(
       title="{{material.title}}"
       ui-sref='index.space.deck({iteration: iteration.currentIdx, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})'
       ng-if="material.deck.deck")
         span.fa.fa-university.nav-icon
-        span {{$index}}. {{material.title}}
+        span {{material.title}}
 
 
 .dm-event-menu.full-height.ng-cloak
@@ -27,11 +27,11 @@ mixin materialsLinks()
         ng-click="iteration.currentIdx = iteration.currentIdx + 1")
         span.fa.nav-icon.fa-chevron-right
   .scroll(ng-scrollbar rebuild-on-resize)
-    ul.nav.nav-tabs.menu-hr.dm-links-small(
+    ul.dm-breadcrumb.dm-links-small(
       ng-show="iteration.active")
       +materialsLinks()
 
-    ul.nav.nav-tabs.menu-hr.dm-links-small(
+    ul.dm-breadcrumb.dm-links-small(
       ng-show="iteration.active.tasks.length > 1")
       li(
         ng-class="{'active': iteration.currentTaskIdx === $index}"

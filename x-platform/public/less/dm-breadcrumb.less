@@ -3,20 +3,20 @@
   @height: 40px;
   @borderColor: #282828;
   @arrowColor: darken(@background, 3%);
-  overflow: hidden;
 
   list-style: none;
-  display: flex;
-  height: @height;
   padding: 0;
   margin: 0;
   margin-bottom: .5em;
-
-  background-color: @background;
+  display: flex;
+  overflow: hidden;
 
   > li {
-    flex: 1;
     position: relative;
+    flex: 1 1 70px;
+    transition: flex 0.5s ease;
+    transition-delay: 0.2s;
+    // display: inline-block;
 
     &.special {
       > a {
@@ -27,12 +27,13 @@
       }
     }
 
-    &.title {
-      width: 20%;
-      min-width: 150px;
-      max-width: 200px;
-      flex: none;
+    &.title, &.title:hover {
+      flex: 0 0 15%;
       cursor: pointer;
+
+      &.active {
+        flex: 0 0 17%;
+      }
 
       > a {
         font-weight: bold;
@@ -46,6 +47,27 @@
         &::after {
           background: @arrowColor;
         }
+      }
+    }
+
+    &.active {
+      flex: 1 1 120px;
+    }
+
+    span.title {
+      margin-left: 5px;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      flex: 3 0 190px;
+
+      span.title {
+        opacity: 1.0;
+      }
+      span.number {
+        display: none;
       }
     }
 
@@ -67,7 +89,7 @@
       color: #ddd;
       display: block;
       text-decoration: none;
-      padding: 0 @height/2 0 @height/2;
+      padding: 0 @height/3 0 @height/3;
       height: @height;
       line-height: @height;
       box-sizing: border-box;
@@ -76,6 +98,7 @@
       border: @borderSize solid @borderColor;
       border-radius: 2px;
       white-space: nowrap;
+      font-size: 0.9em;
 
       &::after {
         content: '';
@@ -96,8 +119,6 @@
       }
     }
     &:first-child > a {
-      padding: 0 @height;
-
       &::after {
         box-shadow: none;
       }

@@ -57,19 +57,22 @@
       div(ng-repeat="i in event.iterations")
         ul.dm-breadcrumb
           li.title(ng-click="showMore = !showMore" ng-class="{'active': showMore}")
-            a {{$index + 1}}. {{i.title}}
+            a {{i.title}}
           li(ng-repeat="material in i.materials")
             a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
                 span.fa.fa-film.nav-icon.fa-fw
-                span {{material.title}}
+                span.number {{$index + 1}}.
+                span.title &nbsp;{{material.title}}
             a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})',
                 ng-if="material.deck.deck")
                 span.fa.fa-university.nav-icon.fa-fw
-                span {{material.title}}
+                span.number {{$index + 1}}.
+                span.title &nbsp;{{material.title}}
           li.special(ng-repeat='task in i.tasks', ui-sref-active="active")
             a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
               span.fa.fa-pencil.nav-icon.fa-fw
-              span {{task.title}}
+              span.number {{$index + 1}}.
+              span.title &nbsp;{{task.title}}
         .list-group(ng-show="showMore")
           .list-group-item
             .list-group-item-text.clearfix
