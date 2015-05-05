@@ -25,7 +25,7 @@ module.exports = function(app, config, router) {
   });
 
   var sessionConfig = {
-    key: config.cookieName || 'xpla.sid',
+    key: config.cookieName || 'new_xpla.sid',
     resave: false,
     saveUninitialized: false,
     secret: 'ImSecretAndIKnowIt',

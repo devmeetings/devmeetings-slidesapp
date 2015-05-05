@@ -60,7 +60,7 @@ var config = {
       clientId: '81c1de02cccf83b4a849',
       clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
     },
-    cookieName: 'test.xplatform.sid',
+    cookieName: 'test.new_xplatform.sid',
     realmUrl: 'http://xplatform.org:2000',
     db: 'mongodb://localhost/platform-test',
     store: 'redis://localhost:6379/2',
@@ -95,7 +95,7 @@ var config = {
       clientId: '9bc4587bb4a474187812',
       clientSecret: '676949bd66e064f68b8bd5a6367b61e3cd4bc7be'
     },
-    cookieName: 'staging.xplatform.sid',
+    cookieName: 'staging.new_xplatform.sid',
     realmUrl: 'https://staging.xplatform.org',
     db: 'mongodb://localhost/platform-staging',
     store: 'redis://localhost:6379/1',
@@ -133,7 +133,7 @@ var config = {
       clientId: '81c1de02cccf83b4a849',
       clientSecret: 'dbfae534374ee193f85b9e7be8cc3b25811ddf31'
     },
-    cookieName: 'xplatform.sid',
+    cookieName: 'new_xplatform.sid',
     realmUrl: 'https://xplatform.org',
     db: 'mongodb://localhost/platform-production',
     store: 'redis://localhost:6379',
@@ -169,7 +169,7 @@ var config = {
       clientId: '4b7631db038a99b89c34',
       clientSecret: '3c562e15cf5ed88ce132041f4a1033c7529d8ffe'
     },
-    cookieName: 'xplatform.sid',
+    cookieName: 'new_xplatform.sid',
     realmUrl: 'http://192.168.10.1',
     db: 'mongodb://localhost/platform-box',
     store: 'redis://localhost:6379',
