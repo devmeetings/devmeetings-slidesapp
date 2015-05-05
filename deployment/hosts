@@ -9,14 +9,13 @@
 #root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1
 
 [exec-node]
-#root@pl-1.xplatform.org hostname=pl-1.xplatform.org
-
+root@pl-2.xplatform.org hostname=pl-2.xplatform.org exec_node_server_url=pl-2.xplatform.org
 
 [exec-burger]
-#root@pl-1.xplatform.org hostname=pl-1.xplatform.org
+#root@pl-2.xplatform.org hostname=pl-2.xplatform.org
 
 [exec-java]
-#root@pl-1.xplatform.org hostname=pl-1.xplatform.org
+#root@pl-2.xplatform.org hostname=pl-2.xplatform.org
 
 [xplatform-main]
 #root@xplatform.org server_domain=xplatform.org server_short=xpla_main

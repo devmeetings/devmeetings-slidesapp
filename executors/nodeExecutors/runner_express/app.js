@@ -2,6 +2,7 @@
 
 var Queue = 'exec_expressjs';
 var address = process.env.REDIS_HOST || 'localhost:6379';
+var serverUrl = process.env.SERVER_URL || null;
 
 console.log("Connecting to Redis", address);
 
@@ -52,6 +53,7 @@ client.on('message', function(channel, msgString) {
 
   var reply = function(thing) {
     thing.port = port;
+    thing.url = serverUrl;
     thing.timestamp = msg.timestamp;
 
     console.log("Replying with correlationId", msg2.properties.correlationId);

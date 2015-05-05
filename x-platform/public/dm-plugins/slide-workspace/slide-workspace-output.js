@@ -25,7 +25,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
   var refreshOutputLater = _.throttle(function($timeout, $rootScope, scope, contentData, force) {
 
-    $timeout(function(){
+    $timeout(function() {
       refreshOutputNow($timeout, $rootScope, scope, contentData, force);
     }, 200);
 
@@ -84,13 +84,24 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
   function listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer) {
     function updateUrls(result) {
       var port = result.port;
+      var host = result.url || $location.host();
+
       scope.isWaiting = false;
       scope.requiresRefresh = false;
-      scope.output.urlBase = 'http://' + $location.host() + ':' + port;
+      scope.output.urlBase = 'http://' + host + ':' + port;
+      refreshUrl();
+    }
+
+    function refreshUrl() {
       var url = scope.workspace.url || '/';
       scope.output.contentUrl = scope.output.urlBase + url;
       scope.refreshIframe(scope.output.contentUrl);
     }
+
+    // when playing we need to have it also!
+    scope.$watch('workspace.permaUrl', function() {
+      refreshUrl();
+    });
 
     sliderPlugins.listen(scope, 'slide.serverRunner.result', function(result) {
       if (!scope.isWaiting) {
@@ -161,6 +172,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       scope.isWaiting = true;
 
       dmPlayer.getCurrentStateId().then(render);
+    });
+
+    // when playing we need to have it also!
+    scope.$watch('workspace.permaUrl', function() {
+      doReloadOutput(scope);
     });
   }
 
@@ -243,7 +259,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       $timeout(function() {
         oldOutput.addClass('onBottom hidden');
         newOutput.removeClass('onBottom');
-        
+
         scope.isWaiting = false;
 
         if (oldFrame === currentFrame) {
@@ -290,10 +306,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           handleIframes(scope, element, $timeout, $rootScope);
 
           scope.$watch('output.contentUrl', scope.refreshIframe);
-          // when playing we need to have it also!
-          scope.$watch('workspace.permaUrl', function() {
-            doReloadOutput(scope);
-          });
 
           scope.updateContentUrl = function() {
             doReloadOutput(scope);

@@ -19,7 +19,7 @@ exports.getDeckSlides = function(req, res) {
     DeckModel.findById(req.params.id, function(err, deck) {
         if (err) {
             console.error(err);
-            res.send(404, err);
+            res.status(404).send(err);
             return;
         }
 
@@ -45,7 +45,7 @@ exports.getDeckSlides = function(req, res) {
 exports.getDeck = function(req, res) {
     DeckModel.findById(req.params.id, function(err, deck) {
         if (err) {
-            res.send(404, err);
+            res.status(404).send(err);
             return;
         }
         sendAsRequireJSModule(deck, res);

@@ -17,6 +17,13 @@ class SpaceRedirect {
     if (host.indexOf('unsafe') === 0) {
       return;
     }
+    if (host === 'localhost') {
+      this.$window.location = $loc.absUrl().replace(
+        'localhost:3000',
+        'localhost:4000'
+      ).replace('https', 'http');
+      return;
+    }
 
     this.$window.location = $loc.absUrl().replace(host, 'unsafe.' + host).replace('https', 'http');
   }

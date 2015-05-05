@@ -65,6 +65,8 @@
   vars:
     exec_node_version: 'lastSuccessfulBuild'
     exec_node_cluster: 1
+    #exec_node_server_url: 
+    exec_node_redis_host: 'localhost:6379'
   roles:
     - common
     - nodejs

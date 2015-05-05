@@ -61,6 +61,9 @@
     chdir: "/srv/executors/node/nodeExecutors/runner_express"
   sudo: yes
   sudo_user: exec-node
+  environment:
+    SERVER_URL: '{{exec_node_server_url}}'
+    REDIS_HOST: '{{exec_node_redis_host}}'
 
 - name: start pm2 process
   command: 'pm2 start -x -i {{exec_node_cluster}} --name "exec_node" app.js'
@@ -68,6 +71,9 @@
     chdir: "/srv/executors/node/nodeExecutors/runner_node"
   sudo: yes
   sudo_user: exec-node
+  environment:
+    SERVER_URL: '{{exec_node_server_url}}'
+    REDIS_HOST: '{{exec_node_redis_host}}'
 
 - name: Register keymetrics
   command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'

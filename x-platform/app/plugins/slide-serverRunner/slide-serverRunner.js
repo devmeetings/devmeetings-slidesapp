@@ -76,11 +76,8 @@ var States = require('../../services/states');
 function fillData(clientData) {
   'use strict';
 
-  console.log(clientData);
   if (clientData.code) {
     return States.createFromId(clientData.code).then(function(save) {
-
-      console.log(save);
       var code = States.getData(save, clientData.path);
       clientData.code = code.content;
       return clientData;

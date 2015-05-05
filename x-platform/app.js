@@ -48,6 +48,7 @@ if (config.meteorProxy) {
     }
   });
 }
+
 // Configure socketio after proxy
 var io = socketio(server);
 require('./config/sockets')(io, sessionConfig);
@@ -62,8 +63,15 @@ require('./config/blocked')(function(ms) {
 });
 
 var instance = process.env.NODE_APP_INSTANCE || 0;
-var portToListen =  parseInt(config.port, 10) + parseInt(instance, 10);
+var portToListen = parseInt(config.port, 10) + parseInt(instance, 10);
 
 server.listen(portToListen, 'localhost', function() {
   logger.info('Server listening on port:', portToListen, ' with env: ' + config.name);
 });
+
+if (config.name === 'development') {
+  var unsafePort = portToListen + 1000;
+  require('http').createServer(app).listen(unsafePort, function() {
+    logger.info('UNSAFE DEVELOPMENT! Version listening on port:', unsafePort);
+  });
+}
