@@ -28,7 +28,7 @@ define([
               recordingPlayer = null;
               return;
             }
-            var layout = recording.original.layout || null;
+            var layout = (recording.original ? recording.original.layout : null) || null;
             recordingPlayer = dmPlayerFactory(recording, function(slide) {
               $scope.slide = slide;
               // TODO [ToDr] Temporary (viewing of notes)

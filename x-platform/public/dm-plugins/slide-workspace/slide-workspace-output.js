@@ -93,9 +93,15 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     }
 
     function refreshUrl() {
+      var out = scope.output;
+      if (!out.urlBase) {
+        return;
+      }
+
       var url = scope.workspace.url || '/';
-      scope.output.contentUrl = scope.output.urlBase + url;
-      scope.refreshIframe(scope.output.contentUrl);
+      out.contentUrl = out.urlBase + url;
+
+      scope.refreshIframe(out.contentUrl);
     }
 
     // when playing we need to have it also!
@@ -111,6 +117,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       if (lastTimestamp > result.timestamp) {
         return;
       }
+
       lastTimestamp = result.timestamp;
 
       updateUrls(result);
