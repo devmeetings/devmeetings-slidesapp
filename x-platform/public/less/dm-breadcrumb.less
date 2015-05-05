@@ -1,0 +1,113 @@
+.dm-breadcrumb {
+  @background: #222222;
+  @height: 40px;
+  @borderColor: #282828;
+  @arrowColor: darken(@background, 3%);
+  overflow: hidden;
+
+  list-style: none;
+  display: flex;
+  height: @height;
+  padding: 0;
+  margin: 0;
+  margin-bottom: .5em;
+
+  background-color: @background;
+
+  > li {
+    flex: 1;
+    position: relative;
+
+    &.special {
+      > a {
+        background: @arrowColor;
+        &::after {
+          background: @arrowColor;
+        }
+      }
+    }
+
+    &.title {
+      width: 20%;
+      min-width: 150px;
+      max-width: 200px;
+      flex: none;
+      cursor: pointer;
+
+      > a {
+        font-weight: bold;
+        color: #ddd;
+        background: @arrowColor;
+
+        &:hover, &:hover::after {
+          background: @arrowColor;
+        }
+
+        &::after {
+          background: @arrowColor;
+        }
+      }
+    }
+
+    &.active > a, > a:hover {
+      color: #fff;
+      background-color: lighten(@background, 15%);
+      box-shadow: 0 0 2px @arrowColor;
+
+      &::after {
+        background: linear-gradient(220deg, 
+                rgba(72,72,72,1) 0%,
+                rgba(72,72,72,1) 50%,
+                rgba(72,72,72,0) 100%); /* W3C */
+        box-shadow: 3px -3px 2px -2px @arrowColor;
+      }
+    }
+
+    > a {
+      color: #ddd;
+      display: block;
+      text-decoration: none;
+      padding: 0 @height/2 0 @height/2;
+      height: @height;
+      line-height: @height;
+      box-sizing: border-box;
+      background-color: @background;
+      @borderSize: 1px;
+      border: @borderSize solid @borderColor;
+      border-radius: 2px;
+      white-space: nowrap;
+
+      &::after {
+        content: '';
+        display: block;
+        transform: scale(0.707) rotate(45deg);
+        position: absolute;
+        height: @height;
+        width: @height;
+        top: 0;
+        right: -@height/2;
+        border-top: @borderSize+1 solid @borderColor;
+        border-right: @borderSize+1 solid @borderColor;
+        background: linear-gradient(220deg, 
+            rgba(34,34,34,1) 0%,
+            rgba(34,34,34,1) 50%,
+            rgba(34,34,34,0) 100%); /* W3C */
+        z-index: 1;
+      }
+    }
+    &:first-child > a {
+      padding: 0 @height;
+
+      &::after {
+        box-shadow: none;
+      }
+    }
+    &:last-child > a {
+      padding-right: @height/2;
+
+      &::after {
+        display: none;
+      }
+    }
+  } 
+}
