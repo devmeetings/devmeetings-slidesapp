@@ -2,7 +2,9 @@ mixin workspaceOutputs()
   .form-group.workspace-address(
       ng-show="workspace.showUrl !== false || output.showUrl"
     )
-      .input-group
+      .input-group(
+        data-intro="Here you can control the URL of your output" data-position="bottom"
+        )
         .input-group-btn
           button.btn(
             ng-class="{'btn-success': requiresRefresh, 'btn-def': !requiresRefresh}",

@@ -38,7 +38,9 @@
                 input(ng-model="event.shouldRedirectToUnsafe", type="checkbox")
 
       br
-      .list-group
+      .list-group(
+        data-intro="Use the menu to watch a movie and task. Be sure to also check the context menu."  data-position="bottom"
+        )
         .list-group-item(
           ng-if="event.intro"
           )
@@ -83,7 +85,6 @@
                       span {{task.title}}
                     input.form-control.input-sm(ng-if="$root.editMode", ng-model="task.title", placeholder="Task Title")
                     input.form-control.input-sm(ng-if="$root.editMode", ng-model="task.url", placeholder="Task URL")
-
 // .col-sm-6.full-height(ng-if="event.liveLink")
 // iframe.full-frame(
 // ng-if="event.liveLink"

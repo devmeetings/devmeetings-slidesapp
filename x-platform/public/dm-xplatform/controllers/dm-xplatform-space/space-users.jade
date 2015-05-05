@@ -17,11 +17,13 @@ ul.nav.nav-tabs.agenda
     a(ui-sref="index.space.agenda",
       analytics-category='menu',
       analytics-on='click', analytics-event='leftbar.agenda')
-      span.fa.fa-fw.fa-sitemap
+      span.fa.fa-fw.fa-sitemap(
+        data-intro="Select Videos and Tasks from Agenda" data-position="right"
+    )
 
 
 ul.nav.nav-tabs.nav-stacked.users
-  li.users-self(
+  li.users-self(a
     tooltip="You - {{user.result.name}}"
     tooltip-placement="right"
     tooltip-animation="false"
@@ -33,14 +35,16 @@ ul.nav.nav-tabs.nav-stacked.users
       ui-sref="index.space.workspace({slide: workspaceId, parent:null})",
       )
       img.img-rounded(
+        data-intro="Your workspace is a place where you write code" data-position="right"
         alt="{{user.result.name}}"
         ng-src='{{user.result.avatar | dmGravatar:28}}'
         )
 .users-all(
+  data-intro="You can peek at code of other participants at any time" data-position="right"
   ng-scrollbar rebuild-on-resize
   ng-class="{'is-admin': user.result.acl.indexOf('admin:events') > -1}"
 )
-  ul.nav.nav-tabs.nav-stacked.users
+  ul.nav.nav-tabs.nav-stacked.users()
     li(
       ng-repeat="user in uniqueUsers"
       tooltip="{{user.name}}"
@@ -70,6 +74,7 @@ ul.nav.nav-tabs.nav-stacked.users
       span.fa.fa-fw.fa-check-square-o(ng-show="$root.editMode")
 
   li(
+      data-intro="As a trainer you can explore workspaces of all participants" data-position="right"
       ng-if="user.result.acl.indexOf('trainer') > -1"
       ui-sref-active='active'
     )

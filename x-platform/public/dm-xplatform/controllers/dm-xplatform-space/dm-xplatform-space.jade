@@ -45,14 +45,18 @@
               ng-click="toggleRight(!right.opened)"
               )
               span.fa.fa-fw(
+                data-intro="Context informations are placed inside the sidebar", data-position="left"
                 ng-class="{'fa-chevron-left': !right.opened, 'fa-chevron-right': right.opened}"
               )
 
             ul.nav.nav-tabs.pull-right
-              li.sidebar-pin-btn(tooltip="Pin Menu", tooltip-placement="left", title="Pin Menu", tooltip-animation='false')
+              li.sidebar-pin-btn(
+                tooltip="Pin Menu", tooltip-placement="left", title="Pin Menu", tooltip-animation='false')
                 a.cursor-pointer(ng-click="togglePinRight()")
                   span.fa.fa-thumb-tack(ng-show="right.pinned")
-                  span.glyphicon.glyphicon-pushpin(ng-show="!right.pinned")
+                  span.glyphicon.glyphicon-pushpin(
+                      data-intro="You can pin menu to make it visible all the time", data-position="left"
+                      ng-show="!right.pinned")
 
             .full-height(ui-view="context")
 

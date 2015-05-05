@@ -7,7 +7,9 @@ div(
     with-sidebar="withSidebar",
     on-first-run='onFirstRun()')
 
-.bottom-bar(ng-style='{"height": "23px"}')
+.bottom-bar(
+  data-intro="Control the movie using timeline and Play/Pause button. You can also change playback rate" data-position="top"
+  ng-style='{"height": "23px"}')
   dm-xplayer-timeline(
     state='state',
     annotations='annotations',

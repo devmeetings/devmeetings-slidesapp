@@ -1,6 +1,8 @@
 define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questions/dm-questions'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformQuestionCreate', ['$scope', '$stateParams', 'dmQuestions', 'dmEvents', 'dmSlidesaves', function ($scope, $stateParams, dmQuestions, dmEvents, dmSlidesaves) {
+    xplatformApp.controller('dmXplatformQuestionCreate', function ($scope, $stateParams, dmQuestions, dmEvents, dmSlidesaves, dmIntro) {
        
+        dmIntro.startIfFirstTime('question', '.dm-questions');
+
         $scope.question = {
             title: '',
             description: '',
@@ -26,5 +28,5 @@ define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questi
             });
         };
 
-    }]);
+    });
 });

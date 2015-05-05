@@ -2,7 +2,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/services/dm-events/dm-events'
 ], function(angular, xplatformApp, _) {
   'use strict';
-  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmPlayer) {
+  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmIntro) {
+
 
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 
@@ -36,6 +37,8 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $scope.recording = recording.recording;
       $scope.state.rate = recording.recording.original.playbackRate;
       $scope.state.max = recording.max;
+
+      dmIntro.startIfFirstTime('recording', '.dm-xplatform-player');
     });
 
     function fetchAnnotations() {

@@ -4,7 +4,8 @@ define(['angular',
   'directives/plugins-loader',
   'xplatform/services/dm-slidesaves/dm-slidesaves'
 ], function(angular, _, xplatformApp) {
-  xplatformApp.controller('dmXplatformSlide', function($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmRecorder, dmEvents, dmBrowserTab, dmEventLive) {
+  xplatformApp.controller('dmXplatformSlide', 
+    function($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmRecorder, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {
     //
     var state = $state.current.name.split('.')[2];
 
@@ -23,6 +24,7 @@ define(['angular',
         dmBrowserTab.setTitleAndIcon('Your code', 'code');
         $scope.mode = '';
         $rootScope.slide.mode = '';
+        dmIntro.startIfFirstTime('workspace', '.dm-slide-left');
       } else if (state === 'question') {
         $timeout(function() {
           $scope.mode = '';

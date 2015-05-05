@@ -1,4 +1,4 @@
-.panel(ng-controller="dmXplatformQuestionCreate")
+.dm-questions.panel(ng-controller="dmXplatformQuestionCreate")
     .panel-body
         p Select the code that you want to highlight.
         form(ng-submit='createQuestion()')
@@ -6,5 +6,8 @@
                 input.input-sm.form-control(
                     placeholder="Description",
                     ng-model='question.description', type='text', required, autofocus)
-            button.btn.btn-sm.btn-primary.btn-block(type='submit') Publish Code Anonymously
+            button.btn.btn-sm.btn-primary.btn-block(
+              data-intro="Use Questions to anonymously ask for help"
+              data-position="bottom"
+              type='submit') Publish Code Anonymously
 

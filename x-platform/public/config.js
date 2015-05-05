@@ -42,6 +42,7 @@ require.config({
     "lib/favicojs": "../components/favico.js/favico",
     "lib/introjs": "../components/intro.js/intro",
     "lib/json-diff": "../components/jsondiffpatch/public/build/jsondiffpatch-full",
+    "lib/chardin": "../components/chardin.js/chardinjs",
 
     // Plugins
     "es6": "../components/requirejs-babel/es6",
@@ -104,7 +105,10 @@ require.config({
     "lib/json-diff": {
       "exports": "json_diff"
     },
-
+    "lib/chardin": {
+      "deps": ["jquery"],
+      "exports": "$"
+    },
     // Angular
     "angular": {
       "deps": ["jquery"],

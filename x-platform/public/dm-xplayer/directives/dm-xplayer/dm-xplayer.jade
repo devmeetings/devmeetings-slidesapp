@@ -16,6 +16,7 @@ mixin withSubtitles()
 
 .full-height
   .dm-player-subtitles-btn(
+      data-intro="You might find it best to watch video in full screen. You can start video by pressing space."
       ng-if="state.firstRun && !state.isPlaying"
       ng-class="{'faded': hideBtn}"
     )
