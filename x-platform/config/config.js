@@ -187,6 +187,17 @@ require('fs').readFile(__dirname + '/../public/version', 'utf8', function(err, v
   currentConfig.version += '[' + currentConfig.name.slice(0, 3) + ']';
 });
 
+// Append CookieDomain
+(function(c) {
+  'use strict';
+
+  var cookieDomain;
+  cookieDomain = c.realmUrl.replace(/https?:\/\//, '');
+  cookieDomain = cookieDomain.replace(/:[0-9]+$/, '');
+
+  c.cookieDomain = cookieDomain;
+}(currentConfig));
+
 
 // Parse ENV variables
 var fromEnv = {

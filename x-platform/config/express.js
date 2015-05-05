@@ -1,5 +1,4 @@
 var express = require('express'),
-  mongoose = require('mongoose'),
   compression = require('compression'),
   favicon = require('serve-favicon'),
   winston = require('express-winston'),
@@ -31,6 +30,11 @@ module.exports = function(app, config, router) {
     saveUninitialized: false,
     secret: 'ImSecretAndIKnowIt',
     store: store.sessionStore(session),
+    cookie: {
+      domain: config.cookieDomain,
+      secure: true,
+      httpOnly: true
+    },
     cookieParser: cookieParser
   };
 
@@ -51,7 +55,7 @@ module.exports = function(app, config, router) {
     statusLevels: true
   }));
   app.use(morgan(config.logger));
-  app.use(sessionConfig.cookieParser());
+  app.use(sessionConfig.cookieParser(sessionConfig.secret, sessionConfig.cookie));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
     extended: true
