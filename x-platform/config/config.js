@@ -7,6 +7,7 @@ var staticsPath = '/static';
 
 var config = {
   development: {
+    isDev: true,
     name: 'development',
     root: rootPath,
     staticsPath: staticsPath,
@@ -191,11 +192,15 @@ require('fs').readFile(__dirname + '/../public/version', 'utf8', function(err, v
 (function(c) {
   'use strict';
 
+  if (c.isDev) {
+    return;
+  }
+
   var cookieDomain;
   cookieDomain = c.realmUrl.replace(/https?:\/\//, '');
   cookieDomain = cookieDomain.replace(/:[0-9]+$/, '');
-
   c.cookieDomain = cookieDomain;
+
 }(currentConfig));
 
 

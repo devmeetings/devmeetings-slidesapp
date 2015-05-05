@@ -32,7 +32,7 @@ module.exports = function(app, config, router) {
     store: store.sessionStore(session),
     cookie: {
       domain: config.cookieDomain,
-      secure: true,
+      secure: !config.isDev,
       httpOnly: true
     },
     cookieParser: cookieParser

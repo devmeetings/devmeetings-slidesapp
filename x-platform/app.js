@@ -69,9 +69,12 @@ server.listen(portToListen, 'localhost', function() {
   logger.info('Server listening on port:', portToListen, ' with env: ' + config.name);
 });
 
-if (config.name === 'development') {
+if (config.isDev) {
   var unsafePort = portToListen + 1000;
-  require('http').createServer(app).listen(unsafePort, function() {
+  var server = require('http').createServer(app);
+  var io = socketio(server);
+  require('./config/sockets')(io, sessionConfig);
+  server.listen(unsafePort, function() {
     logger.info('UNSAFE DEVELOPMENT! Version listening on port:', unsafePort);
   });
 }

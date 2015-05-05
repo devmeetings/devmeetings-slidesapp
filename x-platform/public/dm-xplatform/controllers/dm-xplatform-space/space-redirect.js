@@ -14,7 +14,7 @@ class SpaceRedirect {
   redirectIfNeeded() {
     var $loc = this.$location;
     var host = $loc.host();
-    if (host.indexOf('unsafe') === 0) {
+    if ($loc.protocol() === 'http') {
       return;
     }
     if (host === 'localhost') {
