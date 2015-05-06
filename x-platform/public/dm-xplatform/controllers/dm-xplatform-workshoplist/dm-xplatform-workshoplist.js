@@ -79,7 +79,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       });
     };
 
-    $scope.getBackgroundColor = function(course) {
+    function getBackgroundColor(course) {
       var id = parseInt(course._id, 16) % 360;
 
       var color = hslToRgb(id / 360, 0.2, 0.3);
@@ -87,6 +87,17 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       return '#' + color.map(function(c) {
         return c.toString(16);
       }).join('');
+    }
+    $scope.getBackgroundStyles = function(course) {
+      if (course.image) {
+        return {
+          'background': 'url(' + course.image + ') left center',
+          'background-size': 'cover'
+        };
+      }
+      return {
+        'background-color': getBackgroundColor(course)
+      };
     };
 
     $scope.getDescription = function(courseTitle) {

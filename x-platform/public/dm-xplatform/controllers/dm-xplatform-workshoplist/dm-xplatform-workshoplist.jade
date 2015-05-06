@@ -1,11 +1,10 @@
 mixin course()
   .workshoplist-col
     a.workshoplist-thumb(
-      ng-style="{'background-color': getBackgroundColor(cours) }"
+      ng-style="getBackgroundStyles(cours)"
       ui-sref='index.space.agenda({event: cours._id})',
       analytics-category='courses',
       analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
-      img.img-responsive(ng-src="{{cours.image}}" ng-if="cours.image")
       span(ng-if="!cours.image") 
         | {{ getDescription(cours.title) }}
     .workshopdesc-detailsholder
