@@ -27,9 +27,9 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     $timeout(function() {
       refreshOutputNow($timeout, $rootScope, scope, contentData, force);
-    }, 200);
+    }, 50);
 
-  }, 2000);
+  }, 2500);
 
   function doReloadOutput(scope) {
     if (scope.slide.serverRunner === 'expressjs') {
@@ -267,13 +267,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         if (oldFrame === currentFrame) {
           newOutput.removeClass('fadeOut hidden');
         }
-      }, 100);
+      }, 70);
 
     };
-    var swapFramesLater = _.throttle(swapFramesNow, 150, {
-      leading: false,
-      trailing: true
-    });
+    var swapFramesLater = _.throttle(swapFramesNow, 50);
 
     angular.forEach($iframes, function(frame) {
       var $iframe = angular.element(frame);
@@ -284,7 +281,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         } catch (e) {
           // Just swallow exceptions about CORS
         }
-      }, 500));
+      }, 300));
     });
   }
 
