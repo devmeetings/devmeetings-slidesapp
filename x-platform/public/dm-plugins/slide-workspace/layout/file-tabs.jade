@@ -22,7 +22,7 @@ mixin tabs()
         a.cursor-pointer(ng-click="insertTab()", title="Add New File")
           | +
 mixin tabsStacked()
-  .pull-left.sw-tabs(ng-if="(workspace.tabs | objectKeys).length >= 7", style="height:calc(100% - 25px);overflow-y:auto", dm-defer="400")
+  .pull-left.sw-tabs(ng-if="(workspace.tabs | objectKeys).length >= 7", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
     ul.nav.nav-pills.nav-stacked
       li.workspace-tab.workspace-file-tab(
         ng-repeat="tabName in workspace.tabs |objectKeys|orderBy:tabsOrdering",
