@@ -1,10 +1,10 @@
 .dm-questions.panel(ng-controller="dmXplatformQuestionCreate")
     .panel-body(ng-show="!isAnyQuestionActive")
-        p You can select 
+        p Select the code you want to highlight to others.
         form(ng-submit='createQuestion()')
             .form-group
                 textarea.input-sm.form-control(
-                    placeholder="Description",
+                    placeholder="Describe your problem or name the code",
                     ng-model='question.description', type='text', required, autofocus)
             button.btn.btn-xs.btn-primary.btn-block(
               type='submit') Share Your Code

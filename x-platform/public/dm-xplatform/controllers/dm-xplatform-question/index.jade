@@ -71,30 +71,3 @@
                 type="submit"
                 )
                 span.fa.fa-reply
-
-
-  // ul.nav.nav-stacked.nav-pills.questions-list
-    li(
-      ng-repeat='question in questions | orderBy: "-timestamp"', 
-      ng-class="{'active': isQuestionActive(question) }"
-      )
-        a.cursor-pointer(ui-sref='index.space.question({slide: question.slidesave, parent:null})')
-              small.pull-right(am-time-ago='question.timestamp')
-              span {{question.description}}
-          ul.nav.nav-stacked
-              li(ng-repeat='comment in question.comments', ui-sref-active="active")
-                  a(ui-sref='index.space.question({slide: comment.slidesave, parent: question.slidesave})')
-                      span {{comment.text}}
-          form(
-            ng-submit='createComment(question)' 
-            ng-show="isQuestionActive(question)"
-            )
-              .form-group
-                  .input-group
-                      input.input-sm.form-control(required, ng-model='question.text', autofocus, placeholder="Write Your Answer Here")
-                      span.input-group-btn
-                          button.btn.btn-primary.btn-sm(type='submit')
-                              span.fa.fa-reply
-          //hr(ng-show="activeQuestion == question.slidesave || activeQuestionParent == question.slidesave ")
-
-
