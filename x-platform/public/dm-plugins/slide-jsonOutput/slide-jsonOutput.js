@@ -15,6 +15,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
                 template: '<div><div class="editor editor-output"></div></div>',
                 link: function(scope, element) {
                     var outputAce = ace.edit(element.find('.editor')[0]);
+                    outputAce.$blockScrolling = Infinity;
                     outputAce.setTheme("ace/theme/" + OUTPUT_THEME);
                     outputAce.getSession().setMode("ace/mode/json");
                     outputAce.setReadOnly(true);
