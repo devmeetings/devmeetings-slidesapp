@@ -126,8 +126,9 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
 
       lastTimestamp = result.timestamp;
 
-      updateUrls(result);
-
+      scope.$apply(function(){
+        updateUrls(result);
+      });
     });
 
 

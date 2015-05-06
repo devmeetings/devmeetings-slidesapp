@@ -12,7 +12,8 @@ mixin workspaceOutputs()
             )
             span.fa.fa-refresh
         .form-control.address-bar
-          div {{ output.urlBase }}
+          div(ng-show="slide.serverRunner === 'expressjs'") {{ output.urlBase }}
+          div(ng-show="slide.serverRunner !== 'expressjs'") localhost
           input.form-control(
               type="text", 
               ng-model="workspace.url",
