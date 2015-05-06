@@ -18,6 +18,9 @@ location /ext/github/ {
   proxy_pass https://api.github.com/;
   proxy_set_header X-Real-IP $remote_addr;
   add_header User-Agent xplatform;
+
+  # TODO [ToDr] This is needed to overcome issues with https redirection after accessing api
+  proxy_hide_header Strict-Transport-Security;
 }
 
 location /ext/soundcloud/tracks.json {
