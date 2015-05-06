@@ -11,12 +11,14 @@ mixin workspaceOutputs()
             ng-click="requiresRefresh ? updateContentUrl() : refreshIframe(output.contentUrl)"
             )
             span.fa.fa-refresh
-        input.form-control(
-            type="text", 
-            ng-model="workspace.url",
-            ng-keypress="urlKeyPress($event, $parent, output.urlBase + workspace.url);",
-            ng-blur="workspace.permaUrl = workspace.url"
-          )
+        .form-control.address-bar
+          div {{ output.urlBase }}
+          input.form-control(
+              type="text", 
+              ng-model="workspace.url",
+              ng-keypress="urlKeyPress($event, $parent, output.urlBase + workspace.url);",
+              ng-blur="workspace.permaUrl = workspace.url"
+            )
         .input-group-btn
           a.btn(
             title="Open Your Page in New Window",
@@ -31,7 +33,7 @@ mixin workspaceOutputs()
     ng-if="isDead === true"
     )
     h1.text-danger
-      span.fa.fa-times
+      span.fa.fa-power-off
     h4.text-muted No server at {{output.urlBase}}
   .slide-workspace-outputs.full-height(
       ng-if="isDead === false"
