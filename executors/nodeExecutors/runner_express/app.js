@@ -6,8 +6,9 @@ var serverUrl = process.env.SERVER_URL || null;
 
 console.log("Connecting to Redis", address);
 
-var cluster = require('cluster');
+var fork = require('child_process').fork;
 var redis = require('redis');
+var _ = require('lodash');
 var redisAddress = address.split(':');
 
 var client = redis.createClient(parseInt(redisAddress[1], 10), redisAddress[0]);
@@ -15,16 +16,6 @@ var client2 = redis.createClient(parseInt(redisAddress[1], 10), redisAddress[0])
 
 client.on('error', function(err) {
   throw err;
-});
-
-cluster.setupMaster({
-  exec: '../proc_runner.js',
-  silent: false
-});
-
-cluster.on('exit', function(worker, code, signal) {
-  console.log('  worker %d died (%s)',
-    worker.process.pid, signal || code);
 });
 
 var workers = {};
@@ -35,19 +26,23 @@ client.on('message', function(channel, msgString) {
   var port = 9000 + Math.floor(Math.random() * 5000);
 
   if (workers[msg.client]) {
-    port = workers[msg.client].port;
-    clearTimeout(workers[msg.client].timeout);
-    workers[msg.client].worker.destroy();
+    var workerData = workers[msg.client];
+    port = workerData.port;
+    clearTimeout(workerData.timeout);
+    workerData.worker.kill('SIGKILL');
   }
 
   console.log("  Forking new worker");
-  var worker = cluster.fork();
+  var worker = fork('../proc_runner', [], {
+    silent: false
+  });
+
   workers[msg.client] = {
     port: port,
     worker: worker,
     timeout: setTimeout(function() {
       delete workers[msg.client];
-      worker.destroy();
+      worker.kill('SIGKILL');
     }, 900000)
   };
 
@@ -58,18 +53,29 @@ client.on('message', function(channel, msgString) {
 
     console.log("Replying with correlationId", msg2.properties.correlationId);
 
-    client2.publish(msg2.properties.replyTo, JSON.stringify({
-      content: thing,
-      properties: {
-        correlationId: msg2.properties.correlationId
-      }
-    }));
+    isPortTaken(port, function(err, isTaken) {
+      thing.isDead = !isTaken;
+
+      client2.publish(msg2.properties.replyTo, JSON.stringify({
+        content: thing,
+        properties: {
+          correlationId: msg2.properties.correlationId
+        }
+      }));
+
+    });
   };
+
+  var replyLater = _.throttle(reply, 150, {
+    trailing: true,
+    leading: false
+  });
 
   worker.on("message", function(rep) {
     // prepare reply
-    reply(rep);
+    replyLater(rep);
   });
+
 
   worker.send({
     msg: msg,
@@ -77,6 +83,24 @@ client.on('message', function(channel, msgString) {
       PORT: port
     }
   }); //Send the code to run for the worker
+
 });
 
 client.subscribe(Queue);
+
+
+function isPortTaken(port, fn) {
+  var net = require('net');
+
+  var tester = net.createServer().once('error', function(err) {
+    if (err.code != 'EADDRINUSE') {
+      return fn(err);
+    }
+
+    fn(null, true);
+  }).once('listening', function() {
+    tester.once('close', function() {
+      fn(null, false);
+    }).close();
+  }).listen(port);
+}

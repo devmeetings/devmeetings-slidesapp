@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, angular, sliderPlugins) {
   'use strict';
 
   var path = sliderPlugins.extractPath(module);
@@ -81,13 +81,18 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     scope.workspace.permaUrl = scope.workspace.url;
   }
 
-  function listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer) {
+  function listenToServerRunnerEvents(scope, $location, $rootScope) {
     function updateUrls(result) {
       var port = result.port;
       var host = result.url || $location.host();
 
       scope.isWaiting = false;
+      scope.isDead = result.isDead;
       scope.requiresRefresh = false;
+
+      if (result.isDead) {
+        return;
+      }
       scope.output.urlBase = 'http://' + host + ':' + port;
       refreshUrl();
     }
@@ -110,11 +115,12 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
     });
 
     sliderPlugins.listen(scope, 'slide.serverRunner.result', function(result) {
-      if (!scope.isWaiting) {
+      if (lastTimestamp > result.timestamp) {
         return;
       }
 
-      if (lastTimestamp > result.timestamp) {
+      // We want to know when server is up again.
+      if (!scope.isWaiting && scope.isDead === result.isDead) {
         return;
       }
 
@@ -172,6 +178,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', function() {
       scope.isWaiting = true;
+      scope.isDead = false;
 
       dmPlayer.getCurrentStateId().then(render);
     });
@@ -217,10 +224,25 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           }, 3);
         }
         // Swap frames on load
+        var done = false;
         angular.element($iframes[currentFrame]).one('load', function() {
+          if (done) {
+            return;
+          }
+          done = true;
           isRendering = false;
           swapFramesLater(currentFrame);
         });
+
+        // Timeout for loading of iframe
+        setTimeout(function() {
+          if (done) {
+            return;
+          }
+          done = true;
+          isRendering = false;
+          swapFramesLater(currentFrame);
+        }, 700);
       }
       isRendering = true;
       updateFrames();
@@ -297,7 +319,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           scope.isWaiting = true;
 
           if (scope.slide.serverRunner === 'expressjs') {
-            listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer);
+            listenToServerRunnerEvents(scope, $location, $rootScope);
           } else {
             listenToFrontendRunnerEvents($timeout, scope, Sockets, $rootScope, dmPlayer);
           }

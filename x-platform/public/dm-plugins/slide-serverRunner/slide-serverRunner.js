@@ -23,6 +23,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         },
         templateUrl: path + '/slide-serverRunner.html',
         link: function(scope) {
+          scope.success = true;
+
           updateScope = function(data) {
             scope.$apply(function() {
               scope.success = data.success;
@@ -46,6 +48,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
               timestamp: new Date().getTime(),
             };
             data[prop] = lastStateId;
+
+            // Hide errors window
+            scope.success = true;
+
             Sockets.emit('serverRunner.code.run', data);
           }
 

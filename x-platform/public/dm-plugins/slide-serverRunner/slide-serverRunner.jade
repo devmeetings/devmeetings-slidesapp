@@ -1,3 +1,7 @@
-div.slide-server-runner
-    .errors.alert.alert-danger(ng-show="!success") {{ errors.join("\n") }}
-        pre(ng-if="stacktrace") {{ stacktrace.join("\n") }}
+.slide-server-runner(
+  ng-class="{'visible': !success}"
+  )
+  .errors.alert.alert-danger
+    | {{ errors.join("\n") }}
+    pre(ng-if="stacktrace") 
+      | {{ stacktrace.join("\n") }}

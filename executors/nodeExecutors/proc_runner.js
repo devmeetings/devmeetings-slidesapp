@@ -17,7 +17,7 @@ process.on("uncaughtException", function(e) {
 
 var consoleMock;
 //The runner.js is ran in a separate process and just listens for the message which contains code to be executed
-process.on('message', function(msg) {
+process.once('message', function(msg) {
   var obj = msg.msg;
 
   consoleMock = common.consoleMock();
@@ -45,5 +45,4 @@ process.on('message', function(msg) {
       consoleMock.onMessage();
     }
   );
-
 });

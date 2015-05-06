@@ -1,8 +1,20 @@
 .slide-server-runner {
-  position: fixed;
-  bottom: 15px;
-  right: 50px;
-  width: 45%;
-  max-height: 40%;
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  width: 35%;
+  max-height: 0;
   overflow: auto;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity .4s ease, visibility .4s ease, max-height .4s ease;
+  transition-delay: .2s, .2s, 0;
+
+  &.visible {
+    opacity: 1.0;
+    visibility: visible;
+    max-height: 30%;
+  }
 }
