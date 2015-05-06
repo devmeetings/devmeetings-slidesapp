@@ -13,9 +13,9 @@
 
   > li {
     position: relative;
-    flex: 1 1 70px;
-    transition: flex 0.5s ease;
-    transition-delay: 0.2s;
+    flex: 1 0 30px;
+    transition: flex 0.5s ease, flex-basis 0.5s ease;
+    transition-delay: 0.4s, 0.4s;
     // display: inline-block;
 
     &.special {
@@ -61,7 +61,7 @@
     }
 
     &:hover {
-      flex: 3 0 190px;
+      flex: 2 0 180px;
 
       span.title {
         opacity: 1.0;
@@ -99,6 +99,7 @@
       border-radius: 2px;
       white-space: nowrap;
       font-size: 0.9em;
+      transition: background .5s ease;
 
       &::after {
         content: '';
@@ -111,6 +112,7 @@
         right: -@height/2;
         border-top: @borderSize+1 solid @borderColor;
         border-right: @borderSize+1 solid @borderColor;
+        transition: background .5s ease;
         background: linear-gradient(220deg, 
             rgba(34,34,34,1) 0%,
             rgba(34,34,34,1) 50%,
