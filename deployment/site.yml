@@ -19,6 +19,8 @@
     server_env: 'production'
     server_cluster: 2
     server_port2: 3100
+  tags:
+    - xplatform-node
   roles:
     - common
     - nodejs
@@ -36,6 +38,8 @@
     server_env: 'production'
     server_cluster: 4
     server_port2: 3100
+  tags:
+    - xplatform-main
   roles:
     - common
     - redis
@@ -48,6 +52,8 @@
 - hosts: xplatform-deploy
   become: yes
   become_user: root
+  tags:
+    - xplatform-deploy
   vars:
     xpla_job: 'XPlatform'
     xpla_version: 'lastSuccessfulBuild'
@@ -64,6 +70,8 @@
     exec_node_cluster: 1
     #exec_node_server_url: 
     exec_node_redis_host: 'localhost:6379'
+  tags:
+    - exec-node
   roles:
     - common
     - nodejs
@@ -76,6 +84,8 @@
   vars:
     exec_burger_version: 'lastSuccessfulBuild'
     exec_burger_cluster: 1
+  tags:
+    - exec-burger
   roles:
     - common
     - xplatform-tunnels
@@ -86,6 +96,8 @@
   become_user: root
   vars:
     exec_java_version: 'lastSuccessfulBuild'
+  tags:
+    - exec-java
   roles:
     - common
     - xplatform-tunnels
