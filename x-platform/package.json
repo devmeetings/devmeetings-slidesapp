@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prebuild": "npm install",
-    "build": "grunt build",
+    "build": "grunt bump-version && grunt build",
     "start": "node app.js",
     "postinstall": "bower --allow-root install"
   },

@@ -10,7 +10,7 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
-  var version = generateAndSaveNewVersion('.version');
+  var version = grunt.file.read('.version');
 
   var rjsOptimizationModule = function(path, module) {
     return {
@@ -28,7 +28,9 @@ module.exports = function(grunt) {
           "ace_languageTools": "empty:",
           "require/plugins/paths": "../bin/plugins_paths"
         },
-        optimize: "none"
+        optimize: "uglify2",
+        generateSourceMaps: true,
+        preserveLicenseComments: false
       }
     };
   };
@@ -157,7 +159,8 @@ module.exports = function(grunt) {
       build: {
         options: {
           cleancss: true,
-          sourceMap: true
+          sourceMap: true,
+          sourceMapURL: '/static/css/style-' + version + '.css.map'
         },
         files: (function() {
           var files = {};
@@ -169,6 +172,12 @@ module.exports = function(grunt) {
     concurrent: {
       server: {
         tasks: ['nodemon', 'watch'],
+        options: {
+          logConcurrentOutput: true
+        }
+      },
+      requirejs: {
+        tasks: ['requirejs:deck', 'requirejs:slide', 'requirejs:trainer', 'requirejs:xplatform', 'requirejs:courses'],
         options: {
           logConcurrentOutput: true
         }
@@ -202,6 +211,10 @@ module.exports = function(grunt) {
     grunt.file.write(path, version);
     return version;
   }
+
+  grunt.registerTask('bump-version', 'Version bump', function(){
+    generateAndSaveNewVersion('.version');
+  });
 
   grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
     var async = this.async();
@@ -244,8 +257,8 @@ module.exports = function(grunt) {
     grunt.task.run('serve');
   });
 
-  grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'ngtemplates', 'requirejs']);
-  grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent']);
+  grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'ngtemplates', 'concurrent:requirejs']);
+  grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent:server']);
   grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
   grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'jade', 'optimize']);
 
