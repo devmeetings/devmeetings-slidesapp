@@ -28,7 +28,7 @@ module.exports = function(grunt) {
           "ace_languageTools": "empty:",
           "require/plugins/paths": "../bin/plugins_paths"
         },
-        optimize: "uglify2",
+        optimize: "none",
         generateSourceMaps: true,
         preserveLicenseComments: false
       }
