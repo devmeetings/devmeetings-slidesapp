@@ -33,7 +33,7 @@
   vars:
     hostname: "{{server_domain}}"
     xpla_job: 'XPlatform'
-    xpla_version: '70'
+    xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
     server_cluster: 4
     server_port: 3000
