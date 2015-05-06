@@ -8,7 +8,7 @@ exports.onSocket = function (log, socket, io) {
     var getAllQuestions = function (data, res) {
         Q.when(Question.find({
             event: data.event
-        }).lean().exec()).then(function (questions) {
+        }).populate('user comments.user').lean().exec()).then(function (questions) {
             res(questions);
         });
     };
@@ -16,6 +16,8 @@ exports.onSocket = function (log, socket, io) {
     var createQuestion = function (data, res) {
 
         var doCreateQuestion = function() {
+            data.user = socket.request.user._id;
+
             Q.when(Question.create(data)).then(function (question) {
                 res(question);
                 io.sockets.emit('event.questions.new', question);
@@ -35,7 +37,7 @@ exports.onSocket = function (log, socket, io) {
                 return slidesave;
             }
             return Q.when(Slide.findOne({
-                _id: slide
+                _id: data.baseSlide
             }).lean().exec()).then(function (slide) {
                 var toInsert = {
                     user: socket.request.user._id,
@@ -62,6 +64,9 @@ exports.onSocket = function (log, socket, io) {
 
     var createComment = function (data, res) {
         var createComment = function () {
+            data.comment.user = socket.request.user._id;
+            data.comment.timestamp = new Date();
+
             return Q.when(Question.findOneAndUpdate({
                 _id: data.question,
             }, {

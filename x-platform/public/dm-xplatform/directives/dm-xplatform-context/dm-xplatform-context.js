@@ -12,7 +12,7 @@ const names = {
   annotations: 'Annotations',
   history: 'History',
   user: 'User',
-  questions: 'Questions',
+  questions: 'Share Code',
   chat: 'Chat',
   notes: 'Notes'
 };

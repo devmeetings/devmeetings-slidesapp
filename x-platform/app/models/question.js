@@ -1,26 +1,34 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 var Question = new Schema({
-    title: String,
-    description: String,
-    comments: [{
-        text: String,
-        slidesave: {
-            type: Schema.Types.ObjectId,
-            ref: 'slidesave'
-        }
-    }],
+  title: String,
+  description: String,
+  comments: [{
+    text: String,
     timestamp: Date,
-    event: {
-        type: Schema.Types.ObjectId,
-        ref: 'event'
-    },
     slidesave: {
-        type: Schema.Types.ObjectId,
-        ref: 'slidesave'
+      type: Schema.Types.ObjectId,
+      ref: 'slidesave'
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'user'
     }
+  }],
+  timestamp: Date,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  },
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'event'
+  },
+  slidesave: {
+    type: Schema.Types.ObjectId,
+    ref: 'slidesave'
+  }
 });
 
 module.exports = mongoose.model('question', Question);
-

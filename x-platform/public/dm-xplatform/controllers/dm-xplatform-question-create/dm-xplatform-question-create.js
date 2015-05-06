@@ -1,8 +1,6 @@
 define(['angular', 'xplatform/xplatform-app', '_', 'xplatform/services/dm-questions/dm-questions'], function (angular, xplatformApp) {
-    xplatformApp.controller('dmXplatformQuestionCreate', function ($scope, $stateParams, dmQuestions, dmEvents, dmSlidesaves, dmIntro) {
+    xplatformApp.controller('dmXplatformQuestionCreate', function ($scope, $stateParams, dmQuestions, dmEvents, dmSlidesaves) {
        
-        dmIntro.startIfFirstTime('question', '.dm-questions');
-
         $scope.question = {
             title: '',
             description: '',
