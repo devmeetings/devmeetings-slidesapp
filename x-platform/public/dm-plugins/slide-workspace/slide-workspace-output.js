@@ -89,11 +89,11 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
       scope.isWaiting = false;
       scope.isDead = result.isDead;
       scope.requiresRefresh = false;
+      scope.output.urlBase = 'http://' + host + ':' + port;
 
       if (result.isDead) {
         return;
       }
-      scope.output.urlBase = 'http://' + host + ':' + port;
       refreshUrl();
     }
 
