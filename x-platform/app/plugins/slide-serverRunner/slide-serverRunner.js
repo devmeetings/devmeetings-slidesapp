@@ -98,7 +98,7 @@ function fillData(clientData) {
         var content = workspace.tabs[fileName].content;
         var toName = '/' + fileName.replace('|', '.');
 
-        memo[toName] = content;
+        memo[toName] = content || ' ';
 
         return memo;
       }, {});
