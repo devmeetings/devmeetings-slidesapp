@@ -17,6 +17,8 @@
           .form-group
             label.form-label Base Slide Id
             input.form-control.input-sm(ng-model="event.baseSlide", placeholder="Base Slide Id")
+            a.btn.btn-default.btn-xs(href="/slides/{{event.baseSlide}}?edit=true", target="_self")
+              | Edit Base Slide
           .form-group
             label.form-label Image URL
             input.form-control.input-sm(ng-model="event.image", placeholder="Image URL")
