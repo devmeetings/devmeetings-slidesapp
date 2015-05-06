@@ -5,19 +5,23 @@ table {
 .dm-version {
   &.active, &:hover {
     opacity: 1.0;
+    width: 200px;
   }
-  transition: opacity 1s ease;
-  transition-delay: 1s;
+
+  transition: opacity 1s ease, width 1s ease;
+  transition-delay: 1s, 1s;
   opacity: 0;
 
   cursor: help;
 
+  width: 5px;
   position: fixed;
   bottom: 0;
   right: 0;
   z-index: 10000;
   font-size: 10px;
   text-transform: uppercase;
+  white-space: nowrap;
   background-color: #222;
   padding: 3px;
 }
