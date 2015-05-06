@@ -163,6 +163,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       });
     }
 
+    // When switching sources in dmPlayer we are not listening to right thing!!!!!
     dmPlayer.onCurrentStateId(scope, function(stateId) {
       latestStateId = stateId;
 

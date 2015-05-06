@@ -43,6 +43,7 @@ define([
                 $scope.$broadcast('update');
               }
             });
+            recordingPlayer.setIsPlaying(false);
             goToSecond();
           });
 
@@ -111,6 +112,10 @@ define([
             if (isPlaying) {
               $scope.hideBtn = true;
               $scope.state.firstRun = false;
+            }
+
+            if (recordingPlayer) {
+              recordingPlayer.setIsPlaying(!!isPlaying);
             }
           });
         }

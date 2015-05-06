@@ -87,6 +87,12 @@ function fillData(clientData) {
   if (clientData.files) {
     return States.createFromId(clientData.files).then(function(save) {
       var workspace = States.getData(save, clientData.path);
+
+      if (!workspace) {
+        clientData.files = {};
+        return clientData;
+      }
+
       // Todo extract files
       var files = Object.keys(workspace.tabs).reduce(function(memo, fileName) {
         var content = workspace.tabs[fileName].content;

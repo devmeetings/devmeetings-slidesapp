@@ -51,6 +51,9 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
             });
           }
           return callbackWithCode(second);
+        },
+        setIsPlaying: function(isPlaying) {
+          player.setPlayerPaused(!isPlaying);
         }
       };
     }

@@ -71,7 +71,13 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
         s.on('rejoin', function(channel) {
           // Save channel to join later
           if (channel.joined) {
-            rooms.push(channel);
+            // check if channel is already there
+            var idx = _.map(rooms, 'name').indexOf(channel.name);
+            if (idx !== -1) {
+              rooms[idx] = channel;
+            } else {
+              rooms.push(channel);
+            }
             return;
           }
 

@@ -27,7 +27,7 @@ var pluginsEvents = require('../app/plugins/events');
 var storeConfig = require('./store');
 var store = require('../app/services/store');
 
-module.exports = function(io, sessionConfig) {
+module.exports = function(io, sessionConfig, skipPluginEventsListeners) {
   'use strict';
 
   io.serveClient(false);
@@ -44,9 +44,11 @@ module.exports = function(io, sessionConfig) {
   plugins.invokePlugins('initSockets', [io]);
 
 
-  pluginsEvents.on('rejoin', function(socket, msg) {
-    socket.emit('rejoin', msg);
-  });
+  if (!skipPluginEventsListeners) {
+    pluginsEvents.on('rejoin', function(socket, msg) {
+      socket.emit('rejoin', msg);
+    });
+  }
 
   io.on('connection', function(socket) {
     var l = log(socket, 'main');

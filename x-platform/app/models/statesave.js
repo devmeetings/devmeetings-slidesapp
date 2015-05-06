@@ -19,6 +19,10 @@ var Statesave = new Schema({
     ref: 'slidesave',
     index: true
   },
+  recordingId: {
+    type: Schema.Types.ObjectId,
+    ref: 'recordings',
+  },
   originalTimestamp: Date,
   original: {
     type: Schema.Types.Mixed

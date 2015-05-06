@@ -5,7 +5,7 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
     var source = dmRecorder;
 
-    return {
+    return _.extend(newListenable(), {
 
       setRecorderSource: function(workspaceId, statesaveId, content) {
         this.setSource(dmRecorder);
@@ -15,7 +15,7 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
       },
 
       createPlayerSource: function(statesaveId, slide) {
-        dmRecorder.setRecording(false);
+        var dmPlayerThat = this;
         var worker = new Worker.Player();
 
         var player = _.extend(newListenable(), {
@@ -50,15 +50,48 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
             }
             return $q.when(this._currentStateId());
           },
+
+          setPlayerPaused: function(isPaused) {
+            if (!isPaused) {
+              return this.resumePlayer();
+            }
+
+            var content = this.getCurrentState();
+            var id = this._currentStateId();
+            dmPlayerThat.setRecorderSource(null, id, content);
+          },
+
+          resumePlayer: function() {
+            // Resume state?
+            dmRecorder.setRecording(false);
+            dmPlayerThat.setSource(player);
+          }
         });
 
+        dmRecorder.setRecording(false);
         player.setState(statesaveId, slide);
-        this.setSource(player);
+        dmPlayerThat.setSource(player);
         return player;
       },
 
       setSource: function(s) {
+        this._removeListeners(source);
         source = s;
+        this._attachListeners(source);
+      },
+
+      _removeListeners: function(source) {
+        if (!source || !source.__removeListeners) {
+          return;
+        }
+        source.__removeListeners();
+      },
+
+      _attachListeners: function(source) {
+        var off = source.listen('newId', this.trigger.bind(this, 'newId'));
+        source.__removeListeners = function() {
+          off();
+        };
       },
 
       getCurrentStateId: function() {
@@ -81,13 +114,13 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
           safeApply(scope, callback.bind(scope, x));
         };
-        var off = source.listen('newId', cb);
+        var off = this.listen('newId', cb);
         scope.$on('$destroy', off);
 
         // Invoke callback
         this.getCurrentStateId().then(callback);
       }
 
-    };
+    });
   };
 });

@@ -52,6 +52,23 @@ var States = (function() {
     },
 
     fetchStateForWriting: function(id, user) {
+      if (id && isRecordingId(id)) {
+        // We should rather create fork for recording. But not sure how to do this right now
+        return createFork({
+          user: user,
+          workspaceId: null,
+          currentTimestamp: new Date(),
+          current: {},
+        }).then(function(obj) {
+          // We are marking the object as fresh
+          // beecause we have no idea what content should be there
+          // This will force the client to resend the content
+          obj.fresh = true;
+          obj.recordingId = id.substr(1);
+          return obj;
+        });
+      }
+
       return fetchState(id, user).then(function(save) {
         if (save.noOfPatches < 100) {
           return save;
@@ -131,7 +148,7 @@ var States = (function() {
 
     createFromId: function(compoundId) {
       return cache.get(compoundId, function(compoundId) {
-        if (compoundId[0] === 'r') {
+        if (isRecordingId(compoundId)) {
           return States.createFromRecordingId(compoundId);
         }
         var idParts = compoundId.split('_');
@@ -279,7 +296,7 @@ var States = (function() {
           // Save current
           slide.current = current;
           slide.currentTimestamp = new Date(memo.currentTimestamp.getTime() + lastTimestamp);
-            
+
           memo.timestampDiff += lastTimestamp;
           memo.current = current;
           memo.currentTimestamp = slide.currentTimestamp;
@@ -301,6 +318,12 @@ var States = (function() {
 }());
 
 module.exports = States;
+
+
+function isRecordingId(compoundId) {
+  'use strict';
+  return compoundId[0] === 'r';
+}
 
 function fetchHistory(workspaceId, timestampQuery, limit) {
   'use strict';
@@ -401,6 +424,11 @@ function fetchState(id, user) {
 
   if (id) {
     var query = Statesave
+      // TODO [ToDr] This should like below. Test if it doesn't break anything.
+      // .findOne({
+      //   _id: id,
+      //   user: user._id
+      // })
       .findById(id)
       .select('_id current currentTimestamp originalTimestamp noOfPatches');
 
