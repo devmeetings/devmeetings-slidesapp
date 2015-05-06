@@ -71,7 +71,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               }
             }
             focusEditor();
-            var focusEditorLater = _.debounce(focusEditor, 250);
+            var focusEditorLater = _.debounce(focusEditor, 350);
 
             (function vimMode() {
               if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
