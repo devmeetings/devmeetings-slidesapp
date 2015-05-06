@@ -53,18 +53,23 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
           setPlayerPaused: function(isPaused) {
             if (!isPaused) {
-              return this.resumePlayer();
+              return this._resumePlayer();
             }
 
             var content = this.getCurrentState();
             var id = this._currentStateId();
+            dmPlayerThat.previousContent = JSON.stringify(content);
             dmPlayerThat.setRecorderSource(null, id, content);
           },
 
-          resumePlayer: function() {
+          _resumePlayer: function() {
             // Resume state?
             dmRecorder.setRecording(false);
             dmPlayerThat.setSource(player);
+            if (dmPlayerThat.previousContent) {
+              worker.applyCurrentState(JSON.parse(dmPlayerThat.previousContent));
+              dmPlayerThat.previousContent = null;
+            }
           }
         });
 
