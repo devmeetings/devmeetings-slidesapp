@@ -45,9 +45,9 @@ location / {
   proxy_read_timeout 86400;
 }
 
-{% if live_port %}
+{% if live_port is defined %}
 location /live {
-  proxy_pass https://localhost:{{live_port}};
+  proxy_pass http://localhost:{{live_port}};
   proxy_set_header Host      $host;
   proxy_set_header X-Real-IP $remote_addr;
 

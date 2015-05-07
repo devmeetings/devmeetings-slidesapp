@@ -20,6 +20,19 @@
   npm: 
     path: "/srv/{{server_domain}}/x-dashboard/programs/server"
 
+- name: XDashboard | Installing BCrypt
+  file:
+    state: absent
+    path: "/srv/{{server_domain}}/x-dashboard/programs/server/npm/npm-bcrypt/node_modules/bcrypt/node_modules"
+
+- name: XDashboard | Installing BCrypt
+  file:
+    state: absent
+    path: "/srv/{{server_domain}}/x-dashboard/programs/server/npm/npm-bcrypt/node_modules/bcrypt/build"
+
+- name: XDashboard | Installing Modules For BCrypt
+  command: npm install --unsafe-perm chdir=/srv/{{server_domain}}/x-dashboard/programs/server/npm/npm-bcrypt/node_modules/bcrypt/
+
 - name: XDashboard | delete existing pm2 processes if running
   command: "pm2 delete live_{{server_short}}"
   ignore_errors: True
