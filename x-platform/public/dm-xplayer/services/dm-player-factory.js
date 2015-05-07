@@ -24,10 +24,18 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
       function callbackWithCode(second) {
         lastSecond = second;
         callback(player.getCurrentState());
+        // When we are paused and trying to fast forward
+        if (!player.isPlaying) {
+          player.updatePreviousContent();
+        }
       }
 
       return {
         goToSecond: function(second) {
+          // Before we apply patches we need to get rid of user content
+          if (!player.isPlaying) {
+            player.restorePreviousContent();
+          }
           var patches;
           // We can just apply patches
           if (lastSecond < second) {
@@ -54,6 +62,7 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
         },
         setIsPlaying: function(isPlaying) {
           player.setPlayerPaused(!isPlaying);
+          player.isPlaying = isPlaying;
         }
       };
     }

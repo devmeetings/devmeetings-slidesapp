@@ -58,8 +58,16 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
             var content = this.getCurrentState();
             var id = this._currentStateId();
-            dmPlayerThat.previousContent = JSON.stringify(content);
+            this.updatePreviousContent();
             dmPlayerThat.setRecorderSource(null, id, content);
+          },
+
+          // Invoked when the player is paused and we are jumping to different second
+          updatePreviousContent: function() {
+            dmPlayerThat.previousContent = JSON.stringify(this.getCurrentState());
+          },
+          restorePreviousContent: function() {
+            worker.applyCurrentState(JSON.parse(dmPlayerThat.previousContent));
           },
 
           _resumePlayer: function() {
@@ -67,7 +75,7 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
             dmRecorder.setRecording(false);
             dmPlayerThat.setSource(player);
             if (dmPlayerThat.previousContent) {
-              worker.applyCurrentState(JSON.parse(dmPlayerThat.previousContent));
+              this.restorePreviousContent();
               dmPlayerThat.previousContent = null;
             }
           }
