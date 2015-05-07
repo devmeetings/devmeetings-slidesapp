@@ -1,4 +1,6 @@
 var RecordingModel = require('../models/recording');
+var Events = require('../models/event');
+
 var states = require('../services/states');
 var _ = require('lodash');
 var autoAnnotations = require('../services/autoAnnotations');
@@ -72,6 +74,67 @@ var Recordings = {
       var rec = convertRecordingToUnifiedHistoryFormat(recording);
       res.setHeader('Cache-Control', 'public, max-age=' + 3600 * 24 * 7);
       res.send(rec);
+    });
+  },
+
+  joinForEvent: function(req, res) {
+    var eventId = req.params.eventId;
+    var recId1 = req.params.id1;
+    var recId2 = req.params.id2;
+
+
+    Q.when(Events.findById(eventId).exec()).then(function(event) {
+      if (!event) {
+        res.sendStatus(404);
+        return;
+      }
+
+      function findById(prop, id) {
+        return function(x) {
+          return x[prop].toString() === id;
+        };
+      }
+
+      function findIteration(event, recId1) {
+        return event.iterations.reduce(function(found, iteration) {
+          if (found) {
+            return found;
+          }
+
+          console.log("Searching for ", recId1, iteration.materials);
+          var material = _.find(iteration.materials, findById('material', recId1));
+
+          if (material) {
+            console.log("Found: ", material);
+            return iteration;
+          }
+        }, null);
+      }
+
+      var iteration = findIteration(event, recId1);
+      var iteration2 = findIteration(event, recId2);
+
+      var material = _.find(iteration.materials, findById('material', recId1));
+
+      _.remove(iteration.materials, findById('material', recId1));
+
+      if (iteration2) {
+        _.remove(iteration2.materials, findById('material', recId2));
+      }
+
+      return recordings.joinRecordings(recId1, recId2).then(function(recording) {
+        var id = recording._id;
+        material.material = id;
+        iteration.materials.push(material);
+
+        return Q.when(event.save());
+      });
+
+    }).done(function() {
+      res.sendStatus(200);
+    }, function(err) {
+      logger.error(err);
+      res.status(400).send(err);
     });
   },
 
