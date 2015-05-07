@@ -25,18 +25,21 @@ Accounts.registerLoginHandler(function(loginRequest) {
   }
 
   var mongoUserId = x._id;
-  var user = Meteor.users.findOne({meteorUserId: mongoUserId});
+  var user = Meteor.users.findOne({
+    meteorUserId: mongoUserId
+  });
 
   var userId;
   if (!user) {
     user = x;
     // We have user in Mongo (with ObjectId) and we need to create another one:/
     userId = Meteor.users.insert({
+      userId: mongoUserId,
       meteorUserId: mongoUserId,
       username: user.name,
       emails: [{
-         address: user.email,
-         verified: true
+        address: user.email,
+        verified: true
       }]
     });
   } else {
