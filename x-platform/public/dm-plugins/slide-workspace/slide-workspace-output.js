@@ -126,7 +126,7 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
 
       lastTimestamp = result.timestamp;
 
-      scope.$apply(function(){
+      scope.$apply(function() {
         updateUrls(result);
       });
     });
@@ -226,24 +226,21 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
         }
         // Swap frames on load
         var done = false;
-        angular.element($iframes[currentFrame]).one('load', function() {
+        var actualFrame = currentFrame;
+
+        function finishRenderingAndSwapFrame() {
           if (done) {
             return;
           }
           done = true;
           isRendering = false;
-          swapFramesLater(currentFrame);
-        });
+          swapFramesLater(actualFrame);
+        }
+
+        angular.element($iframes[actualFrame]).one('load', finishRenderingAndSwapFrame);
 
         // Timeout for loading of iframe
-        setTimeout(function() {
-          if (done) {
-            return;
-          }
-          done = true;
-          isRendering = false;
-          swapFramesLater(currentFrame);
-        }, 700);
+        setTimeout(finishRenderingAndSwapFrame, 700);
       }
       isRendering = true;
       updateFrames();
