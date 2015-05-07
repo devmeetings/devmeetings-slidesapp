@@ -4,6 +4,9 @@ var _ = require('lodash');
 var autoAnnotations = require('../services/autoAnnotations');
 var yamlReply = require('../services/yaml');
 var logger = require('../../config/logging');
+var Q = require('q');
+
+var recordings = require('../services/recordings');
 
 
 function convertRecordingToUnifiedHistoryFormat(recording) {
@@ -69,6 +72,18 @@ var Recordings = {
       var rec = convertRecordingToUnifiedHistoryFormat(recording);
       res.setHeader('Cache-Control', 'public, max-age=' + 3600 * 24 * 7);
       res.send(rec);
+    });
+  },
+
+  join: function(req, res) {
+    var recId1 = req.params.id1;
+    var recId2 = req.params.id2;
+
+    recordings.joinRecordings(recId1, recId2).done(function(recording) {
+      res.send(recording);
+    }, function(err) {
+      logger.error(err);
+      res.status(400).send(err);
     });
   },
 

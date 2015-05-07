@@ -6,10 +6,12 @@ html.full-height(
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
+    meta(name="theme-color", content="#222")
     block title
       title(ng-bind="title")= title
     block head
     link(rel="icon", type="image/svg+xml", href="/static/images/xplatform-icon.svg")
+    link(rel="icon", type="image/png", sizes="192x192" href="/static/images/xplatform-icon-big.png")
     link(rel="icon", type="image/png", ng-href="/static/images/xplatform-{{$root.icon}}.png")
     block css
       link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')

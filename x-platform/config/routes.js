@@ -86,6 +86,7 @@ module.exports = function(app) {
   app.get('/api/recordings', apiAuthenticated, recordings.list);
   app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
   app.get('/api/recordings/:id/annotations', apiAuthenticated, recordings.autoAnnotations);
+  app.post('/api/recordings/:id1/join/:id2', apiAuthenticated, authorized('admin:events'), recordings.join);
 
   var history = require('../app/controllers/history');
   app.get('/api/history/since/:id', apiAuthenticated, history.since);

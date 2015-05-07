@@ -12,6 +12,10 @@ var States = (function() {
   'use strict';
   return {
 
+    generatePatch: function(current, next) {
+      return jsondiff.diff(current, next);
+    },
+
     applyPatches: function(current, patchList) {
       patchList.map(function(patchData) {
         jsondiff.patch(current, patchData.patch);
