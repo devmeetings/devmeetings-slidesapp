@@ -1,5 +1,8 @@
 .row.event-row(class="{{ rowClass }}")
   .col-xs-12
+
+    small.text-muted.pull-right {{ asTime startTime }} - {{ asTime endTime }}
+
     .event-row-icon.pull-left
       if startedAt
         unless finishedAt
@@ -25,7 +28,19 @@
       else
         small #{time}
 
-    small.text-muted.pull-right {{ asTime startTime }} - {{ asTime endTime }}
+    if isAdmin
+      if isNext
+        .event-row-icon.pull-right
+          small(
+            contenteditable, 
+            role="item-time") #{time}
+      else if startedAt
+        unless finishedAt
+          .event-row-icon.pull-right
+            small(
+              contenteditable, 
+              role="item-time") #{time}
+
     p 
       span.fa.fa-fw(class="fa-{{icon}}")
       if link

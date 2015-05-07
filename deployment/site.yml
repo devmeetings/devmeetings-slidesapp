@@ -61,6 +61,7 @@
     server_cluster: 2
   roles:
     - xplatform-deploy
+    - xdashboard
 
 - hosts: exec-node
   become: yes
