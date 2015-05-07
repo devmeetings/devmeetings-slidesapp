@@ -18,7 +18,6 @@
     xpla_version: '70'
     server_env: 'production'
     server_cluster: 2
-    server_port2: 3100
   tags:
     - xplatform-node
   roles:
@@ -37,7 +36,7 @@
     xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
     server_cluster: 4
-    server_port2: 3100
+    live_version: 'lastSuccessfulBuild'
   tags:
     - xplatform-main
   roles:
@@ -48,6 +47,7 @@
     - xplatform
     - xplatform-main
     - xplatform-deploy
+    - xdashboard
 
 - hosts: xplatform-deploy
   become: yes

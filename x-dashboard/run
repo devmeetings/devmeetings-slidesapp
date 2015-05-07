@@ -1,0 +1,2 @@
+#!/bin/sh
+ROOT_URL="http://localhost:3000/live" MONGO_URL="mongodb://localhost:27017/platform-box" meteor --port 3001

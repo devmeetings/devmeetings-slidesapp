@@ -45,8 +45,9 @@ location / {
   proxy_read_timeout 86400;
 }
 
+{% if live_port %}
 location /live {
-  proxy_pass https://localhost:{{server_port2}};
+  proxy_pass https://localhost:{{live_port}};
   proxy_set_header Host      $host;
   proxy_set_header X-Real-IP $remote_addr;
 
@@ -55,6 +56,7 @@ location /live {
   proxy_set_header Connection "upgrade";
   proxy_read_timeout 86400;
 }
+{% endif %}
 
 error_page 502 /offline.html;
 

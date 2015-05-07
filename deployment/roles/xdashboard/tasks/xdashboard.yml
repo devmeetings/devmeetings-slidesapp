@@ -1,0 +1,41 @@
+---
+- name: XDashboard | Verify newest version
+  file:
+    state: absent
+    path: /srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz
+  when: live_version == 'lastSuccessfulBuild'
+
+- name: XDashboard | Fetching Build
+  command: "wget http://applejack.todr.me:8080/job/XDashboard/{{live_version}}/artifact/x-dashboard.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz"
+  args:
+    creates: /srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz
+
+- name: XDashboard | Unpacking
+  unarchive:
+    copy: no
+    dest: "/srv/{{server_domain}}"
+    src: "/srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz"
+
+- name: XDashboard | Installing Modules
+  npm: 
+    path: "/srv/{{server_domain}}/x-dashboard/programs/server"
+
+- name: XDashboard | delete existing pm2 processes if running
+  command: "pm2 delete live_{{server_short}}"
+  ignore_errors: True
+  sudo: yes
+  sudo_user: xplatform
+
+- name: XDashboard | start pm2 process
+  command: 'pm2 start -x --name "live_{{server_short}}" main.js'
+  args:
+    chdir: "/srv/{{server_domain}}/x-dashboard/"
+  sudo: yes
+  sudo_user: xplatform
+  environment:
+    ROOT_URL: "https://{{server_domain}}/live/"
+    PORT: "{{live_port}}"
+    MONGO_URL: "mongodb://localhost:27017/platform-production"
+
+
+

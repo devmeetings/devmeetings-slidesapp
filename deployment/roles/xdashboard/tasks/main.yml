@@ -1,0 +1,4 @@
+---
+- include: xdashboard.yml
+  when: live_port is defined
+  tags: xdashboard
