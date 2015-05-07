@@ -1,26 +1,31 @@
-tr(class="{{ rowClass }}")
-  td.text-right
-    strong {{ asTime startTime }} - {{ asTime endTime }}
-  td.text-center
-    if startedAt
-      span(
-        role="item-time") #{time}
-    else
-      span(
-        contenteditable, 
-        role="item-time") #{time}
-
-    span m
-  td.col-xs-7
-    if isAdmin
-      div.pull-right
-        if startedAt
-          unless finishedAt
-            button.btn.btn-xs.btn-success(role='cancel-timer')
+.row.event-row(class="{{ rowClass }}")
+  .col-xs-12
+    .event-row-icon.pull-left
+      if startedAt
+        unless finishedAt
+          if isAdmin
+            button.btn.btn-xs.btn-link(role='cancel-timer')
               span.fa.fa-stop
-        else if isNext
+          else
+            span.fa.fa-fw.fa-play
+        else
+          if isAdmin
+            button.btn.btn-xs.btn-link(role='reset-timer')
+              span.fa.fa-fw.fa-check.text-success
+          else
+            span.fa.fa-fw.fa-check.text-success
+      else if isAdmin
+        if isNext
           button.text-muted.btn.btn-link.btn-xs(role='start-timer')
             span.fa.fa-play
+        else
+          small(
+            contenteditable, 
+            role="item-time") #{time}
+      else
+        small #{time}
+
+    small.text-muted.pull-right {{ asTime startTime }} - {{ asTime endTime }}
     p 
       span.fa.fa-fw(class="fa-{{icon}}")
       if link
@@ -28,4 +33,5 @@ tr(class="{{ rowClass }}")
           | #{title}
       else
         | #{title}
+
 

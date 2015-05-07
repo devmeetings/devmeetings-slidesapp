@@ -1,7 +1,6 @@
 div
   if event.announcement
     h3.text-center #{event.announcement}
-  table.table.table-hover
-    tbody
-      each mapItems
-        +EventAgendaRow
+  .container-fluid
+    each mapItems
+      +EventRow

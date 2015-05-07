@@ -31,7 +31,7 @@ var Users = {
         });
     },
     session: function(req, res) {
-      res.send(req.sessionID);
+      res.send(req.user.userId);
     },
     current: function (req, res) {
         var userId = req.user._id.toString();

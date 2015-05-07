@@ -116,6 +116,14 @@ Meteor.methods({
     });
   },
 
+  "EventTimings.resetItem": (eventId, itemIdx) => {
+    EventTimings.update(eventId, {
+      $unset: {
+        ['items.' + itemIdx + '.finishedAt']: ""
+      }
+    });
+  },
+
   "EventTimings.joinRanking": (eventId) => {
     let join = {
       ['ranking']: {
@@ -131,7 +139,7 @@ Meteor.methods({
 
   "EventTimings.toggleRanking": (eventId, taskId, completed) => {
     var event = EventTimings.find({
-        _id: eventId
+      _id: eventId
     }).fetch()[0];
     var idx = event.ranking.map(x => x.username).indexOf(Meteor.user().username);
     if (idx === -1) {

@@ -11,31 +11,28 @@ Meteor.users.deny({
   }
 });
 
-var sessions = new Meteor.Collection('sessions');
 Accounts.registerLoginHandler(function(loginRequest) {
   if (!loginRequest.xpla || !loginRequest.session) {
     return;
   }
-  var x = sessions.findOne({
-    _id: loginRequest.session
+
+  var x = Meteor.users.findOne({
+    userId: loginRequest.session
   });
+
   if (!x) {
     return;
   }
-  var sess = JSON.parse(x.session);
-  var userId = sess.passport.user;
-  var mongoUserId = new Meteor.Collection.ObjectID(userId);
 
-  var user = Meteor.users.findOne({userId: mongoUserId});
+  var mongoUserId = x._id;
+  var user = Meteor.users.findOne({meteorUserId: mongoUserId});
+
+  var userId;
   if (!user) {
-    //Convert to mongo objectID?
-    user = Meteor.users.findOne(mongoUserId);
-    if (!user) {
-      return;
-    }
+    user = x;
     // We have user in Mongo (with ObjectId) and we need to create another one:/
     userId = Meteor.users.insert({
-      userId: mongoUserId,
+      meteorUserId: mongoUserId,
       username: user.name,
       emails: [{
          address: user.email,

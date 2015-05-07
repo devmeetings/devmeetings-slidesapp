@@ -33,7 +33,7 @@ var config = {
     db: 'mongodb://localhost/platform-box',
     store: 'redis://localhost:6379',
     graylog: false,
-    meteorProxy: 'https://localhost:3001/',
+    meteorProxy: 'http://localhost:3001/',
     logger: 'dev'
   },
 

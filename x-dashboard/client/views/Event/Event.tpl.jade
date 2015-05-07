@@ -5,29 +5,30 @@
         +EventRowDetails
     .col-sm-7
       hr.visible-xs
-      h3.text-center #{event.eventTitle}
-      h3(style="display:none")
-          a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
-      h5.text-muted.text-center {{asDate event.eventDate}}
+      // h3.text-center #{event.eventTitle}
+      // h5.text-muted.text-center {{asDate event.eventDate}}
       if event.announcement
         h3 #{event.announcement}
-      table.table
-        tbody
-          each mapItems
-            +EventRow
+      .container-fluid
+        each mapItems
+          +EventRow
+  .row
+    .col-xs-12
       .pull-left
-        h5
+        h6
           a(href="/live/{{event.id}}/ranking") Ranking
+        if isAdmin
+          h6
+            a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
       .pull-right
         if isAdmin
-          a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
 
           unless currentItem
-            button.btn.btn-default.btn-xs(role="togglePlanningMode")
+            button.btn.btn-link.btn-xs(role="togglePlanningMode")
               span.fa.fa-fw.fa-calendar
               span Toggle planning Mode
           else
-            button.btn.btn-default.btn-xs(role="finishEvent")
+            button.btn.btn-link.btn-xs(role="finishEvent")
               span.fa.fa-fw.fa-stop
               span Finish Event
-            
+          

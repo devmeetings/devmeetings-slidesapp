@@ -21,12 +21,8 @@ if (config.meteorProxy) {
   proxy = require('http-proxy').createProxyServer({
     target: config.meteorProxy
   });
-  var proxy2 = require('http-proxy').createProxyServer({
-    target: 'http://localhost:35729/'
-  });
   logger.info('Configuring proxy.');
   app.all('/live/*', proxy.web.bind(proxy));
-  app.all('/livereload/*', proxy.web.bind(proxy2));
 }
 
 var router = express.Router();

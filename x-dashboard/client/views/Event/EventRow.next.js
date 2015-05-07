@@ -47,6 +47,11 @@ Template.EventRow.events({
     Meteor.call("EventTimings.startItem", item.parent._id, item.idx, new Date());
     let i = _.clone(item);
     delete i.parent;
+  },
+
+  'click [role="reset-timer"]': (ev, tpl) => {
+    let item = tpl.data;
+    Meteor.call("EventTimings.resetItem", item.parent._id, item.idx);
   }
 
 });

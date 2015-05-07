@@ -1,0 +1,46 @@
+.event-row {
+  padding: 10px;
+  line-height: 250%;
+  border-bottom: 1px solid #222;
+
+  &.active {
+    background-color: #2a2a2a;
+    font-weight: bold;
+    font-size: 1.3em;
+
+    .event-row-icon {
+      @color: #467c94;
+      color: lighten(@color, 15%);
+      border-color: @color;
+      background-color: fadeout(@color, 15%);
+      margin: 0 15px;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .event-row-icon {
+    border: 2px solid #222;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 1.75em;
+    box-sizing: border-box;
+    margin: 0 20px;
+
+    button {
+      cursor: pointer;
+      font-size: inherit;
+      padding: 0;
+    }
+  }
+
+  small {
+    opacity: 0.5;
+  }
+}
