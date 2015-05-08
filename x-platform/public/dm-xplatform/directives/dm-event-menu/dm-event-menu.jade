@@ -44,24 +44,13 @@ mixin materialsLinks()
           span.fa.fa-pencil.nav-icon
           span {{ task.title }}
 
-    a.task-link(
-      ng-show="!isLoading"
-      ng-href="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}"
-      target="_blank",
-      tooltip="Open task in separate window",
-      tooltip-animation="false",
-      tooltip-placement="top"
-      tooltip-append-to-body="true"
-      )
-      span.fa.fa-external-link
-
     .menu-loader.text-center(ng-show="isLoading")
       span.fa.fa-spin.fa-spinner.fa-2x
 
-    iframe.full-frame(
+    iframe.full-frame.tasks-iframe(
       seamless,
-      ng-if="iteration.active.tasks[iteration.currentTaskIdx]"
-      dm-iframe="{{ iteration.active.tasks[iteration.currentTaskIdx].url }}?embed"
+      ng-if="taskUrl"
+      dm-iframe="{{ taskUrl }}?embed&url={{ getUrl() }}"
       dm-iframe-timeout="30"
       dm-iframe-loading="isLoading"
     )

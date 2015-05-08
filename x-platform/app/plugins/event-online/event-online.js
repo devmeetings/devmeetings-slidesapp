@@ -1,12 +1,8 @@
 var store = require('../../services/store');
 var Q = require('q'),
   _ = require('lodash'),
-  pluginEvents = require('../events');
-
-function eventRoom(eventId) {
-  'use strict';
-  return 'event_' + eventId;
-}
+  pluginEvents = require('../events'),
+  eventRoom = require('../eventRoom');
 
 // Clearing on Start
 store.del('listeners');

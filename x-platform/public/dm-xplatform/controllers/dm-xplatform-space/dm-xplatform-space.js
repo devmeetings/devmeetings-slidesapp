@@ -4,6 +4,7 @@ define([
   'xplatform/services/dm-events/dm-events',
   'xplatform/services/dm-questions/dm-questions',
   'es6!xplatform/services/dm-event-live/dm-event-live',
+  'es6!xplatform/services/dm-ranking/dm-ranking',
   'xplatform/directives/dm-iframe/dm-iframe',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
   'xplatform/directives/dm-intro/dm-intro',

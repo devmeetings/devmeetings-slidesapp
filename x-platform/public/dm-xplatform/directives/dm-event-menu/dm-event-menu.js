@@ -3,10 +3,15 @@
 'use strict';
 
 import * as xplatformApp from 'xplatform/xplatform-app';
+import _ from '_';
 
 class EventMenu {
 
-  link(scope) {
+  constructor(data) {
+    _.extend(this, data);
+  }
+
+  link(scope, element) {
     scope.iteration = {
       active: {},
       currentIdx: 0,
@@ -24,14 +29,73 @@ class EventMenu {
       scope.iteration.active = scope.event.iterations[idx];
       scope.iteration.currentTaskIdx = 0;
     });
+    scope.$watch('iteration.currentTaskIdx', (idx) => {
+      let task = scope.iteration.active.tasks[idx];
+      if (task) {
+        scope.taskUrl = task.url;
+      } else {
+        scope.taskUrl = null;
+      }
+    });
+
+    scope.getUrl = () => {
+      return this.$window.location.toString();
+    };
+    this.rankingForwarder(scope, element);
+  }
+
+  markAsDone(taskIdx, isDone) {
+    return this.dmRanking.markAsDone(taskIdx, isDone);
+  }
+
+  getCurrentRanking() {
+    return this.dmRanking.getCurrentRankingForUser();
+  }
+
+  rankingForwarder(scope, element) {
+    var self = this;
+
+    function onWindowMessage(msg) {
+      var data;
+      try {
+        data = JSON.parse(msg.data);
+        if (data.isDone === undefined) {
+          return;
+        }
+      } catch (e) {
+        return;
+      }
+
+      self.markAsDone(data.currentTask, data.isDone).then(sendRanking);
+    }
+
+    function sendRanking() {
+      self.getCurrentRanking().then((ranking) => {
+        var $iframe = element.find('iframe.tasks-iframe');
+        ranking.isRanking = true;
+        $iframe[0].contentWindow.postMessage(JSON.stringify(ranking), scope.taskUrl);
+      });
+    }
+
+    scope.$watch('taskUrl', () => {
+      // Timeout because dm-iframe
+      this.$timeout(sendRanking, 1500);
+    });
+
+    this.$window.addEventListener('message', onWindowMessage);
+    scope.$on('$destroy', () => {
+      this.$window.removeEventListener('message', onWindowMessage);
+    });
   }
 
 }
 
 
-xplatformApp.directive('dmEventMenu', () => {
+xplatformApp.directive('dmEventMenu', ($window, $timeout, dmRanking) => {
 
-  let eventMenu = new EventMenu({});
+  let eventMenu = new EventMenu({
+    $window, $timeout, dmRanking
+  });
 
   return {
     restrict: 'E',
