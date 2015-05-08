@@ -44,8 +44,8 @@ class EventMenu {
     this.rankingForwarder(scope, element);
   }
 
-  markAsDone(taskIdx, isDone) {
-    return this.dmRanking.markAsDone(taskIdx, isDone);
+  markAsDone(scope, taskIdx, isDone) {
+    return this.dmRanking.markAsDone(scope.iteration.currentIdx, taskIdx, isDone);
   }
 
   getCurrentRanking() {
@@ -66,13 +66,14 @@ class EventMenu {
         return;
       }
 
-      self.markAsDone(data.currentTask, data.isDone).then(sendRanking);
+      self.markAsDone(scope, data.currentTask, data.isDone).then(sendRanking);
     }
 
     function sendRanking() {
       self.getCurrentRanking().then((ranking) => {
         var $iframe = element.find('iframe.tasks-iframe');
         ranking.isRanking = true;
+        ranking.iterationIdx = scope.iteration.currentIdx;
         $iframe[0].contentWindow.postMessage(JSON.stringify(ranking), scope.taskUrl);
       });
     }

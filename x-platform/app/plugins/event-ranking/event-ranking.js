@@ -9,10 +9,11 @@ exports.onSocket = function(log, socket, io) {
   function updateRanking(data, ack) {
     var eventId = data.eventId;
     var taskIdx = data.taskIdx;
+    var iterationIdx = data.iterationIdx;
     var isDone = data.isDone;
 
     var update = {};
-    update['data.' + taskIdx] = {
+    update['data.' + iterationIdx + '_' + taskIdx] = {
       isDone: isDone,
       updateDate: new Date()
     };

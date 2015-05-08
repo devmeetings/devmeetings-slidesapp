@@ -12,8 +12,17 @@ class RankingDir {
   }
 
   link(scope) {
-    this.dmRanking.getCurrentRanking(); 
-    scope.ranking = this.dmRanking;
+    this.dmRanking.getCurrentRanking();
+    scope.rankingService = this.dmRanking;
+
+    scope.$watch('rankingService.currentRanking', (currentRanking) => {
+      // Transform ranking to array
+      scope.ranking = _.reduce(currentRanking, (memo, value, key) => {
+        value.userId = key;
+        memo.push(value);
+        return memo;
+      }, []);
+    });
   }
 
 }
@@ -26,7 +35,7 @@ xplatformApp.directive('dmRanking', (dmRanking) => {
     restrict: 'E',
     replace: true,
     scope: {
-
+      event: '='
     },
     templateUrl: '/static/dm-xplatform/directives/dm-ranking/dm-ranking.html',
     link: (scope) => {

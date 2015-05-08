@@ -1,2 +1,9 @@
 .col-xs-12
-  pre {{ ranking.currentRanking | json }}
+  table
+    tr(ng-repeat="item in ranking")
+      td
+        pre {{ item.userId }}
+      td(ng-repeat="it in event.iterations")
+        div(ng-repeat="task in it.tasks")
+          pre {{ ranking[$parent.$index + '_' + $index].isDone }}
+

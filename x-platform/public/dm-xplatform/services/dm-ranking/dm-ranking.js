@@ -26,13 +26,14 @@ class Ranking {
     });
   }
 
-  markAsDone(taskIdx, isDone) {
+  markAsDone(iterationIdx, taskIdx, isDone) {
     var self = this;
     var d = this.$q.defer();
     this.Sockets.emit('ranking.done', {
       taskIdx: taskIdx,
       isDone: isDone,
-      eventId: this.$stateParams.event
+      eventId: this.$stateParams.event,
+      iterationIdx: iterationIdx
     }, (ranking) => {
       self.onNewRanking(ranking);
       d.resolve(ranking);
