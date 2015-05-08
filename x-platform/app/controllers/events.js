@@ -22,7 +22,7 @@ var Events = {
       removed: {
         $ne: true
       }
-    }).select('title description image order visible').lean().exec()).then(function(events) {
+    }).select('title description image order visible shouldRedirectToUnsafe').lean().exec()).then(function(events) {
       res.send(events);
     }).fail(onError(res)).done(onDone);
   },

@@ -47,7 +47,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
   }
 
 
-  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $stateParams, dmEvents, dmUser) {
+  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $stateParams, dmEvents, dmUser, dmSpaceRedirect) {
 
     dmEvents.allEvents().then(function(events) {
       $scope.courses = events;
@@ -66,6 +66,9 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       });
     });
 
+    $scope.getUnsafeAddress = function(course) {
+      return dmSpaceRedirect.getUnsafeAddress().replace('/courses', '/space/' + course._id + '/agenda');
+    };
 
     $scope.visibilityChanged = function(event) {
       dmEvents.changeEventVisibility(event._id, event.visible);

@@ -12,22 +12,23 @@ class SpaceRedirect {
   }
 
   redirectIfNeeded() {
-    var $loc = this.$location;
-    var host = $loc.host();
-    if ($loc.protocol() === 'http') {
+    if (this.$location.protocol() === 'http') {
       return;
     }
+    this.$window.location = this.getUnsafeAddress();
+  }
+
+  getUnsafeAddress() {
+    var $loc = this.$location;
+    var host = $loc.host();
     if (host === 'localhost') {
-      this.$window.location = $loc.absUrl().replace(
+      return $loc.absUrl().replace(
         'localhost:3000',
         'localhost:4000'
       ).replace('https', 'http');
-      return;
     }
-
-    this.$window.location = $loc.absUrl().replace(host, 'unsafe.' + host).replace('https', 'http');
+    return $loc.absUrl().replace(host, 'unsafe.' + host).replace('https', 'http');
   }
-
 }
 
 xplatformApp.service('dmSpaceRedirect', SpaceRedirect);
