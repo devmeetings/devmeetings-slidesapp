@@ -5,9 +5,9 @@ import * as _ from '_';
 class Ranking {
 
   //TODO [ToDr] This is shitty - taking eventId from $stateParams
-  constructor(Sockets, $q, dmUser, $stateParams) {
+  constructor(Sockets, $q, dmUser, $stateParams, $rootScope) {
     _.extend(this, {
-      Sockets, $q, dmUser, $stateParams
+      Sockets, $q, dmUser, $stateParams, $rootScope
     });
 
     // TODO [ToDr] We are assuming that user is inside proper room!
@@ -21,7 +21,9 @@ class Ranking {
   }
 
   onNewRanking(ranking) {
-    this.currentRanking = ranking;
+    this.$rootScope.$apply(() => {
+      this.currentRanking = ranking;
+    });
   }
 
   markAsDone(taskIdx, isDone) {
@@ -32,7 +34,7 @@ class Ranking {
       isDone: isDone,
       eventId: this.$stateParams.event
     }, (ranking) => {
-      self.currentRanking = ranking;
+      self.onNewRanking(ranking);
       d.resolve(ranking);
     });
     return d.promise;
@@ -45,8 +47,9 @@ class Ranking {
     var eventId = this.$stateParams.event;
     // Fetch ranking!
     var d = this.$q.defer();
+    var self = this;
     this.Sockets.emit('ranking.fetch', eventId, function(ranking) {
-      this.currentRanking = ranking;
+      self.onNewRanking(ranking);
       d.resolve(ranking);
     });
     return d.promise;

@@ -59,6 +59,8 @@ class ContextMenuDir {
 
       if (scope.noEventMenu || hasBigScreen(this.$window)) {
         scope.selectTab(what[0]);
+      } else {
+        scope.display.lastActive = what[0];
       }
     });
 
