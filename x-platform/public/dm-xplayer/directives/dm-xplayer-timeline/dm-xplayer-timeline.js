@@ -11,7 +11,8 @@ define([
         scope: {
           state: '=',
           annotations: '=',
-          audioUrl: '='
+          audioUrl: '=',
+          onEnd: '&'
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline.html',
 

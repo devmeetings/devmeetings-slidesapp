@@ -45,7 +45,8 @@ a.btn.dm-timeline-button(
 
     dm-xplayer-ticker(
       ng-if="!audioUrl",
-      state='state'
+      state='state',
+      on-end="onEnd()"
     )
 
     dm-wavesurfer(
@@ -57,4 +58,5 @@ a.btn.dm-timeline-button(
       dm-start-second='state.startSecond',
       dm-duration='state.duration',
       dm-set-second='setSecond'
+      dm-on-end="onEnd()"
     )

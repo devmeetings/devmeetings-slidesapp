@@ -2,7 +2,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
   'xplatform/services/dm-events/dm-events'
 ], function(angular, xplatformApp, _) {
   'use strict';
-  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmIntro) {
+  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmIntro, $modal) {
 
 
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
@@ -23,9 +23,12 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {
+      $scope.event = data;
+      $scope.currentIteration = data.iterations[$stateParams.iteration];
       var material = _.find(data.iterations[$stateParams.iteration].materials, function(elem) {
         return elem._id === $stateParams.material;
       });
+      $scope.currentMaterial = material;
 
       $scope.audioUrl = material.url;
 
@@ -57,5 +60,49 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
     fetchAnnotations();
     $scope.$on('newAnnotations', fetchAnnotations);
+
+
+    var modalOpen = false;
+    $scope.displayFinishMessage = function() {
+      if (modalOpen) {
+        return;
+      }
+
+      function fromScope(name) {
+        return function() {
+          return $scope[name];
+        };
+      }
+
+      modalOpen = true;
+      $modal.open({
+        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
+        controller: 'dmXplatformPlayerFinishModal',
+        size: 'sm',
+        resolve: {
+          event: fromScope('event'),
+          currentIteration: fromScope('currentIteration'),
+          currentMaterial: fromScope('currentMaterial')
+        },
+        windowClass: 'dm-player-finish'
+      });
+    };
   });
+
+  xplatformApp.controller('dmXplatformPlayerFinishModal', function($scope, event, currentIteration, currentMaterial) {
+
+    $scope.iterationIdx = event.iterations.indexOf(currentIteration);
+    $scope.currentMaterial = currentMaterial;
+
+    if (_.last(currentIteration.materials) === currentMaterial) {
+      $scope.nextTask = _.first(currentIteration.tasks);
+    } else {
+      var materialIdx = _.findIndex(currentIteration.materials, currentMaterial);
+      $scope.nextMaterial = currentIteration.materials[materialIdx + 1];
+    }
+
+  });
+
+
+
 });

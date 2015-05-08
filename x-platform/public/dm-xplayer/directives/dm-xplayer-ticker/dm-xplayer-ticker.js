@@ -9,7 +9,8 @@ define([
       return {
         restrict: 'E',
         scope: {
-          state: '='
+          state: '=',
+          onEnd: '&'
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer-ticker/dm-xplayer-ticker.html',
 
@@ -30,6 +31,7 @@ define([
           function playerTick() {
             if ($scope.state.currentSecond > $scope.state.max) {
               $scope.state.isPlaying = false;
+              $scope.onEnd();
             }
 
             if (!$scope.state.isPlaying) {

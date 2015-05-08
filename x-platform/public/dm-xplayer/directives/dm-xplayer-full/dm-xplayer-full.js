@@ -15,7 +15,8 @@ define([
           annotations: '=',
           audioUrl: '=',
           withSidebar: '=',
-          onFirstRun: '&'
+          onFirstRun: '&',
+          onEnd: '&'
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer-full/dm-xplayer-full.html',
       };

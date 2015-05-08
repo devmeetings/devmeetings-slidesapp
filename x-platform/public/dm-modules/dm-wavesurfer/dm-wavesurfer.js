@@ -12,7 +12,7 @@ define(['angular'], function(angular) {
                     dmIsPlaying: '=',
                     dmScroll: '@',
                     dmDuration: '=',
-                    dmOnEnd: '=',
+                    dmOnEnd: '&',
                     dmPlaybackRate: '=',
                     dmSetSecond: '='
                 },

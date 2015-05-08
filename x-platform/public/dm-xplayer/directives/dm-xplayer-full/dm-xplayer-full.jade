@@ -1,11 +1,12 @@
 div(
   ng-style='{"height": "calc(100% - 23px)"}')
   dm-xplayer(
-    state='state', 
-    annotations='annotations', 
-    recording='recording',
-    with-sidebar="withSidebar",
-    on-first-run='onFirstRun()')
+    state='state'
+    annotations='annotations'
+    recording='recording'
+    with-sidebar="withSidebar"
+    on-first-run='onFirstRun()'
+    )
 
 .bottom-bar(
   data-intro="Control the movie using timeline and Play/Pause button. You can also change playback rate" data-position="top"
@@ -13,6 +14,7 @@ div(
   dm-xplayer-timeline(
     state='state',
     annotations='annotations',
-    audio-url='audioUrl'
+    audio-url='audioUrl',
+    on-end='onEnd()'
     )
 
