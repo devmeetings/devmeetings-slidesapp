@@ -11,12 +11,14 @@ exports.onSocket = function(log, socket, io) {
     var taskIdx = data.taskIdx;
     var iterationIdx = data.iterationIdx;
     var isDone = data.isDone;
+    var noOfTasks = data.noOfTasks;
 
     var update = {};
     update['data.' + iterationIdx + '_' + taskIdx] = {
       isDone: isDone,
       updateDate: new Date()
     };
+    update['counts.' + iterationIdx] = noOfTasks;
 
     Q.when(Ranking.update({
       event: eventId,
@@ -36,8 +38,7 @@ exports.onSocket = function(log, socket, io) {
       event: eventId
     }).populate('user').select('-user.email -user.userId -user.acl').lean().exec()).then(function(rankings) {
       return rankings.reduce(function(r, userRanking) {
-        r[userRanking.user._id] = userRanking.data;
-        userRanking.data.user = userRanking.user;
+        r[userRanking.user._id] = userRanking;
         return r;
       }, {});
     });

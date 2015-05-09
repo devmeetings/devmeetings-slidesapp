@@ -6,13 +6,13 @@
         img.img-responsive.img-rounded(
           ng-src="{{ user.avatar | dmGravatar:32 }}"
           tooltip="{{ user.name }}"
-          tooltip-animation="false"
+          tooltip-animate="false"
           tooltip-placement="right"
           )
       td(ng-repeat="it in event.iterations")
-        span(ng-repeat="task in it.tasks")
-          span(ng-if="item[$parent.$index + '_' + $index].isDone")
+        span(ng-repeat="i in getTasks(item, $index)")
+          span(ng-if="item.data[$parent.$index + '_' + i].isDone")
             span.fa.fa-fw.fa-check.text-success
-          span(ng-if="!item[$parent.$index + '_' + $index].isDone")
+          span(ng-if="!item.data[$parent.$index + '_' + i].isDone")
             span.fa.fa-fw.fa-minus.text-muted
 

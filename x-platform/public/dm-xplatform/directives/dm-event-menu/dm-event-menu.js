@@ -44,8 +44,8 @@ class EventMenu {
     this.rankingForwarder(scope, element);
   }
 
-  markAsDone(scope, taskIdx, isDone) {
-    return this.dmRanking.markAsDone(scope.iteration.currentIdx, taskIdx, isDone);
+  markAsDone(scope, taskIdx, isDone, noOfTasks) {
+    return this.dmRanking.markAsDone(scope.iteration.currentIdx, taskIdx, isDone, noOfTasks);
   }
 
   getCurrentRanking() {
@@ -66,7 +66,7 @@ class EventMenu {
         return;
       }
 
-      self.markAsDone(scope, data.currentTask, data.isDone).then(sendRanking);
+      self.markAsDone(scope, data.currentTask, data.isDone, data.noOfTasks).then(sendRanking);
     }
 
     function sendRanking() {

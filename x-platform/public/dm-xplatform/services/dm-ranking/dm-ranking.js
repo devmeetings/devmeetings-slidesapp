@@ -26,14 +26,15 @@ class Ranking {
     });
   }
 
-  markAsDone(iterationIdx, taskIdx, isDone) {
+  markAsDone(iterationIdx, taskIdx, isDone, noOfTasks) {
     var self = this;
     var d = this.$q.defer();
     this.Sockets.emit('ranking.done', {
       taskIdx: taskIdx,
       isDone: isDone,
       eventId: this.$stateParams.event,
-      iterationIdx: iterationIdx
+      iterationIdx: iterationIdx,
+      noOfTasks: noOfTasks
     }, (ranking) => {
       self.onNewRanking(ranking);
       d.resolve(ranking);
@@ -60,7 +61,8 @@ class Ranking {
     var self = this;
     return this.getCurrentRanking().then((currentRanking) => {
       var userId = self.user.result._id;
-      return currentRanking[userId] || {};
+      var ranking = currentRanking[userId] || {};
+      return ranking.data || {};
     });
   }
 }

@@ -22,6 +22,13 @@ class RankingDir {
         return memo;
       }, []);
     });
+
+    scope.getTasks = function(item, iterationIdx) {
+      if (!item.counts) {
+        return [];
+      }
+      return _.range(0, item.counts[iterationIdx]);
+    };
   }
 
 }

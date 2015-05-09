@@ -20,6 +20,12 @@ var Ranking = new Schema({
        *      date
        *    }
        */
+  },
+  counts: {
+    type: Schema.Types.Mixed
+    /*
+     * iterationIdx -> count
+     */
   }
 });
 
