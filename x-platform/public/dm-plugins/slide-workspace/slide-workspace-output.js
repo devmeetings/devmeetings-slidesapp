@@ -81,7 +81,7 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
     scope.workspace.permaUrl = scope.workspace.url;
   }
 
-  function listenToServerRunnerEvents(scope, $location, $rootScope) {
+  function listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer) {
     function updateUrls(result) {
       var port = result.port;
       var host = result.url || $location.host();
@@ -90,6 +90,11 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
       scope.isDead = result.isDead;
       scope.requiresRefresh = false;
       scope.output.urlBase = 'http://' + host + ':' + port;
+
+      dmPlayer.getCurrentStateId().then(function(stateId) {
+        // This is needed for downloading code.
+        scope.output.hash = stateId;
+      });
 
       if (result.isDead) {
         return;
@@ -163,8 +168,6 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
     var latestStateId;
 
     function render() {
-      // This is needed for downloading code.
-      scope.output.hash = latestStateId;
       refreshOutputLater($timeout, $rootScope, scope, {
         hash: latestStateId,
         url: '/api/page/' + latestStateId,
@@ -319,7 +322,7 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
           scope.isWaiting = true;
 
           if (scope.slide.serverRunner === 'expressjs') {
-            listenToServerRunnerEvents(scope, $location, $rootScope);
+            listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer);
           } else {
             listenToFrontendRunnerEvents($timeout, scope, Sockets, $rootScope, dmPlayer);
           }
