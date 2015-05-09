@@ -1,9 +1,18 @@
 .col-xs-12
-  table
+  h3.text-center Ranking
+  table.table
     tr(ng-repeat="item in ranking")
       td
-        pre {{ item.userId }}
+        img.img-responsive.img-rounded(
+          ng-src="{{ user.avatar | dmGravatar:32 }}"
+          tooltip="{{ user.name }}"
+          tooltip-animation="false"
+          tooltip-placement="right"
+          )
       td(ng-repeat="it in event.iterations")
-        div(ng-repeat="task in it.tasks")
-          pre {{ ranking[$parent.$index + '_' + $index].isDone }}
+        span(ng-repeat="task in it.tasks")
+          span(ng-if="item[$parent.$index + '_' + $index].isDone")
+            span.fa.fa-fw.fa-check.text-success
+          span(ng-if="!item[$parent.$index + '_' + $index].isDone")
+            span.fa.fa-fw.fa-minus.text-muted
 

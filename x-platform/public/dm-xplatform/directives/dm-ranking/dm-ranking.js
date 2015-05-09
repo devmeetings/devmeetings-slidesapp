@@ -17,8 +17,7 @@ class RankingDir {
 
     scope.$watch('rankingService.currentRanking', (currentRanking) => {
       // Transform ranking to array
-      scope.ranking = _.reduce(currentRanking, (memo, value, key) => {
-        value.userId = key;
+      scope.ranking = _.reduce(currentRanking, (memo, value) => {
         memo.push(value);
         return memo;
       }, []);

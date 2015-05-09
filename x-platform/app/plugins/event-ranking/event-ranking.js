@@ -19,8 +19,8 @@ exports.onSocket = function(log, socket, io) {
     };
 
     Q.when(Ranking.update({
-      eventId: eventId,
-      userId: socket.request.user._id
+      event: eventId,
+      user: socket.request.user._id
     }, update, {
       upsert: true
     }).exec()).then(function() {
@@ -33,10 +33,11 @@ exports.onSocket = function(log, socket, io) {
 
   function fetchRanking(eventId) {
     return Q.when(Ranking.find({
-      eventId: eventId
-    }).lean().exec()).then(function(rankings) {
+      event: eventId
+    }).populate('user').select('-user.email -user.userId -user.acl').lean().exec()).then(function(rankings) {
       return rankings.reduce(function(r, userRanking) {
-        r[userRanking.userId] = userRanking.data;
+        r[userRanking.user._id] = userRanking.data;
+        userRanking.data.user = userRanking.user;
         return r;
       }, {});
     });

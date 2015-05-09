@@ -2,12 +2,12 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var Ranking = new Schema({
-  eventId: {
+  event: {
     type: Schema.Types.ObjectId,
     ref: 'event',
     index: true
   },
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: 'user',
     index: true
