@@ -28,6 +28,14 @@ class EventMenu {
     scope.$watch('iteration.currentIdx', (idx) => {
       scope.iteration.active = scope.event.iterations[idx];
       scope.iteration.currentTaskIdx = 0;
+
+      let task = scope.iteration.active.tasks[0];
+      if (task) {
+        scope.taskUrl = task.url;
+      } else {
+        scope.taskUrl = null;
+      }
+
     });
     scope.$watch('iteration.currentTaskIdx', (idx) => {
       let task = scope.iteration.active.tasks[idx];
