@@ -21,6 +21,10 @@ var Users = {
         var userId = req.user._id.toString();
         delete req.body._id;
 
+        if (req.body.email) {
+          req.body.avatar = gravatar.url(req.body.email);
+        }
+
         User.findByIdAndUpdate(userId, req.body, {}, function (err, user) {
             if (err) {
                 logger.error(err);
