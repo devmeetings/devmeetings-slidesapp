@@ -4,8 +4,8 @@
     tr(ng-repeat="item in ranking")
       td
         img.img-responsive.img-rounded(
-          ng-src="{{ user.avatar | dmGravatar:32 }}"
-          tooltip="{{ user.name }}"
+          ng-src="{{ item.user.avatar | dmGravatar:32 }}"
+          tooltip="{{ item.user.name }}"
           tooltip-animate="false"
           tooltip-placement="right"
           )
