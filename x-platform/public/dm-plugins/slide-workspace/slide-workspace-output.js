@@ -163,6 +163,8 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
     var latestStateId;
 
     function render() {
+      // This is needed for downloading code.
+      scope.output.hash = latestStateId;
       refreshOutputLater($timeout, $rootScope, scope, {
         hash: latestStateId,
         url: '/api/page/' + latestStateId,
