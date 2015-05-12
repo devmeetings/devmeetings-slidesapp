@@ -153,12 +153,12 @@ define([
       }
       var rect = cursor.getBoundingClientRect();
       var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      var positionTop = Math.max(20, rect.bottom);
+      var positionTop = Math.max(20, rect.bottom + 30);
       positionTop = Math.min(viewportHeight - 10, positionTop);
 
 
-      var translateLeft = parseInt(40 + rect.left, 10);
-      var translateBottom = parseInt(viewportHeight - positionTop, 10);
+      var translateLeft = parseInt(250 + rect.left, 10);
+      var translateBottom = parseInt(viewportHeight - positionTop - myself.height(), 10);
 
       myself.css({
         bottom: translateBottom + 'px',
