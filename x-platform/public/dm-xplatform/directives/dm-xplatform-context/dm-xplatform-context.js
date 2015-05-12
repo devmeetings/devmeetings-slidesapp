@@ -4,15 +4,14 @@
 
 import * as xplatformApp from 'xplatform/xplatform-app';
 import * as _ from '_';
-import 'es6!xplatform/directives/dm-event-menu/dm-event-menu';
 import 'es6!xplatform/directives/dm-event-admin/dm-event-admin';
 
 const names = {
   admin: 'Admin',
   annotations: 'Annotations',
   history: 'History',
-  user: 'User',
-  questions: 'Share Code',
+  user: 'Preferences',
+  questions: 'Share',
   chat: 'Chat',
   notes: 'Notes'
 };
@@ -57,11 +56,7 @@ class ContextMenuDir {
         scope.display[w] = true;
       });
 
-      if (scope.noEventMenu || hasBigScreen(this.$window)) {
-        scope.selectTab(what[0]);
-      } else {
-        scope.display.lastActive = what[0];
-      }
+      scope.selectTab(what[0]);
     });
 
     scope.selectTab = (tab) => {
@@ -123,7 +118,6 @@ xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
       event: '=',
       user: '=',
       opened: '=',
-      noEventMenu: '=?',
       isEditMode: '=?'
     },
     templateUrl: '/static/dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context.html',

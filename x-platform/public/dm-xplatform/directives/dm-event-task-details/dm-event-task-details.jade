@@ -1,0 +1,11 @@
+.full-height
+  .menu-loader.text-center(ng-show="isLoading")
+    span.fa.fa-spin.fa-spinner.fa-2x
+
+  iframe.full-frame.tasks-iframe(
+    seamless,
+    ng-if="taskUrl"
+    dm-iframe="{{ taskUrl }}?embed&url={{ getUrl() }}"
+    dm-iframe-timeout="30"
+    dm-iframe-loading="isLoading"
+  )

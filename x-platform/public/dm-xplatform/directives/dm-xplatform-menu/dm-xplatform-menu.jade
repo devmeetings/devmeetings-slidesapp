@@ -1,0 +1,40 @@
+.full-height
+  ul.nav.nav-tabs
+    li(
+      ng-class="{'active': stateIncludes('index.space.learn')}"
+      )
+      a(ui-sref="index.space.learn.agenda()")
+        | Learn
+    li(ui-sref-active="active")
+      a(ui-sref="index.space.collaborate()")
+        | Collaborate
+    li(
+      ng-if="user.result.acl.indexOf('trainer') > -1"
+      ui-sref-active="active"
+      )
+      a(ui-sref="index.space.trainer.users()")
+        | Trainer
+    li(
+        ng-if="user.result.acl.indexOf('admin:events') > -1"
+        ng-class="{'active': $root.editMode}"
+      )
+      a.cursor-pointer(
+        ng-click="$root.editMode = !$root.editMode"
+        )
+        span.fa.fa-fw.fa-pencil-square-o(ng-show="!$root.editMode")
+        span.fa.fa-fw.fa-check-square-o(ng-show="$root.editMode")
+
+  .scroll.full-height(dm-sref-show="index.space.learn")
+    dm-event-agenda(
+      event="event"
+      opened="opened"
+      user-workspace-id="userWorkspaceId"
+      )
+
+  .scroll.full-height(dm-sref-show="index.space.collaborate")
+    dm-event-users(
+      event="event"
+      user="user"
+      opened="opened"
+      user-workspace-id="userWorkspaceId"
+      )

@@ -30,12 +30,11 @@ require(['angular',
   function(angular, templates, bootstrap, xplatformApp) {
     'use strict';
 
-    function contextMenu(tabs, noEventMenu) {
+    function contextMenu(tabs) {
       var tpl = ['<dm-xplatform-context',
-        'opened="right.opened"',
+        'opened="opened"',
         'event="event"',
         'user="user"',
-        'no-event-menu="' + !!noEventMenu + '"',
         'is-edit-mode="$root.editMode"'
       ];
       if (tabs) {
@@ -47,10 +46,22 @@ require(['angular',
       };
     }
 
+    function xplaMenu() {
+      return {
+        template: '<dm-xplatform-menu user-workspace-id="workspaceId" opened="right.opened" event="event" user="user"></dm-xplatform-menu>'
+      };
+    }
+
+    function forward() {
+      return {
+        template: '<div class="full-height" ui-view="content"></div>'
+      };
+    }
+
     xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser',
       function($rootScope, $state, $modal, $location, dmUser) {
 
-        $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+        $rootScope.$on('$stateChangeStart', function(event, toState) {
           if (toState.name === 'redirect') {
             var destination = localStorage.redirectUrl || '/';
             window.location.href = destination;
@@ -279,18 +290,53 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.agenda', {
+      $stateProvider.state('index.space.learn', {
+        url: '/learn',
+        views: {
+          content: forward(),
+          context: xplaMenu()
+        }
+      });
+
+      $stateProvider.state('index.space.collaborate', {
+        url: '/collaborate',
+        views: {
+          content: forward(),
+          context: xplaMenu()
+        }
+      });
+
+      $stateProvider.state('index.space.trainer', {
+        url: '/trainer',
+        views: {
+          content: forward(),
+          context: xplaMenu()
+        }
+      });
+
+
+      function newOldState(space, title, data) {
+        var copy = function() {
+          return JSON.parse(JSON.stringify(data));
+        };
+
+        $stateProvider.state('index.space.' + title, copy());
+        $stateProvider.state('index.space.' + space + '.' + title, copy());
+      }
+
+      // TO REMOVE
+      newOldState('learn', 'agenda', {
         url: '/agenda',
         views: {
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-agenda/dm-xplatform-agenda.html',
             controller: 'dmXplatformAgenda'
           },
-          context: contextMenu(['user', 'chat'], true)
+          context: contextMenu(['user', 'chat'])
         }
       });
 
-      $stateProvider.state('index.space.slide', {
+      newOldState('learn', 'slide', {
         url: '/slide/:slide',
         views: {
           content: {
@@ -301,29 +347,32 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.question', {
+      newOldState('collaborate', 'question', {
         url: '/question/:slide?parent',
         views: {
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
             controller: 'dmXplatformSlide'
           },
-          context: contextMenu(['questions', 'notes', 'history'])
+          context: contextMenu(['questions', 'notes', 'history', 'user'])
         }
       });
 
-      $stateProvider.state('index.space.workspace', {
-        url: '/workspace/:slide',
+      var workspace = {
+        url: '/workspace/:iteration/:todo/:slide',
         views: {
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
             controller: 'dmXplatformSlide'
           },
-          context: contextMenu(['questions', 'history', 'notes'])
+          context: contextMenu(['questions', 'history', 'notes', 'user'])
         }
-      });
+      };
+      newOldState('learn', 'workspace', workspace);
 
-      $stateProvider.state('index.space.history', {
+      $stateProvider.state('index.space.collaborate.workspace', workspace);
+
+      newOldState('trainer', 'history', {
         url: '/history/:historyId',
         views: {
           content: {
@@ -334,7 +383,7 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.watch', {
+      newOldState('collaborate', 'watch', {
         url: '/watch/:slide',
         views: {
           content: {
@@ -346,7 +395,7 @@ require(['angular',
       });
 
 
-      $stateProvider.state('index.space.todo', {
+      newOldState('learn', 'todo', {
         url: '/todo/:iteration/:todo',
         views: {
           content: {
@@ -357,7 +406,7 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.deck', {
+      newOldState('learn', 'deck', {
         url: '/deck/:iteration/:deck?from&to&name',
         views: {
           content: {
@@ -368,7 +417,7 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.player', {
+      newOldState('learn', 'player', {
         url: '/player/:iteration/:material?withVoice',
         views: {
           content: {
@@ -379,8 +428,8 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.trainer', {
-        url: '/trainer',
+      newOldState('trainer', 'users', {
+        url: '/users',
         views: {
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer.html',

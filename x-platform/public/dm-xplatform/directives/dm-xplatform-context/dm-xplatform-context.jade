@@ -1,11 +1,6 @@
 .dm-xplatform-context.full-height(
     ng-show="opened")
   div(
-    ng-class="{'full-height': with.length === 0, 'half-height': with.length > 0 && display.active, 'big-height': with.length > 0 && !display.active, 'no-height': !display.event}"
-    ng-if="!noEventMenu")
-    .col-xs-12.full-height
-      dm-event-menu(event="event", active-iteration="activeIteration")
-  div(
     ng-if="opened"
     ng-class="{'full-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
   )
