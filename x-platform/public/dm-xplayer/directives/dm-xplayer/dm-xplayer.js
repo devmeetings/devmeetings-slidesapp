@@ -53,6 +53,8 @@ define([
             if ($scope.state.firstRun) {
               $scope.onFirstRun();
             }
+
+            makeSubtitlesFixed();
             $timeout(function() {
               $scope.state.firstRun = false;
               $scope.state.isPlaying = true;
@@ -93,6 +95,7 @@ define([
               anno = _.find($scope.annotations, function(anno) {
                 return anno.timestamp > curr;
               });
+
               if (anno) {
                 $scope.nextStop = anno.timestamp;
                 $scope.next = anno;
@@ -112,14 +115,55 @@ define([
             if (isPlaying) {
               $scope.hideBtn = true;
               $scope.state.firstRun = false;
+              makeSubtitlesFixed();
+            } else {
+              fixSubtitlePosition();
             }
 
             if (recordingPlayer) {
               recordingPlayer.setIsPlaying(!!isPlaying);
             }
           });
+
+          $window.addEventListener('resize', fixSubtitlePosition.bind(null, $scope));
+          $scope.$on('$destroy', function() {
+            $window.removeEventListener('resize', fixSubtitlePosition.bind(null, $scope));
+          });
+
         }
       };
     }
   );
+
+  function makeSubtitlesFixed() {
+    $('.dm-player-subtitles.moveable').addClass('faded');
+  }
+
+  function fixSubtitlePosition() {
+    // TODO [ToDr] Fix me please :(
+    // Changing position of subtitles
+    var myself = $('.dm-player-subtitles.moveable');
+    myself.removeClass('faded');
+
+    setTimeout(function() {
+      var cursor = $('.editor-focus .ace_cursor')[0];
+      cursor = cursor || $('.ace_cursor')[0];
+      if (!cursor) {
+        return;
+      }
+      var rect = cursor.getBoundingClientRect();
+      var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      var positionTop = Math.max(20, rect.bottom);
+      positionTop = Math.min(viewportHeight - 10, positionTop);
+
+
+      var translateLeft = parseInt(40 + rect.left, 10);
+      var translateBottom = parseInt(viewportHeight - positionTop, 10);
+
+      myself.css({
+        bottom: translateBottom + 'px',
+        left: translateLeft + 'px'
+      });
+    }, 100);
+  }
 });
