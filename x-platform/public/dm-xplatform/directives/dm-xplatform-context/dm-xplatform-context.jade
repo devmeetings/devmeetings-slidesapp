@@ -2,7 +2,7 @@
     ng-show="opened")
   div(
     ng-if="opened"
-    ng-class="{'full-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
+    ng-class="{'half-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
   )
     ul.nav.nav-tabs.nav-context-menu.nav-flex(
       ng-if="with.length > 1"
@@ -12,11 +12,6 @@
           span.text-danger.tabs-badge(ng-show="x === 'questions' && notifications.unread")
             span.fa.fa-circle
           | {{ names[x] }}
-      li(style="flex:0.5", ng-if="!noEventMenu")
-        a(
-          ng-click="toggleVisibility()")
-          small.text-muted.fa.fa-chevron-down.fa-fw(ng-show="display.active")
-          small.text-muted.fa.fa-chevron-up.fa-fw(ng-show="!display.active")
 
     .scroll.big-height
       .text-left(

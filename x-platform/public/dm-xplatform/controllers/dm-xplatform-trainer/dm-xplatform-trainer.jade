@@ -7,7 +7,7 @@
         ng-repeat="ws in workspaces"
         ng-class="{'is-offline': !ws.user.isOnline}"
       )
-        a(ui-sref="index.space.watch({slide: ws._id})")
+        a(ui-sref="index.space.collaborate.watch({slide: ws._id})")
 
           img.img-rounded(
             alt="{{ws.user.name}}"
@@ -15,7 +15,7 @@
           )
 
         h3
-          a(ui-sref="index.space.watch({slide: ws._id})")
+          a(ui-sref="index.space.collaborate.watch({slide: ws._id})")
             | {{ ws.user.name}} 
         h5.text-muted {{ws.user.email}}
         p: small.text-muted.label.label-default
