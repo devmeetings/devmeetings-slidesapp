@@ -17,16 +17,16 @@
           span Back To The Movie
         a.btn.btn-block.btn-primary.cursor-pointer(
             ng-if="nextMaterial"
-            ui-sref="index.space.player({iteration: iterationIdx, material: nextMaterial._id })"
+            ui-sref="index.space.learn.player({iteration: iterationIdx, material: nextMaterial._id })"
             ng-click="$close()"
           )
 
           span.fa.fa-fw.fa-film
-          span {{material.title}}
+          span {{nextMaterial.title}}
           span.fa.fa-fw.fa-arrow-right.pull-right.direction
         a.btn.btn-block.btn-primary.cursor-pointer(
             ng-if="nextTask"
-            ui-sref="index.space.todo({iteration: iterationIdx, todo: nextTask._id })"
+            ui-sref="index.space.learn.todo({iteration: iterationIdx, todo: nextTask._id })"
             ng-click="$close()"
           )
           span.fa.fa-fw.fa-code

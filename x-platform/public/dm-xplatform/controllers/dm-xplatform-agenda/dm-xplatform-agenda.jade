@@ -46,7 +46,7 @@
           li.title(ng-click="showMore = !showMore" ng-class="{'active': showMore}")
             a Intro
           li
-            a(ui-sref='index.space.slide({event: event._id, slide: event.intro})')
+            a(ui-sref='index.space.learn.slide({event: event._id, slide: event.intro})')
               span.nav-icon.fa.fa-question-circle.fa-fw
               span Intro
         .list-group(ng-show="showMore")

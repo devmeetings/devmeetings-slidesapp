@@ -325,7 +325,7 @@ require(['angular',
       }
 
       // TO REMOVE
-      newOldState('learn', 'agenda', {
+      $stateProvider.state('index.space.learn.agenda', {
         url: '/agenda',
         views: {
           content: {
@@ -335,7 +335,7 @@ require(['angular',
         }
       });
 
-      newOldState('learn', 'slide', {
+      $stateProvider.state('index.space.learn.slide',{
         url: '/slide/:slide',
         views: {
           content: {
@@ -344,9 +344,9 @@ require(['angular',
           },
           context: contextMenu()
         }
-      });
+        });
 
-      newOldState('collaborate', 'question', {
+      $stateProvider.state('index.space.collaborate.question', {
         url: '/question/:slide?parent',
         views: {
           content: {
@@ -367,11 +367,10 @@ require(['angular',
           context: contextMenu(['questions', 'notes', 'history'])
         }
       };
-      newOldState('learn', 'workspace', workspace);
-
+      $stateProvider.state('index.space.learn.workspace', JSON.parse(JSON.stringify(workspace)));
       $stateProvider.state('index.space.collaborate.workspace', workspace);
 
-      newOldState('trainer', 'history', {
+      $stateProvider.state('index.space.collaborate.history', {
         url: '/history/:historyId',
         views: {
           content: {
@@ -382,7 +381,7 @@ require(['angular',
         }
       });
 
-      newOldState('collaborate', 'watch', {
+      $stateProvider.state('index.space.collaborate.watch', {
         url: '/watch/:slide',
         views: {
           content: {
@@ -394,7 +393,7 @@ require(['angular',
       });
 
 
-      newOldState('learn', 'todo', {
+      $stateProvider.state('index.space.learn.todo', {
         url: '/todo/:iteration/:todo',
         views: {
           content: {
@@ -405,7 +404,7 @@ require(['angular',
         }
       });
 
-      newOldState('learn', 'deck', {
+      $stateProvider.state('index.space.learn.deck', {
         url: '/deck/:iteration/:deck?from&to&name',
         views: {
           content: {
@@ -416,7 +415,7 @@ require(['angular',
         }
       });
 
-      newOldState('learn', 'player', {
+      $stateProvider.state('index.space.learn.player', {
         url: '/player/:iteration/:material?withVoice',
         views: {
           content: {
@@ -427,7 +426,7 @@ require(['angular',
         }
       });
 
-      newOldState('trainer', 'users', {
+      $stateProvider.state('index.space.trainer.users', {
         url: '/users',
         views: {
           content: {

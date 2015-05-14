@@ -13,7 +13,7 @@ function agendaCtrl($scope, $state, $stateParams, $location, dmBrowserTab, dmEve
 
   $scope.cloneEvent = function() {
     dmEvents.cloneEvent($scope.event).then(function(event) {
-      $state.go('index.space.agenda', {
+      $state.go('index.space.learn.agenda', {
         event: event._id
       });
     });
