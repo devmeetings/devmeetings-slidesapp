@@ -11,17 +11,19 @@
   }
 
   .item-details.ng-enter, .item-details.ng-leave {
-    transition: height .5s ease;
-    transition-delay: .7s;
+    transition: height .5s ease, opacity .6s ease;
+    transition-delay: .2s, .1s;
   }
 
   .item-details.ng-enter,
   .item-details.ng-leave.ng-leave-active {
+    opacity: 0;
     height:0;
   }
 
   .item-details.ng-leave,
   .item-details.ng-enter.ng-enter-active {
+    opacity: 1;
     height: 60vh;
   }
 
