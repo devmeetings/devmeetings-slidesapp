@@ -1,8 +1,38 @@
 .dm-event-agenda {
-  
+
   .item-details {
     height: 60vh;
     overflow-y: auto;
   }
 
+  .item-details.ng-hide {
+    height: 0;
+    transition: height 1s ease;
+  }
+
+  .nav li > a {
+    text-align: left;
+  }
+
+  li {
+    position: relative;
+
+    &:hover .dm-external-link {
+      opacity: 1.0;
+    }
+
+    .dm-external-link {
+      opacity: 0.0;
+      position: absolute;
+      right: 4px;
+      top: 0;
+      z-index: 10;
+      color: #3f3f3f;
+      transition: color .5s ease-in-out, opacity .3s ease-in-out;
+
+      &:hover {
+        color: #ddd;
+      }
+    }
+  }
 }

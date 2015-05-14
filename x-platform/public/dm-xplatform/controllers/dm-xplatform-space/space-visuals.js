@@ -124,7 +124,6 @@ class SpaceVisuals {
         $scope.toggleRight(true, true);
       } else if (oldVal === true) {
         $scope.right.min = $scope.right.baseMin;
-        $scope.toggleRight(false, true);
       }
     });
   }

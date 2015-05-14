@@ -92,13 +92,14 @@ require(['angular',
           });
         });
 
-        $rootScope.onEditModeSave = function(func) {
-          this.$watch('editMode', function(newVal, oldVal) {
+        $rootScope.onEditModeSave = function(scope, func) {
+          var off = $rootScope.$watch('editMode', function(newVal, oldVal) {
             if (newVal === oldVal || newVal) {
               return;
             }
             func();
           });
+          scope.$on('$destroy', off);
         };
 
       }

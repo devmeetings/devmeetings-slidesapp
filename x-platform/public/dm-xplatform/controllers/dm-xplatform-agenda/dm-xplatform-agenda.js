@@ -11,11 +11,6 @@ function agendaCtrl($scope, $state, $stateParams, $location, dmBrowserTab, dmEve
   port = port !== 443 && port !== 80 ? ':' + port : '';
   $scope.url = '//' + $location.host() + port;
 
-
-  $scope.onEditModeSave(function() {
-    dmEvents.editEvent($scope.event);
-  });
-
   $scope.cloneEvent = function() {
     dmEvents.cloneEvent($scope.event).then(function(event) {
       $state.go('index.space.agenda', {

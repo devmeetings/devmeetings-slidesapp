@@ -85,12 +85,16 @@ class EventAgenda {
       fixActiveTask();
     });
 
+    this.$rootScope.onEditModeSave(scope, () => {
+      this.dmEvents.editEvent(scope.event);
+    });
+
   }
 
 }
 
 
-xplatformApp.directive('dmEventAgenda', ($state, $stateParams) => {
+xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEvents) => {
 
   return {
     restrict: 'E',
@@ -102,7 +106,7 @@ xplatformApp.directive('dmEventAgenda', ($state, $stateParams) => {
     templateUrl: '/static/dm-xplatform/directives/dm-event-agenda/dm-event-agenda.html',
     link(scope, element) {
       let eventMenu = new EventAgenda({
-        $stateParams, $state
+        $rootScope, $stateParams, $state, dmEvents
       });
       eventMenu.link(scope, element);
     }
