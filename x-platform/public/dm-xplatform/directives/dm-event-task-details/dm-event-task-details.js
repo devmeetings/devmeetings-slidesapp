@@ -12,6 +12,7 @@ class EventTaskDetails {
   }
 
   link(scope, element) {
+    scope.data = {};
 
     scope.getUrl = () => {
       return this.$window.location.toString();

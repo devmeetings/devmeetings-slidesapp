@@ -1,13 +1,28 @@
 .dm-event-agenda {
 
+  .panel-body {
+    padding: 0;
+  }
+
   .item-details {
     height: 60vh;
     overflow-y: auto;
+    background: #333;
   }
 
-  .item-details.ng-hide {
-    height: 0;
-    transition: height 1s ease;
+  .item-details.ng-enter, .item-details.ng-leave {
+    transition: height .5s ease;
+    transition-delay: .7s;
+  }
+
+  .item-details.ng-enter,
+  .item-details.ng-leave.ng-leave-active {
+    height:0;
+  }
+
+  .item-details.ng-leave,
+  .item-details.ng-enter.ng-enter-active {
+    height: 60vh;
   }
 
   .nav li > a {

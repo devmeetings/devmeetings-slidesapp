@@ -1,62 +1,16 @@
-.dm-event-menu {
-  
-  .dm-links-small.nav.menu-hr {
-    > li > a, >li.active > a {
-      font-size: 9px;
+.dm-event-task-details {
 
-      .nav-icon {
-        width: 16px;
-      }
-    }
-  }
-
-  .full-frame {
-    min-height: 800px;
-  } 
-
-  .nav > li > a, .nav > li.active > a {
-    font-size: 1em;
-  }
-
-  a, .btn-link {
-    color: #ddd;
-  }
-
-  .menu-header {
-    h4 {
-      display: inline-block;
-    }
-  }
-
-  .task-link {
-    position: relative;
+  .menu-loader {
+    padding: 50px;
+    font-size: 2em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 10;
-    top: 0.7em;
-    display: block;
-    height: 0;
-    text-align: center;
-    margin: 0 auto;
-    width: 60px;
-    color: #999;
+    background: rgba(0, 0, 0, 0.6);
   }
 
-  .nav.menu-hr {
-    margin: 15px 15px 5px;
-
-    > li {
-      float: none;
-      display: inline-block;
-      width: 45%;
-
-      > a {
-        text-align: left;
-        padding: 3px 3px 3px 5px;
-        text-overflow: ellipsis;
-        /* Required for text-overflow to do anything */
-        white-space: nowrap;
-        overflow: hidden;
-      }
-    }
-  }
-
+  position: relative;
 }
