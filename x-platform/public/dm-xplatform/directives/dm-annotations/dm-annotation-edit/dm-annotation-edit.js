@@ -11,7 +11,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
           materialId: '=',
           resetSnippet: '&'
         },
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-annos/dm-xplatform-edit-annotation/index.html',
+        templateUrl: '/static/dm-xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit.html',
         link: function(scope) {
 
           scope.save = function(snippet) {

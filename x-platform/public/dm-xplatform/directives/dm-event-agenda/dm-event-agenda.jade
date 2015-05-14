@@ -1,4 +1,4 @@
-div.text-left
+.text-left.dm-event-agenda
   .panel(ng-repeat="i in event.iterations")
     .panel-heading
       h3.panel-title(ng-if="!$root.editMode")
@@ -28,6 +28,12 @@ div.text-left
               span.fa.fa-university.nav-icon.fa-fw
               span.number {{$index + 1}}.
               span.title &nbsp;{{material.title}}
+          .item-details(ng-if="activeMaterial._id === material._id")
+            dm-annotations(
+              event-id="event._id"
+              iteration-id="activeMaterial.iterationIdx"
+              material-id="activeMaterial._id"
+            )
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
         li(
@@ -41,19 +47,22 @@ div.text-left
 
       ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
         li(
-          ng-repeat="task in i.tasks"
+          ng-repeat="task in tasks[$index]"
           ng-class="{'active': activeTask === task}"
           )
           a(
-            ui-sref='index.space.learn.workspace({iteration: $parent.$index, todo: $index, slide: userWorkspaceId})'
+            ui-sref='index.space.learn.workspace({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
             )
             span.fa.fa-pencil.nav-icon
             span {{task.title}}
 
-          .panel(ng-if="activeTask === task")
-            .panel-body
-              dm-event-task-details(task-url="activeTask.url" current-iteration-idx="$index")
-    
+          .item-details(ng-if="activeTask === task")
+            dm-event-task-details(
+              task-url="activeTask.url" 
+              current-iteration-idx="activeTask.iterationIdx" 
+              task-idx="activeTask.idx"
+              )
+  
 
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")

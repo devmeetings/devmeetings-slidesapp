@@ -19,7 +19,7 @@
         ng-class="{'active': isQuestionActive(question) }"
         )
         a(
-          ui-sref='index.space.question({slide: question.slidesave, parent:null})'
+          ui-sref='index.space.collaborate.question({slide: question.slidesave, parent:null})'
           )
           small.pull-right(am-time-ago='question.timestamp')
           span.fa.fa-fw
@@ -36,7 +36,7 @@
             ui-sref-active="active"
             )
             a.text-right(
-              ui-sref='index.space.question({slide: comment.slidesave, parent: question.slidesave})'
+              ui-sref='index.space.collaborate.question({slide: comment.slidesave, parent: question.slidesave})'
             )
               small.pull-left(am-time-ago='comment.timestamp')
               span {{comment.text}}

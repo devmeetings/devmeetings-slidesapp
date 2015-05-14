@@ -18,7 +18,6 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-register/dm-xplatform-register',
     'xplatform/controllers/dm-xplatform-space/dm-xplatform-space',
     'xplatform/controllers/dm-xplatform-todo/dm-xplatform-todo',
-    'xplatform/controllers/dm-xplatform-annos/dm-xplatform-annos',
     'xplatform/controllers/dm-xplatform-question/dm-xplatform-question',
     'xplatform/controllers/dm-xplatform-question-answer/dm-xplatform-question-answer',
     'xplatform/controllers/dm-xplatform-question-create/dm-xplatform-question-create',
@@ -331,8 +330,7 @@ require(['angular',
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-agenda/dm-xplatform-agenda.html',
             controller: 'dmXplatformAgenda'
-          },
-          context: contextMenu(['user', 'chat'])
+          }
         }
       });
 
@@ -354,7 +352,7 @@ require(['angular',
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
             controller: 'dmXplatformSlide'
           },
-          context: contextMenu(['questions', 'notes', 'history', 'user'])
+          context: contextMenu(['questions', 'notes', 'history'])
         }
       });
 
@@ -365,7 +363,7 @@ require(['angular',
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
             controller: 'dmXplatformSlide'
           },
-          context: contextMenu(['questions', 'history', 'notes', 'user'])
+          context: contextMenu(['questions', 'notes', 'history'])
         }
       };
       newOldState('learn', 'workspace', workspace);
@@ -424,7 +422,7 @@ require(['angular',
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player.html',
             controller: 'dmXplatformPlayer'
           },
-          context: contextMenu(['notes', 'annotations'])
+          context: contextMenu(['notes'])
         }
       });
 

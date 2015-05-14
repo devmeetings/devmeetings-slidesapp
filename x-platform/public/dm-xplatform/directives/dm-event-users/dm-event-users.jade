@@ -1,6 +1,12 @@
-.full-height
+.full-height.dm-event-users
   ul.nav.nav-tabs.nav-stacked.users()
     li(ui-sref-active='active')
+
+      a.pull-right.cursor-pointer(
+          style="z-index:10"
+          ng-click="showPreferences = !showPreferences"
+        )
+        span.fa.fa-cog.fa-fw
       a(ui-sref="index.space.collaborate.workspace({slide: userWorkspaceId})")
         img.pull-left(
           alt="{{user.result.name}}"
@@ -8,13 +14,22 @@
           )
         span {{user.result.name}}
 
-  .full-height(ng-sref-show="index.space.collaborate.workspace")
-    .full-height(ui-view="context")
+  .item-details(
+    ng-sref-show="index.space.collaborate.workspace"
+    )
+    div(
+      ng-show="!showPreferences"
+      ui-view="context"
+    )
+    div(
+      ng-show="showPreferences"
+    )
+      dm-xplatform-performance
 
   .users-all(
     data-intro="You can peek at code of other participants at any time" data-position="right"
   )
-    h3.text-muted(ng-show="uniqueUsers.length === 0")
+    h3.text-center.text-muted(ng-show="uniqueUsers.length === 0")
       | No other users are viewing this event.
 
     ul.nav.nav-tabs.nav-stacked.users()

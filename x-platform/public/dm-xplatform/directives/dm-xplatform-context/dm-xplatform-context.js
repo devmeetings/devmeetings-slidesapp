@@ -8,17 +8,11 @@ import 'es6!xplatform/directives/dm-event-admin/dm-event-admin';
 
 const names = {
   admin: 'Admin',
-  annotations: 'Annotations',
   history: 'History',
-  user: 'Preferences',
   questions: 'Share',
   chat: 'Chat',
   notes: 'Notes'
 };
-
-function hasBigScreen(window) {
-  return window.innerHeight > 800;
-}
 
 class ContextMenuDir {
 
@@ -53,6 +47,10 @@ class ContextMenuDir {
         lastEvent: true,
       };
       what.map((w) => {
+        if (w === 'history') {
+          scope.display[w] = scope.user.result.acl.indexOf('trainer') > -1;
+          return;
+        }
         scope.display[w] = true;
       });
 

@@ -4,7 +4,7 @@
             h4 Documentation will be displayed here.
     .row(ng-if="editMode && !showAll")
         .col-xs-12
-            dm-xplatform-edit-annotation(
+            dm-annotation-edit(
                 snippet="newSnippet", 
                 event-id="eventId",
                 iteration-id="iterationId",
@@ -13,7 +13,7 @@
 
     .form-group.dm-annos-search(ng-if='showSearch && !$root.editMode', ng-show="annotations.length")
         input.input-sm.form-control(placeholder="Search", ng-model='search.text')
-    .row.dm-annos(ng-style='{"height": showSearch ? "calc(100% - 50px)" : "100%" }')
+    .row.dm-annos
         .list-group(ng-if="showAll")
             .list-group-item.dm-annos-item(
                 ng-repeat='p in groups.sub')
@@ -28,7 +28,7 @@
                 
                 button.btn.btn-xs.btn-warning(ng-if="editMode", ng-click="p.editing = !p.editing")
                     span.fa.fa-pencil
-                dm-xplatform-edit-annotation(
+                dm-annotation-edit(
                     ng-if="p.editing",
                     snippet="p",
                     event-id="eventId",
@@ -36,11 +36,9 @@
                     material-id="materialId")
   
         div(ng-if="$root.editMode")
-          dm-xplatform-edit-annotation(
+          dm-annotation-edit(
             snippet="currentAnno",
             event-id="eventId",
             iteration-id="iterationId",
             material-id="materialId"
           )
-
-

@@ -14,19 +14,75 @@ class EventAgenda {
 
   link(scope) {
 
-    var $state = this.$state;
-    scope.$watch(()=>{
-      return $state.$current;
-    }, (state)=>{
+    let $state = this.$state;
+    let $stateParams = this.$stateParams;
 
-      if (state.name !== 'index.space.learn.workspace') {
+    function fixActiveTask() {
+      if ($state.$current.name !== 'index.space.learn.workspace') {
         scope.activeTask = null;
         return;
       }
-      let iterationIdx = this.$stateParams.iteration;
-      let taskIdx = this.$stateParams.todo;
+      let iterationIdx = $stateParams.iteration;
+      let taskIdx = $stateParams.todo;
 
-      scope.activeTask = scope.event.iterations[iterationIdx].tasks[taskIdx];
+      if (!scope.tasks) {
+        return;
+      }
+
+      scope.activeTask = scope.tasks[iterationIdx][taskIdx];
+    }
+
+    function fixActiveMaterial() {
+      if ($state.$current.name !== 'index.space.learn.player') {
+        scope.activeMaterial = null;
+        return;
+      }
+      let iterationIdx = $stateParams.iteration;
+      let materialId = $stateParams.material;
+
+      let iteration = scope.event.iterations[iterationIdx];
+      if (!iteration) {
+        return;
+      }
+
+      scope.activeMaterial = iteration.materials.reduce(function(found, material) {
+        if (found) {
+          return found;
+        }
+
+        if (material._id === materialId) {
+          material.iterationIdx = iterationIdx;
+          return material;
+        }
+
+      }, null);
+    }
+
+    scope.$watch(() => {
+      var params = ['iteration', 'todo'];
+      return $state.$current.name + params.reduce((memo, param) => {
+        return memo + ',' + param + ':' + this.$stateParams[param];
+      }, '');
+    }, () => {
+      fixActiveMaterial();
+      fixActiveTask();
+    });
+
+    scope.$watch('event', (event) => {
+      scope.tasks = event.iterations.map((it, itIdx) => {
+        return it.tasks.reduce((memo, task) => {
+          let tasks = _.range(task.noOfTasks || 1).map(id => {
+            return {
+              iterationIdx: itIdx,
+              idx: memo.length + id,
+              title: task.title + ' ' + (id + 1),
+              url: task.url + '?task=' + id
+            };
+          });
+          return memo.concat(tasks);
+        }, []);
+      });
+      fixActiveTask();
     });
 
   }

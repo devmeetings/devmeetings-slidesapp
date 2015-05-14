@@ -19,11 +19,6 @@
         ng-if="display.admin"
         )
         dm-event-admin(event="event")
-      .col-xs-12(
-        ng-show="display.active === 'user'"
-        ng-if="display.user"
-        )
-        include ../../controllers/dm-xplatform-agenda/space-tab-user.jade
       div(
         ng-show="display.active === 'history'"
         ng-if="display.history"
@@ -35,12 +30,6 @@
         ng-controller="dmXplatformQuestion"
         )
           include ../../controllers/dm-xplatform-question/index.jade
-      div(
-        ng-show="display.active === 'annotations'"
-        ng-if="display.annotations"
-        ng-controller="dmXplatformAnnos"
-          )
-          include ../../controllers/dm-xplatform-annos/dm-xplatform-annos.jade
       div(
         ng-show="display.active === 'notes'"
         ng-if="display.notes"

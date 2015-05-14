@@ -60,7 +60,8 @@ var Event = new Schema({
 
     tasks: [{
       title: String,
-      url: String
+      url: String,
+      noOfTasks: Number
     }]
 
   }]
