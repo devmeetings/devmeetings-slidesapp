@@ -21,6 +21,7 @@ class ContextMenuDir {
   }
 
   link(scope) {
+    scope.noEventMenu = true;
 
     scope.$watch('isEditMode', (isEditMode) => {
       if (!scope.display) {
