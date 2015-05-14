@@ -89,12 +89,39 @@ class EventAgenda {
       this.dmEvents.editEvent(scope.event);
     });
 
+
+
+    this.initTaskDetails(scope);
+  }
+
+  initTaskDetails(scope) {
+    scope.ranking = this.dmRanking;
+    scope.$watch('ranking.currentRanking', () => {
+      this.dmRanking.getCurrentRankingForUser().then(function(ranking) {
+        scope.userRanking = ranking;
+      });
+    });
+
+    scope.isDone = (task) => {
+      if (!scope.userRanking) {
+        return;
+      }
+      let ranking = scope.userRanking[task.iterationIdx + '_' + task.idx];
+      if (!ranking) {
+        return false;
+      }
+      return ranking.isDone;
+    };
+    scope.markAsDone = (task) => {
+      let isDone = scope.isDone(task);
+      this.dmRanking.markAsDone(task.iterationIdx, task.idx, !isDone, 0);
+    };
   }
 
 }
 
 
-xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEvents) => {
+xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEvents, dmRanking) => {
 
   return {
     restrict: 'E',
@@ -106,7 +133,7 @@ xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEve
     templateUrl: '/static/dm-xplatform/directives/dm-event-agenda/dm-event-agenda.html',
     link(scope, element) {
       let eventMenu = new EventAgenda({
-        $rootScope, $stateParams, $state, dmEvents
+        $rootScope, $stateParams, $state, dmEvents, dmRanking
       });
       eventMenu.link(scope, element);
     }

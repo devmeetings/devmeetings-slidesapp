@@ -4,6 +4,11 @@
     padding: 0;
   }
 
+  a.pull-right {
+    position: relative;
+    z-index: 12;
+  }
+
   .item-details {
     height: 60vh;
     overflow-y: auto;
@@ -27,8 +32,10 @@
     height: 60vh;
   }
 
-  .nav li > a {
-    text-align: left;
+  .nav li {
+    > a, &.active > a {
+      text-align: left;
+    }
   }
 
   li {

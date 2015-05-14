@@ -76,6 +76,11 @@
           ng-repeat="task in tasks[$index]"
           ng-class="{'active': activeTask === task}"
           )
+          a.cursor-pointer.pull-right(
+              ng-click="markAsDone(task)"
+            )
+              span.fa.fa-fw.text-success.fa-check(ng-show="isDone(task)")
+              span.fa.fa-fw.text-muted.fa-minus(ng-show="!isDone(task)")
           a(
             ui-sref='index.space.learn.workspace.task({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
             )
