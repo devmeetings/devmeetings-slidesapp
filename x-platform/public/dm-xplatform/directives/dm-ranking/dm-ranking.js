@@ -23,11 +23,21 @@ class RankingDir {
       }, []);
     });
 
+    function findMaxNoOfTasks(iterationIdx) {
+      let it = scope.event.iterations[iterationIdx];
+      return it.tasks.reduce((memo, task) => {
+        return memo + (task.noOfTasks || 0);
+      }, 0);
+    }
+
     scope.getTasks = function(item, iterationIdx) {
       if (!item.counts) {
         return [];
       }
-      return _.range(0, item.counts[iterationIdx]);
+      let max = item.counts[iterationIdx] || 0;
+      let maxFromEvent = findMaxNoOfTasks(iterationIdx);
+
+      return _.range(0, Math.max(maxFromEvent, max));
     };
   }
 

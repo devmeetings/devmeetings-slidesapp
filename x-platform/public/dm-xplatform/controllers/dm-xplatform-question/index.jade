@@ -24,8 +24,7 @@
           small.pull-right(am-time-ago='question.timestamp')
           span.fa.fa-fw
           span {{question.description}}
-
-    .row
+    div
       .col-xs-11.col-xs-offset-1.dm-answers(
         ng-show="isQuestionActive(question)"
         )
