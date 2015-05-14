@@ -1,10 +1,10 @@
 var UserModel = require('../models/user'),
-    mongoose = require('mongoose'),
-    SALT_WORK_FACTOR = 10,
-    authFields = {
-        usernameField: 'email',
-        passwordField: 'password'
-    };
+  mongoose = require('mongoose'),
+  SALT_WORK_FACTOR = 10,
+  authFields = {
+    usernameField: 'email',
+    passwordField: 'password'
+  };
 
 /**
  * Check hash
@@ -14,37 +14,37 @@ var UserModel = require('../models/user'),
  * @param {*} callback
  */
 var comparePassword = function(candidatePassword, hash, callback) {
-    var bcrypt = require('bcryptjs');
-    bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
-        return err ? callback(err) : callback(null, isMatch);
-    });
+  var bcrypt = require('bcryptjs');
+  bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+    return err ? callback(err) : callback(null, isMatch);
+  });
 };
 
 /**
  * Extend User model schema to automatically hash password before 'save'
  */
 UserModel.schema.pre('save', function(next) {
-    var user = this;
+  var user = this;
 
-    if (!user.isModified('password') || !user.password) {
-        return next();
+  if (!user.isModified('password') || !user.password) {
+    return next();
+  }
+
+  var bcrypt = require('bcryptjs');
+  // generate a salt
+  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    if (err) {
+      return next(err);
     }
 
-    var bcrypt = require('bcryptjs');
-    // generate a salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-        if (err) {
-            return next(err);
-        }
-
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) {
-                return next(err);
-            }
-            user.password = hash;
-            return next();
-        });
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) {
+        return next(err);
+      }
+      user.password = hash;
+      return next();
     });
+  });
 });
 
 /**
@@ -60,7 +60,7 @@ exports.authFields = authFields;
  * @param {Object} collback
  */
 exports.findByUserId = function(id, collback) {
-    UserModel.findById(id).exec(collback);
+  UserModel.findById(id).exec(collback);
 };
 
 /**
@@ -70,18 +70,26 @@ exports.findByUserId = function(id, collback) {
  * @param {Object} callback
  */
 exports.findOrCreate = function(user, callback) {
-    UserModel.findOne({
-        email: user.email
+  UserModel.findOne({
+    userId: user.userId
+  }).exec().then(function(dbUser) {
+    if (dbUser) {
+      return callback(null, dbUser);
+    }
+    // Try to find using email
+    return UserModel.findOne({
+      email: user.email
     }).exec().then(function(dbUser) {
-        if (dbUser) {
-            return callback(null, dbUser);
-        }
-        user.userId = new mongoose.Types.ObjectId();
-        var newUser = new UserModel(user);
-        newUser.save(function(err) {
-            return err ? callback(err) : callback(null, newUser);
-        });
+
+      if (dbUser) {
+        return callback(null, dbUser);
+      }
+      var newUser = new UserModel(user);
+      newUser.save(function(err) {
+        return err ? callback(err) : callback(null, newUser);
+      });
     });
+  });
 };
 
 /**
@@ -92,34 +100,34 @@ exports.findOrCreate = function(user, callback) {
  * @param {Object} done
  */
 exports.verify = function(email, password, done) {
-    UserModel.findOne({
-        email: email,
-        type: 'local'
-    }, function(err, user) {
-        if (err) {
-            throw err;
-        }
+  UserModel.findOne({
+    email: email,
+    type: 'local'
+  }, function(err, user) {
+    if (err) {
+      throw err;
+    }
 
-        if (user === null) {
-            return done(null, false, {
-                message: "Cannot find user " + email
-            });
-        }
+    if (user === null) {
+      return done(null, false, {
+        message: "Cannot find user " + email
+      });
+    }
 
-        comparePassword(password, user.password, function(err, isMatch) {
-            if (err) {
-                throw err;
-            }
-            return !isMatch ? done(null, false, {
-                message: "Cannot find user " + email
-            }) : done(null, user);
-        });
+    comparePassword(password, user.password, function(err, isMatch) {
+      if (err) {
+        throw err;
+      }
+      return !isMatch ? done(null, false, {
+        message: "Cannot find user " + email
+      }) : done(null, user);
     });
+  });
 };
 
 exports.findLocalUserByEmail = function(email, done) {
-    UserModel.findOne({
-        email: email,
-        type: 'local'
-    }, done);
+  UserModel.findOne({
+    email: email,
+    type: 'local'
+  }, done);
 };

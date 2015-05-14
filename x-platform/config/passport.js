@@ -14,7 +14,7 @@ function getEmail(profile) {
 function createUser(id, profile, type, done) {
   var email = getEmail(profile) || id + "@xplatform.org";
   users.findOrCreate({
-    userId: id,
+    userId: type + ':' + id,
     name: profile.displayName,
     email: email,
     avatar: gravatar.url(email),
