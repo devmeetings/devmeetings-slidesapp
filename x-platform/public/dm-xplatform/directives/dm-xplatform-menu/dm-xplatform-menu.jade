@@ -6,13 +6,15 @@
       a(ui-sref="index.space.learn.agenda()")
         span.fa.fa-university.fa-fw(ng-show="!opened") 
         span(ng-show="opened") Learn
-    li(ui-sref-active="active")
+    li(
+      ng-class="{'active': stateIncludes('index.space.collaborate')}"
+      )
       a(ui-sref="index.space.collaborate.workspace({slide: userWorkspaceId})")
         span.fa.fa-share-alt.fa-fw(ng-show="!opened")
         span(ng-show="opened") Collaborate
     li(
       ng-if="user.result.acl.indexOf('trainer') > -1"
-      ui-sref-active="active"
+      ng-class="{'active': stateIncludes('index.space.trainer')}"
       )
       a(ui-sref="index.space.trainer.users()")
         span.fa.fa-globe.fa-fw(ng-show="!opened")
