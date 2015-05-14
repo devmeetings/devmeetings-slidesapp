@@ -7,10 +7,13 @@ define(['angular',
   xplatformApp.controller('dmXplatformSlide', 
     function($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmRecorder, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {
     //
-    var state = $state.current.name.split('.')[2];
+    var state = (function(){
+      var name = $state.current.name.split('.');
+      return name[name.length - 1];
+    }());
 
     $scope.mode = 'player';
-    $scope.slideState = state;
+    $scope.isColoured = state !== 'task' && state !== 'workspace';
 
     dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
       $scope.slide = save;
@@ -20,7 +23,8 @@ define(['angular',
 
       dmPlayer.setRecorderSource($stateParams.slide, save.statesaveId, save.slide);
 
-      if (state === 'workspace') {
+      //task because of workspace.task
+      if (state === 'workspace' || state === 'task') {
         dmBrowserTab.setTitleAndIcon('Your code', 'code');
         $scope.mode = '';
         $rootScope.slide.mode = '';

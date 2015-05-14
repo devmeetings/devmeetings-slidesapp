@@ -8,7 +8,7 @@
         )
         span.fa.fa-cog.fa-fw
       a(ui-sref="index.space.collaborate.workspace({slide: userWorkspaceId})")
-        img.pull-left(
+        img.img-rounded.pull-left(
           alt="{{user.result.name}}"
           ng-src="{{user.result.avatar | dmGravatar:24}}"
           )
@@ -41,7 +41,7 @@
         a(
           ui-sref="index.space.collaborate.watch({slide: user.workspaceId, parent:null})",
           )
-          img.pull-left(
+          img.img-rounded.pull-left(
             alt="{{user.name}}"
             ng-src="{{user.avatar | dmGravatar:24}}"
             )
