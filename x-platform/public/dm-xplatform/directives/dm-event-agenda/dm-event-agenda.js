@@ -18,7 +18,7 @@ class EventAgenda {
     let $stateParams = this.$stateParams;
 
     function fixActiveTask() {
-      if ($state.$current.name !== 'index.space.learn.workspace') {
+      if ($state.$current.name !== 'index.space.learn.workspace.task') {
         scope.activeTask = null;
         return;
       }

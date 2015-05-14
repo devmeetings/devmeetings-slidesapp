@@ -3,7 +3,7 @@
 
         .dm-space(
           ng-class="{'zen-mode': $root.isZenMode }",
-          ng-style='{"width": "calc(100% - " + left.current + " - " + right.min + " - 4px)"}')
+          ng-style='{"width": "calc(100% - " + left.current + " - " + (right.pinned ? right.current : right.min) + (right.pinned && right.opened ? " - 7px " : "") + ")"}')
             .full-height
               iframe.full-frame(
                   seamless=true,
@@ -37,7 +37,7 @@
 
           .dm-spacesidebar-right
             a.cursor-pointer.sidebar-open-btn(
-              ng-click="right.pinned ? togglePinRight() || toggleRight(false) : toggleRight(!right.opened)"
+              ng-click="toggleRight(!right.opened)"
               )
               span.fa.fa-fw(
                 data-intro="Context informations are placed inside the sidebar", data-position="left"

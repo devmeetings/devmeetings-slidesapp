@@ -41,6 +41,7 @@ class SpaceVisuals {
 
     $scope.left = {
       min: '0px',
+      baseMin: '0px',
       max: '0px',
       current: '0px'
     };
@@ -115,7 +116,7 @@ class SpaceVisuals {
       $('.dm-spacesidebar-right .tab-content').hide();
 
       right.opened = open;
-      right.current = right.min;
+      right.current = right.baseMin;
     };
 
     $scope.$watch('editMode', (isEditMode, oldVal) => {

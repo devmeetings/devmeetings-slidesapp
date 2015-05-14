@@ -53,7 +53,7 @@ require(['angular',
 
     function forward() {
       return {
-        template: '<div class="full-height" ui-view="content"></div>'
+        template: '<div class="full-height ui-view-animate" ui-view="content"></div>'
       };
     }
 
@@ -358,7 +358,7 @@ require(['angular',
       });
 
       var workspace = {
-        url: '/workspace/:iteration/:todo/:slide',
+        url: '/workspace/:slide',
         views: {
           content: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
@@ -369,6 +369,10 @@ require(['angular',
       };
       $stateProvider.state('index.space.learn.workspace', JSON.parse(JSON.stringify(workspace)));
       $stateProvider.state('index.space.collaborate.workspace', workspace);
+
+      $stateProvider.state('index.space.learn.workspace.task', {
+        url: '/task/:iteration/:todo'
+      });
 
       $stateProvider.state('index.space.collaborate.history', {
         url: '/history/:historyId',

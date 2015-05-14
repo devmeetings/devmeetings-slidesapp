@@ -77,7 +77,7 @@
           ng-class="{'active': activeTask === task}"
           )
           a(
-            ui-sref='index.space.learn.workspace({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
+            ui-sref='index.space.learn.workspace.task({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
             )
             span.fa.fa-pencil.nav-icon
             span {{task.title}}
