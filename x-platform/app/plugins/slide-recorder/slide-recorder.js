@@ -4,12 +4,23 @@ var cache = require('../../services/cache');
 var logger = require('../../../config/logging');
 var pluginEvents = require('../events');
 
+function fixId(data) {
+  'use strict';
+  // This is nasty fix for strange behaviour of forwarding socket.
+  // As always we don't have enough time to investigate it.
+  if (data._id === 'undefined') {
+    data._id = undefined;
+  }
+}
+
 exports.onSocket = function(log, socket) {
   'use strict';
 
 
   function patchState(data, ack) {
     var workspaceRoom = getRoom(data);
+
+    fixId(data);
 
     States.fetchStateForWriting(data._id, socket.request.user).done(function(save) {
       
