@@ -75,7 +75,7 @@ class EventAgenda {
             return {
               iterationIdx: itIdx,
               idx: memo.length + id,
-              title: task.title + ' ' + (id + 1),
+              title: task.title + (id + 1),
               url: task.url + '?task=' + id
             };
           });
