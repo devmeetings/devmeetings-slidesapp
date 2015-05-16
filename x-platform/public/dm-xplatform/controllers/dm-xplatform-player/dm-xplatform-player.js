@@ -82,17 +82,19 @@ define(['angular', 'xplatform/xplatform-app', '_',
         resolve: {
           event: fromScope('event'),
           currentIteration: fromScope('currentIteration'),
-          currentMaterial: fromScope('currentMaterial')
+          currentMaterial: fromScope('currentMaterial'),
+          workspaceId: fromScope('workspaceId')
         },
         windowClass: 'dm-player-finish'
       });
     };
   });
 
-  xplatformApp.controller('dmXplatformPlayerFinishModal', function($scope, event, currentIteration, currentMaterial) {
+  xplatformApp.controller('dmXplatformPlayerFinishModal', function($scope, event, currentIteration, currentMaterial, workspaceId) {
 
     $scope.iterationIdx = event.iterations.indexOf(currentIteration);
     $scope.currentMaterial = currentMaterial;
+    $scope.workspaceId = workspaceId;
 
     if (_.last(currentIteration.materials) === currentMaterial) {
       $scope.nextTask = _.first(currentIteration.tasks);
