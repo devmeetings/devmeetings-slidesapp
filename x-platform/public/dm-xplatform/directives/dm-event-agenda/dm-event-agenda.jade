@@ -55,11 +55,12 @@
               span.fa.fa-university.nav-icon.fa-fw
               span.title &nbsp;{{material.title}}
           .item-details(ng-if="activeMaterial._id === material._id")
-            dm-annotations(
-              event-id="event._id"
-              iteration-id="activeMaterial.iterationIdx"
-              material-id="activeMaterial._id"
-            )
+            //dm-annotations(
+            //  event-id="event._id"
+            //  iteration-id="activeMaterial.iterationIdx"
+            //  material-id="activeMaterial._id"
+            //)
+            plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
         li(
