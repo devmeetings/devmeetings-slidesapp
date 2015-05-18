@@ -53,7 +53,7 @@
           .list-group-item
             input.form-control.input-sm(ng-if="$root.editMode", ng-model="event.intro", placeholder="Intro Slide Id")
 
-      div(ng-if="event.liveLink")
+      .dm-agenda-live(ng-if="event.liveLink")
         iframe.full-frame(
           ng-if="event.liveLink"
           seamless=true,

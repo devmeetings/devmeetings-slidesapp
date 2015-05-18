@@ -26,7 +26,7 @@
           span.fa.fa-fw.fa-arrow-right.pull-right.direction
         a.btn.btn-block.btn-primary.cursor-pointer(
             ng-if="nextTask"
-            ui-sref="index.space.learn.todo({iteration: iterationIdx, todo: nextTask._id })"
+            ui-sref="index.space.learn.workspace.task({slide:workspaceId, iteration: iterationIdx, todo: 0 })"
             ng-click="$close()"
           )
           span.fa.fa-fw.fa-code

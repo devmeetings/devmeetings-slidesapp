@@ -52,7 +52,7 @@ define(['angular',
     var questionState = dmEvents.getState($stateParams.event, 'save');
 
     var saveLater = _.throttle(function() {
-      if (state !== 'workspace') {
+      if (state !== 'workspace' && state !== 'task') {
         return;
       }
 
