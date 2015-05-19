@@ -188,22 +188,6 @@ require('fs').readFile(__dirname + '/../public/version', 'utf8', function(err, v
   currentConfig.version += '[' + currentConfig.name.slice(0, 3) + ']';
 });
 
-// Append CookieDomain
-(function(c) {
-  'use strict';
-
-  if (c.isDev) {
-    return;
-  }
-
-  var cookieDomain;
-  cookieDomain = c.realmUrl.replace(/https?:\/\//, '');
-  cookieDomain = cookieDomain.replace(/:[0-9]+$/, '');
-  c.cookieDomain = cookieDomain;
-
-}(currentConfig));
-
-
 // Parse ENV variables
 var fromEnv = {
   port: process.env.PORT,
@@ -218,5 +202,20 @@ Object.keys(fromEnv).map(function(k) {
     currentConfig[k] = fromEnv[k];
   }
 });
+
+// Append CookieDomain
+(function(c) {
+  'use strict';
+
+  if (c.isDev) {
+    return;
+  }
+
+  var cookieDomain;
+  cookieDomain = c.realmUrl.replace(/https?:\/\//, '');
+  cookieDomain = cookieDomain.replace(/:[0-9]+$/, '');
+  c.cookieDomain = cookieDomain;
+
+}(currentConfig));
 
 module.exports = currentConfig;
