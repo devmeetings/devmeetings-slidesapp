@@ -1,4 +1,4 @@
-require(['angular',
+requirejs(['angular',
     'angular-ui-router',
     'slider/bootstrap',
     'dm-admin/dm-admin-app',

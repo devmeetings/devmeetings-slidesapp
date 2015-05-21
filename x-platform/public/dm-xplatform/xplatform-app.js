@@ -1,4 +1,6 @@
-define(['angular',
+define([
+  'require',
+  'angular',
   'angular-ui-router',
   'angular-moment',
   'angular-hotkeys',
@@ -20,7 +22,7 @@ define(['angular',
   'dm-modules/dm-sref-show/dm-sref-show',
   'es6!dm-modules/dm-online/dm-online',
   'es6!dm-modules/dm-history/dm-history'
-], function(angular) {
+], function(require, angular) {
 
   'use strict';
 

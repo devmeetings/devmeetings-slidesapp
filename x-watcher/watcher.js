@@ -79,12 +79,11 @@ function createInitialModel(files) {
       .filter(_.identity)
       .reduce(function(model, file) {
         var normalizedPath = normalizePath(file.filePath);
-        model.tabs[normalizedPath] = {
+        model[normalizedPath] = {
           content: file.content
         };
         return model;
       }, {
-        tabs: {}
       });
 
     return Immutable.Map(model);

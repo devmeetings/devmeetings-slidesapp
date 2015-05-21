@@ -1,4 +1,4 @@
-require([
+requirejs([
     'templates',
     "slider/slider",
     "slider/slider.plugins",

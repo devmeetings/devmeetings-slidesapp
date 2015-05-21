@@ -1,4 +1,4 @@
-define(['angular', 'slider/slider.plugins'], function(angular, sliderPlugins) {
+define(['require', 'angular', 'slider/slider.plugins'], function(require, angular, sliderPlugins) {
 
     return function(module) {
         module = module || 'slider';

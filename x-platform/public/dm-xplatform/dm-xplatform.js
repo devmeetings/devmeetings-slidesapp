@@ -1,4 +1,4 @@
-require(['angular',
+requirejs(['angular',
     'templates',
     'slider/bootstrap',
     'xplatform/xplatform-app',
@@ -12,6 +12,7 @@ require(['angular',
     'xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar',
     'xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile',
     'xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide',
+    'xplatform/controllers/dm-xplatform-slide-sync/dm-xplatform-slide-sync',
     'xplatform/controllers/dm-xplatform-options/dm-xplatform-options',
     'xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist',
     'xplatform/controllers/dm-xplatform-login/dm-xplatform-login',
@@ -335,7 +336,7 @@ require(['angular',
         }
       });
 
-      $stateProvider.state('index.space.learn.slide',{
+      $stateProvider.state('index.space.learn.slide', {
         url: '/slide/:slide',
         views: {
           content: {
@@ -344,7 +345,7 @@ require(['angular',
           },
           context: contextMenu()
         }
-        });
+      });
 
       $stateProvider.state('index.space.collaborate.question', {
         url: '/question/:slide?parent',
@@ -369,6 +370,16 @@ require(['angular',
       };
       $stateProvider.state('index.space.learn.workspace', JSON.parse(JSON.stringify(workspace)));
       $stateProvider.state('index.space.collaborate.workspace', workspace);
+
+      $stateProvider.state('index.space.learn.sync', {
+        url: '/sync/:slide',
+        views: {
+          content: {
+            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide-sync/dm-xplatform-slide-sync.html',
+            controller: 'dmXplatformSlideSync'
+          }
+        }
+      });
 
       $stateProvider.state('index.space.learn.workspace.task', {
         url: '/task/:iteration/:todo'

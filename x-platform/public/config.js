@@ -1,4 +1,4 @@
-require.config({
+requirejs.config({
   "baseUrl": "/static/dm-slider",
   "paths": {
     "templates": "../templates",

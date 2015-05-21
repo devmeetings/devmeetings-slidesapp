@@ -1,4 +1,4 @@
-require(['angular',
+requirejs(['angular',
         'templates',
         'dm-courses/dm-courses-app',
         // TODO [ToDr] Move bootstrap to common module
