@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "gaze": "^0.5.1",
+    "immutable": "^3.7.3",
+    "jsondiffpatch": "^0.1.31",
     "lodash": "^3.9.1",
     "q": "^1.4.1"
   }
