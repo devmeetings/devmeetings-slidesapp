@@ -66,7 +66,10 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
           // Let the page render in background
           $timeout(function() {
             element.removeClass('dm-iframe-hidden');
-            setLoading(false);
+
+            $timeout(function(){
+              setLoading(false);
+            }, 150);
           }, timeout);
         }
 

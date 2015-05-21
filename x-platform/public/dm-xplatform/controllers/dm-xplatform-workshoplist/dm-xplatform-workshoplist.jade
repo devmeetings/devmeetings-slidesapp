@@ -39,7 +39,7 @@ mixin course(uisref, nghref)
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
           div(ng-if="!cours.shouldRedirectToUnsafe")
-            +course("index.space.agenda({event: cours._id})")
+            +course("index.space.learn.agenda({event: cours._id})")
       .row(ng-if="my_courses.length")
         .col-xs-12
           h3 Your Previous Workshops
@@ -47,5 +47,5 @@ mixin course(uisref, nghref)
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
           div(ng-if="!cours.shouldRedirectToUnsafe")
-            +course("index.space.agenda({event: cours._id})")
+            +course("index.space.learn.agenda({event: cours._id})")
 

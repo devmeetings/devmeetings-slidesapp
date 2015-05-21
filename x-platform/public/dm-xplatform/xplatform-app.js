@@ -17,6 +17,7 @@ define(['angular',
   'dm-modules/dm-browsertab/dm-browsertab',
   'dm-modules/dm-recorder/dm-recorder',
   'dm-modules/dm-intro/dm-intro',
+  'dm-modules/dm-sref-show/dm-sref-show',
   'es6!dm-modules/dm-online/dm-online',
   'es6!dm-modules/dm-history/dm-history'
 ], function(angular) {
@@ -31,6 +32,6 @@ define(['angular',
     'ui.router', 'ui.bootstrap',
     'angularMoment', 'cfp.hotkeys', 'hc.marked', 'FBAngular', 'ngAnimate', 'ngScrollbar',
     'dm-xplayer', 'dm-user', 'dm-mongotime', 'dm-gravatar', 
-    'dm-wavesurfer', 'dm-browsertab', 'dm-recorder', 'dm-history', 'dm-online', 'dm-intro'
+    'dm-wavesurfer', 'dm-browsertab', 'dm-recorder', 'dm-history', 'dm-online', 'dm-intro', 'dm-sref-show'
   ]);
 });

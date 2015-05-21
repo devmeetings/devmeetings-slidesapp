@@ -1,5 +1,5 @@
 mixin tabs()
-  div(ng-if="(workspace.tabs | objectKeys).length < 7", dm-defer="300")
+  .sw-workspace-tab-container(ng-if="(workspace.tabs | objectKeys).length < 7", dm-defer="300")
     ul.nav.nav-tabs(
       data-intro="All Files in your workspace are available here. Make sure to check what additional buttons do by hovering your mouse." data-position="bottom"
       )

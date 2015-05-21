@@ -1,0 +1,46 @@
+.full-height
+  ul.nav.nav-tabs
+    li(
+      ng-class="{'active': stateIncludes('index.space.learn')}"
+      )
+      a(ui-sref="index.space.learn.agenda()")
+        span.fa.fa-university.fa-fw(ng-show="!opened") 
+        span(ng-show="opened") Learn
+    li(
+      ng-class="{'active': stateIncludes('index.space.collaborate')}"
+      )
+      a(ui-sref="index.space.collaborate.workspace({slide: userWorkspaceId})")
+        span.fa.fa-share-alt.fa-fw(ng-show="!opened")
+        span(ng-show="opened") Collaborate
+    li(
+      ng-if="user.result.acl.indexOf('trainer') > -1"
+      ng-class="{'active': stateIncludes('index.space.trainer')}"
+      )
+      a(ui-sref="index.space.trainer.users()")
+        span.fa.fa-globe.fa-fw(ng-show="!opened")
+        span(ng-show="opened") Trainer
+    li(
+        ng-if="user.result.acl.indexOf('admin:events') > -1"
+        ng-class="{'active': $root.editMode}"
+      )
+      a.cursor-pointer(
+        ng-click="$root.editMode = !$root.editMode"
+        )
+        span.fa.fa-fw.fa-pencil-square-o(ng-show="!$root.editMode")
+        span.fa.fa-fw.fa-check-square-o(ng-show="$root.editMode")
+
+  .full-height(ng-if="opened")
+    .scroll.full-height(dm-sref-show="index.space.learn")
+      dm-event-agenda(
+        event="event"
+        opened="opened"
+        user-workspace-id="userWorkspaceId"
+        )
+
+    .scroll.full-height(dm-sref-show="index.space.collaborate")
+      dm-event-users(
+        event="event"
+        user="user"
+        opened="opened"
+        user-workspace-id="userWorkspaceId"
+        )

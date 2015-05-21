@@ -1,0 +1,55 @@
+.full-height.dm-event-users
+  ul.nav.nav-tabs.nav-stacked.users()
+    li(ui-sref-active='active')
+
+      a.pull-right.cursor-pointer(
+          style="z-index:10"
+          ng-click="showPreferences = !showPreferences"
+        )
+        span.fa.fa-cog.fa-fw
+      a(ui-sref="index.space.collaborate.workspace({slide: userWorkspaceId})")
+        img.img-rounded.pull-left(
+          alt="{{user.result.name}}"
+          ng-src="{{user.result.avatar | dmGravatar:24}}"
+          )
+        span {{user.result.name}}
+
+  .item-details(
+    dm-sref-show="index.space.collaborate.workspace"
+    )
+    .full-height(
+      ng-show="!showPreferences"
+      ui-view="context"
+    )
+    .full-height(
+      ng-show="showPreferences"
+    )
+      dm-xplatform-performance
+  .item-details(
+    dm-sref-show="index.space.collaborate.question"
+    )
+    .full-height(
+      ui-view="context"
+    )
+  hr
+  .users-all(
+    data-intro="You can peek at code of other participants at any time" data-position="right"
+  )
+    h3.text-center.text-muted(ng-show="uniqueUsers.length === 0")
+      | No other users are viewing this event.
+
+    ul.nav.nav-tabs.nav-stacked.users()
+      li(
+        ng-repeat="user in uniqueUsers"
+        ui-sref-active='active'
+        )
+        span.user-badge(ng-show="user.workspaceListeners") {{user.workspaceListeners}}
+        a(
+          ui-sref="index.space.collaborate.watch({slide: user.workspaceId, parent:null})",
+          )
+          img.img-rounded.pull-left(
+            alt="{{user.name}}"
+            ng-src="{{user.avatar | dmGravatar:24}}"
+            )
+          span {{ user.name }}
+

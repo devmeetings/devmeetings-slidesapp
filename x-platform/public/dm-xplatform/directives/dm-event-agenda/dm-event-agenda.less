@@ -1,0 +1,62 @@
+.dm-event-agenda {
+
+  .panel-body {
+    padding: 0;
+  }
+
+  a.pull-right {
+    position: relative;
+    z-index: 12;
+  }
+
+  .item-details {
+    height: 60vh;
+    overflow-y: auto;
+    background: #333;
+  }
+
+  .item-details.ng-enter, .item-details.ng-leave {
+    transition: height .5s ease, opacity .6s ease;
+    transition-delay: .2s, .1s;
+  }
+
+  .item-details.ng-enter,
+  .item-details.ng-leave.ng-leave-active {
+    opacity: 0;
+    height:0;
+  }
+
+  .item-details.ng-leave,
+  .item-details.ng-enter.ng-enter-active {
+    opacity: 1;
+    height: 60vh;
+  }
+
+  .nav li {
+    > a, &.active > a {
+      text-align: left;
+    }
+  }
+
+  li {
+    position: relative;
+
+    &:hover .dm-external-link {
+      opacity: 1.0;
+    }
+
+    .dm-external-link {
+      opacity: 0.0;
+      position: absolute;
+      right: 4px;
+      top: 0;
+      z-index: 10;
+      color: #3f3f3f;
+      transition: color .5s ease-in-out, opacity .3s ease-in-out;
+
+      &:hover {
+        color: #ddd;
+      }
+    }
+  }
+}

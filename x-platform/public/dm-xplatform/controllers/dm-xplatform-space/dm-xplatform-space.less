@@ -80,7 +80,7 @@
   background-color: rgb(30,30,30);
   z-index: 9;
 
-  .nav.menu, .nav.agenda, .nav.users {
+  .nav.menu, .nav.agenda {
     li {
       width: 100%;
     }
@@ -115,50 +115,6 @@
     right: 0;
     height: 35px;
     z-index: 10;
-  }
-
-  .users-all {
-    height: ~"calc(100% - 130px)";
-  }
-
-  .users-all.is-admin {
-    height: ~"calc(100% - 190px)";
-  }
-
-  .users {
-    li {
-      position: relative;
-    }
-
-    .user-badge {
-      position: absolute;
-      bottom: 0;
-      right: 0px;
-      font-size: 11px;
-      font-weight: bold;
-      z-index: 1000;
-      background: #1f1f1f;
-      border-radius: 50% 50% 0 50%;
-      padding: 0 3px;
-    }
-
-    &.nav > li > a, &.nav > li.active > a {
-      margin: 0;
-      display: block;
-      text-align: center;
-      border-radius: 0;
-      padding: 3px 0 4px;
-      line-height: 1.0;
-      img {
-        border-radius: 50%;
-        margin: 0 auto;
-      }
-    }
-    .users-self.active {
-      a {
-        .btn-success;
-      }
-    }
   }
 }
 .dm-spacesidebar-right-container {
@@ -209,9 +165,9 @@
 .dm-spacesidebar-right-container.opened {
   .sidebar-open-btn {
     position: absolute;
-    left: -10px;
+    left: -7px;
     right: auto;
-    width: 10px;
+    width: 7px;
     padding-left: 0;
     padding-right: 0;
     font-size: 9px;

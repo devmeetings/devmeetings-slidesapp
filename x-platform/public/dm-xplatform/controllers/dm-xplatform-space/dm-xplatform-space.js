@@ -8,14 +8,16 @@ define([
   'xplatform/directives/dm-iframe/dm-iframe',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
   'xplatform/directives/dm-intro/dm-intro',
+  'xplatform/directives/dm-annotations/dm-annotations',
   'es6!xplatform/directives/dm-ranking/dm-ranking',
   'es6!xplatform/directives/dm-xplatform-context/dm-xplatform-context',
+  'es6!xplatform/directives/dm-xplatform-menu/dm-xplatform-menu',
   'xplatform/filters/liveLinkUrl',
   'es6!./space-visuals',
   'es6!./space-redirect'
 ], function(_, xplatformApp) {
   xplatformApp.controller('dmXplatformSpace', function(
-    $window, $scope, $stateParams, dmSpaceVisuals, dmEventLive,
+    $window, $scope, $stateParams, dmSpaceVisuals, 
     $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab,
     dmSpaceRedirect) {
 
@@ -45,64 +47,8 @@ define([
     // Fetch current workspace
     dmEvents.getWorkspace($stateParams.event).then(function(workspaceId) {
       $scope.workspaceId = workspaceId;
-      // Listen to users inside event
-      dmEventLive.listenToUsersOnline($scope, $stateParams.event, workspaceId, onUserInSpace);
       dmSlidesaves.refresh();
     });
-
-    $scope.allUsers = [];
-    $scope.uniqueUsers = [];
-
-    function rebuildUniqueUsers() {
-      $scope.uniqueUsers = _.uniq($scope.allUsers, 'workspaceId');
-      _.remove($scope.uniqueUsers, function(u){
-        return u._id === $scope.user.result._id;
-      });
-    }
-
-    function onUserInSpace(userData) {
-      var user = userData.user;
-
-      $scope.$apply(function() {
-        if (userData.action === 'joined') {
-          $scope.allUsers.push(user);
-          rebuildUniqueUsers();
-          return;
-        }
-
-        if (userData.action === 'left') {
-          // Remove only one user!
-          var user2 = _.find($scope.allUsers, function(u) {
-            return u._id === user._id;
-          });
-          if (!user2) {
-            return;
-          }
-          $scope.allUsers.splice($scope.allUsers.indexOf(user2), 1);
-          rebuildUniqueUsers();
-          return;
-        }
-
-        if (userData.action === 'initial') {
-          $scope.allUsers = userData.users;
-          rebuildUniqueUsers();
-          return;
-        }
-
-        if (userData.action === 'state.count') {
-          // find user with specific owrkspace
-          user = _.find($scope.uniqueUsers, {
-            workspaceId: userData.workspaceId
-          });
-          if (user) {
-            user.workspaceListeners = userData.count;
-          } else if (userData.workspaceId === $scope.workspaceId) {
-            $scope.user.result.workspaceListeners = userData.count;
-          }
-          return;
-        }
-      });
-    }
 
   });
 });

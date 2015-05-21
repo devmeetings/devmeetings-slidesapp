@@ -41,87 +41,25 @@
 
       br
 
-      div(
-        data-intro="Use the menu to watch a movie and task. Be sure to also check the context menu."  data-position="bottom"
-      )
-      div(ng-if="event.intro")
+      div(ng-if="event.intro && $root.editMode")
         ul.dm-breadcrumb
           li.title(ng-click="showMore = !showMore" ng-class="{'active': showMore}")
             a Intro
           li
-            a(ui-sref='index.space.slide({event: event._id, slide: event.intro})')
+            a(ui-sref='index.space.learn.slide({event: event._id, slide: event.intro})')
               span.nav-icon.fa.fa-question-circle.fa-fw
               span Intro
         .list-group(ng-show="showMore")
           .list-group-item
             input.form-control.input-sm(ng-if="$root.editMode", ng-model="event.intro", placeholder="Intro Slide Id")
 
-      div(ng-repeat="i in event.iterations")
-        ul.dm-breadcrumb
-          li.title(ng-click="showMore = !showMore" ng-class="{'active': showMore}")
-            a {{i.title}}
-          li(ng-repeat="material in i.materials")
-            a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
-                span.fa.fa-film.nav-icon.fa-fw
-                span.number {{$index + 1}}.
-                span.title &nbsp;{{material.title}}
-            a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})',
-                ng-if="material.deck.deck")
-                span.fa.fa-university.nav-icon.fa-fw
-                span.number {{$index + 1}}.
-                span.title &nbsp;{{material.title}}
-          li.special(ng-repeat='task in i.tasks', ui-sref-active="active")
-            a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
-              span.fa.fa-pencil.nav-icon.fa-fw
-              span.number {{$index + 1}}.
-              span.title &nbsp;{{task.title}}
-        .list-group(ng-show="showMore")
-          .list-group-item
-            .list-group-item-text.clearfix
-              input.form-control.input-sm(ng-if="$root.editMode", ng-model="i.title", placeholder="Iteration Name")
-              .row
-                .col-sm-6
-                  ul.nav.nav-pills.nav-stacked
-                    li(ng-repeat="material in i.materials")
-                      a.dm-external-link(ng-href="/decks/{{material.deck.deck}}?from={{material.deck.from}}&to={{material.deck.to}}&name={{material.title}}", target="_blank", ng-if="material.deck.deck")
-                          span.fa.fa-external-link
-
-                      a.dm-external-link(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id, withVoice:true})',
-                        ng-if="material.url")
-                          span.fa.fa-volume-up
-                      a(ui-sref='index.space.player({iteration: $parent.$parent.$index, material: material._id})', ng-if="material.material")
-                          span.fa.fa-film.nav-icon
-                          span {{material.title}}
-                      a(ui-sref='index.space.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})',
-                          ng-if="material.deck.deck")
-                          span.fa.fa-university.nav-icon
-                          span {{material.title}}
-                      input.form-control.input-sm(ng-if="$root.editMode", ng-model="material.title", placeholder="Material Title")
-                .col-sm-6
-                  ul.nav.nav-pills.nav-stacked
-                    li(ng-repeat='task in i.tasks', ui-sref-active="active")
-                      a.dm-external-link(ng-href="{{task.url}}", target="_blank")
-                        span.fa.fa-external-link
-
-                      a(ui-sref='index.space.todo({iteration: $parent.$index, todo: task._id})')
-                        span.fa.fa-pencil.nav-icon
-                        span {{task.title}}
-                      input.form-control.input-sm(ng-if="$root.editMode", ng-model="task.title", placeholder="Task Title")
-                      input.form-control.input-sm(ng-if="$root.editMode", ng-model="task.url", placeholder="Task URL")
-
+      .dm-agenda-live(ng-if="event.liveLink")
+        iframe.full-frame(
+          ng-if="event.liveLink"
+          seamless=true,
+          dm-iframe="{{ event.liveLink | liveLinkUrl:'' }}"
+          dm-iframe-timeout="300"
+        )
 
       dm-ranking(event='event')
-// .col-sm-6.full-height(ng-if="event.liveLink")
-// iframe.full-frame(
-// ng-if="event.liveLink"
-// seamless=true,
-// dm-iframe="{{ event.liveLink | liveLinkUrl:'' }}"
-// dm-iframe-timeout="300"
-// )
-// iframe.full-frame(
-// seamless=true,
-// dm-iframe="{{ event.liveLink | liveLinkUrl:'agenda' }}")
-// iframe.full-frame(
-// seamless=true,
-// dm-iframe="{{ event.liveLink | liveLinkUrl:'ranking' }}")
 

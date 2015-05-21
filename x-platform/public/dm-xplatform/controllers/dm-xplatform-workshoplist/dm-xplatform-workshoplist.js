@@ -67,7 +67,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
     });
 
     $scope.getUnsafeAddress = function(course) {
-      return dmSpaceRedirect.getUnsafeAddress().replace('/courses', '/space/' + course._id + '/agenda');
+      return dmSpaceRedirect.getUnsafeAddress().replace('/courses', '/space/' + course._id + '/learn/agenda');
     };
 
     $scope.visibilityChanged = function(event) {

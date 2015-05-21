@@ -1,4 +1,4 @@
-.dm-questions(dm-defer="500")
+.dm-questions
   include ../dm-xplatform-question-create/index
   //hr
   .dm-question.clearfix(
@@ -19,13 +19,12 @@
         ng-class="{'active': isQuestionActive(question) }"
         )
         a(
-          ui-sref='index.space.question({slide: question.slidesave, parent:null})'
+          ui-sref='index.space.collaborate.question({slide: question.slidesave, parent:null})'
           )
           small.pull-right(am-time-ago='question.timestamp')
           span.fa.fa-fw
           span {{question.description}}
-
-    .row
+    div
       .col-xs-11.col-xs-offset-1.dm-answers(
         ng-show="isQuestionActive(question)"
         )
@@ -36,7 +35,7 @@
             ui-sref-active="active"
             )
             a.text-right(
-              ui-sref='index.space.question({slide: comment.slidesave, parent: question.slidesave})'
+              ui-sref='index.space.collaborate.question({slide: comment.slidesave, parent: question.slidesave})'
             )
               small.pull-left(am-time-ago='comment.timestamp')
               span {{comment.text}}

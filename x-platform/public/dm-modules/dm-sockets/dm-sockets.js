@@ -197,11 +197,12 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
 
       // ifowisko
       var Sockets = null;
-      if ($window.parent.___hasSockets) {
-        Sockets = CreateForwardingSocket(targetOrigin, $window);
-      } else {
+      // TODO [ToDr] Some problems with forwarding sockets.
+      // if ($window.parent.___hasSockets) {
+        // Sockets = CreateForwardingSocket(targetOrigin, $window);
+      // } else {
         Sockets = CreateWebSocket(targetOrigin, $window, $location);
-      }
+      // }
 
       //initialize
       var BaseSockets = CreateBaseSocket($window, $rootScope);

@@ -1,0 +1,119 @@
+.text-left.dm-event-agenda
+  .panel
+    .panel-heading
+      h3.panel-title
+        | {{ event.title}}
+    .panel-body
+      ul.nav.nav-tabs.nav-stacked
+        li(
+            ui-sref-active="active"
+          )
+          a(
+            ui-sref="index.space.learn.agenda()"
+            )
+            | Agenda
+  .panel(ng-repeat="i in event.iterations")
+    .panel-heading
+      h3.panel-title(ng-if="!$root.editMode")
+        | {{ i.title }}
+      input.form-control.input-sm(
+        ng-if="$root.editMode"
+        ng-model="i.title"
+        placeholder="Iteration Name"
+      )
+    .panel-body
+      ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
+        li(
+          ui-sref-active="active"
+          ng-repeat="material in i.materials"
+          )
+
+          a.dm-external-link(
+            ui-sref='index.space.learn.player({iteration: $parent.$parent.$index, material: material._id, withVoice:true})'
+            ng-if="material.url"
+            )
+              span.fa.fa-volume-up
+
+          a.dm-external-link(
+            ng-href="/decks/{{material.deck.deck}}?from={{material.deck.from}}&to={{material.deck.to}}&name={{material.title}}"
+            target="_blank"
+            ng-if="material.deck.deck"
+            )
+              span.fa.fa-external-link
+
+          a(
+            ui-sref='index.space.learn.player({iteration: $parent.$parent.$index, material: material._id})'
+            ng-if="material.material"
+            )
+              span.fa.fa-film.nav-icon.fa-fw
+              span.title &nbsp;{{material.title}}
+
+          a(
+            ui-sref='index.space.learn.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})'
+            ng-if="material.deck.deck"
+            )
+              span.fa.fa-university.nav-icon.fa-fw
+              span.title &nbsp;{{material.title}}
+          .item-details(ng-if="activeMaterial._id === material._id")
+            //dm-annotations(
+            //  event-id="event._id"
+            //  iteration-id="activeMaterial.iterationIdx"
+            //  material-id="activeMaterial._id"
+            //)
+            plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
+
+      ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
+        li(
+          ui-sref-active="active"
+          ng-repeat="material in i.materials"
+          )
+          input.form-control.input-sm(
+            ng-model="material.title"
+            placeholder="Material Title"
+          )
+
+      ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
+        li(
+          ng-repeat="task in tasks[$index]"
+          ng-class="{'active': activeTask === task}"
+          )
+          a.cursor-pointer.pull-right(
+              ng-click="markAsDone(task)"
+            )
+              span.fa.fa-fw.text-success.fa-check(ng-show="isDone(task)")
+              span.fa.fa-fw.text-muted.fa-minus(ng-show="!isDone(task)")
+          a(
+            ui-sref='index.space.learn.workspace.task({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
+            )
+            span.fa.fa-pencil.nav-icon
+            span {{task.title}}
+
+          .item-details(ng-if="activeTask === task")
+            dm-event-task-details(
+              task-url="activeTask.url" 
+              current-iteration-idx="activeTask.iterationIdx" 
+              task-idx="activeTask.idx"
+              )
+  
+
+
+      ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
+        li(
+          ui-sref-active="active"
+          ng-repeat="task in i.tasks"
+          )
+          .form-group
+            input.form-control.input-sm(
+              ng-model="task.title"
+              placeholder="Task Title"
+            )
+          .form-group
+            input.form-control.input-sm(
+              ng-model="task.url"
+              placeholder="Task URL"
+            )
+
+
+
+
+

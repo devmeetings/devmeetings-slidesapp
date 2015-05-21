@@ -40,21 +40,20 @@ class SpaceVisuals {
     let $timeout = this.$timeout;
 
     $scope.left = {
-      min: '35px',
-      max: '35px',
-      current: '35px'
+      min: '0px',
+      baseMin: '0px',
+      max: '0px',
+      current: '0px'
     };
 
     $scope.right = {
-      min: '35px',
-      baseMin: '35px',
+      min: '330px',
+      baseMin: '37px',
       max: '330px',
-      current: '35px',
-      opened: false,
-      pinned: false
+      current: '330px',
+      opened: true,
+      pinned: true
     };
-
-    $scope.bottombarHeight = '0px';
 
     $scope.keys = {};
     $scope.tabs = {};
@@ -63,12 +62,8 @@ class SpaceVisuals {
     $scope.togglePinRight = function() {
       var right = $scope.right;
 
-      if (!right.defaultMin) {
-        right.defaultMin = right.min;
-      }
-
       if (right.pinned) {
-        right.min = right.defaultMin;
+        right.min = right.baseMin;
       } else {
         right.min = right.max;
       }
@@ -121,16 +116,8 @@ class SpaceVisuals {
       $('.dm-spacesidebar-right .tab-content').hide();
 
       right.opened = open;
-      right.current = right.min;
+      right.current = right.baseMin;
     };
-
-    $timeout(function() {
-      $scope.toggleRightDelayed(false);
-      var isPinned = localStorage.getItem('sidebar.pinned') === 'true';
-      if (isPinned) {
-        $scope.togglePinRight();
-      }
-    }, 2500);
 
     $scope.$watch('editMode', (isEditMode, oldVal) => {
       if (isEditMode) {
@@ -138,7 +125,6 @@ class SpaceVisuals {
         $scope.toggleRight(true, true);
       } else if (oldVal === true) {
         $scope.right.min = $scope.right.baseMin;
-        $scope.toggleRight(false, true);
       }
     });
   }
