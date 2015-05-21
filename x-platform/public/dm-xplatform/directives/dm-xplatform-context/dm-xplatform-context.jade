@@ -4,6 +4,15 @@
     ng-if="opened"
     ng-class="{'full-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
   )
+    ul.nav.nav-tabs.nav-context-menu.nav-flex(
+      ng-if="with.length > 1"
+    )
+      li(ng-repeat="x in with", ng-class="{'active': display.active === x}")
+        a(ng-click="selectTab(x)") 
+          span.text-danger.tabs-badge(ng-show="x === 'questions' && notifications.unread")
+            span.fa.fa-circle
+          | {{ names[x] }}
+
     .scroll.big-height
       .text-left(
         ng-show="display.active === 'admin'"
@@ -33,13 +42,4 @@
         )
           h1 Chat
           h3 Not ready yet:(
-    ul.nav.nav-tabs.nav-context-menu.nav-flex(
-      ng-if="with.length > 1"
-    )
-      li(ng-repeat="x in with", ng-class="{'active': display.active === x}")
-        a(ng-click="selectTab(x)") 
-          span.text-danger.tabs-badge(ng-show="x === 'questions' && notifications.unread")
-            span.fa.fa-circle
-          | {{ names[x] }}
-
 

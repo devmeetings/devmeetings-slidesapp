@@ -25,7 +25,13 @@
       ng-show="showPreferences"
     )
       dm-xplatform-performance
-
+  .item-details(
+    dm-sref-show="index.space.collaborate.question"
+    )
+    .full-height(
+      ui-view="context"
+    )
+  hr
   .users-all(
     data-intro="You can peek at code of other participants at any time" data-position="right"
   )
