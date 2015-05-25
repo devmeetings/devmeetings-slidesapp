@@ -100,7 +100,7 @@ function pushOtherFiles(res, files, internalFile) {
   }).map(function(internalName) {
     var realName = getRealFileName(internalName);
 
-    res.push('/' + realName, {
+    res.push(realName, {
       'Content-Type': guessType(internalName)
     }, function(err, stream){
 
