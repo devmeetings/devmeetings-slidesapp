@@ -10,6 +10,8 @@ upstream xpla_{{server_short}} {
 {% for n in range(server_cluster) %}
   server localhost:{{server_port + n}};
 {% endfor %}
+
+  keepalive 32;
 }
 
 server {
