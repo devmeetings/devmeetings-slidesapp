@@ -15,7 +15,8 @@ define([
           recording: '=',
           annotations: '=',
           withSidebar: '=',
-          onFirstRun: '&'
+          onFirstRun: '&',
+          recorder: '='
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
 

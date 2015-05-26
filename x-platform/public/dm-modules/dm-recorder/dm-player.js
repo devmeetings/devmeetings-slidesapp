@@ -1,20 +1,19 @@
 define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenable'], function(require, _, Worker, newListenable) {
   'use strict';
 
-  return function($q, dmRecorder) {
+  return function($q) {
 
-    var source = dmRecorder;
+    var source = null;
 
     return _.extend(newListenable(), {
 
-      setRecorderSource: function(workspaceId, statesaveId, content) {
+      setRecorderSource: function(dmRecorder, statesaveId, content) {
         this.setSource(dmRecorder);
-        dmRecorder.setRecording(true, workspaceId);
         dmRecorder.clear();
         dmRecorder.setState(statesaveId, content);
       },
 
-      createPlayerSource: function(statesaveId, slide) {
+      createPlayerSource: function(dmRecorder, statesaveId, slide) {
         var dmPlayerThat = this;
         var worker = new Worker.Player();
 
@@ -55,11 +54,14 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
             if (!isPaused) {
               return this._resumePlayer();
             }
+            if (!dmRecorder) {
+              return;
+            }
 
             var content = this.getCurrentState();
             var id = this._currentStateId();
             this.updatePreviousContent();
-            dmPlayerThat.setRecorderSource(null, id, content);
+            dmPlayerThat.setRecorderSource(dmRecorder, id, content);
           },
 
           // Invoked when the player is paused and we are jumping to different second
@@ -67,12 +69,17 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
             dmPlayerThat.previousContent = JSON.stringify(this.getCurrentState());
           },
           restorePreviousContent: function() {
+            if (!dmPlayerThat.previousContent) {
+              return;
+            }
             worker.applyCurrentState(JSON.parse(dmPlayerThat.previousContent));
           },
 
           _resumePlayer: function() {
+            if (!dmRecorder) {
+              return;
+            }
             // Resume state?
-            dmRecorder.setRecording(false);
             dmPlayerThat.setSource(player);
             if (dmPlayerThat.previousContent) {
               this.restorePreviousContent();
@@ -81,7 +88,6 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
           }
         });
 
-        dmRecorder.setRecording(false);
         player.setState(statesaveId, slide);
         dmPlayerThat.setSource(player);
         return player;

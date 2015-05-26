@@ -15,8 +15,9 @@ block content
     div(ng-init="$root.from='#{from}'; $root.to='#{to}';")
     div.full-height(ng-controller="SliderCtrl")
         .col-sm-12.full-height
-            .row.full-height
-                plugins-loader(namespace="'deck.slides'", context="deckSlides", path='')
-                plugins-loader(namespace="'deck'", context="deck", path='')
-                plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck", path='')  
+          .row.full-height
+            dm-recorder-context(recorder='recorder')
+              plugins-loader(namespace="'deck.slides'", context="deckSlides", path='', recorder='recorder')
+              plugins-loader(namespace="'deck'", context="deck", path='', recorder='recorder')
+              plugins-loader(ng-if="modes.isEditMode", namespace="'deck.edit'", context="deck", path='', recorder='recorder')  
 

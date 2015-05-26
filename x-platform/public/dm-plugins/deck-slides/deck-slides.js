@@ -10,13 +10,13 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
         restrict: 'E',
         scope: {
           slides: '=data',
-          deck: '=context'
+          deck: '=context',
         },
         templateUrl: path + '/deck-slides.html',
 
-        link: function(scope, element) {
+        link: function(scope) {
           var onSlideChange = function onSlideChange(activeSlideId) {
-            dmPlayer.setRecorderSource();
+            dmPlayer.setRecorderSource(scope.recorder);
             scope.slide = _.find(scope.deck.deckSlides, {
               _id: activeSlideId
             });

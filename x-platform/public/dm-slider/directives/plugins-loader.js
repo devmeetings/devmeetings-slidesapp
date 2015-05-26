@@ -24,22 +24,23 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
     elem.setAttribute('context', 'context');
     elem.setAttribute('mode', 'mode');
     elem.setAttribute('path', obj.path);
+    elem.setAttribute('recorder', 'recorder');
     return elem;
   }
 
   slider.directive('pluginsLoader',
-    function($compile, $rootScope) {
+    function($compile) {
       return {
         restrict: 'E',
         scope: {
           namespace: '=',
           context: '=',
           mode: '=',
+          recorder: '=',
           path: '@'
         },
         template: '',
         link: function($scope, $element) {
-
           var childScope = $scope.$new();
 
           var pluginTpl = function(plugin) {

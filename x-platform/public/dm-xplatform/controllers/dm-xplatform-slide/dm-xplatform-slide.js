@@ -5,7 +5,7 @@ define(['angular',
   'xplatform/services/dm-slidesaves/dm-slidesaves'
 ], function(angular, _, xplatformApp) {
   xplatformApp.controller('dmXplatformSlide', 
-    function($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmRecorder, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {
+    function($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {
     //
     var state = (function(){
       var name = $state.current.name.split('.');
@@ -14,6 +14,7 @@ define(['angular',
 
     $scope.mode = 'player';
     $scope.isColoured = state !== 'task' && state !== 'workspace';
+    $scope.workspaceId = $stateParams.slide; 
 
     dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
       $scope.slide = save;
@@ -21,7 +22,7 @@ define(['angular',
       $rootScope.slide = save;
       $rootScope.slide.mode = 'player';
 
-      dmPlayer.setRecorderSource($stateParams.slide, save.statesaveId, save.slide);
+      dmPlayer.setRecorderSource($scope.recorder, save.statesaveId, save.slide);
 
       //task because of workspace.task
       if (state === 'workspace' || state === 'task') {
@@ -41,10 +42,6 @@ define(['angular',
       } else {
         dmBrowserTab.setTitleAndIcon(save.title, 'slide');
       }
-    });
-
-    $scope.$on('$destroy', function() {
-      dmRecorder.setRecording(false, null);
     });
 
 

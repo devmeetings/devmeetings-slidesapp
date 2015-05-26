@@ -12,7 +12,7 @@ require([
 ], function(templates, slider, sliderPlugins, bootstrap) {
   slider.controller('SliderCtrl', function($rootScope, $scope, DeckAndSlides, dmPlayer) {
 
-    dmPlayer.setRecorderSource();
+    dmPlayer.setRecorderSource($scope.recorder);
 
     function updateDeck(deck) {
       $scope.deck = deck;

@@ -8,6 +8,9 @@ import {dmHistoryGraph} from 'es6!./directives/graph/dm-history-graph';
 import {dmHistoryPlayer} from 'es6!./directives/player/dm-history-player';
 
 let mod = angular.module('dm-history', ['dm-recorder']);
-mod.service('dmHistory', History);
+mod.factory('dmHistory', ($http)=>{
+  return (dmRecorder) => new History(dmRecorder, $http);
+});
+
 mod.directive('dmHistoryGraph', dmHistoryGraph);
 mod.directive('dmHistoryPlayer', dmHistoryPlayer);

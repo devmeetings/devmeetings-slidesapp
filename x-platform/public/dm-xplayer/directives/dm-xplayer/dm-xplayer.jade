@@ -57,11 +57,11 @@ mixin withSubtitles()
 
   .full-height(ng-if="!withSidebar")
     +withSubtitles
-      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
   .full-height(ng-if="withSidebar")
     .col-xs-10.full-height
       +withSubtitles
-        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
     .col-xs-2.full-height
-      plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+      plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
 

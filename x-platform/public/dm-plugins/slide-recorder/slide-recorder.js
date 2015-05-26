@@ -1,43 +1,41 @@
 define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
   'use strict';
 
-  sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', 4000).directive('slideRecorder', function(Sockets, dmRecorder) {
-
-    var lastId;
-
-    Sockets.on('disconnect', function() {
-      if (!lastId) {
-        return;
-      }
-      var id = lastId.split('_');
-      dmRecorder.stopSyncingAndSetId(id[0], id[1]);
-    });
+  sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', 4000).directive('slideRecorder', function(Sockets) {
 
     return {
       restrict: 'E',
       scope: {
         slide: '=context',
         mode: '=',
-        path: '@'
+        path: '@',
+        recorder: '=',
       },
       link: function(scope) {
         // Disable recorder on some sub slides.
-        if (scope.path !== '.*') {
+        if (scope.path !== '.*' || !scope.recorder) {
           return;
         }
 
-        var toSend = [];
-        var lastLog = new Date().getTime();
+        var lastId;
 
-        function sendQueue() {
-          var shouldLog = (new Date()).getTime() - lastLog > 30 * 1000;
-          if (shouldLog) {
-            lastLog = new Date().getTime();
-            console.debug('In queue: ', toSend.length);
-            console.time('Server sync');
+        function stopRecording() {
+          if (!lastId) {
+            return;
           }
+          var id = lastId.split('_');
+          scope.recorder.stopSyncingAndSetId(id[0], id[1]);
+        }
 
-          dmRecorder.getCurrentStateId().then(function(stateId){
+        Sockets.on('disconnect', stopRecording);
+        scope.$on('$destroy', function() {
+          Sockets.off('disconnect', stopRecording);
+        });
+
+        var toSend = [];
+
+        function sendQueue(dmRecorder) {
+          dmRecorder.getCurrentStateId().then(function(stateId) {
             lastId = stateId;
           });
 
@@ -49,16 +47,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
           }, function(isOk, stateId, lastPatch) {
-            if (shouldLog) {
-              console.timeEnd('Server sync');
-            }
 
             if (!isOk) {
               toSend = [{
                 timestamp: new Date().getTime(),
                 current: scope.slide
               }];
-              sendQueue();
+              sendQueue(dmRecorder);
               return;
             }
 
@@ -68,7 +63,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
             // Send queue one more time - new patches are waiting
             if (toSend.length) {
-              sendQueueLater();
+              sendQueueLater(dmRecorder);
             }
           });
 
@@ -87,9 +82,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return;
           }
 
-          if (!dmRecorder.isRecording()) {
-            return;
-          }
+          var dmRecorder = scope.recorder;
 
           var patch = dmRecorder.updateState(scope.slide);
           if (!patch) {
@@ -102,7 +95,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             return;
           }
 
-          sendQueueLater();
+          sendQueueLater(dmRecorder);
         }, true);
 
       }

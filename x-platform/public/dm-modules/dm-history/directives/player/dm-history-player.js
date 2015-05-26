@@ -20,7 +20,7 @@ class DmHistoryPlayer {
         var currentHist = history.recording;
         // Player
         var current = JSON.parse(JSON.stringify(currentHist.original));
-        var player = this.dmPlayer.createPlayerSource(currentHist.patches[0].id, current);
+        var player = this.dmPlayer.createPlayerSource(null, currentHist.patches[0].id, current);
 
         // Setting history has to be done after player is created!
         this.dmHistory.setHistory(history.history);

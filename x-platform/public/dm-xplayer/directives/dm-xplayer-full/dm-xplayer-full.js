@@ -15,6 +15,7 @@ define([
           annotations: '=',
           audioUrl: '=',
           withSidebar: '=',
+          recorder: '=',
           onFirstRun: '&',
           onEnd: '&'
         },
