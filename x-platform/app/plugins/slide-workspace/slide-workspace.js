@@ -95,6 +95,11 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
 
 function pushOtherFiles(res, files, internalFile) {
   'use strict';
+  if (!res.push) {
+    return;
+  }
+  // Only push files if connection supports it
+  // TODO [ToDr] Nginx currently does not support push in SPDY!
   Object.keys(files).filter(function(x) {
     return x !== internalFile;
   }).map(function(internalName) {
