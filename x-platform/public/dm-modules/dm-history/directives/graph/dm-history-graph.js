@@ -12,6 +12,9 @@ class DmHistoryGraph {
   link(scope) {
     let that = this;
     scope.$watch('recorder', (rec) => {
+      if (!rec) {
+        return;
+      }
       scope.history = that.dmHistory(rec);
     });
 
