@@ -1,0 +1,16 @@
+div(
+  ng-class="{'with-address': withAddress}"
+  )
+  .text-center.margin-top-20(
+    ng-if="isDead === true"
+    )
+    h1.text-danger
+      span.fa.fa-power-off
+    h4.text-muted No server at {{ currentUrl }}
+  .slide-workspace-outputs.full-height(
+      ng-if="isDead === false"
+      ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
+    iframe.iframe-fiddle-output.scrollable-container
+    iframe.iframe-fiddle-output.scrollable-container(
+      ng-show="!workspace.singleOutput && $root.performance.indexOf('workspace_output_noanim') === -1"
+    )

@@ -74,13 +74,6 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
     return false;
   }
 
-  function urlKeyPress(ev, scope) {
-    if (ev.keyCode !== 13) {
-      return;
-    }
-    scope.workspace.permaUrl = scope.workspace.url;
-  }
-
   function listenToServerRunnerEvents(scope, $location, $rootScope, dmPlayer) {
     function updateUrls(result) {
       var port = result.port;

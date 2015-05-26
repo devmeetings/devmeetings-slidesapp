@@ -1,0 +1,28 @@
+.form-group.workspace-address(
+  ng-show="withAddress"
+)
+  .input-group
+    .input-group-btn
+      button.btn(
+          ng-class="{'btn-success': highlightRefresh, 'btn-def': !hightlightRefresh}",
+          ng-click="onRefresh()"
+        )
+        span.fa.fa-refresh
+    .form-control.address-bar
+      div(ng-bind="hideBaseUrl ? baseUrl : 'localhost'")
+      input.form-control(
+          type="text", 
+          ng-model="currentPath",
+          ng-keypress="urlKeyPress($event)",
+          ng-blur="appliedPath = currentPath"
+        )
+    .input-group-btn
+      a.btn(
+        title="Open Your Page in New Window",
+        ng-href="{{ baseUrl + currentPath }}", 
+        target="_blank", 
+        analytics-event="workspace-newWindow",
+        analytics-category="workspace")
+            span.fa.fa-external-link
+
+

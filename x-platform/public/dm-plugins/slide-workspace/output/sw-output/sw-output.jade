@@ -1,0 +1,38 @@
+mixin frameWithAddress()
+  sw-output-address(
+      with-address="withAddress"
+      on-refresh="refreshCurrentUrl()"
+      highlight-refresh="currentBaseUrl !== baseUrl || currentAppliedPath !== appliedPath"
+      base-url="baseUrl"
+      hide-base-url="hideBaseUrl"
+      current-path="currentPath"
+      applied-path="appliedPath"
+    )
+
+  sw-output-frame(
+      with-address="withAddress"
+      current-url="currentUrl"
+      is-dead="isDead"
+    )
+
+mixin console()
+  sw-output-console
+
+.full-height(ng-if="!withConsole")
+  +frameWithAddress
+.full-height(ng-if="withConsole && !withConsoleInColumns")
+  .sw-row(ng-style="{height: output.topSizeFrame}")
+    .overlay(ng-if="output.dragActive")
+    +frameWithAddress
+  sw-splitter(left="output.topSizeFrame", right="output.bottomSizeFrame", drag-active="output.dragActive", is-row="true")
+  .sw-row(ng-style="{height: output.bottomSizeFrame}")
+    +console
+.full-height(ng-if="withConsole && withConsoleInColumns")
+  .sw-col.full-height(ng-style="{width: output.leftSizeFrame}")
+    .overlay(ng-if="output.dragActive")
+    +frameWithAddress
+  sw-splitter(left="output.leftSizeFrame", right="output.rightSizeFrame", drag-active="output.dragActive")
+  .sw-col.full-height(ng-style="{width: output.rightSizeFrame}")
+    +console
+  
+
