@@ -21,6 +21,7 @@ define(['angular',
       //TODO [ToDr] Temporary!
       $rootScope.slide = save;
       $rootScope.slide.mode = 'player';
+      $rootScope.recorder = $scope.recorder;
 
       dmPlayer.setRecorderSource($scope.recorder, save.statesaveId, save.slide);
 

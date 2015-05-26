@@ -11,10 +11,12 @@ class DmHistoryGraph {
 
   link(scope) {
     let that = this;
-    scope.history = that.dmHistory;
-  
+    scope.$watch('recorder', (rec) => {
+      scope.history = that.dmHistory(rec);
+    });
+
     scope.cutModel = {};
-    
+
     scope.setCurrentTime = (model, prop) => {
       model[prop] = scope.history.historyPlayerState.currentSecond;
     };
@@ -24,8 +26,7 @@ class DmHistoryGraph {
       let eventId = scope.history.historyPlayerState.eventId;
       scope.history.createRecordingFromHistory(eventId, sinceId, model.start, model.end)
         .then(
-          ()=> that.$window.alert('Recording Created'), 
-          () => that.$window.alert('Error while creating recording')
+          () => that.$window.alert('Recording Created'), () => that.$window.alert('Error while creating recording')
         );
     };
   }
@@ -41,7 +42,9 @@ export function dmHistoryGraph(dmHistory, $window) {
 
   return {
     restrict: 'E',
-    scope: {},
+    scope: {
+      recorder: '='
+    },
     templateUrl: '/static/dm-modules/dm-history/directives/graph/dm-history-graph.html',
     link: history.link.bind(history)
   };
