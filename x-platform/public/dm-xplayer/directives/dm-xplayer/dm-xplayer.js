@@ -126,11 +126,12 @@ define([
             }
           });
 
-          $window.addEventListener('resize', fixSubtitlePosition.bind(null, $scope));
+          $window.addEventListener('resize', fixSubtitlePosition);
           $scope.$on('$destroy', function() {
-            $window.removeEventListener('resize', fixSubtitlePosition.bind(null, $scope));
+            $window.removeEventListener('resize', fixSubtitlePosition);
           });
 
+          $timeout(fixSubtitlePosition, 500);
         }
       };
     }
@@ -153,8 +154,8 @@ define([
         return;
       }
       var rect = cursor.getBoundingClientRect();
-      var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 50;
+      var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 50;
       var positionTop = Math.max(20, rect.bottom + 30);
       positionTop = Math.min(viewportHeight - 10, positionTop);
 

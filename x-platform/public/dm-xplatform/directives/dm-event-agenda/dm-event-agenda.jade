@@ -74,14 +74,28 @@
 
       ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
         li(
+          ui-sref-active="active"
+          ng-repeat="task in i.tasks"
+          target="_blank"
+          )
+          a.text-muted(
+            ng-href="{{task.url}}"
+          )
+            span.fa.fa-external-link.nav-icon
+            span {{ task.title }} (All)
+
+      ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
+        li(
           ng-repeat="task in tasks[$index]"
           ng-class="{'active': activeTask === task}"
           )
+
           a.cursor-pointer.pull-right(
               ng-click="markAsDone(task)"
             )
               span.fa.fa-fw.text-success.fa-check(ng-show="isDone(task)")
-              span.fa.fa-fw.text-muted.fa-minus(ng-show="!isDone(task)")
+              span.fa.fa-fw.text-muted.fa-check(ng-show="!isDone(task)")
+
           a(
             ui-sref='index.space.learn.workspace.task({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
             )

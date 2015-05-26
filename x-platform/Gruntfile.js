@@ -123,7 +123,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', 'public/dm-modules/**/*.js', 'public/dm-xplayer/**/*.js'],
-        tasks: ['jshint:public', 'complexity'],
+        tasks: ['jshint:public'],
         options: {
           livereload: true
         }
@@ -137,7 +137,7 @@ module.exports = function(grunt) {
       },
       server: {
         files: ['./*.js', 'config/*.js', 'app/**/*.js'],
-        tasks: ['jshint:server', 'complexity']
+        tasks: ['jshint:server']
       },
       rebootServer: {
         files: ['.rebooted'],
@@ -258,8 +258,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'ngtemplates', 'concurrent:requirejs']);
-  grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent:server']);
-  grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
+  grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent:server']);
+  grunt.registerTask('quality', ['jshint', 'less:build']);
   grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'jade', 'optimize']);
 
   grunt.registerTask('default', ['serve']);
