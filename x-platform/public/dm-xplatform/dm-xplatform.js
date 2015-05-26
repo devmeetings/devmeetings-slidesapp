@@ -441,6 +441,17 @@ require(['angular',
         }
       });
 
+      $stateProvider.state('index.space.trainer.watch', {
+        url: '/watch/:slide',
+        views: {
+          content: {
+            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
+            controller: 'dmXplatformSlide'
+          },
+          context: contextMenu(['history', 'notes'])
+        }
+      });
+
       $urlRouterProvider.when('/', '/courses');
       $urlRouterProvider.otherwise('/courses');
     });

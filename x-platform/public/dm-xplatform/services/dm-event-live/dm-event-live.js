@@ -40,6 +40,7 @@ class EventLive {
 
   createWorkspacePlayerSource($scope, workspaceId, statesaveId, initialState) {
     let player = this.dmPlayer.createPlayerSource(null, statesaveId, initialState);
+    this.dmPlayer.trigger('newWorkspace', workspaceId);
 
     this.watchWorkspace($scope, workspaceId, (patches) => {
       $scope.$apply(() => {

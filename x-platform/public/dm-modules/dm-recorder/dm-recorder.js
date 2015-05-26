@@ -12,7 +12,7 @@ define(
 
         var worker = new Worker.Recorder();
 
-        return _.extend(newListenable(), {
+        var self = _.extend(newListenable(), {
 
           updateState: function(slide) {
             return worker.newState(slide);
@@ -69,6 +69,9 @@ define(
           }
 
         });
+
+        self.trigger('newWorkspace', workspaceId);
+        return self;
       };
     });
   });
