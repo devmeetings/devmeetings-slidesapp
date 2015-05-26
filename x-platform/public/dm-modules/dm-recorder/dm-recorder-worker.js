@@ -4,6 +4,12 @@
 import jsondiffpatch from 'lib/json-diff';
 import _ from '_';
 
+let jsondiffpatch2 = jsondiffpatch.create({
+  textDiff: {
+    minLength: 1024*100
+  }
+});
+
 class Common {
   constructor() {
     this.state = null;
@@ -46,12 +52,12 @@ export class Recorder extends Common {
 
   newState(slide) {
     // Now calcualte diff
-    var patch = jsondiffpatch.diff(this.state.current, slide);
+    var patch = jsondiffpatch2.diff(this.state.current, slide);
     if (!patch) {
       return;
     }
 
-    jsondiffpatch.patch(this.state.current, JSON.parse(JSON.stringify(patch)));
+    jsondiffpatch2.patch(this.state.current, JSON.parse(JSON.stringify(patch)));
     return {
       timestamp: new Date().getTime(),
       patch: patch
@@ -77,7 +83,7 @@ export class Player extends Common {
       this.applyCurrentState(patches.current);
     } else {
       patches.patches.map((patch) => {
-        jsondiffpatch.patch(this.state.current, patch.patch);
+        jsondiffpatch2.patch(this.state.current, patch.patch);
       });
     }
 
@@ -89,8 +95,8 @@ export class Player extends Common {
       this.applyCurrentState(patches.current);
     } else {
       patches.patches.reverse().map((patch) => {
-        var revPatch = jsondiffpatch.reverse(patch.patch);
-        jsondiffpatch.patch(this.state.current, revPatch);
+        var revPatch = jsondiffpatch2.reverse(patch.patch);
+        jsondiffpatch2.patch(this.state.current, revPatch);
       });
     }
 
