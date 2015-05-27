@@ -2,7 +2,7 @@
 'use strict';
 
 
-import sliderPlugins from 'slide/slider.plugins';
+import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 import * as _ from '_';
 
@@ -14,7 +14,7 @@ class OutputFrame {
   }
 
   setAddress(url) {
-
+    this.$element.find('iframe').attr('src', url);
   }
 
 }
@@ -25,6 +25,7 @@ sliderPlugins.directive('swOutputFrame', () => {
 
   return {
     restrict: 'E',
+    replace: true,
     scope: {
       currentUrl: '=',
       isDead: '=',

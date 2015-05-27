@@ -1,0 +1,31 @@
+.slide-workspace.full-height
+  .row.full-height
+    .col-xs-6.full-height
+      sw-editor(
+        with-tabs="true"
+        with-tools="false"
+        tabs="model.workspace.tabs",
+        global-active-tab-name="model.workspace.active"
+        editor-options="model.workspace"
+        editor-undo-manager="model.undoManager"
+        editor-mode="model.mode"
+      )
+    .col-xs-6.full-height
+      sw-output-eval(
+        base-url="model.output.baseUrl"
+        hide-base-url="model.output.hideBaseUrl"
+        is-dead="model.output.isDead"
+        is-with-console="model.output.isWithConsole"
+      )
+           
+      sw-output(
+        with-console="model.output.isWithConsole"
+        with-console-in-columns="false"
+        with-address="model.isWithAddress()"
+        is-dead="model.output.isDead"
+        base-url="model.output.baseUrl"
+        hide-base-url="model.output.hideBaseUrl"
+        current-path="model.workspace.url"
+        applied-path="model.workspace.permaUrl"
+      )
+pre {{ model.output | json}}

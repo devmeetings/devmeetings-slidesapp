@@ -2,7 +2,7 @@
 'use strict';
 
 
-import sliderPlugins from 'slide/slider.plugins';
+import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 
 
@@ -12,6 +12,7 @@ sliderPlugins.directive('swOutputAddress', () => {
 
   return {
     restrict: 'E',
+    replace: true,
     scope: {
       withAddress: '=',
       onRefresh: '&',
@@ -21,8 +22,11 @@ sliderPlugins.directive('swOutputAddress', () => {
       currentPath: '=',
       appliedPath: '='
     },
+    bindToController: true,
+    controllerAs: 'model',
     templateUrl: path + '/sw-output-address.html',
-    link: function(scope) {
+    controller: function() {
+      let scope = this;
       scope.urlKeyPress = function(ev) {
         if (ev.keyCode !== 13) {
           return;

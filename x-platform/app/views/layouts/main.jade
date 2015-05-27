@@ -16,6 +16,8 @@ html.full-height(
     block css
       link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')
     block js2
+    if isDev
+      script(src="https://localhost:26000/livereload.js")
   body.full-height(ng-init="$root.modes = {};$root.title='#{title}';$root.icon='icon'")
     block content
     block scripts

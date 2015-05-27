@@ -1,0 +1,17 @@
+
+sw-editor-tabs(
+  ng-if="model.withTabs"
+  tabs="model.tabs"
+  active-tab-name="model.editorActiveTabName"
+  editor-undo-manager="model.editorUndoManager"  
+)
+
+dm-editor(
+  size='"xxl"', 
+  data='model.editorActiveTab',
+  name='model.editorActiveTabName',
+  undo-manager='model.editorUndoManager',
+  options='model.editorOptions',
+  editor-mode='model.editorMode',
+  trigger-change-later='triggerChangeLater()'
+)

@@ -303,6 +303,13 @@ define(['module', '_', 'angular', 'slider/slider.plugins'], function(module, _, 
     });
   }
 
+  function urlKeyPress(ev, scope) {
+    if (ev.keyCode !== 13) {
+      return;
+    }
+    scope.workspace.permaUrl = scope.workspace.url;
+  }
+
   sliderPlugins.directive('slideWorkspaceOutput', [
     '$timeout', '$window', '$rootScope', '$location', 'Sockets', 'dmPlayer',
     function($timeout, $window, $rootScope, $location, Sockets, dmPlayer) {

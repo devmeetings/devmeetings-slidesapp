@@ -2,7 +2,7 @@
 'use strict';
 
 
-import sliderPlugins from 'slide/slider.plugins';
+import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 import * as _ from '_';
 
@@ -21,8 +21,6 @@ sliderPlugins.directive('swOutputConsole', () => {
 
   return {
     restrict: 'E',
-    scope: {
-    },
     templateUrl: path + '/sw-output-console.html',
     link: function(scope, element) {
       let frame = new OutputConsole();

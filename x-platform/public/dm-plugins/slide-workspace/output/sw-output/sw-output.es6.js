@@ -2,9 +2,10 @@
 'use strict';
 
 
-import sliderPlugins from 'slide/slider.plugins';
+import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 import * as _ from '_';
+
 
 
 class SwOutput {
@@ -13,18 +14,24 @@ class SwOutput {
     _.extend(this, data);
   }
 
-  link(scope) {
+  controller(scope, $scope) {
 
-    scope.$watch('baseUrl', (newBaseUrl, oldBaseUrl) => {
+    $scope.$watch(() => scope.baseUrl, (newBaseUrl, oldBaseUrl) => {
       this.updateBaseUrl(scope, newBaseUrl, oldBaseUrl);
     });
 
-    scope.$watch('appliedPath', (newAppliedPath) => {
+    $scope.$watch(() => scope.currentPath, (currentPath)=>{
+      if (currentPath === undefined) {
+        scope.currentPath = '/';
+      }
+    });
+
+    $scope.$watch(() => scope.appliedPath, (newAppliedPath) => {
       this.updateAppliedPath(scope, newAppliedPath);
     });
 
-    scope.refreshCurrentUrl = () => {
-      this.refreshCurrentUrl(scope);
+    scope.applyCurrentUrl = () => {
+      this.applyCurrentUrl(scope);
     };
   }
 
@@ -44,9 +51,16 @@ class SwOutput {
     this.refreshCurrentUrl(scope);
   }
 
+  applyCurrentUrl(scope) {
+    scope.currentBaseUrl = scope.baseUrl;
+    scope.currentAppliedPath = scope.appliedPath;
+    this.refreshCurrentUrl(scope);
+  }
+
   refreshCurrentUrl(scope) {
-    let randomPart = this.getRandomPart(scope.currentAppliedPath);
-    scope.currentUrl = scope.currentBaseUrl + scope.currentAppliedPath + randomPart;
+    let path = scope.currentAppliedPath || '/';
+    let randomPart = this.getRandomPart(path);
+    scope.currentUrl = scope.currentBaseUrl + path + randomPart;
   }
 
   getRandomPart(path) {
@@ -70,6 +84,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
 
   return {
     restrict: 'E',
+    replace: true,
     scope: {
       withConsole: '=',
       withConsoleInColumns: '=',
@@ -80,15 +95,17 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       currentPath: '=',
       appliedPath: '='
     },
+    bindToController: true,
+    controllerAs: 'model',
     templateUrl: path + '/sw-output.html',
-    link: function(scope) {
-      scope.output = {};
+    controller($scope) {
+      this.output = {};
 
       let output = new SwOutput({
         $rootScope
       });
 
-      output.link(scope);
+      output.controller(this, $scope);
     }
   };
 

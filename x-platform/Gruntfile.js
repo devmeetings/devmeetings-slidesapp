@@ -35,6 +35,12 @@ module.exports = function(grunt) {
     };
   };
 
+  var livereloadOptions = {
+    port: 26000,
+    key: grunt.file.read('./config/certs/server.key'),
+    cert: grunt.file.read('./config/certs/server.crt')
+  };
+
   grunt.initConfig({
     copy: {
       theme: {
@@ -118,21 +124,21 @@ module.exports = function(grunt) {
         files: ['public/**/**.less'],
         tasks: ['less:server'],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       },
       js: {
         files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', 'public/dm-modules/**/*.js', 'public/dm-xplayer/**/*.js'],
         tasks: ['jshint:public'],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       },
       jade: {
         files: ['public/dm-plugins/**/*.jade'],
         tasks: [],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       },
       server: {
@@ -142,7 +148,7 @@ module.exports = function(grunt) {
       rebootServer: {
         files: ['.rebooted'],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       }
     },
