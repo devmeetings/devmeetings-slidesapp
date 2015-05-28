@@ -66,6 +66,8 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
       });
     });
 
+    $scope.courses_filter = '';
+
     $scope.getUnsafeAddress = function(course) {
       return dmSpaceRedirect.getUnsafeAddress().replace('/courses', '/space/' + course._id + '/learn/agenda');
     };
