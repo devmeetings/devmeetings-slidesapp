@@ -6,14 +6,15 @@ module.exports = function(grunt) {
 
 
   var SERVER_PORT = 3000;
+  var VERSION_PATH = '.version';
 
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
-  if ( !( grunt.file.exists('.version') ) )  {
-    generateAndSaveNewVersion('.version');
+  if ( !( grunt.file.exists(VERSION_PATH) ) )  {
+    generateAndSaveNewVersion(VERSION_PATH);
   }
-  var version = grunt.file.read('.version');
+  var version = grunt.file.read(VERSION_PATH);
 
   var rjsOptimizationModule = function(path, module) {
     return {
@@ -216,7 +217,7 @@ module.exports = function(grunt) {
   }
 
   grunt.registerTask('bump-version', 'Version bump', function(){
-    generateAndSaveNewVersion('.version');
+    generateAndSaveNewVersion(VERSION_PATH);
   });
 
   grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
