@@ -10,6 +10,9 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
+  if ( !( grunt.file.exists('.version') ) )  {
+    generateAndSaveNewVersion('.version');
+  }
   var version = grunt.file.read('.version');
 
   var rjsOptimizationModule = function(path, module) {
