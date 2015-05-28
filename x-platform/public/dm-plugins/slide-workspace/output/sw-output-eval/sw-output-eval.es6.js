@@ -19,6 +19,7 @@ class SwOutputEval {
     sliderPlugins.listen(scope, 'slide.slide-workspace.change', () => {
       this.dmPlayer.getCurrentStateId().then((id) => {
         scope.baseUrl = '/api/page/' + id;
+        scope.codeId = id;
       });
     });
   }
@@ -32,6 +33,7 @@ sliderPlugins.directive('swOutputEval', (dmPlayer) => {
     replace: true,
     scope: {
       baseUrl: '=',
+      codeId: '=',
       hideBaseUrl: '=',
       isDead: '=',
       isWithConsole: '='

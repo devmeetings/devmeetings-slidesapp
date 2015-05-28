@@ -1,4 +1,7 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', './workspace-undo-manager', './sw-splitter'],
+define([
+    'module', '_', 'slider/slider.plugins', 'ace', 'js-beautify', 
+    './workspace-undo-manager', './sw-splitter'
+  ],
   function(module, _, sliderPlugins, ace, jsBeautify, WorkspaceUndoManager) {
     'use strict';
 

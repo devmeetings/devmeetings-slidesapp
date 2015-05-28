@@ -5,16 +5,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 import * as _ from '_';
-
-
-
-// TODO [ToDr] This is duplicated in dm-editor
-function getExtension(name) {
-  name = name || '';
-  var name2 = name.split('|');
-  return name2[name2.length - 1];
-}
-
+import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
 
 class Tab {

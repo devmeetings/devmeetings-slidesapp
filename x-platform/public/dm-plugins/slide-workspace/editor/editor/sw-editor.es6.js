@@ -58,9 +58,13 @@ sliderPlugins.directive('swEditor', () => {
     scope: {
       withTabs: '=',
       withTools: '=',
+      withToolsUrl: '=',
+      currentUrl: '=',
+      downloadId: '=',
+      showUrl: '=',
       tabs: '=',
       globalActiveTabName: '=',
-      // editorActiveTabName: '=',
+      editorActiveTabName: '=',
       editorOptions: '=',
       editorMode: '=',
       editorUndoManager: '='

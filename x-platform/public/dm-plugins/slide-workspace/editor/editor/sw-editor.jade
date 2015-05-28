@@ -6,6 +6,17 @@ sw-editor-tabs(
   editor-undo-manager="model.editorUndoManager"  
 )
 
+sw-editor-tools(
+  ng-if="model.withTools"
+  with-url-button="model.withToolsUrl"
+  show-url="model.showUrl"
+  current-url="model.currentUrl"
+  download-id="model.downloadId"
+  active-tab="model.editorActiveTab"
+  active-tab-name="model.editorActiveTabName"
+  on-new-workspace="model.onNewWorkspace({workspace: workspace})"
+)
+
 dm-editor(
   size='"xxl"', 
   data='model.editorActiveTab',

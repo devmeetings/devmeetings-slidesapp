@@ -3,7 +3,11 @@
     .col-xs-6.full-height
       sw-editor(
         with-tabs="true"
-        with-tools="false"
+        with-tools="true"
+        with-tools-url="true"
+        current-url="model.output.currentUrl"
+        download-id="model.output.codeId"
+        show-url=""
         tabs="model.workspace.tabs",
         global-active-tab-name="model.workspace.active"
         editor-options="model.workspace"
@@ -13,6 +17,7 @@
     .col-xs-6.full-height
       sw-output-eval(
         base-url="model.output.baseUrl"
+        code-id="model.output.codeId"
         hide-base-url="model.output.hideBaseUrl"
         is-dead="model.output.isDead"
         is-with-console="model.output.isWithConsole"
@@ -27,5 +32,6 @@
         hide-base-url="model.output.hideBaseUrl"
         current-path="model.workspace.url"
         applied-path="model.workspace.permaUrl"
+        current-url="model.output.currentUrl"
       )
 pre {{ model.output | json}}

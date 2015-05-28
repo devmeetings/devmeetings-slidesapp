@@ -6,8 +6,6 @@ import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 import * as _ from '_';
 
-
-
 class SwOutput {
 
   constructor(data) {
