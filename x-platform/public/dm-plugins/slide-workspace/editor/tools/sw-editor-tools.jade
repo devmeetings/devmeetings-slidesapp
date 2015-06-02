@@ -1,6 +1,6 @@
 ul.nav.nav-tabs.pull-right
 
-  li.workspace-tab.pull-right.workspace-tab-condensed(
+  li.workspace-tab.workspace-tab-condensed(
     ng-if="model.withUrlButton"
     )
     a.cursor-pointer(
@@ -14,7 +14,7 @@ ul.nav.nav-tabs.pull-right
       span.fa.fa-list(ng-show="model.showUrl")
       span.fa.fa-list-alt(ng-show="!model.showUrl")
 
-  li.workspace-tab.pull-right.workspace-tab-condensed(
+  li.workspace-tab.workspace-tab-condensed(
     ng-if="!model.showUrl && model.withUrlButton"
     )
     a.cursor-pointer(
@@ -28,7 +28,7 @@ ul.nav.nav-tabs.pull-right
       )
       span.fa.fa-external-link
 
-  li.workspace-tab.workspace-download.pull-right.workspace-tab-condensed
+  li.workspace-tab.workspace-download.workspace-tab-condensed
     a.cursor-pointer(
       ng-href="/api/download/{{ model.downloadId }}"
       target="_self"
@@ -40,7 +40,7 @@ ul.nav.nav-tabs.pull-right
       )
       span.fa.fa-download
 
-  li.workspace-tab.workspace-upload.pull-right.workspace-tab-condensed
+  li.workspace-tab.workspace-upload.workspace-tab-condensed
     a(ng-if="model.isUploading")
       | Uploading {{ model.uploadingState }}%
     div.cursor-pointer(
@@ -60,7 +60,7 @@ ul.nav.nav-tabs.pull-right
         )
       span.fa.fa-upload
 
-  li.workspace-tab.workspace-tab-condensed.pull-right
+  li.workspace-tab.workspace-tab-condensed
     a.cursor-pointer(
       ng-click="model.formatTab()",
       ng-disabled="!model.hasFormatting"
@@ -70,5 +70,17 @@ ul.nav.nav-tabs.pull-right
       tooltip-append-to-body="true"
       )
       span.fa.fa-indent
+
+  li.workspace-tab.workspace-tab-condensed
+    a.cursor-pointer(
+      ng-click="model.toggleAutoReload()",
+      tooltip="AutoReload your code"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      tooltip-append-to-body="true"
+      )
+      span.fa.fa-square-o(ng-show="!model.isAutoReload()")
+      span.fa.fa-check-square-o(ng-show="model.isAutoReload()")
+
 
 

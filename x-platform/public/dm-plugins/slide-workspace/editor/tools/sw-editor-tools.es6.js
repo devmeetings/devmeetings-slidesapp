@@ -33,6 +33,29 @@ class SwEditorTools {
       self.activeTab.content = formatter.format(self.activeTabName, self.activeTab.content);
       self.onRefreshContent();
     };
+
+    self.toggleAutoReload = () => {
+      this.setAutoReload(!this.isAutoReload());
+    };
+
+    self.isAutoReload = () => this.isAutoReload();
+  }
+
+  isAutoReload() {
+    return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
+  }
+
+  setAutoReload(enabled) {
+    let perf = this.$rootScope.performance;
+
+    if (enabled && !this.isAutoReload()) {
+      perf.splice(perf.indexOf('workspace_output_noauto'), 1);
+      return;
+    }
+    if (!enabled && this.isAutoReload()) {
+      perf.push('workspace_output_noauto');
+      return;
+    }
   }
 
 
@@ -78,7 +101,7 @@ class SwEditorTools {
 }
 
 var path = sliderPlugins.extractPath(module);
-sliderPlugins.directive('swEditorTools', ($window, $upload) => {
+sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
 
   return {
     restrict: 'E',
@@ -97,7 +120,7 @@ sliderPlugins.directive('swEditorTools', ($window, $upload) => {
     templateUrl: path + '/sw-editor-tools.html',
     controller: function($scope) {
       let tools = new SwEditorTools({
-        $scope, $window, $upload
+        $scope, $rootScope, $window, $upload
       });
       tools.controller(this);
     }
