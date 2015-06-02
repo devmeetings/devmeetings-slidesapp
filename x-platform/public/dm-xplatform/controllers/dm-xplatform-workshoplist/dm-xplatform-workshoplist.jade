@@ -21,7 +21,6 @@ mixin course(uisref, nghref)
         span.fa.fa-2x.fa-trash.text-danger.pull-right(ng-if='editMode', ng-click='remove(cours)', ng-style='{"z-index": "10"}')
         input(ng-if='$root.editMode', type='checkbox', ng-model='cours.visible', ng-change='visibilityChanged(cours)')
 
-
 .container
   .col-md-12
     .dm-workshoplist-container
@@ -30,9 +29,8 @@ mixin course(uisref, nghref)
           .col-md-4
             input.form-control(
               type="text"
-              ng-model="courses_filter"
+              ng-model="vmWorkshoplist.courses_filter"
               placeholder="Search for courses"
-              ng-click='console.log(courses_filter)'
             )
           .col-md-8
             .pull-right
@@ -44,7 +42,7 @@ mixin course(uisref, nghref)
                   )
                   | Show All Courses
       .row
-        .col-md-4(ng-repeat="cours in courses | orderBy:['order','title'] | filter:courses_filter", ng-if='cours.visible || editMode')
+        .col-md-4(ng-repeat="cours in courses | orderBy:['order','title'] | filter:vmWorkshoplist.courses_filter", ng-if='cours.visible || editMode')
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
           div(ng-if="!cours.shouldRedirectToUnsafe")
@@ -52,7 +50,7 @@ mixin course(uisref, nghref)
       .row(ng-if="my_courses.length")
         .col-xs-12
           h3 Your Previous Workshops
-        .col-sm-4(ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title']")
+        .col-sm-4(ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title'] | filter:courses_filter")
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
           div(ng-if="!cours.shouldRedirectToUnsafe")

@@ -225,7 +225,7 @@ require(['angular',
         views: {
           mid: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.html',
-            controller: 'dmXplatformWorkshoplist'
+            controller: 'dmXplatformWorkshoplist as vmWorkshoplist'
           }
         },
         onEnter: function($rootScope, dmBrowserTab) {
