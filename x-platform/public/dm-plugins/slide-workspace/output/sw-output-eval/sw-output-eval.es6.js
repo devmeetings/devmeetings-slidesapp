@@ -6,6 +6,41 @@ import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
 
 
+class ShouldRefreshLogic {
+
+
+  shouldRefresh(patches) {
+    return _.any(patches, this.shouldRefreshSingle, this);
+  }
+
+  shouldRefreshSingle(patch) {
+    if (patch.current) {
+      return true;
+    }
+
+    var workspace = patch.patch.workspace;
+    if (!workspace) {
+      return false;
+    }
+
+    var tabs = workspace.tabs;
+    if (!tabs) {
+      return false;
+    }
+
+    return _.any(
+      Object.keys(tabs).map((tabName) => {
+        if (tabs[tabName].content) {
+          return true;
+        }
+        return false;
+      })
+    );
+  }
+}
+
+
+
 
 class SwOutputEvalFrontend {
 
@@ -15,7 +50,9 @@ class SwOutputEvalFrontend {
 
   controller(scope) {
     this.dmPlayer.onSyncStarted(scope, (patches) => {
-      // TODO [ToDr] Determine if we need to refresh the workspace?
+      if (!this.refreshLogic.shouldRefresh(patches)) {
+        return;
+      }
       scope.isSyncing = true;
     });
 
@@ -45,7 +82,9 @@ class SwOutputEvalServer {
 
   controller(scope) {
     this.dmPlayer.onSyncStarted(scope, (patches) => {
-      // TODO [ToDr] Determine if we need to refresh the workspace?
+      if (!this.refreshLogic.shouldRefresh(patches)) {
+        return;
+      }
       scope.isSyncing = true;
     });
 
@@ -106,13 +145,16 @@ sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
       isSyncing: '='
     },
     controller: function($scope) {
+
+      let refreshLogic = new ShouldRefreshLogic();
+
       if ($scope.serverRunner) {
         $scope.hideBaseUrl = false;
         $scope.isDead = true;
         $scope.isWithConsole = true;
 
         let eva = new SwOutputEvalServer({
-          dmPlayer, $location, $timeout
+          dmPlayer, refreshLogic, $location, $timeout
         });
         eva.controller($scope);
 
@@ -122,7 +164,7 @@ sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
         $scope.isWithConsole = false;
 
         let eva = new SwOutputEvalFrontend({
-          dmPlayer
+          dmPlayer, refreshLogic
         });
         eva.controller($scope);
       }
