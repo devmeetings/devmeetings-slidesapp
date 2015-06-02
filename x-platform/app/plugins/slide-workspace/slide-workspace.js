@@ -105,6 +105,11 @@ function pushOtherFiles(res, files, internalFile) {
   }).map(function(internalName) {
     var realName = getRealFileName(internalName);
 
+    var content = files[internalName];
+    if (!content) {
+      return;
+    }
+
     res.push(realName, {
       'Content-Type': guessType(internalName)
     }, function(err, stream){
@@ -116,7 +121,7 @@ function pushOtherFiles(res, files, internalFile) {
         console.log('error', internalName, err);
       });
 
-      stream.end(files[internalName]);
+      stream.end(content);
     });
   });
 }

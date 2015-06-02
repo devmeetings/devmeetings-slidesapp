@@ -87,7 +87,7 @@ define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, 
               editor.resize();
             });
 
-            scope.$on('slide:update', function() {
+            scope.$on('editor:update', function() {
               if (!scope.data) {
                 return;
               }

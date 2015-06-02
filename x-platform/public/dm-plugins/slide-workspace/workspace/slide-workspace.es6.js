@@ -21,8 +21,6 @@ function controllerF(self, $scope) {
   self.onNewWorkspace = (workspace) => {
     self.workspace.active = workspace.active;
     self.workspace.tabs = workspace.tabs;
-
-    $scope.$broadcast('slide:update');
   };
 
   self.onEditorChange = () => {

@@ -31,24 +31,32 @@ class SwEditor {
 
     // Synchronize name -> tab
     this.$watch(() => self.editorActiveTabName, (activeTabName, oldName) => {
-      self.editorActiveTab = self.tabs[activeTabName];
+      this.refreshActiveTab(self);
       if (activeTabName !== oldName) {
         self.editorUndoManager.setUpTabsSwitched(true);
       }
     });
 
     self.onRefreshContent = () => {
-      this.$scope.$broadcast('slide:update');
+      this.$scope.$broadcast('editor:update');
     };
+
+    // observe when tabs are changing
+    this.$watch(() => self.tabs, () => {
+      this.refreshActiveTab(self);
+    });
 
     self.localOnNewWorkspace = (workspace) => {
       self.onNewWorkspace({
         workspace: workspace
       });
-      // Refresh active tab
-      self.editorActiveTab = self.tabs[self.activeTabName];
+      this.refreshActiveTab(self);
     };
+  }
 
+  refreshActiveTab(self) {
+    // Refresh active tab
+    self.editorActiveTab = self.tabs[self.editorActiveTabName];
   }
 
 

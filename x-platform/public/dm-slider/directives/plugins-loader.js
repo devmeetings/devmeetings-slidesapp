@@ -56,6 +56,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
             if (!newContext) {
               return;
             }
+
             if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
               // Just broadcast info about new context
               childScope.$broadcast('slide:update');
