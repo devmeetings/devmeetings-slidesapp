@@ -1,0 +1,13 @@
+include ./common
+
+.sw-row(
+    ng-style="{height: model.output.topSize}"
+  )
+  +editor()
+
+sw-splitter(left="model.output.topSize", right="model.output.bottomSize", drag-active="model.output.dragActive", is-row="true")
+.sw-row(
+  ng-style="{height: model.output.bottomSize}"
+)
+  .overlay(ng-if="model.output.dragActive")
+  +output(true)

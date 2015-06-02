@@ -1,39 +1,20 @@
 .slide-workspace.full-height
-  .row.full-height
-    .col-xs-6.full-height
-      sw-editor(
-        with-tabs="true"
-        with-tools="true"
-        with-tools-url="model.workspace.showUrl !== false"
-        current-url="model.output.currentUrl"
-        download-id="model.output.codeId"
-        show-url="model.output.showUrl"
-        tabs="model.workspace.tabs",
-        global-active-tab-name="model.workspace.active"
-        editor-options="model.workspace"
-        editor-undo-manager="model.undoManager"
-        editor-mode="model.mode",
-        on-new-workspace="model.onNewWorkspace(workspace)"
-        on-change="model.onEditorChange()"
-      )
-    .col-xs-6.full-height
-      sw-output-eval(
-        base-url="model.output.baseUrl"
-        code-id="model.output.codeId"
-        hide-base-url="model.output.hideBaseUrl"
-        is-dead="model.output.isDead"
-        is-syncing="model.output.isSyncing"
-        is-with-console="model.output.isWithConsole"
-      )
-           
-      sw-output(
-        with-console="model.output.isWithConsole"
-        with-console-in-columns="false"
-        with-address="model.workspace.showUrl !== false || model.output.showUrl"
-        is-dead="model.output.isDead"
-        base-url="model.output.baseUrl"
-        hide-base-url="model.output.hideBaseUrl"
-        current-path="model.workspace.url"
-        applied-path="model.workspace.permaUrl"
-        current-url="model.output.currentUrl"
-      )
+  sw-output-eval(
+    base-url="model.output.baseUrl"
+    code-id="model.output.codeId"
+    hide-base-url="model.output.hideBaseUrl"
+    is-dead="model.output.isDead"
+    is-syncing="model.output.isSyncing"
+    is-with-console="model.output.isWithConsole"
+  )
+
+  .full-height(ng-if="model.layout.name === 'tabs'")
+    include ../layouts/tabs
+  .full-height(ng-if="model.layout.name === 'tabs-v'")
+    include ../layouts/tabs-v
+
+  div.text-muted.layout-chooser
+    span.fa.fa-code(ng-click="showLayoutChooser = !showLayoutChooser")
+    select(ng-model="layout.name", ng-show="showLayoutChooser", ng-change="showLayoutChooser = false")
+      option(value="tabs") Classic
+      option(value="tabs-v") Classic V

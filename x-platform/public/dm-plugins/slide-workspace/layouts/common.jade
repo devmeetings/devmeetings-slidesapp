@@ -1,0 +1,30 @@
+mixin editor()
+  sw-editor(
+    with-tabs="true"
+    with-tools="true"
+    with-tools-url="model.workspace.showUrl === false"
+    current-url="model.output.currentUrl"
+    download-id="model.output.codeId"
+    show-url="model.output.showUrl"
+    tabs="model.workspace.tabs",
+    global-active-tab-name="model.workspace.active"
+    editor-options="model.workspace"
+    editor-undo-manager="model.undoManager"
+    editor-mode="model.mode",
+    on-new-workspace="model.onNewWorkspace(workspace)"
+    on-change="model.onEditorChange()"
+  )
+
+mixin output(withConsoleInColumns)
+  - withConsoleInColumns = withConsoleInColumns || false
+  sw-output(
+    with-console="model.output.isWithConsole"
+    with-console-in-columns="#{withConsoleInColumns}"
+    with-address="model.workspace.showUrl !== false || model.output.showUrl"
+    is-dead="model.output.isDead"
+    base-url="model.output.baseUrl"
+    hide-base-url="model.output.hideBaseUrl"
+    current-path="model.workspace.url"
+    applied-path="model.workspace.permaUrl"
+    current-url="model.output.currentUrl"
+  )

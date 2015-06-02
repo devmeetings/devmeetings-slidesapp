@@ -15,7 +15,7 @@ ul.nav.nav-tabs.pull-right
       span.fa.fa-list-alt(ng-show="!model.showUrl")
 
   li.workspace-tab.pull-right.workspace-tab-condensed(
-    ng-if="!model.showUrl && !model.withUrlButton"
+    ng-if="!model.showUrl && model.withUrlButton"
     )
     a.cursor-pointer(
       ng-href="{{ model.currentUrl }}", 

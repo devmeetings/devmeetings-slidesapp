@@ -10,6 +10,9 @@ let path = sliderPlugins.extractPath(module);
 
 function controllerF(self, $scope) {
   self.output = {};
+  self.layout = {
+    name: 'tabs'
+  };
 
   self.undoManager = new WorkspaceUndoManager(self, self.workspace.tabs);
 
