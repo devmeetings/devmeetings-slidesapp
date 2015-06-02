@@ -3,41 +3,76 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
+import * as _ from '_';
 import WorkspaceUndoManager from '../workspace-undo-manager';
 
 let path = sliderPlugins.extractPath(module);
 
+class SwMain {
 
-function controllerF(self, $scope) {
-  self.output = {};
-  self.layout = {
-    name: 'tabs'
-  };
+  constructor(data) {
+    _.extend(this, data);
+  }
 
-  self.undoManager = new WorkspaceUndoManager(self, self.workspace.tabs);
+  isAutoOutput() {
+    return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
+  }
 
-  // When changing slides
-  $scope.$watch(() => self.workspace.tabs, () => {
-    self.undoManager.reset();
-  });
+  controller(self) {
+    self.output = {};
+    self.layout = {
+      name: 'tabs'
+    };
 
-  self.onNewWorkspace = (workspace) => {
-    self.workspace.active = workspace.active;
-    self.workspace.tabs = workspace.tabs;
-  };
+    self.undoManager = new WorkspaceUndoManager(self, self.workspace.tabs);
 
-  self.onEditorChange = () => {
-    sliderPlugins.trigger('slide.slide-workspace.change', self.workspace);
-  };
+    self.onNewWorkspace = (workspace) => {
+      self.workspace.active = workspace.active;
+      self.workspace.tabs = workspace.tabs;
+    };
 
-  self.onRefresh = () => {
-    $scope.$broadcast('refreshUrl');
-  };
+    self.onEditorChange = () => {
+      sliderPlugins.trigger('slide.slide-workspace.change', self.workspace);
+    };
+
+    self.onEvalOutput = () => {
+      self.output.needsEval = false;
+      this.$scope.$broadcast('evalOutput');
+    };
+
+    self.onRefresh = () => {
+      this.$scope.$broadcast('refreshUrl');
+    };
+
+    self.evalIfAutoOutput = () => {
+      self.output.needsEval = true;
+      if (this.isAutoOutput()) {
+        self.onEvalOutput();
+      }
+    };
+
+    this.$scope.$watch(() => self.output.codeId, (newCodeId, oldCodeId) => {
+      if (newCodeId === oldCodeId) {
+        return;
+      }
+      self.evalIfAutoOutput();
+    });
+
+    // When changing slides
+    this.$scope.$watch(() => self.workspace.tabs, () => {
+      self.undoManager.reset();
+    });
+
+    this.$timeout(()=>{
+      self.evalIfAutoOutput();
+    }, 500);
+  }
+
 }
 
 sliderPlugins
   .registerPlugin('slide', 'workspace', 'slide-workspace-new', 3850)
-  .directive('slideWorkspaceNew', () => {
+  .directive('slideWorkspaceNew', ($rootScope, $timeout) => {
     return {
       restrict: 'E',
       scope: {
@@ -50,7 +85,10 @@ sliderPlugins
       controllerAs: 'model',
       templateUrl: path + '/slide-workspace.html',
       controller($scope) {
-        controllerF(this, $scope);
+        let sw = new SwMain({
+          $rootScope, $scope, $timeout
+        });
+        sw.controller(this);
       }
     };
   });

@@ -22,7 +22,8 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           slide: '=context'
         },
         templateUrl: path + '/slide-serverRunner.html',
-        link: function(scope) {
+        controller: function($scope) {
+          var scope = $scope;
           scope.success = true;
 
           updateScope = function(data) {
@@ -37,6 +38,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           };
 
           var lastStateId;
+
           function emitRun(prop, path) {
             if (!lastStateId) {
               return;

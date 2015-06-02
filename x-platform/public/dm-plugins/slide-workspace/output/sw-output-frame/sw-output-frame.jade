@@ -1,12 +1,12 @@
 .slide-workspace-outputs.full-height(
   ng-class="{'with-address': withAddress}"
   )
-  .text-center.margin-top-20(
+  .text-center(
     ng-if="isDead === true"
     )
     h1.text-danger
       span.fa.fa-power-off
-    h4.text-muted No server at {{ currentUrl }}
+    h4.text-muted No server at {{ baseUrl }}
   .full-height(
       ng-if="isDead === false"
       ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")

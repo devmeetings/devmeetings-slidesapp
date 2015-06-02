@@ -14,8 +14,13 @@ class SwOutput {
 
   controller(scope, $scope) {
 
-    $scope.$watch(() => scope.baseUrl, (newBaseUrl, oldBaseUrl) => {
-      this.updateBaseUrl(scope, newBaseUrl, oldBaseUrl);
+    $scope.$watch(() => scope.appliedPath, (newPath, oldPath) => {
+      if (newPath === oldPath) {
+        return;
+      }
+      if (this.isAutoOutput()) {
+        this.applyCurrentUrl(scope);
+      }
     });
 
     $scope.$watch(() => scope.currentPath, (currentPath) => {
@@ -24,34 +29,13 @@ class SwOutput {
       }
     });
 
-    $scope.$watch(() => scope.appliedPath, (newAppliedPath) => {
-      this.updateAppliedPath(scope, newAppliedPath);
-    });
-
     $scope.$on('refreshUrl', () => {
       this.applyCurrentUrl(scope);
-      this.refreshCurrentUrl(scope);
     });
 
     scope.applyCurrentUrl = () => {
       this.applyCurrentUrl(scope);
     };
-  }
-
-  updateBaseUrl(scope, newBaseUrl) {
-    if (!this.isAutoOutput()) {
-      return;
-    }
-    scope.currentBaseUrl = newBaseUrl;
-    this.refreshCurrentUrl(scope);
-  }
-
-  updateAppliedPath(scope, newAppliedPath) {
-    if (!this.isAutoOutput()) {
-      return;
-    }
-    scope.currentAppliedPath = newAppliedPath;
-    this.refreshCurrentUrl(scope);
   }
 
   applyCurrentUrl(scope) {
@@ -60,9 +44,16 @@ class SwOutput {
     this.refreshCurrentUrl(scope);
   }
 
+  isAutoOutput() {
+    return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
+  }
+
   refreshCurrentUrl(scope) {
     let path = scope.currentAppliedPath || '/';
     let randomPart = this.getRandomPart(path);
+    if (!scope.currentBaseUrl) {
+      return;
+    }
     scope.currentUrl = scope.currentBaseUrl + path + randomPart;
   }
 
@@ -76,9 +67,6 @@ class SwOutput {
     return '?' + part;
   }
 
-  isAutoOutput() {
-    return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
-  }
 }
 
 var path = sliderPlugins.extractPath(module);
@@ -96,7 +84,10 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       baseUrl: '=',
       hideBaseUrl: '=',
       currentPath: '=',
-      appliedPath: '='
+      appliedPath: '=',
+
+      onNotifyEval: '&',
+      needsEval: '=',
     },
     bindToController: true,
     controllerAs: 'model',

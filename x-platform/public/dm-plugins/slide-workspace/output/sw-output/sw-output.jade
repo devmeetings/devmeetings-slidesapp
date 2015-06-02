@@ -2,7 +2,7 @@ mixin frameWithAddress()
   sw-output-address(
       with-address="model.withAddress"
       on-refresh="model.applyCurrentUrl()"
-      highlight-refresh="model.currentBaseUrl !== model.baseUrl || model.currentAppliedPath !== model.appliedPath"
+      highlight-refresh="model.needsEval"
       base-url="model.baseUrl"
       hide-base-url="model.hideBaseUrl"
       current-path="model.currentPath"
@@ -10,6 +10,7 @@ mixin frameWithAddress()
     )
 
   sw-output-frame(
+      base-url="model.baseUrl"
       with-address="model.withAddress"
       current-url="model.currentUrl"
       is-dead="model.isDead"

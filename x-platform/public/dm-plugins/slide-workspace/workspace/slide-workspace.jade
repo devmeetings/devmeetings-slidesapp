@@ -1,5 +1,10 @@
 .slide-workspace.full-height
   sw-output-eval(
+    workspace="model.workspace"
+    path="model.path"
+    server-runner="model.slide.serverRunner"
+    on-refresh="model.onRefresh()"
+
     base-url="model.output.baseUrl"
     code-id="model.output.codeId"
     hide-base-url="model.output.hideBaseUrl"

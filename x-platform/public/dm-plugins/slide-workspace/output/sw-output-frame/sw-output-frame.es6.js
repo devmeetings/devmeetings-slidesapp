@@ -27,6 +27,7 @@ sliderPlugins.directive('swOutputFrame', () => {
     restrict: 'E',
     replace: true,
     scope: {
+      baseUrl: '=',
       currentUrl: '=',
       isDead: '=',
       withAddress: '='
@@ -38,6 +39,9 @@ sliderPlugins.directive('swOutputFrame', () => {
       });
 
       scope.$watch('currentUrl', (url) => {
+        if (!url) {
+          return;
+        }
         frame.setAddress(url);
       });
     }

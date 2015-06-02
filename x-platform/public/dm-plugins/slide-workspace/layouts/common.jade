@@ -3,6 +3,7 @@ mixin editor()
     with-tabs="true"
     with-tools="true"
     with-tools-url="model.workspace.showUrl === false"
+
     current-url="model.output.currentUrl"
     download-id="model.output.codeId"
     show-url="model.output.showUrl"
@@ -11,9 +12,10 @@ mixin editor()
     editor-options="model.workspace"
     editor-undo-manager="model.undoManager"
     editor-mode="model.mode",
+
     on-new-workspace="model.onNewWorkspace(workspace)"
     on-change="model.onEditorChange()"
-    on-refresh="model.onRefresh()"
+    on-refresh="model.onEvalOutput()"
   )
 
 mixin output(withConsoleInColumns)
@@ -22,6 +24,8 @@ mixin output(withConsoleInColumns)
     with-console="model.output.isWithConsole"
     with-console-in-columns="#{withConsoleInColumns}"
     with-address="model.workspace.showUrl !== false || model.output.showUrl"
+    on-notify-eval="model.evalIfAutoOutput()"
+    needs-eval="model.output.needsEval"
     is-dead="model.output.isDead"
     base-url="model.output.baseUrl"
     hide-base-url="model.output.hideBaseUrl"
