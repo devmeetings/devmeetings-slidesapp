@@ -18,7 +18,7 @@ class SwOutput {
       this.updateBaseUrl(scope, newBaseUrl, oldBaseUrl);
     });
 
-    $scope.$watch(() => scope.currentPath, (currentPath)=>{
+    $scope.$watch(() => scope.currentPath, (currentPath) => {
       if (currentPath === undefined) {
         scope.currentPath = '/';
       }
@@ -26,6 +26,11 @@ class SwOutput {
 
     $scope.$watch(() => scope.appliedPath, (newAppliedPath) => {
       this.updateAppliedPath(scope, newAppliedPath);
+    });
+
+    $scope.$on('refreshUrl', () => {
+      this.applyCurrentUrl(scope);
+      this.refreshCurrentUrl(scope);
     });
 
     scope.applyCurrentUrl = () => {

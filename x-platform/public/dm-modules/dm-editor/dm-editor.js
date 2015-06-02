@@ -22,6 +22,7 @@ define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, 
           name: '=',
           editorMode: '=',
           triggerChangeLater: '&',
+          onSaveAction: '&'
         },
         templateUrl: '/static/dm-modules/dm-editor/dm-editor.html',
         link: function(scope, element) {
@@ -62,6 +63,17 @@ define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, 
               enableBasicAutocompletion: !scope.options.noAutocomplete,
               enableSnippets: !scope.options.noAutocomplete,
               behavioursEnabled: !scope.options.noAutocomplete
+            });
+            editor.commands.addCommand({
+              name: 'saveFile',
+              bindKey: {
+                win: 'Ctrl-S',
+                mac: 'Command-S',
+                sender: 'editor|cli'
+              },
+              exec: function() {
+                scope.onSaveAction();
+              }
             });
 
             function focusEditor() {

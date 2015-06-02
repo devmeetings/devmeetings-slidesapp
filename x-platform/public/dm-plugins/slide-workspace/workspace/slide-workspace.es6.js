@@ -29,6 +29,10 @@ function controllerF(self, $scope) {
   self.onEditorChange = () => {
     sliderPlugins.trigger('slide.slide-workspace.change', self.workspace);
   };
+
+  self.onRefresh = () => {
+    $scope.$broadcast('refreshUrl');
+  };
 }
 
 sliderPlugins

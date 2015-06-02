@@ -91,7 +91,8 @@ sliderPlugins.directive('swEditor', () => {
       editorUndoManager: '=',
 
       onNewWorkspace: '&',
-      onChange: '&'
+      onChange: '&',
+      onRefresh: '&'
     },
     bindToController: true,
     controllerAs: 'model',
