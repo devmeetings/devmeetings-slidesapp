@@ -47,9 +47,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
   }
 
 
-  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $log, $stateParams, dmEvents, dmUser, dmSpaceRedirect) {
-
-    $scope.$log = $log;
+  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $stateParams, dmEvents, dmUser, dmSpaceRedirect) {
 
     dmEvents.allEvents().then(function(events) {
       $scope.courses = events;

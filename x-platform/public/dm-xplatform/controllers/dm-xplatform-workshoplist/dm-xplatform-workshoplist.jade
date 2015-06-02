@@ -42,7 +42,9 @@ mixin course(uisref, nghref)
                   )
                   | Show All Courses
       .row
-        .col-md-4(ng-repeat="cours in courses | orderBy:['order','title'] | filter:vmWorkshoplist.courses_filter", ng-if='cours.visible || editMode')
+        .col-md-4(
+          ng-repeat="cours in courses | orderBy:['order','title'] | filter:vmWorkshoplist.courses_filter", 
+          ng-if='cours.visible || editMode')
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
           div(ng-if="!cours.shouldRedirectToUnsafe")
@@ -50,7 +52,9 @@ mixin course(uisref, nghref)
       .row(ng-if="my_courses.length")
         .col-xs-12
           h3 Your Previous Workshops
-        .col-sm-4(ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title'] | filter:courses_filter")
+        .col-sm-4(
+          ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title'] | filter:vmWorkshoplist.courses_filter"
+          )
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
           div(ng-if="!cours.shouldRedirectToUnsafe")
