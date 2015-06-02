@@ -4,15 +4,17 @@
       sw-editor(
         with-tabs="true"
         with-tools="true"
-        with-tools-url="true"
+        with-tools-url="model.workspace.showUrl !== false"
         current-url="model.output.currentUrl"
         download-id="model.output.codeId"
-        show-url=""
+        show-url="model.output.showUrl"
         tabs="model.workspace.tabs",
         global-active-tab-name="model.workspace.active"
         editor-options="model.workspace"
         editor-undo-manager="model.undoManager"
-        editor-mode="model.mode"
+        editor-mode="model.mode",
+        on-new-workspace="model.onNewWorkspace(workspace)"
+        on-change="model.onEditorChange()"
       )
     .col-xs-6.full-height
       sw-output-eval(
@@ -20,13 +22,14 @@
         code-id="model.output.codeId"
         hide-base-url="model.output.hideBaseUrl"
         is-dead="model.output.isDead"
+        is-syncing="model.output.isSyncing"
         is-with-console="model.output.isWithConsole"
       )
            
       sw-output(
         with-console="model.output.isWithConsole"
         with-console-in-columns="false"
-        with-address="model.isWithAddress()"
+        with-address="model.workspace.showUrl !== false || model.output.showUrl"
         is-dead="model.output.isDead"
         base-url="model.output.baseUrl"
         hide-base-url="model.output.hideBaseUrl"
@@ -34,4 +37,3 @@
         applied-path="model.workspace.permaUrl"
         current-url="model.output.currentUrl"
       )
-pre {{ model.output | json}}

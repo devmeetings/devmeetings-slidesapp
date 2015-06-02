@@ -11,20 +11,27 @@ let path = sliderPlugins.extractPath(module);
 function controllerF(self, $scope) {
   self.output = {};
 
-  self.isWithAddress = () => {
-    return self.workspace.showUrl !== false || self.output.showUrl;
-  };
-
   self.undoManager = new WorkspaceUndoManager(self, self.workspace.tabs);
 
   // When changing slides
   $scope.$watch(() => self.workspace.tabs, () => {
     self.undoManager.reset();
   });
+
+  self.onNewWorkspace = (workspace) => {
+    self.workspace.active = workspace.active;
+    self.workspace.tabs = workspace.tabs;
+
+    $scope.$broadcast('slide:update');
+  };
+
+  self.onEditorChange = () => {
+    sliderPlugins.trigger('slide.slide-workspace.change', self.workspace);
+  };
 }
 
 sliderPlugins
-  .registerPlugin('slide', 'workspace', 'slide-workspace-new', 3900)
+  .registerPlugin('slide', 'workspace', 'slide-workspace-new', 3850)
   .directive('slideWorkspaceNew', () => {
     return {
       restrict: 'E',

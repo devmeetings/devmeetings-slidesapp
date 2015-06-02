@@ -36,6 +36,19 @@ class SwEditor {
         self.editorUndoManager.setUpTabsSwitched(true);
       }
     });
+
+    self.onRefreshContent = () => {
+      this.$scope.$broadcast('slide:update');
+    };
+
+    self.localOnNewWorkspace = (workspace) => {
+      self.onNewWorkspace({
+        workspace: workspace
+      });
+      // Refresh active tab
+      self.editorActiveTab = self.tabs[self.activeTabName];
+    };
+
   }
 
 
@@ -59,15 +72,18 @@ sliderPlugins.directive('swEditor', () => {
       withTabs: '=',
       withTools: '=',
       withToolsUrl: '=',
+
       currentUrl: '=',
       downloadId: '=',
       showUrl: '=',
       tabs: '=',
       globalActiveTabName: '=',
-      editorActiveTabName: '=',
       editorOptions: '=',
       editorMode: '=',
-      editorUndoManager: '='
+      editorUndoManager: '=',
+
+      onNewWorkspace: '&',
+      onChange: '&'
     },
     bindToController: true,
     controllerAs: 'model',

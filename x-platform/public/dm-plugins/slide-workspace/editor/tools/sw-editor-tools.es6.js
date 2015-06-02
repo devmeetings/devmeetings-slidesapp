@@ -31,7 +31,7 @@ class SwEditorTools {
         return;
       }
       self.activeTab.content = formatter.format(self.activeTabName, self.activeTab.content);
-      // TODO [ToDr] Is slide:update needed?
+      self.onRefreshContent();
     };
   }
 
@@ -89,7 +89,8 @@ sliderPlugins.directive('swEditorTools', ($window, $upload) => {
       downloadId: '=',
       activeTab: '=',
       activeTabName: '=',
-      onNewWorkspace: '&'
+      onNewWorkspace: '&',
+      onRefreshContent: '&'
     },
     bindToController: true,
     controllerAs: 'model',

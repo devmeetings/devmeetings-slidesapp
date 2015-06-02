@@ -37,9 +37,10 @@ define(
             worker.idDefer.resolve(idAndPatch);
           },
 
-          startSyncingAndGetId: function() {
+          startSyncingAndGetId: function(patches) {
             worker.syncing = true;
             worker.idDefer = $q.defer();
+            this.trigger('onSync', patches);
             return worker.getId();
           },
 
@@ -51,6 +52,7 @@ define(
             if (!statesaveId) {
               return;
             }
+            this.trigger('onSync', []);
             // Cloning workspace
             worker.setState(statesaveId, JSON.parse(JSON.stringify(content)));
             this.trigger('newId', statesaveId);

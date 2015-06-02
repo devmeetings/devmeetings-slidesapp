@@ -15,13 +15,27 @@ class SwOutputEval {
 
   link(scope) {
     // TODO [ServerEvents]
-    
-    sliderPlugins.listen(scope, 'slide.slide-workspace.change', () => {
-      this.dmPlayer.getCurrentStateId().then((id) => {
-        scope.baseUrl = '/api/page/' + id;
-        scope.codeId = id;
-      });
+
+    this.dmPlayer.onSyncStarted(scope, (patches) => {
+      // TODO [ToDr] Determine if we need to refresh the workspace?
+      scope.isSyncing = true;
     });
+
+    scope.isSyncing = true;
+    this.dmPlayer.onCurrentStateId(scope, (id) => {
+      if (!scope.isSyncing) {
+        return;
+      }
+
+      scope.isSyncing = false;
+      this.updateCodeId(scope, id);
+    });
+  }
+
+
+  updateCodeId(scope, id) {
+    scope.baseUrl = '/api/page/' + id;
+    scope.codeId = id;
   }
 
 }
@@ -36,7 +50,8 @@ sliderPlugins.directive('swOutputEval', (dmPlayer) => {
       codeId: '=',
       hideBaseUrl: '=',
       isDead: '=',
-      isWithConsole: '='
+      isWithConsole: '=',
+      isSyncing: '='
     },
     link: function(scope) {
       scope.hideBaseUrl = true;

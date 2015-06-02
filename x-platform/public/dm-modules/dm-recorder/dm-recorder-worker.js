@@ -78,6 +78,13 @@ export class Player extends Common {
     _.extend(obj, current);
   }
 
+  getPatches(patchId) {
+    if (patchId.current) {
+      return [patchId.current];
+    }
+    return patchId.patches;
+  }
+
   applyPatchesAndId(patches) {
     if (patches.current) {
       this.applyCurrentState(patches.current);

@@ -41,7 +41,7 @@ define([
                 slide.workspace.layout = layout;
               }
               if (!$scope.state.isPlaying) {
-                $scope.$broadcast('update');
+                $scope.$broadcast('slide:update');
               }
             });
             recordingPlayer.setIsPlaying(false);

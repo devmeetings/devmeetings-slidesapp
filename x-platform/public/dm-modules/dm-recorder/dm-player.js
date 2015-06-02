@@ -19,6 +19,7 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
         var player = _.extend(newListenable(), {
           setState: function(statesaveId, slide) {
+            this.trigger('onSync', []);
             worker.setState(statesaveId, slide);
             this.trigger('newId', statesaveId);
           },
@@ -28,12 +29,14 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
           },
 
           applyPatchesAndId: function(patchId) {
+            this.trigger('onSync', worker.getPatches(patchId));
             var x = worker.applyPatchesAndId(patchId);
             this.trigger('newId', this._currentStateId());
             return x;
           },
 
           applyReversePatchesAndId: function(patchesAndId) {
+            this.trigger('onSync', worker.getPatches(patchesAndId));
             var x = worker.applyReversePatchesAndId(patchesAndId);
             this.trigger('newId', this._currentStateId());
             return x;
@@ -108,8 +111,10 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
       _attachListeners: function(source) {
         var off = source.listen('newId', this.trigger.bind(this, 'newId'));
+        var off2 = source.listen('onSync', this.trigger.bind(this, 'onSync'));
         source.__removeListeners = function() {
           off();
+          off2();
         };
       },
 
@@ -117,8 +122,8 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
         return source.getCurrentStateId();
       },
 
-      onCurrentStateId: function(scope, callback) {
-        var cb = function(x) {
+      _cbWithSelfApply: function(scope, callback) {
+        return function(x) {
           // TODO [ToDr] SafeApply?
           function safeApply(scope, fn) {
             var phase = scope.$root.$$phase;
@@ -133,6 +138,16 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
           safeApply(scope, callback.bind(scope, x));
         };
+      },
+
+      onSyncStarted: function(scope, callback) {
+        var cb = this._cbWithSelfApply(scope, callback);
+        var off = this.listen('onSync', cb);
+        scope.$on('$destroy', off);
+      },
+
+      onCurrentStateId: function(scope, callback) {
+        var cb = this._cbWithSelfApply(scope, callback);
         var off = this.listen('newId', cb);
         scope.$on('$destroy', off);
 

@@ -1,11 +1,3 @@
-
-sw-editor-tabs(
-  ng-if="model.withTabs"
-  tabs="model.tabs"
-  active-tab-name="model.editorActiveTabName"
-  editor-undo-manager="model.editorUndoManager"  
-)
-
 sw-editor-tools(
   ng-if="model.withTools"
   with-url-button="model.withToolsUrl"
@@ -14,7 +6,15 @@ sw-editor-tools(
   download-id="model.downloadId"
   active-tab="model.editorActiveTab"
   active-tab-name="model.editorActiveTabName"
-  on-new-workspace="model.onNewWorkspace({workspace: workspace})"
+  on-new-workspace="model.localOnNewWorkspace(workspace)"
+  on-refesh-content="model.onRefreshContent()"
+)
+
+sw-editor-tabs(
+  ng-if="model.withTabs"
+  tabs="model.tabs"
+  active-tab-name="model.editorActiveTabName"
+  editor-undo-manager="model.editorUndoManager"  
 )
 
 dm-editor(
@@ -24,5 +24,5 @@ dm-editor(
   undo-manager='model.editorUndoManager',
   options='model.editorOptions',
   editor-mode='model.editorMode',
-  trigger-change-later='triggerChangeLater()'
+  trigger-change-later='model.onChange()'
 )

@@ -38,8 +38,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           dmRecorder.getCurrentStateId().then(function(stateId) {
             lastId = stateId;
           });
-
-          var id = dmRecorder.startSyncingAndGetId();
+          var id = dmRecorder.startSyncingAndGetId(toSend);
           // TODO [ToDr] Gather data from other plugins?
           Sockets.emit('state.patch', {
             _id: id,
@@ -57,9 +56,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
               return;
             }
 
-            // TODO [ToDr] Should recorder know that server received the event?
             dmRecorder.stopSyncingAndSetId(stateId, lastPatch);
-            // TODO [ToDr] Publish results to other plugins?
 
             // Send queue one more time - new patches are waiting
             if (toSend.length) {

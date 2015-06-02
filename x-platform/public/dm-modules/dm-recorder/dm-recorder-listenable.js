@@ -6,6 +6,7 @@ function newListenable() {
 
   let listeners = {
     'newId': [],
+    'onSync': [],
     'newState': [],
     'newWorkspace': []
   };

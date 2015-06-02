@@ -36,7 +36,7 @@ define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, 
             scope.mode = getMode(name, scope.data.mode);
           }
           scope.$watch('name', function(name) {
-            name = name || "";
+            name = name || '';
             updateMode(name);
             scope.dotName = name.replace(/\|/g, '.');
           });
@@ -87,7 +87,7 @@ define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, 
               editor.resize();
             });
 
-            scope.$on('update', function() {
+            scope.$on('slide:update', function() {
               if (!scope.data) {
                 return;
               }
