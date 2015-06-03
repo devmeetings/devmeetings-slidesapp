@@ -1,8 +1,10 @@
-mixin editor()
+mixin editor(withoutTools, filePattern)
+  - withoutTools = withoutTools || false;
   sw-editor(
     with-tabs="true"
-    with-tools="true"
+    with-tools="!#{withoutTools}"
     with-tools-url="model.workspace.showUrl === false"
+    with-file-pattern="#{filePattern}"
 
     current-url="model.output.currentUrl"
     download-id="model.output.codeId"

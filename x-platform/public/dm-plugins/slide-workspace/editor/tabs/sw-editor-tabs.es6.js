@@ -50,7 +50,6 @@ class SwEditorTabs {
 
     self.activateTab = (name) => this.activateTab(self, name);
 
-
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
     });
@@ -77,7 +76,7 @@ class SwEditorTabs {
     if (!name) {
       return;
     }
-    self.tabs[name] = {
+    self.allTabs[name] = {
       'content': ''
     };
     self.activeTabName = name;
@@ -97,13 +96,13 @@ class SwEditorTabs {
     if (!newName) {
       return;
     }
-    self.tabs[newName] = self.tabs[tabName];
+    self.allTabs[newName] = self.allTabs[tabName];
     this.deleteTabAndFixActive(self, tabName, newName);
     self.editorUndoManager.initTab(newName);
   }
 
   deleteTabAndFixActive(self, tabName, newName) {
-    delete self.tabs[tabName];
+    delete self.allTabs[tabName];
     self.editorUndoManager.removeTab(tabName);
 
     if (self.activeTabName === tabName) {
@@ -134,6 +133,7 @@ sliderPlugins.directive('swEditorTabs', () => {
     restrict: 'E',
     scope: {
       tabs: '=',
+      allTabs: '=',
       activeTabName: '=',
       editorUndoManager: '='
     },

@@ -11,8 +11,9 @@ sw-editor-tools(
 )
 
 sw-editor-tabs(
-  ng-if="model.withTabs"
-  tabs="model.tabs"
+  ng-if="model.withTabs && model.withTools || model.withTabs && model.atLeastTwoFilteredTabs"
+  tabs="model.filteredTabs"
+  all-tabs="model.tabs"
   active-tab-name="model.editorActiveTabName"
   editor-undo-manager="model.editorUndoManager"  
 )

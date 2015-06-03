@@ -1,0 +1,21 @@
+include ./common
+
+.sw-row(
+    ng-style="{height: model.output.topSize}"
+  )
+  +editor(true, '"*.html"')
+
+sw-splitter(left="model.output.topSize", right="model.output.bottomSize", drag-active="model.output.dragActive", is-row="true")
+.sw-row(
+  ng-style="{height: model.output.bottomSize}"
+)
+  .sw-col.full-height(
+      ng-style="{width: model.output.leftSize}"
+    )
+    +editor(true, '"*.js"')
+  sw-splitter(left="model.output.leftSize", right="model.output.rightSize", drag-active="model.output.dragActive")
+  .sw-col.full-height(
+    ng-style="{width: model.output.rightSize}"
+  )
+    .overlay(ng-if="model.output.dragActive")
+    +output()
