@@ -20,9 +20,11 @@ class SwMain {
 
   controller(self) {
     self.output = {};
-    self.layout = {
-      name: 'tabs'
+    let defaultLayout = {
+      name: 'tabs',
+      options: ['*.html', '*.js', '*.css']
     };
+    self.layout = _.clone(defaultLayout);
 
     self.undoManager = new WorkspaceUndoManager(self, self.workspace.tabs);
 
@@ -51,6 +53,11 @@ class SwMain {
       }
     };
 
+    this.$scope.$watch(() => self.workspace.layout, (layout) => {
+      self.layout.name = layout.name;
+      self.layout.options = layout.options || defaultLayout.options;
+    });
+
     this.$scope.$watch(() => self.output.codeId, (newCodeId, oldCodeId) => {
       if (newCodeId === oldCodeId) {
         return;
@@ -63,7 +70,7 @@ class SwMain {
       self.undoManager.reset();
     });
 
-    this.$timeout(()=>{
+    this.$timeout(() => {
       self.evalIfAutoOutput();
     }, 500);
   }
