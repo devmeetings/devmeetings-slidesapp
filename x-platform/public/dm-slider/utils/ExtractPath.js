@@ -11,7 +11,8 @@ define([], function () {
 	}
 
     return function (module) {
-        var path = module.uri.split('/'); 
+        var uri = module.uri || '';
+        var path = uri.split('/'); 
         path.pop();
         return removeUpperDirs(path).join('/');
     };
