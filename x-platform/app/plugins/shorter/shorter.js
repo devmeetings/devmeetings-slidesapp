@@ -28,7 +28,7 @@ exports.initApi = function(router, authenticated, app, router2) {
     };
     var searchSlides = searchFor.bind(null, Slides, '/slides', '', notFound);
     var searchDecks = searchFor.bind(null, Decks, '/decks', '', searchSlides);
-    var searchEvents = searchFor.bind(null, Events, '/space', '/agenda', searchDecks);
+    var searchEvents = searchFor.bind(null, Events, '/space', '/learn/agenda', searchDecks);
 
   
     searchEvents();
