@@ -2,8 +2,7 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
 
   var path = sliderPlugins.extractPath(module);
 
-  sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', [
-    '$timeout', '$rootScope', '$window', '$location', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'hotkeys', 'dmPlayer',
+  sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', 
     function($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
 
       return {
@@ -11,6 +10,7 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
         scope: {
           slides: '=data',
           deck: '=context',
+          recorder: '=recorder'
         },
         templateUrl: path + '/deck-slides.html',
 
@@ -91,6 +91,6 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
         }
       };
     }
-  ]);
+  );
 
 });

@@ -54,6 +54,9 @@ class SwMain {
     };
 
     this.$scope.$watch(() => self.workspace.layout, (layout) => {
+      if (!layout) {
+        layout = defaultLayout;
+      }
       self.layout.name = layout.name;
       self.layout.options = layout.options || defaultLayout.options;
     });
