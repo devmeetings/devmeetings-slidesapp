@@ -24,23 +24,23 @@ mixin course(uisref, nghref)
 .container
   .col-md-12
     .dm-workshoplist-container
-      .clearfix(ng-if="user.result.acl.indexOf('admin:events') > -1") 
+      .clearfix
         .row
           .col-md-4
             input.form-control(
+              ng-show="courses.length >= 3"
               type="text"
               ng-model="vmWorkshoplist.courses_filter"
               placeholder="Search for courses"
             )
-          .col-md-8
-            .pull-right
-              .checkbox
-                label.form-label
-                  input(
-                    type="checkbox"
-                    ng-model="$root.editMode"
-                  )
-                  | Show All Courses
+          .col-md-8     
+            .checkbox(ng-if="user.result.acl.indexOf('admin:events') > -1") 
+              label.form-label.pull-right
+                input(
+                  type="checkbox"
+                  ng-model="$root.editMode"
+                )
+                | Show All Courses
       .row
         .col-md-4(
           ng-repeat="cours in courses | orderBy:['order','title'] | filter:vmWorkshoplist.courses_filter", 
@@ -53,7 +53,7 @@ mixin course(uisref, nghref)
         .col-xs-12
           h3 Your Previous Workshops
         .col-sm-4(
-          ng-repeat="cours in my_courses track by cours._id | orderBy:['order', 'title'] | filter:vmWorkshoplist.courses_filter"
+          ng-repeat="cours in my_courses | orderBy:['order', 'title'] | filter:vmWorkshoplist.courses_filter track by cours._id"
           )
           div(ng-if="cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
