@@ -235,7 +235,12 @@ module.exports = function(grunt) {
         throw new Error("Cannot find plugins");
       }
       files = files.map(function(file) {
-        return file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
+        file = file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
+        if (file.indexOf('es6') > -1) {
+          return 'es6!' + file;
+        }
+
+        return file;
       });
 
       var mkdirp = require('mkdirp');
