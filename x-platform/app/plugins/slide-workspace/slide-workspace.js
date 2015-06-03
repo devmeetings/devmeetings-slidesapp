@@ -8,7 +8,7 @@ var fs = require('fs');
 
 exports.initApi = function(app, authenticated, app2, router2, logger) {
   'use strict';
-  
+
   app.post('/upload', authenticated, multiparty(), function(req, res) {
     fs.readFile(req.files.file.path, 'binary', function(err, data) {
       if (err) {
@@ -59,8 +59,8 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
       res.send(400, err);
     }).then(null, logger.error);
   });
-  
-  
+
+
   app.get('/page/:hash/:file*', returnFile);
   app.get('/page/:hash', returnFile);
 
@@ -85,12 +85,46 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
         res.sendStatus(404);
         return;
       }
-
+      // Send other files
+      pushOtherFiles(res, workspace, internalFile);
       res.set('Content-Type', guessType(internalFile));
       res.send(file);
     }, logger.error);
   }
 };
+
+function pushOtherFiles(res, files, internalFile) {
+  'use strict';
+  if (!res.push) {
+    return;
+  }
+  // Only push files if connection supports it
+  // TODO [ToDr] Nginx currently does not support push in SPDY!
+  Object.keys(files).filter(function(x) {
+    return x !== internalFile;
+  }).map(function(internalName) {
+    var realName = getRealFileName(internalName);
+
+    var content = files[internalName];
+    if (!content) {
+      return;
+    }
+
+    res.push(realName, {
+      'Content-Type': guessType(internalName)
+    }, function(err, stream){
+
+      stream.on('acknowledge', function() {
+        console.log('acknowledge', internalName);
+      });
+      stream.on('error', function(err) {
+        console.log('error', internalName, err);
+      });
+
+      stream.end(content);
+    });
+  });
+}
 
 function findFile(files, fileName) {
   'use strict';

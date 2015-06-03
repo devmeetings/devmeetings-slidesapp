@@ -2,5 +2,6 @@
   ng-init='$root.modes.isTaskMode=true',
   ng-class="{'warning-content': isColoured }",
 )
-  plugins-loader.full-height(namespace="'slide'", context="slide.slide", mode="mode", path='')
+  dm-recorder-context(recorder='recorder', workspace-id='workspaceId')
+    plugins-loader.full-height(namespace="'slide'", context="slide.slide", mode="mode", path='', recorder='recorder')
 

@@ -20,7 +20,7 @@ define(['dm-xplayer/dm-xplayer-app'], function(xplayerApp) {
         $scope.annotations = annotations;
       });
 
-      dmRecordings.preparePlayerForRecording($stateParams.id).then(function(data) {       
+      dmRecordings.preparePlayerForRecording($scope.recorder, $stateParams.id).then(function(data) {       
         $scope.recording = data.recording;
         $scope.state.max = data.max;
       });

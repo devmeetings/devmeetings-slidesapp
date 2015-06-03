@@ -1,10 +1,12 @@
 .full-height(
   ng-controller="dmXplayerPlayer")
-    dm-xplayer-full(
-      ng-if="state"
-      state='state', 
-      annotations='annotations', 
-      recording='recording',
-      with-sidebar="true",
-      audio-url='false'
-      )
+    dm-recorder-recorder(recorder='recorder')
+      dm-xplayer-full(
+        ng-if="state"
+        state='state', 
+        annotations='annotations', 
+        recording='recording',
+        recorder='recorder'
+        with-sidebar="true",
+        audio-url='false'
+        )

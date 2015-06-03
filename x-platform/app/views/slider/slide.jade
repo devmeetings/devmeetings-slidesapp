@@ -11,11 +11,12 @@ block content
     .full-height(ng-init="$root.modes.isEditMode=#{editMode}")
         div(ng-init="$root.modes.isSliderMode=true")
         .col-xs-12.full-height(ng-controller="SlideCtrl")
-            .row.full-height
+          .row.full-height
+              dm-recorder-context(recorder='recorder')
                 .dm-slide-left(ng-class="{'col-xs-9' : slide.content.sidebar, 'col-xs-12': !slide.content.sidebar }")
-                    plugins-loader(namespace="'slide'", context="slide.content", path='')
-                    plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content", path='')
+                    plugins-loader(namespace="'slide'", context="slide.content", path='', recorder='recorder')
+                    plugins-loader(ng-if="modes.isEditMode", namespace="'slide.edit'", context="slide.content", path='', recorder='recorder')
                 .col-xs-offset-9.col-xs-3.dm-slide-panel(ng-if="slide.content.sidebar")
-                    plugins-loader.full-height(namespace="'slide'", context="slide.content.sidebar", path='')
-                    plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content", path='')
+                    plugins-loader.full-height(namespace="'slide'", context="slide.content.sidebar", path='', recorder='recorder')
+                    plugins-loader.full-height(namespace="'slide.sidebar'", context="slide.content", path='', recorder='recorder')
 

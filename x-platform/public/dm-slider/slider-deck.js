@@ -12,7 +12,6 @@ requirejs([
 ], function(templates, slider, sliderPlugins, bootstrap) {
   slider.controller('SliderCtrl', function($rootScope, $scope, DeckAndSlides, dmPlayer) {
 
-    dmPlayer.setRecorderSource();
 
     function updateDeck(deck) {
       $scope.deck = deck;
@@ -24,6 +23,7 @@ requirejs([
     DeckAndSlides.inContextOf('deck').slides.then(function(deckSlides) {
       $scope.deckSlides = deckSlides;
       updateDeck($scope.deck || {});
+      dmPlayer.setRecorderSource($scope.recorder);
     });
 
     $scope.$on('deck', function(ev, newDeck) {

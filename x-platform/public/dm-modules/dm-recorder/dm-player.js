@@ -1,25 +1,25 @@
 define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenable'], function(require, _, Worker, newListenable) {
   'use strict';
 
-  return function($q, dmRecorder) {
+  return function($q) {
 
-    var source = dmRecorder;
+    var source = null;
 
     return _.extend(newListenable(), {
 
-      setRecorderSource: function(workspaceId, statesaveId, content) {
+      setRecorderSource: function(dmRecorder, statesaveId, content) {
         this.setSource(dmRecorder);
-        dmRecorder.setRecording(true, workspaceId);
         dmRecorder.clear();
         dmRecorder.setState(statesaveId, content);
       },
 
-      createPlayerSource: function(statesaveId, slide) {
+      createPlayerSource: function(dmRecorder, statesaveId, slide) {
         var dmPlayerThat = this;
         var worker = new Worker.Player();
 
         var player = _.extend(newListenable(), {
           setState: function(statesaveId, slide) {
+            this.trigger('onSync', []);
             worker.setState(statesaveId, slide);
             this.trigger('newId', statesaveId);
           },
@@ -29,12 +29,14 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
           },
 
           applyPatchesAndId: function(patchId) {
+            this.trigger('onSync', worker.getPatches(patchId));
             var x = worker.applyPatchesAndId(patchId);
             this.trigger('newId', this._currentStateId());
             return x;
           },
 
           applyReversePatchesAndId: function(patchesAndId) {
+            this.trigger('onSync', worker.getPatches(patchesAndId));
             var x = worker.applyReversePatchesAndId(patchesAndId);
             this.trigger('newId', this._currentStateId());
             return x;
@@ -55,11 +57,14 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
             if (!isPaused) {
               return this._resumePlayer();
             }
+            if (!dmRecorder) {
+              return;
+            }
 
             var content = this.getCurrentState();
             var id = this._currentStateId();
             this.updatePreviousContent();
-            dmPlayerThat.setRecorderSource(null, id, content);
+            dmPlayerThat.setRecorderSource(dmRecorder, id, content);
           },
 
           // Invoked when the player is paused and we are jumping to different second
@@ -67,12 +72,17 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
             dmPlayerThat.previousContent = JSON.stringify(this.getCurrentState());
           },
           restorePreviousContent: function() {
+            if (!dmPlayerThat.previousContent) {
+              return;
+            }
             worker.applyCurrentState(JSON.parse(dmPlayerThat.previousContent));
           },
 
           _resumePlayer: function() {
+            if (!dmRecorder) {
+              return;
+            }
             // Resume state?
-            dmRecorder.setRecording(false);
             dmPlayerThat.setSource(player);
             if (dmPlayerThat.previousContent) {
               this.restorePreviousContent();
@@ -81,7 +91,6 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
           }
         });
 
-        dmRecorder.setRecording(false);
         player.setState(statesaveId, slide);
         dmPlayerThat.setSource(player);
         return player;
@@ -102,8 +111,10 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
       _attachListeners: function(source) {
         var off = source.listen('newId', this.trigger.bind(this, 'newId'));
+        var off2 = source.listen('onSync', this.trigger.bind(this, 'onSync'));
         source.__removeListeners = function() {
           off();
+          off2();
         };
       },
 
@@ -111,8 +122,8 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
         return source.getCurrentStateId();
       },
 
-      onCurrentStateId: function(scope, callback) {
-        var cb = function(x) {
+      _cbWithSelfApply: function(scope, callback) {
+        return function(x) {
           // TODO [ToDr] SafeApply?
           function safeApply(scope, fn) {
             var phase = scope.$root.$$phase;
@@ -127,6 +138,16 @@ define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenabl
 
           safeApply(scope, callback.bind(scope, x));
         };
+      },
+
+      onSyncStarted: function(scope, callback) {
+        var cb = this._cbWithSelfApply(scope, callback);
+        var off = this.listen('onSync', cb);
+        scope.$on('$destroy', off);
+      },
+
+      onCurrentStateId: function(scope, callback) {
+        var cb = this._cbWithSelfApply(scope, callback);
         var off = this.listen('newId', cb);
         scope.$on('$destroy', off);
 

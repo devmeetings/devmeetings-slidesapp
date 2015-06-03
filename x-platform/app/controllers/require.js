@@ -67,7 +67,14 @@ exports.pluginsPaths = function(req, res) {
             return;
         }
         files = files.map(function(file) {
-            return file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
+            file = file
+                    .replace(/.js$/, '')
+                    .replace(/^public\/dm-plugins/, 'plugins');
+            if (file.indexOf('es6') > -1) {
+              return 'es6!' + file;
+            }
+      
+            return file;
         });
         sendAsRequireJSModule(files, res);
     });

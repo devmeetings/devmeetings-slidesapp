@@ -1,0 +1,31 @@
+.slide-workspace-outputs.full-height(
+  ng-class="{'with-address': withAddress}"
+  )
+  .text-center(
+    ng-if="isDead === true"
+    )
+    h1.text-danger
+      span.fa.fa-power-off
+    h4.text-muted No server at {{ baseUrl }}
+
+  .text-center(
+    ng-if="isWarning === true"
+    )
+    h1.text-warning
+      span.fa.fa-exclamation-triangle
+    h4.text-muted You are trying to access <code>http</code> over <code>https</code>
+    h5.text-muted 
+      | Please use <code>http</code> version of the page or 
+      a(
+        ng-href="{{currentUrl}}"
+        target="_blank"
+        )
+        | open preview in separate window
+  
+  .full-height(
+      ng-if="isDead === false && isWarning === false"
+      ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
+    iframe.iframe-fiddle-output.scrollable-container
+    // iframe.iframe-fiddle-output.scrollable-container(
+    //   ng-show="$root.performance.indexOf('workspace_output_noanim') === -1"
+    // )

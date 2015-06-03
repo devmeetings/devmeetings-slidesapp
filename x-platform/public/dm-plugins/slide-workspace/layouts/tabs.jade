@@ -1,0 +1,12 @@
+include ./common
+
+.sw-col.full-height(
+    ng-style="{width: model.output.leftSize}"
+  )
+  +editor()
+sw-splitter(left="model.output.leftSize", right="model.output.rightSize", drag-active="model.output.dragActive")
+.sw-col.full-height(
+  ng-style="{width: model.output.rightSize}"
+)
+  .overlay(ng-if="model.output.dragActive")
+  +output()

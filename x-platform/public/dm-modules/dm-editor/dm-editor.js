@@ -1,4 +1,4 @@
-define(['angular', '_', 'ace'], function(angular, _, ace) {
+define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, ace, getExtension) {
   'use strict';
 
   var EDITOR_THEME = 'todr';
@@ -22,6 +22,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
           name: '=',
           editorMode: '=',
           triggerChangeLater: '&',
+          onSaveAction: '&'
         },
         templateUrl: '/static/dm-modules/dm-editor/dm-editor.html',
         link: function(scope, element) {
@@ -35,8 +36,8 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
             }
             scope.mode = getMode(name, scope.data.mode);
           }
-          scope.$watch('name', function(name){
-            name = name || "";
+          scope.$watch('name', function(name) {
+            name = name || '';
             updateMode(name);
             scope.dotName = name.replace(/\|/g, '.');
           });
@@ -63,6 +64,17 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               enableSnippets: !scope.options.noAutocomplete,
               behavioursEnabled: !scope.options.noAutocomplete
             });
+            editor.commands.addCommand({
+              name: 'saveFile',
+              bindKey: {
+                win: 'Ctrl-S',
+                mac: 'Command-S',
+                sender: 'editor|cli'
+              },
+              exec: function() {
+                scope.onSaveAction();
+              }
+            });
 
             function focusEditor() {
               // Don't lose focus when playing a movie!
@@ -87,7 +99,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               editor.resize();
             });
 
-            scope.$on('update', function() {
+            scope.$on('editor:update', function() {
               if (!scope.data) {
                 return;
               }
@@ -143,7 +155,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
               triggerChangeLater(scope);
             });
 
-            scope.$watch('editorMode', function(){
+            scope.$watch('editorMode', function() {
               editor.setReadOnly(scope.editorMode === 'player');
             });
 
@@ -152,7 +164,7 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
                 return;
               }
               // sometimes editor is not visible yet
-              $timeout(function(){
+              $timeout(function() {
                 withoutSync(function() {
                   updateEditorOptions(editor, scope.data);
                 });
@@ -235,12 +247,6 @@ define(['angular', '_', 'ace'], function(angular, _, ace) {
     }
     updateEditorSelection(ed, tab, forceUpdateCursor);
     updateEditorScroll(ed, tab);
-  }
-
-  function getExtension(name) {
-    name = name || '';
-    var name2 = name.split('|');
-    return name2[name2.length - 1];
   }
 
   function getMode(name, givenMode) {

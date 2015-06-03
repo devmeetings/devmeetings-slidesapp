@@ -10,13 +10,12 @@ mixin withSubtitles()
     block
   .dm-player-subtitles-container(ng-init="subs = {}")
     .dm-player-subtitles.moveable.faded(
-        ng-show="!state.firstRun"
         ng-class="{'minimized': subs.isMinimized}"
       )
       .pull-right
         a.btn-minimize(ng-click="subs.isMinimized = !subs.isMinimized")
           span.fa.fa-minus
-      .dm-annos-item(ng-if="anno.type !== 'pause'")
+      .dm-annos-item(ng-if="anno.type !== 'pause' && anno.description")
         dm-annotation(
           annotation='anno'
           showIteration='showAll'
@@ -47,21 +46,13 @@ mixin withSubtitles()
 
 
 .full-height
-  .dm-player-subtitles-btn(
-      data-intro="You might find it best to watch video in full screen. You can start video by pressing space."
-      ng-if="state.firstRun && !state.isPlaying"
-      ng-class="{'faded': hideBtn}"
-    )
-    .pull-left
-      +nextButtons('play')
-
   .full-height(ng-if="!withSidebar")
     +withSubtitles
-      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
   .full-height(ng-if="withSidebar")
     .col-xs-10.full-height
       +withSubtitles
-        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
     .col-xs-2.full-height
-      plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='')
+      plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
 

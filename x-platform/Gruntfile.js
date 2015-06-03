@@ -6,11 +6,15 @@ module.exports = function(grunt) {
 
 
   var SERVER_PORT = 3000;
+  var VERSION_PATH = '.version';
 
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
-  var version = grunt.file.read('.version');
+  if ( !( grunt.file.exists(VERSION_PATH) ) )  {
+    generateAndSaveNewVersion(VERSION_PATH);
+  }
+  var version = grunt.file.read(VERSION_PATH);
 
   var rjsOptimizationModule = function(path, module) {
     return {
@@ -33,6 +37,12 @@ module.exports = function(grunt) {
         preserveLicenseComments: false
       }
     };
+  };
+
+  var livereloadOptions = {
+    port: 26000,
+    key: grunt.file.read('./config/certs/server.key'),
+    cert: grunt.file.read('./config/certs/server.crt')
   };
 
   grunt.initConfig({
@@ -118,31 +128,31 @@ module.exports = function(grunt) {
         files: ['public/**/**.less'],
         tasks: ['less:server'],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       },
       js: {
         files: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', 'public/dm-modules/**/*.js', 'public/dm-xplayer/**/*.js'],
-        tasks: ['jshint:public', 'complexity'],
+        tasks: ['jshint:public'],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       },
       jade: {
         files: ['public/dm-plugins/**/*.jade'],
         tasks: [],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       },
       server: {
         files: ['./*.js', 'config/*.js', 'app/**/*.js'],
-        tasks: ['jshint:server', 'complexity']
+        tasks: ['jshint:server']
       },
       rebootServer: {
         files: ['.rebooted'],
         options: {
-          livereload: true
+          livereload: livereloadOptions
         }
       }
     },
@@ -213,7 +223,7 @@ module.exports = function(grunt) {
   }
 
   grunt.registerTask('bump-version', 'Version bump', function(){
-    generateAndSaveNewVersion('.version');
+    generateAndSaveNewVersion(VERSION_PATH);
   });
 
   grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
@@ -225,7 +235,12 @@ module.exports = function(grunt) {
         throw new Error("Cannot find plugins");
       }
       files = files.map(function(file) {
-        return file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
+        file = file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
+        if (file.indexOf('es6') > -1) {
+          return 'es6!' + file;
+        }
+
+        return file;
       });
 
       var mkdirp = require('mkdirp');
@@ -258,8 +273,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'ngtemplates', 'concurrent:requirejs']);
-  grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'complexity', 'concurrent:server']);
-  grunt.registerTask('quality', ['jshint', 'less:build', 'complexity']);
+  grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent:server']);
+  grunt.registerTask('quality', ['jshint', 'less:build']);
   grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'jade', 'optimize']);
 
   grunt.registerTask('default', ['serve']);

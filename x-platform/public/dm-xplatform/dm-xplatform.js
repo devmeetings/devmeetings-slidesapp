@@ -226,7 +226,7 @@ requirejs(['angular',
         views: {
           mid: {
             templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/dm-xplatform-workshoplist.html',
-            controller: 'dmXplatformWorkshoplist'
+            controller: 'dmXplatformWorkshoplist as vmWorkshoplist'
           }
         },
         onEnter: function($rootScope, dmBrowserTab) {
@@ -449,6 +449,17 @@ requirejs(['angular',
             controller: 'dmXplatformTrainer'
           },
           context: contextMenu(['questions', 'chat'])
+        }
+      });
+
+      $stateProvider.state('index.space.trainer.watch', {
+        url: '/watch/:slide',
+        views: {
+          content: {
+            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide.html',
+            controller: 'dmXplatformSlide'
+          },
+          context: contextMenu(['history', 'notes'])
         }
       });
 

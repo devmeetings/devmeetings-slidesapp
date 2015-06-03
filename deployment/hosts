@@ -7,6 +7,7 @@
 #ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de server_port=3000
 #root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2 server_port=3000
 #root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1 server_port=3000
+root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000
 root@xpla.org server_domain=xpla.org server_short=xpla_xpla server_port=5000
 
 [exec-node]

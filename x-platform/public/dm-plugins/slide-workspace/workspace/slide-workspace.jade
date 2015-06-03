@@ -1,0 +1,33 @@
+.slide-workspace.full-height
+  sw-output-eval(
+    workspace="model.workspace"
+    path="model.path"
+    server-runner="model.slide.serverRunner"
+    on-refresh="model.onRefresh()"
+
+    base-url="model.output.baseUrl"
+    code-id="model.output.codeId"
+    hide-base-url="model.output.hideBaseUrl"
+    is-dead="model.output.isDead"
+    is-syncing="model.output.isSyncing"
+    is-with-console="model.output.isWithConsole"
+  )
+
+  .full-height(ng-if="model.layout.name === 'tabs'")
+    include ../layouts/tabs
+  .full-height(ng-if="model.layout.name === 'tabs-v'")
+    include ../layouts/tabs-v
+  .full-height(ng-if="model.layout.name === 'angular'")
+    include ../layouts/angular
+  .full-height(ng-if="model.layout.name === 'grid'")
+    include ../layouts/grid
+
+
+
+  div.text-muted.layout-chooser
+    span.fa.fa-code(ng-click="showLayoutChooser = !showLayoutChooser")
+    select(ng-model="model.layout.name", ng-show="showLayoutChooser", ng-change="showLayoutChooser = false")
+      option(value="tabs") Classic
+      option(value="tabs-v") Classic V
+      option(value="angular") Angular
+      option(value="grid") Grid

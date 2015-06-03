@@ -91,6 +91,9 @@ define(['_'], function(_) {
         this.reset = function() {
             Object.keys(this.scope.workspace.tabs).map(this.initTab, this);
         };
+        this.removeTab = function(tabName) {
+          delete this.tabsStack[tabName];
+        };
         this.initTab = function (tabName) {
             this.tabsStack[tabName] = {
                 $undoStack: [],

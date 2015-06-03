@@ -33,3 +33,12 @@ db.users.update({}, {$set: { acl: [
   "admin:events",
   "admin:super"] }})
 ```
+
+
+## What's needed
+
+* GIT
+* MongoDB
+* Redis
+* mkdir x-platform/data
+* npm install -g grunt-cli

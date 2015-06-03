@@ -1,0 +1,86 @@
+ul.nav.nav-tabs.pull-right
+
+  li.workspace-tab.workspace-tab-condensed(
+    ng-if="model.withUrlButton"
+    )
+    a.cursor-pointer(
+      ng-click="model.showUrl = !model.showUrl"
+      tooltip="Show / Hide URL"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      analytics-event="workspace-showUrl"
+      analytics-category="workspace"
+      )
+      span.fa.fa-list(ng-show="model.showUrl")
+      span.fa.fa-list-alt(ng-show="!model.showUrl")
+
+  li.workspace-tab.workspace-tab-condensed(
+    ng-if="!model.showUrl && model.withUrlButton"
+    )
+    a.cursor-pointer(
+      ng-href="{{ model.currentUrl }}", 
+      target="_blank", 
+      tooltip="Open your page in new window"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      analytics-event="workspace-newWindow"
+      analytics-category="workspace"
+      )
+      span.fa.fa-external-link
+
+  li.workspace-tab.workspace-download.workspace-tab-condensed
+    a.cursor-pointer(
+      ng-href="/api/download/{{ model.downloadId }}"
+      target="_self"
+      tooltip-animation="false"
+      tooltip="Download ZIP with your code"
+      tooltip-placement="bottom"
+      analytics-event="workspace-download"
+      analytics-category="workspace"
+      )
+      span.fa.fa-download
+
+  li.workspace-tab.workspace-upload.workspace-tab-condensed
+    a(ng-if="model.isUploading")
+      | Uploading {{ model.uploadingState }}%
+    div.cursor-pointer(
+      ng-if="!model.isUploading"
+      analytics-event="workspace-upload"
+      analytics-category="workspace"
+      analytics-on="click"
+      tooltip="Upload ZIP file with your code"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      tooltip-append-to-body="true"
+      )
+      input.cursor-pointer(
+        type="file"
+        ng-file-select="model.onFileSelect($files)"
+        title="Upload saved ZIP with files"
+        )
+      span.fa.fa-upload
+
+  li.workspace-tab.workspace-tab-condensed
+    a.cursor-pointer(
+      ng-click="model.formatTab()",
+      ng-disabled="!model.hasFormatting"
+      tooltip="Reformat your code"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      tooltip-append-to-body="true"
+      )
+      span.fa.fa-indent
+
+  li.workspace-tab.workspace-tab-condensed
+    a.cursor-pointer(
+      ng-click="model.toggleAutoReload()",
+      tooltip="AutoReload your code"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      tooltip-append-to-body="true"
+      )
+      span.fa.fa-fw.fa-square-o(ng-show="!model.isAutoReload()")
+      span.fa.fa-fw.fa-check-square-o(ng-show="model.isAutoReload()")
+
+
+

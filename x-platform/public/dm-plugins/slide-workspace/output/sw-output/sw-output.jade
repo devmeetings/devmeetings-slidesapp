@@ -1,0 +1,40 @@
+mixin frameWithAddress()
+  sw-output-address(
+      with-address="model.withAddress"
+      on-refresh="model.applyCurrentUrl()"
+      highlight-refresh="model.needsEval"
+      base-url="model.baseUrl"
+      hide-base-url="model.hideBaseUrl"
+      current-path="model.currentPath"
+      applied-path="model.appliedPath"
+    )
+
+  sw-output-frame(
+      base-url="model.baseUrl"
+      with-address="model.withAddress"
+      current-url="model.currentUrl"
+      is-dead="model.isDead"
+    )
+
+mixin console()
+  sw-output-console.full-height
+
+.full-height
+  .full-height(ng-if="!model.withConsole")
+    +frameWithAddress
+  .full-height(ng-if="model.withConsole && !model.withConsoleInColumns")
+    .sw-row(ng-style="{height: model.output.topSizeFrame}")
+      .overlay(ng-if="model.output.dragActive")
+      +frameWithAddress
+    sw-splitter(left="model.output.topSizeFrame", right="model.output.bottomSizeFrame", drag-active="model.output.dragActive", is-row="true")
+    .sw-row(ng-style="{height: model.output.bottomSizeFrame}")
+      +console
+  .full-height(ng-if="model.withConsole && model.withConsoleInColumns")
+    .sw-col.full-height(ng-style="{width: model.output.leftSizeFrame}")
+      .overlay(ng-if="model.output.dragActive")
+      +frameWithAddress
+    sw-splitter(left="model.output.leftSizeFrame", right="model.output.rightSizeFrame", drag-active="model.output.dragActive")
+    .sw-col.full-height(ng-style="{width: model.output.rightSizeFrame}")
+      +console
+    
+

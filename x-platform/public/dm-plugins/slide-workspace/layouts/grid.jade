@@ -1,0 +1,32 @@
+include ./common
+
+
+
+.sw-col.full-height(ng-style="{width: output.leftSize}")
+  .sw-row(
+    ng-style="{height: output.topSize}"
+    )
+    +editor(true, 'model.layout.options[0]')
+
+  sw-splitter(left="output.topSize", right="output.bottomSize", drag-active="output.dragActive", is-row="true")
+
+  .sw-row(
+    ng-style="{height: output.bottomSize}"
+    )
+    +editor(true, 'model.layout.options[1]')
+
+sw-splitter(left="output.leftSize", right="output.rightSize", drag-active="output.dragActive")
+
+.sw-col.full-height(ng-style="{width: output.rightSize}")
+  .sw-row(
+    ng-style="{height: output.topSize2}"
+    )
+    +editor(true, 'model.layout.options[2]')
+
+  sw-splitter(left="output.topSize2", right="output.bottomSize2", drag-active="output.dragActive", is-row="true")
+
+  .sw-row(
+    ng-style="{height: output.bottomSize2}"
+    )
+    .overlay(ng-if="output.dragActive")
+    +output()

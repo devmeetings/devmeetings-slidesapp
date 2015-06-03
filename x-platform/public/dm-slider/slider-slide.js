@@ -9,10 +9,10 @@ requirejs([
 
   slider.controller('SlideCtrl', function($rootScope, $scope, $window, $http, Sockets, DeckAndSlides, dmPlayer) {
 
-    dmPlayer.setRecorderSource();
 
     DeckAndSlides.inContextOf('slide').slide.then(function(slide) {
       $scope.slide = slide;
+      dmPlayer.setRecorderSource($scope.recorder);
     });
 
     $scope.$on('slide', function(ev, slide_content) {
