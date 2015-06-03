@@ -83,6 +83,7 @@
   become: yes
   become_user: root
   vars:
+    exec_burger_redis_host: 'localhost:6379'
     exec_burger_version: 'lastSuccessfulBuild'
     exec_burger_cluster: 1
   tags:
@@ -96,6 +97,7 @@
   become: yes
   become_user: root
   vars:
+    exec_java_redis_host: 'localhost:6379'
     exec_java_version: 'lastSuccessfulBuild'
   tags:
     - exec-java

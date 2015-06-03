@@ -41,11 +41,13 @@
   sudo_user: exec-java
 
 - name: start pm2 process
-  command: 'pm2 start -x --name "exec_java" --interpreter bash javaExecutor'
+  command: 'pm2 start javaExecutor --name "exec_java" --interpreter bash'
   args:
     chdir: "/srv/executors/java/javaExecutor-1.0/bin"
   sudo: yes
   sudo_user: exec-java
+  environment:
+    REDIS_HOST: "{{exec_java_redis_host}}
 
 - name: Register keymetrics
   command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'
