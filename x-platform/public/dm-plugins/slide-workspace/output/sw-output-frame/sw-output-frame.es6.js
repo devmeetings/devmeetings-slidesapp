@@ -13,7 +13,19 @@ class OutputFrame {
     _.extend(this, data);
   }
 
+  isHttp(url) {
+    return url.indexOf('http://') > -1;
+  }
+  isCurrentPageHttps() {
+    return this.$location.protocol() === 'https';
+  }
+
   setAddress(url) {
+    if (this.isHttp(url) && this.isCurrentPageHttps()) {
+      this.scope.isWarning = true;
+      return;
+    }
+    this.scope.isWarning = false;
     this.$element.find('iframe').attr('src', url);
   }
 
@@ -21,7 +33,7 @@ class OutputFrame {
 
 var path = sliderPlugins.extractPath(module);
 
-sliderPlugins.directive('swOutputFrame', () => {
+sliderPlugins.directive('swOutputFrame', ($location) => {
 
   return {
     restrict: 'E',
@@ -35,7 +47,8 @@ sliderPlugins.directive('swOutputFrame', () => {
     templateUrl: path + '/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element
+        $element: element, $location,
+        scope
       });
 
       scope.$watch('currentUrl', (url) => {
