@@ -40,9 +40,9 @@ require.config({
     "lib/beautify-html": "../components/js-beautify/js/lib/beautify-html",
     "lib/file-saver": "../components/FileSaver/FileSaver",
     "lib/favicojs": "../components/favico.js/favico",
-    "lib/introjs": "../components/intro.js/intro",
     "lib/json-diff": "../components/jsondiffpatch/public/build/jsondiffpatch-full",
     "lib/chardin": "../components/chardin.js/chardinjs",
+    "lib/cryptojs": "./components/CryptoJS/build/rollups",
 
     // Plugins
     "es6": "../components/requirejs-babel/es6",
@@ -98,9 +98,6 @@ require.config({
     },
     "ace_languageTools": {
       "deps": ["ace"]
-    },
-    "lib/introjs": {
-      "exports": "introJs"
     },
     "lib/json-diff": {
       "exports": "json_diff"

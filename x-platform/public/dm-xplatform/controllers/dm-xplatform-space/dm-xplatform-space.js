@@ -7,7 +7,6 @@ define([
   'es6!xplatform/services/dm-ranking/dm-ranking',
   'xplatform/directives/dm-iframe/dm-iframe',
   'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
-  'xplatform/directives/dm-intro/dm-intro',
   'xplatform/directives/dm-annotations/dm-annotations',
   'es6!xplatform/directives/dm-ranking/dm-ranking',
   'es6!xplatform/directives/dm-xplatform-context/dm-xplatform-context',

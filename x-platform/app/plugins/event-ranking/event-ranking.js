@@ -1,10 +1,10 @@
 var Q = require('q'),
   Ranking = require('../../models/ranking'),
-  eventRoom = require('../eventRoom');
+  eventRoom = require('../eventRoom'),
+  logger = require('../../../config/logging');
 
 exports.onSocket = function(log, socket, io) {
   'use strict';
-  console.log("Ranking init.");
 
   function updateRanking(data, ack) {
     var eventId = data.eventId;
@@ -30,6 +30,9 @@ exports.onSocket = function(log, socket, io) {
     }).done(function(ranking) {
       socket.broadcast.to(eventRoom(eventId)).emit('ranking', ranking);
       ack(ranking);
+    }, function(err) {
+      logger.error(err);
+      ack({});
     });
   }
 
@@ -45,7 +48,10 @@ exports.onSocket = function(log, socket, io) {
   }
 
   function fetchRankingForClient(eventId, ack) {
-    fetchRanking(eventId).done(ack);
+    fetchRanking(eventId).done(ack, function(err) {
+      logger.error(err);
+      ack({});
+    });
   }
 
   socket.on('ranking.done', updateRanking);

@@ -1,4 +1,6 @@
-define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformApp, _) {
+define([
+    'angular', 'xplatform/xplatform-app', '_', 'es6!./unlock/dm-unlock.es6'
+], function(angular, xplatformApp, _) {
 
   /**
    * Converts an HSL color value to RGB. Conversion formula
@@ -47,7 +49,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
   }
 
 
-  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $stateParams, dmEvents, dmUser, dmSpaceRedirect) {
+  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $stateParams, dmEvents, dmUser, dmSpaceRedirect, $modal, $state, $window) {
 
     dmEvents.allEvents().then(function(events) {
       $scope.courses = events;
@@ -106,6 +108,30 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
     $scope.getDescription = function(courseTitle) {
       var chars = /([a-z]{4})/i.exec(courseTitle);
       return chars[1];
+    };
+
+
+    $scope.unlockCourse = function(course) {
+      var modalInstance = $modal.open({
+        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/unlock/dm-unlock.html',
+        controller: 'dmXplatformWorkshopUnlock',
+        size: 'sm',
+        resolve: {
+          course: function() {
+            return course;
+          }
+        }
+      });
+      modalInstance.result.then(function(id) {
+        if (course.shouldRedirectToUnsafe) {
+          var url = $scope.getUnsafeAddress(course);
+          $window.location = url;
+        } else {
+          $state.go('index.space.learn.agenda', {
+            event: id
+          });
+        }
+      });
     };
 
   });

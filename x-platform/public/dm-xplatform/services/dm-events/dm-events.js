@@ -22,6 +22,17 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
             return data.data.slidesave;
           });
         },
+        getRealId: function(encId, pin) {
+          return $http({
+              method: 'get',
+              url: '/api/events/' + encId + '/_id', 
+              params: {
+                pin: pin
+              }
+          }).then(function(data) {
+            return data.data;
+          });
+        },
         cloneEvent: function(event) {
           event.visible = false;
           event.removed = false;
