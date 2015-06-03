@@ -1,5 +1,5 @@
 define([
-  'angular', 'xplatform/xplatform-app',
+  'angular', 'dm-xplatform/xplatform-app',
   './services/dm-workspaces'
 ], function(angular, xplatformApp) {
 

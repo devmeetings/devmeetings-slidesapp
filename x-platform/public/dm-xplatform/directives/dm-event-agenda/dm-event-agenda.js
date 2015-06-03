@@ -2,9 +2,9 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
+import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
-import 'es6!xplatform/directives/dm-event-task-details/dm-event-task-details';
+import 'dm-xplatform/directives/dm-event-task-details/dm-event-task-details';
 
 class EventAgenda {
 

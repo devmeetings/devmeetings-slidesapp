@@ -1,6 +1,6 @@
 /* jshint esnext:true */
 
-import * as xplatformApp from 'xplatform/xplatform-app';
+import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
 
 class SpaceRedirect {

@@ -1,8 +1,8 @@
 define(['angular',
         './slider.plugins',
         'angular-bootstrap', 'angular-animate', 'angular-touch', 'angular-ui-sortable',
-        'angular-moment', 'angular-local-storage', 'angular-contenteditable', 'angulartics-ga', 'angular-marked',
-        'angular-hotkeys', 'angular-file-upload', 'angular-jsonedit'
+        'angular-moment', 'angular-local-storage', 'angular-contenteditable', 'angulartics', 'angular-marked',
+        'angular-hotkeys', 'angular-file-upload', 'json-edit'
     ],
     function(angular) {
         var mod = angular.module('slider', [

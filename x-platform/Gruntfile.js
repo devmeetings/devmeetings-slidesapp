@@ -85,7 +85,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           ext: '.html',
-          src: ['public/**/*.jade', '!public/components/**']
+          src: ['public/**/*.jade', '!public/components/**', '!public/jspm_packages/**']
         }]
       }
     },
@@ -116,7 +116,7 @@ module.exports = function(grunt) {
             return url.replace('public/', '');
           }
         },
-        src: ['public/**/*.html', '!public/components/**'],
+        src: ['public/**/*.html', '!public/components/**', '!public/jspm_packages/**'],
         dest: 'public/bin/templates-' + version + '.js'
       }
     },
@@ -157,7 +157,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      public: ['public/**/*.js', '!public/resources/**', '!public/dm-slider/theme-todr.js', '!public/bin/**', '!public/components/**'],
+      public: ['public/**/*.js', '!public/resources/**', '!public/dm-slider/theme-todr.js', '!public/bin/**', '!public/components/**', '!public/jspm_packages/**'],
       server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
     },
     less: {
@@ -195,7 +195,7 @@ module.exports = function(grunt) {
     },
     complexity: {
       build: {
-        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**', '!public/components/**'],
+        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**', '!public/components/**', '!public/jspm_packages/**'],
         options: {
           breakOnErrors: true,
           errorsOnly: true,
@@ -237,7 +237,7 @@ module.exports = function(grunt) {
       files = files.map(function(file) {
         file = file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
         if (file.indexOf('es6') > -1) {
-          return 'es6!' + file;
+          return '' + file;
         }
 
         return file;

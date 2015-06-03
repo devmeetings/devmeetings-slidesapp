@@ -3,8 +3,7 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
-import * as _ from '_';
+import _ from '_';
 
 
 class OutputConsole {
@@ -15,13 +14,11 @@ class OutputConsole {
 
 }
 
-var path = sliderPlugins.extractPath(module);
-
 sliderPlugins.directive('swOutputConsole', () => {
 
   return {
     restrict: 'E',
-    templateUrl: path + '/sw-output-console.html',
+    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-console/sw-output-console.html',
     link: function(scope, element) {
       let frame = new OutputConsole();
     }

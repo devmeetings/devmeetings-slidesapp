@@ -1,4 +1,4 @@
-define(['$', 'angular', 'lib/chardin'], function($, angular) {
+define(['$', 'angular'], function($, angular) {
   'use strict';
 
   angular.module('dm-intro', []).factory('dmIntro', function($timeout, $window) {
@@ -35,9 +35,10 @@ define(['$', 'angular', 'lib/chardin'], function($, angular) {
         setNotFirstTime(key);
         $element = $element || 'body';
 
-        $timeout(function() {
-          $($element).chardinJs('start');
-        }, 1500);
+        // TODO [ToDr] Temporarily disable due to issues with chardin + jspm
+        // $timeout(function() {
+        // $($element).chardinJs('start');
+        // }, 1500);
       }
     };
 

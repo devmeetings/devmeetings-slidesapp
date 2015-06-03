@@ -1,4 +1,4 @@
-define(['require', '_', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenable'], function(require, _, Worker, newListenable) {
+define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], function(require, _, Worker, newListenable) {
   'use strict';
 
   return function($q) {

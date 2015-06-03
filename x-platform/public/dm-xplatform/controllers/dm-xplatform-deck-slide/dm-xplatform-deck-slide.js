@@ -1,8 +1,8 @@
 define(['angular', 
         '_',
-        'xplatform/xplatform-app',
+        'dm-xplatform/xplatform-app',
         'directives/plugins-loader',
-        'xplatform/services/dm-slides/dm-slides'
+        'dm-xplatform/services/dm-slides/dm-slides'
         ], function (angular, _, xplatformApp, pluginsLoader) {
     xplatformApp.controller('dmXplatformDeckSlide', 
       ['$scope', '$q', '$state', '$stateParams', 'dmSlides', 'dmBrowserTab',

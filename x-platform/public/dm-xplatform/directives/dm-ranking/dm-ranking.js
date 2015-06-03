@@ -2,8 +2,8 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
 
 class RankingDir {
 

@@ -1,9 +1,9 @@
 define([
-  '_', 'angular', 'xplatform/xplatform-app',
-  'xplatform/directives/dm-annotation/dm-annotation',
-  'xplatform/directives/dm-microtask/dm-microtask',
-  'xplatform/directives/dm-annotation-group/dm-annotation-group',
-  'xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit'
+  '_', 'angular', 'dm-xplatform/xplatform-app',
+  'dm-xplatform/directives/dm-annotation/dm-annotation',
+  'dm-xplatform/directives/dm-microtask/dm-microtask',
+  'dm-xplatform/directives/dm-annotation-group/dm-annotation-group',
+  'dm-xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit'
 ], function(_, angular, xplatformApp) {
   'use strict';
 

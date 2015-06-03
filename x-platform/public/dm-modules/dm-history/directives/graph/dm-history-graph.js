@@ -1,7 +1,7 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import * as _ from '_';
+import _ from '_';
 
 class DmHistoryGraph {
 

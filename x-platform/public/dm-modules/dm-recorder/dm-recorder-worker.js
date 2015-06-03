@@ -1,7 +1,7 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import jsondiffpatch from 'lib/json-diff';
+import jsondiffpatch from 'jsondiffpatch';
 import _ from '_';
 
 let jsondiffpatch2 = jsondiffpatch.create({

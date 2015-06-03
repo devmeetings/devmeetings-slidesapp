@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp) {
     xplatformApp.service('dmWorkspaces', ['$http', '$q',
         function($http, $q) {
             function wrap(promise) {

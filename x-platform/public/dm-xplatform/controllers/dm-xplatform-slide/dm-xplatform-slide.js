@@ -1,8 +1,8 @@
 define(['angular',
   '_',
-  'xplatform/xplatform-app',
+  'dm-xplatform/xplatform-app',
   'directives/plugins-loader',
-  'xplatform/services/dm-slidesaves/dm-slidesaves'
+  'dm-xplatform/services/dm-slidesaves/dm-slidesaves'
 ], function(angular, _, xplatformApp) {
   xplatformApp.controller('dmXplatformSlide', 
     function($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {

@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp) {
     xplatformApp.controller('dmXplatformLeftbar', ['$scope', 'dmUser',
         function($scope, dmUser) {
 

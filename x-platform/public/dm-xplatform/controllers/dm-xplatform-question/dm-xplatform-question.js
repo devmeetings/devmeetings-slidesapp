@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create'], function(angular, xplatformApp) {
   xplatformApp.controller('dmXplatformQuestion', function($scope, $rootScope, $modal, $stateParams, dmQuestions, dmEvents, dmUser) {
 
     function checkIfActive() {

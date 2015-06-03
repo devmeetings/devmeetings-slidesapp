@@ -2,7 +2,7 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
+import xplatformApp from 'dm-xplatform/xplatform-app';
 
 class EventAdmin {
 

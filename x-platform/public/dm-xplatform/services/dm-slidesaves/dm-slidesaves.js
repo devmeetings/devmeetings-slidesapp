@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
+define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
     xplatformApp.service('dmSlidesaves', ['$http', '$q', 'Sockets', function ($http, $q, Sockets) {
        
         var promises = {

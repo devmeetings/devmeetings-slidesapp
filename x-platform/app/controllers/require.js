@@ -69,9 +69,9 @@ exports.pluginsPaths = function(req, res) {
         files = files.map(function(file) {
             file = file
                     .replace(/.js$/, '')
-                    .replace(/^public\/dm-plugins/, 'plugins');
+                    .replace(/^public\/dm-plugins/, 'dm-plugins');
             if (file.indexOf('es6') > -1) {
-              return 'es6!' + file;
+              return '' + file;
             }
       
             return file;

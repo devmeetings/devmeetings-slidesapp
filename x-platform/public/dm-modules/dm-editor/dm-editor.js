@@ -1,4 +1,4 @@
-define(['angular', '_', 'ace', 'es6!./get-extension.es6'], function(angular, _, ace, getExtension) {
+define(['angular', '_', 'ace', './get-extension.es6'], function(angular, _, ace, getExtension) {
   'use strict';
 
   var EDITOR_THEME = 'todr';

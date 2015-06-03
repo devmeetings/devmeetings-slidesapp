@@ -1,6 +1,6 @@
 define(['angular',
     '_',
-    'xplatform/xplatform-app',
+    'dm-xplatform/xplatform-app',
     'directives/plugins-loader'
 ], function(angular, _, xplatformApp, pluginsLoader) {
     xplatformApp.controller('dmXplatformDeck', ['$scope', '$stateParams', '$sce', 'dmBrowserTab',

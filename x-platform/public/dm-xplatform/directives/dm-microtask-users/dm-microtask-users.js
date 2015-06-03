@@ -1,5 +1,5 @@
-define(['angular', 'xplatform/xplatform-app', 'slider/slider.plugins',
-        'xplatform/services/dm-tasks/dm-tasks'], function (angular, xplatformApp, sliderPlugins) {
+define(['angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins',
+        'dm-xplatform/services/dm-tasks/dm-tasks'], function (angular, xplatformApp, sliderPlugins) {
     sliderPlugins.registerPlugin('microtask', '*', 'microtask-users', 500).directive('microtaskUsers', [
         '$modal', 'dmTasks', function ($modal, dmTasks) {
             return {

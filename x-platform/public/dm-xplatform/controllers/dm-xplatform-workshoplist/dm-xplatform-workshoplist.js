@@ -1,5 +1,5 @@
 define([
-    'angular', 'xplatform/xplatform-app', '_', 'es6!./unlock/dm-unlock.es6'
+    'angular', 'dm-xplatform/xplatform-app', '_', './unlock/dm-unlock.es6'
 ], function(angular, xplatformApp, _) {
 
   /**

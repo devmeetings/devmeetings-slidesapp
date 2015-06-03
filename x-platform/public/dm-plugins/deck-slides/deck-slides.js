@@ -1,4 +1,4 @@
-define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, angular, fs, sliderPlugins) {
+define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, angular, fs, sliderPlugins) {
 
   var path = sliderPlugins.extractPath(module);
 

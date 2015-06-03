@@ -5,7 +5,7 @@ define(['angular',
   'angular-bootstrap',
   'angular-marked',
   'angular-animate',
-  'angular-fullscreen',
+  // 'angular-fullscreen',
   'angular-scrollbar',
   'slider/slider',
   'slider/slider.plugins',
@@ -18,14 +18,11 @@ define(['angular',
   'dm-modules/dm-recorder/dm-recorder',
   'dm-modules/dm-intro/dm-intro',
   'dm-modules/dm-sref-show/dm-sref-show',
-  'es6!dm-modules/dm-online/dm-online',
-  'es6!dm-modules/dm-history/dm-history'
+  'dm-modules/dm-online/dm-online',
+  'dm-modules/dm-history/dm-history'
 ], function(angular) {
 
   'use strict';
-
-  // [ToDr] AMD sucks.
-  require(['FBAngular']);
 
   return angular.module('xplatform', [
     'slider', 'slider.plugins',

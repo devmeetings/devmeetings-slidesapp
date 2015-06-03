@@ -2,10 +2,10 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
-import 'es6!../dm-event-agenda/dm-event-agenda';
-import 'es6!../dm-event-users/dm-event-users';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
+import '../dm-event-agenda/dm-event-agenda';
+import '../dm-event-users/dm-event-users';
 
 class MenuDir {
 

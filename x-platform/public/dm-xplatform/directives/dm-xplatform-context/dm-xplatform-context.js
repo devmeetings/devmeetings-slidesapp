@@ -2,9 +2,9 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
-import 'es6!xplatform/directives/dm-event-admin/dm-event-admin';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
+import 'dm-xplatform/directives/dm-event-admin/dm-event-admin';
 
 const names = {
   admin: 'Admin',

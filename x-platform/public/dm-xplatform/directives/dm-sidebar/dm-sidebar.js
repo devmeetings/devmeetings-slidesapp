@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformApp) {
     xplatformApp.directive('dmSidebar', [function () {
         return {
             restrict: 'E',

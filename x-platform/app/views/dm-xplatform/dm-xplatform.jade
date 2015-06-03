@@ -6,7 +6,9 @@ append scripts
     script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
     script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
     script.
-      System.import('dm-xplatform/dm-xplatform#{cacheBustingVersion}');
+      System.import('dm-xplatform/dm-xplatform#{cacheBustingVersion}').then(function(){}, function(err){
+        throw err;
+      });
 
 block content
     .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')

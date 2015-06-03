@@ -1,8 +1,8 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import * as jsBeautify from 'js-beautify';
-import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
+import jsBeautify from 'js-beautify';
+import getExtension from 'dm-modules/dm-editor/get-extension.es6';
 
 class Formatter {
 

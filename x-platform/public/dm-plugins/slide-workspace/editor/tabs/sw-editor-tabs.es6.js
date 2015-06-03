@@ -3,9 +3,8 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
-import * as _ from '_';
-import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
+import _ from '_';
+import getExtension from 'dm-modules/dm-editor/get-extension.es6';
 
 
 class Tab {
@@ -126,7 +125,6 @@ class SwEditorTabs {
 }
 
 
-var path = sliderPlugins.extractPath(module);
 sliderPlugins.directive('swEditorTabs', () => {
 
   return {
@@ -139,7 +137,7 @@ sliderPlugins.directive('swEditorTabs', () => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: path + '/sw-editor-tabs.html',
+    templateUrl: '/static/dm-plugins/slide-workspace/editor/tabs/sw-editor-tabs.html',
     controller: function($scope, $window) {
       let tabs = new SwEditorTabs({
         $scope, $window

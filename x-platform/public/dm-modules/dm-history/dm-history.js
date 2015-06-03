@@ -2,10 +2,10 @@
 'use strict';
 
 import '../dm-recorder/dm-recorder';
-import * as angular from 'angular';
-import {History} from 'es6!./services/dm-history-service';
-import {dmHistoryGraph} from 'es6!./directives/graph/dm-history-graph';
-import {dmHistoryPlayer} from 'es6!./directives/player/dm-history-player';
+import angular from 'angular';
+import {History} from './services/dm-history-service';
+import {dmHistoryGraph} from './directives/graph/dm-history-graph';
+import {dmHistoryPlayer} from './directives/player/dm-history-player';
 
 let mod = angular.module('dm-history', ['dm-recorder']);
 mod.factory('dmHistory', ($http)=>{

@@ -1,4 +1,4 @@
-define(['angular', 'lib/favicojs'], function(angular, Favico) {
+define(['angular', 'favico.js'], function(angular, Favico) {
   'use strict';
 
   angular.module('dm-browsertab', []).service('dmBrowserTab', function($rootScope, $timeout) {

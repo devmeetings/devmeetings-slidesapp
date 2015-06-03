@@ -1,7 +1,7 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
+import xplatformApp from 'dm-xplatform/xplatform-app';
 
 function agendaCtrl($scope, $state, $stateParams, $location, dmBrowserTab, dmEvents, dmIntro) {
   dmBrowserTab.setTitleAndIcon('Agenda', 'slide');

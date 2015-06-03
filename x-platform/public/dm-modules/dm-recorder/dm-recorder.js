@@ -1,5 +1,5 @@
 define(
-  ['require', '_', 'angular', './dm-player', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenable', 'es6!./dm-recorder-context'],
+  ['require', '_', 'angular', './dm-player', './dm-recorder-worker', './dm-recorder-listenable', './dm-recorder-context'],
   function(require, _, angular, player, Worker, newListenable, dmRecorderContext) {
     'use strict';
 

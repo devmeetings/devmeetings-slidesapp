@@ -1,5 +1,5 @@
-define(['angular', 'xplatform/xplatform-app', '_',
-  'xplatform/services/dm-events/dm-events'
+define(['angular', 'dm-xplatform/xplatform-app', '_',
+  'dm-xplatform/services/dm-events/dm-events'
 ], function(angular, xplatformApp, _) {
   'use strict';
   xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmIntro, $modal) {
