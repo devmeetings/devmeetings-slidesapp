@@ -3,7 +3,7 @@ include ./common
 .sw-row(
     ng-style="{height: model.output.topSize}"
   )
-  +editor(true, '"*.html"')
+  +editor(true, 'model.layout.options[0]')
 
 sw-splitter(left="model.output.topSize", right="model.output.bottomSize", drag-active="model.output.dragActive", is-row="true")
 .sw-row(
@@ -12,7 +12,7 @@ sw-splitter(left="model.output.topSize", right="model.output.bottomSize", drag-a
   .sw-col.full-height(
       ng-style="{width: model.output.leftSize}"
     )
-    +editor(true, '"*.js"')
+    +editor(true, 'model.layout.options[1]')
   sw-splitter(left="model.output.leftSize", right="model.output.rightSize", drag-active="model.output.dragActive")
   .sw-col.full-height(
     ng-style="{width: model.output.rightSize}"

@@ -77,6 +77,7 @@ class SwEditor {
 
   patternToRegex(pattern) {
     let p = pattern
+      .replace(/\|/g, '\\|')
       .replace(/\*\*/g, '.+')
       .replace(/\*/g, '([^|]+)')
       .replace(/\./g, '\\|');

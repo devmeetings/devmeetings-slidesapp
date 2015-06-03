@@ -19,6 +19,9 @@
     include ../layouts/tabs-v
   .full-height(ng-if="model.layout.name === 'angular'")
     include ../layouts/angular
+  .full-height(ng-if="model.layout.name === 'grid'")
+    include ../layouts/grid
+
 
 
   div.text-muted.layout-chooser
@@ -27,3 +30,4 @@
       option(value="tabs") Classic
       option(value="tabs-v") Classic V
       option(value="angular") Angular
+      option(value="grid") Grid
