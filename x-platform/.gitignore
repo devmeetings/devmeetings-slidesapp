@@ -11,6 +11,7 @@
 /.rebooted
 /.version
 **/*.ogg
+jspm_packages
 
 # Created by http://www.gitignore.io
 

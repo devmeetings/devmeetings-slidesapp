@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformProfile', ['$scope', '$stateParams', '$state', 'dmUser', function ($scope, $stateParams, $state, dmUser) {
         dmUser.getCurrentUser().then(function (data) {
             $scope.userData = data;

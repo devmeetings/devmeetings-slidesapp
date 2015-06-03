@@ -1,5 +1,5 @@
 define([
-    'module', '_', 'slider/slider.plugins', 'xplatform/directives/dm-taskicon/dm-taskicon',
+    'module', '_', 'slider/slider.plugins', 'dm-xplatform/directives/dm-taskicon/dm-taskicon',
     './microtask_js_assert', './microtask_regexp', './microtask_output', './microtask_fiddle'
 ], function(
     module, _, sliderPlugins, jsAssert, microtaskRegexp, output, fiddleOutput) {

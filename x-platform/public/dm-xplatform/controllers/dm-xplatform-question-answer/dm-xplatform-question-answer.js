@@ -1,4 +1,4 @@
-define(['angular', 'xplatform/xplatform-app', '_'], function (angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatformApp) {
     xplatformApp.controller('dmXplatformQuestionAnswer', ['$scope', '$stateParams', 'dmQuestions', 'question', function ($scope, $stateParams, dmQuestions, question) {
         $scope.comment = {
         };
