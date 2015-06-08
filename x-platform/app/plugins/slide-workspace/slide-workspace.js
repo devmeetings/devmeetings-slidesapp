@@ -40,7 +40,7 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
 
 
   app.get('/workspace/page/:hash/:file*', returnFile.bind(null, fetchWorkspace));
-  app.get('/workspace/page/workspace/:hash', returnFile.bind(null, fetchWorkspace));
+  app.get('/workspace/page/:hash', returnFile.bind(null, fetchWorkspace));
 
   app.get('/page/:hash/:file*', returnFile.bind(null, createStateFromId));
   app.get('/page/:hash', returnFile.bind(null, createStateFromId));

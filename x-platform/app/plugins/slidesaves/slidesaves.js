@@ -1,9 +1,20 @@
 var slidesave = require('../../controllers/slidesaves');
+var liveReload = require('./live-reload');
+
+var lrServer = liveReload();
 
 exports.onSocket = function(log, socket) {
+
   socket.on('slidesaves.save', function(data, callback) {
-    slidesave.doEdit(socket.request.user._id, data.slide, data.stateId, function(err, state) {
+
+    var slidesaveId = data.slide;
+
+    slidesave.doEdit(socket.request.user._id, slidesaveId, data.stateId, function(err, state) {
       callback(state._id);
+
+      lrServer.notifyClientsOnUrl('page/' + slidesaveId, ['index.html']);
     });
+
   });
+
 };
