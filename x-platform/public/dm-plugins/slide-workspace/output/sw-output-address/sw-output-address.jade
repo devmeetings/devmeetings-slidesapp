@@ -20,26 +20,37 @@
       ng-if="model.workspaceId"
       )
       a.btn(
-        ng-click="model.openQrDialog(model.getWorkspaceAddress())"
-        title="Display QRCode to open page on your device"
-        analytics-event="workspace-qrcode"
-        analytics-category="workspace"
-        )
-            span.fa.fa-qrcode
-    .input-group-btn(
-      ng-if="model.workspaceId"
-      )
-      a.btn(
-        title="Open Preview In New Window"
+        tooltip="Open Preview In New Window"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
         ng-href="{{ model.getWorkspaceAddress() }}"
         target="_blank"
         analytics-event="workspace-newWindow"
         analytics-category="workspace"
         )
             span.fa.fa-external-link
+
+    .input-group-btn(
+      ng-if="model.workspaceId"
+      )
+      a.btn(
+        ng-click="model.openQrDialog(model.getWorkspaceAddress())"
+        tooltip="Display QRCode to open page on your device"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        analytics-event="workspace-qrcode"
+        analytics-category="workspace"
+        )
+            span.fa.fa-qrcode
+
     .input-group-btn
       a.btn(
-        title="Get Permanent URL For Current Workspace"
+        tooltip="Get Permanent URL For Current Workspace"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
         ng-href="{{ model.baseUrl + model.currentPath }}"
         target="_blank"
         analytics-event="workspace-permaUrl"
