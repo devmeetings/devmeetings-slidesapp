@@ -25,7 +25,8 @@
   .full-height(
       ng-if="isDead === false && isWarning === false"
       ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
-    iframe.iframe-fiddle-output.scrollable-container
+    iframe#iframeNum-1.iframe-fiddle-output.scrollable-container.num-one
+    iframe#iframeNum-2.iframe-fiddle-output.scrollable-container.num-two
     // iframe.iframe-fiddle-output.scrollable-container(
     //   ng-show="$root.performance.indexOf('workspace_output_noanim') === -1"
     // )
