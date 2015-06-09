@@ -76,10 +76,10 @@
         li(
           ui-sref-active="active"
           ng-repeat="task in i.tasks"
-          target="_blank"
           )
           a.text-muted(
             ng-href="{{task.url}}"
+            target="_blank"
           )
             span.fa.fa-external-link.nav-icon
             span {{ task.title }} (All)
