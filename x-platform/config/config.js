@@ -231,7 +231,8 @@ Object.keys(fromEnv).map(function(k) {
   var cookieDomain;
   cookieDomain = c.realmUrl.replace(/https?:\/\//, '');
   cookieDomain = cookieDomain.replace(/:[0-9]+$/, '');
-  c.cookieDomain = cookieDomain;
+  var domainParts = cookieDomain.split('.').reverse();
+  c.cookieDomain = '.' + domainParts[1] + '.' + domainParts[0];
 
 }(currentConfig));
 
