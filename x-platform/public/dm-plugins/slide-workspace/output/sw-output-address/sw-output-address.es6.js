@@ -19,7 +19,8 @@ sliderPlugins.directive('swOutputAddress', () => {
       hideBaseUrl: '=',
       baseUrl: '=',
       currentPath: '=',
-      appliedPath: '='
+      appliedPath: '=',
+      workspaceId: '='
     },
     bindToController: true,
     controllerAs: 'model',

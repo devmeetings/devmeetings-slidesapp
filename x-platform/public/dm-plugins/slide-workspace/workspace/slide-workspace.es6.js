@@ -50,6 +50,10 @@ class SwMain {
         self.onEvalOutput();
       }
     };
+    
+    this.$scope.$watch(() => self.recorder.workspaceId, (workspaceId) => {
+      self.workspaceId = workspaceId;
+    });
 
     this.$scope.$watch(() => self.workspace.layout, (layout) => {
       if (!layout) {
@@ -86,6 +90,7 @@ sliderPlugins
       scope: {
         workspace: '=data',
         slide: '=context',
+        recorder: '=recorder',
         path: '@',
         mode: '='
       },

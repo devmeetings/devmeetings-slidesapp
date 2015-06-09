@@ -22,6 +22,7 @@ class RecorderContext {
 
   createRecorder(workspaceId) {
     this.recorder = this.dmRecorder(workspaceId);
+    this.recorder.workspaceId = workspaceId;
     return this.recorder;
   }
 }

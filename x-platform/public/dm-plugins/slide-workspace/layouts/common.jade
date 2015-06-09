@@ -26,6 +26,7 @@ mixin output(withConsoleInColumns)
     with-console="model.output.isWithConsole"
     with-console-in-columns="#{withConsoleInColumns}"
     with-address="model.workspace.showUrl !== false || model.output.showUrl"
+    workspace-id="model.workspaceId"
     on-notify-eval="model.evalIfAutoOutput()"
     needs-eval="model.output.needsEval"
     is-dead="model.output.isDead"

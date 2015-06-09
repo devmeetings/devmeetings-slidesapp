@@ -84,6 +84,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       hideBaseUrl: '=',
       currentPath: '=',
       appliedPath: '=',
+      workspaceId: '=',
 
       onNotifyEval: '&',
       needsEval: '=',
