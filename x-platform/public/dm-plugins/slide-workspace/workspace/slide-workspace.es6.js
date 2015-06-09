@@ -2,7 +2,6 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as require from 'require';
 import * as _ from '_';
 import WorkspaceUndoManager from '../workspace-undo-manager';
 
@@ -96,7 +95,7 @@ sliderPlugins
       },
       bindToController: true,
       controllerAs: 'model',
-      templateUrl: require.toUrl('./slide-workspace.html'),
+      templateUrl: '/static/dm-plugins/slide-workspace/workspace/slide-workspace.html',
       controller($scope) {
         let sw = new SwMain({
           $rootScope, $scope, $timeout

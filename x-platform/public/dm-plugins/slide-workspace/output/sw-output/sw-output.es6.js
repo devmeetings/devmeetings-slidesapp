@@ -3,7 +3,6 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as require from 'require';
 import * as _ from '_';
 
 class SwOutput {
@@ -91,7 +90,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: require.toUrl('./sw-output.html'),
+    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output/sw-output.html',
     controller($scope) {
       this.output = {};
 
