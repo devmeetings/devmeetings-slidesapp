@@ -1,6 +1,6 @@
 define(
   ['_', 'angular', 'angular-sanitize',
-    'angular-qr',
+    'angular-qrcode',
     'asEvented',
     'dm-modules/dm-sockets/dm-sockets',
     'dm-modules/dm-editor/dm-editor',
@@ -11,7 +11,7 @@ define(
     'use strict';
 
     var module = angular.module('slider.plugins', [
-      'ngSanitize', 'angularFileUpload', 'ja.qr',
+      'ngSanitize', 'angularFileUpload', 'monospaced.qrcode',
       'dm-sockets', 'dm-editor', 'dm-recorder'
     ]);
 

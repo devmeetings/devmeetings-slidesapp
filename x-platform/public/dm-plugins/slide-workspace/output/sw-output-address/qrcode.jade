@@ -1,8 +1,9 @@
 .container-fluid.sw-output-address-qrcode
   .row
     .col-xs-12.text-center
-      qr(
-        text="address"
+      qrcode(
+        data="{{ address }}"
+        href="{{ address }}"
         size="250"
         )
   .row

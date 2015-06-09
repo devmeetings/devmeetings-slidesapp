@@ -42,7 +42,7 @@ require.config({
       "lib/favicojs": "../components/favico.js/favico",
       "lib/json-diff": "../components/jsondiffpatch/public/build/jsondiffpatch-full",
       "lib/chardin": "../components/chardin.js/chardinjs",
-      "QRCode" : "../components/qrcode/lib/qrcode",
+      "qrcode-generator" : "../components/qrcode-generator/js/qrcode",
 
 
       // Plugins
@@ -71,7 +71,7 @@ require.config({
       "angular-fullscreen": "../components/angular-fullscreen/src/angular-fullscreen",
       "angular-jsonedit": "../components/json-edit/js/directives",
       "angular-scrollbar": "../components/ng-scrollbar/dist/ng-scrollbar",
-      "angular-qr": "../components/angular-qr/src/angular-qr"
+      "angular-qrcode": "../components/angular-qrcode/qrcode"
     },
     "map": {
       "*": {
@@ -177,8 +177,8 @@ require.config({
       "angular-scrollbar": {
         "deps": ["angular"]
       },
-      "angular-qr": {
-        "deps": ["angular", "../qrcode-wrapper"]
+      "angular-qrcode": {
+        "deps": ["angular", "qrcode-generator"]
       }
     }
 });
