@@ -57,7 +57,7 @@ server {
 }
 
 server {
-  listen 35728;
+  listen 35728 ssl spdy;
   server_name {{server_domain}} *.{{server_domain}};
 
   ssl on;
@@ -68,5 +68,10 @@ server {
     proxy_pass http://xpla_livereload_{{server_short}};
     proxy_set_header Host      $host;
     proxy_set_header X-Real-IP $remote_addr;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_read_timeout 86400;
   } 
 }
