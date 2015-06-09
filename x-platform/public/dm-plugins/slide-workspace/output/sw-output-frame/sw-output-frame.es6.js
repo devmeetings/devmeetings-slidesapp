@@ -3,7 +3,7 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
+import * as require from 'require';
 import * as _ from '_';
 
 
@@ -31,7 +31,6 @@ class OutputFrame {
 
 }
 
-var path = sliderPlugins.extractPath(module);
 
 sliderPlugins.directive('swOutputFrame', ($location) => {
 
@@ -44,7 +43,7 @@ sliderPlugins.directive('swOutputFrame', ($location) => {
       isDead: '=',
       withAddress: '='
     },
-    templateUrl: path + '/sw-output-frame.html',
+    templateUrl: require.toUrl('./sw-output-frame.html'),
     link: function(scope, element) {
       let frame = new OutputFrame({
         $element: element, $location,

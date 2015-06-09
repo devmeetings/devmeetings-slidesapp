@@ -3,7 +3,7 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
+import * as require from 'require';
 import * as _ from '_';
 import formatter from 'es6!./sw-editor-formatter.es6';
 
@@ -100,7 +100,6 @@ class SwEditorTools {
 
 }
 
-var path = sliderPlugins.extractPath(module);
 sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
 
   return {
@@ -117,7 +116,7 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: path + '/sw-editor-tools.html',
+    templateUrl: require.toUrl('./sw-editor-tools.html'),
     controller: function($scope) {
       let tools = new SwEditorTools({
         $scope, $rootScope, $window, $upload

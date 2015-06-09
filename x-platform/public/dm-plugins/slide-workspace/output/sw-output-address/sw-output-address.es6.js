@@ -3,10 +3,9 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
+import * as require from 'require';
 
 
-var path = sliderPlugins.extractPath(module);
 
 sliderPlugins.directive('swOutputAddress', () => {
 
@@ -24,7 +23,7 @@ sliderPlugins.directive('swOutputAddress', () => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: path + '/sw-output-address.html',
+    templateUrl: require.toUrl('./sw-output-address.html'),
     controller: function() {
       let scope = this;
       scope.urlKeyPress = function(ev) {
