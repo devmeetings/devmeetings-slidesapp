@@ -3,6 +3,10 @@
     .col-xs-12
       h1.text-center {{ course.title }}
       h3.text-muted.text-center Course is locked
+      h3.text-muted.text-center(
+        ng-if="course.realPin"
+        ) 
+        | PIN: {{ course.realPin }}
   .row
     .col-xs-6.col-xs-offset-3.text-center
       form(ng-submit="onUnlock(pin)")

@@ -52,8 +52,11 @@ var Events = {
         if (!event.pin) {
           return;
         }
-
-        event.pin = asSha1(event.pin);
+        var realPin = event.pin;
+        event.pin = asSha1(realPin);
+        if (req.user && req.user.acl.indexOf('admin:events') > -1) {
+          event.realPin = realPin;
+        }
         event._id = new Buffer(encrypt(event._id.toString()) + ':' + event.pin).toString('base64');
       });
       res.send(events);
