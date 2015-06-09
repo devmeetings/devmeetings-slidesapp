@@ -20,19 +20,31 @@
       ng-if="model.workspaceId"
       )
       a.btn(
-        title="Open Preview In New Window",
-        ng-href="/api/workspace/page/{{model.workspaceId}}{{model.currentPath}}", 
-        target="_blank", 
-        analytics-event="workspace-newWindow",
-        analytics-category="workspace")
+        ng-click="model.openQrDialog(model.getWorkspaceAddress())"
+        title="Display QRCode to open page on your device"
+        analytics-event="workspace-qrcode"
+        analytics-category="workspace"
+        )
+            span.fa.fa-qrcode
+    .input-group-btn(
+      ng-if="model.workspaceId"
+      )
+      a.btn(
+        title="Open Preview In New Window"
+        ng-href="{{ model.getWorkspaceAddress() }}"
+        target="_blank"
+        analytics-event="workspace-newWindow"
+        analytics-category="workspace"
+        )
             span.fa.fa-external-link
     .input-group-btn
       a.btn(
-        title="Get Permanent URL For Current Workspace",
-        ng-href="{{ model.baseUrl + model.currentPath }}", 
-        target="_blank", 
-        analytics-event="workspace-newWindow",
-        analytics-category="workspace")
+        title="Get Permanent URL For Current Workspace"
+        ng-href="{{ model.baseUrl + model.currentPath }}"
+        target="_blank"
+        analytics-event="workspace-permaUrl"
+        analytics-category="workspace"
+        )
             span.fa.fa-link
 
 

@@ -1,0 +1,13 @@
+.container-fluid.sw-output-address-qrcode
+  .row
+    .col-xs-12.text-center
+      qr(
+        text="address"
+        size="250"
+        )
+  .row
+    .col-xs-6.col-xs-offset-3.text-center
+      button.btn.btn-primary.btn-block(
+        ng-click="$close()"
+        )
+        | OK

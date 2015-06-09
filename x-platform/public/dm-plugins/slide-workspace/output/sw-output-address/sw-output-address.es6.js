@@ -4,9 +4,13 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 
+function ModalCtrl($scope, $window, address) {
+  var loc = $window.location;
+  var fullUrl = loc.protocol + '//' + loc.host + address;
+  $scope.address = fullUrl;
+}
 
-
-sliderPlugins.directive('swOutputAddress', () => {
+sliderPlugins.directive('swOutputAddress', ($modal) => {
 
   return {
     restrict: 'E',
@@ -35,6 +39,21 @@ sliderPlugins.directive('swOutputAddress', () => {
           return;
         }
         scope.appliedPath = scope.currentPath;
+      };
+
+      scope.getWorkspaceAddress = () => {
+        return '/api/workspace/page/' + scope.workspaceId + scope.currentPath;
+      };
+
+      scope.openQrDialog = (url) => {
+        $modal.open({
+          templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-address/qrcode.html',
+          controller: ModalCtrl,
+          size: 'md',
+          resolve: {
+            address: () => url
+          }
+        });
       };
     }
   };
