@@ -73,7 +73,7 @@ define([
     };
 
     $scope.visibilityChanged = function(event) {
-      dmEvents.changeEventVisibility(event._id, event.visible);
+      dmEvents.changeEventVisibility(event.realId || event._id, event.visible);
     };
 
     $scope.remove = function(event) {
