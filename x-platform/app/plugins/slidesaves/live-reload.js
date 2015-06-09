@@ -1,11 +1,13 @@
 var tinylr = require('tiny-lr');
+var logger = require('../../../config/logging');
 
-module.exports = function() {
-  var port = 35729;
+module.exports = function(port) {
+  'use strict';
 
   var server = tinylr();
-
-  server.listen(port);
+  server.listen(port, function(){
+    logger.info('Live reload listening on %d', port);
+  });
 
   return {
     notifyClientsOnUrl: function(url, files) {

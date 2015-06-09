@@ -17,6 +17,7 @@ var config = {
       name: 'platform'
     },
     port: 3000,
+    livereload_port: 35729,
     realmUrl: 'https://localhost:3000',
     google: {
       id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
@@ -49,6 +50,7 @@ var config = {
       name: 'platform'
     },
     port: 2000,
+    livereload_port: 35729,
     google: {
       id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
       secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
@@ -84,6 +86,7 @@ var config = {
       name: 'platform'
     },
     port: 7000,
+    livereload_port: 35729,
     google: {
       id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
       secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
@@ -122,6 +125,7 @@ var config = {
       name: 'platform'
     },
     port: 4000,
+    livereload_port: 35729,
     google: {
       id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
       secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
@@ -158,6 +162,7 @@ var config = {
       name: 'platform'
     },
     port: 4000,
+    livereload_port: 35729,
     google: {
       id: '77504101207-ea4njaur49ekiq5hssfcvjin81ral4qv.apps.googleusercontent.com',
       secret: 'M7_CZZL5jsdbMdkE8Sqw0z4H'
@@ -194,6 +199,7 @@ var fromEnv = {
   realmUrl: process.env.REALM_URL,
   db: process.env.MONGO_URL,
   store: process.env.REDIS_URL,
+  livereload_port: process.env.LIVERELOAD_PORT
 };
 
 Object.keys(fromEnv).map(function(k) {
@@ -202,6 +208,17 @@ Object.keys(fromEnv).map(function(k) {
     currentConfig[k] = fromEnv[k];
   }
 });
+
+// Fix ports
+(function() {
+  'use strict';
+
+  var instance = parseInt(process.env.NODE_APP_INSTANCE || 0, 10);
+
+  ['port', 'livereload_port'].map(function(v) {
+    currentConfig[v] = parseInt(currentConfig[v], 10) + instance;
+  });
+}());
 
 // Append CookieDomain
 (function(c) {

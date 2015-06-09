@@ -1,7 +1,11 @@
 var slidesave = require('../../controllers/slidesaves');
 var liveReload = require('./live-reload');
 
-var lrServer = liveReload();
+var lrServer;
+
+exports.init = function(config) {
+  lrServer = liveReload(config.livereload_port);
+};
 
 exports.onSocket = function(log, socket) {
 

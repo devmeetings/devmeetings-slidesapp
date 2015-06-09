@@ -58,15 +58,12 @@ require('./config/blocked')(function(ms) {
 
 });
 
-var instance = process.env.NODE_APP_INSTANCE || 0;
-var portToListen = parseInt(config.port, 10) + parseInt(instance, 10);
-
-server.listen(portToListen, function() {
-  logger.info('Server listening on port:', portToListen, ' with env: ' + config.name);
+server.listen(config.port, function() {
+  logger.info('Server listening on port:', config.port, ' with env: ' + config.name);
 });
 
 if (config.isDev) {
-  var unsafePort = portToListen + 1000;
+  var unsafePort = config.port + 1000;
   var server = require('http').createServer(app);
   var io = socketio(server);
   require('./config/sockets')(io, sessionConfig, true);
