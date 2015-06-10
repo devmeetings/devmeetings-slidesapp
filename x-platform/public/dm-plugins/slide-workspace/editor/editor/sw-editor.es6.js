@@ -14,6 +14,10 @@ class SwEditor {
 
   controller(self) {
 
+    self.isWithTabs = ()=>{
+      return self.withTabs && self.withTools || self.withTabs && self.atLeastTwoFilteredTabs;
+    };
+
     this.$watch(() => self.withFilePattern, () => {
       this.updateFilteredTabs(self);
     });
