@@ -1,7 +1,10 @@
-.sw-ionic-download
-  a.btn.btn-primary(
-    ng-href="{{ model.getAppDownloadAddress() }}"
-    target="_blank"
-    download="xpla-ionic.apk"
-  )
-    | IONIC FETCH
+a.btn(
+  ng-click="model.openDownloadModal()"
+  target="_blank"
+  download="xpla-ionic.apk"
+  tooltip="Download APK for your device"
+  tooltip-placement="bottom"
+  tooltip-animation="false"
+  tooltip-append-to-body="true"
+)
+  span.fa.fa-android

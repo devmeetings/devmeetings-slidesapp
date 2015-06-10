@@ -9,12 +9,11 @@ mixin frameWithAddress()
       applied-path="model.appliedPath"
       workspace-id="model.workspaceId"
     )
-
-  sw-ionic-download(
-      ng-if="model.workspaceId && model.withIonic"
-      workspace-id="model.workspaceId"
-      current-path="model.currentPath"
-    )
+    sw-ionic-download(
+        ng-if="model.workspaceId && model.withIonic"
+        workspace-id="model.workspaceId"
+        current-path="model.currentPath"
+      )
 
   sw-output-frame(
       base-url="model.baseUrl"

@@ -30,7 +30,6 @@
         analytics-category="workspace"
         )
             span.fa.fa-external-link
-
     .input-group-btn(
       ng-if="model.workspaceId"
       )
@@ -44,7 +43,7 @@
         analytics-category="workspace"
         )
             span.fa.fa-qrcode
-
+    .input-group-btn(ng-transclude)
     .input-group-btn
       a.btn(
         tooltip="Get Permanent URL For Current Workspace"

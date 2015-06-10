@@ -23,6 +23,7 @@ sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
       appliedPath: '=',
       workspaceId: '='
     },
+    transclude: true,
     bindToController: true,
     controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-address/sw-output-address.html',
