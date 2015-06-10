@@ -6,6 +6,10 @@
       button.btn(
           ng-class="{'btn-success': model.highlightRefresh, 'btn-def': !model.hightlightRefresh}",
           ng-click="model.onRefresh()"
+          tooltip="Refresh Current Page"
+          tooltip-animation="false"
+          tooltip-placement="bottom"
+          tooltip-append-to-body="true"
         )
         span.fa.fa-refresh
     .form-control.address-bar
