@@ -39,8 +39,7 @@ sliderPlugins.directive('swOutputFrame', ($location) => {
     scope: {
       baseUrl: '=',
       currentUrl: '=',
-      isDead: '=',
-      withAddress: '='
+      isDead: '='
     },
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {

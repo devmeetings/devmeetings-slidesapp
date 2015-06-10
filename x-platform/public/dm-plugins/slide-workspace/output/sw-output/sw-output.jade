@@ -15,12 +15,17 @@ mixin frameWithAddress()
         current-path="model.currentPath"
       )
 
-  sw-output-frame(
-      base-url="model.baseUrl"
-      with-address="model.withAddress"
-      current-url="model.currentUrl"
-      is-dead="model.isDead"
+  .full-height(
+      ng-class="{'with-address': model.withAddress}"
     )
+    sw-output-phone(
+      with-phone="model.withIonic"
+    )
+      sw-output-frame(
+          base-url="model.baseUrl"
+          current-url="model.currentUrl"
+          is-dead="model.isDead"
+        )
 
 mixin console()
   sw-output-console.full-height
