@@ -33,7 +33,7 @@ mixin course(uisref, nghref, ngclick)
         .row
           .col-md-4
             input.form-control(
-              ng-show="courses.length >= 3"
+              ng-show="(courses | filter:{visible: true}).length >= 3 || editMode"
               type="text"
               ng-model="vmWorkshoplist.courses_filter"
               placeholder="Search for courses"
