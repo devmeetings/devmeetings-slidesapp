@@ -4,13 +4,11 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 
-function ModalCtrl($scope, $window, address) {
-  var loc = $window.location;
-  var fullUrl = loc.protocol + '//' + loc.host + address;
-  $scope.address = fullUrl;
+function ModalCtrl($scope, address) {
+  $scope.address = address;
 }
 
-sliderPlugins.directive('swOutputAddress', ($modal) => {
+sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
 
   return {
     restrict: 'E',
@@ -41,9 +39,8 @@ sliderPlugins.directive('swOutputAddress', ($modal) => {
         scope.appliedPath = scope.currentPath;
       };
 
-      scope.getWorkspaceAddress = () => {
-        return '/api/workspace/page/' + scope.workspaceId + scope.currentPath;
-      };
+      scope.getWorkspaceAddress = () => swLivereloadAddress.getAddress(scope.workspaceId, scope.currentPath);
+      scope.getFullWorkspaceAddress = () => swLivereloadAddress.getFullAddress(scope.workspaceId, scope.currentPath);
 
       scope.openQrDialog = (url) => {
         $modal.open({

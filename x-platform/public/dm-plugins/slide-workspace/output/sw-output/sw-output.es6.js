@@ -78,6 +78,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       withConsole: '=',
       withConsoleInColumns: '=',
       withAddress: '=',
+      withIonic: '=',
       isDead: '=',
       baseUrl: '=',
       hideBaseUrl: '=',
