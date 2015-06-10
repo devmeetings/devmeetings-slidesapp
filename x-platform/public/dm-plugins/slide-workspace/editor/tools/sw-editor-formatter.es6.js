@@ -1,20 +1,29 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import * as jsBeautify from 'js-beautify';
 import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
+import * as require from 'require';
+
+
+let hasFormatting = {
+  'css': true,
+  'js': true,
+  'html': true
+};
 
 class Formatter {
 
   hasFormattingForName(tabName) {
     let ext = getExtension(tabName);
-    return !!jsBeautify[ext];
+    return hasFormatting[ext];
   }
 
-  format(tabName, tabContent) {
-    let ext = getExtension(tabName);
-    return jsBeautify[ext](tabContent, {
-      indent_size: 2
+  format(tabName, tabContent, callback) {
+    require(['js-beautify'], (jsBeautify) => {
+      let ext = getExtension(tabName);
+      callback(jsBeautify[ext](tabContent, {
+        indent_size: 2
+      }));
     });
   }
 }

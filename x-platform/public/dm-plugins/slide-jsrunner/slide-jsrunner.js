@@ -88,11 +88,13 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee'], function(m
                         var code = codeEditor.getValue();
 
                         if (compilers[scope.jsrunner]) {
+                          compilers[scope.jsrunner].get(function(compiler){
                             try {
-                                code = compilers[scope.jsrunner].compileToJs(code);
+                                code = compiler(code);
                             } catch (e) {
-                                setErrors("Compilation error: " + e);
+                                setErrors('Compilation error: ' + e);
                             }
+                          });
                         }
 
                         var errors = evalJsCode(code);

@@ -21,7 +21,6 @@ module.exports = function(grunt) {
       options: {
         baseUrl: 'public/' + path,
         mainConfigFile: "public/config.js",
-        findNestedDependencies: true,
         waitSeconds: 200,
         name: module, // assumes a production build using almond
         out: "public/bin/" + path + '/' + module + "-" + version + ".js",

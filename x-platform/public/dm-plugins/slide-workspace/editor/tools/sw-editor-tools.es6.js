@@ -29,8 +29,13 @@ class SwEditorTools {
       if (!self.hasFormatting) {
         return;
       }
-      self.activeTab.content = formatter.format(self.activeTabName, self.activeTab.content);
-      self.onRefreshContent();
+
+      formatter.format(self.activeTabName, self.activeTab.content, (newContent) => {
+        this.$scope.$apply(() => {
+          self.activeTab.content = newContent;
+          self.onRefreshContent();
+        });
+      });
     };
 
     self.toggleAutoReload = () => {
