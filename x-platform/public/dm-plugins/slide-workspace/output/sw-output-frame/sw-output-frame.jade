@@ -21,7 +21,7 @@
         | open preview in separate window
   
   .full-height(
-      ng-if="isDead === false && isWarning === false"
+      ng-show="isDead === false && isWarning === false"
       ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}")
     iframe.iframe-fiddle-output.scrollable-container
     // iframe.iframe-fiddle-output.scrollable-container(

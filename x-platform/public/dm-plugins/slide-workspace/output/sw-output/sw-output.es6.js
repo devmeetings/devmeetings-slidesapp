@@ -12,13 +12,13 @@ class SwOutput {
   }
 
   controller(scope, $scope) {
-
+    let self = this;
     $scope.$watch(() => scope.appliedPath, (newPath, oldPath) => {
       if (newPath === oldPath) {
         return;
       }
-      if (this.isAutoOutput()) {
-        this.applyCurrentUrl(scope);
+      if (self.isAutoOutput()) {
+        self.applyCurrentUrl(scope);
       }
     });
 
@@ -29,11 +29,11 @@ class SwOutput {
     });
 
     $scope.$on('refreshUrl', () => {
-      this.applyCurrentUrl(scope);
+      self.applyCurrentUrl(scope);
     });
 
     scope.applyCurrentUrl = () => {
-      this.applyCurrentUrl(scope);
+      self.applyCurrentUrl(scope);
     };
   }
 
