@@ -41,13 +41,14 @@ function decrypt(val) {
 
 var onDone = function() {};
 
+var eventFields = 'title pin description image order visible shouldRedirectToUnsafe';
 var Events = {
   all: function(req, res) {
     Q.when(Event.find({
       removed: {
         $ne: true
       }
-    }).select('title pin description image order visible shouldRedirectToUnsafe').lean().exec()).then(function(events) {
+    }).select(eventFields).lean().exec()).then(function(events) {
       events.map(function(event) {
         if (!event.pin) {
           return;
@@ -97,7 +98,17 @@ var Events = {
       }, []).map(function(e) {
         return e.toString();
       }));
-      res.send(eventsIds);
+
+      return Q.when(Event.find({
+        removed: {
+          $ne: true
+        },
+        _id: {
+          $in: eventsIds
+        }
+      }).select(eventFields).lean().exec()).then(function(userEvents){
+        res.send(userEvents);
+      });
     }).fail(onError(res));
   },
 
