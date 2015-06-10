@@ -15,9 +15,13 @@ class SwLivereloadAddress {
   }
 
   getFullAddress(wsId, currentPath) {
-    var loc = this.$window.location;
     var address = this.getAddress(wsId, currentPath);
-    return loc.protocol + '//' + loc.host + address;
+    return this.getHostAddress() + address;
+  }
+
+  getHostAddress() {
+    var loc = this.$window.location;
+    return loc.protocol + '//' + loc.host;
   }
 
 }

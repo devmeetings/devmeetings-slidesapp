@@ -16,8 +16,9 @@ class IonicDownload {
   controller(self) {
     let getAppDownloadAddress = () => {
       let workspaceAddress = this.swLivereloadAddress.getFullAddress(self.workspaceId, self.currentPath);
+      let hostAddress = this.swLivereloadAddress.getHostAddress();
 
-      return '/api/ionic/app?path=' + this.$window.encodeURIComponent(workspaceAddress);
+      return hostAddress + '/api/ionic/app?path=' + this.$window.encodeURIComponent(workspaceAddress);
     };
 
     self.openDownloadModal = () => {
