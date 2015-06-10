@@ -3,7 +3,7 @@ var exec = require('child_process').exec;
 exports.initApi = function(app, authenticated, app2, router2, logger) {
   'use strict';
 
-  app.get('/ionic/app', authenticated, function(req, res) {
+  app.get('/ionic/app', function(req, res) {
     var contentSrcPath = req.query.path || '';
     var xplaIdx = Math.max(contentSrcPath.indexOf('xplatform'), contentSrcPath.indexOf('localhost'));
 
