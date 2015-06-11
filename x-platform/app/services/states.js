@@ -260,7 +260,7 @@ var States = (function() {
         var patchesToStore = patches.slice(recordingStartIdx, recordingEndIdx);
 
         var saveData = history[0];
-        var current = saveData.original;
+        var current = saveData.original || {};
         States.applyPatches(current, patchesToApply);
         var timestampDiff = patchesToApply.length ? _.last(patchesToApply).timestamp : 0;
         var currentTimestamp = new Date(saveData.originalTimestamp + timestampDiff);
