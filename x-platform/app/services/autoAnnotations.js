@@ -28,6 +28,7 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
     permaUrl: null,
     movement: 0,
     previousNotes: null,
+    previousChatnotes: [],
     previousTabData: {
       content: '',
       editor: null
@@ -43,7 +44,6 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
 
     slide.code = slide.current;
     var workspace = slide.code.workspace;
-    var note;
 
     if (workspace.active !== memo.active) {
       var currentTime = slide.timestamp;
@@ -69,14 +69,18 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
     } else if (largeJumpDetected(memo, slide)) {
       pushAnno(memo, slide, 'largeJump');
     } else if (notesDetected(memo, slide)) {
-      note = notesDetected(memo, slide);
+      var note = notesDetected(memo, slide);
       pushAnno(memo, slide, 'Notes', note);
+    } else if (chatNotesDetected(memo, slide)) {
+      var chatNote = chatNotesDetected(memo, slide);
+      pushAnno(memo, slide, 'Chat Notes', chatNote);
     } else if (lastIdx === idx) {
       pushAnno(memo, slide, 'last');
     }
 
     memo.previousTabData = workspace.tabs[workspace.active];
     memo.previousNotes = slide.code.notes;
+    memo.previousChatnotes = slide.code.chatnotes;
     memo.timestamp = slide.timestamp;
     return memo;
 
@@ -131,6 +135,20 @@ function notesDetected(memo, slide) {
   }
 
   return lastNotes[lastNotes.length - 2];
+}
+function chatNotesDetected(memo, slide) {
+  'use strict';
+  if (!slide.code.chatnotes) {
+    return false;
+  }
+  var currentNotes = slide.code.chatnotes.notes;
+  var prevNotes = memo.previousChatnotes;
+
+  if (currentNotes.length === prevNotes.length) {
+    return false;
+  }
+
+  return currentNotes[currentNotes.length - 1];
 }
 
 function movementDetected(memo, slide) {
