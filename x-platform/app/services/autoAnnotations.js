@@ -139,6 +139,10 @@ function movementDetected(memo, slide) {
   var active = workspace.active;
   var tab = workspace.tabs[active];
 
+  if (!tab || !memo.previousTabData) {
+    return false;
+  }
+
   if (tab.editor && memo.previousTabData.editor) {
     var isContentSame = tab.content === memo.previousTabData.content;
     var isCursorDifferentColumn = tab.editor.cursorPosition.column !== memo.previousTabData.editor.cursorPosition.column;
@@ -168,6 +172,10 @@ function largeJumpDetected(memo, slide) {
       return null;
     }
     return tab.editor.cursorPosition.row;
+  }
+
+  if (!tab) {
+    return false;
   }
 
   var lastRow = getRow(memo.previousTabData);

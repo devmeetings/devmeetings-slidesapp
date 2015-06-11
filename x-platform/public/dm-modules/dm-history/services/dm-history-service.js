@@ -16,9 +16,8 @@ export class History {
     dmRecorder.listen('newState', (id, patchId, current) => {
       this.onNewState(id, patchId, current);
     });
-    dmRecorder.listen('newWorkspace', (id) => {
-      this.onNewWorkspace(id);
-    });
+    let workspaceId = dmRecorder.workspaceId;
+    this.onNewWorkspace(workspaceId);
   }
 
 
@@ -76,6 +75,7 @@ export class History {
 
     this.history.push({
       _id: id,
+      currentTimestamp: new Date(),
       patches: [patchId],
       current: current
     });
