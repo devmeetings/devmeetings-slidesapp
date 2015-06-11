@@ -6,9 +6,10 @@ import * as require from 'require';
 
 
 let hasFormatting = {
-  'css': true,
-  'js': true,
-  'html': true
+  'css': 'css',
+  'js': 'js',
+  'html': 'html',
+  'es6': 'js'
 };
 
 class Formatter {
@@ -21,7 +22,8 @@ class Formatter {
   format(tabName, tabContent, callback) {
     require(['js-beautify'], (jsBeautify) => {
       let ext = getExtension(tabName);
-      callback(jsBeautify[ext](tabContent, {
+      let formatter = hasFormatting[ext];
+      callback(jsBeautify[formatter](tabContent, {
         indent_size: 2
       }));
     });
