@@ -1,0 +1,18 @@
+.row
+  .col-xs-12
+    .list-group
+      .list-group-item(
+        ng-repeat="note in model.notes.notes"
+        )
+        | {{ note }}
+    form(ng-submit="model.addNote()")
+      .form-group
+        .input-group
+          input.form-control(
+            ng-model="model.notes.current"
+            placeholder="Your notes"
+            )
+          .input-group-btn
+            button.btn.btn-default(type="submit")
+              span.fa.fa-send
+        
