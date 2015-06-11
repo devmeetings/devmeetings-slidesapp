@@ -28,12 +28,31 @@ ul.nav.nav-tabs.pull-right
       )
       span.fa.fa-external-link
 
+  sw-editor-cdn(
+    active-tab="model.activeTab"
+    active-tab-name="model.activeTabName"
+    on-new-workspace="model.localOnNewWorkspace(workspace)"
+    on-refresh-content="model.onRefreshContent()"
+  )
+
+  //.btn-group(dropdown='', is-open='status.isopen')
+    button.btn.btn-primary.dropdown-toggle(
+      type='button', dropdown-toggle='', ng-disabled='disabled',
+      style='padding: 2px; background-color: grey'
+      )
+      | Select library 
+      span.caret   
+    ul.dropdown-menu(role='menu')
+      li(ng-repeat='library in libraries')
+        a(ng-click='selectLibrary(library)')
+          | {{ library }}
+
   li.workspace-tab.workspace-download.workspace-tab-condensed
     a.cursor-pointer(
       ng-href="/api/download/{{ model.downloadId }}"
       target="_self"
       tooltip-animation="false"
-      tooltip="Download ZIP with your code"
+      tooltip="Set ZIP with your code"
       tooltip-placement="bottom"
       analytics-event="workspace-download"
       analytics-category="workspace"

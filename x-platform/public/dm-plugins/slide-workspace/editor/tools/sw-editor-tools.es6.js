@@ -101,7 +101,7 @@ class SwEditorTools {
 }
 
 var path = sliderPlugins.extractPath(module);
-sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
+sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) => {
 
   return {
     restrict: 'E',
@@ -123,7 +123,31 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
         $scope, $rootScope, $window, $upload
       });
       tools.controller(this);
+
+      //
+      $scope.libraries = [
+        'jQuery',
+        'AngularJS',
+      ];
+
+      $scope.selectLibrary = function(library) {
+        $log.log(library);
+      };
+
+      $scope.status = {
+        isopen: false
+      };
+
+      $scope.toggled = function(open) {
+        $log.log('Dropdown is now: ', open);
+      };
+
+      $scope.toggleDropdown = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
+      };
+      //
     }
   };
-
 });
