@@ -355,7 +355,8 @@ function convertHistorySlidesToPatches(slides) {
   var patches = slides.reduce(function(patches, slide) {
 
     var diff = getTimestamp(slide.originalTimestamp) - start;
-    var newPatches = slide.patches.map(function(patch) {
+    var slidePatches = slide.patches || [];
+    var newPatches = slidePatches.map(function(patch) {
       return {
         id: patch.id,
         timestamp: patch.timestamp + diff,
