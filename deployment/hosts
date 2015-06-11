@@ -7,7 +7,7 @@
 #ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de server_port=3000 livereload_port=30000
 #root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2 server_port=3000 livereload_port=30000
 #root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1 server_port=3000 livereload_port=30000
-root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000
+root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
 root@xpla.org server_domain=xpla.org server_short=xpla_xpla server_port=5000 livereload_port=50000
 
 
@@ -21,5 +21,5 @@ root@pl-2.xplatform.org hostname=pl-2.xplatform.org
 root@pl-2.xplatform.org hostname=pl-2.xplatform.org
 
 [xplatform-main]
-root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=30000 live_port=3500
-root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000
+root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
+root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
