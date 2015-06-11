@@ -3,45 +3,30 @@
     margin-top: 0;
     padding-top: 20%;
   }
-
-	/*.progress {
-	  position: absolute;
-	  z-index: 15;
-	  width: calc(100% + 1px);
-	  height: 6px;
-	  border-radius: 0;
-
-	  .progress-bar {
-	  	left: 0;
-	  }
-	}*/
 }
 
 
 
-/*.sw-output-frame {   JAK z tym w koncu? */
+.sw-output-frame {   
 
-.progress {
-  position: absolute;
-  z-index: 15;
-  width: calc(100%);
-  height: 3px;
-  border-radius: 0;
+  .progress {
+    position: absolute;
+    z-index: 15;
+    width: 100%;
+    height: 3px;
+    border-radius: 0;
+    z-index: -1;
+    opacity: 0.0;
+    transition: opacity .3s;
+      
+    &.is-visible {
+      z-index: 10;
+      opacity: 1.0;
+    }
 
-  .progress-bar {
-  	left: 0;
-		-webkit-transition: none;
-		transition: none;
-
-  	&.load {
-  		-webkit-transition: width 0.3s ease;
-  		transition: width 0.3s ease;
-  	}
+    .progress-bar {
+    	left: 0;
+      transition: width .4s ease;
+    }
   }
 }
-
-
-
-
-
-/*}*/

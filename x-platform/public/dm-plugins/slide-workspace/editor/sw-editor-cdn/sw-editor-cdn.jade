@@ -11,22 +11,8 @@
       )
       span.fa.fa-code 
     ul.dropdown-menu(role='menu')
-      //li
-        input.form-control.form-sm(
-          type="text"
-          ng-model="libraries_filter"
-          placeholder="Search for libraries"
-          ng-click='cdn.forceDropdownToBeOpen()'
-        )
       li(ng-repeat='library in cdn.libraries | filter:libraries_filter')
         a(ng-click='cdn.selectLibrary(library)')
           | {{ library.name }}
 
 
-//.sw-editor-cdn
-  //.btn-group(dropdown='', is-open='cdn.status.isopen')
-    button.btn.btn-primary.dropdown-toggle(
-      dropdown-toggle='' 
-    )
-      | Select library 
-      span.caret   

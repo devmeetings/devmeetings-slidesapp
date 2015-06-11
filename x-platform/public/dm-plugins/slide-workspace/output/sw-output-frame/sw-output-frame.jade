@@ -1,4 +1,4 @@
-.slide-workspace-outputs.full-height(
+.sw-output-frame.slide-workspace-outputs.full-height(
     )
     .text-center(
       ng-if="isDead === true"
@@ -25,12 +25,10 @@
         ng-show="isDead === false && isWarning === false"
         ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}"
         )
-      div.progress
+      div.progress(
+        ng-class="{'is-visible': percent_of_progress !== 0}"
+        )
         div.progress-bar(
-          role="progressbar"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          aria-valuenow="{{ percent_of_progress }}"
           style="width:{{ percent_of_progress }}%"
         )   
       iframe#iframeNum-1.iframe-fiddle-output.scrollable-container.num-one

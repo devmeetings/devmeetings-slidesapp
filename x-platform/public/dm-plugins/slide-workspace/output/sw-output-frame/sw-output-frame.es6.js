@@ -12,9 +12,6 @@ class OutputFrame {
   constructor(data) {
     _.extend(this, data);
     this.setAddress_was_called = 0;
-    // konieczne? (ponizej)
-    //this.iframe_one;
-    //this.iframe_two;
   }
 
   isHttp(url) {
@@ -24,30 +21,26 @@ class OutputFrame {
     return this.$location.protocol() === 'https';
   }
 
-  setAddress(url) {
-
-    this.progress_bar = this.$element.find('.progress-bar');
-    //console.log(this.progress_bar);
-
-    if ( this.setAddress_was_called <= 2) {
-      this.setAddress_was_called += 1;
-      //console.log(this.setAddress_was_called);
-      this.iframe_one = this.$element.find('iframe.num-one');
-      this.iframe_two = this.$element.find('iframe.num-two');
-    }
-
+  setIsWarning(url) {
     if (this.isHttp(url) && this.isCurrentPageHttps()) {
       this.scope.isWarning = true;
       return;
     }
     this.scope.isWarning = false;
+  }
 
-    //var x = _.throttle(function(){
+  setAddress(url) {
 
-    //}, 1000, {
-      //trailing: true
-    //}
-    //});
+    this.setIsWarning(url);
+
+    this.progress_bar = this.$element.find('.progress-bar');
+
+    if ( this.setAddress_was_called <= 2) {
+      //it should be as above 
+      this.setAddress_was_called += 1;
+      this.iframe_one = this.$element.find('iframe.num-one');
+      this.iframe_two = this.$element.find('iframe.num-two');
+    }
 
     this.iframe_two.attr('src', url);
     this.iframe_one.css({'z-index': '10'});
@@ -56,29 +49,26 @@ class OutputFrame {
     this.iframe_one.fadeIn(1);
     this.iframe_two.fadeOut(1);
 
-    this.progress_bar.addClass('load');
-    this.scope.percent_of_progress = 100;
-
+    this.scope.percent_of_progress = 90;
+    
+    var currentFrame = this.iframe_two;
     var loaded = this.iframe_two.one('load', () => {
-      //console.log('loaded!');
+      if (currentFrame !== this.iframe_two) {
+        return;
+      }
       this.iframe_two.css({'z-index': '10'});
       this.iframe_one.css({'z-index': '5'});
 
       this.iframe_two.fadeIn(1);
       this.iframe_one.fadeOut(1);
       
-      //var temp = this.iframe_one;
-      //this.iframe_one = this.iframe_two;
-      //this.iframe_two = temp;
+      var temp_one = this.iframe_one;
+      this.iframe_one = this.iframe_two;
+      this.iframe_two = temp_one;
 
-      this.temporary_iframe_one = this.iframe_one;
-      this.temporary_iframe_two = this.iframe_two;
-      this.iframe_one = this.temporary_iframe_two;
-      this.iframe_two = this.temporary_iframe_one;
-
-      this.progress_bar.removeClass('load');
-      this.scope.percent_of_progress = 0;
-
+      this.scope.$apply(()=>{
+        this.scope.percent_of_progress = 0;
+      });
     });
 
   }
@@ -110,12 +100,9 @@ sliderPlugins.directive('swOutputFrame', ( $location, $timeout, $interval) => {
         frame.setAddress(url);
 
       });
-
-      //scope.percent_of_progress = 55;
       
     }
 
-    //$scope.percent_of_progress = 50;
   };
 
 });

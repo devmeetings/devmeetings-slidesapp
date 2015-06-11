@@ -1,21 +1,18 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-//gosc ze stack'a napisal ten prototyp do Stringow, nie widzialem, gdzie
-//takie rzeczy zamieszczac, wiec dalem na samej gorze
-String.prototype.insert = function (index, string) {
-  if (index > 0)
-    return this.substring(0, index) + string + this.substring(index, this.length);
-  else
-    return string + this;
-};
-
 import sliderPlugins from 'slider/slider.plugins';
 import * as module from 'module';
 import * as _ from '_';
 import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
 
+String.prototype.insert = function (index, string) {
+  if (index > 0)
+    return this.substring(0, index) + string + this.substring(index, this.length);
+  else
+    return string + this;
+};
 
 
 sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
@@ -58,45 +55,51 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
       ];
 
       self.selectLibrary = function(library) {
-        //$log.log(library);
-        //$log.log(self.activeTab);
-        //$log.log(self.activeTab.content);
-        //$log.log(self.activeTabName);
-        var code = self.activeTab.content.toString();
+        var code = self.activeTab.content;
 
-        if ( code.toLowerCase().includes('</body>') && library.tag_category === 'script' ) 
-        {
-          var indexOfBodyClose = code.toLowerCase().indexOf('</body>');
-          code = code.insert(indexOfBodyClose, '<script src="'+library.source+'"></script>\n');
-        }
-        else if ( code.toLowerCase().includes('</head>') && library.tag_category === 'link' ) 
-        {
-          var indexOfHeadClose = code.toLowerCase().indexOf('</head>');
-          code = code.insert(indexOfHeadClose, '<link href="'+library.source+'">\n');
-        }
-        else 
-        { 
-          if ( library.tag_category === 'script' ) 
+        function getCodeToInsert(source, tagCategory) {
+          if (tagCategory === 'link') 
           {
-            code += '<script src="'+library.source+'"></script>\n';
-          }
-          else if ( library.tag_category === 'link' )
+            return '<link href="'+source+'" rel="stylesheet">\n';
+          } 
+          
+          if (tagCategory === 'script')
           {
-            code += '<link href="'+library.source+'">\n';
+            return '<script src="'+source+'"></script>\n';
+          }
+
+          return source;
+        }
+
+        function getSearchPattern(tagCategory) {
+          if (tagCategory === 'link') 
+          {
+            return /<\s*\/\s*head\s*>/;
+          } 
+          else if (tagCategory === 'script')
+          {
+            return /<\s*\/\s*body\s*>/;
           }
         }
-        
-        //$log.log(code);
-        self.activeTab.content = code;
+
+        function findIndexWhereToInsertCode(code, tagCategory) {
+          var searchPattern = getSearchPattern(tagCategory);
+          var match = code.match(searchPattern);
+
+          if (match) {
+            $log.log(code.indexOf(match[0]));
+            return code.indexOf((match[0])); 
+          }
+          return code.length;
+        }
+
+        var codeToInsert = getCodeToInsert(library.source, library.tag_category);
+        var insertIndex = findIndexWhereToInsertCode(code, library.tag_category);
+
+        self.activeTab.content = code.insert(insertIndex, codeToInsert);e;
         self.onRefreshContent();
       };
-
-      self.forceDropdownToBeOpen = function() {
-        $timeout( () => {
-          $('.cdn-dropdown').addClass('open');
-        }, 50);
-      }
-
+ 
     }
   };
 
