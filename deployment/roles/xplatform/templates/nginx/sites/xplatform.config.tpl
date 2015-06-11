@@ -3,6 +3,14 @@ location /static/ {
   rewrite ^/static/(.*)$ /public/$1;
 }
 
+location /cdn {
+  root /srv/{{server_domain}}/x-platform/public;
+  gzip on;
+  gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
+
+  expires 365d;
+}
+
 location /public {
   root /srv/{{server_domain}}/x-platform;
   gzip on;
