@@ -3,9 +3,15 @@
     .list-group
       .list-group-item(
         ng-repeat="note in model.notes.notes"
+        marked="note"
         )
-        | {{ note }}
-    form(ng-submit="model.addNote()")
+      .list-group-item(
+        marked="model.notes.current"
+        )
+    form(
+      ng-if="model.mode !== 'player'"
+      ng-submit="model.addNote()"
+      )
       .form-group
         .input-group
           input.form-control(
