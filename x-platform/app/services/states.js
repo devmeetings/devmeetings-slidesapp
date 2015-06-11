@@ -238,7 +238,7 @@ var States = (function() {
         // We cannot use toTimestamp here, because convertion can skip silence
         var others = Q.when(fetchHistory(save.workspaceId, {
           $gt: save.originalTimestamp
-        }, 10).exec());
+        }, 100).exec());
 
         return others.then(function(items) {
           return [save].concat(items);
