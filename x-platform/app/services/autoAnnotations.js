@@ -28,7 +28,7 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
     permaUrl: null,
     movement: 0,
     previousNotes: null,
-    previousChatnotes: [],
+    previousChatnotes: {},
     previousTabData: {
       content: '',
       editor: null
@@ -142,7 +142,7 @@ function chatNotesDetected(memo, slide) {
     return false;
   }
   var currentNotes = slide.code.chatnotes.notes;
-  var prevNotes = memo.previousChatnotes;
+  var prevNotes = memo.previousChatnotes.notes;
 
   if (currentNotes.length === prevNotes.length) {
     return false;
