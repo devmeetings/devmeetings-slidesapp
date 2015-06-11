@@ -235,11 +235,10 @@ var States = (function() {
 
       return Q.when(Statesave.findById(sinceId).lean().exec()).then(function(save) {
 
-        var toTime = new Date(save.originalTimestamp.getTime() + toTimestamp);
-
-        var others = Q.when(fetchHistory(save.workspaceId), {
-          $lt: toTime
-        });
+        // We cannot use toTimestamp here, because convertion can skip silence
+        var others = Q.when(fetchHistory(save.workspaceId, {
+          $gt: save.originalTimestamp
+        }, 10).exec());
 
         return others.then(function(items) {
           return [save].concat(items);
