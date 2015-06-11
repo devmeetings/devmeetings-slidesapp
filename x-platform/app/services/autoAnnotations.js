@@ -144,7 +144,7 @@ function chatNotesDetected(memo, slide) {
   var currentNotes = slide.code.chatnotes.notes;
   var prevNotes = memo.previousChatnotes.notes;
 
-  if (currentNotes.length === prevNotes.length) {
+  if (!currentNotes || !prevNotes || currentNotes.length === prevNotes.length) {
     return false;
   }
 
