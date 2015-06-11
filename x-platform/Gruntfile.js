@@ -21,7 +21,6 @@ module.exports = function(grunt) {
       options: {
         baseUrl: 'public/' + path,
         mainConfigFile: "public/config.js",
-        findNestedDependencies: true,
         waitSeconds: 200,
         name: module, // assumes a production build using almond
         out: "public/bin/" + path + '/' + module + "-" + version + ".js",
@@ -146,7 +145,7 @@ module.exports = function(grunt) {
         }
       },
       server: {
-        files: ['./*.js', 'config/*.js', 'app/**/*.js'],
+        files: ['./*.js', 'config/*.js', 'app/**/*.js', '!./app/plugins/slide-ionic-download/app/**/*.js'],
         tasks: ['jshint:server']
       },
       rebootServer: {
@@ -157,8 +156,8 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      public: ['public/**/*.js', '!public/resources/**', '!public/dm-slider/theme-todr.js', '!public/bin/**', '!public/components/**'],
-      server: ['./*.js', 'config/*.js', 'app/**/*.js', 'Gruntfile.js']
+      public: ['public/**/*.js', '!public/resources/**', '!public/dm-slider/theme-todr.js', '!public/cdn/**', '!public/bin/**', '!public/components/**'],
+      server: ['./*.js', 'config/*.js', 'Gruntfile.js']
     },
     less: {
       server: {

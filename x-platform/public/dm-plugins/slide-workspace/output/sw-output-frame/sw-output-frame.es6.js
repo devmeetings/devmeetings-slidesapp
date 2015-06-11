@@ -3,7 +3,6 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
 import * as _ from '_';
 
 
@@ -86,7 +85,6 @@ class OutputFrame {
 
 }
 
-var path = sliderPlugins.extractPath(module);
 
 
 sliderPlugins.directive('swOutputFrame', ( $location, $timeout, $interval) => {
@@ -97,10 +95,9 @@ sliderPlugins.directive('swOutputFrame', ( $location, $timeout, $interval) => {
     scope: {
       baseUrl: '=',
       currentUrl: '=',
-      isDead: '=',
-      withAddress: '='
+      isDead: '='
     },
-    templateUrl: path + '/sw-output-frame.html',
+    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
         $element: element, $location, $timeout, $interval, scope

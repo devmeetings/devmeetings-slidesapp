@@ -3,7 +3,6 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
 import * as _ from '_';
 
 
@@ -14,6 +13,10 @@ class SwEditor {
   }
 
   controller(self) {
+
+    self.isWithTabs = ()=>{
+      return self.withTabs && self.withTools || self.withTabs && self.atLeastTwoFilteredTabs;
+    };
 
     this.$watch(() => self.withFilePattern, () => {
       this.updateFilteredTabs(self);
@@ -115,7 +118,6 @@ class SwEditor {
 }
 
 
-var path = sliderPlugins.extractPath(module);
 sliderPlugins.directive('swEditor', () => {
 
   return {
@@ -141,7 +143,7 @@ sliderPlugins.directive('swEditor', () => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: path + '/sw-editor.html',
+    templateUrl: '/static/dm-plugins/slide-workspace/editor/editor/sw-editor.html',
     controller: function($scope) {
       let editor = new SwEditor({
         $scope

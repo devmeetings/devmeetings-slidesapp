@@ -3,7 +3,6 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
 import * as _ from '_';
 import formatter from 'es6!./sw-editor-formatter.es6';
 
@@ -30,8 +29,13 @@ class SwEditorTools {
       if (!self.hasFormatting) {
         return;
       }
-      self.activeTab.content = formatter.format(self.activeTabName, self.activeTab.content);
-      self.onRefreshContent();
+
+      formatter.format(self.activeTabName, self.activeTab.content, (newContent) => {
+        this.$scope.$apply(() => {
+          self.activeTab.content = newContent;
+          self.onRefreshContent();
+        });
+      });
     };
 
     self.toggleAutoReload = () => {
@@ -100,7 +104,7 @@ class SwEditorTools {
 
 }
 
-var path = sliderPlugins.extractPath(module);
+
 sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) => {
 
   return {
@@ -117,7 +121,7 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) =>
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: path + '/sw-editor-tools.html',
+    templateUrl: '/static/dm-plugins/slide-workspace/editor/tools/sw-editor-tools.html',
     controller: function($scope) {
       let tools = new SwEditorTools({
         $scope, $rootScope, $window, $upload

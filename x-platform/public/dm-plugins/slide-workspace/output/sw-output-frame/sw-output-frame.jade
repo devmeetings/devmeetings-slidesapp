@@ -1,5 +1,4 @@
 .slide-workspace-outputs.full-height(
-    ng-class="{'with-address': withAddress}"
     )
     .text-center(
       ng-if="isDead === true"
@@ -23,7 +22,7 @@
           | open preview in separate window
     
     .full-height(
-        ng-if="isDead === false && isWarning === false"
+        ng-show="isDead === false && isWarning === false"
         ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}"
         )
       div.progress

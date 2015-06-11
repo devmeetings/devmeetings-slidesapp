@@ -11,20 +11,23 @@ sw-editor-tools(
 )
 
 sw-editor-tabs(
-  ng-if="model.withTabs && model.withTools || model.withTabs && model.atLeastTwoFilteredTabs"
+  ng-if="model.isWithTabs()"
   tabs="model.filteredTabs"
   all-tabs="model.tabs"
   active-tab-name="model.editorActiveTabName"
   editor-undo-manager="model.editorUndoManager"  
 )
 
-dm-editor(
-  size='"xxl"', 
-  data='model.editorActiveTab',
-  name='model.editorActiveTabName',
-  undo-manager='model.editorUndoManager',
-  options='model.editorOptions',
-  editor-mode='model.editorMode',
-  trigger-change-later='model.onChange()'
-  on-save-action='model.onRefresh()'
+.sw-editor(
+  ng-class="{'with-tabs': model.isWithTabs()}"
 )
+  dm-editor(
+    size='"xxl"', 
+    data='model.editorActiveTab',
+    name='model.editorActiveTabName',
+    undo-manager='model.editorUndoManager',
+    options='model.editorOptions',
+    editor-mode='model.editorMode',
+    trigger-change-later='model.onChange()'
+    on-save-action='model.onRefresh()'
+  )

@@ -1,0 +1,11 @@
+.sw-output-phone
+  .sw-output-phone--wrapper(
+      ng-class="{'with-phone': model.withPhone}"
+    )
+    .sw-output-phone--container
+      img(
+        ng-if="model.withPhone"
+        src="/static/images/phone.svg"
+        alt="phone"
+      )
+      .sw-output-phone--content(ng-transclude)

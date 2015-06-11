@@ -4,7 +4,8 @@ var Event = require('../models/event'),
   _ = require('lodash'),
   Q = require('q'),
   logger = require('../../config/logging'),
-  yamlReply = require('../services/yaml');
+  yamlReply = require('../services/yaml'),
+  crypto = require('crypto');
 
 
 var onError = function(res) {
@@ -14,17 +15,75 @@ var onError = function(res) {
   };
 };
 
+function asSha1(s) {
+  var h = crypto.createHash('sha1');
+  h.update('' + s);
+  return h.digest('hex');
+}
+
+var pass = 'Lolololo';
+
+function encrypt(val) {
+  var r = '';
+  var c = crypto.createCipher('aes128', pass);
+  r += c.update(val, 'ascii', 'hex');
+  r += c.final('hex');
+  return r;
+}
+
+function decrypt(val) {
+  var r = '';
+  var d = crypto.createDecipher('aes128', pass);
+  r += d.update(val, 'hex', 'ascii');
+  r += d.final('ascii');
+  return r;
+}
+
 var onDone = function() {};
 
+var eventFields = 'title pin description image order visible shouldRedirectToUnsafe';
 var Events = {
   all: function(req, res) {
     Q.when(Event.find({
       removed: {
         $ne: true
       }
-    }).select('title description image order visible shouldRedirectToUnsafe').lean().exec()).then(function(events) {
+    }).select(eventFields).lean().exec()).then(function(events) {
+      events.map(function(event) {
+        if (!event.pin) {
+          return;
+        }
+
+        if (req.user && req.user.acl.indexOf('admin:events') > -1) {
+          var realPin = event.pin;
+          var realId = event._id;
+          event.realPin = realPin;
+          event.realId = realId;
+        }
+
+        event.pin = asSha1(event.pin);
+        event._id = new Buffer(encrypt(event._id.toString()) + ':' + event.pin).toString('base64');
+      });
       res.send(events);
     }).fail(onError(res)).done(onDone);
+  },
+
+  getRealId: function(req, res) {
+    var hashedId = req.params.id;
+    var pin = asSha1(req.query.pin);
+
+    try {
+      var idAndPinStr = new Buffer(hashedId, 'base64').toString('ascii');
+      var idAndPin = idAndPinStr.split(':');
+      if (idAndPin[1] === pin) {
+        res.send(decrypt(idAndPin[0]));
+        return;
+      }
+      res.sendStatus(403);
+    } catch (e) {
+      logger.error(e);
+      res.sendStatus(400);
+    }
   },
 
   userEvents: function(req, res) {
@@ -39,7 +98,17 @@ var Events = {
       }, []).map(function(e) {
         return e.toString();
       }));
-      res.send(eventsIds);
+
+      return Q.when(Event.find({
+        removed: {
+          $ne: true
+        },
+        _id: {
+          $in: eventsIds
+        }
+      }).select(eventFields).lean().exec()).then(function(userEvents){
+        res.send(userEvents);
+      });
     }).fail(onError(res));
   },
 

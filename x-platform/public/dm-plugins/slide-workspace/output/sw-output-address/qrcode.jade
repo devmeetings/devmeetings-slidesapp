@@ -1,0 +1,18 @@
+.container-fluid.sw-output-address-qrcode
+  .row
+    .col-xs-12.text-center
+      h3.text-muted
+        | Open Your Page on Mobile Device
+      qrcode(
+        version="7"
+        error-correction-level="L"
+        data="{{ address }}"
+        href="{{ address }}"
+        size="250"
+        )
+  .row
+    .col-xs-6.col-xs-offset-3.text-center
+      button.btn.btn-primary.btn-block(
+        ng-click="$close()"
+        )
+        | OK

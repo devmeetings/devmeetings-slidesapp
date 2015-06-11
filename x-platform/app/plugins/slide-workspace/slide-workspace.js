@@ -4,7 +4,8 @@ var States = require('../../services/states');
 var Zip = require('node-zip');
 var multiparty = require('connect-multiparty');
 var fs = require('fs');
-
+var Workspaces = require('../../models/slidesave');
+var Q = require('q');
 
 exports.initApi = function(app, authenticated, app2, router2, logger) {
   'use strict';
@@ -34,8 +35,28 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
     });
   });
 
-  app.get('/download/:hash', authenticated, function(req, res) {
-    States.createFromId(req.params.hash).then(function(slide) {
+  app.get('/workspace/download/:hash', authenticated, downloadPage.bind(null, fetchWorkspace));
+  app.get('/download/:hash', authenticated, downloadPage.bind(null, createStateFromId));
+
+
+  app.get('/workspace/page/:hash/:file*', returnFile.bind(null, fetchWorkspace));
+  app.get('/workspace/page/:hash', returnFile.bind(null, fetchWorkspace));
+
+  app.get('/page/:hash/:file*', returnFile.bind(null, createStateFromId));
+  app.get('/page/:hash', returnFile.bind(null, createStateFromId));
+
+  function fetchWorkspace(workspaceId) {
+    return Q.when(Workspaces.findById(workspaceId).exec()).then(function(slidesave) {
+      return slidesave.slide;
+    });
+  }
+
+  function createStateFromId(hash) {
+    return States.createFromId(hash);
+  }
+
+  function downloadPage(getSlideContent, req, res) {
+    getSlideContent(req.params.hash).then(function(slide) {
       var workspace = getFiles(slide.workspace);
       // Create zip file
       var zip = new Zip();
@@ -58,13 +79,9 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
     }, function(err) {
       res.send(400, err);
     }).then(null, logger.error);
-  });
+  }
 
-
-  app.get('/page/:hash/:file*', returnFile);
-  app.get('/page/:hash', returnFile);
-
-  function returnFile(req, res) {
+  function returnFile(getSlideContent, req, res) {
     var file = req.params.file || 'index.html';
     var first = req.params[0];
 
@@ -73,7 +90,7 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
     }
 
     var internalFile = getInternalFileName(file);
-    States.createFromId(req.params.hash).done(function(slide) {
+    getSlideContent(req.params.hash).done(function(slide) {
       if (!slide) {
         res.sendStatus(404);
         return;
@@ -112,7 +129,7 @@ function pushOtherFiles(res, files, internalFile) {
 
     res.push(realName, {
       'Content-Type': guessType(internalName)
-    }, function(err, stream){
+    }, function(err, stream) {
 
       stream.on('acknowledge', function() {
         console.log('acknowledge', internalName);
@@ -174,7 +191,7 @@ function processFile(ext, content) {
   if (ext === 'es6') {
     var hasImport = content.indexOf('import') !== -1;
     var hasExport = content.indexOf('export') !== -1;
-    var module =  hasImport || hasExport ? 'amd' : 'common';
+    var module = hasImport || hasExport ? 'amd' : 'common';
 
     return require('babel').transform(content, {
       modules: module

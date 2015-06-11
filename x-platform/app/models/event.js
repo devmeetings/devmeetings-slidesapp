@@ -13,6 +13,7 @@ var Event = new Schema({
   description: String,
   liveLink: String,
   visible: Boolean,
+  pin: Number,
   shouldRedirectToUnsafe: Boolean,
 
   intro: {

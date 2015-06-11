@@ -3,7 +3,6 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
 import * as _ from '_';
 
 class SwOutput {
@@ -13,13 +12,13 @@ class SwOutput {
   }
 
   controller(scope, $scope) {
-
+    let self = this;
     $scope.$watch(() => scope.appliedPath, (newPath, oldPath) => {
       if (newPath === oldPath) {
         return;
       }
-      if (this.isAutoOutput()) {
-        this.applyCurrentUrl(scope);
+      if (self.isAutoOutput()) {
+        self.applyCurrentUrl(scope);
       }
     });
 
@@ -30,11 +29,11 @@ class SwOutput {
     });
 
     $scope.$on('refreshUrl', () => {
-      this.applyCurrentUrl(scope);
+      self.applyCurrentUrl(scope);
     });
 
     scope.applyCurrentUrl = () => {
-      this.applyCurrentUrl(scope);
+      self.applyCurrentUrl(scope);
     };
   }
 
@@ -69,7 +68,6 @@ class SwOutput {
 
 }
 
-var path = sliderPlugins.extractPath(module);
 
 sliderPlugins.directive('swOutput', ($rootScope) => {
 
@@ -80,18 +78,20 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       withConsole: '=',
       withConsoleInColumns: '=',
       withAddress: '=',
+      withIonic: '=',
       isDead: '=',
       baseUrl: '=',
       hideBaseUrl: '=',
       currentPath: '=',
       appliedPath: '=',
+      workspaceId: '=',
 
       onNotifyEval: '&',
       needsEval: '=',
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: path + '/sw-output.html',
+    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output/sw-output.html',
     controller($scope) {
       this.output = {};
 

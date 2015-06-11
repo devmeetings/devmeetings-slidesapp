@@ -1,9 +1,10 @@
-mixin course(uisref, nghref)
+dmixin course(uisref, nghref, ngclick)
   .workshoplist-col
-    a.workshoplist-thumb(
+    a.workshoplist-thumb.cursor-pointer(
       ng-style="getBackgroundStyles(cours)"
-      ui-sref=uisref,
+      ui-sref=uisref
       ng-href=nghref
+      ng-click=ngclick
       analytics-category='courses',
       analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
       span(ng-if="!cours.image") 
@@ -12,10 +13,14 @@ mixin course(uisref, nghref)
       .workshoplist-details
         .workshoplist-details-shadow
         h4
-          a(
-            ui-sref=uisref,
+          span.fa.fa-fw.fa-lock(
+            ng-show="cours.pin"
+          )
+          a.cursor-pointer(
+            ui-sref=uisref
             ng-href=nghref
-            analytics-category='courses',
+            ng-click=ngclick
+            analytics-category='courses'
             analytics-on="click", analytics-event="courses.go", analytics-label="{{cours.title}}")
             | {{cours.title}}
         span.fa.fa-2x.fa-trash.text-danger.pull-right(ng-if='editMode', ng-click='remove(cours)', ng-style='{"z-index": "10"}')
@@ -28,7 +33,7 @@ mixin course(uisref, nghref)
         .row
           .col-md-4
             input.form-control(
-              ng-show="courses.length >= 3"
+              ng-show="(courses | filter:{visible: true}).length > 3 || editMode"
               type="text"
               ng-model="vmWorkshoplist.courses_filter"
               placeholder="Search for courses"
@@ -45,9 +50,11 @@ mixin course(uisref, nghref)
         .col-md-4(
           ng-repeat="cours in courses | orderBy:['order','title'] | filter:vmWorkshoplist.courses_filter", 
           ng-if='cours.visible || editMode')
-          div(ng-if="cours.shouldRedirectToUnsafe")
+          div(ng-if="cours.pin")
+            +course(false, false, "unlockCourse(cours)")
+          div(ng-if="!cours.pin && cours.shouldRedirectToUnsafe")
             +course(false, "{{ getUnsafeAddress(cours) }}")
-          div(ng-if="!cours.shouldRedirectToUnsafe")
+          div(ng-if="!cours.pin && !cours.shouldRedirectToUnsafe")
             +course("index.space.learn.agenda({event: cours._id})")
       .row(ng-if="my_courses.length")
         .col-xs-12

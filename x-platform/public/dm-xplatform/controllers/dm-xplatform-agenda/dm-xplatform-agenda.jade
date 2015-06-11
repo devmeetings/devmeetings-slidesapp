@@ -8,6 +8,10 @@
       div(ng-if="$root.editMode")
         input.form-control.input-sm(ng-model="event.title", placeholder="Event Title")
         input.form-control.input-sm(ng-model="event.name", placeholder="Event Short Name")
+        .input-group
+          label.input-group-addon
+            | PIN
+          input.form-control.input-sm(type="number" ng-model="event.pin")
         button.btn.btn-primary(ng-click="cloneEvent()")
           | Clone Event
         button.btn.btn-link(ng-click="showMore = !showMore")

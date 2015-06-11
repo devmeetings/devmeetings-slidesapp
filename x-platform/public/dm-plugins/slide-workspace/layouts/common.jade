@@ -26,11 +26,15 @@ mixin output(withConsoleInColumns)
     with-console="model.output.isWithConsole"
     with-console-in-columns="#{withConsoleInColumns}"
     with-address="model.workspace.showUrl !== false || model.output.showUrl"
+    with-ionic="model.workspace.ionic"
+
+    workspace-id="model.workspaceId"
     on-notify-eval="model.evalIfAutoOutput()"
     needs-eval="model.output.needsEval"
     is-dead="model.output.isDead"
     base-url="model.output.baseUrl"
     hide-base-url="model.output.hideBaseUrl"
+
     current-path="model.workspace.url"
     applied-path="model.workspace.permaUrl"
     current-url="model.output.currentUrl"

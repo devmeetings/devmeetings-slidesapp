@@ -2,11 +2,8 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
 import * as _ from '_';
 import WorkspaceUndoManager from '../workspace-undo-manager';
-
-let path = sliderPlugins.extractPath(module);
 
 class SwMain {
 
@@ -52,6 +49,10 @@ class SwMain {
         self.onEvalOutput();
       }
     };
+    
+    this.$scope.$watch(() => self.recorder.workspaceId, (workspaceId) => {
+      self.workspaceId = workspaceId;
+    });
 
     this.$scope.$watch(() => self.workspace.layout, (layout) => {
       if (!layout) {
@@ -88,12 +89,13 @@ sliderPlugins
       scope: {
         workspace: '=data',
         slide: '=context',
+        recorder: '=recorder',
         path: '@',
         mode: '='
       },
       bindToController: true,
       controllerAs: 'model',
-      templateUrl: path + '/slide-workspace.html',
+      templateUrl: '/static/dm-plugins/slide-workspace/workspace/slide-workspace.html',
       controller($scope) {
         let sw = new SwMain({
           $rootScope, $scope, $timeout
