@@ -116,15 +116,24 @@
           ui-sref-active="active"
           ng-repeat="task in i.tasks"
           )
+          hr
           .form-group
             input.form-control.input-sm(
+              type="text"
               ng-model="task.title"
               placeholder="Task Title"
             )
           .form-group
             input.form-control.input-sm(
+              type="text"
               ng-model="task.url"
               placeholder="Task URL"
+            )
+          .form-group
+            input.form-control.input-sm(
+              type="number"
+              ng-model="task.noOfTasks"
+              placeholder="No Of Tasks"
             )
 
 
