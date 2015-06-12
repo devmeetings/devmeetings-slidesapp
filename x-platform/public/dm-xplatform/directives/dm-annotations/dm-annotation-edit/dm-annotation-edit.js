@@ -11,7 +11,8 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
           eventId: '=',
           iterationId: '=',
           materialId: '=',
-          resetSnippet: '&'
+          resetSnippet: '&',
+          annotations: '='
         },
         templateUrl: '/static/dm-xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit.html',
         link: function(scope) {
@@ -25,7 +26,7 @@ define(['angular', 'xplatform/xplatform-app'], function(angular, xplatformApp) {
             var newSnippet = !snippet._id;
 
             if (newSnippet) {
-              dmEvents.addEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet).then(function(ev) {
+              dmEvents.addEventAnnotation(scope.eventId, scope.iterationId, scope.materialId, snippet, scope.annotations).then(function(ev) {
                 scope.resetSnippet();
               });
             } else {

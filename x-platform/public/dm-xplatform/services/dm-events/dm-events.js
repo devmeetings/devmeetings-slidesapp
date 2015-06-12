@@ -159,16 +159,13 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
             });
             return result.promise;
           },
-          addEventAnnotation: function(eventId, iterationId, materialId, snippet) {
+          addEventAnnotation: function(eventId, iterationId, materialId, snippet, annotations) {
             var that = this;
             return $http.post(
               ['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'),
               snippet).then(function() {
               that.getEvent(eventId, false).then(function(eventObject) {
-                var material = _.find(eventObject.iterations[iterationId].materials, {
-                    _id: materialId
-                });
-                material.annotations.push(snippet);
+                annotations.push(snippet);
               });
               });
           },
