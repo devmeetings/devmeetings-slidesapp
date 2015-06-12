@@ -15,7 +15,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
     $scope.withVoice = $stateParams.withVoice;
 
     $scope.keys.keyUp = function(event) {
-      if (event.keyCode !== 32 || event.target.type === 'textarea' || event.target.type === 'input') {
+      if (event.keyCode !== 32 || event.target.type === 'textarea' || event.target.type === 'text') {
         return;
       }
       $scope.state.isPlaying = !$scope.state.isPlaying;
