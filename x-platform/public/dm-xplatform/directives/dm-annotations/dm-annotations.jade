@@ -1,4 +1,4 @@
-.col-xs-12.full-height
+.col-xs-12.full-height(ng-init="newSnip = {newSnippet: {}}")
     .row.dm-annos(ng-show="annotations.length === 0")
         .col-xs-12
             h4 Documentation will be displayed here.
@@ -8,19 +8,19 @@
           dm-annotation-edit(
             simple='true'
             current-second='state.currentSecond'
-            snippet="newSnippet"
+            snippet="newSnip.newSnippet"
             event-id="eventId"
             iteration-id="iterationId"
-            resetSnippet="newSnippet = {}"
+            reset-snippet="newSnip.newSnippet = {}"
             material-id="materialId"
             annotations="annotations"
             )
           hr
           dm-annotation-edit(
-            snippet="newSnippet"
+            snippet="newSnip.newSnippet"
             event-id="eventId"
             iteration-id="iterationId"
-            resetSnippet="newSnippet = {}"
+            reset-snippet="newSnip.newSnippet = {}"
             material-id="materialId"
             annotations="annotations"
             )
