@@ -196,11 +196,11 @@ var States = (function() {
         }, 100).exec());
         var before = Q.when(fetchHistory(save.workspaceId, {
           $lt: save.originalTimestamp
-        }, 10).exec());
+        }, 10, -1).exec());
 
         return Q.all([before, after]).then(function(a) {
           return {
-            before: a[0],
+            before: a[0].reverse(),
             after: a[1]
           };
         });
@@ -328,8 +328,10 @@ function isRecordingId(compoundId) {
   return compoundId[0] === 'r';
 }
 
-function fetchHistory(workspaceId, timestampQuery, limit) {
+function fetchHistory(workspaceId, timestampQuery, limit, sort) {
   'use strict';
+
+  sort = sort || 1;
 
   return Statesave.find({
     workspaceId: workspaceId,
@@ -338,7 +340,7 @@ function fetchHistory(workspaceId, timestampQuery, limit) {
     },
     originalTimestamp: timestampQuery
   }).lean().limit(limit).sort({
-    'originalTimestamp': 1
+    'originalTimestamp': sort
   });
 }
 
