@@ -1,24 +1,29 @@
-.row
-  .col-xs-12
-    .list-group
-      .list-group-item(
-        ng-repeat="note in model.notes.notes"
-        marked="note"
-        )
-      .list-group-item(
-        marked="model.notes.current"
-        )
-    form(
-      ng-if="model.mode !== 'player'"
-      ng-submit="model.addNote()"
+.col-xs-12
+  a.btn.btn-link.cursor-pointer(
+    ng-if="model.notes.notes.length > 10"
+    ng-click="model.showingAll = !model.showingAll"
+    )
+    span(ng-show="model.showingAll") Show all
+    span(ng-show="!model.showingAll") Hide
+  .list-group
+    .list-group-item(
+      ng-repeat="note in model.notes.notes | limitTo:model.showingAll ? undefined : -10"
+      marked="note"
       )
-      .form-group
-        .input-group
-          input.form-control(
-            ng-model="model.notes.current"
-            placeholder="Your notes"
-            )
-          .input-group-btn
-            button.btn.btn-default(type="submit")
-              span.fa.fa-send
-        
+    .list-group-item(
+      marked="model.notes.current"
+      )
+  form(
+    ng-if="model.mode !== 'player'"
+    ng-submit="model.addNote()"
+    )
+    .form-group
+      .input-group
+        input.form-control(
+          ng-model="model.notes.current"
+          placeholder="Your notes"
+          )
+        .input-group-btn
+          button.btn.btn-default(type="submit")
+            span.fa.fa-send
+      
