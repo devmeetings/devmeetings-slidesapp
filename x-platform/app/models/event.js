@@ -43,6 +43,8 @@ var Event = new Schema({
         ref: 'annotations'
       },
 
+      annotationsMergeWithAuto: Boolean,
+
       deck: {
         deck: {
           type: Schema.Types.ObjectId,

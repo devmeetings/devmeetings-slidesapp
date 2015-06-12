@@ -88,10 +88,26 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
           }
 
           var promi = this.getEventMaterial(event, iteration, material).then(function(data) {
-            if (data.annotations) {
+            function getAuto() {
+              return $http.get('/api/recordings/' + data.material + '/annotations').then(extractBody);
+            }
+            function getAnnotations() {
               return $http.get('/api/events/' + event + '/annotations/' + data.annotations).then(extractBody);
             }
-            return $http.get('/api/recordings/' + data.material + '/annotations').then(extractBody);
+
+            if (!data.annotations) {
+              return getAuto();
+            }
+
+            if (!data.annotationsMergeWithAuto) {
+              return getAnnotations();
+            }
+
+            return $q.all([getAuto(), getAnnotations()]).then(function mergeAnnotations(auto, normal){
+              return auto.concat(normal).sort(function(a, b) {
+                return a.timestamp - b.timestamp;
+              }); 
+            });
           });
 
           annotationPromises[key] = promi;

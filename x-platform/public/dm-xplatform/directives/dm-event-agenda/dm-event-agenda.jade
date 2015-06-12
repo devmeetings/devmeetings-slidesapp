@@ -1,3 +1,10 @@
+mixin activeMaterialAnnotations()
+  dm-annotations(
+    event-id="event._id"
+    iteration-id="activeMaterial.iterationIdx"
+    material-id="activeMaterial._id"
+    )
+
 .text-left.dm-event-agenda
   .panel
     .panel-heading
@@ -55,22 +62,36 @@
               span.fa.fa-university.nav-icon.fa-fw
               span.title &nbsp;{{material.title}}
           .item-details(ng-if="activeMaterial._id === material._id")
-            //dm-annotations(
-            //  event-id="event._id"
-            //  iteration-id="activeMaterial.iterationIdx"
-            //  material-id="activeMaterial._id"
-            //)
-            plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
+            +activeMaterialAnnotations()
+            // plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
+        li
+          +activeMaterialAnnotations
         li(
           ui-sref-active="active"
           ng-repeat="material in i.materials"
           )
-          input.form-control.input-sm(
-            ng-model="material.title"
-            placeholder="Material Title"
-          )
+          .input-group.input-group-sm
+            input.form-control(
+              ng-model="material.title"
+              placeholder="Material Title"
+            )
+            .input-group-btn
+              a.btn.btn-default(
+                ui-sref='index.space.learn.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})'
+                ng-class="{'active' : activeMaterial._id === material._id}"
+                ng-if="material.deck.deck"
+                )
+                span.fa.fa-university.nav-icon.fa-fw
+
+              a.btn.btn-default(
+                ui-sref='index.space.learn.player({iteration: $parent.$parent.$index, material: material._id})'
+                ng-class="{'active' : activeMaterial._id === material._id}"
+                ng-if="material.material"
+                )
+                span.fa.fa-film.nav-icon.fa-fw
+                  
 
       ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
         li(
