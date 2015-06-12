@@ -40,6 +40,7 @@ define([
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
               }
+              $scope.$broadcast('slide:update');
             });
             recordingPlayer.setIsPlaying(false);
             goToSecond();
