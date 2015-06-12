@@ -66,7 +66,7 @@ mixin activeMaterialAnnotations()
             // plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
-        li
+        li(style="height: 70vh")
           +activeMaterialAnnotations
         li(
           ui-sref-active="active"
