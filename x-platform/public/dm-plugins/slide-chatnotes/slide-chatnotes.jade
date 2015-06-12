@@ -1,13 +1,13 @@
 .col-xs-12
   a.btn.btn-link.cursor-pointer(
-    ng-if="model.notes.notes.length > 10"
+    ng-if="model.notes.notes.length > model.getLimitThreshold()"
     ng-click="model.showingAll = !model.showingAll"
     )
-    span(ng-show="model.showingAll") Show all
-    span(ng-show="!model.showingAll") Hide
+    span(ng-show="!model.showingAll") Show all
+    span(ng-show="model.showingAll") Hide
   .list-group
     .list-group-item(
-      ng-repeat="note in model.notes.notes | limitTo:model.showingAll ? undefined : -10"
+      ng-repeat="note in model.notes.notes | limitTo:model.getCurrentLimit(model.showingAll)"
       marked="note"
       )
     .list-group-item(
