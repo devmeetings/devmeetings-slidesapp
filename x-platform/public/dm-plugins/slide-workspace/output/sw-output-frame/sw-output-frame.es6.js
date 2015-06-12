@@ -10,11 +10,19 @@ class OutputFrame {
 
   constructor(data) {
     _.extend(this, data);
+    /// TODO [ToDr] Temporary!
+    this.setAddressLater = _.throttle((url)=>{
+      this.$element.find('iframe').attr('src', url);
+    }, 3000, {
+      trailing: true,
+      leading: true
+    });
   }
 
   isHttp(url) {
     return url.indexOf('http://') > -1;
   }
+
   isCurrentPageHttps() {
     return this.$location.protocol() === 'https';
   }
@@ -25,7 +33,7 @@ class OutputFrame {
       return;
     }
     this.scope.isWarning = false;
-    this.$element.find('iframe').attr('src', url);
+    this.setAddressLater(url); 
   }
 
 }
