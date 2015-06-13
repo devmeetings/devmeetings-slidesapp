@@ -45,7 +45,7 @@ define([
             if ($scope.withVoice) {
               $scope.setRate(1.0);
             } else {
-              $scope.setRate(15.0);
+              $scope.setRate(7.5);
             }
 
           });
