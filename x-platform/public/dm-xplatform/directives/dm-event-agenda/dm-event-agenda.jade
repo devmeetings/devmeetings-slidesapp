@@ -92,19 +92,6 @@ mixin activeMaterialAnnotations()
                 )
                 span.fa.fa-film.nav-icon.fa-fw
                   
-
-      ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
-        li(
-          ui-sref-active="active"
-          ng-repeat="task in i.tasks"
-          )
-          a.text-muted(
-            ng-href="{{task.url}}"
-            target="_blank"
-          )
-            span.fa.fa-external-link.nav-icon
-            span {{ task.title }} (All)
-
       ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
         li(
           ng-repeat="task in tasks[$index]"
@@ -117,10 +104,20 @@ mixin activeMaterialAnnotations()
               span.fa.fa-fw.text-success.fa-check(ng-show="isDone(task)")
               span.fa.fa-fw.text-muted.fa-check(ng-show="!isDone(task)")
 
+          a.cursor-pointer.pull-left.text-muted(
+            ng-href="{{task.url}}"
+            target="_blank"
+            ng-if="activeTask === task"
+            style="z-index:10"
+          )
+            span.fa.fa-external-link.nav-icon
+
           a(
             ui-sref='index.space.learn.workspace.task({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
             )
-            span.fa.fa-pencil.nav-icon
+            span.fa.fa-pencil.nav-icon(
+              ng-if="activeTask !== task" 
+              )
             span {{task.title}}
 
           .item-details(ng-if="activeTask === task")
