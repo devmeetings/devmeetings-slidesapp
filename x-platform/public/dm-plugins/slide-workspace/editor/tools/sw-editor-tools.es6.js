@@ -111,6 +111,8 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
     scope: {
       withUrlButton: '=',
       showUrl: '=',
+      hideOutput: '=',
+
       currentUrl: '=',
       downloadId: '=',
       activeTab: '=',

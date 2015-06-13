@@ -49,7 +49,14 @@ class SwMain {
         self.onEvalOutput();
       }
     };
-    
+
+    self.getSizeForContent = (val) => {
+      if (self.output.hideOutput) {
+        return '100%';
+      }
+      return val;
+    };
+
     this.$scope.$watch(() => self.recorder.workspaceId, (workspaceId) => {
       self.workspaceId = workspaceId;
     });
@@ -79,9 +86,9 @@ class SwMain {
     }, 500);
   }
 
-}
+  }
 
-sliderPlugins
+  sliderPlugins
   .registerPlugin('slide', 'workspace', 'slide-workspace-new', 3850)
   .directive('slideWorkspaceNew', ($rootScope, $timeout) => {
     return {
@@ -98,7 +105,7 @@ sliderPlugins
       templateUrl: '/static/dm-plugins/slide-workspace/workspace/slide-workspace.html',
       controller($scope) {
         let sw = new SwMain({
-          $rootScope, $scope, $timeout
+            $rootScope, $scope, $timeout
         });
         sw.controller(this);
       }
