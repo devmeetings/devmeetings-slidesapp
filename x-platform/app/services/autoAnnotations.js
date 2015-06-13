@@ -110,7 +110,7 @@ function pushAnno(memo, slide, reason, description) {
   description = description || '';
   var anno = {
     description: description,
-    timestamp: Math.max(0, (slide.timestamp - 700) / 1000),
+    timestamp: Math.max(0, (slide.timestamp - 400) / 1000),
     type: 'comment',
   };
   if (reason) {
