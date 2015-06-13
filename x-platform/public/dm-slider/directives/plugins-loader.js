@@ -52,10 +52,12 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
           };
 
 
+          var insideRefresh = false;
           var refresh = function(newContext, oldContext) {
-            if (!newContext) {
+            if (!newContext || insideRefresh) {
               return;
             }
+            insideRefresh = true;
 
             if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
               // Just broadcast info about new context
@@ -76,12 +78,19 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
               return memo;
             }, []);
 
+            var pluginsLoaderTimeout = 50;
+
             plugins.map(function(plugin, idx) {
               setTimeout(function() {
                 var el = $compile(plugin)(childScope);
                 $element.append(el);
-              }, 100 * idx);
+              }, pluginsLoaderTimeout * idx);
             });
+
+            setTimeout(function() {
+              insideRefresh = false;
+            }, pluginsLoaderTimeout * plugins.length);
+
           };
 
           $scope.$watch('context', refresh);
