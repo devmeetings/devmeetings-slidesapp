@@ -114,10 +114,17 @@ var Events = {
 
   get: function(req, res) {
     var id = req.params.id;
+    var withAnnotations = req.query.withAnnotations;
 
-    Q.when(Event.findOne({
+    var query = Event.findOne({
       _id: id
-    }).lean().exec()).then(function(event) {
+    }).lean();
+
+    if (withAnnotations) {
+      query = query.populate('iterations.materials.annotations');
+    }
+
+    Q.when(query.exec()).then(function(event) {
       yamlReply(req, res, event, function(event) {
         function removeIdsAndConvertTypes(obj) {
           Object.keys(obj).map(function(name) {
