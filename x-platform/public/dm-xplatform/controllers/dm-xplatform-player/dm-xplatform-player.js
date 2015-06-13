@@ -78,7 +78,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $modal.open({
         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
         controller: 'dmXplatformPlayerFinishModal',
-        size: 'sm',
+        size: 'md',
         resolve: {
           event: fromScope('event'),
           currentIteration: fromScope('currentIteration'),
