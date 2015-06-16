@@ -52,7 +52,7 @@ class SwMain {
 
     self.getSizeForContent = (val) => {
       if (self.output.hideOutput) {
-        return '100%';
+        return 'calc(100% - 4px)';
       }
       return val;
     };
