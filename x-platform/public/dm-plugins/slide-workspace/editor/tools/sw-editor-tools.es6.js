@@ -72,15 +72,15 @@ class SwEditorTools {
       //$files: an array of files selected, each file has name, size, and type.
       self.isUploading = true;
       self.uploadingState = 0;
-      $files.forEach(function(file) {
+      $files.forEach((file) => {
         this.$upload.upload({
           url: '/api/upload',
           file: file
-        }).progress(function(evt) {
+        }).progress((evt) => {
           this.$scope.$apply(() => {
             self.uploadingState = parseInt(100.0 * evt.loaded / evt.total);
           });
-        }).success(function(data) {
+        }).success((data) => {
 
           self.isUploading = false;
           // override workspace
