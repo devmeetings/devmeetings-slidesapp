@@ -28,6 +28,7 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
     permaUrl: null,
     movement: 0,
     previousNotes: null,
+    previousChatnotes: {},
     previousTabData: {
       content: '',
       editor: null
@@ -43,7 +44,6 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
 
     slide.code = slide.current;
     var workspace = slide.code.workspace;
-    var note;
 
     if (workspace.active !== memo.active) {
       var currentTime = slide.timestamp;
@@ -69,14 +69,18 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
     } else if (largeJumpDetected(memo, slide)) {
       pushAnno(memo, slide, 'largeJump');
     } else if (notesDetected(memo, slide)) {
-      note = notesDetected(memo, slide);
+      var note = notesDetected(memo, slide);
       pushAnno(memo, slide, 'Notes', note);
+    } else if (chatNotesDetected(memo, slide)) {
+      var chatNote = chatNotesDetected(memo, slide);
+      pushAnno(memo, slide, 'Chat Notes', chatNote);
     } else if (lastIdx === idx) {
       pushAnno(memo, slide, 'last');
     }
 
     memo.previousTabData = workspace.tabs[workspace.active];
     memo.previousNotes = slide.code.notes;
+    memo.previousChatnotes = slide.code.chatnotes;
     memo.timestamp = slide.timestamp;
     return memo;
 
@@ -106,7 +110,7 @@ function pushAnno(memo, slide, reason, description) {
   description = description || '';
   var anno = {
     description: description,
-    timestamp: Math.max(0, (slide.timestamp - 1300) / 1000),
+    timestamp: Math.max(0, (slide.timestamp-100) / 1000),
     type: 'comment',
   };
   if (reason) {
@@ -132,12 +136,30 @@ function notesDetected(memo, slide) {
 
   return lastNotes[lastNotes.length - 2];
 }
+function chatNotesDetected(memo, slide) {
+  'use strict';
+  if (!slide.code.chatnotes) {
+    return false;
+  }
+  var currentNotes = slide.code.chatnotes.notes;
+  var prevNotes = memo.previousChatnotes.notes;
+
+  if (!currentNotes || !prevNotes || currentNotes.length === prevNotes.length) {
+    return false;
+  }
+
+  return currentNotes[currentNotes.length - 1];
+}
 
 function movementDetected(memo, slide) {
   'use strict';
   var workspace = slide.code.workspace;
   var active = workspace.active;
   var tab = workspace.tabs[active];
+
+  if (!tab || !memo.previousTabData) {
+    return false;
+  }
 
   if (tab.editor && memo.previousTabData.editor) {
     var isContentSame = tab.content === memo.previousTabData.content;
@@ -168,6 +190,10 @@ function largeJumpDetected(memo, slide) {
       return null;
     }
     return tab.editor.cursorPosition.row;
+  }
+
+  if (!tab) {
+    return false;
   }
 
   var lastRow = getRow(memo.previousTabData);

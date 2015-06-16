@@ -1,8 +1,23 @@
+mixin currentAnnotation()
+  .dm-annos-item(
+    ng-show="currentAnnotation.type !== 'pause' && currentAnnotation.description"
+    )
+    dm-annotation(
+      annotation='currentAnnotation'
+      showIteration='showAll'
+      ng-show='currentAnnotation.type === "snippet" || currentAnnotation.type === "comment"'
+      )
+    dm-microtask(
+      microtask='currentAnnotation'
+      ng-show='currentAnnotation.type === "task"'
+      )
+
+
 mixin nextButtons(icon)
     button.btn.btn-default.btn-next-subtitle(
       autofocus,
       ng-click="runNext()",
-      ng-show="nextStop < maxNextStop && !state.isPlaying")
+      ng-show="state.playTo < state.max && !state.isPlaying")
         span.fa.fa-fw(class="fa-#{icon}")
 
 mixin withSubtitles()
@@ -15,16 +30,7 @@ mixin withSubtitles()
       .pull-right
         a.btn-minimize(ng-click="subs.isMinimized = !subs.isMinimized")
           span.fa.fa-minus
-      .dm-annos-item(ng-if="anno.type !== 'pause' && anno.description")
-        dm-annotation(
-          annotation='anno'
-          showIteration='showAll'
-          ng-if='anno.type === "snippet" || anno.type === "comment"'
-          )
-        dm-microtask(
-          microtask='anno'
-          ng-if='anno.type === "task"'
-          )
+      +currentAnnotation()
       +nextButtons('arrow-right')
 
     .dm-player-subtitles.fixed(
@@ -33,17 +39,7 @@ mixin withSubtitles()
       .pull-right
         a.btn-minimize(ng-click="subs.isMinimized = !subs.isMinimized")
           span.fa.fa-plus
-      .dm-annos-item(ng-if="anno.type !== 'pause'")
-        dm-annotation(
-          annotation='anno'
-          showIteration='showAll'
-          ng-if='anno.type === "snippet" || anno.type === "comment"'
-          )
-        dm-microtask(
-          microtask='anno'
-          ng-if='anno.type === "task"'
-          )
-
+      +currentAnnotation()
 
 .full-height
   .full-height(ng-if="!withSidebar")

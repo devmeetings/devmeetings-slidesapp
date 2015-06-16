@@ -15,10 +15,25 @@ class ChatNotes {
       vm.notes.notes.push(vm.notes.current);
       vm.notes.current = '';
     };
+
+    vm.getLimitThreshold = () => this.getLimitThreshold();
+    vm.getCurrentLimit = (isShowingAll) => this.getCurrentLimit(isShowingAll);
   }
+
+  getLimitThreshold() {
+    return 5;
+  }
+
+  getCurrentLimit(isShowingAll) {
+    if (isShowingAll) {
+      return Infinity;
+    }
+    return -this.getLimitThreshold();
+  }
+
 }
 
-sliderPlugins
+  sliderPlugins
   .registerPlugin('slide.sidebar', 'chatnotes', 'slide-chatnotes', 3850)
   .directive('slideChatnotes', ($rootScope, $timeout) => {
     return {
@@ -33,7 +48,7 @@ sliderPlugins
       templateUrl: '/static/dm-plugins/slide-chatnotes/slide-chatnotes.html',
       controller($scope) {
         let sw = new ChatNotes({
-          $rootScope, $scope, $timeout
+            $rootScope, $scope, $timeout
         });
         sw.controller(this);
       }

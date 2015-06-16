@@ -1,3 +1,10 @@
+mixin activeMaterialAnnotations()
+  dm-annotations(
+    event-id="event._id"
+    iteration-id="activeMaterial.iterationIdx"
+    material-id="activeMaterial._id"
+    )
+
 .text-left.dm-event-agenda
   .panel
     .panel-heading
@@ -55,35 +62,36 @@
               span.fa.fa-university.nav-icon.fa-fw
               span.title &nbsp;{{material.title}}
           .item-details(ng-if="activeMaterial._id === material._id")
-            //dm-annotations(
-            //  event-id="event._id"
-            //  iteration-id="activeMaterial.iterationIdx"
-            //  material-id="activeMaterial._id"
-            //)
-            plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
+            +activeMaterialAnnotations()
+            // plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
+        li(style="height: 70vh")
+          +activeMaterialAnnotations
         li(
           ui-sref-active="active"
           ng-repeat="material in i.materials"
           )
-          input.form-control.input-sm(
-            ng-model="material.title"
-            placeholder="Material Title"
-          )
+          .input-group.input-group-sm
+            input.form-control(
+              ng-model="material.title"
+              placeholder="Material Title"
+            )
+            .input-group-btn
+              a.btn.btn-default(
+                ui-sref='index.space.learn.deck({iteration: $parent.$parent.$index, deck: material.deck.deck, from: material.deck.from, to: material.deck.to, name: material.title})'
+                ng-class="{'active' : activeMaterial._id === material._id}"
+                ng-if="material.deck.deck"
+                )
+                span.fa.fa-university.nav-icon.fa-fw
 
-      ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
-        li(
-          ui-sref-active="active"
-          ng-repeat="task in i.tasks"
-          )
-          a.text-muted(
-            ng-href="{{task.url}}"
-            target="_blank"
-          )
-            span.fa.fa-external-link.nav-icon
-            span {{ task.title }} (All)
-
+              a.btn.btn-default(
+                ui-sref='index.space.learn.player({iteration: $parent.$parent.$index, material: material._id})'
+                ng-class="{'active' : activeMaterial._id === material._id}"
+                ng-if="material.material"
+                )
+                span.fa.fa-film.nav-icon.fa-fw
+                  
       ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
         li(
           ng-repeat="task in tasks[$index]"
@@ -96,10 +104,20 @@
               span.fa.fa-fw.text-success.fa-check(ng-show="isDone(task)")
               span.fa.fa-fw.text-muted.fa-check(ng-show="!isDone(task)")
 
+          a.cursor-pointer.pull-left.text-muted(
+            ng-href="{{task.url}}"
+            target="_blank"
+            ng-if="activeTask === task"
+            style="z-index:10"
+          )
+            span.fa.fa-external-link.nav-icon
+
           a(
             ui-sref='index.space.learn.workspace.task({iteration: task.iterationIdx, todo: task.idx, slide: userWorkspaceId})'
             )
-            span.fa.fa-pencil.nav-icon
+            span.fa.fa-pencil.nav-icon(
+              ng-if="activeTask !== task" 
+              )
             span {{task.title}}
 
           .item-details(ng-if="activeTask === task")
@@ -116,15 +134,24 @@
           ui-sref-active="active"
           ng-repeat="task in i.tasks"
           )
+          hr
           .form-group
             input.form-control.input-sm(
+              type="text"
               ng-model="task.title"
               placeholder="Task Title"
             )
           .form-group
             input.form-control.input-sm(
+              type="text"
               ng-model="task.url"
               placeholder="Task URL"
+            )
+          .form-group
+            input.form-control.input-sm(
+              type="number"
+              ng-model="task.noOfTasks"
+              placeholder="No Of Tasks"
             )
 
 

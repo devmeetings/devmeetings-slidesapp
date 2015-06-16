@@ -11,15 +11,16 @@ class OutputFrame {
 
   constructor(data) {
     _.extend(this, data);
-    this.setAddress_was_called = 0;
     this.iframe1 = this.$element.find('iframe.num-one');
     this.iframe2 = this.$element.find('iframe.num-two');
     this.progressBar = this.$element.find('.progress-bar');
+
   }
 
   isHttp(url) {
     return url.indexOf('http://') > -1;
   }
+
   isCurrentPageHttps() {
     return this.$location.protocol() === 'https';
   }

@@ -1,5 +1,25 @@
 div
-    form(ng-submit='save(snippet)')
+    form(
+      ng-submit='saveSimple(snippet)'
+      ng-if='simple'
+      )
+      .form-group
+        .input-group.input-group-sm
+          input.form-control(
+            placeholder="comment"
+            ng-model="snippet.description"
+          )
+          .input-group-btn
+            button.btn.btn-default(
+              type='submit'
+              )
+              span.fa.fa-fw.fa-send
+
+
+    form(
+      ng-submit='save(snippet)'
+      ng-if='!simple'
+      )
         .form-group
             button.btn.btn-primary.btn-xs(ng-click="snippet.type = 'task'; $event.preventDefault();") 
               span(ng-if="snippet._id") Task
@@ -14,26 +34,34 @@ div
 
         div(ng-show="snippet.type")
             .form-group
-                label.control-label() timestamp
-                input.form-control.input-sm(type='number', ng-model='snippet.timestamp', step="any")
+              .input-group.input-group-sm
+                input.form-control(type='number', ng-model='snippet.timestamp', step="any")
+                .input-group-addon
+                  span timestamp
 
             .form-group
-                label.control-label title
-                input.form-control.input-sm(type='text', ng-model='snippet.title')
+              .input-group.input-group-sm
+                input.form-control(type='text', ng-model='snippet.title')
+                .input-group-addon
+                  span title
+
+            .form-group(ng-if='snippet.type === "task" || snippet.type === "comment"')
+              .input-group.input-group-sm
+                input.form-control(type='text', ng-model='snippet.description')
+                .input-group-addon
+                  span task.description 
 
             .form-group(ng-if='snippet.type === "task"')
-                label.control-label task.description 
-                input.form-control.input-sm(type='text', ng-model='snippet.description')
-
-            .form-group(ng-if='snippet.type === "task"')
-                label.control-label task.fiddle
-                input.form-control.input-sm(type='text', ng-model='snippet.meta')
+              .input-group.input-group-sm
+                input.form-control(type='text', ng-model='snippet.meta')
+                .input-group-addon
+                  span task.fiddle
 
             .form-group(ng-if='snippet.type === "snippet"')
                 label.control-label markdown
                 textarea.form-control.input-sm(rows='5', ng-model='snippet.description')
 
             .form-group
-                button.btn.btn-default(type='submit') Done
+                button.btn.btn-block.btn-default(type='submit') Done
 
         div(marked="snippet.description")

@@ -15,7 +15,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
     $scope.withVoice = $stateParams.withVoice;
 
     $scope.keys.keyUp = function(event) {
-      if (event.keyCode !== 32 || event.target.type === 'textarea') {
+      if (event.keyCode !== 32 || event.target.type === 'textarea' || event.target.type === 'text') {
         return;
       }
       $scope.state.isPlaying = !$scope.state.isPlaying;
@@ -78,7 +78,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $modal.open({
         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
         controller: 'dmXplatformPlayerFinishModal',
-        size: 'sm',
+        size: 'md',
         resolve: {
           event: fromScope('event'),
           currentIteration: fromScope('currentIteration'),

@@ -26,6 +26,8 @@ class DmHistoryPlayer {
       }
       let historyId = scope.historyId;
       let historyService = self.dmHistory(scope.recorder);
+      // TODO [ToDr] $rootScope!
+      self.$rootScope.recorder = scope.recorder;
       historyService.fetchHistorySince(historyId).then((history) => {
         var currentHist = history.recording;
         // Player
@@ -57,10 +59,10 @@ class DmHistoryPlayer {
 }
 
 
-export function dmHistoryPlayer(dmHistory, dmPlayer, $timeout) {
+export function dmHistoryPlayer(dmHistory, dmPlayer, $rootScope, $timeout) {
 
   let history = new DmHistoryPlayer({
-    dmHistory, dmPlayer, $timeout
+    dmHistory, dmPlayer, $rootScope, $timeout
   });
 
   return {

@@ -24,6 +24,8 @@ class DmHistoryGraph {
       model[prop] = scope.history.historyPlayerState.currentSecond;
     };
 
+    scope.stateIncludes = (name) => this.$state.includes(name);
+
     scope.convertToRecording = (model) => {
       let sinceId = scope.history.historyPlayerState.sinceId;
       let eventId = scope.history.historyPlayerState.eventId;
@@ -37,10 +39,10 @@ class DmHistoryGraph {
 }
 
 
-export function dmHistoryGraph(dmHistory, $window) {
+export function dmHistoryGraph(dmHistory, $window, $state) {
 
   let history = new DmHistoryGraph({
-    dmHistory, $window
+    dmHistory, $window, $state
   });
 
   return {

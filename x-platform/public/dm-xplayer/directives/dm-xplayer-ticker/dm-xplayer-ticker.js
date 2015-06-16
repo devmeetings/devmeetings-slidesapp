@@ -41,6 +41,15 @@ define([
             var s = $scope.state.currentSecond;
             $scope.state.currentSecond = s + jump;
 
+            if ($scope.state.playTo && $scope.state.currentSecond >= $scope.state.playTo) {
+              $scope.state.isPlaying = false;
+              // Override current Second
+              $scope.state.currentSecond = $scope.state.playTo;
+              // But reset playTo
+              $scope.state.playTo = null;
+              return;
+            }
+
             setTimeout(function() {
               // Digest all changes before continuing
               $scope.$apply(function() {
