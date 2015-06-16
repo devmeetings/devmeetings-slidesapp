@@ -19,7 +19,8 @@ sw-editor-tabs(
 )
 
 .sw-editor(
-  ng-class="{'with-tabs': model.isWithTabs()}"
+  ng-class="{'with-tabs': model.isWithTabs(), 'with-3-tabs-or-more':true}"
+
 )
   dm-editor(
     size='"xxl"', 

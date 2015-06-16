@@ -7,13 +7,6 @@ import * as _ from '_';
 import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
 
-String.prototype.insert = function (index, string) {
-  if (index > 0)
-    return this.substring(0, index) + string + this.substring(index, this.length);
-  else
-    return string + this;
-};
-
 
 sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
 
@@ -53,6 +46,17 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
           'tag_category':'link'
         }
       ];
+
+      self.insertToString = function(input, index, string) {
+        if (index > 0) 
+        {
+          return input.substring(0, index) + string + input.substring(index, input.length);
+        }  
+        else 
+        {
+          return string + input;
+        }
+      }
 
       self.selectLibrary = function(library) {
         var code = self.activeTab.content;
@@ -95,8 +99,7 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
 
         var codeToInsert = getCodeToInsert(library.source, library.tag_category);
         var insertIndex = findIndexWhereToInsertCode(code, library.tag_category);
-
-        self.activeTab.content = code.insert(insertIndex, codeToInsert);e;
+        self.activeTab.content = self.insertToString(code, insertIndex, codeToInsert);
         self.onRefreshContent();
       };
  

@@ -12,6 +12,9 @@ class OutputFrame {
   constructor(data) {
     _.extend(this, data);
     this.setAddress_was_called = 0;
+    this.iframe1 = this.$element.find('iframe.num-one');
+    this.iframe2 = this.$element.find('iframe.num-two');
+    this.progressBar = this.$element.find('.progress-bar');
   }
 
   isHttp(url) {
@@ -33,41 +36,32 @@ class OutputFrame {
 
     this.setIsWarning(url);
 
-    this.progress_bar = this.$element.find('.progress-bar');
+    this.iframe2.attr('src', url);
+    this.iframe1.css({'z-index': '10'});
+    this.iframe2.css({'z-index': '5'});
 
-    if ( this.setAddress_was_called <= 2) {
-      //it should be as above 
-      this.setAddress_was_called += 1;
-      this.iframe_one = this.$element.find('iframe.num-one');
-      this.iframe_two = this.$element.find('iframe.num-two');
-    }
+    this.iframe1.fadeIn(1);
+    this.iframe2.fadeOut(1);
 
-    this.iframe_two.attr('src', url);
-    this.iframe_one.css({'z-index': '10'});
-    this.iframe_two.css({'z-index': '5'});
-
-    this.iframe_one.fadeIn(1);
-    this.iframe_two.fadeOut(1);
-
-    this.scope.percent_of_progress = 90;
+    this.scope.percentOfProgress = 90;
     
-    var currentFrame = this.iframe_two;
-    var loaded = this.iframe_two.one('load', () => {
-      if (currentFrame !== this.iframe_two) {
+    var currentFrame = this.iframe2;
+    var loaded = this.iframe2.one('load', () => {
+      if (currentFrame !== this.iframe2) {
         return;
       }
-      this.iframe_two.css({'z-index': '10'});
-      this.iframe_one.css({'z-index': '5'});
+      this.iframe2.css({'z-index': '10'});
+      this.iframe1.css({'z-index': '5'});
 
-      this.iframe_two.fadeIn(1);
-      this.iframe_one.fadeOut(1);
+      this.iframe2.fadeIn(1);
+      this.iframe1.fadeOut(1);
       
-      var temp_one = this.iframe_one;
-      this.iframe_one = this.iframe_two;
-      this.iframe_two = temp_one;
+      var temporaryIframe1 = this.iframe1;
+      this.iframe1 = this.iframe2;
+      this.iframe2 = temporaryIframe1;
 
       this.scope.$apply(()=>{
-        this.scope.percent_of_progress = 0;
+        this.scope.percentOfProgress = 0;
       });
     });
 
@@ -77,7 +71,7 @@ class OutputFrame {
 
 
 
-sliderPlugins.directive('swOutputFrame', ( $location, $timeout, $interval) => {
+sliderPlugins.directive('swOutputFrame', ( $location ) => {
 
   return {
     restrict: 'E',
@@ -90,7 +84,7 @@ sliderPlugins.directive('swOutputFrame', ( $location, $timeout, $interval) => {
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location, $timeout, $interval, scope
+        $element: element, $location, scope
       });
 
       scope.$watch('currentUrl', (url) => {
