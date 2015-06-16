@@ -67,6 +67,11 @@ class SwEditor {
       this.refreshActiveTab(self);
     };
 
+    /*self.hasAtLeastXTabs = (num) => {
+      var numOfTabs = Object.keys(self.filteredTabs).length;
+      return numOfTabs >= num;
+    }*/
+
   }
 
   updateFilteredTabs(self) {
