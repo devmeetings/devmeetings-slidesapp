@@ -1,4 +1,10 @@
 a.btn.dm-timeline-button(
+  ng-click='state.currentSecond = state.playFrom'
+  ng-class="{'disabled': !state.playFrom}"
+  )
+  span.fa.fa-step-backward
+
+a.btn.dm-timeline-button(
     ng-click='state.isPlaying = !state.isPlaying', 
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.play_pause'
@@ -6,17 +12,23 @@ a.btn.dm-timeline-button(
     span.fa.fa-play(ng-if='!state.isPlaying')
     span.fa.fa-pause(ng-if='state.isPlaying')
 
+a.btn.dm-timeline-button(
+  ng-click='state.currentSecond = state.nextPlayTo'
+  ng-class="{'disabled': !state.nextPlayTo}"
+  )
+  span.fa.fa-step-forward
 
 a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond - 0.5)"
-    ng-if="editMode")
+    ng-if="$root.editMode")
       span -0.5
 
 a.btn.dm-timeline-button(
-    ng-if="editMode",
-    ng-click="setTime(state.currentSecond - 0.25)")
+    ng-if="$root.editMode",
+    ng-click="$root.setTime(state.currentSecond - 0.25)")
     span -0.25
-a.btn.dm-timeline-button(
+
+a.btn.dm-timeline-button.big(
     tooltip='Current second', tooltip-placement='top')
     span(ng-show="!editSecond", ng-click="editSecond = true") {{state.currentSecond | number: 1}} 
     input.form-control.input-sm(
@@ -24,19 +36,19 @@ a.btn.dm-timeline-button(
       ng-show="editSecond", 
       ng-model="state.currentSecond", 
       ng-blur="setTime(state.currentSecond - 1.0); editSecond = false") 
+
 a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond + 0.25)"
-    ng-if="editMode")
+    ng-if="$root.editMode")
       span +0.25
 
-
-a.btn.dm-timeline-button(
+a.btn.dm-timeline-button.big(
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.rate-{{nextRate}}'
     ng-click='changeRate()', 
     tooltip='Change the speed to {{nextRate | number: 2}}', tooltip-placement='top')
     span {{state.rate | number: 2}}x
-.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 575px)" : "calc(100% - 170px)"}')
+.dm-timeline-wave(ng-style='{"width": editMode ? "calc(100% - 585px)" : "calc(100% - 190px)"}')
     dm-timeline(
       second='state.currentSecond',
       length='state.max', 

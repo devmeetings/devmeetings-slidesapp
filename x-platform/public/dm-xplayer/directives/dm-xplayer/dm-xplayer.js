@@ -68,13 +68,19 @@ define([
               return;
             }
 
+            function setIfHasAnno(name, idx) {
+              var anno = annotations[idx];
+              $scope.state[name] = anno ? anno.timestamp : null;
+            }
+
             var nextAnnotationIdx = _.sortedIndex(annotations, {
                 timestamp: second
             }, 'timestamp');
             $scope.currentAnnotation = annotations[nextAnnotationIdx - 1];
 
-            var nextAnno = annotations[nextAnnotationIdx];
-            $scope.state.playTo = nextAnno ? nextAnno.timestamp : null;
+            setIfHasAnno('playFrom', nextAnnotationIdx - 1);
+            setIfHasAnno('playTo', nextAnnotationIdx);
+            setIfHasAnno('nextPlayTo', nextAnnotationIdx + 1);
           }
 
           var goToSecond = function(curr, prev) {
@@ -87,6 +93,9 @@ define([
             selectNewAnnotation(second);
           };
 
+          $scope.$watch('annotations', function(){
+            selectNewAnnotation($scope.state.currentSecond);
+          });
           $scope.$watch('state.currentSecond', goToSecond);
           $scope.$watch('state.isPlaying', function(isPlaying) {
             if (isPlaying) {
@@ -107,7 +116,7 @@ define([
             $window.removeEventListener('resize', fixSubtitlePosition);
           });
 
-          $timeout(fixSubtitlePosition, 500);
+          $timeout(fixSubtitlePosition, 200);
         }
       };
     }

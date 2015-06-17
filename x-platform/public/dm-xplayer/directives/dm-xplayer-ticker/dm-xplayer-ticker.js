@@ -45,8 +45,8 @@ define([
               $scope.state.isPlaying = false;
               // Override current Second
               $scope.state.currentSecond = $scope.state.playTo;
-              // But reset playTo
-              $scope.state.playTo = null;
+              // And Set New PlayTo
+              $scope.state.playTo = $scope.state.nextPlayTo;
               return;
             }
 
