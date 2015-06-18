@@ -1,0 +1,17 @@
+li.sw-editor-cdn.cdn-dropdown.workspace-tab.workspace-tab-condensed(
+    dropdown=''
+  )
+  a.cursor-pointer(
+      dropdown-toggle='' 
+      tooltip="Select library"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      tooltip-append-to-body="true"
+    )
+    span.fa.fa-code 
+  ul.dropdown-menu(role='menu')
+    li(ng-repeat='library in cdn.libraries | filter:libraries_filter')
+      a(ng-click='cdn.selectLibrary(library)')
+        | {{ library.name }}
+
+

@@ -6,17 +6,15 @@ import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
 
 
+
 class OutputFrame {
 
   constructor(data) {
     _.extend(this, data);
-    /// TODO [ToDr] Temporary!
-    this.setAddressLater = _.throttle((url)=>{
-      this.$element.find('iframe').attr('src', url);
-    }, 3000, {
-      trailing: true,
-      leading: true
-    });
+    this.iframe1 = this.$element.find('iframe.num-one');
+    this.iframe2 = this.$element.find('iframe.num-two');
+    this.progressBar = this.$element.find('.progress-bar');
+
   }
 
   isHttp(url) {
@@ -27,19 +25,74 @@ class OutputFrame {
     return this.$location.protocol() === 'https';
   }
 
-  setAddress(url) {
+  setIsWarning(url) {
     if (this.isHttp(url) && this.isCurrentPageHttps()) {
       this.scope.isWarning = true;
       return;
     }
     this.scope.isWarning = false;
-    this.setAddressLater(url); 
+  }
+
+  setAdressWithFramesAnimation(url) {
+
+    this.iframe2.attr('src', url);
+    this.iframe1.css({'z-index': '10'});
+    this.iframe2.css({'z-index': '5'});
+
+    this.iframe1.fadeIn(1);
+    this.iframe2.fadeOut(1);
+
+    this.scope.percentOfProgress = 90;
+    
+    var currentFrame = this.iframe2;
+    var loaded = this.iframe2.one('load', () => {
+      if (currentFrame !== this.iframe2) {
+        return;
+      }
+      this.iframe2.css({'z-index': '10'});
+      this.iframe1.css({'z-index': '5'});
+
+      this.iframe2.fadeIn(1);
+      this.iframe1.fadeOut(1);
+      
+      var temporaryIframe1 = this.iframe1;
+      this.iframe1 = this.iframe2;
+      this.iframe2 = temporaryIframe1;
+
+      this.scope.$apply(()=>{
+        this.scope.percentOfProgress = 0;
+      });
+    });
+
+  }
+
+  setAdressWithoutFramesAnimation(url) {
+    this.iframe1.attr('src', url);
+  }
+
+  setAddressAndAnimateIfNeeded(url) {
+
+    var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
+
+    if ( animationOn ) {
+      this.setAdressWithFramesAnimation(url);
+    } else {
+      this.setAdressWithoutFramesAnimation(url);
+    }
+  }
+
+  setAddress(url) {
+
+    this.setIsWarning(url);
+    this.setAddressAndAnimateIfNeeded(url);
+
   }
 
 }
 
 
-sliderPlugins.directive('swOutputFrame', ($location) => {
+
+sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
 
   return {
     restrict: 'E',
@@ -52,8 +105,7 @@ sliderPlugins.directive('swOutputFrame', ($location) => {
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location,
-        scope
+        $element: element, $location, scope, $rootScope
       });
 
       scope.$watch('currentUrl', (url) => {
@@ -61,8 +113,11 @@ sliderPlugins.directive('swOutputFrame', ($location) => {
           return;
         }
         frame.setAddress(url);
+
       });
+      
     }
+
   };
 
 });

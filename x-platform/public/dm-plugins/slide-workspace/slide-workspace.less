@@ -1,5 +1,7 @@
 @import './output/sw-output/sw-output.less';
+@import './editor/sw-editor-cdn/sw-editor-cdn.less';
 @import './editor/editor/sw-editor.less';
+@import './editor/tabs/sw-editor-tabs.less';
 
 .layout-chooser {
   position: absolute;
@@ -151,10 +153,6 @@
         box-shadow: 2px 0 3px #555 inset;
       }
     }
-  }
-
-  .sw-workspace-tab-container {
-    border-bottom: 2px solid #0f0f0f;
   }
 
   .workspace-tab {
@@ -435,6 +433,20 @@
     transform: translateZ(0);
   }
 
+  &.fadeIn {
+    transition: opacity 0.1s;
+    opacity: 1;
+    transform: translateZ(0);
+  }
+
+  &.opacity_0 {
+    opacity: 0;
+  }
+
+  &.opacity_1 {
+    opacity: 1;
+  }
+
   &.onBottom {
     z-index: 0;
   }
@@ -446,6 +458,7 @@
   &.frame-background {
     background: #eee;
   }
+
 }
 
 
@@ -508,4 +521,9 @@ slide-workspace-output {
     opacity: 0.0
   }
 }
+
+
+
+
+
 

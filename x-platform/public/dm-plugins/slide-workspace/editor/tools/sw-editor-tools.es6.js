@@ -104,7 +104,8 @@ class SwEditorTools {
 
 }
 
-sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
+
+sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) => {
 
   return {
     restrict: 'E',
@@ -128,7 +129,7 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
         $scope, $rootScope, $window, $upload
       });
       tools.controller(this);
+
     }
   };
-
 });

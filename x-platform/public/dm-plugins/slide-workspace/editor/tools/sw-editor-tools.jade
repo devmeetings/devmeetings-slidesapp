@@ -29,6 +29,13 @@ ul.nav.nav-tabs.pull-right
       span.fa.fa-list(ng-show="model.showUrl")
       span.fa.fa-list-alt(ng-show="!model.showUrl")
 
+  sw-editor-cdn(
+    active-tab="model.activeTab"
+    active-tab-name="model.activeTabName"
+    on-new-workspace="model.localOnNewWorkspace(workspace)"
+    on-refresh-content="model.onRefreshContent()"
+  )
+
   li.workspace-tab.workspace-tab-condensed
     a.cursor-pointer(
       ng-click="model.hideOutput = !model.hideOutput"
