@@ -19,18 +19,21 @@ mixin frameWithAddress()
       ng-class="{'with-address': model.withAddress}"
     )
     sw-output-phone(
-      with-phone="model.withIonic"
-    )
+        with-phone="model.withIonic"
+      )
       sw-output-frame(
           base-url="model.baseUrl"
           current-url="model.currentUrl"
           is-dead="model.isDead"
         )
+    sw-output-errors(
+        current-url="model.currentUrl"
+      )
 
 mixin console()
   sw-output-console.full-height
 
-.full-height
+.sw-output.full-height
   .full-height(ng-if="!model.withConsole")
     +frameWithAddress
   .full-height(ng-if="model.withConsole && !model.withConsoleInColumns")

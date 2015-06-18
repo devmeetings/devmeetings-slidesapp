@@ -38,12 +38,12 @@
     font-size: 18px;
     line-height: 33px;
     background-color: rgba(0, 0, 0, 0);
-    transition-delay: 2s;
+    transition-delay: 1s;
     padding: 0 5%;
   }
   &.moveable {
     box-shadow: 0 0 50px #000;
-    border-radius: 15px;
+    border-radius: 0 5px;
     z-index: 100;
   }
   &.showNow {
@@ -60,12 +60,12 @@
   font-weight: bold;
   text-shadow: 1px 1px 1px #222;
   text-align: center;
-  font-size: 19px;
+  font-size: 13px;
   background-color: rgba(32, 32, 32, 0.9);
-  padding: 10px;
+  padding: 6px;
   z-index: 10;
 
-  transition: all 1s ease-in-out;
+  transition: all .2s ease-in-out;
 
   pre,code {
     text-shadow: none;
@@ -88,7 +88,7 @@
   }
   .btn-minimize {
     opacity: 0;
-    transition: opacity .5s ease;
+    transition: opacity .3s ease;
     transition-delay: 1s;
     position: absolute;
     top: -15px;
@@ -105,7 +105,7 @@
 .dm-player-subtitles-btn {
   z-index: 13;
   position: absolute;
-  transition: opacity 0.7s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 
   width: 120px;
   height: 120px;
@@ -120,7 +120,7 @@
   }
 
   .btn-next-subtitle {
-    font-size: 50px;
+    font-size: 20px;
 
     position: absolute;
     bottom: 0;
@@ -139,16 +139,16 @@
   background-color: @color;
   color: @fg;
   text-align: center;
-  font-size: 14px;
+  font-size: 10px;
 
   display: inline-block;
-  padding: 5px;
+  padding: 1px;
 
   outline: none !important;
   border: none;
   border-radius: 0;
 
-  min-width: 50px;
+  min-width: 40px;
 
   &:hover {
     color: @fg;

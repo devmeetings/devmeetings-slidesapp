@@ -116,7 +116,7 @@ define(['angular', 'xplatform/xplatform-app', '_'], function(angular, xplatformA
                       memo.annos.push(anno);
                     }
                     memo.lastComment = anno.timestamp;
-                  } else if (anno.type === 'pause') {
+                  } else if (anno.reason) {
                     if (anno.timestamp - memo.lastComment > thr) {
                       memo.annos.push(anno);
                     }

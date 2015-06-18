@@ -51,7 +51,7 @@ color: #FFFFFF\
 color: #FFFFFF\
 }\
 .ace-todr .ace_marker-layer .ace_selection {\
-background: #6699CC\
+background: #16589B\
 }\
 .ace-todr.ace_multiselect .ace_selection.ace_start {\
 box-shadow: 0 0 3px 0px #0F0F0F;\
@@ -71,7 +71,7 @@ background: #333333\
 background-color: #333333\
 }\
 .ace-todr .ace_marker-layer .ace_selected-word {\
-border: 1px solid #6699CC\
+border: 1px solid #16589B\
 }\
 .ace-todr .ace_invisible {\
 color: #404040\

@@ -44,10 +44,11 @@ define(['_', 'slider/slider', '../utils/Plugins'], function(_, slider, Plugins) 
           var childScope = $scope.$new();
 
           var pluginTpl = function(plugin) {
+            var scopePath = $scope.path === '.' ? '' : $scope.path;
             return tpl({
               pluginName: plugin.plugin,
               trigger: plugin.trigger,
-              path: $scope.path + '.' + plugin.trigger
+              path: scopePath + '.' + plugin.trigger
             });
           };
 

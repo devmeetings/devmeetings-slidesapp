@@ -28,7 +28,12 @@ mixin withSubtitles()
         ng-class="{'minimized': subs.isMinimized}"
       )
       .pull-right
-        a.btn-minimize(ng-click="subs.isMinimized = !subs.isMinimized")
+        a.btn-minimize(
+          tooltip="Minimize subtitles"
+          tooltip-animation="false"
+          tooltip-placemenet="top"
+          ng-click="subs.isMinimized = !subs.isMinimized"
+          )
           span.fa.fa-minus
       +currentAnnotation()
       +nextButtons('arrow-right')
@@ -37,18 +42,23 @@ mixin withSubtitles()
       ng-class="{'faded': !state.isPlaying && !subs.isMinimized, 'showNow': subs.isMinimized }"
       )
       .pull-right
-        a.btn-minimize(ng-click="subs.isMinimized = !subs.isMinimized")
-          span.fa.fa-plus
+        a.btn-minimize(
+          ng-click="subs.isMinimized = !subs.isMinimized"
+          tooltip="Floating subtitles"
+          tooltip-animation="false"
+          tooltip-placemenet="left"
+          )
+          span.fa.fa-chevron-up
       +currentAnnotation()
 
 .full-height
   .full-height(ng-if="!withSidebar")
     +withSubtitles
-      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
+      plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='.', recorder='recorder')
   .full-height(ng-if="withSidebar")
     .col-xs-10.full-height
       +withSubtitles
-        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
+        plugins-loader(namespace="'slide'", context="slide", mode="state.isPlaying ? 'player' : ''", path='.', recorder='recorder')
     .col-xs-2.full-height
-      plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='', recorder='recorder')
+      plugins-loader(namespace="'slide.sidebar'", context="slide", mode="state.isPlaying ? 'player' : ''", path='.', recorder='recorder')
 
