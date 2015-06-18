@@ -56,8 +56,9 @@ define([
             makeSubtitlesFixed();
             $timeout(function() {
               $scope.state.firstRun = false;
+              $scope.state.currentSecond += 0.01;
               $scope.state.isPlaying = true;
-            }, 1000);
+            }, 150);
           };
 
           $scope.state.firstRun = true;
