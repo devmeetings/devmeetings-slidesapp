@@ -33,9 +33,7 @@ class OutputFrame {
     this.scope.isWarning = false;
   }
 
-  setAddress(url) {
-
-    this.setIsWarning(url);
+  setAdressWithFramesAnimation(url) {
 
     this.iframe2.attr('src', url);
     this.iframe1.css({'z-index': '10'});
@@ -68,11 +66,33 @@ class OutputFrame {
 
   }
 
+  setAdressWithoutFramesAnimation(url) {
+    this.iframe1.attr('src', url);
+  }
+
+  setAddressAndAnimateIfNeeded(url) {
+
+    var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
+
+    if ( animationOn ) {
+      this.setAdressWithFramesAnimation(url);
+    } else {
+      this.setAdressWithoutFramesAnimation(url);
+    }
+  }
+
+  setAddress(url) {
+
+    this.setIsWarning(url);
+    this.setAddressAndAnimateIfNeeded(url);
+
+  }
+
 }
 
 
 
-sliderPlugins.directive('swOutputFrame', ( $location ) => {
+sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
 
   return {
     restrict: 'E',
@@ -85,7 +105,7 @@ sliderPlugins.directive('swOutputFrame', ( $location ) => {
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location, scope
+        $element: element, $location, scope, $rootScope
       });
 
       scope.$watch('currentUrl', (url) => {
