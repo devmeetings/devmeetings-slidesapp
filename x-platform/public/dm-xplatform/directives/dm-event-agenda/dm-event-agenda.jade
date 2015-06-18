@@ -63,7 +63,7 @@ mixin activeMaterialAnnotations()
               span.title &nbsp;{{material.title}}
           .item-details(ng-if="activeMaterial._id === material._id")
             +activeMaterialAnnotations()
-            // plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='')
+            // plugins-loader.full-height(namespace="'slide.sidebar'", context="$root.slide.slide", mode="$root.slide.mode", path='.')
 
       ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
         li(style="height: 70vh")
