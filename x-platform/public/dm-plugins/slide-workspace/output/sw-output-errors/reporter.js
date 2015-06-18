@@ -87,6 +87,7 @@
           'right': '0',
           'width': 'auto',
           'max-width': '100%',
+          'max-height': '50vh',
           'overflow': 'auto',
           'padding': '10px',
           'background-color': '#FFEFEF',
