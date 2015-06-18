@@ -15,10 +15,13 @@
 
     function handleError(msg, file, line, col, error) {
       var err = normalizeError(msg, error);
-      if (window.parent) {
-        forwardErrorToParent(err);
+      var errorsList = getErrorsList();
+      errorsList.push(err);
+
+      if (window.parent !== window) {
+        forwardErrorToParent(errorsList);
       } else {
-        displayErrorInfo(err);
+        displayErrorInfo(errorsList);
       }
     }
 
@@ -37,8 +40,18 @@
       }
     }
 
-    function forwardErrorToParent(err) {
-      displayErrorInfo(err);
+    function getErrorsList() {
+      if (!window.xplaLastErrors) {
+        window.xplaLastErrors = [];
+      }
+      return window.xplaLastErrors;
+    }
+
+    function forwardErrorToParent(errors) {
+      window.parent.postMessage({
+          type: 'errors',
+          data: errors
+      }, window.location);
     }
 
     window.onerror = function(/*args*/) {
@@ -47,7 +60,7 @@
       handleError.apply(null, args);
     };
 
-}(function displayErrorInfo(err) {
+}(function displayErrorInfo(errorsList) {
   function $(sel) {
     return document.querySelector(sel);
   }
@@ -139,13 +152,6 @@
     document.head.appendChild($e);
   }
 
-  function getErrorsList() {
-    if (!window.xplaLastErrors) {
-      window.xplaLastErrors = [];
-    }
-    return window.xplaLastErrors;
-  }
-
   function updateDetails(errorList) {
     var $link = $('.xpla-error-link');
     $link.innerHTML = 'Details (' + errorList.length + ')';
@@ -158,7 +164,9 @@
 
       $p.appendChild(document.createTextNode(err.msg));
       try {
-        $pre.appendChild(document.createTextNode(JSON.stringify(err.stack, null, 2)));
+        var stackAsJson = JSON.stringify(err.stack, null, 2);
+        var stackText = document.createTextNode(stackAsJson);
+        $pre.appendChild(stackText);
       } catch (e) {}
       $e.appendChild($p);
       $e.appendChild($pre);
@@ -168,16 +176,33 @@
     });
   }
 
+  function detailsState() {
+    var localStorage = window.localStorage;
+    return {
+      get: function() {
+        return !!localStorage.getItem('xpla-error-details');
+      },
+      set: function(isVisible) {
+        localStorage.setItem('xpla-error-details', isVisible);
+      }
+    };
+  }
+
   function createDetailsLink($detailsContainer) {
     var $link = $el('a.xpla-error-link');
     $link.addEventListener('click', function() {
       $detailsContainer.classList.toggle('visible');
+      detailsState().set($detailsContainer.classList.contains('visible'));
     });
     return $link;
   }
 
   function createDetailsContainer() {
     var $details = $el('div.xpla-error-details');
+    var isVisible = detailsState().get();
+    if (isVisible) {
+      $details.classList.add('visible');
+    }
     return $details;
   }
 
@@ -190,11 +215,7 @@
     return $link;
   }
 
-  var errorsList = getErrorsList();
-  errorsList.push(err);
-
   if ($('.xpla-error-dialog')) {
-    // TODO [ToDr] report new error?
     updateDetails(errorsList);
     return;
   }

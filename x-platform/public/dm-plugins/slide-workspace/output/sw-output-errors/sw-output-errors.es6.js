@@ -11,7 +11,12 @@ class SwOutputErrors {
     _.extend(this, data);
   }
 
-  controller(vm) {
+  reset(vm) {
+    vm.errors = [];
+  }
+
+  onError(vm, errors) {
+    vm.errors = errors;
   }
 
 }
@@ -21,17 +26,34 @@ sliderPlugins.directive('swOutputErrors', () => {
 
   return {
     restrict: 'E',
-    replace: true,
     scope: {
+      currentUrl: '='
     },
     bindToController: true,
     controllerAs: 'vm',
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-errors/sw-output-errors.html',
-    controller($scope) {
-      let output = new SwOutputErrors({
+    controller($scope, $window) {
+      let output = new SwOutputErrors({});
+      let vm = this;
+
+      $scope.$watch(() => vm.currentUrl, () => {
+        output.reset(vm);
       });
 
-      output.controller(this);
+      function errorListener(ev) {
+        if (!ev.data || ev.data.type !== 'errors') {
+          return;
+        }
+        var errors = ev.data.data;
+        $scope.$apply(function() {
+          output.onError(vm, errors);
+        });
+      }
+
+      $window.addEventListener('message', errorListener);
+      $scope.$on('$destroy', ()=>{
+        $window.removeEventListener('message', errorListener);
+      });
     }
   };
 

@@ -1,2 +1,18 @@
-.alert.alert-danger
-  h1 Errors
+.sw-output-errors
+  .alert.alert-danger(
+    ng-if="vm.errors.length"
+    )
+    p 
+      span {{ vm.errors[vm.errors.length - 1].msg }}
+      | &nbsp;
+      a.cursor-pointer(
+        ng-click="vm.showDetails = !vm.showDetails"
+        )
+        | Details ({{ vm.errors.length }})
+    div(
+      ng-show="vm.showDetails"
+      ng-repeat="err in vm.errors"
+      )
+      hr
+      p {{ err.msg }}
+      pre {{ err.stack | json }}

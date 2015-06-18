@@ -31,5 +31,8 @@ html.full-height(
          ga('create', '#{withGoogleAnalytics}', 'auto');
 
     if version
-      footer.dm-version(ng-class="{'active': $root.editMode}")= version
+      footer.dm-version(
+        ng-class="{'active': $root.editMode}"
+        ng-bind="'#{version}'"
+        )
 
