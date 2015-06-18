@@ -154,9 +154,9 @@
       var $p = $el('p');
       var $pre = $el('pre');
 
-      $p.innerHTML = err.msg;
+      $p.appendChild(document.createTextNode(err.msg));
       try {
-        $pre.innerHTML = JSON.stringify(err.stack, null, 2);
+        $pre.appendChild(document.createTextNode(JSON.stringify(err.stack, null, 2)));
       } catch (e) {}
       $e.appendChild($p);
       $e.appendChild($pre);
@@ -193,7 +193,7 @@
 
   if ($('.xpla-error-dialog')) {
     // TODO [ToDr] report new error?
-    updateDetails(errorList);
+    updateDetails(errorsList);
     return;
   }
 
