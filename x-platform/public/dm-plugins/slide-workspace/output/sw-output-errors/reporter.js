@@ -115,22 +115,22 @@
           'display': 'block'
       }),
       asStyles('.xpla-error-item, .xpla-error-item *', {
-        'font-family': 'monospace'
+          'font-family': 'monospace'
       }),
       asStyles('.xpla-error-item', {
-        'padding': '3px 0',
-        'margin-top': '3px',
-        'border-top': '1px solid red'
+          'padding': '3px 0',
+          'margin-top': '3px',
+          'border-top': '1px solid red'
       }),
       asStyles('.xpla-error-item p', {
-        'padding': '3px 10px',
-        'color': '#333'
+          'padding': '3px 10px',
+          'color': '#333'
       }),
       asStyles('.xpla-error-item pre', {
-        'padding': '10px',
-        'color': '#333',
-        'border': '1px solid #444',
-        'background-color': '#eee'
+          'padding': '10px',
+          'color': '#333',
+          'border': '1px solid #444',
+          'background-color': '#eee'
       })
     ].join('');
     document.head.appendChild($e);
