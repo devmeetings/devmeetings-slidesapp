@@ -29,9 +29,12 @@ class ContextMenuDir {
         return;
       }
       var w = scope.with;
-      if (isEditMode) {
+      if (isEditMode && w.indexOf('admin') === -1) {
         w.unshift('admin');
-      } else {
+        return;
+      }
+
+      if (!isEditMode) {
         var idx = w.indexOf('admin');
         if (idx > -1) {
           w.splice(idx, 1);
