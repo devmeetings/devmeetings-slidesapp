@@ -12,8 +12,6 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         recorder: '=',
       },
       link: function(scope) {
-        console.log("Initializing recorder");
-        console.log(scope.path, scope.recorder, scope.slide);
         // Disable recorder on some sub slides.
         if (scope.path !== '.*') {
           return;
