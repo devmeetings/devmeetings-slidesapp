@@ -2,16 +2,14 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as module from 'module';
-import * as _ from '_';
-import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
 
 
-sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
+sliderPlugins.directive('swEditorCdn', () => {
 
   return {
     restrict: 'E',
+    replace: true,
     scope: {
       activeTab: '=',
       activeTabName: '=',
@@ -47,28 +45,25 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
         }
       ];
 
-      self.insertToString = function(input, index, string) {
-        if (index > 0) 
-        {
+      function insertToString(input, index, string) {
+
+        if (index > 0) {
           return input.substring(0, index) + string + input.substring(index, input.length);
-        }  
-        else 
-        {
+        } else {
           return string + input;
-        }
+        } 
+
       }
 
       self.selectLibrary = function(library) {
         var code = self.activeTab.content;
 
         function getCodeToInsert(source, tagCategory) {
-          if (tagCategory === 'link') 
-          {
+          if (tagCategory === 'link') {
             return '<link href="'+source+'" rel="stylesheet">\n';
           } 
           
-          if (tagCategory === 'script')
-          {
+          if (tagCategory === 'script') {
             return '<script src="'+source+'"></script>\n';
           }
 
@@ -76,14 +71,14 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
         }
 
         function getSearchPattern(tagCategory) {
-          if (tagCategory === 'link') 
-          {
+
+          if (tagCategory === 'link') {
             return /<\s*\/\s*head\s*>/;
           } 
-          else if (tagCategory === 'script')
-          {
+          else if (tagCategory === 'script'){
             return /<\s*\/\s*body\s*>/;
           }
+
         }
 
         function findIndexWhereToInsertCode(code, tagCategory) {
@@ -91,7 +86,6 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
           var match = code.match(searchPattern);
 
           if (match) {
-            $log.log(code.indexOf(match[0]));
             return code.indexOf((match[0])); 
           }
           return code.length;
@@ -99,7 +93,7 @@ sliderPlugins.directive('swEditorCdn', ($log, $timeout) => {
 
         var codeToInsert = getCodeToInsert(library.source, library.tag_category);
         var insertIndex = findIndexWhereToInsertCode(code, library.tag_category);
-        self.activeTab.content = self.insertToString(code, insertIndex, codeToInsert);
+        self.activeTab.content = this.insertToString(code, insertIndex, codeToInsert);
         self.onRefreshContent();
       };
  

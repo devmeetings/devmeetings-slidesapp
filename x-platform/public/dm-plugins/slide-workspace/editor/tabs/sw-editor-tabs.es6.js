@@ -51,8 +51,6 @@ class SwEditorTabs {
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
-      //self.$rootScope.numberOfTabs = self.tabsObjects.length;
-      //console.log(self.$rootScope.numberOfTabs);
     });
   }
 
@@ -140,7 +138,7 @@ sliderPlugins.directive('swEditorTabs', () => {
     bindToController: true,
     controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/editor/tabs/sw-editor-tabs.html',
-    controller: function($rootScope, $scope, $window, $log) {
+    controller: function($scope, $window) {
       let tabs = new SwEditorTabs({
         $scope, $window
       });
