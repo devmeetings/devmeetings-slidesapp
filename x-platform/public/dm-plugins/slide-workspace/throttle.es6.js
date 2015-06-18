@@ -1,7 +1,7 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import * as _ from '_'
+import * as _ from '_';
 
 function safeApply(scope, fn) {
   var phase = scope.$root.$$phase;
