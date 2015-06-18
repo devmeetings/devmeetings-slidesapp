@@ -11,15 +11,17 @@
   cursor: pointer;
 }
 
-.warning-editor {
-  -webkit-filter: sepia(0.8);
-  filter: sepia(0.8);
-}
 .warning-content {
   .ace-todr .ace_hidden-cursors {
     .ace_cursor {
       animation: none;
     }
+  }
+  .ace_active-line {
+    visibility: hidden;
+  }
+  .sw-editor-active .ace_active-line {
+    visibility: visible;
   }
   .sw-editor-active .ace-todr .ace_hidden-cursors {
     .ace_cursor {
@@ -34,8 +36,17 @@
       animation: blink 1.35s ease infinite;
     }
   }
+
   .dm-editor {
-    .warning-editor;
+    -webkit-filter: sepia(1.0);
+    filter: sepia(1.0);
+  }
+
+  .sw-editor-active {
+    .dm-editor {
+      -webkit-filter: sepia(0.7);
+      filter: sepia(0.7);
+    }
   }
 }
 
@@ -93,24 +104,6 @@
 
   .editor {
     position: relative;
-  }
-
-  .editor-focusable {
-    border: 1px solid #000;
-    .dm-editor {
-      .warning-editor;
-    }
-  }
-
-  .editor-focus {
-    .dm-editor {
-      -webkit-filter: none;
-      filter: none;
-    }
-
-    .slide-workspace .editor {
-      background-color: #00001a;
-    }
   }
 
   .editor-container {
