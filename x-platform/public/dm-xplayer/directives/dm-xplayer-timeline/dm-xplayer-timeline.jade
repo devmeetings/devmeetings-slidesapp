@@ -5,7 +5,7 @@ a.btn.dm-timeline-button(
   span.fa.fa-step-backward
 
 a.btn.dm-timeline-button(
-    ng-click='state.isPlaying = !state.isPlaying', 
+    ng-click='playNext()', 
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.play_pause'
     tooltip='{{state.isPlaying ? "Pause" : "Play"}}', tooltip-placement='top')

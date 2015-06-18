@@ -134,7 +134,7 @@ define([
       myself.removeClass('faded');
 
       setTimeout(function() {
-        var cursor = $('.editor-focus .ace_cursor')[0];
+        var cursor = $('.sw-editor-active .ace_cursor')[0];
         cursor = cursor || $('.ace_cursor')[0];
         if (!cursor) {
           return;

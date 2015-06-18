@@ -1,6 +1,6 @@
 define([
-  '_',
-  'dm-xplayer/dm-xplayer-app',
+    '_',
+    'dm-xplayer/dm-xplayer-app',
 ], function(_, xplayerApp) {
   'use strict';
 
@@ -24,6 +24,12 @@ define([
             $scope.$apply(function() {
               $scope.setSecond = time;
             });
+          };
+
+          $scope.playNext = function() {
+            var state =$scope.state;
+            state.currentSecond += 0.001;
+            state.isPlaying = !state.isPlaying;
           };
 
           var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 50.0, 100.0];

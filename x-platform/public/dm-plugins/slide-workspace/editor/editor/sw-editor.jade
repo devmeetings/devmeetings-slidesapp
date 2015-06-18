@@ -22,7 +22,7 @@ sw-editor-tabs(
 )
 
 .sw-editor(
-  ng-class="{'with-tabs': model.isWithTabs()}"
+  ng-class="{'with-tabs': model.isWithTabs(), 'sw-editor-active': model.editorActiveTabName === model.globalActiveTabName}"
 )
   dm-editor(
     size='"xxl"', 
