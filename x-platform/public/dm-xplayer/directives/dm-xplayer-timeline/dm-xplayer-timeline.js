@@ -35,6 +35,12 @@ define([
             return (nextRate + 1) % rates.length;
           }
 
+          $scope.$watch('state.currentSecond', function(sec) {
+            if (sec >= $scope.state.max) {
+              $scope.onEnd();
+            } 
+          });
+
           $scope.$watch('state.rate', function(rate) {
             if (rate) {
               var currentRateIdx = _.sortedIndex(rates, rate);
