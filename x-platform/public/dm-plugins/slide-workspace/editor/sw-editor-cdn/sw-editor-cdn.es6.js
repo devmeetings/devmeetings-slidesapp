@@ -93,7 +93,7 @@ sliderPlugins.directive('swEditorCdn', () => {
 
         var codeToInsert = getCodeToInsert(library.source, library.tag_category);
         var insertIndex = findIndexWhereToInsertCode(code, library.tag_category);
-        self.activeTab.content = this.insertToString(code, insertIndex, codeToInsert);
+        self.activeTab.content = insertToString(code, insertIndex, codeToInsert);
         self.onRefreshContent();
       };
  
