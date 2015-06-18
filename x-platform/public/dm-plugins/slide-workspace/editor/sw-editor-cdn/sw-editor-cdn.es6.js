@@ -5,45 +5,22 @@ import sliderPlugins from 'slider/slider.plugins';
 
 
 
-sliderPlugins.directive('swEditorCdn', () => {
+sliderPlugins.directive('swEditorCdn', ($log) => {
 
   return {
     restrict: 'E',
     replace: true,
     scope: {
-      activeTab: '=',
       activeTabName: '=',
-      onNewWorkspace: '&',
-      onRefreshContent: '&'
+      activeTab: '=',
+      onRefreshContent: '&',
+      cdnLibraries: '='
     },
     bindToController: true,
     controllerAs: 'cdn',
     templateUrl: '/static/dm-plugins/slide-workspace/editor/sw-editor-cdn/sw-editor-cdn.html',
-    controller: function($scope) {
+    controller: function($scope, $log) {
       let self = this;
-
-      self.libraries = [
-        { 
-          'name':'jQuery',
-          'source':'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
-          'tag_category':'script'
-        },
-        { 
-          'name':'AngularJS',
-          'source':'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js',
-          'tag_category':'script'
-        },
-        { 
-          'name':'Bootstrap (JS)',
-          'source':'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',
-          'tag_category':'script'
-        },
-        { 
-          'name':'Bootstrap (CSS)',
-          'source':'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css',
-          'tag_category':'link'
-        }
-      ];
 
       function insertToString(input, index, string) {
 

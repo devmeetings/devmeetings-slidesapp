@@ -118,7 +118,7 @@ class SwEditor {
 }
 
 
-sliderPlugins.directive('swEditor', () => {
+sliderPlugins.directive('swEditor', ($log) => {
 
   return {
     restrict: 'E',
@@ -127,7 +127,7 @@ sliderPlugins.directive('swEditor', () => {
       withTools: '=',
       withToolsUrl: '=',
       withFilePattern: '=',
-
+      cdnLibraries: '=',
 
       showUrl: '=',
       hideOutput: '=',
@@ -147,7 +147,7 @@ sliderPlugins.directive('swEditor', () => {
     bindToController: true,
     controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/editor/editor/sw-editor.html',
-    controller: function($scope) {
+    controller: function($scope, $log) {
       let editor = new SwEditor({
           $scope
       });
