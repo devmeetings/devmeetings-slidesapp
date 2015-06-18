@@ -1,7 +1,7 @@
 define([
-  '$', '_',
-  'dm-xplayer/dm-xplayer-app',
-  'dm-xplayer/services/dm-player-factory'
+    '$', '_',
+    'dm-xplayer/dm-xplayer-app',
+    'dm-xplayer/services/dm-player-factory'
 ], function($, _, xplayerApp) {
   'use strict';
 
@@ -40,6 +40,7 @@ define([
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
               }
+              $scope.$broadcast('slide:update');
             });
             recordingPlayer.setIsPlaying(false);
             goToSecond();
@@ -55,59 +56,47 @@ define([
             makeSubtitlesFixed();
             $timeout(function() {
               $scope.state.firstRun = false;
+              $scope.state.currentSecond += 0.01;
               $scope.state.isPlaying = true;
-            }, 1000);
+            }, 150);
           };
 
           $scope.state.firstRun = true;
-          $scope.nextStop = 0.1;
-          $scope.maxNextStop = 10000;
+
+          function selectNewAnnotation(second) {
+            var annotations = $scope.annotations;
+            if (!annotations) {
+              return;
+            }
+
+            function setIfHasAnno(name, idx) {
+              var anno = annotations[idx];
+              $scope.state[name] = anno ? anno.timestamp : null;
+            }
+
+            var nextAnnotationIdx = _.sortedIndex(annotations, {
+                timestamp: second
+            }, 'timestamp');
+            $scope.currentAnnotation = annotations[nextAnnotationIdx - 1];
+
+            setIfHasAnno('playFrom', nextAnnotationIdx - 1);
+            setIfHasAnno('playTo', nextAnnotationIdx);
+            setIfHasAnno('nextPlayTo', nextAnnotationIdx + 1);
+          }
 
           var goToSecond = function(curr, prev) {
             if (!recordingPlayer) {
               return;
             }
             var second = $scope.state.currentSecond;
-            var anno;
-
             recordingPlayer.goToSecond(second);
 
-
-            if (second >= $scope.nextStop) {
-              $scope.anno = $scope.next;
-              $scope.state.isPlaying = false;
-
-              anno = _.find($scope.annotations, function(anno) {
-                return anno.timestamp > second;
-              });
-              if (anno) {
-                $scope.nextStop = anno.timestamp;
-                $scope.next = anno;
-              } else {
-                $scope.nextStop = $scope.maxNextStop;
-              }
-
-            } else if (Math.abs(curr - prev) > 5) {
-              // fix nextStop when we are going backwards or fast forward
-
-              anno = _.find($scope.annotations, function(anno) {
-                return anno.timestamp > curr;
-              });
-
-              if (anno) {
-                $scope.nextStop = anno.timestamp;
-                $scope.next = anno;
-
-                var curIdx = $scope.annotations.indexOf(anno);
-                if (curIdx > 0) {
-                  $scope.anno = $scope.annotations[curIdx];
-                }
-              } else {
-                $scope.nextStop = $scope.maxNextStop;
-              }
-            }
+            selectNewAnnotation(second);
           };
 
+          $scope.$watch('annotations', function(){
+            selectNewAnnotation($scope.state.currentSecond);
+          });
           $scope.$watch('state.currentSecond', goToSecond);
           $scope.$watch('state.isPlaying', function(isPlaying) {
             if (isPlaying) {
@@ -128,7 +117,7 @@ define([
             $window.removeEventListener('resize', fixSubtitlePosition);
           });
 
-          $timeout(fixSubtitlePosition, 500);
+          $timeout(fixSubtitlePosition, 200);
         }
       };
     }
@@ -140,30 +129,30 @@ define([
 
   function fixSubtitlePosition() {
     // TODO [ToDr] Fix me please :(
-    // Changing position of subtitles
-    var myself = $('.dm-player-subtitles.moveable');
-    myself.removeClass('faded');
+      // Changing position of subtitles
+      var myself = $('.dm-player-subtitles.moveable');
+      myself.removeClass('faded');
 
-    setTimeout(function() {
-      var cursor = $('.editor-focus .ace_cursor')[0];
-      cursor = cursor || $('.ace_cursor')[0];
-      if (!cursor) {
-        return;
-      }
-      var rect = cursor.getBoundingClientRect();
-      var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 50;
-      var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 50;
-      var positionTop = Math.max(20, rect.bottom + 30);
-      positionTop = Math.min(viewportHeight - 10, positionTop);
+      setTimeout(function() {
+        var cursor = $('.sw-editor-active .ace_cursor')[0];
+        cursor = cursor || $('.ace_cursor')[0];
+        if (!cursor) {
+          return;
+        }
+        var rect = cursor.getBoundingClientRect();
+        var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 50;
+        var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 50;
+        var positionTop = Math.max(20, rect.bottom + 30);
+        positionTop = Math.min(viewportHeight - 10, positionTop);
 
 
-      var translateLeft = Math.min(parseInt(250 + rect.left, 10), viewportWidth - myself.width());
-      var translateBottom = parseInt(viewportHeight - positionTop - myself.height(), 10);
+        var translateLeft = Math.min(parseInt(250 + rect.left, 10), viewportWidth - myself.width());
+        var translateBottom = parseInt(viewportHeight - positionTop - myself.height(), 10);
 
-      myself.css({
-        bottom: translateBottom + 'px',
-        left: translateLeft + 'px'
-      });
-    }, 100);
+        myself.css({
+            bottom: translateBottom + 'px',
+            left: translateLeft + 'px'
+        });
+      }, 100);
   }
-});
+    });

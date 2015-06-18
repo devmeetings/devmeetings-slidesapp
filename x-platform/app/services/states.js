@@ -196,11 +196,11 @@ var States = (function() {
         }, 100).exec());
         var before = Q.when(fetchHistory(save.workspaceId, {
           $lt: save.originalTimestamp
-        }, 10).exec());
+        }, 10, -1).exec());
 
         return Q.all([before, after]).then(function(a) {
           return {
-            before: a[0],
+            before: a[0].reverse(),
             after: a[1]
           };
         });
@@ -235,11 +235,10 @@ var States = (function() {
 
       return Q.when(Statesave.findById(sinceId).lean().exec()).then(function(save) {
 
-        var toTime = new Date(save.originalTimestamp.getTime() + toTimestamp);
-
-        var others = Q.when(fetchHistory(save.workspaceId), {
-          $lt: toTime
-        });
+        // We cannot use toTimestamp here, because convertion can skip silence
+        var others = Q.when(fetchHistory(save.workspaceId, {
+          $gt: save.originalTimestamp
+        }, 100).exec());
 
         return others.then(function(items) {
           return [save].concat(items);
@@ -260,7 +259,7 @@ var States = (function() {
         var patchesToStore = patches.slice(recordingStartIdx, recordingEndIdx);
 
         var saveData = history[0];
-        var current = saveData.original;
+        var current = saveData.original || {};
         States.applyPatches(current, patchesToApply);
         var timestampDiff = patchesToApply.length ? _.last(patchesToApply).timestamp : 0;
         var currentTimestamp = new Date(saveData.originalTimestamp + timestampDiff);
@@ -329,8 +328,10 @@ function isRecordingId(compoundId) {
   return compoundId[0] === 'r';
 }
 
-function fetchHistory(workspaceId, timestampQuery, limit) {
+function fetchHistory(workspaceId, timestampQuery, limit, sort) {
   'use strict';
+
+  sort = sort || 1;
 
   return Statesave.find({
     workspaceId: workspaceId,
@@ -339,7 +340,7 @@ function fetchHistory(workspaceId, timestampQuery, limit) {
     },
     originalTimestamp: timestampQuery
   }).lean().limit(limit).sort({
-    'originalTimestamp': 1
+    'originalTimestamp': sort
   });
 }
 
@@ -355,7 +356,8 @@ function convertHistorySlidesToPatches(slides) {
   var patches = slides.reduce(function(patches, slide) {
 
     var diff = getTimestamp(slide.originalTimestamp) - start;
-    var newPatches = slide.patches.map(function(patch) {
+    var slidePatches = slide.patches || [];
+    var newPatches = slidePatches.map(function(patch) {
       return {
         id: patch.id,
         timestamp: patch.timestamp + diff,

@@ -62,7 +62,7 @@ class SwEditor {
 
     self.localOnNewWorkspace = (workspace) => {
       self.onNewWorkspace({
-        workspace: workspace
+          workspace: workspace
       });
       this.refreshActiveTab(self);
     };
@@ -80,10 +80,10 @@ class SwEditor {
 
   patternToRegex(pattern) {
     let p = pattern
-      .replace(/\|/g, '\\|')
-      .replace(/\*\*/g, '.+')
-      .replace(/\*/g, '([^|]+)')
-      .replace(/\./g, '\\|');
+    .replace(/\|/g, '\\|')
+    .replace(/\*\*/g, '.+')
+    .replace(/\*/g, '([^|]+)')
+    .replace(/\./g, '\\|');
     return new RegExp('^' + p + '$', 'ig');
   }
 
@@ -96,8 +96,8 @@ class SwEditor {
     return Object.keys(tabs).filter((tabName) => {
       return tabName.match(regex);
     }).reduce((filteredTabs, tabName) => {
-      filteredTabs[tabName] = tabs[tabName];
-      return filteredTabs;
+    filteredTabs[tabName] = tabs[tabName];
+    return filteredTabs;
     }, {});
   }
 
@@ -128,9 +128,12 @@ sliderPlugins.directive('swEditor', () => {
       withToolsUrl: '=',
       withFilePattern: '=',
 
+
+      showUrl: '=',
+      hideOutput: '=',
+
       currentUrl: '=',
       downloadId: '=',
-      showUrl: '=',
       tabs: '=',
       globalActiveTabName: '=',
       editorOptions: '=',
@@ -146,9 +149,30 @@ sliderPlugins.directive('swEditor', () => {
     templateUrl: '/static/dm-plugins/slide-workspace/editor/editor/sw-editor.html',
     controller: function($scope) {
       let editor = new SwEditor({
-        $scope
+          $scope
       });
       editor.controller(this);
+
+      // Temporary!
+      function safeApply(scope, fn) {
+        var phase = scope.$root.$$phase;
+        if (phase === '$apply' || phase === '$digest') {
+          if (fn && (typeof(fn) === 'function')) {
+            fn();
+          } 
+        } else {
+          scope.$apply(fn);
+        } 
+      }
+      let vm = this;
+      vm.onChangeLater = _.throttle(() => { 
+        safeApply($scope, () => {
+          vm.onChange();
+        });
+      }, 6000, {
+        trailing: true,
+        leading: true
+      });
     }
   };
 

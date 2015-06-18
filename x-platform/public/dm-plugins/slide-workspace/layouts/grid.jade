@@ -19,13 +19,14 @@ sw-splitter(left="output.leftSize", right="output.rightSize", drag-active="outpu
 
 .sw-col.full-height(ng-style="{width: output.rightSize}")
   .sw-row(
-    ng-style="{height: output.topSize2}"
+    ng-style="{height: model.getSizeForContent(output.topSize2)}"
     )
     +editor(true, 'model.layout.options[2]')
 
   sw-splitter(left="output.topSize2", right="output.bottomSize2", drag-active="output.dragActive", is-row="true")
 
   .sw-row(
+    ng-if="!model.output.hideOutput"
     ng-style="{height: output.bottomSize2}"
     )
     .overlay(ng-if="output.dragActive")

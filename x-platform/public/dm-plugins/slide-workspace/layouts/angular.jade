@@ -10,11 +10,12 @@ sw-splitter(left="model.output.topSize", right="model.output.bottomSize", drag-a
   ng-style="{height: model.output.bottomSize}"
 )
   .sw-col.full-height(
-      ng-style="{width: model.output.leftSize}"
+      ng-style="{width: model.getSizeForContent(model.output.leftSize)}"
     )
     +editor(true, 'model.layout.options[1]')
   sw-splitter(left="model.output.leftSize", right="model.output.rightSize", drag-active="model.output.dragActive")
   .sw-col.full-height(
+    ng-if="!model.output.hideOutput"
     ng-style="{width: model.output.rightSize}"
   )
     .overlay(ng-if="model.output.dragActive")

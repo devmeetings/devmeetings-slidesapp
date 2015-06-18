@@ -30,7 +30,7 @@ define(['angular',
         dmBrowserTab.setTitleAndIcon('Your code', 'code');
         $scope.mode = '';
         $rootScope.slide.mode = '';
-        dmIntro.startIfFirstTime('workspace', '.dm-slide-left');
+        // dmIntro.startIfFirstTime('workspace', '.dm-slide-left');
       } else if (state === 'question') {
         $timeout(function() {
           $scope.mode = '';

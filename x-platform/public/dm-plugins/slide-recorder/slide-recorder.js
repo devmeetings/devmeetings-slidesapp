@@ -13,7 +13,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
       },
       link: function(scope) {
         // Disable recorder on some sub slides.
-        if (scope.path !== '.*' || !scope.recorder) {
+        if (scope.path !== '.*') {
           return;
         }
 
@@ -78,8 +78,10 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           if (a === undefined) {
             return;
           }
-
           var dmRecorder = scope.recorder;
+          if (!dmRecorder) {
+            return;
+          }
 
           var patch = dmRecorder.updateState(scope.slide);
           if (!patch) {

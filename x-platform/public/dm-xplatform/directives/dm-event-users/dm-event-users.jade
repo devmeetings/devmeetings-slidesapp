@@ -1,3 +1,14 @@
+mixin showContextAndPreferences()
+  .full-height(
+    ng-show="!showPreferences"
+    ui-view="context"
+  )
+  .full-height(
+    ng-show="showPreferences"
+  )
+    dm-xplatform-performance
+
+
 .full-height.dm-event-users
   ul.nav.nav-tabs.nav-stacked.users()
     li(ui-sref-active='active')
@@ -17,14 +28,13 @@
   .item-details(
     dm-sref-show="index.space.collaborate.workspace"
     )
-    .full-height(
-      ng-show="!showPreferences"
-      ui-view="context"
+    +showContextAndPreferences()
+
+  .item-details(
+    dm-sref-show="index.space.collaborate.history"
     )
-    .full-height(
-      ng-show="showPreferences"
-    )
-      dm-xplatform-performance
+    +showContextAndPreferences()
+
   .item-details(
     dm-sref-show="index.space.collaborate.question"
     )

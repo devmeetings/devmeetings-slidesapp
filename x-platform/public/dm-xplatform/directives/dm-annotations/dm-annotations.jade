@@ -1,15 +1,29 @@
-.col-xs-12.full-height
+.col-xs-12.full-height(ng-init="newSnip = {newSnippet: {}}")
     .row.dm-annos(ng-show="annotations.length === 0")
         .col-xs-12
             h4 Documentation will be displayed here.
-    .row(ng-if="editMode && !showAll")
-        .col-xs-12
-            dm-annotation-edit(
-                snippet="newSnippet", 
-                event-id="eventId",
-                iteration-id="iterationId",
-                resetSnippet="newSnippet = {}"
-                material-id="materialId")
+    .row(ng-if="$root.editMode && !showAll")
+      .col-xs-12
+          h5.text-muted New Comment
+          dm-annotation-edit(
+            simple='true'
+            current-second='state.currentSecond'
+            snippet="newSnip.newSnippet"
+            event-id="eventId"
+            iteration-id="iterationId"
+            reset-snippet="newSnip.newSnippet = {}"
+            material-id="materialId"
+            annotations="annotations"
+            )
+          hr
+          dm-annotation-edit(
+            snippet="newSnip.newSnippet"
+            event-id="eventId"
+            iteration-id="iterationId"
+            reset-snippet="newSnip.newSnippet = {}"
+            material-id="materialId"
+            annotations="annotations"
+            )
 
     .form-group.dm-annos-search(ng-if='showSearch && !$root.editMode', ng-show="annotations.length")
         input.input-sm.form-control(placeholder="Search", ng-model='search.text')
@@ -26,19 +40,26 @@
                 dm-annotation(annotation='p', show-iteration='showAll', ng-if='p.type === "snippet" || p.type === "comment"')
                 dm-microtask(microtask='p', ng-if='p.type === "task"')
                 
-                button.btn.btn-xs.btn-warning(ng-if="editMode", ng-click="p.editing = !p.editing")
+                button.btn.btn-xs.btn-warning(
+                  ng-if="$root.editMode && !p.reason", 
+                  ng-click="p.editing = !p.editing")
                     span.fa.fa-pencil
                 dm-annotation-edit(
                     ng-if="p.editing",
                     snippet="p",
                     event-id="eventId",
                     iteration-id="iterationId",
-                    material-id="materialId")
+                    material-id="materialId"
+                    annotations="annotations"
+                    )
   
-        div(ng-if="$root.editMode")
+        div(ng-if="$root.editMode && currentAnno")
+          h5.text-muted Edit Current Annotation
           dm-annotation-edit(
+            ng-if="!currentAnno.reason"
             snippet="currentAnno",
             event-id="eventId",
             iteration-id="iterationId",
             material-id="materialId"
+            annotations="annotations"
           )

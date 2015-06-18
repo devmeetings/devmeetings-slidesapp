@@ -1,7 +1,10 @@
 sw-editor-tools(
   ng-if="model.withTools"
   with-url-button="model.withToolsUrl"
+
   show-url="model.showUrl"
+  hide-output="model.hideOutput"
+
   current-url="model.currentUrl"
   download-id="model.downloadId"
   active-tab="model.editorActiveTab"
@@ -19,7 +22,7 @@ sw-editor-tabs(
 )
 
 .sw-editor(
-  ng-class="{'with-tabs': model.isWithTabs()}"
+  ng-class="{'with-tabs': model.isWithTabs(), 'sw-editor-active': model.editorActiveTabName === model.globalActiveTabName}"
 )
   dm-editor(
     size='"xxl"', 
@@ -28,6 +31,6 @@ sw-editor-tabs(
     undo-manager='model.editorUndoManager',
     options='model.editorOptions',
     editor-mode='model.editorMode',
-    trigger-change-later='model.onChange()'
+    trigger-change-later='model.onChangeLater()'
     on-save-action='model.onRefresh()'
   )

@@ -15,10 +15,27 @@ define(['angular', 'xplatform/xplatform-app', '_',
     $scope.withVoice = $stateParams.withVoice;
 
     $scope.keys.keyUp = function(event) {
-      if (event.keyCode !== 32 || event.target.type === 'textarea') {
+      if (event.target.type === 'textarea' || event.target.type === 'text') {
         return;
       }
-      $scope.state.isPlaying = !$scope.state.isPlaying;
+      var state = $scope.state;
+      var pressed = event.keyCode;
+      var VK_SPACE = 32;
+      var VK_NEXT = 39;
+      var VK_PREV = 37;
+
+      if (pressed === VK_SPACE) {
+        state.isPlaying = !state.isPlaying;
+        return;
+      }
+      if (pressed === VK_NEXT && state.nextPlayTo) {
+        state.currentSecond = state.nextPlayTo;
+        return;
+      }
+      if (pressed === VK_PREV && state.playFrom) {
+        state.currentSecond = state.playFrom;
+        return;
+      }
     };
 
 
@@ -78,7 +95,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
       $modal.open({
         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
         controller: 'dmXplatformPlayerFinishModal',
-        size: 'sm',
+        size: 'md',
         resolve: {
           event: fromScope('event'),
           currentIteration: fromScope('currentIteration'),
