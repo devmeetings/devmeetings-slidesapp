@@ -131,7 +131,9 @@
           'padding': '10px',
           'color': '#333',
           'border': '1px solid #444',
-          'background-color': '#eee'
+          'background-color': '#eee',
+          'word-break': 'break-all',
+          'word-wrap': 'break-word'
       })
     ].join('');
     document.head.appendChild($e);
