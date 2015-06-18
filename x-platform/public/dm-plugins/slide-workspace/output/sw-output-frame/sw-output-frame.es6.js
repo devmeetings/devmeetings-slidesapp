@@ -33,7 +33,7 @@ class OutputFrame {
     this.scope.isWarning = false;
   }
 
-  setAdressWithFramesAnimation(url) {
+  setAddressWithFramesAnimation(url) {
 
     this.iframe2.attr('src', url);
     this.iframe1.css({'z-index': '10'});
@@ -66,7 +66,7 @@ class OutputFrame {
 
   }
 
-  setAdressWithoutFramesAnimation(url) {
+  setAddressWithoutFramesAnimation(url) {
     this.iframe1.attr('src', url);
   }
 
@@ -75,9 +75,9 @@ class OutputFrame {
     var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
 
     if ( animationOn ) {
-      this.setAdressWithFramesAnimation(url);
+      this.setAddressWithFramesAnimation(url);
     } else {
-      this.setAdressWithoutFramesAnimation(url);
+      this.setAddressWithoutFramesAnimation(url);
     }
   }
 
