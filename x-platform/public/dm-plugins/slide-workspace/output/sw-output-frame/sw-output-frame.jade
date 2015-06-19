@@ -31,5 +31,9 @@
         div.progress-bar(
           style="width:{{ percentOfProgress }}%"
         )   
-      iframe.iframe-fiddle-output.scrollable-container.num-one
-      iframe.iframe-fiddle-output.scrollable-container.num-two
+      iframe.iframe-fiddle-output.scrollable-container.num-one(
+        ng-class="{'is-active': activeFrame === 0}"
+        )
+      iframe.iframe-fiddle-output.scrollable-container.num-two(
+        ng-class="{'is-active': activeFrame === 1}"
+        )

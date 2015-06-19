@@ -32,6 +32,7 @@ module.exports = function(grunt) {
           "require/plugins/paths": "../bin/plugins_paths"
         },
         optimize: "none",
+        findNestedDependencies: true,
         generateSourceMaps: true,
         preserveLicenseComments: false
       }

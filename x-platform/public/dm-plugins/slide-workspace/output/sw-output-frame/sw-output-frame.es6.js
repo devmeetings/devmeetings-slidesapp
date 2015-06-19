@@ -4,6 +4,7 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
+import throttle from 'es6!../../throttle.es6';
 
 
 
@@ -14,7 +15,11 @@ class OutputFrame {
     this.iframe1 = this.$element.find('iframe.num-one');
     this.iframe2 = this.$element.find('iframe.num-two');
     this.progressBar = this.$element.find('.progress-bar');
+    this.scope.activeFrame = 0;
 
+    this.setAddressLater = throttle(this.scope, (url)=>{
+      this.setAddress(url);
+    }, 1000);
   }
 
   isHttp(url) {
@@ -36,31 +41,24 @@ class OutputFrame {
   setAdressWithFramesAnimation(url) {
 
     this.iframe2.attr('src', url);
-    this.iframe1.css({'z-index': '10'});
-    this.iframe2.css({'z-index': '5'});
-
-    this.iframe1.fadeIn(1);
-    this.iframe2.fadeOut(1);
 
     this.scope.percentOfProgress = 90;
     
     var currentFrame = this.iframe2;
-    var loaded = this.iframe2.one('load', () => {
+
+    this.iframe2.one('load', () => {
       if (currentFrame !== this.iframe2) {
         return;
       }
-      this.iframe2.css({'z-index': '10'});
-      this.iframe1.css({'z-index': '5'});
 
-      this.iframe2.fadeIn(1);
-      this.iframe1.fadeOut(1);
-      
       var temporaryIframe1 = this.iframe1;
       this.iframe1 = this.iframe2;
       this.iframe2 = temporaryIframe1;
-
+    
       this.scope.$apply(()=>{
-        this.scope.percentOfProgress = 0;
+        let scope = this.scope;
+        scope.activeFrame = (scope.activeFrame + 1) % 2;
+        scope.percentOfProgress = 0;
       });
     });
 
@@ -112,8 +110,7 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
         if (!url) {
           return;
         }
-        frame.setAddress(url);
-
+        frame.setAddressLater(url);
       });
       
     }
