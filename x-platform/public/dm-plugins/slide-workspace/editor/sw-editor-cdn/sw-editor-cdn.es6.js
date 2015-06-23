@@ -61,7 +61,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
           return this.cdnLibraries;
         }
         return libraries;
-      }
+      };
 
       self.selectLibrary = function(library) {
         var code = self.activeTab.content;
