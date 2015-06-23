@@ -10,7 +10,7 @@
       a.cursor-pointer(
           class="{{ 'type-' + tab.type }}",
           ng-click="model.activateTab(tab.name);"
-          tooltip="model.getTabNameIfNeeded(tab.fileName)"
+          tooltip="model.getTabNameIfNeeded(tab.name)"
           tooltip-placement="bottom"
           tooltip-animation="false"
           tooltip-append-to-body="true"
@@ -43,7 +43,7 @@
       a.cursor-pointer(
           class="{{ 'type-' + tab.type }}",
           ng-click="model.activateTab(tab.name);"
-          tooltip="{{ model.getTabNameIfNeeded(tab.fileName) }}"
+          tooltip="{{ model.getTabNameIfNeeded(tab.name) }}"
           tooltip-placement="bottom"
           tooltip-animation="false"
           tooltip-append-to-body="true"
