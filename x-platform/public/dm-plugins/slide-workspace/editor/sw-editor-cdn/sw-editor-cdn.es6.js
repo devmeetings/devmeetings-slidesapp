@@ -22,6 +22,29 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
     controller: function($scope, $log) {
       let self = this;
 
+      var libraries = [ 
+        { 
+          "name":"jQuery",
+          "source":"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js",
+          "tag_category":"script"
+        },
+        { 
+          "name":"AngularJS",
+          "source":"https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js",
+          "tag_category":"script"
+        },
+        { 
+          "name":"Bootstrap (JS)",
+          "source":"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js",
+          "tag_category":"script"
+        },
+        { 
+          "name":"Bootstrap (CSS)",
+          "source":"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
+          "tag_category":"link"
+        }
+      ];
+
       function insertToString(input, index, string) {
 
         if (index > 0) {
@@ -30,6 +53,14 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
           return string + input;
         } 
 
+      }
+
+      self.getLibraries = function() {
+
+        if ( this.cdnLibraries.length > 0 ) {
+          return this.cdnLibraries;
+        }
+        return libraries;
       }
 
       self.selectLibrary = function(library) {
