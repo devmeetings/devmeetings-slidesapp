@@ -9,7 +9,12 @@
       )
       a.cursor-pointer(
           class="{{ 'type-' + tab.type }}",
-          ng-click="model.activateTab(tab.name);") 
+          ng-click="model.activateTab(tab.name);"
+          tooltip="model.getTabNameIfNeeded(tab.fileName)"
+          tooltip-placement="bottom"
+          tooltip-animation="false"
+          tooltip-append-to-body="true"
+          ) 
           span.fa-fw.workspace-tab-icon
             span.fa.fa-circle.type-icon
             span.text-muted.fa.fa-close.cursor-pointer(
@@ -37,7 +42,12 @@
       )
       a.cursor-pointer(
           class="{{ 'type-' + tab.type }}",
-          ng-click="model.activateTab(tab.name);") 
+          ng-click="model.activateTab(tab.name);"
+          tooltip="{{ model.getTabNameIfNeeded(tab.fileName) }}"
+          tooltip-placement="bottom"
+          tooltip-animation="false"
+          tooltip-append-to-body="true"
+          ) 
           span.fa-fw.workspace-tab-icon
             span.fa.fa-circle.type-icon
             span.text-muted.fa.fa-close.cursor-pointer(

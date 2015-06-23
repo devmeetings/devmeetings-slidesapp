@@ -122,6 +122,14 @@ class SwEditorTabs {
     return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
   }
 
+  getTabNameIfNeeded(self, tabName) {
+    if (tabName.length > 10) {
+      console.log(tabName + 'length is more then 10 characters');
+      return tabName;
+    }
+    return false;
+  }
+
 }
 
 
