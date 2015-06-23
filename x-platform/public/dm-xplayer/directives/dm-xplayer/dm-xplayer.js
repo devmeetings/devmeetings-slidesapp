@@ -94,6 +94,7 @@ define([
             selectNewAnnotation(second);
           };
 
+          $scope.$watch('currentAnnotation', fixSubtitlePosition);
           $scope.$watch('annotations', function(){
             selectNewAnnotation($scope.state.currentSecond);
           });
