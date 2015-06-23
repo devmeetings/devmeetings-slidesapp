@@ -100,6 +100,8 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
       currentUrl: '=',
       isDead: '='
     },
+    bindToController: true,
+    controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
