@@ -1,10 +1,10 @@
 .col-xs-12.full-height.warning-content.dm-xplatform-player
-  dm-recorder-context(recorder='recorder')
+  dm-recorder-context(recorder='recorderPlayer')
     dm-xplayer-full(
       state='state'
       annotations='annotations',
       recording='recording'
-      recorder='recorder'
+      recorder='recorderPlayer'
       audio-url='withVoice && audioUrl'
       on-first-run='autoGoFullScreen()'
       on-end='displayFinishMessage()')

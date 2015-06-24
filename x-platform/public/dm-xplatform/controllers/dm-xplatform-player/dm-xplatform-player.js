@@ -1,8 +1,9 @@
 define(['angular', 'xplatform/xplatform-app', '_',
-  'xplatform/services/dm-events/dm-events'
-], function(angular, xplatformApp, _) {
+  'xplatform/services/dm-events/dm-events',
+  'es6!dm-modules/dm-keys/keysListener.es6'
+], function(angular, xplatformApp, _, dmEvents, keysListener) {
   'use strict';
-  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmIntro, $modal) {
+  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {
 
 
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
@@ -14,29 +15,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
     $scope.withVoice = $stateParams.withVoice;
 
-    $scope.keys.keyUp = function(event) {
-      if (event.target.type === 'textarea' || event.target.type === 'text') {
-        return;
-      }
-      var state = $scope.state;
-      var pressed = event.keyCode;
-      var VK_SPACE = 32;
-      var VK_NEXT = 39;
-      var VK_PREV = 37;
-
-      if (pressed === VK_SPACE) {
-        state.isPlaying = !state.isPlaying;
-        return;
-      }
-      if (pressed === VK_NEXT && state.nextPlayTo) {
-        state.currentSecond = state.nextPlayTo;
-        return;
-      }
-      if (pressed === VK_PREV && state.playFrom) {
-        state.currentSecond = state.playFrom;
-        return;
-      }
-    };
+    $scope.keys.keyUp = keysListener($scope);
 
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {
@@ -51,15 +30,23 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
       dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie')
         .withBadge(1 + parseInt($stateParams.iteration, 10));
-
-      return dmRecordings.preparePlayerForRecording($scope.recorder, material.material);
-    }).then(function(recording) {
-      $scope.recording = recording.recording;
-      $scope.state.rate = recording.recording.original.playbackRate;
-      $scope.state.max = recording.max;
-
-      dmIntro.startIfFirstTime('recording', '.dm-xplatform-player');
     });
+
+    $scope.$watch('recorderPlayer', updatePlayerForRecording);
+    $scope.$watch('currentMaterial', updatePlayerForRecording);
+
+
+    function updatePlayerForRecording() {
+      if (!$scope.recorderPlayer || !$scope.currentMaterial) {
+        return;
+      }
+
+      dmRecordings.preparePlayerForRecording($scope.recorderPlayer, $scope.currentMaterial.material).then(function(recording) {
+        $scope.recording = recording.recording;
+        $scope.state.rate = recording.recording.original.playbackRate;
+        $scope.state.max = recording.max;
+      });
+    }
 
     function fetchAnnotations() {
       dmEvents.getEventAnnotations($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(annotations) {

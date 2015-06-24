@@ -15,15 +15,17 @@ define(['angular',
     $scope.mode = 'player';
     $scope.isColoured = state !== 'task' && state !== 'workspace';
     $scope.workspaceId = $stateParams.slide; 
+    //Reset because the one from rootScope could be taken!
+    $scope.slide = null;
 
     dmSlidesaves.saveWithId($stateParams.slide).then(function(save) {
       $scope.slide = save;
       //TODO [ToDr] Temporary!
       $rootScope.slide = save;
       $rootScope.slide.mode = 'player';
-      $rootScope.recorder = $scope.recorder;
+      $rootScope.recorder = $scope.recorderSlide;
 
-      dmPlayer.setRecorderSource($scope.recorder, save.statesaveId, save.slide);
+      dmPlayer.setRecorderSource($scope.recorderSlide, save.statesaveId, save.slide);
 
       //task because of workspace.task
       if (state === 'workspace' || state === 'task') {
@@ -54,7 +56,7 @@ define(['angular',
         return;
       }
 
-      if ($scope.slide.user !== $scope.currentUserId) {
+      if (!$scope.slide || $scope.slide.user !== $scope.currentUserId) {
         return;
       }
 
