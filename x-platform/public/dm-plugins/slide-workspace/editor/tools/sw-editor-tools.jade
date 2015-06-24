@@ -30,6 +30,7 @@ ul.nav.nav-tabs.pull-right
       span.fa.fa-list-alt(ng-show="!model.showUrl")
 
   sw-editor-cdn(
+    ng-if="model.cdnLibraries"
     active-tab="model.activeTab"
     active-tab-name="model.activeTabName"
     on-new-workspace="model.localOnNewWorkspace(workspace)"

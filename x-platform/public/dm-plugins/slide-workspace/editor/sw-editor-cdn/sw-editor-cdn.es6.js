@@ -26,22 +26,22 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         { 
           "name":"jQuery",
           "source":"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js",
-          "tag_category":"script"
+          "tagCategory":"script"
         },
         { 
           "name":"AngularJS",
           "source":"https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js",
-          "tag_category":"script"
+          "tagCategory":"script"
         },
         { 
           "name":"Bootstrap (JS)",
           "source":"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js",
-          "tag_category":"script"
+          "tagCategory":"script"
         },
         { 
           "name":"Bootstrap (CSS)",
           "source":"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css",
-          "tag_category":"link"
+          "tagCategory":"link"
         }
       ];
 
@@ -52,13 +52,19 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         } else {
           return string + input;
         } 
+      }
 
+      function include(arr, obj) {
+
+        for(var i=0; i<arr.length; i++) {
+          if (arr[i] == obj) return true;
+        }
       }
 
       self.getLibraries = function() {
 
-        if ( this.cdnLibraries.length > 0 ) {
-          return this.cdnLibraries;
+        if ( this.cdnLibraries.libraries && this.cdnLibraries.libraries.length >= 1 ) {
+          return this.cdnLibraries.libraries;
         }
         return libraries;
       };
@@ -67,6 +73,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         var code = self.activeTab.content;
 
         function getCodeToInsert(source, tagCategory) {
+
           if (tagCategory === 'link') {
             return '<link href="'+source+'" rel="stylesheet">\n';
           } 
@@ -86,7 +93,6 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
           else if (tagCategory === 'script'){
             return /<\s*\/\s*body\s*>/;
           }
-
         }
 
         function findIndexWhereToInsertCode(code, tagCategory) {
@@ -99,10 +105,20 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
           return code.length;
         }
 
-        var codeToInsert = getCodeToInsert(library.source, library.tag_category);
-        var insertIndex = findIndexWhereToInsertCode(code, library.tag_category);
+        var codeToInsert = getCodeToInsert(library.source, library.tagCategory);
+        var insertIndex = findIndexWhereToInsertCode(code, library.tagCategory);
         self.activeTab.content = insertToString(code, insertIndex, codeToInsert);
         self.onRefreshContent();
+      };
+
+      self.whenHtmlFile = function(activeTabName) {
+        var activeTabExtension = activeTabName.split('|').slice(-1)[0]; 
+        var AllowedExtensions = ['html', 'htm'];
+
+        if ( include(AllowedExtensions, activeTabExtension) ) {
+          return true;
+        }
+        return false;
       };
  
     }
