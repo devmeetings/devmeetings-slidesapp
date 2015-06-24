@@ -34,7 +34,28 @@ class ChatNotes {
 }
 
   sliderPlugins
-  .registerPlugin('slide.sidebar', 'chatnotes', 'slide-chatnotes', 3850)
+  .registerPlugin('slide.sidebar', 'chatnotes', 'slide-chatnotes', {
+      order: 3850,
+      name: 'Chat Notes',
+      description: 'Notes that looks like chat.',
+      example: {
+        meta: {
+          notes: [{
+            type: 'string'
+          }],
+          current: {
+            type: 'string'
+          }
+        },
+        example: {
+          notes: [
+            'My First Note',
+            'My Second Note'
+          ],
+          current: 'Writin'
+        }
+      }
+  })
   .directive('slideChatnotes', ($rootScope, $timeout) => {
     return {
       restrict: 'E',

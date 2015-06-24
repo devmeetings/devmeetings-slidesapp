@@ -1,7 +1,12 @@
 define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
   'use strict';
 
-  sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', 4000).directive('slideRecorder', function(Sockets) {
+  sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', {
+      order: 4000,
+      name: 'Recorder',
+      description: 'The plugin cares about sending all the changes that user is doing on the slide to the server.',
+      example: {}
+  }).directive('slideRecorder', function(Sockets) {
 
     return {
       restrict: 'E',

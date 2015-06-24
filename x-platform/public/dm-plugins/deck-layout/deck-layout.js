@@ -1,6 +1,15 @@
 define(['_', 'slider/slider.plugins'], function(_, sliderPlugins) {
 
-    sliderPlugins.registerPlugin('deck', 'title', 'deck-layout').directive('deckLayout', [
+    sliderPlugins.registerPlugin('deck', 'title', 'deck-layout',{
+      name: 'Deck Title',
+      description: 'Displays deck title.',
+      example: {
+        meta: {
+          type: 'string'
+        },
+        data: 'Deck Title'
+      }
+    }).directive('deckLayout', [
         'Sockets',
         function(Sockets) {
 
