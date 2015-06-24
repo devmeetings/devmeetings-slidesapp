@@ -39,9 +39,9 @@
         )
     .iframe-output-expander(
       ng-class="{'expanded': model.iframeExpanded}"
+      ng-init='model.iframeExpanded = false'
       )
       span.fa.fa-fw.fa-expand(
-          ng-init='model.iframeExpanded = false'
           ng-show='!model.iframeExpanded'
           ng-click='model.iframeExpanded = !model.iframeExpanded'
         )
