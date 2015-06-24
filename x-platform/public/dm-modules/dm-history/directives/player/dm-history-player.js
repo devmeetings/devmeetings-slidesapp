@@ -16,18 +16,18 @@ class DmHistoryPlayer {
     scope.annotations = [];
 
     scope.$watch('historyId', updatePlayer);
-    scope.$watch('recorder', updatePlayer);
+    scope.$watch('recorderHistory', updatePlayer);
 
     let self = this;
 
     function updatePlayer() {
-      if (!scope.historyId || !scope.recorder) {
+      if (!scope.historyId || !scope.recorderHistory) {
         return;
       }
       let historyId = scope.historyId;
-      let historyService = self.dmHistory(scope.recorder);
+      let historyService = self.dmHistory(scope.recorderHistory);
       // TODO [ToDr] $rootScope!
-      self.$rootScope.recorder = scope.recorder;
+      self.$rootScope.recorder = scope.recorderHistory;
       historyService.fetchHistorySince(historyId).then((history) => {
         var currentHist = history.recording;
         // Player

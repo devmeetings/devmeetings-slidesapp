@@ -52,7 +52,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
       dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie')
         .withBadge(1 + parseInt($stateParams.iteration, 10));
 
-      return dmRecordings.preparePlayerForRecording($scope.recorder, material.material);
+      return dmRecordings.preparePlayerForRecording($scope.recorderPlayer, material.material);
     }).then(function(recording) {
       $scope.recording = recording.recording;
       $scope.state.rate = recording.recording.original.playbackRate;
