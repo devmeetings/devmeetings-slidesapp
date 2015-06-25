@@ -53,7 +53,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
         return tabs;
     }
 
-    sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', 3900).directive('slideFiddle', [
+    sliderPlugins.registerPlugin('slide', 'fiddle', 'slide-fiddle', {
+      name: 'Fiddle',
+      description: 'Simple workspace plugin - existing for historical reasons (old recordings are done on it)',
+      example: {},
+      order: 3900
+    }).directive('slideFiddle', [
         '$timeout', '$window', '$rootScope',
         function($timeout, $window, $rootScope) {
             return {

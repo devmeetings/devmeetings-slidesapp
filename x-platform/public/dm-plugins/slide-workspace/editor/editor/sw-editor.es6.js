@@ -5,6 +5,8 @@
 import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
 
+import throttle from 'es6!../../throttle.es6';
+
 
 class SwEditor {
 
@@ -153,26 +155,10 @@ sliderPlugins.directive('swEditor', () => {
       });
       editor.controller(this);
 
-      // Temporary!
-      function safeApply(scope, fn) {
-        var phase = scope.$root.$$phase;
-        if (phase === '$apply' || phase === '$digest') {
-          if (fn && (typeof(fn) === 'function')) {
-            fn();
-          } 
-        } else {
-          scope.$apply(fn);
-        } 
-      }
       let vm = this;
-      vm.onChangeLater = _.throttle(() => { 
-        safeApply($scope, () => {
-          vm.onChange();
-        });
-      }, 6000, {
-        trailing: true,
-        leading: true
-      });
+      vm.onChangeLater = throttle($scope, () => { 
+        vm.onChange();
+      }, 6000);
     }
   };
 

@@ -12,7 +12,7 @@ require([
 
     DeckAndSlides.inContextOf('slide').slide.then(function(slide) {
       $scope.slide = slide;
-      dmPlayer.setRecorderSource($scope.recorder);
+      dmPlayer.setRecorderSource($scope.recorderSlide);
     });
 
     $scope.$on('slide', function(ev, slide_content) {

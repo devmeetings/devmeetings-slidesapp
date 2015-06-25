@@ -1,5 +1,13 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.registerPlugin('slide', 'title', 'slide-title', 1).directive('slideTitle', [
+    sliderPlugins.registerPlugin('slide', 'title', 'slide-title', {
+        order: 1,
+        name: 'Title',
+        description: 'Slide Title',
+        example: {
+          meta: 'string',
+          data: 'My First Slide'
+        }
+    }).directive('slideTitle', [
 
         function() {
             return {

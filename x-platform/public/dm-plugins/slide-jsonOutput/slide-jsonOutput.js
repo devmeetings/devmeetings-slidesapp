@@ -3,7 +3,15 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
 
     var OUTPUT_THEME = 'twilight';
 
-    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', 6000).directive('slideJsonoutput', [
+    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', {
+        name: "JSON Output",
+        description: 'Displays output from other plugins (serverRunner, jsRunner) as JSON',
+        example: {
+          meta: 'isPresent',
+          data: true
+        },
+        order: 6000
+    }).directive('slideJsonoutput', [
 
         function() {
             return {
@@ -37,7 +45,14 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, slid
     ]);
 
 
-    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsrunner-jsonoutput').directive('slideJsrunnerJsonoutput', [
+    sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsrunner-jsonoutput', {
+      name: 'JSRunner JSON Output',
+      description: 'Displays output from JSRunner. You can choose specific variable to display or `console_log`',
+      example: {
+        meta: 'string',
+        data: 'console_log'
+      }
+    }).directive('slideJsrunnerJsonoutput', [
 
         function() {
             return {

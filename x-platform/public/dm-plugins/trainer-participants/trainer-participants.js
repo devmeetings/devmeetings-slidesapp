@@ -2,7 +2,12 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer', '*', 'trainer-participants', 1).directive('trainerParticipants', [
+    sliderPlugins.registerPlugin('trainer', '*', 'trainer-participants', {
+      order: 1,
+      name: 'Participants',
+      description: 'Displays all users that are currently on the same deck',
+      example: {}
+    }).directive('trainerParticipants', [
         'Sockets', '$rootScope',
         function(Sockets, $rootScope) {
 

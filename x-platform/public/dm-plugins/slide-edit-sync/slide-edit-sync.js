@@ -2,7 +2,11 @@ define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function(_, sli
 
     var EXECUTION_DELAY = 500;
 
-    sliderPlugins.registerPlugin('slide.edit', '*', 'slide-edit-sync').directive('slideEditSync', [
+    sliderPlugins.registerPlugin('slide.edit', '*', 'slide-edit-sync',{
+      name: 'Edit-sync',
+      description: 'Saves Slide content on server while edit mode is active.',
+      example: {}
+    }).directive('slideEditSync', [
 
         function() {
             return {

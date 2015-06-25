@@ -2,7 +2,12 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('deck', '*', 'deck-navbar', 1).directive('deckNavbar', [
+    sliderPlugins.registerPlugin('deck', '*', 'deck-navbar',{
+      name: 'Deck Navbar',
+      description: 'Displays Navigation Bar with slides',
+      example: {},
+      order: 1
+    }).directive('deckNavbar', [
         '$rootScope', '$location', '$http', 'CurrentSlideManagerForDeck', 'DeckAndSlides', 'Sockets',
         function($rootScope, $location, $http, CurrentSlideManagerForDeck, DeckAndSlides, Sockets) {
 

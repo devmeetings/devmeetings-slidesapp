@@ -43,7 +43,29 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
     updateScopeLater(scope);
   };
 
-  sliderPlugins.registerPlugin('slide', 'code', 'slide-code', 3000).directive('slideCode', [
+  sliderPlugins.registerPlugin('slide', 'code', 'slide-code', {
+      order: 3000,
+      name: 'Code Editor',
+      description: 'Simple code editor. It does not execute code by default',
+      example: {
+        meta: {
+          content: 'string',
+          size: {
+            type: 'enum',
+            values: ['xs', 'sm', 'md', 'xl', 'xxl']
+          },
+          mode: {
+            type: 'enum',
+            values: ['javascript', 'any ace mode']
+          }
+        },
+        data: {
+          mode: 'javascript',
+          size: 'md',
+          content: 'console.log("asd")'
+        }
+      }
+  }).directive('slideCode', [
     '$timeout',
     function($timeout) {
 
@@ -63,6 +85,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
           $timeout(function() {
             editor = ace.edit(element[0].childNodes[0]);
             editor.setTheme('ace/theme/' + EDITOR_THEME);
+            editor.$blockScrolling = Infinity;
             editor.setOptions({
               enableBasicAutocompletion: true,
               enableSnippets: true,
