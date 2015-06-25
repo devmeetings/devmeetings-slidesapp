@@ -2,7 +2,6 @@ var express = require('express'),
   compression = require('compression'),
   favicon = require('serve-favicon'),
   winston = require('express-winston'),
-  morgan = require('morgan'),
   passport = require('passport'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
@@ -57,10 +56,11 @@ module.exports = function(app, config, router) {
   app.set('view engine', 'jade');
   app.use(favicon(config.root + '/public/images/xplatform-icon.png'));
   app.use(winston.logger({
+    meta: !config.isDev,
     winstonInstance: winstonLogger.forExpress,
+    expressFormat: true,
     statusLevels: true
   }));
-  app.use(morgan(config.logger));
   app.use(sessionConfig.cookieParser(sessionConfig.secret, sessionConfig.cookie));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
@@ -78,6 +78,12 @@ module.exports = function(app, config, router) {
     next();
   });
   app.use(router);
+
+  app.use(winston.errorLogger({
+    winstonInstance: winstonLogger.forExpress,
+    dumpExceptions: true,
+    showStack: true
+  }));
 
   return sessionConfig;
 };
