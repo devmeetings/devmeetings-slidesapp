@@ -1,10 +1,11 @@
 define([
   '_', 'angular', 'dm-xplatform/xplatform-app',
+  './dm-annotations.html!text',
   'dm-xplatform/directives/dm-annotation/dm-annotation',
   'dm-xplatform/directives/dm-microtask/dm-microtask',
   'dm-xplatform/directives/dm-annotation-group/dm-annotation-group',
   'dm-xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit'
-], function(_, angular, xplatformApp) {
+], function(_, angular, xplatformApp, viewTemplate) {
   'use strict';
 
   function groupAnnotations(annos) {
@@ -49,7 +50,7 @@ define([
         materialId: '=',
         showAll: '='
       },
-      templateUrl: '/static/dm-xplatform/directives/dm-annotations/dm-annotations.html',
+      template: viewTemplate,
       link: function($scope) {
 
         var getSpecific = function() {

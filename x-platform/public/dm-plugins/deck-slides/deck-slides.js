@@ -1,6 +1,4 @@
-define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, angular, fs, sliderPlugins) {
-
-  var path = sliderPlugins.extractPath(module);
+define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', './deck-slides.html!text'], function(module, _, angular, fs, sliderPlugins, SM, viewTemplate) {
 
   sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides',{
     name: 'Deck Slides',
@@ -26,7 +24,7 @@ define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'service
           deck: '=context',
           recorder: '=recorder'
         },
-        templateUrl: path + '/deck-slides.html',
+        template: viewTemplate,
 
         link: function(scope) {
           var onSlideChange = function onSlideChange(activeSlideId) {

@@ -1,4 +1,4 @@
-define(['angular', '_', 'ace', './get-extension.es6'], function(angular, _, ace, getExtension) {
+define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], function(angular, _, ace, getExtension, viewTemplate) {
   'use strict';
 
   ace = ace.default;
@@ -26,7 +26,7 @@ define(['angular', '_', 'ace', './get-extension.es6'], function(angular, _, ace,
           triggerChangeLater: '&',
           onSaveAction: '&'
         },
-        templateUrl: '/static/dm-modules/dm-editor/dm-editor.html',
+        template: viewTemplate,
         link: function(scope, element) {
           // Editor
 

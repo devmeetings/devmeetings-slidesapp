@@ -5,6 +5,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import throttle from '../../throttle.es6';
+import viewTemplate from './sw-output-frame.html!text';
 
 
 class OutputFrame {
@@ -97,7 +98,7 @@ sliderPlugins.directive('swOutputFrame', ($rootScope, $location) => {
       currentUrl: '=',
       isDead: '='
     },
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
+    template: viewTemplate,
     link: function(scope, element) {
       let frame = new OutputFrame({
         $element: element, $location, scope, $rootScope

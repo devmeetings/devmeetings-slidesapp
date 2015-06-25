@@ -2,7 +2,9 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as _ from '_'; 
+import _ from '_'; 
+import viewTemplate from './sw-editor-cdn.html!text';
+
 
 
 
@@ -19,7 +21,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
     },
     bindToController: true,
     controllerAs: 'cdn',
-    templateUrl: '/static/dm-plugins/slide-workspace/editor/sw-editor-cdn/sw-editor-cdn.html',
+    template: viewTemplate,
     controller: function($scope, $log) {
       let self = this;
 

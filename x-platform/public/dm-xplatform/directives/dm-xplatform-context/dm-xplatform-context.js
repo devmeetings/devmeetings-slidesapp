@@ -5,6 +5,7 @@
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
 import 'dm-xplatform/directives/dm-event-admin/dm-event-admin';
+import viewTemplate from './dm-xplatform-context.html!text';
 
 const names = {
   admin: 'Admin',
@@ -126,7 +127,7 @@ class ContextMenuDir {
         opened: '=',
         isEditMode: '=?'
       },
-      templateUrl: '/static/dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context.html',
+      template: viewTemplate,
       link: (scope) => {
         let contextMenu = new ContextMenuDir({
             $stateParams, $window

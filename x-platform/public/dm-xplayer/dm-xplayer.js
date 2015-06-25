@@ -1,5 +1,7 @@
 define([
   'dm-xplayer/dm-xplayer-app',
+  './controllers/dm-xplayer-list/dm-xplayer-list.html!text',
+  './controllers/dm-xplayer-player/dm-xplayer-player.html!text',
   'dm-xplayer/directives/dm-xplayer/dm-xplayer',
   'dm-xplayer/directives/dm-xplayer-full/dm-xplayer-full',
   'dm-xplayer/directives/dm-xplayer-ticker/dm-xplayer-ticker',
@@ -7,7 +9,7 @@ define([
   'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline',
   'dm-xplayer/controllers/dm-xplayer-list/dm-xplayer-list',
   'dm-xplayer/controllers/dm-xplayer-player/dm-xplayer-player',
-], function(xplayerApp) {
+], function(xplayerApp, listView, playerView) {
   'use strict';
 
   xplayerApp.config(['$stateProvider', function($stateProvider) {
@@ -16,10 +18,10 @@ define([
       url: '/player/:id',
       views: {
         left: {
-          templateUrl: '/static/dm-xplayer/controllers/dm-xplayer-list/dm-xplayer-list.html'
+          template: listView
         },
         mid: {
-          templateUrl: '/static/dm-xplayer/controllers/dm-xplayer-player/dm-xplayer-player.html'
+          template: playerView
         }
       },
 

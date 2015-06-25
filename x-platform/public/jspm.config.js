@@ -47,12 +47,14 @@ System.config({
     "asEvented": "github:mkuklis/asEvented@0.4.5",
     "babel": "npm:babel-core@5.4.7",
     "babel-runtime": "npm:babel-runtime@5.4.7",
-    "bootstrap": "github:twbs/bootstrap@3.3.4",
+    "bootstrap": "github:twbs/bootstrap@3.3.5",
     "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.4.5",
     "coffee-script": "github:jashkenas/coffeescript@1.9.3",
     "core-js": "npm:core-js@0.9.13",
     "favico.js": "github:ejci/favico.js@0.3.7",
+    "font-awesome": "npm:font-awesome@4.3.0",
     "howler": "github:goldfire/howler.js@1.1.26",
+    "jquery": "github:components/jquery@2.1.4",
     "js-beautify": "github:beautify-web/js-beautify@1.5.6",
     "json-edit": "github:mb21/JSONedit@0.2.1",
     "jsondiffpatch": "github:benjamine/JsonDiffPatch@0.1.31",
@@ -64,6 +66,7 @@ System.config({
     "ng-scrollbar": "github:asafdav/ng-scrollbar@0.0.7",
     "socket.io": "github:Automattic/socket.io-client@1.3.5",
     "socket.io-client": "github:Automattic/socket.io-client@1.3.5",
+    "text": "github:systemjs/plugin-text@0.0.2",
     "github:angular-ui/ui-router@0.2.15": {
       "angular": "github:angular/bower-angular@1.4.0"
     },
@@ -85,13 +88,16 @@ System.config({
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
     },
-    "github:twbs/bootstrap@3.3.4": {
+    "github:twbs/bootstrap@3.3.5": {
       "jquery": "github:components/jquery@2.1.4"
     },
     "npm:core-js@0.9.13": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:font-awesome@4.3.0": {
+      "css": "github:systemjs/plugin-css@0.1.13"
     },
     "npm:lodash@3.9.3": {
       "process": "github:jspm/nodelibs-process@0.1.1"

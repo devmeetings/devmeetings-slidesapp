@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create', '../dm-xplatform-question-answer/index.html!text'], function(angular, xplatformApp, questCreate, viewTemplate) {
   xplatformApp.controller('dmXplatformQuestion', function($scope, $rootScope, $modal, $stateParams, dmQuestions, dmEvents, dmUser) {
 
     function checkIfActive() {
@@ -36,7 +36,7 @@ define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-
 
     $scope.showAnswers = function(question) {
       var modalInstance = $modal.open({
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-question-answer/index.html',
+        template: viewTemplate,
         controller: 'dmXplatformQuestionAnswer',
         windowClass: 'dm-question-modal',
         resolve: {

@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, sliderPlugins, howler) {
+define(['module', '_', 'slider/slider.plugins', 'howler', './slide-speedDating.html!text'], function(module, _, sliderPlugins, howler, viewTemplate) {
 
   var path = sliderPlugins.extractPath(module);
 
@@ -24,23 +24,22 @@ define(['module', '_', 'slider/slider.plugins', 'howler'], function(module, _, s
       }
   }).directive('slideSpeedDating', function($timeout) {
 
-  var sounds = new howler.Howl({
-      urls: [path + '/sounds/sprite.mp3', path + '/sounds/sprite.wav'],
-      sprite: {
-        newPerson: [0, 6000],
-        voiceSwap: [6100, 8400]
-      }
-  });
-
-
   return {
     restrict: 'E',
     scope: {
       speedDating: '=data',
       slide: '=context'
     },
-    templateUrl: path + '/slide-speedDating.html',
+    template: viewTemplate,
     link: function(scope, element) {
+      var sounds = new howler.Howl({
+          urls: [path + '/sounds/sprite.mp3', path + '/sounds/sprite.wav'],
+          sprite: {
+            newPerson: [0, 6000],
+            voiceSwap: [6100, 8400]
+          }
+      });
+
       _.defaults(scope.speedDating, {
           time: 15,
           perPerson: 40

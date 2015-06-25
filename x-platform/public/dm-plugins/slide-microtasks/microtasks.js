@@ -1,11 +1,10 @@
 define([
     'module', '_', 'slider/slider.plugins', 'dm-xplatform/directives/dm-taskicon/dm-taskicon',
+    './microtasks.html!text',
     './microtask_js_assert', './microtask_regexp', './microtask_output', './microtask_fiddle'
 ], function(
-    module, _, sliderPlugins, jsAssert, microtaskRegexp, output, fiddleOutput) {
+    module, _, sliderPlugins, taskIcon, viewTemplate, jsAssert, microtaskRegexp, output, fiddleOutput) {
     'use strict';
-
-    var path = sliderPlugins.extractPath(module);
 
     /* jshint ignore:start */
     var hashCode = function(str) {
@@ -54,7 +53,7 @@ define([
                     slide: '=context',
                     path: '@'
                 },
-                templateUrl: path + '/microtasks.html',
+                template: viewTemplate,
                 link: function(scope, element) {
 
                     scope.taskMeta = {};

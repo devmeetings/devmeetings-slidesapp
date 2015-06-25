@@ -1,7 +1,5 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(module, _, sliderPlugins, ace) {
+define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools', './fiddle.html!text'], function(module, _, sliderPlugins, ace, aceTools, viewTemplate) {
     'use strict';
-
-    var path = sliderPlugins.extractPath(module);
 
     function convertName(name) {
         var sw = {
@@ -68,7 +66,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], fun
                     slide: '=context',
                     mode: '='
                 },
-                templateUrl: path + '/fiddle.html',
+                template: viewTemplate,
                 link: function(scope, element) {
                     if (!scope.fiddle) {
                         return;

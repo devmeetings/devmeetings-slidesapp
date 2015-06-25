@@ -3,6 +3,7 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
+import viewTemplate from './sw-output-phone.html!text';
 
 
 sliderPlugins.directive('swOutputPhone', () => {
@@ -15,7 +16,7 @@ sliderPlugins.directive('swOutputPhone', () => {
     transclude: true,
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-phone/sw-output-phone.html',
+    template: viewTemplate,
     controller() {}
   };
 

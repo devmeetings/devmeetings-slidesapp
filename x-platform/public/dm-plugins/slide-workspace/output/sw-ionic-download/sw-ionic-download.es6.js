@@ -3,6 +3,8 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
+import viewTemplate from './sw-ionic-download.html!text';
+import qrCodeTemplate from './ionic-qrcode.html!text';
 
 
 
@@ -25,7 +27,7 @@ class IonicDownload {
       let address = getAppDownloadAddress();
 
       this.$modal.open({
-        templateUrl: '/static/dm-plugins/slide-workspace/output/sw-ionic-download/ionic-qrcode.html',
+        template: qrCodeTemplate,
         controller: function IonicDownloadCtrl($scope, address) {
           $scope.address = address;
         },
@@ -48,7 +50,7 @@ sliderPlugins.directive('swIonicDownload', ($window, $modal, swLivereloadAddress
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-ionic-download/sw-ionic-download.html',
+    template: viewTemplate,
     controller($scope) {
       let sw = new IonicDownload({
         $scope, $window, $modal, swLivereloadAddress

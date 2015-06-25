@@ -1,7 +1,8 @@
 define(['angular', 'dm-xplatform/xplatform-app', '_',
   'dm-xplatform/services/dm-events/dm-events',
-  'dm-modules/dm-keys/keysListener.es6'
-], function(angular, xplatformApp, _, dmEvents, keysListener) {
+  'dm-modules/dm-keys/keysListener.es6',
+  './player-finish.html!text',
+], function(angular, xplatformApp, _, dmEvents, keysListener, viewTemplate) {
   'use strict';
   xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {
 
@@ -80,7 +81,7 @@ define(['angular', 'dm-xplatform/xplatform-app', '_',
 
       modalOpen = true;
       $modal.open({
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
+        template: viewTemplate,
         controller: 'dmXplatformPlayerFinishModal',
         size: 'md',
         resolve: {

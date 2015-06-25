@@ -1,7 +1,5 @@
-define(['module',  'slider/slider.plugins'], function(module, sliderPlugins) {
+define(['module',  'slider/slider.plugins', './slide-notes.html!text'], function(module, sliderPlugins, viewTemplate) {
   'use strict';
-
-  var path = sliderPlugins.extractPath(module);
 
   sliderPlugins.registerPlugin('slide.sidebar', 'notes', 'slide-notes', {
       order: 3800,
@@ -21,7 +19,7 @@ define(['module',  'slider/slider.plugins'], function(module, sliderPlugins) {
           slide: '=context',
           mode: '='
         },
-        templateUrl: path + '/slide-notes.html',
+        template: viewTemplate
       };
     }
   ]);

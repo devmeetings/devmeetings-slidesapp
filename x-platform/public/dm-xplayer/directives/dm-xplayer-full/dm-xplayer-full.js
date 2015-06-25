@@ -1,8 +1,9 @@
 define([
   'dm-xplayer/dm-xplayer-app',
+  './dm-xplayer-full.html!text',
   'dm-xplayer/directives/dm-xplayer/dm-xplayer',
   'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline',
-], function(xplayerApp) {
+], function(xplayerApp, viewTemplate) {
   'use strict';
 
   xplayerApp.directive('dmXplayerFull',
@@ -19,7 +20,7 @@ define([
           onFirstRun: '&',
           onEnd: '&'
         },
-        templateUrl: '/static/dm-xplayer/directives/dm-xplayer-full/dm-xplayer-full.html',
+        template: viewTemplate
       };
     }
   );

@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-annotation.html!text'], function (angular, xplatformApp, viewTemplate) {
   'use strict';
 
     xplatformApp.directive('dmAnnotation', ['$timeout', function ($timeout) {
@@ -9,7 +9,7 @@ define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformAp
                 annotation: '=',
                 showIteration: '='
             },
-            templateUrl: '/static/dm-xplatform/directives/dm-annotation/dm-annotation.html',
+            template: viewTemplate,
             link: function (scope, element, attrs) {
                 var fixLinks = function () {
                     $timeout(function () {

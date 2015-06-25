@@ -1,6 +1,8 @@
 define([
-    'angular', 'dm-xplatform/xplatform-app', '_', './unlock/dm-unlock.es6'
-], function(angular, xplatformApp, _) {
+    'angular', 'dm-xplatform/xplatform-app', '_', 
+    './unlock/dm-unlock.html!text',
+    './unlock/dm-unlock.es6'
+], function(angular, xplatformApp, _, unlockView) {
 
   /**
    * Converts an HSL color value to RGB. Conversion formula
@@ -107,7 +109,7 @@ define([
 
     $scope.unlockCourse = function(course) {
       var modalInstance = $modal.open({
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-workshoplist/unlock/dm-unlock.html',
+        template: unlockView,
         controller: 'dmXplatformWorkshopUnlock',
         size: 'sm',
         resolve: {

@@ -1,7 +1,5 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+define(['module', '_', 'slider/slider.plugins', './slide-quiz.html!text'], function(module, _, sliderPlugins, viewTemplate) {
     'use strict';
-
-    var path = sliderPlugins.extractPath(module);
 
     sliderPlugins.registerPlugin('slide.sidebar', 'quiz', 'slide-quiz', {
       order: 4000,
@@ -63,7 +61,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
                     quiz: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/slide-quiz.html',
+                template: viewTemplate,
                 link: function(scope, element) {
                     var taskId = scope.quiz.taskId || "";
                     scope.data = {};

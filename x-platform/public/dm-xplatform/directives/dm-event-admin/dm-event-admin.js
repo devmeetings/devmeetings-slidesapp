@@ -3,6 +3,7 @@
 'use strict';
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
+import viewTemplate from './dm-event-admin.html!text';
 
 class EventAdmin {
 
@@ -21,7 +22,7 @@ xplatformApp.directive('dmEventAdmin', () => {
     scope: {
       event: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-event-admin/dm-event-admin.html',
+    template: viewTemplate,
     link: ( /*args*/ ) => {
       let eventAdmin = new EventAdmin({});
       return eventAdmin.link.apply(eventAdmin, arguments);

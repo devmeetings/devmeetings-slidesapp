@@ -2,21 +2,19 @@ define(['angular',
     'angular-ui-router',
     'slider/bootstrap',
     'dm-admin/dm-admin-app',
+    './controllers/dm-admin-slider/dm-admin-slider.html!text',
+    './controllers/dm-admin-quiz/dm-admin-quiz.html!text',
     'dm-admin/controllers/dm-admin-slider/dm-admin-slider',
     'dm-admin/controllers/dm-admin-quiz/dm-admin-quiz',
     'directives/plugins-loader'
-], function(angular, angularRouter, bootstrap, adminApp, adminSlider) {
+], function(angular, angularRouter, bootstrap, adminApp, adminSliderView, adminQuizView) {
 
     adminApp.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
 
-            var getControllerTemplate = function(name) {
-                return '/static/dm-admin/controllers/' + name + '/' + name + '.html';
-            };
-
             $stateProvider.state('index', {
                 url: '',
-                templateUrl: getControllerTemplate('dm-admin-slider'),
+                template: adminSliderView,
                 controller: 'dmAdminSlider'
             });
 
@@ -25,18 +23,8 @@ define(['angular',
                 url: '/quiz',
                 views: {
                     content: {
-                        templateUrl: getControllerTemplate('dm-admin-quiz'),
+                        template: adminQuizView,
                         controller: 'dmAdminQuiz'
-                    }
-                }
-            });
-
-            $stateProvider.state('index.waves', {
-                url: '/waves',
-                views: {
-                    content: {
-                        templateUrl: getControllerTemplate('dm-admin-waves'),
-                        controller: 'dmAdminWaves'
                     }
                 }
             });

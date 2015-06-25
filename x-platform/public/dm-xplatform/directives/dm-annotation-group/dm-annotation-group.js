@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-annotation-group.html!text'], function(angular, xplatformApp, viewTemplate) {
 
    
 
@@ -9,7 +9,7 @@ define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp
                 scope: {
                     group: '=',
                 },
-                templateUrl: '/static/dm-xplatform/directives/dm-annotation-group/dm-annotation-group.html'
+                template: viewTemplate
             };
         }
     ]);

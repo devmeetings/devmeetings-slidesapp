@@ -1,4 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks'], function(module, _, sliderPlugins, ace, mapping) {
+define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks', './slide-burger.html!text'], function(module, _, sliderPlugins, ace, mapping, viewTemplate) {
   'use strict';
 
   var path = sliderPlugins.extractPath(module);
@@ -44,7 +44,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
           data: '=data',
           slide: '=context'
         },
-        templateUrl: path + '/slide-burger.html',
+        template: viewTemplate,
         link: function(scope) {
 
           function displayBurgers(output) {

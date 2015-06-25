@@ -1,6 +1,4 @@
-define(['module', '_', 'slider/slider', 'slider/slider.plugins'], function(module, _, slider, sliderPlugins) {
-
-    var path = sliderPlugins.extractPath(module);
+define(['module', '_', 'slider/slider', 'slider/slider.plugins', './sidebar-control.html!text'], function(module, _, slider, sliderPlugins, viewTemplate) {
 
     slider.directive('sidebarControl', [
 
@@ -11,7 +9,7 @@ define(['module', '_', 'slider/slider', 'slider/slider.plugins'], function(modul
                 scope: {
                     splitter: '='
                 },
-                templateUrl: path + '/sidebar-control.html',
+                template: viewTemplate,
 
                 link: function($scope) {
                     $scope.maxSize = 12;

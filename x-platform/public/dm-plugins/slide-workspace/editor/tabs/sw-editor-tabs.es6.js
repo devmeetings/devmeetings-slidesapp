@@ -5,6 +5,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import getExtension from 'dm-modules/dm-editor/get-extension.es6';
+import viewTemplate from './sw-editor-tabs.html!text';
 
 
 class Tab {
@@ -145,7 +146,7 @@ sliderPlugins.directive('swEditorTabs', () => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/editor/tabs/sw-editor-tabs.html',
+    template: viewTemplate,
     controller: function($scope, $window) {
       let tabs = new SwEditorTabs({
         $scope, $window

@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-annotation-edit.html!text'], function(angular, xplatformApp, viewTemplate) {
   xplatformApp.directive('dmAnnotationEdit', [
     'dmEvents', '$rootScope',
     function(dmEvents, $rootScope) {
@@ -14,7 +14,7 @@ define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp
           resetSnippet: '&',
           annotations: '='
         },
-        templateUrl: '/static/dm-xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit.html',
+        template: viewTemplate,
         link: function(scope) {
 
           scope.saveSimple = function(snippet) {

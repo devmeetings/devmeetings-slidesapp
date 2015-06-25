@@ -1,8 +1,9 @@
 define([
     '$', '_',
+    './dm-xplayer.html!text',
     'dm-xplayer/dm-xplayer-app',
     'dm-xplayer/services/dm-player-factory'
-], function($, _, xplayerApp) {
+], function($, _, viewTemplate, xplayerApp) {
   'use strict';
 
 
@@ -18,8 +19,7 @@ define([
           onFirstRun: '&',
           recorder: '='
         },
-        templateUrl: '/static/dm-xplayer/directives/dm-xplayer/dm-xplayer.html',
-
+        template: viewTemplate,
         link: function($scope) {
 
           var recordingPlayer = null;

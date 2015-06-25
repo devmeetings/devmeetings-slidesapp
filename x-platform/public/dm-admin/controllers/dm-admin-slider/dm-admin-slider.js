@@ -9,9 +9,6 @@ define(['module',
                 title: 'Decks',
                 sref: 'index.decks'
             }, {
-                title: 'Wavesurfer',
-                sref: 'index.waves'
-            }, {
                 title: 'Quiz',
                 sref: 'index.quiz'
             }];

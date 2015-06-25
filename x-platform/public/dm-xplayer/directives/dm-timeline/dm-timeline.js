@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
+define(['angular', 'dm-xplayer/dm-xplayer-app', './dm-timeline.html!text'], function(angular, xplayerApp, viewTemplate) {
   'use strict';
 
   xplayerApp.directive('dmTimeline', ['$window', '$timeout', function($window, $timeout) {
@@ -9,7 +9,7 @@ define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
         length: '=',
         annotations: '=*'
       },
-      templateUrl: '/static/dm-xplayer/directives/dm-timeline/dm-timeline.html',
+      template: viewTemplate,
       link: function(scope, element) {
 
         scope.$watch('second', function(second) {

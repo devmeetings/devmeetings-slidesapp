@@ -3,6 +3,7 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
+import viewTemplate from './slide-chatnotes.html!text';
 
 class ChatNotes {
 
@@ -66,7 +67,7 @@ class ChatNotes {
       },
       bindToController: true,
       controllerAs: 'model',
-      templateUrl: '/static/dm-plugins/slide-chatnotes/slide-chatnotes.html',
+      template: viewTemplate,
       controller($scope) {
         let sw = new ChatNotes({
             $rootScope, $scope, $timeout

@@ -1,4 +1,4 @@
-define(['angular', 'slider/slider'], function(angular, slider) {
+define(['angular', 'slider/slider', './dm-taskicon.html!text'], function(angular, slider, viewTemplate) {
 
     var images = {
         task: {
@@ -24,7 +24,7 @@ define(['angular', 'slider/slider'], function(angular, slider) {
                     type: '='
                 },
                 replace: 'true',
-                templateUrl: '/static/dm-xplatform/directives/dm-taskicon/dm-taskicon.html',
+                template: viewTemplate,
                 link: function(scope, element, attr) {
                     scope.images = images;
                 }

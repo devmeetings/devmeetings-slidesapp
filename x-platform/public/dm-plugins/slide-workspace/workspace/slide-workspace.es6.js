@@ -4,6 +4,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import WorkspaceUndoManager from '../workspace-undo-manager';
+import viewTemplate from './slide-workspace.html!text';
 
 class SwMain {
 
@@ -186,7 +187,7 @@ class SwMain {
       },
       bindToController: true,
       controllerAs: 'model',
-      templateUrl: '/static/dm-plugins/slide-workspace/workspace/slide-workspace.html',
+      template: viewTemplate,
       controller($scope) {
         let sw = new SwMain({
             $rootScope, $scope, $timeout

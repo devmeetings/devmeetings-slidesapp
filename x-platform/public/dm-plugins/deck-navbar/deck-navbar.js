@@ -1,6 +1,4 @@
-define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', 'services/DeckAndSlides'], function(module, _, sliderPlugins, CurrentSlideManagerForDeck, DeckAndSlides) {
-
-    var path = sliderPlugins.extractPath(module);
+define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', 'services/DeckAndSlides', './deck-navbar.html!text'], function(module, _, sliderPlugins, CurrentSlideManagerForDeck, DeckAndSlides, viewTemplate) {
 
     sliderPlugins.registerPlugin('deck', '*', 'deck-navbar',{
       name: 'Deck Navbar',
@@ -16,7 +14,7 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
                 scope: {
                     context: '=context'
                 },
-                templateUrl: path + '/deck-navbar.html',
+                template: viewTemplate,
 
                 link: function(scope) {
                     scope.csm = CurrentSlideManagerForDeck;

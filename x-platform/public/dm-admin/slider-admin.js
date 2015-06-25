@@ -1,4 +1,4 @@
-    define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router'], function (require, angular, _, angularSortable, angularRouter) {
+    define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router', './slider-admin.html!text'], function (require, angular, _, angularSortable, angularRouter, viewTemplate) {
         var module = angular.module('slider.admin', ['ui.sortable', 'ui.router']);
 
         module.config(['$stateProvider', function ($stateProvider) {
@@ -6,7 +6,7 @@
                 url: '/decks',
                 views: {
                   content: {
-                    templateUrl: '/static/dm-admin/slider-admin.html',
+                    template: viewTemplate,
                     controller: 'AdminSlidesListCtrl'
                   }
                 }

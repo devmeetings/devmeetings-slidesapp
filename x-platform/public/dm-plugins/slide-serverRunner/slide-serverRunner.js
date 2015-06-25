@@ -1,9 +1,7 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+define(['module', '_', 'slider/slider.plugins', './slide-serverRunner.html!text'], function(module, _, sliderPlugins, viewTemplate) {
   'use strict';
 
   var EXECUTION_DELAY = 1000;
-
-  var path = sliderPlugins.extractPath(module);
 
   sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', {
       order: 4000,
@@ -32,7 +30,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           runner: '=data',
           slide: '=context'
         },
-        templateUrl: path + '/slide-serverRunner.html',
+        template: viewTemplate,
         controller: function($scope) {
           var scope = $scope;
           scope.success = true;

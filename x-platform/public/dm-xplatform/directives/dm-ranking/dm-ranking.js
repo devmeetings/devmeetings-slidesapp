@@ -4,6 +4,7 @@
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
+import viewTemplate from './dm-ranking.html!text';
 
 class RankingDir {
 
@@ -53,7 +54,7 @@ xplatformApp.directive('dmRanking', (dmRanking) => {
     scope: {
       event: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-ranking/dm-ranking.html',
+    template: viewTemplate,
     link: (scope) => {
       let contextMenu = new RankingDir({
         dmRanking

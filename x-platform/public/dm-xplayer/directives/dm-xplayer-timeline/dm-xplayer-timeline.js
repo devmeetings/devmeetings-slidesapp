@@ -1,7 +1,8 @@
 define([
     '_',
     'dm-xplayer/dm-xplayer-app',
-], function(_, xplayerApp) {
+    './dm-xplayer-timeline.html!text'
+], function(_, xplayerApp, viewTemplate) {
   'use strict';
 
   xplayerApp.directive('dmXplayerTimeline',
@@ -14,7 +15,7 @@ define([
           audioUrl: '=',
           onEnd: '&'
         },
-        templateUrl: '/static/dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline.html',
+        template: viewTemplate,
 
         link: function($scope) {
           $scope.setTime = function(time) {

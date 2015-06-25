@@ -4,6 +4,7 @@
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
+import viewTemplate from './dm-event-menu.html!text';
 
 class EventMenu {
 
@@ -113,7 +114,7 @@ xplatformApp.directive('dmEventMenu', ($window, $timeout, dmRanking) => {
       event: '=',
       activeIteration: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-event-menu/dm-event-menu.html',
+    template: viewTemplate,
     link: eventMenu.link.bind(eventMenu)
   };
 

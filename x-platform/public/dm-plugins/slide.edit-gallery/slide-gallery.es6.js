@@ -3,6 +3,7 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
+import viewTemplate from './slide-gallery.html!text';
 
 class PluginsGallery {
 
@@ -77,7 +78,7 @@ class PluginsGallery {
       },
       bindToController: true,
       controllerAs: 'vm',
-      templateUrl: '/static/dm-plugins/slide.edit-gallery/slide-gallery.html',
+      template: viewTemplate,
       controller($scope) {
         let sw = new PluginsGallery({
             $scope

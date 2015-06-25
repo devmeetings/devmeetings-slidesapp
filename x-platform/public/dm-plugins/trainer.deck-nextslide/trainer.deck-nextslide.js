@@ -1,6 +1,5 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
-
-    var path = sliderPlugins.extractPath(module);
+define(['module', 'slider/slider.plugins', './trainer.deck-nextslide.html!text'], function(module, sliderPlugins, viewTemplate) {
+  'use strict';
 
     sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', {
       order: 2,
@@ -17,7 +16,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     data: '=data',
                     deck: '=context'
                 },
-                templateUrl: path + '/trainer.deck-nextslide.html',
+                template: viewTemplate,
                 link: function(scope) {
                     scope.followUser = null;
 

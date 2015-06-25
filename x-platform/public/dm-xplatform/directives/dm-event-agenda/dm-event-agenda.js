@@ -5,6 +5,7 @@
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
 import 'dm-xplatform/directives/dm-event-task-details/dm-event-task-details';
+import viewTemplate from './dm-event-agenda.html!text';
 
 class EventAgenda {
 
@@ -130,7 +131,7 @@ xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEve
       event: '=',
       userWorkspaceId: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-event-agenda/dm-event-agenda.html',
+    template: viewTemplate,
     link(scope, element) {
       let eventMenu = new EventAgenda({
         $rootScope, $stateParams, $state, dmEvents, dmRanking

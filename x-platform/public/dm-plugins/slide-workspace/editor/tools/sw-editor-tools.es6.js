@@ -5,7 +5,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import formatter from './sw-editor-formatter.es6';
-
+import viewTemplate from './sw-editor-tools.html!text';
 
 
 class SwEditorTools {
@@ -123,7 +123,7 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/editor/tools/sw-editor-tools.html',
+    template: viewTemplate,
     controller: function($scope, $log) {
       let tools = new SwEditorTools({
         $scope, $rootScope, $window, Upload

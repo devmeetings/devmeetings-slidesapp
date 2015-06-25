@@ -1,6 +1,5 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
-
-    var path = sliderPlugins.extractPath(module);
+define(['module', 'slider/slider.plugins', './part.html!text'], function(module, sliderPlugins, viewTemplate) {
+  'use strict';
 
     sliderPlugins.registerPlugin('slide', 'left', 'slide-left', {
         order: 9,
@@ -24,7 +23,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     slide: '=context',
                     path: '@'
                 },
-                templateUrl: path + '/part.html',
+                template: viewTemplate,
                 link: function(scope) {
                     scope.size = 60;
 
@@ -55,7 +54,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     slide: '=context',
                     path: '@'
                 },
-                templateUrl: path + '/part.html',
+                template: viewTemplate,
                 link: function(scope) {
                     scope.size = 40;
                 }

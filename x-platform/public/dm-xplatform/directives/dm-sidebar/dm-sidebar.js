@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-sidebar.html!text'], function (angular, xplatformApp, viewTemplate) {
     xplatformApp.directive('dmSidebar', [function () {
         return {
             restrict: 'E',
@@ -10,7 +10,7 @@ define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformAp
                 deleteMethod: '=',
                 context: '='
             },
-            templateUrl: '/static/dm-xplatform/directives/dm-sidebar/dm-sidebar.html',
+            template: viewTemplate,
             link: function (scope) {
                 scope.$watch('context', function () {
                     

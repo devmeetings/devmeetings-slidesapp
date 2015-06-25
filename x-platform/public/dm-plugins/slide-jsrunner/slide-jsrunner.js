@@ -1,9 +1,7 @@
-define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee'], function(module, _, sliderPlugins, coffeeRunner) {
+define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-jsrunner.html!text'], function(module, _, sliderPlugins, coffeeRunner, viewTemplate) {
     'use strict';
 
     var EXECUTION_DELAY = 300;
-
-    var path = sliderPlugins.extractPath(module);
 
     var evalJsCode = function(value) {
 
@@ -88,7 +86,7 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee'], function(m
                     jsrunner: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/slide-jsrunner.html',
+                template: viewTemplate,
                 link: function(scope, element) {
                     var setErrors = function(errors) {
                         element.find('.errors').html(errors);

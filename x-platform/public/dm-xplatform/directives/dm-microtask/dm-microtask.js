@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-microtask.html!text'], function (angular, xplatformApp, viewTemplate) {
     xplatformApp.directive('dmMicrotask', [
         '$timeout',
         function ($timeout) {
@@ -8,7 +8,7 @@ define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformAp
                 microtask: '=',
                 context: '='
             }, 
-            templateUrl: '/static/dm-xplatform/directives/dm-microtask/dm-microtask.html',
+            template: viewTemplate,
             link: function (scope, element, attr) {
                 var fixLinks = function () {
                     $timeout(function () {

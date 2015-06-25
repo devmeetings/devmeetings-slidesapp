@@ -1,5 +1,4 @@
-define(['module', 'slider/slider.plugins', 'services/DeckAndSlides'], function(module, sliderPlugins) {
-    var path = sliderPlugins.extractPath(module);
+define(['module', 'slider/slider.plugins', 'services/DeckAndSlides', './slide-commit.html!text'], function(module, sliderPlugins, DaS, viewTemplate) {
 
     sliderPlugins.registerPlugin('slide', 'commit', 'slide-commit', {
         name: 'Commit',
@@ -19,7 +18,7 @@ define(['module', 'slider/slider.plugins', 'services/DeckAndSlides'], function(m
                     data: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/slide-commit.html',
+                template: viewTemplate,
                 link: function(scope, element) {
                     scope.committing = false;
                     scope.showDetails = false;

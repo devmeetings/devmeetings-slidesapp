@@ -5,7 +5,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import throttle from '../../throttle.es6';
-
+import viewTemplate from './sw-editor.html!text';
 
 class SwEditor {
 
@@ -147,7 +147,7 @@ sliderPlugins.directive('swEditor', () => {
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/editor/editor/sw-editor.html',
+    template: viewTemplate,
     controller: function($scope) {
       let editor = new SwEditor({
           $scope

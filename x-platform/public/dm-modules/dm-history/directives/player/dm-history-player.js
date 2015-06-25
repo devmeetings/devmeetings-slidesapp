@@ -3,6 +3,7 @@
 
 import _ from '_';
 import keysListener from 'dm-modules/dm-keys/keysListener.es6';
+import viewTemplate from './dm-history-player.html!text';
 
 
 class DmHistoryPlayer {
@@ -75,7 +76,7 @@ export function dmHistoryPlayer(dmHistory, dmPlayer, $rootScope, $timeout) {
       eventId: '=',
       keys: '='
     },
-    templateUrl: '/static/dm-modules/dm-history/directives/player/dm-history-player.html',
+    template: viewTemplate,
     link: history.link.bind(history)
   };
 }

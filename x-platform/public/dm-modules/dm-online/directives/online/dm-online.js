@@ -2,6 +2,7 @@
 'use strict';
 
 import _ from '_';
+import viewTemplate from './dm-online.html!text';
 
 
 class DmOnline {
@@ -24,7 +25,7 @@ export function dmOnline() {
     scope: {
       isOnline: '='
     },
-    templateUrl: '/static/dm-modules/dm-online/directives/online/dm-online.html',
+    template: viewTemplate,
     link( /*args*/ ) {
       let online = new DmOnline({});
       online.link.apply(online, arguments);

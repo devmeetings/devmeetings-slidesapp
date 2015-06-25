@@ -1,4 +1,4 @@
-define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.html!text'], function(angular, xplatformApp, viewTemplate) {
   'use strict';
 
   function readPerformanceData(localStorage) {
@@ -41,7 +41,7 @@ define(['angular', 'dm-xplatform/xplatform-app'], function(angular, xplatformApp
     return {
       restrict: 'E',
       scope: {},
-      templateUrl: '/static/dm-xplatform/directives/dm-xplatform-performance/dm-xplatform-performance.html',
+      template: viewTemplate,
       link: function(scope) {
         scope.performance = readPerformanceData($window.localStorage);
 

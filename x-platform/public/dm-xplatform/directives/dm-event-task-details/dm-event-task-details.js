@@ -4,6 +4,7 @@
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
+import viewTemplate from './dm-event-task-details.html!text';
 
 class EventTaskDetails {
 
@@ -77,7 +78,7 @@ xplatformApp.directive('dmEventTaskDetails', ($window, $timeout, dmRanking) => {
       currentIterationIdx: '=',
       taskUrl: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-event-task-details/dm-event-task-details.html',
+    template: viewTemplate,
     link(scope, element) {
       let eventMenu = new EventTaskDetails({
         $window, $timeout, dmRanking

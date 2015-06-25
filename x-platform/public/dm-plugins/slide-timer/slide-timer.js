@@ -1,6 +1,4 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
-
-    var path = sliderPlugins.extractPath(module);
+define(['module', 'slider/slider.plugins', './slide-timer.html!text'], function(module, sliderPlugins, viewTemplate) {
 
     function t() {
         return new Date().getTime();
@@ -24,7 +22,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     time: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/slide-timer.html',
+                template: viewTemplate,
                 link: function(scope) {
                     scope.started = false;
                     scope.endDate = t();

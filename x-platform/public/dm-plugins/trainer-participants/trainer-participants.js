@@ -1,6 +1,4 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
-
-    var path = sliderPlugins.extractPath(module);
+define(['module', 'slider/slider.plugins', './trainer-participants.html!text'], function(module, sliderPlugins, viewTemplate) {
 
     sliderPlugins.registerPlugin('trainer', '*', 'trainer-participants', {
       order: 1,
@@ -17,7 +15,7 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
                     notes: '=data',
                     slide: '=context'
                 },
-                templateUrl: path + '/trainer-participants.html',
+                template: viewTemplate,
                 controller: ['$scope', '$rootScope',
                     function($scope, $rootScope) {
                         $scope.followUserId = null;

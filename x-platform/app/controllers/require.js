@@ -70,10 +70,6 @@ exports.pluginsPaths = function(req, res) {
             file = file
                     .replace(/.js$/, '')
                     .replace(/^public\/dm-plugins/, 'dm-plugins');
-            if (file.indexOf('es6') > -1) {
-              return '' + file;
-            }
-      
             return file;
         });
         sendAsRequireJSModule(files, res);

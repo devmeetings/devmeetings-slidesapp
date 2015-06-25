@@ -22,7 +22,7 @@ define(['angular',
                     url: '/login',
                     views: {
                         left: {
-                            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-login/dm-xplatform-login.html'
+                          template: costam
                         }
                     },
                 });*/

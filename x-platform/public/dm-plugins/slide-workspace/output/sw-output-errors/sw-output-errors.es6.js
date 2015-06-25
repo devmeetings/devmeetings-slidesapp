@@ -4,6 +4,7 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
+import viewTemplate from './sw-output-errors.html!text';
 
 class SwOutputErrors {
 
@@ -31,7 +32,7 @@ sliderPlugins.directive('swOutputErrors', () => {
     },
     bindToController: true,
     controllerAs: 'vm',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-errors/sw-output-errors.html',
+    template: viewTemplate,
     controller($scope, $window) {
       let output = new SwOutputErrors({});
       let vm = this;

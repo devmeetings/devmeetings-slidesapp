@@ -4,6 +4,7 @@
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
+import viewTemplate from './dm-event-users.html!text';
 
 class EventUsers {
 
@@ -95,7 +96,7 @@ xplatformApp.directive('dmEventUsers', (dmEvents, dmEventLive) => {
       userWorkspaceId: '=',
       opened: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-event-users/dm-event-users.html',
+    template: viewTemplate,
     link(scope, element) {
       let eventMenu = new EventUsers({
         dmEvents, dmEventLive

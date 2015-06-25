@@ -2,6 +2,7 @@
 'use strict';
 
 import _ from '_';
+import viewTemplate from './dm-history-graph.html!text';
 
 class DmHistoryGraph {
 
@@ -50,7 +51,7 @@ export function dmHistoryGraph(dmHistory, $window, $state) {
     scope: {
       recorder: '='
     },
-    templateUrl: '/static/dm-modules/dm-history/directives/graph/dm-history-graph.html',
+    template: viewTemplate,
     link: history.link.bind(history)
   };
 }

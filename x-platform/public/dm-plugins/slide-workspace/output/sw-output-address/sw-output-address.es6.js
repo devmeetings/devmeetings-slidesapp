@@ -3,6 +3,8 @@
 
 
 import sliderPlugins from 'slider/slider.plugins';
+import viewTemplate from './sw-output-address.html!text';
+import qrCodeTemplate from './qrcode.html!text';
 
 function ModalCtrl($scope, address) {
   $scope.address = address;
@@ -26,7 +28,7 @@ sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
     transclude: true,
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-address/sw-output-address.html',
+    template: viewTemplate,
     controller: function() {
       let scope = this;
       scope.urlKeyPress = function(ev) {
@@ -45,7 +47,7 @@ sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
 
       scope.openQrDialog = (url) => {
         $modal.open({
-          templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-address/qrcode.html',
+          template: qrCodeTemplate,
           controller: ModalCtrl,
           size: 'md',
           resolve: {

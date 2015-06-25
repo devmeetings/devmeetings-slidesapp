@@ -1,8 +1,6 @@
-define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(module, angular, _, ace, sliderPlugins) {
+define(["module", "angular", "_", "ace", 'slider/slider.plugins', './editor.html!text'], function(module, angular, _, ace, sliderPlugins, viewTemplate) {
 
     ace = ace.default;
-
-    var path = sliderPlugins.extractPath(module);
 
     var UPDATE_THROTTLE_TIME = 1000;
 
@@ -26,7 +24,7 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                 scope: {
                     slide: '=context'
                 },
-                templateUrl: path + "/editor.html",
+                template: viewTemplate,
                 link: function(scope, element) {
                     scope.collapsed = true;
                     

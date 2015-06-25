@@ -1,4 +1,4 @@
-define(['angular'], function(angular) {
+define(['angular', './dm-wavesurfer.html!text'], function(angular, viewTemplate) {
 
     'use strict';
     angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', '$window',
@@ -17,7 +17,7 @@ define(['angular'], function(angular) {
                     dmSetSecond: '='
                 },
                 replace: true,
-                templateUrl: '/static/dm-modules/dm-wavesurfer/dm-wavesurfer.html',
+                template: viewTemplate,
                 link: function(scope, element, attrs) {
                     scope.styles = [{
                         left: 0,

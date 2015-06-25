@@ -1,6 +1,7 @@
 define([
   'dm-xplayer/dm-xplayer-app',
-], function(xplayerApp) {
+  './dm-xplayer-ticker.html!text'
+], function(xplayerApp, viewTemplate) {
   'use strict';
 
   xplayerApp.directive('dmXplayerTicker', [
@@ -11,8 +12,7 @@ define([
         scope: {
           state: '='
         },
-        templateUrl: '/static/dm-xplayer/directives/dm-xplayer-ticker/dm-xplayer-ticker.html',
-
+        template: viewTemplate,
         link: function($scope) {
 
           $scope.$watch('state.isPlaying', function() {

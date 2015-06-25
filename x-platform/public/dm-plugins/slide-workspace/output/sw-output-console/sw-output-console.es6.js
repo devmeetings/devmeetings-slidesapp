@@ -4,6 +4,7 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
+import viewTemplate from './sw-output-console.html!text';
 
 class OutputConsole {
 
@@ -17,7 +18,7 @@ sliderPlugins.directive('swOutputConsole', () => {
 
   return {
     restrict: 'E',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-console/sw-output-console.html',
+    template: viewTemplate,
     link: function(scope, element) {
       let frame = new OutputConsole();
     }
