@@ -6,7 +6,15 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
         return new Date().getTime();
     }
 
-    sliderPlugins.registerPlugin('slide', 'timer', 'slide-timer', 10).directive('slideTimer', [
+    sliderPlugins.registerPlugin('slide', 'timer', 'slide-timer', {
+      order: 10,
+      name: 'Timer',
+      description: 'Displays configurable timer to measure time (in minutes)',
+      example: {
+        meta: 'number',
+        data: 60
+      }
+    }).directive('slideTimer', [
         '$timeout',
         function($timeout) {
             return {

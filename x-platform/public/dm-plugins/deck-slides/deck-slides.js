@@ -2,7 +2,21 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
 
   var path = sliderPlugins.extractPath(module);
 
-  sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides').directive('deckSlides', 
+  sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides',{
+    name: 'Deck Slides',
+    description: 'Slides contained in deck',
+    example: {
+      meta: {
+        type: [{
+            type: 'SlideObject'
+        }]
+      },
+      data: [{
+        name: 'First Slide',
+        title: 'Test Title'
+      }]
+    }
+  }).directive('deckSlides', 
     function($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
 
       return {

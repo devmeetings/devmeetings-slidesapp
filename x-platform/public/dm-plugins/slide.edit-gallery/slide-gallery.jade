@@ -1,0 +1,60 @@
+.slide-gallery.col-xs-12
+  .form-group
+    select.form-control.input-sm(
+      ng-options="namespace for namespace in vm.namespaces"
+      ng-model="vm.currentNamespace"
+      )
+  .form-group
+    .input-group.input-group-sm
+      .input-group-addon
+        span.fa.fa-search
+      input.form-control(
+        type="text"
+        ng-model="vm.searchText"
+        placeholder="..."
+      )
+  div(
+    ng-repeat="plugin in vm.plugins[vm.currentNamespace] | filter:vm.searchText | orderBy:'isActive':true track by $index"
+    )
+    hr
+    h4 
+      span.fa.fa-circle.text-muted.pull-right(
+        ng-class="{'text-success': plugin.isActive }"
+        )
+      | {{ plugin.data.name }}
+    h6.text-muted Directive: <code>{{ plugin.plugin }}</code>
+    h6.text-muted Trigger: <code>{{ plugin.trigger }}</code>
+    p 
+      | {{ plugin.data.description }}
+    div.clearfix(
+      ng-if="plugin.data.example.data"
+      )
+      .pull-left
+        a.cursor-pointer(
+          ng-click="plugin.showExample = !plugin.showExample"
+          )
+          | Show Example
+      .pull-right
+        a.cursor-pointer(
+          ng-click="vm.insertExample(plugin)"
+          ng-show="!plugin.isActive"
+          )
+          | Insert
+        a.cursor-pointer(
+          ng-click="plugin.showUsage = !plugin.showUsage"
+          ng-show="plugin.isActive"
+          )
+          | Show Usage
+
+
+    pre(
+      ng-if="plugin.showUsage"
+      )
+      {{ vm.getTriggerValue(plugin.trigger) | json }}
+
+    pre(
+      ng-if="plugin.showExample"
+      )
+      {{ plugin.data.example | json }}
+
+

@@ -1,0 +1,33 @@
+.container
+  .row
+    .col-md-3
+      h2 Let's meet each other!
+
+      h2.text-muted
+        span.fa.fa-clock-o
+        span &nbsp;
+        span(contenteditable="true", ng-model="speedDating.time") {{ speedDating.time }}
+        |  min
+      h2.text-muted
+        span.fa.fa-user
+        span &nbsp;
+        span(contenteditable="true", ng-model="speedDating.perPerson") {{ speedDating.perPerson }}
+        |  s
+      h4
+        button.btn.btn-success(ng-click="testPlay('voiceSwap')")
+          span.fa.fa-music
+          |  Swap
+        button.btn.btn-danger(ng-click="testPlay('newPerson')")
+          span.fa.fa-music
+          |  New Person
+      br
+      button.btn.btn-lg.btn-primary(ng-click="startDating()")
+        span.fa.fa-play
+        span  Start Dates ({{ interactions }})
+    .col-md-9
+      h2.text-right {{ session.left }} changes left
+      p.speedDating__timer.text-success {{ session.timeLeft | number:1 }} s
+
+      div.speedDating__message
+        div.alert.alert-danger(ng-show="session.type == 0") Find New Person!
+        div.alert.alert-success(ng-show="session.type == 2") Voice Swap!

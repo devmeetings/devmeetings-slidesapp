@@ -19,6 +19,57 @@ mixin activeMaterialAnnotations()
             ui-sref="index.space.learn.agenda()"
             )
             | Agenda
+        li(
+          ng-repeat="link in event.links"
+          ui-sref-active="active"
+          )
+          a(
+            ng-show="!link.isExternal"
+            ui-sref="index.space.learn.slide({ slide: link.slideId })"
+            )
+            | {{ link.name }}
+          a(
+            ng-show="link.isExternal"
+            ng-href="{{link.url}}"
+            target="_blank"
+            )
+            | {{ link.name }}
+          div(
+            ng-if="$root.editMode"
+            )
+            .form-group
+              input.form-control.input-sm(
+                type="text"
+                ng-model="link.name"
+                placeholder="Link Name"
+              )
+            .form-group
+              label.checkbox
+                input.form-control(
+                  type="checkbox"
+                  ng-model="link.isExternal"
+                )
+                Is External?
+            .form-group(ng-show="link.isExternal")
+              input.form-control.input-sm(
+                type="text"
+                ng-model="link.url"
+                placeholder="Link"
+              )
+            .form-group(ng-show="!link.isExternal")
+              input.form-control.input-sm(
+                type="text"
+                ng-model="link.slideId"
+                placeholder="SlideId"
+              )
+        li(ng-if="$root.editMode")
+          a(
+            ng-click="event.links.push({})"
+            )
+            span.fa.fa-fw.fa-plus
+            span New Link
+
+
   .panel(ng-repeat="i in event.iterations")
     .panel-heading
       h3.panel-title(ng-if="!$root.editMode")

@@ -20,7 +20,31 @@ define([
         return hash;
     };
     /* jshint ignore:end */
-    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', 8).directive('slideJsmicrotasks', [
+    sliderPlugins.registerPlugin('slide', 'microtasks', 'slide-jsmicrotasks', {
+        order: 8,
+        name: 'Microtasks',
+        description: 'Displays microtasks to do on this task. Inside you have to specify microtasks plugins from `microtask` namespace',
+        example: {
+          meta: [{
+              type: {
+                taskName: 'string',
+                description: 'string',
+                any: 'microtask plugin with params [fiddle, jsonOutput, js_assert, css, html, js, code]'
+              }
+          }],
+          data: [{
+            description: 'Create `h3` element',
+            fiddle: 'exists("h3")'
+          },{
+            description: 'Assign `5` to variable `x`',
+            js_assert: 'x === 5',
+            monitor: 'x'
+          },{
+            description: 'Console log `"something"`',
+            jsonOutput: 'x === "something"'
+          }]
+        }
+    }).directive('slideJsmicrotasks', [
 
         function() {
             return {
