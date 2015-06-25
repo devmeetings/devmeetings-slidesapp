@@ -1,10 +1,10 @@
 .full-height(ng-if="historyId")
-  dm-recorder-context(recorder='$parent.recorder')
+  dm-recorder-context(recorder='$parent.recorderHistory')
     dm-xplayer-full(
       state='state'
       annotations='annotations'
       recording='recording'
-      recorder='recorder'
+      recorder='recorderHistory'
       audio-url='false'
       on-first-run='autoGoFullScreen()'
       )

@@ -15,8 +15,10 @@ exports.onSocket = function(log, socket) {
 
     slidesave.doEdit(socket.request.user._id, slidesaveId, data.stateId, function(err, state) {
       callback(state._id);
-
-      lrServer.notifyClientsOnUrl('page/' + slidesaveId, ['index.html']);
+      
+      if (data.shouldRefreshPage) {
+        lrServer.notifyClientsOnUrl('page/' + slidesaveId, ['index.html']);
+      }
     });
 
   });

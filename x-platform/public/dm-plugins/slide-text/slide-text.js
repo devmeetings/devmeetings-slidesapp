@@ -1,5 +1,13 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.registerPlugin('slide', 'text', 'slide-text', 2).directive('slideText', [
+    sliderPlugins.registerPlugin('slide', 'text', 'slide-text', {
+        order: 2,
+        name: 'Text',
+        description: 'Displays particular text (html) on the slide',
+        example: {
+          meta: 'string',
+          data: '<h1>Hello World!</h1>'
+        }
+    }).directive('slideText', [
 
         function() {
             return {

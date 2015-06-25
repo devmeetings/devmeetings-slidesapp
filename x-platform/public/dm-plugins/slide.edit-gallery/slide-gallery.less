@@ -1,0 +1,27 @@
+.slide-gallery {
+  @width: 250px;
+
+  position: fixed;
+  background: #222;
+  border-right: 2px solid #444;
+  top: 0;
+  bottom: 50px;
+  width: @width;
+  z-index: 1000;
+  overflow-y: scroll;
+
+  left: -(@width - 15px);
+  opacity: 0.3;
+  transition: left .5s ease, opacity .5s ease;
+  transition-delay: .5s;
+
+  &:hover {
+    left: 0;
+    opacity: 1.0;
+    transition-delay: .1s;
+  }
+
+  pre {
+    font-size: 9px;
+  }
+}

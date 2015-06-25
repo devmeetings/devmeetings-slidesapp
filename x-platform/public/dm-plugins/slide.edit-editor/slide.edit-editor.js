@@ -11,7 +11,12 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
         return toNiceJson(JSON.parse(string));
     };
 
-    sliderPlugins.registerPlugin('slide.edit', '*', 'slideedit-editor', 0).directive('slideeditEditor', ['$rootScope', "$window", "$http",
+    sliderPlugins.registerPlugin('slide.edit', '*', 'slideedit-editor', {
+      order: 0,
+      name: 'Editor (editMode)',
+      description: 'Displays Slide JSON in editable form',
+      example: {}
+    }).directive('slideeditEditor', ['$rootScope', "$window", "$http",
         function($rootScope, $window, $http) {
             return {
                 restrict: 'E',
@@ -27,6 +32,7 @@ define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(modu
                     editor.getSession().setMode('ace/mode/json');
                     editor.setValue(JSON.stringify(scope.slide, null, 2));
                     editor.clearSelection();
+                    editor.$blockScrolling = Infinity;
 
                     scope.$watch('collapsed', function(){
                       editor.resize();

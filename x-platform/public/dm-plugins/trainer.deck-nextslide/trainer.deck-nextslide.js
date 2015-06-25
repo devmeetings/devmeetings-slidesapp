@@ -2,7 +2,12 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', 2).directive('trainerdeckNextslide', [
+    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', {
+      order: 2,
+      name: 'Next Slide',
+      description: 'Allows Trainer to switch to Next Slide on Followed User',
+      example: {}
+    }).directive('trainerdeckNextslide', [
         'Sockets',
         function(Sockets) {
 

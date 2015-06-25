@@ -32,8 +32,20 @@
           style="width:{{ percentOfProgress }}%"
         )   
       iframe.iframe-fiddle-output.scrollable-container.num-one(
-        ng-class="{'is-active': activeFrame === 0}"
+        ng-class="{'is-active': activeFrame === 0, 'full-screen': model.iframeExpanded}"
         )
       iframe.iframe-fiddle-output.scrollable-container.num-two(
-        ng-class="{'is-active': activeFrame === 1}"
+        ng-class="{'is-active': activeFrame === 1, 'full-screen': model.iframeExpanded}"
+        )
+    .iframe-output-expander(
+      ng-class="{'expanded': model.iframeExpanded}"
+      ng-init='model.iframeExpanded = false'
+      )
+      span.fa.fa-fw.fa-expand(
+          ng-show='!model.iframeExpanded'
+          ng-click='model.iframeExpanded = !model.iframeExpanded'
+        )
+      span.fa.fa-fw.fa-compress(
+          ng-show='model.iframeExpanded'
+          ng-click='model.iframeExpanded = !model.iframeExpanded'
         )

@@ -91,7 +91,7 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
 
     var internalFile = getInternalFileName(file);
     getSlideContent(req.params.hash).done(function(slide) {
-      if (!slide) {
+      if (!slide || !slide.workspace) {
         res.sendStatus(404);
         return;
       }
