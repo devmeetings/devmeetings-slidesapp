@@ -51,6 +51,9 @@ module.exports = function(app, config, router) {
   });
   app.use(config.staticsPath, express.static(config.root + '/public'));
   app.use('/cdn', express.static(config.root + '/public/cdn'));
+  app.get(config.staticsPath + '/*|/cdn/*', function(req, res) {
+    res.sendStatus(404);
+  });
   app.set('port', config.port);
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
