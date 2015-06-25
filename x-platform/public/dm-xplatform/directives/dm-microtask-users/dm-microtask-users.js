@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins',
   './dm-microtask-users.html!text', 'dm-xplatform/controllers/dm-xplatform-users/dm-xplatform-users.html!text',
   'dm-xplatform/services/dm-tasks/dm-tasks'], function (angular, xplatformApp, sliderPlugins, viewTemplate, modalTemplate) {

@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools', './fiddle.html!text'], function (module, _, sliderPlugins, ace, aceTools, viewTemplate) {
   'use strict';
 

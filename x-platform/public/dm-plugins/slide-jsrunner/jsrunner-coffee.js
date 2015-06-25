@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'require'], function (_, require) {
   return {
     get: function (invoke) {

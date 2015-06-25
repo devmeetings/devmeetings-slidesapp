@@ -1,3 +1,4 @@
+/* globals define */
 define(['_'], function (_) {
   'use strict';
 

@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks', './slide-burger.html!text'], function (module, _, sliderPlugins, ace, mapping, viewTemplate) {
   'use strict';
 

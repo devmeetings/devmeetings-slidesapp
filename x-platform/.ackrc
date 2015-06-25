@@ -4,4 +4,5 @@
 --ignore-dir=public/css
 --ignore-dir=public/cdn
 --ignore-dir=public/jspm_packages
+--ignore-dir=app/plugins/slide-ionic-download/app
 --type=nohtml

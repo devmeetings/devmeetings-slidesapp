@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', 'slider/slider.plugins', './trainer-participants.html!text'], function (module, sliderPlugins, viewTemplate) {
   sliderPlugins.registerPlugin('trainer', '*', 'trainer-participants', {
     order: 1,

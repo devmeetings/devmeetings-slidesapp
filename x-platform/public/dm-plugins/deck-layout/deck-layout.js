@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
   sliderPlugins.registerPlugin('deck', 'title', 'deck-layout', {
     name: 'Deck Title',

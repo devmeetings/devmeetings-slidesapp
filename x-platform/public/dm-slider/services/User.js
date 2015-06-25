@@ -1,3 +1,4 @@
+/* globals define */
 define(['slider/slider.plugins'], function (sliderPlugins) {
   sliderPlugins.factory('User', ['Sockets', '$rootScope', '$q',
     function (Sockets, $rootScope, $q) {

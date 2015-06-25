@@ -1,3 +1,4 @@
+/* globals define */
 define([
   '_', 'angular', 'dm-xplatform/xplatform-app',
   './dm-annotations.html!text',

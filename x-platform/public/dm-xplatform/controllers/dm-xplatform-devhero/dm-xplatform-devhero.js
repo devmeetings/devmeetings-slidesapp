@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', '_', 'dm-xplatform/xplatform-app', 'slider/slider'], function (angular, _, xplatformApp, slider) {
   xplatformApp.controller('dmXplatformDevhero', function ($scope, $stateParams, dmUser, dmBrowserTab) {
     dmBrowserTab.setTitleAndIcon('Devhero');

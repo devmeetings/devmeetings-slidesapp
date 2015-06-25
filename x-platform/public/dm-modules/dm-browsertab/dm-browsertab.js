@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'favico.js'], function (angular, Favico) {
   'use strict';
 

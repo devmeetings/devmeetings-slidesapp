@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins', './slide-quiz.html!text'], function (module, _, sliderPlugins, viewTemplate) {
   'use strict';
 

@@ -1,3 +1,4 @@
+/* globals define */
 define(['slider/slider.plugins'], function (sliderPlugins) {
   sliderPlugins.registerPlugin('slide', 'title', 'slide-title', {
     order: 1,

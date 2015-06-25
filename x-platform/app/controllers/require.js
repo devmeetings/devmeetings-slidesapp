@@ -10,7 +10,7 @@ var _ = require('lodash');
 
 var sendAsRequireJSModule = function (object, res) {
   res.set('Content-Type', 'application/javascript');
-  var data = (_.isArray(object) ? 'define( [],' : 'define(') + JSON.stringify(object) + ');';
+  var data = (_.isArray(object) ? 'define([],' : 'define(') + JSON.stringify(object) + ');';
   res.send(data);
 };
 

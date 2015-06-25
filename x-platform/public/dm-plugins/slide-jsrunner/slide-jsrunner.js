@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-jsrunner.html!text'], function (module, _, sliderPlugins, coffeeRunner, viewTemplate) {
   'use strict';
 

@@ -9,8 +9,6 @@ class RecorderContext {
     _.extend(this, data);
   }
 
-  link() {}
-
   controller( self) {
     self.getRecorder = () => {
       return this.recorder;
@@ -40,9 +38,6 @@ export default function(dmRecorder) {
       $scope.$watch('workspaceId', (wId) => {
         $scope.recorder = recorderContext.createRecorder(wId);
       });
-    },
-    link( scope, element) {
-      recorderContext.link(scope, element);
     }
   };
 }

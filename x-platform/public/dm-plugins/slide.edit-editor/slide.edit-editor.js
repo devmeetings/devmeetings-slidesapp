@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', 'angular', '_', 'ace', 'slider/slider.plugins', './editor.html!text'], function (module, angular, _, ace, sliderPlugins, viewTemplate) {
   ace = ace.default;
 

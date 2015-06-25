@@ -1,3 +1,4 @@
+/* globals define */
 define([], function () {
   return function (assertion, names, args) {
     // Single assertions does not require writing return...

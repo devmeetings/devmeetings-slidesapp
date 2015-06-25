@@ -1,3 +1,4 @@
+/* globals define */
 define(['slider/slider.plugins', 'services/Sockets'], function (sliderPlugins, Sockets, DeckAndSlides) {
   sliderPlugins.factory('MicrotasksCounter', ['Sockets', 'DeckAndSlides',
     function (Sockets, DeckAndSlides) {

@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', './dm-annotation-edit.html!text'], function (angular, xplatformApp, viewTemplate) {
   xplatformApp.directive('dmAnnotationEdit', [
     'dmEvents', '$rootScope',

@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins'], function (angular, xplatformApp, sliderPlugins) {
   sliderPlugins.registerPlugin('microtask', '*', 'microtask-done', 500).directive('microtaskDone', [
     '$http', '$stateParams', '$rootScope', function ($http, $stateParams, $rootScope) {

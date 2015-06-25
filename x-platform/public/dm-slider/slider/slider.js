@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular',
   './slider.plugins',
   'angular-bootstrap', 'angular-animate', 'angular-touch', 'angular-ui-sortable',

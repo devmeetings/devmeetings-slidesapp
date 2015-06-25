@@ -1,3 +1,4 @@
+/* globals define */
 define([
   'module', '_', 'slider/slider.plugins', 'dm-xplatform/directives/dm-taskicon/dm-taskicon',
   './microtasks.html!text',

@@ -1,9 +1,10 @@
+/* globals define */
 define([], [{
   'text': '<h2><span class="glyphicon glyphicon-heart"></span> Nothing interesting here.</h2> <h3>But something should be!</h3> <p>Hello small text!</p>\n',
   'notes': "// These are some notes for fist slide. Just goan with standard 'Hello' for guys.\n",
   'id': 'entry',
   'name': 'Hello World',
-  'title': 'First slide!',
+  'title': 'First slide!'
 }, {
   'id': 'chat',
   'name': 'Chat',
@@ -14,10 +15,10 @@ define([], [{
   'name': 'Hello Left & Right',
   'title': 'First slide - continuation',
   'left': {
-    'text': 'Hello there Left\n',
+    'text': 'Hello there Left\n'
   },
   'right': {
-    'text': 'Hello there Right\n',
+    'text': 'Hello there Right\n'
   }
 }, {
   'code': 'function foo(items) {\n  var x = "All this is syntax highlighted" + items;\n  return x;\n}\nvar x = {\n  name: foo("something")\n};\nconsole.log(x);',

@@ -1,3 +1,4 @@
+/* globals define */
 define([
   '_',
   'dm-xplayer/dm-xplayer-app',

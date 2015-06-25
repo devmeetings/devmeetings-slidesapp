@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', './deck-slides.html!text'], function (module, _, angular, fs, sliderPlugins, SM, viewTemplate) {
   sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides', {
     name: 'Deck Slides',

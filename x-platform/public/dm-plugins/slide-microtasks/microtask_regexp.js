@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'utils/Plugins'], function (_, Plugins) {
   'use strict';
 

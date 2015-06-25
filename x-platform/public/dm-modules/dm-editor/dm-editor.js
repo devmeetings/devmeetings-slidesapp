@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], function (angular, _, ace, getExtension, viewTemplate) {
   'use strict';
 
@@ -10,8 +11,8 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
   }, 300);
 
   angular.module('dm-editor', []).directive('dmEditor', [
-    '$timeout',
-    function ($timeout) {
+    '$timeout', '$window',
+    function ($timeout, $window) {
       return {
         restrict: 'E',
         replace: true,
@@ -43,7 +44,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
             scope.dotName = name.replace(/\|/g, '.');
           });
 
-          /* 
+          /*
            * [ToDr] Not sure why we need to introduce timeout here,
            * But when there is no timeout syntax highlighting doesnt work after loading editor
            * for the second time.
@@ -85,7 +86,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
             var focusEditorLater = _.debounce(focusEditor, 350);
 
             (function vimMode () {
-              if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
+              if (scope.options.vim || ($window.localStorage && $window.localStorage.getItem('vimMode'))) {
                 editor.setKeyboardHandler('ace/keyboard/vim');
               }
             }());

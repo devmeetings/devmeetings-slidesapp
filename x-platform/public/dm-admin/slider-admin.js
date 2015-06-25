@@ -1,3 +1,4 @@
+/* globals define */
 define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router', './slider-admin.html!text'], function (require, angular, _, angularSortable, angularRouter, viewTemplate) {
   var module = angular.module('slider.admin', ['ui.sortable', 'ui.router']);
 
@@ -77,7 +78,6 @@ define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router', '
     $scope.addDeck = function () {
       var title = $scope.deckTitle;
       $scope.deckTitle = '';
-
 
       $http.post('/api/decks', {
         title: title

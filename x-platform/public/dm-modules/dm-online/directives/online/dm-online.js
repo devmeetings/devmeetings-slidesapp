@@ -21,7 +21,7 @@ export function dmOnline () {
       isOnline: '='
     },
     template: viewTemplate,
-    link( /*args*/ ) {
+    link( /*args*/) {
       let online = new DmOnline({});
       online.link.apply(online, arguments);
     }

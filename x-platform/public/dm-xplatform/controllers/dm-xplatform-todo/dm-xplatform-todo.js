@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformApp) {
   xplatformApp.controller('dmXplatformTodo', ['$scope', '$stateParams', '$sce', 'dmEvents', 'dmBrowserTab',
     function ($scope, $stateParams, $sce, dmEvents, dmBrowserTab) {

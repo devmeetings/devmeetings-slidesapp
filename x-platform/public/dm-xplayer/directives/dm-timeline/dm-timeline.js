@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplayer/dm-xplayer-app', './dm-timeline.html!text'], function (angular, xplayerApp, viewTemplate) {
   'use strict';
 

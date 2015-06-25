@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular'], function (angular) {
   'use strict';
   angular.module('dm-mongotime', []).filter('dmMongotime', [

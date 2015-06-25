@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', 'services/DeckAndSlides', './deck-navbar.html!text'], function (module, _, sliderPlugins, CurrentSlideManagerForDeck, DeckAndSlides, viewTemplate) {
   sliderPlugins.registerPlugin('deck', '*', 'deck-navbar', {
     name: 'Deck Navbar',

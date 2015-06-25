@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', '_', 'dm-xplatform/services/dm-questions/dm-questions'], function (angular, xplatformApp) {
   xplatformApp.controller('dmXplatformQuestionCreate', function ($scope, $stateParams, dmQuestions, dmEvents, dmSlidesaves) {
     $scope.question = {

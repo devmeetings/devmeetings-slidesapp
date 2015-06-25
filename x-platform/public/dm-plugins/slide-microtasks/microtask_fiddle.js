@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'utils/Plugins', './evalAssertion'], function (_, Plugins, evalAssertion) {
   'use strict';
 

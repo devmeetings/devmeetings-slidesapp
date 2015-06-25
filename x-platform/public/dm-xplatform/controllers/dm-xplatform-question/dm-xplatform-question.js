@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create', '../dm-xplatform-question-answer/index.html!text'], function (angular, xplatformApp, questCreate, viewTemplate) {
   xplatformApp.controller('dmXplatformQuestion', function ($scope, $rootScope, $modal, $stateParams, dmQuestions, dmEvents, dmUser) {
     function checkIfActive () {

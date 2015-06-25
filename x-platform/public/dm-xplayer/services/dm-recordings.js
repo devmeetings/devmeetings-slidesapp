@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'angular', 'dm-xplayer/dm-xplayer-app'], function (_, angular, xplayerApp) {
   'use strict';
 

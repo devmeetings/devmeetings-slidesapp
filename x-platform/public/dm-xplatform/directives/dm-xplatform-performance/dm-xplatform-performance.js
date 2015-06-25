@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.html!text'], function (angular, xplatformApp, viewTemplate) {
   'use strict';
 

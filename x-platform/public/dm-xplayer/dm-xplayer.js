@@ -1,3 +1,4 @@
+/* globals define */
 define([
   'dm-xplayer/dm-xplayer-app',
   './controllers/dm-xplayer-list/dm-xplayer-list.html!text',

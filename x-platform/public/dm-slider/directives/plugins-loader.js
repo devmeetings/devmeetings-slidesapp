@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins) {
   var keys = function (obj) {
     return Object.keys(obj || {});

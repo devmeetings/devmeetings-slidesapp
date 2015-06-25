@@ -1,3 +1,4 @@
+/* globals define */
 define(['require', 'angular', 'slider/slider.plugins'], function (require, angular, sliderPlugins) {
   return function (module) {
     module = module || 'slider';

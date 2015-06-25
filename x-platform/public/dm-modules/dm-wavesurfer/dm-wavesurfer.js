@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', './dm-wavesurfer.html!text'], function (angular, viewTemplate) {
   'use strict';
   angular.module('dm-wavesurfer', []).directive('dmWavesurfer', ['$timeout', '$window',

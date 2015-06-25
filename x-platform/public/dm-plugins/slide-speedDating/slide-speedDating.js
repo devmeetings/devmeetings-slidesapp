@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins', 'howler', './slide-speedDating.html!text'], function (module, _, sliderPlugins, howler, viewTemplate) {
   var path = sliderPlugins.extractPath(module);
 

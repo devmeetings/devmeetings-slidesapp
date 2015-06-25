@@ -1,3 +1,4 @@
+/* globals define */
 define(
   ['_', 'angular', 'angular-sanitize',
     'angular-qrcode',

@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function (_, sliderPlugins, DeckAndSlides) {
   var EXECUTION_DELAY = 500;
 

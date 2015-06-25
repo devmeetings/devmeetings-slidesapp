@@ -1,3 +1,4 @@
+/* globals define */
 define(['slider/slider.plugins', 'services/DeckAndSlides'], function (sliderPlugins) {
   sliderPlugins.factory('CurrentSlideManagerForDeck', ['$rootScope', '$location', 'Sockets', 'DeckAndSlides',
     function ($rootScope, $location, Sockets, DeckAndSlides) {

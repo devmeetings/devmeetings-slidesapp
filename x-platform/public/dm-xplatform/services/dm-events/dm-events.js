@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
   xplatformApp.service('dmEvents', ['$http', '$q',
     function ($http, $q) {

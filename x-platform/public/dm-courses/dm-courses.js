@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular',
   'templates',
   'dm-courses/dm-courses-app',

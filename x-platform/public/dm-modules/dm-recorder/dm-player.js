@@ -1,3 +1,4 @@
+/* globals define */
 define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], function (require, _, Worker, newListenable) {
   'use strict';
 

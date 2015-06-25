@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', 'slider/slider.plugins', './slide-timer.html!text'], function (module, sliderPlugins, viewTemplate) {
   function t () {
     return new Date().getTime();

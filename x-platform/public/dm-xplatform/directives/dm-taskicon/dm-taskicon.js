@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'slider/slider', './dm-taskicon.html!text'], function (angular, slider, viewTemplate) {
   var images = {
     task: {

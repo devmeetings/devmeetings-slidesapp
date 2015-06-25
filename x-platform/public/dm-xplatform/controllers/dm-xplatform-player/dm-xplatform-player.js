@@ -1,3 +1,4 @@
+/* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', '_',
   'dm-xplatform/services/dm-events/dm-events',
   'dm-modules/dm-keys/keysListener.es6',

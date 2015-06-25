@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'utils/Plugins', '../slide-microtasks/evalAssertion', './slide-burger.mapping'], function (_, Plugins, evalAssertion, mapping) {
   'use strict';
 

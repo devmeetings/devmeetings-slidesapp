@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins) {
   slider.directive('contenteditable', [function () {
     return {

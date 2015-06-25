@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider', 'slider/slider.plugins', './sidebar-control.html!text'], function (module, _, slider, sliderPlugins, viewTemplate) {
   slider.directive('sidebarControl', [
 

@@ -1,3 +1,4 @@
+/* globals define */
 define(['require', 'slider/slider.plugins'], function (require, sliderPlugins) {
   sliderPlugins.factory('DeckAndSlides', ['$q', '$rootScope',
     function ($q, $rootScope) {

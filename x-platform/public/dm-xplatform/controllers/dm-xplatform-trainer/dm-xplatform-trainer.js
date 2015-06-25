@@ -1,3 +1,4 @@
+/* globals define */
 define([
   'angular', 'dm-xplatform/xplatform-app',
   './services/dm-workspaces'

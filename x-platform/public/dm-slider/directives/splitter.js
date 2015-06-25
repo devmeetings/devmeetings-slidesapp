@@ -1,3 +1,4 @@
+/* globals define */
 define(['slider/slider'], function (slider) {
   slider.directive('splitter', [
 

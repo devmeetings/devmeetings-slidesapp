@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', 'slider/slider.plugins', 'services/DeckAndSlides', './slide-commit.html!text'], function (module, sliderPlugins, DaS, viewTemplate) {
   sliderPlugins.registerPlugin('slide', 'commit', 'slide-commit', {
     name: 'Commit',

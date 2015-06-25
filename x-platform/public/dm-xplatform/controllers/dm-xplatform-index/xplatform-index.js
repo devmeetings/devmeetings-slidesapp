@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', 'angular', '_', 'dm-xplatform/xplatform-app', 'slider/slider', 'utils/ExtractPath'], function (module, angular, _, xplatformApp, slider, ExtractPath) {
   var path = ExtractPath(module);
 

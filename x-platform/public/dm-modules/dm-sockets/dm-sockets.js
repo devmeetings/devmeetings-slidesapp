@@ -1,3 +1,4 @@
+/* globals define */
 define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angular, io, asEvented, guid) {
   var CreateWebSocket = function (targetOrigin, $window, $location) {
     var WebSocket = {

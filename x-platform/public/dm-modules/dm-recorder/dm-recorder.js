@@ -1,3 +1,4 @@
+/* globals define */
 define(
   ['require', '_', 'angular', './dm-player', './dm-recorder-worker', './dm-recorder-listenable', './dm-recorder-context'],
   function (require, _, angular, player, Worker, newListenable, dmRecorderContext) {

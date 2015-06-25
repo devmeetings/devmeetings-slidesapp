@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', 'slider/slider.plugins', './slide-notes.html!text'], function (module, sliderPlugins, viewTemplate) {
   'use strict';
 

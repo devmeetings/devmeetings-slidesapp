@@ -1,3 +1,4 @@
+/* globals define */
 define(['module', '_', 'slider/slider.plugins'],
   function (module, _, sliderPlugins) {
     'use strict';

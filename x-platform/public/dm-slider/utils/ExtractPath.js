@@ -1,3 +1,4 @@
+/* globals define */
 define([], function () {
   function removeUpperDirs (path) {
     return path.reduce(function (memo, elem) {
