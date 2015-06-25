@@ -129,6 +129,9 @@ function pushOtherFiles (res, files, internalFile) {
     res.push(realName, {
       'Content-Type': guessType(internalName)
     }, function (err, stream) {
+      if (err) {
+        console.error(err);
+      }
       stream.on('acknowledge', function () {
         console.log('acknowledge', internalName);
       });

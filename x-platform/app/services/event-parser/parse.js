@@ -116,7 +116,7 @@ function parseFile(dirname, filePath) {
 
 if (require.main !== module) {
   module.exports = parseFile;
-  return;
+  return; // eslint-disable-line
 }
 
 if (process.argv.length < 3) {

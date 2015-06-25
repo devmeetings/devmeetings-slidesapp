@@ -12,6 +12,9 @@ exports.onSocket = function (log, socket) {
     var slidesaveId = data.slide;
 
     slidesave.doEdit(socket.request.user._id, slidesaveId, data.stateId, function (err, state) {
+      if (err) {
+        console.error(err);
+      }
       callback(state._id);
 
       if (data.shouldRefreshPage) {

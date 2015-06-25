@@ -1,7 +1,7 @@
-var Q = require('q'),
-  Decks = require('../../models/deck'),
-  Slides = require('../../models/slide'),
-  Events = require('../../models/event');
+var Q = require('q');
+var Decks = require('../../models/deck');
+var Slides = require('../../models/slide');
+var Events = require('../../models/event');
 
 exports.initApi = function (router, authenticated, app, router2) {
   'use strict';

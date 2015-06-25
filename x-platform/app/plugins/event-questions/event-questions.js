@@ -1,7 +1,7 @@
-var Question = require('../../models/question'),
-  Slidesave = require('../../models/slidesave'),
-  Slide = require('../../models/slide'),
-  Q = require('q');
+var Question = require('../../models/question');
+var Slidesave = require('../../models/slidesave');
+var Slide = require('../../models/slide');
+var Q = require('q');
 
 exports.onSocket = function (log, socket, io) {
   var getAllQuestions = function (data, res) {
@@ -66,7 +66,7 @@ exports.onSocket = function (log, socket, io) {
       data.comment.timestamp = new Date();
 
       return Q.when(Question.findOneAndUpdate({
-        _id: data.question,
+        _id: data.question
       }, {
         $push: {
           comments: data.comment

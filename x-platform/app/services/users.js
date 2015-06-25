@@ -1,7 +1,6 @@
-var UserModel = require('../models/user'),
-  mongoose = require('mongoose'),
-  SALT_WORK_FACTOR = 10,
-  authFields = {
+var UserModel = require('../models/user');
+var SALT_WORK_FACTOR = 10;
+var authFields = {
     usernameField: 'email',
     passwordField: 'password'
   };

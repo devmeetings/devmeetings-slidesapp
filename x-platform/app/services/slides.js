@@ -5,6 +5,9 @@ var Slides = {
     return SlideModel.findById(slideId).exec().then(function (data) {
       return data;
     }, function (err) {
+      if (err) {
+        throw err;
+      }
       return SlideModel.find({
         'content.id': slideId
       }).then(function (slides) {

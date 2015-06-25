@@ -61,7 +61,7 @@ var States = (function () {
           user: user,
           workspaceId: null,
           currentTimestamp: new Date(),
-          current: {},
+          current: {}
         }).then(function (obj) {
           // We are marking the object as fresh
           // beecause we have no idea what content should be there
@@ -128,15 +128,15 @@ var States = (function () {
 
     createFromRecordingId: function (compoundId) {
       var parts = compoundId.split('_');
-      var recId = parts[0].replace('r', ''),
-        slideNo = parseInt(parts[1], 10) || 0,
-        patchNo = parseInt(parts[2], 10) || 0;
+      var recId = parts[0].replace('r', '');
+      var slideNo = parseInt(parts[1], 10) || 0;
+      var patchNo = parseInt(parts[2], 10) || 0;
 
-      var query = recordings.findById(recId).
-        select('slides').
-        slice('slides.patches', [0, patchNo + 1]).
-        slice('slides', [slideNo, 1]).
-        lean();
+      var query = recordings.findById(recId)
+        .select('slides')
+        .slice('slides.patches', [0, patchNo + 1])
+        .slice('slides', [slideNo, 1])
+        .lean();
 
       return Q.when(query.exec()).then(function (recording) {
         // Because of project we can take only first element and all patches

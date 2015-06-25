@@ -2,8 +2,7 @@ var cache = require('./cache');
 
 module.exports = generateAutoAnnotationsForUnifiedHistoryFormat;
 
-/* jshint unused:false */
-function generateAutoAnnotationsCached (recording) {
+function generateAutoAnnotationsCached (recording) { // eslint-disable-line unused
   'use strict';
 
   if (recording.cacheKey) {
@@ -51,7 +50,7 @@ function generateAutoAnnotationsForUnifiedHistoryFormat (recording) {
       pushAnno(memo, slide, 'beforeTab: ' + workspace.active + ', ' + memo.active);
       // After the switch
       slide.timestamp = currentTime + 300;
-      // [ToDr] prevent removing 
+      // [ToDr] prevent removing
       pushAnno(memo, slide, 'afterTab', '');
 
       memo.active = workspace.active;
@@ -108,7 +107,7 @@ function pushAnno (memo, slide, reason, description) {
   var anno = {
     description: description,
     timestamp: Math.max(0, (slide.timestamp - 100) / 1000),
-    type: 'comment',
+    type: 'comment'
   };
   if (reason) {
     anno.reason = reason;

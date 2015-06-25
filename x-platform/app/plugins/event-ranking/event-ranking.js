@@ -1,7 +1,7 @@
-var Q = require('q'),
-  Ranking = require('../../models/ranking'),
-  eventRoom = require('../eventRoom'),
-  logger = require('../../../config/logging');
+var Q = require('q');
+var Ranking = require('../../models/ranking');
+var eventRoom = require('../eventRoom');
+var logger = require('../../../config/logging');
 
 exports.onSocket = function (log, socket, io) {
   'use strict';

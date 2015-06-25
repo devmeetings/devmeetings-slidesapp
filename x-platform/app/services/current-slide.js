@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var Q = require('q');
 var Participants = require('../services/participants');
 var pluginEvents = require('../plugins/events');
 
@@ -21,7 +20,7 @@ exports.onSocket = function (log, socket, io) {
 
     pluginEvents.emit('rejoin', socket, {
       joined: false,
-      name: name1,
+      name: name1
     });
     pluginEvents.emit('rejoin', socket, {
       joined: true,

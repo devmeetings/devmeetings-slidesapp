@@ -1,7 +1,7 @@
-var Cache = require('../models/cache'),
-  level = require('level'),
-  cap = require('level-capped'),
-  Q = require('q');
+var Cache = require('../models/cache');
+var level = require('level');
+var cap = require('level-capped');
+var Q = require('q');
 
 var instance = process.env.NODE_APP_INSTANCE || 0;
 var databaseLocation = __dirname + '/../../data/' + instance + '/';

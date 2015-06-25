@@ -1,10 +1,10 @@
-var express = require('express'),
-  mongoose = require('mongoose'),
-  http2 = require('spdy'),
-  fs = require('fs'),
-  socketio = require('socket.io'),
-  config = require('./config/config'),
-  logger = require('./config/logging');
+var express = require('express');
+var mongoose = require('mongoose');
+var http2 = require('spdy');
+var fs = require('fs');
+var socketio = require('socket.io');
+var config = require('./config/config');
+var logger = require('./config/logging');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;

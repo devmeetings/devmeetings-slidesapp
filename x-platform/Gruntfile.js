@@ -10,7 +10,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
-  if ( !( grunt.file.exists(VERSION_PATH))) {
+  if (!(grunt.file.exists(VERSION_PATH))) {
     generateAndSaveNewVersion(VERSION_PATH);
   }
   var version = grunt.file.read(VERSION_PATH);
@@ -210,7 +210,7 @@ module.exports = function (grunt) {
       slide: rjsOptimizationModule('dm-slider', 'slider-slide'),
       trainer: rjsOptimizationModule('dm-slider', 'slider-trainer'),
       xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform'),
-      courses: rjsOptimizationModule('dm-courses', 'dm-courses/dm-courses'),
+      courses: rjsOptimizationModule('dm-courses', 'dm-courses/dm-courses')
     }
   });
 

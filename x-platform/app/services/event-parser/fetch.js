@@ -69,7 +69,7 @@ function fetchAndParse(file, cb) {
 
 if (require.main !== module) {
   exports.fetchAndParse = fetchAndParse;
-  return;
+  return; // eslint-disable-line
 }
 
 if (process.argv.length < 3) {

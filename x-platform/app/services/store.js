@@ -5,7 +5,6 @@ var client = store.client;
 var client2 = store.client2;
 
 var subscribtions = {};
-var msgCount = 0;
 client2.on('message', function (channel, msg) {
   'use strict';
 
@@ -66,7 +65,7 @@ module.exports = (function () {
 
     publish: function (channelName, message) {
       client.publish(channelName, message);
-    },
+    }
   };
 
 }());

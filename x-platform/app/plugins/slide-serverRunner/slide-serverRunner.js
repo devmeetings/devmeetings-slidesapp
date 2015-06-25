@@ -9,7 +9,7 @@ var Workers = null;
 exports.init = function () {
   'use strict';
 
-  var l = function ( /* args */ ) {
+  var l = function (/* args */) {
     var args = [].slice.call(arguments);
     args.unshift('  [ServerRunner]');
     logger.info.apply(logger, args);
@@ -59,7 +59,7 @@ exports.init = function () {
           content: msg,
           properties: {
             replyTo: ReplyQueue,
-            correlationId: corrId,
+            correlationId: corrId
           }
         };
         store.publish(Queue, JSON.stringify(storeMessage));
