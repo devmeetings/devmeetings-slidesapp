@@ -1,4 +1,4 @@
-require(['angular',
+define(['angular',
     'angular-ui-router',
     'slider/bootstrap',
     'dm-admin/dm-admin-app',

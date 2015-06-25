@@ -2,5 +2,6 @@
 --ignore-dir=public/bin
 --ignore-dir=node_modules
 --ignore-dir=public/css
+--ignore-dir=public/cdn
 --ignore-dir=public/jspm_packages
 --type=nohtml

@@ -1,9 +1,12 @@
 extends ../layouts/main
 
 append scripts
-  script(src='/static/components/requirejs/require.js')
-  script(src='/static/config.js')
-  script(src='/static/dm-admin/dm-admin-config.js')
+  script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
+  script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
+  script.
+    System.import('dm-admin/dm-admin-config#{cacheBustingVersion}').then(function(){}, function(err){
+      throw err;
+    });
 
 block content
   div(ui-view)

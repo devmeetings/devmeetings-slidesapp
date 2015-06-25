@@ -1,5 +1,7 @@
 define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, sliderPlugins, ace) {
 
+  ace = ace.default;
+
   var EDITOR_THEME = 'todr';
 
   var throttleOptions = {

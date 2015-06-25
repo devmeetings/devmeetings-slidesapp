@@ -1,4 +1,4 @@
-require([
+define([
     'templates',
     "slider/slider",
     "slider/slider.plugins",

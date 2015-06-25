@@ -3,9 +3,12 @@ extends ../layouts/main
 append scripts
     script.
         window.slides = "#{slides}";
-    script(src='/static/components/requirejs/require.js')
-    script(src='/static/config.js?v=#{cacheBustingVersion}')
-    script(src='#{jsModulesPath}/dm-slider/slider-deck#{cacheBustingVersion}.js')
+    script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
+    script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
+    script.
+      System.import('dm-slider/slider-deck#{cacheBustingVersion}').then(function(){}, function(err){
+        throw err;
+      });
 
 block title
     title {{ title }} - #{title}

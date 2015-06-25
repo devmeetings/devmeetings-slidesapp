@@ -1,9 +1,12 @@
 extends ../layouts/main
 
 append scripts
-    script(src='/static/components/requirejs/require.js')
-    script(src='/static/config.js?v=#{cacheBustingVersion}')
-    script(src='#{jsModulesPath}/dm-courses/dm-courses#{cacheBustingVersion}.js')
+    script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
+    script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
+    script.
+      System.import('dm-courses/dm-courses#{cacheBustingVersion}').then(function(){}, function(err){
+        throw err;
+      });
 
 block content
     .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
