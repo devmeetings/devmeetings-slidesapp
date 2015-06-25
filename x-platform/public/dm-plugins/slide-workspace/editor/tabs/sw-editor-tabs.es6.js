@@ -124,7 +124,7 @@ class SwEditorTabs {
 
   getTabNameIfNeeded(self, tabName) {
     if (tabName.length > 10) {
-      console.log(tabName + 'length is more then 10 characters');
+      //console.log(tabName + 'length is more then 10 characters');
       return tabName;
     }
     return false;
