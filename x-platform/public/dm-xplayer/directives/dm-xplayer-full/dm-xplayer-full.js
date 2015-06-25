@@ -3,7 +3,7 @@ define([
   'dm-xplayer/dm-xplayer-app',
   './dm-xplayer-full.html!text',
   'dm-xplayer/directives/dm-xplayer/dm-xplayer',
-  'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline',
+  'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline'
 ], function (xplayerApp, viewTemplate) {
   'use strict';
 

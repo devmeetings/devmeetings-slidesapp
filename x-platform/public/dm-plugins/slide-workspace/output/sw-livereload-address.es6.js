@@ -18,7 +18,7 @@ class SwLivereloadAddress {
     return this.getHostAddress() + address;
   }
 
-  getHostAddress() {
+  getHostAddress () {
     var loc = this.$window.location;
     return loc.protocol + '//' + loc.host;
   }

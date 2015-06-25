@@ -5,8 +5,8 @@ define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins)
   };
 
   var hasSameKeys = function (obj1, obj2) {
-    var keys1 = keys(obj1),
-      keys2 = keys(obj2);
+    var keys1 = keys(obj1);
+    var keys2 = keys(obj2);
 
     if (keys1.length !== keys2.length) {
       return false;

@@ -21,7 +21,7 @@ class ChatNotes {
     vm.getCurrentLimit = (isShowingAll) => this.getCurrentLimit(isShowingAll);
   }
 
-  getLimitThreshold() {
+  getLimitThreshold () {
     return 5;
   }
 

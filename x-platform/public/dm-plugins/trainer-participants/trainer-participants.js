@@ -1,5 +1,5 @@
 /* globals define */
-define(['module', 'slider/slider.plugins', './trainer-participants.html!text'], function (module, sliderPlugins, viewTemplate) {
+define(['_', 'slider/slider.plugins', './trainer-participants.html!text'], function (_, sliderPlugins, viewTemplate) {
   sliderPlugins.registerPlugin('trainer', '*', 'trainer-participants', {
     order: 1,
     name: 'Participants',

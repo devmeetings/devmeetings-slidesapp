@@ -5,7 +5,7 @@ define(['angular', 'dm-xplatform/xplatform-app', './dm-annotation-group.html!tex
       return {
         restrict: 'E',
         scope: {
-          group: '=',
+          group: '='
         },
         template: viewTemplate
       };

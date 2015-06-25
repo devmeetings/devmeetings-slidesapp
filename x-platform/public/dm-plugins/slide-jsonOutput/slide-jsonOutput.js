@@ -60,8 +60,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
       return {
         restrict: 'E',
         scope: {
-          monitor: '=data',
-        // slide: '=context'
+          monitor: '=data'
         },
         link: function (scope) {
           sliderPlugins.registerScopePlugin(scope, 'slide.slide-jsrunner', 'process', {

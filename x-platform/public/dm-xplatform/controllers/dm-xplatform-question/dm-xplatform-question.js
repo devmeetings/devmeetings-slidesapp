@@ -35,7 +35,7 @@ define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-
     });
 
     $scope.showAnswers = function (question) {
-      var modalInstance = $modal.open({
+      $modal.open({
         template: viewTemplate,
         controller: 'dmXplatformQuestionAnswer',
         windowClass: 'dm-question-modal',

@@ -53,7 +53,7 @@ class ContextMenuDir {
       scope.display = {
         event: true,
         lastActive: false,
-        lastEvent: true,
+        lastEvent: true
       };
       what.map((w) => {
         if (w === 'history') {

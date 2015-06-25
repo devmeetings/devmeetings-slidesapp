@@ -1,5 +1,5 @@
 /* globals define */
-define(['module', '_', 'slider/slider.plugins', './slide-quiz.html!text'], function (module, _, sliderPlugins, viewTemplate) {
+define(['angular', '_', 'slider/slider.plugins', './slide-quiz.html!text'], function (angular, _, sliderPlugins, viewTemplate) {
   'use strict';
 
   sliderPlugins.registerPlugin('slide.sidebar', 'quiz', 'slide-quiz', {

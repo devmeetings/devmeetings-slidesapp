@@ -1,10 +1,8 @@
 /* globals define */
-define(['module', 'angular', '_', 'dm-xplatform/xplatform-app', 'slider/slider', 'utils/ExtractPath'], function (module, angular, _, xplatformApp, slider, ExtractPath) {
-  var path = ExtractPath(module);
+define(['$', 'angular', '_', 'dm-xplatform/xplatform-app', 'slider/slider', 'utils/ExtractPath'], function ($, angular, _, xplatformApp, slider, ExtractPath) {
 
   angular.module('xplatform').controller('XplatformIndexCtrl', ['$scope', '$http', '$filter',
     function ($scope, $http, $filter) {
-      var className = '.dm-xplatform-index';
 
       var changeWidthTo = function (className, width) {
         var col = 'col-xs-' + width;

@@ -61,8 +61,8 @@ class EventAgenda {
     scope.$watch(() => {
       var params = ['iteration', 'todo'];
       return $state.$current.name + params.reduce((memo, param) => {
-          return memo + ',' + param + ':' + this.$stateParams[param];
-        }, '');
+        return memo + ',' + param + ':' + this.$stateParams[param];
+      }, '');
     }, () => {
       fixActiveMaterial();
       fixActiveTask();

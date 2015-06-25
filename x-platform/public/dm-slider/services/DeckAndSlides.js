@@ -1,5 +1,8 @@
 /* globals define */
 define(['require', 'slider/slider.plugins'], function (require, sliderPlugins) {
+  var slides = window.slides;
+  var slideId = window.slideId;
+
   sliderPlugins.factory('DeckAndSlides', ['$q', '$rootScope',
     function ($q, $rootScope) {
       /* TODO [ToDr] Rethink and merge CurrentSlideManagerForDeck & DeckAndSlides ? */

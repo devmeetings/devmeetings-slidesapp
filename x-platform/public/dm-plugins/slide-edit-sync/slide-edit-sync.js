@@ -1,6 +1,5 @@
 /* globals define */
-define(['_', 'slider/slider.plugins', 'services/DeckAndSlides'], function (_, sliderPlugins, DeckAndSlides) {
-  var EXECUTION_DELAY = 500;
+define(['angular', '_', 'slider/slider.plugins', 'services/DeckAndSlides'], function (angular, _, sliderPlugins, DeckAndSlides) {
 
   sliderPlugins.registerPlugin('slide.edit', '*', 'slide-edit-sync', {
     name: 'Edit-sync',

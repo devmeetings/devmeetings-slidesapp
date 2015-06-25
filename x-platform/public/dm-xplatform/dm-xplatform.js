@@ -4,7 +4,6 @@
 
 import 'angular-ui-router';
 
-import angular from 'angular';
 import bootstrap from 'slider/bootstrap';
 import xplatformApp from 'dm-xplatform/xplatform-app';
 
@@ -13,7 +12,6 @@ import 'dm-xplatform/controllers/dm-xplatform-index/xplatform-index';
 import 'dm-xplatform/controllers/dm-xplatform-trainer/dm-xplatform-trainer';
 import 'dm-xplatform/controllers/dm-xplatform-player/dm-xplatform-player';
 import 'dm-xplatform/controllers/dm-xplatform-devhero/dm-xplatform-devhero';
-import 'dm-xplatform/controllers/dm-xplatform-leftbar/dm-xplatform-leftbar';
 import 'dm-xplatform/controllers/dm-xplatform-profile/dm-xplatform-profile';
 import 'dm-xplatform/controllers/dm-xplatform-slide/dm-xplatform-slide';
 import 'dm-xplatform/controllers/dm-xplatform-options/dm-xplatform-options';
@@ -156,7 +154,7 @@ xplatformApp.config(function ($stateProvider, $urlRouterProvider, $locationProvi
     url: '/login',
     views: {
       left: {
-        template: loginView,
+        template: loginView
       }
     },
     onEnter: function ($rootScope, dmBrowserTab) {
@@ -294,7 +292,7 @@ xplatformApp.config(function ($stateProvider, $urlRouterProvider, $locationProvi
       mid: {
         template: spaceView,
         controller: 'dmXplatformSpace'
-      },
+      }
     },
     onEnter: function ($rootScope) {
       $rootScope.xplatformData.columns = {
@@ -332,15 +330,6 @@ xplatformApp.config(function ($stateProvider, $urlRouterProvider, $locationProvi
       context: xplaMenu()
     }
   });
-
-  function newOldState (space, title, data) {
-    var copy = function () {
-      return JSON.parse(JSON.stringify(data));
-    };
-
-    $stateProvider.state('index.space.' + title, copy());
-    $stateProvider.state('index.space.' + space + '.' + title, copy());
-  }
 
   $stateProvider.state('index.space.learn.agenda', {
     url: '/agenda',

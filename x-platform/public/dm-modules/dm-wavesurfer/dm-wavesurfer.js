@@ -158,7 +158,7 @@ define(['angular', './dm-wavesurfer.html!text'], function (angular, viewTemplate
           });
 
           scope.waveClicked = function (event) {
-            var width = parseInt(element.css('width').replace(/px/, ''));
+            var width = parseInt(element.css('width').replace(/px/, ''), 10);
             var clickX = event.clientX - element.offset().left;
             var position = clickX / width;
             audio.currentTime = position * audio.duration;

@@ -24,7 +24,7 @@ class OutputFrame {
     return url.indexOf('http://') > -1;
   }
 
-  isCurrentPageHttps() {
+  isCurrentPageHttps () {
     return this.$location.protocol() === 'https';
   }
 
@@ -68,7 +68,7 @@ class OutputFrame {
   setAddressAndAnimateIfNeeded (url) {
     var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
 
-    if ( animationOn ) {
+    if (animationOn) {
       this.setAdressWithFramesAnimation(url);
     } else {
       this.setAdressWithoutFramesAnimation(url);

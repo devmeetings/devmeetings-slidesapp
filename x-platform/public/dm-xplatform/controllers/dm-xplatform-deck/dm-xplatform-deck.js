@@ -7,8 +7,8 @@ define(['angular',
   xplatformApp.controller('dmXplatformDeck', ['$scope', '$stateParams', '$sce', 'dmBrowserTab',
     function ($scope, $stateParams, $sce, dmBrowserTab) {
       $scope.deck = $stateParams.deck;
-      dmBrowserTab.setTitleAndIcon($stateParams.name, 'slide').
-        withBadge(1 + parseInt($stateParams.iteration, 10));
+      dmBrowserTab.setTitleAndIcon($stateParams.name, 'slide')
+        .withBadge(1 + parseInt($stateParams.iteration, 10));
 
       var params = [];
       if ($stateParams.from) {

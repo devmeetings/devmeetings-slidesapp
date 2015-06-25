@@ -43,7 +43,7 @@ class SwOutput {
     this.refreshCurrentUrl(scope);
   }
 
-  isAutoOutput() {
+  isAutoOutput () {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
@@ -86,7 +86,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       workspaceId: '=',
 
       onNotifyEval: '&',
-      needsEval: '=',
+      needsEval: '='
     },
     bindToController: true,
     controllerAs: 'model',

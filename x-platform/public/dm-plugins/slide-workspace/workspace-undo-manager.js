@@ -3,16 +3,16 @@ define(['_'], function (_) {
   'use strict';
 
   var WorkspaceUndoManager = function (scope, tabs) {
-      if (!scope.workspace) {
-        throw new Error('Workspace should be defined on scope object for WorkspaceUndoManager');
-      }
+    if (!scope.workspace) {
+      throw new Error('Workspace should be defined on scope object for WorkspaceUndoManager');
+    }
 
-      this.scope = scope;
-      this.tabsStack = {};
-      this.tabsSwitched = true;
-      this.reset();
-    },
-    enableLogging = false;
+    this.scope = scope;
+    this.tabsStack = {};
+    this.tabsSwitched = true;
+    this.reset();
+  };
+  var enableLogging = false;
 
   (function () {
     this.setUpTabsSwitched = function (val) {
@@ -30,8 +30,8 @@ define(['_'], function (_) {
       return deltas;
     };
     this.setUpStack = function (options) {
-      var deltas = options.args[0],
-        currentStack = this.getCurrentTabsStack();
+      var deltas = options.args[0];
+      var currentStack = this.getCurrentTabsStack();
 
       this.$doc = options.args[1];
 
@@ -119,7 +119,7 @@ define(['_'], function (_) {
 
   if (enableLogging) {
     _.each(WorkspaceUndoManager.prototype, function (func, key) {
-      WorkspaceUndoManager.prototype[key] = function ( /*args*/ ) {
+      WorkspaceUndoManager.prototype[key] = function () /*args*/ {
         console.log('Invoking function ' + key, arguments);
         return func.apply(this, arguments);
       };

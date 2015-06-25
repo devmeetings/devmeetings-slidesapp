@@ -55,7 +55,7 @@ define(['module', '_', 'slider/slider.plugins', './slide-serverRunner.html!text'
             var data = {
               runner: scope.runner,
               path: path,
-              timestamp: new Date().getTime(),
+              timestamp: new Date().getTime()
             };
             data[prop] = lastStateId;
 

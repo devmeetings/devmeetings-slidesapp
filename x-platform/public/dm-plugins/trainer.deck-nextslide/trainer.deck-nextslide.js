@@ -1,5 +1,5 @@
 /* globals define */
-define(['module', 'slider/slider.plugins', './trainer.deck-nextslide.html!text'], function (module, sliderPlugins, viewTemplate) {
+define(['_', 'slider/slider.plugins', './trainer.deck-nextslide.html!text'], function (_, sliderPlugins, viewTemplate) {
   'use strict';
 
   sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', {

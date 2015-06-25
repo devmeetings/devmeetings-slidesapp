@@ -2,7 +2,7 @@
 define(['angular', 'dm-xplatform/xplatform-app', '_',
   'dm-xplatform/services/dm-events/dm-events',
   'dm-modules/dm-keys/keysListener.es6',
-  './player-finish.html!text',
+  './player-finish.html!text'
 ], function (angular, xplatformApp, _, dmEvents, keysListener, viewTemplate) {
   'use strict';
   xplatformApp.controller('dmXplatformPlayer', function ($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {

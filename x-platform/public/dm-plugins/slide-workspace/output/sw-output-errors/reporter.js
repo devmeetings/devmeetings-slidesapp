@@ -53,7 +53,7 @@
     }, window.location);
   }
 
-  window.onerror = function ( /*args*/) {
+  window.onerror = function () /*args*/ {
     var args = [].slice.apply(arguments);
     invokeOriginalError(args);
     handleError.apply(null, args);
@@ -102,7 +102,7 @@
         'max-height': '50vh',
         'overflow': 'auto',
         'padding': '10px',
-        'background-color': '#FFEFEF',
+        'background-color': '#FFEFEF'
       }),
       asStyles('.xpla-error-link, .xpla-error-link:visited, .xpla-error-dialog-close', {
         'text-decoration': 'none',

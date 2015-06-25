@@ -12,9 +12,9 @@ define([], function () {
       '}).apply(null, args)'
     ].join(';\n');
 
-    /* jshint evil:true */
+    /* eslint-disable no-eval */
     var result = eval(toEval);
-    /* jshint evil:false */
+    /* eslint-enable no-eval */
 
     return result;
   };

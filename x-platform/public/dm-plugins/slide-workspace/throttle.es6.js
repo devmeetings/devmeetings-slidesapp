@@ -14,7 +14,7 @@ function safeApply (scope, fn) {
   }
 }
 
-export default function(scope, func, timeout) {
+export default function (scope, func, timeout) {
   return _.throttle((...args) => {
     safeApply(scope, () => {
       func(...args);

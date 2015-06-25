@@ -6,7 +6,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools', './f
     var sw = {
       'html': 'index|html',
       'js': 'main|js',
-      'css': 'styles|css',
+      'css': 'styles|css'
     };
     return sw[name];
   }

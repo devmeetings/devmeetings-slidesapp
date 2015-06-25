@@ -7,12 +7,12 @@ var log = function (socket, pluginName) {
     return args;
   }
 
-  var logx = function (/*args*/) {
+  var logx = function () /*args*/ {
     var args = appendSocketData(arguments);
     logger.info.apply(logger, args);
   };
 
-  logx.error = function ( /*args*/) {
+  logx.error = function () /*args*/ {
     var args = appendSocketData(arguments);
     logger.error.apply(logger, args);
   };

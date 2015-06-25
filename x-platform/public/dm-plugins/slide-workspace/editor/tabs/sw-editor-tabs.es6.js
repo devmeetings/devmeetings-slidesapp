@@ -15,15 +15,15 @@ class Tab {
     this.order = this.getOrder();
   }
 
-  getFileName() {
+  getFileName () {
     return this.name.replace(/\|/g, '.');
   }
 
-  getExtension() {
+  getExtension () {
     return getExtension(this.name);
   }
 
-  getOrder() {
+  getOrder () {
     var tabNameParts = this.name.split('/');
     var file = tabNameParts.pop();
     var dir = tabNameParts.join('/');

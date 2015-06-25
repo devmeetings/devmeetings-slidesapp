@@ -57,7 +57,7 @@ class EventMenu {
     return this.dmRanking.markAsDone(scope.iteration.currentIdx, taskIdx, isDone, noOfTasks);
   }
 
-  getCurrentRanking() {
+  getCurrentRanking () {
     return this.dmRanking.getCurrentRankingForUser();
   }
 

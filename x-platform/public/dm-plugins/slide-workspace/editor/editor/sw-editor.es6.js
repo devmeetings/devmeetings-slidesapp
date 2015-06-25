@@ -104,11 +104,11 @@ class SwEditor {
     self.editorActiveTab = self.tabs[self.editorActiveTabName];
   }
 
-  $watch(...args) {
+  $watch (...args) {
     this.$scope.$watch(...args);
   }
 
-  $watchCollection(...args) {
+  $watchCollection (...args) {
     this.$scope.$watchCollection(...args);
   }
 

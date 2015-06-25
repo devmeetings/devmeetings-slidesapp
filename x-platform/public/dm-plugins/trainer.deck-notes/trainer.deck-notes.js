@@ -1,6 +1,5 @@
 /* globals define */
-define(['module', 'slider/slider.plugins'], function (module, sliderPlugins) {
-  var path = sliderPlugins.extractPath(module);
+define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
 
   sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-notes', {
     order: 3,

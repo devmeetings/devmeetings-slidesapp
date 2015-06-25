@@ -47,7 +47,6 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
       },
       createQuestion: function (question) {
         var result = $q.defer();
-        var that = this;
         Sockets.emit('event.questions.create', question, function (message) {
           result.resolve();
         });
@@ -56,7 +55,6 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
       },
       commentQuestion: function (question, comment, save) {
         var result = $q.defer();
-        var that = this;
 
         dmPlayer.getCurrentStateId().then(function (stateId) {
           Sockets.emit('event.questions.comment.create', {

@@ -1,6 +1,5 @@
 /* globals define */
 define(['module', 'slider/slider.plugins'], function (module, sliderPlugins) {
-  var path = sliderPlugins.extractPath(module);
 
   sliderPlugins.registerPlugin('deck', 'title', 'deck-title', {
     name: 'Deck Title',

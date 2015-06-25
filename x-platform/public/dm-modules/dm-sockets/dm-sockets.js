@@ -5,7 +5,7 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angula
       _socket: null,
 
       _initialize: function () {
-        var deckId = (typeof slides === 'undefined') ? '-' : slides;
+        var deckId = (typeof $window.slides === 'undefined') ? '-' : $window.slides;
         var protocol = $location.protocol();
         var url = $location.host() + ':' + $location.port();
         this._socket = io.connect(protocol + '://' + url + '/?deck=' + deckId);
@@ -90,85 +90,6 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angula
     return WebSocket;
   };
 
-  var CreateForwardingSocket = function (targetOrigin, $window) {
-    var ForwardingSocket = {
-      _callbacks: {},
-
-      _eventListeners: {
-        'socketEvent': function (data) {
-          this.trigger(data.eventName, data.data);
-        },
-        'socketCallback': function (data) {
-          var cb = this._callbacks[data.callback];
-
-          if (cb) {
-            delete this._callbacks[data.callback];
-            cb(data.data);
-          }
-        }
-      },
-
-      _initialize: function () {
-        // Apply events, but don't override emit
-        var emit = this.emit;
-        asEvented.call(this);
-        this.emit = emit;
-
-        // Because Socket.IO does not allow to listen to all events 
-        // (and knowing their names at the same time)
-        // We have to add a little aspect to .on method.
-        ['on', 'listen'].map(function (method) {
-          var org = this[method];
-
-          this[method] = function () {
-            $window.parent.postMessage({
-              type: 'socketListen',
-              eventName: arguments[0]
-            }, targetOrigin);
-            return org.apply(this, arguments);
-          };
-        }, this);
-
-        ['off'].map(function (method) {
-          var org = this[method];
-          this[method] = function () {
-            $window.parent.postMessage({
-              type: 'socketStop',
-              eventName: arguments[0]
-            }, targetOrigin);
-            return org.apply(this, arguments);
-          };
-        });
-
-        $window.addEventListener('message', function (ev) {
-          var data = ev.data;
-
-          var listener = this._eventListeners[data.type];
-          if (listener) {
-            listener.call(this, data);
-          }
-        }.bind(this));
-      },
-
-      emit: function (evName, data, callback) {
-        var uuid;
-
-        if (callback) {
-          uuid = guid();
-          this._callbacks[uuid] = callback;
-        }
-
-        $window.parent.postMessage({
-          type: 'socketEvent',
-          eventName: evName,
-          data: data,
-          callback: uuid
-        }, targetOrigin);
-      }
-    };
-    return ForwardingSocket;
-  };
-
   var CreateBaseSocket = function ($window, $rootScope) {
     var BaseSocket = {
       _initialize: function () {
@@ -193,14 +114,7 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angula
     function ($location, $window, $rootScope) {
       var targetOrigin = $window.location;
 
-      // ifowisko
-      var Sockets = null;
-      // TODO [ToDr] Some problems with forwarding sockets.
-      // if ($window.parent.___hasSockets) {
-      // Sockets = CreateForwardingSocket(targetOrigin, $window);
-      // } else {
-      Sockets = CreateWebSocket(targetOrigin, $window, $location);
-      // }
+      var Sockets = CreateWebSocket(targetOrigin, $window, $location);
 
       // initialize
       var BaseSockets = CreateBaseSocket($window, $rootScope);

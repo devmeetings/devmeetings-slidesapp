@@ -91,7 +91,7 @@ define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'service
           });
 
           scope.downloadDeck = function () {
-            var blob = new Blob([angular.toJson(scope.deck)], {
+            var blob = new window.Blob([angular.toJson(scope.deck)], {
               type: 'application/json;charset=utf-8'
             });
             var now = new Date().toJSON();

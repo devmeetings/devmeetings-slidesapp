@@ -41,7 +41,7 @@ class Ranking {
     return d.promise;
   }
 
-  getCurrentRanking() {
+  getCurrentRanking () {
     if (this.currentRanking) {
       return this.$q.when(this.currentRanking);
     }
@@ -56,7 +56,7 @@ class Ranking {
     return d.promise;
   }
 
-  getCurrentRankingForUser() {
+  getCurrentRankingForUser () {
     var self = this;
     return this.getCurrentRanking().then((currentRanking) => {
       var userId = self.user.result._id;

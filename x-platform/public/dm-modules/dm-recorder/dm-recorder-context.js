@@ -22,7 +22,7 @@ class RecorderContext {
   }
 }
 
-export default function(dmRecorder) {
+export default function (dmRecorder) {
   let recorderContext = new RecorderContext({
   dmRecorder});
 

@@ -14,7 +14,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
         slide: '=context',
         mode: '=',
         path: '@',
-        recorder: '=',
+        recorder: '='
       },
       link: function (scope) {
         // Disable recorder on some sub slides.

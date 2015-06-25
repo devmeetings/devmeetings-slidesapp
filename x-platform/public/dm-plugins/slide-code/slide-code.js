@@ -89,7 +89,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
             editor.setOptions({
               enableBasicAutocompletion: true,
               enableSnippets: true,
-              enableLiveAutocompletion: false,
+              enableLiveAutocompletion: false
             });
 
             scope.$watch('code.mode', function () {

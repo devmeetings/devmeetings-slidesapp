@@ -7,7 +7,6 @@ define([
   'services/DeckAndSlides',
   'directives/layout-loader',
   'directives/plugins-loader',
-  'directives/splitter',
   'directives/contenteditable',
   'directives/sidebar-control/sidebar-control'
 ], function (templates, slider, sliderPlugins, bootstrap) {

@@ -54,7 +54,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
       }
 
       self.getLibraries = function () {
-        if ( self.cdnLibraries.libraries && self.cdnLibraries.libraries.length >= 1) {
+        if (self.cdnLibraries.libraries && self.cdnLibraries.libraries.length >= 1) {
           return self.cdnLibraries.libraries;
         }
         return libraries;
@@ -78,8 +78,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         function getSearchPattern (tagCategory) {
           if (tagCategory === 'link') {
             return /<\s*\/\s*head\s*>/;
-          }
-          else if (tagCategory === 'script') {
+          } else if (tagCategory === 'script') {
             return /<\s*\/\s*body\s*>/;
           }
         }
@@ -104,7 +103,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         var activeTabExtension = activeTabName.split('|').slice(-1)[0];
         var allowedExtensions = ['html', 'htm'];
 
-        if ( _.includes(allowedExtensions, activeTabExtension)) {
+        if (_.includes(allowedExtensions, activeTabExtension)) {
           return true;
         }
         return false;

@@ -12,7 +12,7 @@ class SwMain {
     _.extend(this, data);
   }
 
-  isAutoOutput() {
+  isAutoOutput () {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 

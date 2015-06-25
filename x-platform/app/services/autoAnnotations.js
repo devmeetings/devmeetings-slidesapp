@@ -2,7 +2,7 @@ var cache = require('./cache');
 
 module.exports = generateAutoAnnotationsForUnifiedHistoryFormat;
 
-function generateAutoAnnotationsCached (recording) { // eslint-disable-line unused
+function generateAutoAnnotationsCached (recording) { // eslint-disable-line no-unused-vars
   'use strict';
 
   if (recording.cacheKey) {

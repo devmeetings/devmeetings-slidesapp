@@ -10,14 +10,14 @@ class SpaceRedirect {
     $location, $window});
   }
 
-  redirectIfNeeded() {
+  redirectIfNeeded () {
     if (this.$location.protocol() === 'http') {
       return;
     }
     this.$window.location = this.getUnsafeAddress();
   }
 
-  getUnsafeAddress() {
+  getUnsafeAddress () {
     var $loc = this.$location;
     var host = $loc.host();
     if (host === 'localhost') {

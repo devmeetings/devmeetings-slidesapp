@@ -21,10 +21,12 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-js
 
     // Actually execute code
     try {
-      var trigger = function (name /*, args */ ) {
+      /* eslint-disable no-unused-vars */
+      var trigger = function (name) /*args*/ {
         var args = [].slice.call(arguments, 1);
         sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-jsrunner.' + name].concat(args));
       };
+      /* eslint-enable no-unused-vars */
 
       var code = ['(function(' + triggerFunctionName + ', console_log){',
         '"use strict"',
@@ -35,9 +37,9 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-js
 
       var console_log = [];
       var consoleControl = captureConsoleTo(console_log);
-      /* jshint evil:true */
-      var result = eval(code);
-      /* jshint evil:false */
+      /* eslint-disable no-eval */
+      eval(code);
+      /* eslint-enable no-eval */
       consoleControl.restore();
 
       return null;
@@ -49,7 +51,7 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-js
   var captureConsoleTo = function (log) {
     var oldLog = window.console.log;
 
-    window.console.log = function ( /*args*/ ) {
+    window.console.log = function () /*args*/ {
       var args = [].slice.call(arguments);
       log.push(args);
       oldLog.apply(window.console, args);

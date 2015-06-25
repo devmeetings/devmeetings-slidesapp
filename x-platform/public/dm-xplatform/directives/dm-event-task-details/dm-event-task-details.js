@@ -25,7 +25,7 @@ class EventTaskDetails {
     return this.dmRanking.markAsDone(scope.currentIterationIdx, taskIdx, isDone, noOfTasks);
   }
 
-  getCurrentRanking() {
+  getCurrentRanking () {
     return this.dmRanking.getCurrentRankingForUser();
   }
 

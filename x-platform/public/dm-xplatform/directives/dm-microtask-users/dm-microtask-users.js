@@ -1,7 +1,10 @@
 /* globals define */
-define(['angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins',
+define([
+  '_', 'angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins',
   './dm-microtask-users.html!text', 'dm-xplatform/controllers/dm-xplatform-users/dm-xplatform-users.html!text',
-  'dm-xplatform/services/dm-tasks/dm-tasks'], function (angular, xplatformApp, sliderPlugins, viewTemplate, modalTemplate) {
+  'dm-xplatform/services/dm-tasks/dm-tasks'
+  ],
+  function (_, angular, xplatformApp, sliderPlugins, viewTemplate, modalTemplate) {
   sliderPlugins.registerPlugin('microtask', '*', 'microtask-users', 500).directive('microtaskUsers', [
     '$modal', 'dmTasks', function ($modal, dmTasks) {
       return {
@@ -12,7 +15,7 @@ define(['angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins',
         template: viewTemplate,
         link: function (scope, element) {
           scope.showUsers = function (users) {
-            var modalInstance = $modal.open({
+            $modal.open({
               template: modalTemplate,
               controller: 'dmXplatformUsers',
               size: 'sm',

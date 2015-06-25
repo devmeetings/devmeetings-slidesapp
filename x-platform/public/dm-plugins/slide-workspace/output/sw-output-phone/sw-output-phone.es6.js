@@ -15,7 +15,7 @@ sliderPlugins.directive('swOutputPhone', () => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller() {}
+    controller () {}
   };
 
 });

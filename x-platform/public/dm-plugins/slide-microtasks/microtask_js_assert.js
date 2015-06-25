@@ -10,7 +10,7 @@ define(['_', 'utils/Plugins', './evalAssertion'], function (_, Plugins, evalAsse
       name: taskData.hash
     });
 
-    listenPlugin('slide.slide-jsrunner.' + taskData.hash, function ( /*args*/ ) {
+    listenPlugin('slide.slide-jsrunner.' + taskData.hash, function () /*args*/ {
       if (task.completed) {
         return;
       }

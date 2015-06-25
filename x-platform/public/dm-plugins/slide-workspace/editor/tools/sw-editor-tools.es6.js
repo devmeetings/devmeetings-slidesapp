@@ -42,7 +42,7 @@ class SwEditorTools {
     self.isAutoReload = () => this.isAutoReload();
   }
 
-  isAutoReload() {
+  isAutoReload () {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
@@ -73,7 +73,7 @@ class SwEditorTools {
           file: file
         }).progress((evt) => {
           this.$scope.$apply(() => {
-            self.uploadingState = parseInt(100.0 * evt.loaded / evt.total);
+            self.uploadingState = parseInt(100.0 * evt.loaded / evt.total, 10);
           });
         }).success((data) => {
 

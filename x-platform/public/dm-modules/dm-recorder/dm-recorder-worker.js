@@ -11,7 +11,8 @@ let jsondiffpatch2 = jsondiffpatch.create({
 });
 
 class Common {
-  constructor() {
+
+  constructor () {
     this.state = null;
     this.clear();
   }
@@ -30,19 +31,19 @@ class Common {
     this.state.lastPatchOnServer = idPatch.slice(1).join('_');
   }
 
-  getId() {
+  getId () {
     return this.state.idOnServer;
   }
 
-  getLastPatch() {
+  getLastPatch () {
     return this.state.lastPatchOnServer;
   }
 
-  clear() {
+  clear () {
     this.state = {
       idOnServer: null,
       lastPatchOnServer: null,
-      current: {},
+      current: {}
     };
   }
 
