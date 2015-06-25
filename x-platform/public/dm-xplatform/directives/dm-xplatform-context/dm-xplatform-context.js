@@ -17,11 +17,11 @@ const names = {
 
 class ContextMenuDir {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope) {
+  link (scope) {
     scope.noEventMenu = true;
 
     function refreshEditMode () {
@@ -103,7 +103,7 @@ class ContextMenuDir {
     this.initNotifications(scope);
   }
 
-  initNotifications( $scope) {
+  initNotifications ($scope) {
     $scope.notifications = {};
     $scope.$on('event.questions.update', function () {
       $scope.notifications.unread = true;

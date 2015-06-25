@@ -8,16 +8,16 @@ import viewTemplate from './sw-editor-tools.html!text';
 
 class SwEditorTools {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller( self) {
+  controller (self) {
     this.initUploading(self);
     this.initTabFormatting(self);
   }
 
-  initTabFormatting( self) {
+  initTabFormatting (self) {
     this.$scope.$watch(() => self.activeTabName, (activeTabName) => {
       self.hasFormatting = formatter.hasFormattingForName(activeTabName);
     });
@@ -46,7 +46,7 @@ class SwEditorTools {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
-  setAutoReload( enabled) {
+  setAutoReload (enabled) {
     let perf = this.$rootScope.performance;
 
     if (enabled && !this.isAutoReload()) {
@@ -59,7 +59,7 @@ class SwEditorTools {
     }
   }
 
-  initUploading( self) {
+  initUploading (self) {
     self.onFileSelect = ($files) => {
       if (!this.$window.confirm('Uploading file will erase your current workspace. Continue?')) {
         return;

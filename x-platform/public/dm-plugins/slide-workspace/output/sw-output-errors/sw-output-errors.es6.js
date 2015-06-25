@@ -7,15 +7,15 @@ import viewTemplate from './sw-output-errors.html!text';
 
 class SwOutputErrors {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  reset( vm) {
+  reset (vm) {
     vm.errors = [];
   }
 
-  onError( vm, errors) {
+  onError (vm, errors) {
     vm.errors = errors;
   }
 
@@ -31,7 +31,7 @@ sliderPlugins.directive('swOutputErrors', () => {
     bindToController: true,
     controllerAs: 'vm',
     template: viewTemplate,
-    controller( $scope, $window) {
+    controller ($scope, $window) {
       let output = new SwOutputErrors({});
       let vm = this;
 

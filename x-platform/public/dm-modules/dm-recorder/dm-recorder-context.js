@@ -5,17 +5,17 @@ import _ from '_';
 
 class RecorderContext {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller( self) {
+  controller (self) {
     self.getRecorder = () => {
       return this.recorder;
     };
   }
 
-  createRecorder( workspaceId) {
+  createRecorder (workspaceId) {
     this.recorder = this.dmRecorder(workspaceId);
     this.recorder.workspaceId = workspaceId;
     return this.recorder;

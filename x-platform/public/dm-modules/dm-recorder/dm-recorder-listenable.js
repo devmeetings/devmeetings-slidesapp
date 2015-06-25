@@ -11,12 +11,12 @@ function newListenable () {
   };
 
   return {
-    trigger( evName, id) {
+    trigger (evName, id) {
       var list = listeners[evName];
       list.map(cb => cb(id));
     },
 
-    listen( evName, cb) {
+    listen (evName, cb) {
       listeners[evName].push(cb);
 
       return function removeListener () {

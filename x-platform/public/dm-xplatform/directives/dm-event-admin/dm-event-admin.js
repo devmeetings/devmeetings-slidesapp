@@ -7,7 +7,7 @@ import viewTemplate from './dm-event-admin.html!text';
 
 class EventAdmin {
 
-  link( scope) {}
+  link (scope) {}
 
 }
 

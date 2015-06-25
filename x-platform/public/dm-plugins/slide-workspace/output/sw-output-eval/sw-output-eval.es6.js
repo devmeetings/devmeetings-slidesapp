@@ -6,11 +6,11 @@ import _ from '_';
 
 class ShouldRefreshLogic {
 
-  shouldRefresh( patches) {
+  shouldRefresh (patches) {
     return _.any(patches, this.shouldRefreshSingle, this);
   }
 
-  shouldRefreshSingle( patch) {
+  shouldRefreshSingle (patch) {
     if (patch.current) {
       return true;
     }
@@ -38,11 +38,11 @@ class ShouldRefreshLogic {
 
 class SwOutputEvalFrontend {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller( scope) {
+  controller (scope) {
     this.dmPlayer.onSyncStarted(scope, (patches) => {
       if (!this.refreshLogic.shouldRefresh(patches)) {
         return;
@@ -72,11 +72,11 @@ class SwOutputEvalFrontend {
 
 class SwOutputEvalServer {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller( scope) {
+  controller (scope) {
     this.dmPlayer.onSyncStarted(scope, (patches) => {
       if (!this.refreshLogic.shouldRefresh(patches)) {
         return;

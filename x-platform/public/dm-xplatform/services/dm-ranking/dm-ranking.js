@@ -5,7 +5,7 @@ import _ from '_';
 class Ranking {
 
   // TODO [ToDr] This is shitty - taking eventId from $stateParams
-  constructor( Sockets, $q, dmUser, $stateParams, $rootScope) {
+  constructor (Sockets, $q, dmUser, $stateParams, $rootScope) {
     _.extend(this, {
     Sockets, $q, dmUser, $stateParams, $rootScope});
 
@@ -19,13 +19,13 @@ class Ranking {
     });
   }
 
-  onNewRanking( ranking) {
+  onNewRanking (ranking) {
     this.$rootScope.$apply(() => {
       this.currentRanking = ranking;
     });
   }
 
-  markAsDone( iterationIdx, taskIdx, isDone, noOfTasks) {
+  markAsDone (iterationIdx, taskIdx, isDone, noOfTasks) {
     var self = this;
     var d = this.$q.defer();
     this.Sockets.emit('ranking.done', {

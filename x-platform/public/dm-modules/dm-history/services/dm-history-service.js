@@ -5,7 +5,7 @@ import _ from '_';
 
 export class History {
 
-  constructor( dmRecorder, $http) {
+  constructor (dmRecorder, $http) {
     _.extend(this, {
     $http});
 
@@ -18,42 +18,42 @@ export class History {
     this.onNewWorkspace(workspaceId);
   }
 
-  getHistoryItem( id) {
+  getHistoryItem (id) {
     return _.find(this.history, function (item) {
       return item._id === id;
     });
   }
 
-  fetchWorkspaceHistory( id) {
+  fetchWorkspaceHistory (id) {
     return this.$http.get('/api/history/' + id).then((res) => {
       return res.data;
     });
   }
 
-  createRecordingFromHistory( eventId, sinceId, from, to) {
+  createRecordingFromHistory (eventId, sinceId, from, to) {
     return this.$http.post('/api/history/since/' + sinceId + '/recording/' + from + '/' + to + '/event/' + eventId).then((res) => {
       return res.data;
     });
   }
 
   // For player
-  fetchHistorySince( id) {
+  fetchHistorySince (id) {
     return this.$http.get('/api/history/since/' + id).then((res) => {
       return res.data;
     });
   }
 
-  setHistory( history) {
+  setHistory (history) {
     this.history = history;
   }
 
-  setPlayerState( playerState) {
+  setPlayerState (playerState) {
     this.historyPlayerState = playerState;
     return playerState;
   }
 
   // For recorder
-  onNewWorkspace( id) {
+  onNewWorkspace (id) {
     this.history = [];
     if (!id) {
       return;
@@ -63,7 +63,7 @@ export class History {
     });
   }
 
-  onNewState( id, patchId, current) {
+  onNewState (id, patchId, current) {
     let last = _.last(this.history);
     let lastId = last ? last._id : null;
     if (lastId === id) {

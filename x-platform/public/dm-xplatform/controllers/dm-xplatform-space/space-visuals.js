@@ -6,12 +6,12 @@ import _ from '_';
 
 class SpaceVisuals {
 
-  constructor( $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab) {
+  constructor ($state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab) {
     _.extend(this, {
     $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab});
   }
 
-  initFullScreen( $scope) {
+  initFullScreen ($scope) {
     $scope.changeFullScreen = (enable) => {
       if (!enable) {
         this.Fullscreen.cancel();
@@ -35,7 +35,7 @@ class SpaceVisuals {
     $scope.$on('$destroy', removeFullscreenHandler);
   }
 
-  initSidebars( $scope, localStorage) {
+  initSidebars ($scope, localStorage) {
     let $timeout = this.$timeout;
 
     $scope.left = {
@@ -126,7 +126,7 @@ class SpaceVisuals {
     });
   }
 
-  initLocationWatching( $scope) {
+  initLocationWatching ($scope) {
     $scope.currentLocation = this.$location;
     $scope.$watch('currentLocation.$$absUrl', () => {
       $scope.activeIteration = this.$state.params.iteration;
@@ -134,7 +134,7 @@ class SpaceVisuals {
     });
   }
 
-  initialize( $scope, $window) {
+  initialize ($scope, $window) {
     this.initFullScreen($scope);
     this.initSidebars($scope, $window.localStorage);
     this.initLocationWatching($scope);

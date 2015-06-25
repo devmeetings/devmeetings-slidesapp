@@ -7,7 +7,7 @@ import viewTemplate from './sw-output-console.html!text';
 
 class OutputConsole {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 

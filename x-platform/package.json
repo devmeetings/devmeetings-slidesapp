@@ -100,7 +100,8 @@
       "public/cdn/**",
       "public/jspm_packages/**",
       "public/components/**",
-      "app/plugins/slide-ionic-download/app/**"
+      "app/plugins/slide-ionic-download/app/**",
+      "public/jspm.config.js"
     ]
   },
   "jspm": {

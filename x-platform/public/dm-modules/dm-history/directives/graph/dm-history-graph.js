@@ -6,11 +6,11 @@ import viewTemplate from './dm-history-graph.html!text';
 
 class DmHistoryGraph {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope) {
+  link (scope) {
     let that = this;
     scope.$watch('recorder', (rec) => {
       if (!rec) {

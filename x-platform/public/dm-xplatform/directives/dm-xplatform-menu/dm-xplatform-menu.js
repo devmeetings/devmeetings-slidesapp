@@ -10,11 +10,11 @@ import viewTemplate from './dm-xplatform-menu.html!text';
 
 class MenuDir {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope) {
+  link (scope) {
     scope.stateIncludes = (name) => this.$state.includes(name);
 
   }

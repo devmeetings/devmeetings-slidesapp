@@ -13,12 +13,12 @@ let hasFormatting = {
 
 class Formatter {
 
-  hasFormattingForName( tabName) {
+  hasFormattingForName (tabName) {
     let ext = getExtension(tabName);
     return hasFormatting[ext];
   }
 
-  format( tabName, tabContent, callback) {
+  format (tabName, tabContent, callback) {
     let ext = getExtension(tabName);
     let formatter = hasFormatting[ext];
     System.import('js-beautify/beautify-' + formatter).then((jsBeautify) => {

@@ -8,11 +8,11 @@ import viewTemplate from './dm-ranking.html!text';
 
 class RankingDir {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope) {
+  link (scope) {
     this.dmRanking.getCurrentRanking();
     scope.rankingService = this.dmRanking;
 

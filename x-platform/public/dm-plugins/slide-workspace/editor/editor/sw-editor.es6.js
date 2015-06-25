@@ -8,11 +8,11 @@ import viewTemplate from './sw-editor.html!text';
 
 class SwEditor {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller( self) {
+  controller (self) {
     self.isWithTabs = () => {
       return self.withTabs && self.withTools || self.withTabs && self.atLeastTwoFilteredTabs;
     };
@@ -67,7 +67,7 @@ class SwEditor {
 
   }
 
-  updateFilteredTabs( self) {
+  updateFilteredTabs (self) {
     self.filteredTabs = this.getFilteredTabs(self.withFilePattern, self.tabs);
     self.atLeastTwoFilteredTabs = Object.keys(self.filteredTabs).length > 1;
 
@@ -76,7 +76,7 @@ class SwEditor {
     }
   }
 
-  patternToRegex( pattern) {
+  patternToRegex (pattern) {
     let p = pattern
       .replace(/\|/g, '\\|')
       .replace(/\*\*/g, '.+')
@@ -85,7 +85,7 @@ class SwEditor {
     return new RegExp('^' + p + '$', 'ig');
   }
 
-  getFilteredTabs( pattern, tabs) {
+  getFilteredTabs (pattern, tabs) {
     if (!pattern) {
       return tabs;
     }
@@ -99,7 +99,7 @@ class SwEditor {
     }, {});
   }
 
-  refreshActiveTab( self) {
+  refreshActiveTab (self) {
     // Refresh active tab
     self.editorActiveTab = self.tabs[self.editorActiveTabName];
   }

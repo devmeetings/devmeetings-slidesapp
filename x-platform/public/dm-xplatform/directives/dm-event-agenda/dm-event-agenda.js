@@ -9,11 +9,11 @@ import viewTemplate from './dm-event-agenda.html!text';
 
 class EventAgenda {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope) {
+  link (scope) {
     let $state = this.$state;
     let $stateParams = this.$stateParams;
 
@@ -92,7 +92,7 @@ class EventAgenda {
     this.initTaskDetails(scope);
   }
 
-  initTaskDetails( scope) {
+  initTaskDetails (scope) {
     scope.ranking = this.dmRanking;
     scope.$watch('ranking.currentRanking', () => {
       this.dmRanking.getCurrentRankingForUser().then(function (ranking) {
@@ -128,7 +128,7 @@ xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEve
       userWorkspaceId: '='
     },
     template: viewTemplate,
-    link( scope, element) {
+    link (scope, element) {
       let eventMenu = new EventAgenda({
       $rootScope, $stateParams, $state, dmEvents, dmRanking});
       eventMenu.link(scope, element);

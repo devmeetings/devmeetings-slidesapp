@@ -8,11 +8,11 @@ import viewTemplate from './dm-event-users.html!text';
 
 class EventUsers {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( $scope) {
+  link ($scope) {
     // Listen to users inside event
     $scope.$watch('event._id', (eventId) => {
       if (!eventId) {
@@ -95,7 +95,7 @@ xplatformApp.directive('dmEventUsers', (dmEvents, dmEventLive) => {
       opened: '='
     },
     template: viewTemplate,
-    link( scope, element) {
+    link (scope, element) {
       let eventMenu = new EventUsers({
       dmEvents, dmEventLive});
       eventMenu.link(scope, element);

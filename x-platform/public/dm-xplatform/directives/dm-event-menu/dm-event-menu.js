@@ -8,11 +8,11 @@ import viewTemplate from './dm-event-menu.html!text';
 
 class EventMenu {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope, element) {
+  link (scope, element) {
     scope.iteration = {
       active: {},
       currentIdx: 0,
@@ -53,7 +53,7 @@ class EventMenu {
     this.rankingForwarder(scope, element);
   }
 
-  markAsDone( scope, taskIdx, isDone, noOfTasks) {
+  markAsDone (scope, taskIdx, isDone, noOfTasks) {
     return this.dmRanking.markAsDone(scope.iteration.currentIdx, taskIdx, isDone, noOfTasks);
   }
 
@@ -61,7 +61,7 @@ class EventMenu {
     return this.dmRanking.getCurrentRankingForUser();
   }
 
-  rankingForwarder( scope, element) {
+  rankingForwarder (scope, element) {
     var self = this;
 
     function onWindowMessage (msg) {

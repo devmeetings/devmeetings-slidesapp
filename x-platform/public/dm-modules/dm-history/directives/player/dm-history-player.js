@@ -7,11 +7,11 @@ import viewTemplate from './dm-history-player.html!text';
 
 class DmHistoryPlayer {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link( scope) {
+  link (scope) {
     scope.mode = 'player';
     scope.state = {};
     scope.annotations = [];

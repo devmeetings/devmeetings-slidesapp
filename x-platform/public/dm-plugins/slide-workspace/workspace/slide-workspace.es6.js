@@ -8,7 +8,7 @@ import viewTemplate from './slide-workspace.html!text';
 
 class SwMain {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
@@ -16,7 +16,7 @@ class SwMain {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
-  controller( self) {
+  controller (self) {
     self.output = {};
     let defaultLayout = {
       name: 'tabs',
@@ -188,7 +188,7 @@ sliderPlugins
       bindToController: true,
       controllerAs: 'model',
       template: viewTemplate,
-      controller( $scope) {
+      controller ($scope) {
         let sw = new SwMain({
         $rootScope, $scope, $timeout});
         sw.controller(this);

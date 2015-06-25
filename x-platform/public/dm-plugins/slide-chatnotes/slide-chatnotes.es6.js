@@ -7,11 +7,11 @@ import viewTemplate from './slide-chatnotes.html!text';
 
 class ChatNotes {
 
-  constructor( data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller( vm) {
+  controller (vm) {
     vm.addNote = () => {
       vm.notes.notes.push(vm.notes.current);
       vm.notes.current = '';
@@ -25,7 +25,7 @@ class ChatNotes {
     return 5;
   }
 
-  getCurrentLimit( isShowingAll) {
+  getCurrentLimit (isShowingAll) {
     if (isShowingAll) {
       return Infinity;
     }
@@ -68,7 +68,7 @@ sliderPlugins
       bindToController: true,
       controllerAs: 'model',
       template: viewTemplate,
-      controller( $scope) {
+      controller ($scope) {
         let sw = new ChatNotes({
         $rootScope, $scope, $timeout});
         sw.controller(this);
