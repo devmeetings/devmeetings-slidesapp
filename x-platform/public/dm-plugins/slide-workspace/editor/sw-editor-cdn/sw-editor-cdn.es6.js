@@ -25,22 +25,22 @@ sliderPlugins.directive('swEditorCdn', () => {
       self.libraries = [
         { 
           'name':'jQuery',
-          'source':'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+          'source':'/cdn/jquery/2.1.4/jquery.min.js',
           'tag_category':'script'
         },
         { 
           'name':'AngularJS',
-          'source':'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js',
+          'source':'/cdn/angular.js/1.3.14/angular.js',
           'tag_category':'script'
         },
         { 
           'name':'Bootstrap (JS)',
-          'source':'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js',
+          'source':'/cdn/bootstrap/3.3.5/js/bootstrap.js',
           'tag_category':'script'
         },
         { 
           'name':'Bootstrap (CSS)',
-          'source':'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css',
+          'source':'/cdn/bootstrap/3.3.5/css/bootstrap.min.css',
           'tag_category':'link'
         }
       ];
