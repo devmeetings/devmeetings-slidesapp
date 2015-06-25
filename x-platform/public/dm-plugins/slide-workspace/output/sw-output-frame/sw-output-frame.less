@@ -4,3 +4,41 @@
     padding-top: 20%;
   }
 }
+
+
+
+.sw-output-frame {   
+
+  .progress {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    border-radius: 0;
+    z-index: 15;
+    opacity: 0.0;
+    transition: opacity .2s ease-out;
+      
+    &.is-visible {
+      opacity: 1.0;
+    }
+
+    .progress-bar {
+      z-index: 1;
+    	left: 0;
+      transition: width 1s ease;
+    }
+  }
+
+  .iframe-fiddle-output {
+    opacity: 0;
+    z-index: 5;
+    transition: opacity .15s linear;
+    transition-delay: .2s;
+
+    &.is-active {
+      z-index: 10;
+      opacity: 1.0;
+      transition-delay: 0;
+    }
+  }
+}

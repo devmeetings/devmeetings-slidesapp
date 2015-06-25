@@ -7,19 +7,33 @@ mixin frameWithAddress()
       hide-base-url="model.hideBaseUrl"
       current-path="model.currentPath"
       applied-path="model.appliedPath"
+      workspace-id="model.workspaceId"
     )
+    sw-ionic-download(
+        ng-if="model.workspaceId && model.withIonic"
+        workspace-id="model.workspaceId"
+        current-path="model.currentPath"
+      )
 
-  sw-output-frame(
-      base-url="model.baseUrl"
-      with-address="model.withAddress"
-      current-url="model.currentUrl"
-      is-dead="model.isDead"
+  .full-height(
+      ng-class="{'with-address': model.withAddress}"
     )
+    sw-output-phone(
+        with-phone="model.withIonic"
+      )
+      sw-output-frame(
+          base-url="model.baseUrl"
+          current-url="model.currentUrl"
+          is-dead="model.isDead"
+        )
+    sw-output-errors(
+        current-url="model.currentUrl"
+      )
 
 mixin console()
   sw-output-console.full-height
 
-.full-height
+.sw-output.full-height
   .full-height(ng-if="!model.withConsole")
     +frameWithAddress
   .full-height(ng-if="model.withConsole && !model.withConsoleInColumns")

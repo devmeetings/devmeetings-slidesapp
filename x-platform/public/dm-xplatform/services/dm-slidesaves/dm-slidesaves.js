@@ -28,12 +28,13 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
                
                 return result.promise;
             },
-            saveModified: function (myId, stateId) {
+            saveModified: function (myId, stateId, shouldRefreshPage) {
                 var result = $q.defer();
 
                 Sockets.emit('slidesaves.save', {
                     slide: myId,
-                    stateId: stateId
+                    stateId: stateId,
+                    shouldRefreshPage: shouldRefreshPage
                 }, function(res){
                     result.resolve(res);
                 });

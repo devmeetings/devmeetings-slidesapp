@@ -1,6 +1,6 @@
 define([
-  '_',
-  'dm-xplayer/dm-xplayer-app',
+    '_',
+    'dm-xplayer/dm-xplayer-app',
 ], function(_, xplayerApp) {
   'use strict';
 
@@ -26,6 +26,12 @@ define([
             });
           };
 
+          $scope.playNext = function() {
+            var state =$scope.state;
+            state.currentSecond += 0.001;
+            state.isPlaying = !state.isPlaying;
+          };
+
           var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 50.0, 100.0];
           $scope.$watch('audioUrl', function(audioUrl) {
             $scope.withVoice = !!audioUrl;
@@ -34,6 +40,12 @@ define([
           function getNextRateIndex(nextRate) {
             return (nextRate + 1) % rates.length;
           }
+
+          $scope.$watch('state.currentSecond', function(sec) {
+            if (sec >= $scope.state.max) {
+              $scope.onEnd();
+            } 
+          });
 
           $scope.$watch('state.rate', function(rate) {
             if (rate) {
@@ -45,7 +57,7 @@ define([
             if ($scope.withVoice) {
               $scope.setRate(1.0);
             } else {
-              $scope.setRate(15.0);
+              $scope.setRate(7.5);
             }
 
           });

@@ -1,8 +1,9 @@
-define(['angular', 'dm-xplatform/xplatform-app', '_',
-  'dm-xplatform/services/dm-events/dm-events'
-], function(angular, xplatformApp, _) {
+define(['angular', 'xplatform/xplatform-app', '_',
+  'xplatform/services/dm-events/dm-events',
+  'dm-modules/dm-keys/keysListener.es6'
+], function(angular, xplatformApp, _, dmEvents, keysListener) {
   'use strict';
-  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, dmIntro, $modal) {
+  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {
 
 
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
@@ -14,12 +15,7 @@ define(['angular', 'dm-xplatform/xplatform-app', '_',
 
     $scope.withVoice = $stateParams.withVoice;
 
-    $scope.keys.keyUp = function(event) {
-      if (event.keyCode !== 32 || event.target.type === 'textarea') {
-        return;
-      }
-      $scope.state.isPlaying = !$scope.state.isPlaying;
-    };
+    $scope.keys.keyUp = keysListener($scope);
 
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {
@@ -34,15 +30,23 @@ define(['angular', 'dm-xplatform/xplatform-app', '_',
 
       dmBrowserTab.setTitleAndIcon(material.title + ' - ' + data.title, 'movie')
         .withBadge(1 + parseInt($stateParams.iteration, 10));
-
-      return dmRecordings.preparePlayerForRecording($scope.recorder, material.material);
-    }).then(function(recording) {
-      $scope.recording = recording.recording;
-      $scope.state.rate = recording.recording.original.playbackRate;
-      $scope.state.max = recording.max;
-
-      dmIntro.startIfFirstTime('recording', '.dm-xplatform-player');
     });
+
+    $scope.$watch('recorderPlayer', updatePlayerForRecording);
+    $scope.$watch('currentMaterial', updatePlayerForRecording);
+
+
+    function updatePlayerForRecording() {
+      if (!$scope.recorderPlayer || !$scope.currentMaterial) {
+        return;
+      }
+
+      dmRecordings.preparePlayerForRecording($scope.recorderPlayer, $scope.currentMaterial.material).then(function(recording) {
+        $scope.recording = recording.recording;
+        $scope.state.rate = recording.recording.original.playbackRate;
+        $scope.state.max = recording.max;
+      });
+    }
 
     function fetchAnnotations() {
       dmEvents.getEventAnnotations($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(annotations) {
@@ -78,7 +82,7 @@ define(['angular', 'dm-xplatform/xplatform-app', '_',
       $modal.open({
         templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
         controller: 'dmXplatformPlayerFinishModal',
-        size: 'sm',
+        size: 'md',
         resolve: {
           event: fromScope('event'),
           currentIteration: fromScope('currentIteration'),

@@ -58,13 +58,7 @@ define([
         $scope.user = user;
         return dmEvents.userEvents(user.result._id);
       }).then(function(userEvents) {
-        $scope.my_courses = userEvents.map(function(evId) {
-          return _.find(events, {
-            _id: evId
-          });
-        }).filter(function(event) {
-          return !!event;
-        });
+        $scope.my_courses = userEvents;
       });
     });
 
@@ -73,7 +67,7 @@ define([
     };
 
     $scope.visibilityChanged = function(event) {
-      dmEvents.changeEventVisibility(event._id, event.visible);
+      dmEvents.changeEventVisibility(event.realId || event._id, event.visible);
     };
 
     $scope.remove = function(event) {

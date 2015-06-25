@@ -9,7 +9,17 @@ import {dmHistoryPlayer} from './directives/player/dm-history-player';
 
 let mod = angular.module('dm-history', ['dm-recorder']);
 mod.factory('dmHistory', ($http)=>{
-  return (dmRecorder) => new History(dmRecorder, $http);
+  let map = new WeakMap();
+
+  return (dmRecorder) => {
+    if (map.has(dmRecorder)) {
+      return map.get(dmRecorder);
+    }
+
+    let history = new History(dmRecorder, $http);
+    map.set(dmRecorder, history);
+    return history;
+  };
 });
 
 mod.directive('dmHistoryGraph', dmHistoryGraph);

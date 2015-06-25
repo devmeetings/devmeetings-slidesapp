@@ -23,21 +23,28 @@ class ContextMenuDir {
   link(scope) {
     scope.noEventMenu = true;
 
-    scope.$watch('isEditMode', (isEditMode) => {
+    function refreshEditMode() {
+      var isEditMode = scope.isEditMode;
       if (!scope.display) {
         return;
       }
       var w = scope.with;
-      if (isEditMode) {
+      if (isEditMode && w.indexOf('admin') === -1) {
         w.unshift('admin');
-      } else {
+        return;
+      }
+
+      if (!isEditMode) {
         var idx = w.indexOf('admin');
         if (idx > -1) {
           w.splice(idx, 1);
         }
         scope.display.active = w[0];
       }
-    });
+    }
+
+    scope.$watch('isEditMode', refreshEditMode);
+    scope.$watch('display', refreshEditMode);
 
     scope.$watchCollection('with', (what) => {
       what = what || ['chat'];
@@ -103,29 +110,29 @@ class ContextMenuDir {
     });
   }
 
-}
+  }
 
 
-xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
+  xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
 
 
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      with: '=?',
-      event: '=',
-      user: '=',
-      opened: '=',
-      isEditMode: '=?'
-    },
-    templateUrl: '/static/dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context.html',
-    link: (scope) => {
-      let contextMenu = new ContextMenuDir({
-        $stateParams, $window
-      });
-      contextMenu.link(scope);
-    }
-  };
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {
+        with: '=?',
+        event: '=',
+        user: '=',
+        opened: '=',
+        isEditMode: '=?'
+      },
+      templateUrl: '/static/dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context.html',
+      link: (scope) => {
+        let contextMenu = new ContextMenuDir({
+            $stateParams, $window
+        });
+        contextMenu.link(scope);
+      }
+    };
 
-});
+  });

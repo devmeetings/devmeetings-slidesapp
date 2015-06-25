@@ -1,4 +1,4 @@
-.form-group.workspace-address(
+.form-group.workspace-address.sw-output-address(
   ng-show="model.withAddress"
 )
   .input-group
@@ -6,6 +6,10 @@
       button.btn(
           ng-class="{'btn-success': model.highlightRefresh, 'btn-def': !model.hightlightRefresh}",
           ng-click="model.onRefresh()"
+          tooltip="Refresh Current Page"
+          tooltip-animation="false"
+          tooltip-placement="bottom"
+          tooltip-append-to-body="true"
         )
         span.fa.fa-refresh
     .form-control.address-bar
@@ -16,13 +20,45 @@
           ng-keypress="model.urlKeyPress($event)",
           ng-blur="model.appliedPath = model.currentPath"
         )
+    .input-group-btn(
+      ng-if="model.workspaceId"
+      )
+      a.btn(
+        tooltip="Open Preview In New Window"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        ng-href="{{ model.getWorkspaceAddress() }}"
+        target="_blank"
+        analytics-event="workspace-newWindow"
+        analytics-category="workspace"
+        )
+            span.fa.fa-external-link
+    .input-group-btn(
+      ng-if="model.workspaceId"
+      )
+      a.btn(
+        ng-click="model.openQrDialog(model.getFullWorkspaceAddress())"
+        tooltip="Display QRCode to open page on your device"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        analytics-event="workspace-qrcode"
+        analytics-category="workspace"
+        )
+            span.fa.fa-qrcode
+    .input-group-btn(ng-transclude)
     .input-group-btn
       a.btn(
-        title="Open Your Page in New Window",
-        ng-href="{{ model.baseUrl + model.currentPath }}", 
-        target="_blank", 
-        analytics-event="workspace-newWindow",
-        analytics-category="workspace")
-            span.fa.fa-external-link
+        tooltip="Get Permanent URL For Current Workspace"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        ng-href="{{ model.baseUrl + model.currentPath }}"
+        target="_blank"
+        analytics-event="workspace-permaUrl"
+        analytics-category="workspace"
+        )
+            span.fa.fa-link
 
 

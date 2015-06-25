@@ -4,6 +4,7 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
+import throttle from '../../throttle.es6';
 
 
 class SwEditor {
@@ -13,6 +14,10 @@ class SwEditor {
   }
 
   controller(self) {
+
+    self.isWithTabs = ()=>{
+      return self.withTabs && self.withTools || self.withTabs && self.atLeastTwoFilteredTabs;
+    };
 
     this.$watch(() => self.withFilePattern, () => {
       this.updateFilteredTabs(self);
@@ -58,7 +63,7 @@ class SwEditor {
 
     self.localOnNewWorkspace = (workspace) => {
       self.onNewWorkspace({
-        workspace: workspace
+          workspace: workspace
       });
       this.refreshActiveTab(self);
     };
@@ -76,10 +81,10 @@ class SwEditor {
 
   patternToRegex(pattern) {
     let p = pattern
-      .replace(/\|/g, '\\|')
-      .replace(/\*\*/g, '.+')
-      .replace(/\*/g, '([^|]+)')
-      .replace(/\./g, '\\|');
+    .replace(/\|/g, '\\|')
+    .replace(/\*\*/g, '.+')
+    .replace(/\*/g, '([^|]+)')
+    .replace(/\./g, '\\|');
     return new RegExp('^' + p + '$', 'ig');
   }
 
@@ -92,8 +97,8 @@ class SwEditor {
     return Object.keys(tabs).filter((tabName) => {
       return tabName.match(regex);
     }).reduce((filteredTabs, tabName) => {
-      filteredTabs[tabName] = tabs[tabName];
-      return filteredTabs;
+    filteredTabs[tabName] = tabs[tabName];
+    return filteredTabs;
     }, {});
   }
 
@@ -124,9 +129,12 @@ sliderPlugins.directive('swEditor', () => {
       withToolsUrl: '=',
       withFilePattern: '=',
 
+
+      showUrl: '=',
+      hideOutput: '=',
+
       currentUrl: '=',
       downloadId: '=',
-      showUrl: '=',
       tabs: '=',
       globalActiveTabName: '=',
       editorOptions: '=',
@@ -142,9 +150,14 @@ sliderPlugins.directive('swEditor', () => {
     templateUrl: '/static/dm-plugins/slide-workspace/editor/editor/sw-editor.html',
     controller: function($scope) {
       let editor = new SwEditor({
-        $scope
+          $scope
       });
       editor.controller(this);
+
+      let vm = this;
+      vm.onChangeLater = throttle($scope, () => { 
+        vm.onChange();
+      }, 6000);
     }
   };
 

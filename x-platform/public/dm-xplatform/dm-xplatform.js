@@ -441,6 +441,17 @@ define(['angular',
         }
       });
 
+      $stateProvider.state('index.space.trainer.history', {
+        url: '/history/:historyId',
+        views: {
+          content: {
+            templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-history/dm-xplatform-history.html',
+            controller: 'dmXplatformHistory'
+          },
+          context: contextMenu(['history', 'notes'])
+        }
+      });
+
       $stateProvider.state('index.space.trainer.watch', {
         url: '/watch/:slide',
         views: {

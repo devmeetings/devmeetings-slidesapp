@@ -2,6 +2,7 @@
 'use strict';
 
 import _ from '_';
+import keysListener from 'es6!dm-modules/dm-keys/keysListener.es6';
 
 
 class DmHistoryPlayer {
@@ -16,16 +17,18 @@ class DmHistoryPlayer {
     scope.annotations = [];
 
     scope.$watch('historyId', updatePlayer);
-    scope.$watch('recorder', updatePlayer);
+    scope.$watch('recorderHistory', updatePlayer);
 
     let self = this;
 
     function updatePlayer() {
-      if (!scope.historyId || !scope.recorder) {
+      if (!scope.historyId || !scope.recorderHistory) {
         return;
       }
       let historyId = scope.historyId;
-      let historyService = self.dmHistory(scope.recorder);
+      let historyService = self.dmHistory(scope.recorderHistory);
+      // TODO [ToDr] $rootScope!
+      self.$rootScope.recorder = scope.recorderHistory;
       historyService.fetchHistorySince(historyId).then((history) => {
         var currentHist = history.recording;
         // Player
@@ -50,6 +53,8 @@ class DmHistoryPlayer {
           rate: 40,
           max: _.last(currentHist.patches).timestamp / 1000
         });
+
+        scope.keys.keyUp = keysListener(scope);
       });
     }
   }
@@ -57,17 +62,18 @@ class DmHistoryPlayer {
 }
 
 
-export function dmHistoryPlayer(dmHistory, dmPlayer, $timeout) {
+export function dmHistoryPlayer(dmHistory, dmPlayer, $rootScope, $timeout) {
 
   let history = new DmHistoryPlayer({
-    dmHistory, dmPlayer, $timeout
+    dmHistory, dmPlayer, $rootScope, $timeout
   });
 
   return {
     restrict: 'E',
     scope: {
       historyId: '=',
-      eventId: '='
+      eventId: '=',
+      keys: '='
     },
     templateUrl: '/static/dm-modules/dm-history/directives/player/dm-history-player.html',
     link: history.link.bind(history)

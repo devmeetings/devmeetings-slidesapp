@@ -9,8 +9,7 @@ define([
       return {
         restrict: 'E',
         scope: {
-          state: '=',
-          onEnd: '&'
+          state: '='
         },
         templateUrl: '/static/dm-xplayer/directives/dm-xplayer-ticker/dm-xplayer-ticker.html',
 
@@ -31,7 +30,6 @@ define([
           function playerTick() {
             if ($scope.state.currentSecond > $scope.state.max) {
               $scope.state.isPlaying = false;
-              $scope.onEnd();
             }
 
             if (!$scope.state.isPlaying) {
@@ -40,6 +38,15 @@ define([
 
             var s = $scope.state.currentSecond;
             $scope.state.currentSecond = s + jump;
+
+            if ($scope.state.playTo && $scope.state.currentSecond >= $scope.state.playTo) {
+              $scope.state.isPlaying = false;
+              // Override current Second
+              $scope.state.currentSecond = $scope.state.playTo;
+              // And Set New PlayTo
+              $scope.state.playTo = $scope.state.nextPlayTo;
+              return;
+            }
 
             setTimeout(function() {
               // Digest all changes before continuing

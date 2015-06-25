@@ -41,16 +41,24 @@ function decrypt(val) {
 
 var onDone = function() {};
 
+var eventFields = 'title pin description image order visible shouldRedirectToUnsafe';
 var Events = {
   all: function(req, res) {
     Q.when(Event.find({
       removed: {
         $ne: true
       }
-    }).select('title pin description image order visible shouldRedirectToUnsafe').lean().exec()).then(function(events) {
+    }).select(eventFields).lean().exec()).then(function(events) {
       events.map(function(event) {
         if (!event.pin) {
           return;
+        }
+
+        if (req.user && req.user.acl.indexOf('admin:events') > -1) {
+          var realPin = event.pin;
+          var realId = event._id;
+          event.realPin = realPin;
+          event.realId = realId;
         }
 
         event.pin = asSha1(event.pin);
@@ -90,16 +98,33 @@ var Events = {
       }, []).map(function(e) {
         return e.toString();
       }));
-      res.send(eventsIds);
+
+      return Q.when(Event.find({
+        removed: {
+          $ne: true
+        },
+        _id: {
+          $in: eventsIds
+        }
+      }).select(eventFields).lean().exec()).then(function(userEvents){
+        res.send(userEvents);
+      });
     }).fail(onError(res));
   },
 
   get: function(req, res) {
     var id = req.params.id;
+    var withAnnotations = req.query.withAnnotations;
 
-    Q.when(Event.findOne({
+    var query = Event.findOne({
       _id: id
-    }).lean().exec()).then(function(event) {
+    }).lean();
+
+    if (withAnnotations) {
+      query = query.populate('iterations.materials.annotations');
+    }
+
+    Q.when(query.exec()).then(function(event) {
       yamlReply(req, res, event, function(event) {
         function removeIdsAndConvertTypes(obj) {
           Object.keys(obj).map(function(name) {

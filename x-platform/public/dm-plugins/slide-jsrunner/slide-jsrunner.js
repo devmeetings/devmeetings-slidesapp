@@ -68,7 +68,18 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee'], function(m
         'coffee': coffeeRunner
     };
 
-    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', 5000).directive('slideJsrunner', [
+    sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', {
+      name: 'JSRunner',
+      description: 'Evaluates JS code from `code` plugin in clients browser. It is possible to preprocess data (coffee) before executing',
+      example: {
+        meta: {
+          type: 'string/bool',
+          help: 'true - run js, "coffee" - run CoffeeScript'
+        },
+        data: true
+      },
+      order: 5000
+    }).directive('slideJsrunner', [
 
         function() {
             return {
@@ -88,11 +99,13 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee'], function(m
                         var code = codeEditor.getValue();
 
                         if (compilers[scope.jsrunner]) {
+                          compilers[scope.jsrunner].get(function(compiler){
                             try {
-                                code = compilers[scope.jsrunner].compileToJs(code);
+                                code = compiler(code);
                             } catch (e) {
-                                setErrors("Compilation error: " + e);
+                                setErrors('Compilation error: ' + e);
                             }
+                          });
                         }
 
                         var errors = evalJsCode(code);

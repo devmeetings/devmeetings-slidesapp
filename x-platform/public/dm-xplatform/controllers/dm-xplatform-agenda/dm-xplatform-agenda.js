@@ -3,9 +3,8 @@
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
 
-function agendaCtrl($scope, $state, $stateParams, $location, dmBrowserTab, dmEvents, dmIntro) {
+function agendaCtrl($scope, $state, $stateParams, $location, dmBrowserTab, dmEvents) {
   dmBrowserTab.setTitleAndIcon('Agenda', 'slide');
-  dmIntro.startIfFirstTime('agenda');
 
   var port = $location.port();
   port = port !== 443 && port !== 80 ? ':' + port : '';

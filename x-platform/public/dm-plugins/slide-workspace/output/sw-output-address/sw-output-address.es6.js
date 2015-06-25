@@ -4,8 +4,11 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 
+function ModalCtrl($scope, address) {
+  $scope.address = address;
+}
 
-sliderPlugins.directive('swOutputAddress', () => {
+sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
 
   return {
     restrict: 'E',
@@ -17,8 +20,10 @@ sliderPlugins.directive('swOutputAddress', () => {
       hideBaseUrl: '=',
       baseUrl: '=',
       currentPath: '=',
-      appliedPath: '='
+      appliedPath: '=',
+      workspaceId: '='
     },
+    transclude: true,
     bindToController: true,
     controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-address/sw-output-address.html',
@@ -33,6 +38,20 @@ sliderPlugins.directive('swOutputAddress', () => {
           return;
         }
         scope.appliedPath = scope.currentPath;
+      };
+
+      scope.getWorkspaceAddress = () => swLivereloadAddress.getAddress(scope.workspaceId, scope.currentPath);
+      scope.getFullWorkspaceAddress = () => swLivereloadAddress.getFullAddress(scope.workspaceId, scope.currentPath);
+
+      scope.openQrDialog = (url) => {
+        $modal.open({
+          templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-address/qrcode.html',
+          controller: ModalCtrl,
+          size: 'md',
+          resolve: {
+            address: () => url
+          }
+        });
       };
     }
   };

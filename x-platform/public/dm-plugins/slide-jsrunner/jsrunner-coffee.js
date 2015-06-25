@@ -1,10 +1,13 @@
-define(['_', 'coffee-script'], function(_, coffee) {
-
-    return {
-        compileToJs: function(code) {
-            return coffee.compile(code, {
-                bare: true
-            });
-        }
-    };
+define(['_', 'require'], function(_, require) {
+  return {
+    get: function(invoke) {
+      require(['coffee'], function(coffee) {
+        invoke(function(code) {
+          return coffee.compile(code, {
+            bare: true
+          });
+        });
+      });
+    }
+  };
 });

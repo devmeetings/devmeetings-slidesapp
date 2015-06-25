@@ -64,8 +64,10 @@
   sudo: yes
   sudo_user: xplatform
   environment:
+    ANDROID_HOME: "/opt/android-sdk/sdk"
     NODE_ENV: "{{server_env}}"
     PORT: "{{server_port}}"
+    LIVERELOAD_PORT: "{{livereload_port}}"
     REALM_URL: "https://{{server_domain}}"
 
 - name: Register keymetrics

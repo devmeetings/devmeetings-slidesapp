@@ -29,8 +29,13 @@ class SwEditorTools {
       if (!self.hasFormatting) {
         return;
       }
-      self.activeTab.content = formatter.format(self.activeTabName, self.activeTab.content);
-      self.onRefreshContent();
+
+      formatter.format(self.activeTabName, self.activeTab.content, (newContent) => {
+        this.$scope.$apply(() => {
+          self.activeTab.content = newContent;
+          self.onRefreshContent();
+        });
+      });
     };
 
     self.toggleAutoReload = () => {
@@ -67,15 +72,15 @@ class SwEditorTools {
       //$files: an array of files selected, each file has name, size, and type.
       self.isUploading = true;
       self.uploadingState = 0;
-      $files.forEach(function(file) {
+      $files.forEach((file) => {
         this.$upload.upload({
           url: '/api/upload',
           file: file
-        }).progress(function(evt) {
+        }).progress((evt) => {
           this.$scope.$apply(() => {
             self.uploadingState = parseInt(100.0 * evt.loaded / evt.total);
           });
-        }).success(function(data) {
+        }).success((data) => {
 
           self.isUploading = false;
           // override workspace
@@ -106,6 +111,8 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
     scope: {
       withUrlButton: '=',
       showUrl: '=',
+      hideOutput: '=',
+
       currentUrl: '=',
       downloadId: '=',
       activeTab: '=',
@@ -121,7 +128,7 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
         $scope, $rootScope, $window, $upload
       });
       tools.controller(this);
+
     }
   };
-
 });

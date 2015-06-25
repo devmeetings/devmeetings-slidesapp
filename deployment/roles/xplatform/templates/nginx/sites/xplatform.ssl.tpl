@@ -7,9 +7,18 @@ proxy_cache_path /var/cache/nginx/{{server_domain}}/two keys_zone={{server_short
 upstream xpla_{{server_short}} {
   ip_hash;
 
-{% for n in range(server_cluster) %}
+  {% for n in range(server_cluster) %}
   server localhost:{{server_port + n}};
-{% endfor %}
+  {% endfor %}
+
+  keepalive 32;
+}
+upstream xpla_livereload_{{server_short}} {
+  ip_hash;
+
+  {% for n in range(server_cluster) %}
+  server localhost:{{livereload_port + n}};
+  {% endfor %}
 
   keepalive 32;
 }
@@ -17,7 +26,7 @@ upstream xpla_{{server_short}} {
 server {
   listen 80;
   server_name unsafe.{{server_domain}};
- 
+
   include xpla/{{server_domain}}.config;
 }
 
@@ -47,3 +56,22 @@ server {
   }
 }
 
+server {
+  listen 35728 ssl spdy;
+  server_name {{server_domain}} *.{{server_domain}};
+
+  ssl on;
+  ssl_certificate /etc/nginx/xpla/keys/{{server_domain}}.crt;
+  ssl_certificate_key /etc/nginx/xpla/keys/{{server_domain}}.key;
+
+  location / {
+    proxy_pass http://xpla_livereload_{{server_short}};
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_read_timeout 86400;
+  } 
+}

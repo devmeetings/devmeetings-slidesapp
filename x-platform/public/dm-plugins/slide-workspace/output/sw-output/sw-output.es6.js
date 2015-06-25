@@ -12,13 +12,13 @@ class SwOutput {
   }
 
   controller(scope, $scope) {
-
+    let self = this;
     $scope.$watch(() => scope.appliedPath, (newPath, oldPath) => {
       if (newPath === oldPath) {
         return;
       }
-      if (this.isAutoOutput()) {
-        this.applyCurrentUrl(scope);
+      if (self.isAutoOutput()) {
+        self.applyCurrentUrl(scope);
       }
     });
 
@@ -29,11 +29,11 @@ class SwOutput {
     });
 
     $scope.$on('refreshUrl', () => {
-      this.applyCurrentUrl(scope);
+      self.applyCurrentUrl(scope);
     });
 
     scope.applyCurrentUrl = () => {
-      this.applyCurrentUrl(scope);
+      self.applyCurrentUrl(scope);
     };
   }
 
@@ -77,11 +77,13 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       withConsole: '=',
       withConsoleInColumns: '=',
       withAddress: '=',
+      withIonic: '=',
       isDead: '=',
       baseUrl: '=',
       hideBaseUrl: '=',
       currentPath: '=',
       appliedPath: '=',
+      workspaceId: '=',
 
       onNotifyEval: '&',
       needsEval: '=',

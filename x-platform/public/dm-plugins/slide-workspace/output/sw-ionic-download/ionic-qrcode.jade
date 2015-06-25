@@ -1,0 +1,21 @@
+.container-fluid.sw-ionic-download-qrcode
+  .row
+    .col-xs-12.text-center
+      h3.text-muted Download APK for your device
+      a(
+        ng-href="{{address}}"
+        target="_blank"
+      )
+        qrcode(
+          version="9"
+          error-correction-level="M"
+          data="{{ address }}"
+          href="{{ address }}"
+          size="250"
+          )
+  .row
+    .col-xs-6.col-xs-offset-3.text-center
+      button.btn.btn-primary.btn-block(
+        ng-click="$close()"
+        )
+        | OK

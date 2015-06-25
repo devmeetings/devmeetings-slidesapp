@@ -1,33 +1,59 @@
 .sw-workspace-tab-container(dm-defer="300")
-    ul.nav.nav-tabs
-      li.workspace-tab.workspace-file-tab(
-        ng-repeat="tab in model.tabsObjects",
-        ng-class="{'workspace-tab-active': model.activeTabName === tab.name }"
-        )
-        a.cursor-pointer(
-            class="{{ 'type-' + tab.type }}"
-            ng-click="model.activateTab(tab.name);"
-            ) 
-            span.fa-fw.workspace-tab-icon
-              span.fa.fa-circle.type-icon
-              span.text-muted.fa.fa-close.cursor-pointer(
-                  ng-click="model.removeTab(tab.name); $event.stopPropagation()"
-                  tooltip="Delete"
-                  tooltip-placement="bottom"
-                  tooltip-animation="false"
-                  tooltip-append-to-body="true"
-                  analytics-event="workspace-deleteTab"
-                  analytics-category="workspace"
-                  )
+  ul.nav.nav-tabs(
+    data-intro="All Files in your workspace are available here. Make sure to check what additional buttons do by hovering your mouse." data-position="bottom"
+    ng-if="model.tabsObjects.length < 5"
+    )
+    li.workspace-tab.workspace-file-tab(
+      ng-repeat="tab in model.tabsObjects",
+      ng-class="{'workspace-tab-active': model.activeTabName === tab.name }"
+      )
+      a.cursor-pointer(
+          class="{{ 'type-' + tab.type }}",
+          ng-click="model.activateTab(tab.name);") 
+          span.fa-fw.workspace-tab-icon
+            span.fa.fa-circle.type-icon
+            span.text-muted.fa.fa-close.cursor-pointer(
+              ng-click="model.removeTab(tab.name); $event.stopPropagation()", 
+              tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false',tooltip-append-to-body="true",
+              analytics-event="workspace-deleteTab", analytics-category="workspace")
 
-            |  {{ tab.fileName }}
-              
-      li.workspace-tab.add-tab
-        a.cursor-pointer(
-          ng-click="model.insertTab()"
-          tooltip="Add New File"
-          tooltip-placement="bottom"
-          tooltip-animation="false"
-          tooltip-append-to-body="true"
-          )
-          | +
+          |  {{ tab.fileName }}
+            
+    li.workspace-tab.add-tab
+      a.cursor-pointer(
+        ng-click="model.insertTab()"
+        tooltip="Add New File"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        )
+        | +
+
+.pull-left.sw-tabs(ng-if="model.tabsObjects.length >= 5", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
+  ul.nav.nav-pills.nav-stacked
+    li.workspace-tab.workspace-file-tab(
+      ng-repeat="tab in model.tabsObjects",
+      ng-class="{'workspace-tab-active': model.activeTabName === tab.name }"
+      )
+      a.cursor-pointer(
+          class="{{ 'type-' + tab.type }}",
+          ng-click="model.activateTab(tab.name);") 
+          span.fa-fw.workspace-tab-icon
+            span.fa.fa-circle.type-icon
+            span.text-muted.fa.fa-close.cursor-pointer(
+              ng-click="model.removeTab(tab.name); $event.stopPropagation()", 
+              tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false', tooltip-append-to-body="true",
+              analytics-event="workspace-deleteTab", analytics-category="workspace")
+
+          |  {{ tab.fileName }}
+          
+    li.workspace-tab.add-tab
+      a.cursor-pointer(
+        ng-click="model.insertTab()"
+        tooltip="Add New File"
+        tooltip-placement="bottom"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        )
+        | +
+

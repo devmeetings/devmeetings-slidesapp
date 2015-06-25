@@ -36,10 +36,28 @@
     hr
 
 
-  .col-xs-12
+  .col-xs-12(ng-if="stateIncludes('index.space.collaborate')")
     a.dm-history-item(
       ui-sref="index.space.collaborate.history({historyId: h._id})"
       ui-sref-active="btn-success"
       ng-repeat="h in history.history"
+      tooltip="{{h.currentTimestamp}}"
+      tooltip-animation="false"
+      tooltip-placement="left"
+      tooltip-append-to-body="true"
       )
-      span.fa.fa-circle
+      span(am-time-ago="h.currentTimestamp")
+          
+
+
+  .col-xs-12(ng-if="stateIncludes('index.space.trainer')")
+    a.dm-history-item(
+      ui-sref="index.space.trainer.history({historyId: h._id})"
+      ui-sref-active="btn-success"
+      ng-repeat="h in history.history"
+      tooltip="{{h.currentTimestamp}}"
+      tooltip-animation="false"
+      tooltip-placement="left"
+      tooltip-append-to-body="true"
+      )
+      span(am-time-ago="h.currentTimestamp")

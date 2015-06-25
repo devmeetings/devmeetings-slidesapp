@@ -5,7 +5,6 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 
-
 class OutputConsole {
 
   constructor(data) {

@@ -1,18 +1,5 @@
 ul.nav.nav-tabs.pull-right
 
-  li.workspace-tab.workspace-tab-condensed(
-    ng-if="model.withUrlButton"
-    )
-    a.cursor-pointer(
-      ng-click="model.showUrl = !model.showUrl"
-      tooltip="Show / Hide URL"
-      tooltip-animation="false"
-      tooltip-placement="bottom"
-      analytics-event="workspace-showUrl"
-      analytics-category="workspace"
-      )
-      span.fa.fa-list(ng-show="model.showUrl")
-      span.fa.fa-list-alt(ng-show="!model.showUrl")
 
   li.workspace-tab.workspace-tab-condensed(
     ng-if="!model.showUrl && model.withUrlButton"
@@ -27,6 +14,39 @@ ul.nav.nav-tabs.pull-right
       analytics-category="workspace"
       )
       span.fa.fa-external-link
+
+  li.workspace-tab.workspace-tab-condensed(
+    ng-if="model.withUrlButton"
+    )
+    a.cursor-pointer(
+      ng-click="model.showUrl = !model.showUrl"
+      tooltip="Show / Hide URL"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      analytics-event="workspace-showUrl"
+      analytics-category="workspace"
+      )
+      span.fa.fa-list(ng-show="model.showUrl")
+      span.fa.fa-list-alt(ng-show="!model.showUrl")
+
+  sw-editor-cdn(
+    active-tab="model.activeTab"
+    active-tab-name="model.activeTabName"
+    on-new-workspace="model.localOnNewWorkspace(workspace)"
+    on-refresh-content="model.onRefreshContent()"
+  )
+
+  li.workspace-tab.workspace-tab-condensed
+    a.cursor-pointer(
+      ng-click="model.hideOutput = !model.hideOutput"
+      tooltip="{{ model.hideOutput ? 'Show Output' : 'Hide Output' }}"
+      tooltip-animation="false"
+      tooltip-placement="bottom"
+      analytics-event="workspace-hideOutput"
+      analytics-category="workspace"
+      )
+      span.fa.fa-desktop(ng-show="!model.hideOutput")
+      span.fa.fa-columns(ng-show="model.hideOutput")
 
   li.workspace-tab.workspace-download.workspace-tab-condensed
     a.cursor-pointer(

@@ -12,5 +12,5 @@ block content
     .alert.alert-danger.ng-cloak(ng-if="isAuthorized === false")
       img(ng-src="http://i.imgur.com/OfJELqG.gif", width="50%")
       h1 Leave now and never come back!
-    plugins-loader(ng-show="isAuthorized", namespace="'trainer'", context="deck", path='')
-    plugins-loader(ng-show="isAuthorized", namespace="'trainer.deck'", context="deck", path='')
+    plugins-loader(ng-show="isAuthorized", namespace="'trainer'", context="deck", path='.')
+    plugins-loader(ng-show="isAuthorized", namespace="'trainer.deck'", context="deck", path='.')

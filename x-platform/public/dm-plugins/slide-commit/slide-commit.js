@@ -1,7 +1,15 @@
 define(['module', 'slider/slider.plugins', 'services/DeckAndSlides'], function(module, sliderPlugins) {
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'commit', 'slide-commit', 10000).directive('slideCommit', [
+    sliderPlugins.registerPlugin('slide', 'commit', 'slide-commit', {
+        name: 'Commit',
+        description: '?? Option to save work on current slide. //TODO [ToDr] Not sure how (if) it works',
+        example: {
+          meta: 'isPresent',
+          data: true
+        },
+        order: 10000
+    }).directive('slideCommit', [
         'Sockets', 'DeckAndSlides', '$window',
         function(Sockets, DeckAndSlides, $window) {
 

@@ -6,9 +6,12 @@ mixin editor(withoutTools, filePattern)
     with-tools-url="model.workspace.showUrl === false"
     with-file-pattern="#{filePattern}"
 
+    show-url="model.output.showUrl"
+    hide-output="model.output.hideOutput"
+
     current-url="model.output.currentUrl"
     download-id="model.output.codeId"
-    show-url="model.output.showUrl"
+
     tabs="model.workspace.tabs",
     global-active-tab-name="model.workspace.active"
     editor-options="model.workspace"
@@ -26,11 +29,15 @@ mixin output(withConsoleInColumns)
     with-console="model.output.isWithConsole"
     with-console-in-columns="#{withConsoleInColumns}"
     with-address="model.workspace.showUrl !== false || model.output.showUrl"
+    with-ionic="model.workspace.ionic"
+
+    workspace-id="model.workspaceId"
     on-notify-eval="model.evalIfAutoOutput()"
     needs-eval="model.output.needsEval"
     is-dead="model.output.isDead"
     base-url="model.output.baseUrl"
     hide-base-url="model.output.hideBaseUrl"
+
     current-path="model.workspace.url"
     applied-path="model.workspace.permaUrl"
     current-url="model.output.currentUrl"

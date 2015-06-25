@@ -16,11 +16,16 @@ var Event = new Schema({
   pin: Number,
   shouldRedirectToUnsafe: Boolean,
 
-  intro: {
-    type: Schema.Types.ObjectId,
-    ref: 'slides'
-  },
-
+  links: [{
+    name: String,
+    isExternal: Boolean,
+    url: String,
+    slideId: {
+      type: Schema.Types.ObjectId,
+      ref: 'slide'
+    }
+  }],
+  
   baseSlide: {
     type: Schema.Types.ObjectId,
     ref: 'slide'
@@ -42,6 +47,8 @@ var Event = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'annotations'
       },
+
+      annotationsMergeWithAuto: Boolean,
 
       deck: {
         deck: {
