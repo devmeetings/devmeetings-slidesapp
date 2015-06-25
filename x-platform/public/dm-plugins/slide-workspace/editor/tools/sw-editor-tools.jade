@@ -30,10 +30,12 @@ ul.nav.nav-tabs.pull-right
       span.fa.fa-list-alt(ng-show="!model.showUrl")
 
   sw-editor-cdn(
+    ng-if="model.cdnLibraries && model.cdnLibraries.active"
     active-tab="model.activeTab"
     active-tab-name="model.activeTabName"
     on-new-workspace="model.localOnNewWorkspace(workspace)"
     on-refresh-content="model.onRefreshContent()"
+    cdn-libraries="model.cdnLibraries"
   )
 
   li.workspace-tab.workspace-tab-condensed
