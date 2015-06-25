@@ -272,7 +272,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('optimize', ['optimize-plugins-bootstrap', 'ngtemplates', 'concurrent:requirejs']);
   grunt.registerTask('serve', ['copy:theme', 'jshint', 'less:server', 'concurrent:server']);
-  grunt.registerTask('quality', ['jshint', 'less:build']);
+  grunt.registerTask('quality', ['less:build']);
   grunt.registerTask('build', ['copy:theme', 'jshint', 'less:build', 'jade', 'optimize']);
 
   grunt.registerTask('default', ['serve']);
