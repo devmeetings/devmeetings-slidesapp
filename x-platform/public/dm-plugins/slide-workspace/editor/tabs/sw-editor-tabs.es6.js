@@ -43,11 +43,14 @@ class SwEditorTabs {
   }
 
   controller(self) {
+    self.moveTabsLeftThreshold = 5;
+
     self.insertTab = () => this.insertTab(self);
     self.removeTab = (name) => this.removeTab(self, name);
     self.editTabName = (name) => this.editTabName(self, name);
-
     self.activateTab = (name) => this.activateTab(self, name);
+
+    self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
@@ -122,12 +125,9 @@ class SwEditorTabs {
     return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
   }
 
-  getTabNameIfNeeded(self, tabName) {
-    if (tabName.length > 10) {
-      //console.log(tabName + 'length is more then 10 characters');
-      return tabName;
-    }
-    return false;
+  shouldDisplayTooltip(self, tabName) {
+    let hasLongName = tabName.length > 15;
+    return hasLongName;
   }
 
 }

@@ -1,7 +1,7 @@
 .sw-workspace-tab-container(dm-defer="300")
   ul.nav.nav-tabs(
     data-intro="All Files in your workspace are available here. Make sure to check what additional buttons do by hovering your mouse." data-position="bottom"
-    ng-if="model.tabsObjects.length < 5"
+    ng-if="model.tabsObjects.length < model.moveTabsLeftThreshold"
     )
     li.workspace-tab.workspace-file-tab(
       ng-repeat="tab in model.tabsObjects",
@@ -10,7 +10,8 @@
       a.cursor-pointer(
           class="{{ 'type-' + tab.type }}",
           ng-click="model.activateTab(tab.name);"
-          tooltip="model.getTabNameIfNeeded(tab.name)"
+          tooltip="{{ tab.fileName }}"
+          tooltip-enable="model.shouldDisplayTooltip(tab.name)"
           tooltip-placement="bottom"
           tooltip-animation="false"
           tooltip-append-to-body="true"
@@ -34,7 +35,7 @@
         )
         | +
 
-.pull-left.sw-tabs(ng-if="model.tabsObjects.length >= 5", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
+.pull-left.sw-tabs(ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
   ul.nav.nav-pills.nav-stacked
     li.workspace-tab.workspace-file-tab(
       ng-repeat="tab in model.tabsObjects",
@@ -43,7 +44,8 @@
       a.cursor-pointer(
           class="{{ 'type-' + tab.type }}",
           ng-click="model.activateTab(tab.name);"
-          tooltip="{{ model.getTabNameIfNeeded(tab.name) }}"
+          tooltip="{{ tab.fileName }}"
+          tooltip-enable="model.shouldDisplayTooltip(tab.name)"
           tooltip-placement="bottom"
           tooltip-animation="false"
           tooltip-append-to-body="true"
