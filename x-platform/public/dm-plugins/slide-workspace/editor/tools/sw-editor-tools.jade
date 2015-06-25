@@ -1,34 +1,5 @@
 ul.nav.nav-tabs.pull-right
 
-
-  li.workspace-tab.workspace-tab-condensed(
-    ng-if="!model.showUrl && model.withUrlButton"
-    )
-    a.cursor-pointer(
-      ng-href="{{ model.currentUrl }}", 
-      target="_blank", 
-      tooltip="Open your page in new window"
-      tooltip-animation="false"
-      tooltip-placement="bottom"
-      analytics-event="workspace-newWindow"
-      analytics-category="workspace"
-      )
-      span.fa.fa-external-link
-
-  li.workspace-tab.workspace-tab-condensed(
-    ng-if="model.withUrlButton"
-    )
-    a.cursor-pointer(
-      ng-click="model.showUrl = !model.showUrl"
-      tooltip="Show / Hide URL"
-      tooltip-animation="false"
-      tooltip-placement="bottom"
-      analytics-event="workspace-showUrl"
-      analytics-category="workspace"
-      )
-      span.fa.fa-list(ng-show="model.showUrl")
-      span.fa.fa-list-alt(ng-show="!model.showUrl")
-
   sw-editor-cdn(
     ng-if="model.cdnLibraries && model.cdnLibraries.active"
     active-tab="model.activeTab"
@@ -40,61 +11,6 @@ ul.nav.nav-tabs.pull-right
 
   li.workspace-tab.workspace-tab-condensed
     a.cursor-pointer(
-      ng-click="model.hideOutput = !model.hideOutput"
-      tooltip="{{ model.hideOutput ? 'Show Output' : 'Hide Output' }}"
-      tooltip-animation="false"
-      tooltip-placement="bottom"
-      analytics-event="workspace-hideOutput"
-      analytics-category="workspace"
-      )
-      span.fa.fa-desktop(ng-show="!model.hideOutput")
-      span.fa.fa-columns(ng-show="model.hideOutput")
-
-  li.workspace-tab.workspace-download.workspace-tab-condensed
-    a.cursor-pointer(
-      ng-href="/api/download/{{ model.downloadId }}"
-      target="_self"
-      tooltip-animation="false"
-      tooltip="Download ZIP with your code"
-      tooltip-placement="bottom"
-      analytics-event="workspace-download"
-      analytics-category="workspace"
-      )
-      span.fa.fa-download
-
-  li.workspace-tab.workspace-upload.workspace-tab-condensed
-    a(ng-if="model.isUploading")
-      | Uploading {{ model.uploadingState }}%
-    div.cursor-pointer(
-      ng-if="!model.isUploading"
-      analytics-event="workspace-upload"
-      analytics-category="workspace"
-      analytics-on="click"
-      tooltip="Upload ZIP file with your code"
-      tooltip-animation="false"
-      tooltip-placement="bottom"
-      tooltip-append-to-body="true"
-      )
-      input.cursor-pointer(
-        type="file"
-        ng-file-select="model.onFileSelect($files)"
-        title="Upload saved ZIP with files"
-        )
-      span.fa.fa-upload
-
-  li.workspace-tab.workspace-tab-condensed
-    a.cursor-pointer(
-      ng-click="model.formatTab()",
-      ng-disabled="!model.hasFormatting"
-      tooltip="Reformat your code"
-      tooltip-animation="false"
-      tooltip-placement="bottom"
-      tooltip-append-to-body="true"
-      )
-      span.fa.fa-indent
-
-  li.workspace-tab.workspace-tab-condensed
-    a.cursor-pointer(
       ng-click="model.toggleAutoReload()",
       tooltip="AutoReload your code"
       tooltip-animation="false"
@@ -103,6 +19,100 @@ ul.nav.nav-tabs.pull-right
       )
       span.fa.fa-fw.fa-square-o(ng-show="!model.isAutoReload()")
       span.fa.fa-fw.fa-check-square-o(ng-show="model.isAutoReload()")
+
+  li.workspace-tab.workspace-tab-condensed(
+      dropdown=""
+      auto-close="outsideClick"
+    )
+    a.cursor-pointer(
+        dropdown-toggle="" 
+        tooltip="More tools"
+        tooltip-animation="false"
+        tooltip-placement="bottom"
+        tooltip-append-to-body="true"
+      )
+      span.fa.fa-fw.fa-wrench
+
+    ul.dropdown-menu.dropdown-menu-right(
+        role='menu'
+      )
+
+      li.workspace-tab.workspace-tab-condensed(
+          ng-if="!model.showUrl && model.withUrlButton"
+        )
+        a.cursor-pointer(
+          ng-href="{{ model.currentUrl }}", 
+          target="_blank", 
+          analytics-event="workspace-newWindow"
+          analytics-category="workspace"
+          )
+          span.fa.fa-fw.fa-external-link
+          | Open your page in new window
+
+      li.workspace-tab.workspace-tab-condensed(
+        ng-if="model.withUrlButton"
+        )
+        a.cursor-pointer(
+          ng-click="model.showUrl = !model.showUrl"
+          analytics-event="workspace-showUrl"
+          analytics-category="workspace"
+          )
+          span.fa.fa-fw.fa-list(ng-show="model.showUrl")
+          span.fa.fa-fw.fa-list-alt(ng-show="!model.showUrl")
+          | Show / Hide URL
+
+      li.workspace-tab.workspace-tab-condensed
+        a.cursor-pointer(
+          ng-click="model.hideOutput = !model.hideOutput"
+          analytics-event="workspace-hideOutput"
+          analytics-category="workspace"
+          )
+          span.fa.fa-fw.fa-desktop(ng-show="!model.hideOutput")
+          span.fa.fa-fw.fa-columns(ng-show="model.hideOutput")
+          | {{ model.hideOutput ? 'Show Output' : 'Hide Output' }}
+
+      li.workspace-tab.workspace-download.workspace-tab-condensed
+        a.cursor-pointer(
+          ng-href="/api/download/{{ model.downloadId }}"
+          target="_self"
+          analytics-event="workspace-download"
+          analytics-category="workspace"
+          )
+          span.fa.fa-fw.fa-download
+          | Download ZIP with code
+
+      li.workspace-tab.workspace-upload.workspace-tab-condensed
+        a(ng-if="model.isUploading")
+          | Uploading {{ model.uploadingState }}%
+        div.cursor-pointer(
+          ng-if="!model.isUploading"
+          analytics-event="workspace-upload"
+          analytics-category="workspace"
+          analytics-on="click"
+          )
+          input.cursor-pointer(
+            type="file"
+            ng-file-select="model.onFileSelect($files)"
+            title="Upload saved ZIP with files"
+            )
+          span.fa.fa-fw.fa-upload
+          | Upload ZIP with code
+
+      li.workspace-tab.workspace-tab-condensed
+        a.cursor-pointer(
+          ng-click="model.formatTab()",
+          ng-disabled="!model.hasFormatting"
+          )
+          span.fa.fa-fw.fa-indent
+          | Reformat your code
+
+      li.workspace-tab.workspace-tab-condensed
+        a.cursor-pointer(
+          ng-click="model.toggleAutoReload()",
+          )
+          span.fa.fa-fw.fa-square-o(ng-show="!model.isAutoReload()")
+          span.fa.fa-fw.fa-check-square-o(ng-show="model.isAutoReload()")
+          | AutoReload your code
 
 
 
