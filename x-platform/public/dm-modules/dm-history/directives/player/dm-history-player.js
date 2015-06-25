@@ -2,7 +2,7 @@
 'use strict';
 
 import _ from '_';
-import keysListener from 'es6!dm-modules/dm-keys/keysListener.es6';
+import keysListener from 'dm-modules/dm-keys/keysListener.es6';
 
 
 class DmHistoryPlayer {

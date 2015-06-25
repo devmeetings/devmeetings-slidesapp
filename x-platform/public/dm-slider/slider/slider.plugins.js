@@ -11,7 +11,7 @@ define(
     'use strict';
 
     var module = angular.module('slider.plugins', [
-      'ngSanitize', 'angularFileUpload', 'monospaced.qrcode',
+      'ngSanitize', 'monospaced.qrcode',
       'dm-sockets', 'dm-editor', 'dm-recorder'
     ]);
 

@@ -1,6 +1,8 @@
 define(['module', '_', 'slider/slider.plugins', 'ace'], function(module, _, sliderPlugins, ace) {
     'use strict';
 
+    ace = ace.default;
+
     var OUTPUT_THEME = 'twilight';
 
     sliderPlugins.registerPlugin('slide', 'monitor', 'slide-jsonoutput', {

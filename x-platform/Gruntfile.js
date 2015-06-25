@@ -49,7 +49,7 @@ module.exports = function(grunt) {
     copy: {
       theme: {
         src: 'public/dm-slider/theme-todr.js',
-        dest: 'public/components/ace-builds/src-noconflict/theme-todr.js'
+        dest: 'public/jspm_packages/github/ajaxorg/ace-builds@1.1.9/theme-todr.js'
       }
     },
     nodemon: {

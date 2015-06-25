@@ -1,8 +1,8 @@
 /* jshint esnext:true,-W097 */
+/* globals System:true */
 'use strict';
 
 import getExtension from 'dm-modules/dm-editor/get-extension.es6';
-import require from 'require';
 
 
 let hasFormatting = {
@@ -20,10 +20,11 @@ class Formatter {
   }
 
   format(tabName, tabContent, callback) {
-    require(['js-beautify'], (jsBeautify) => {
-      let ext = getExtension(tabName);
-      let formatter = hasFormatting[ext];
-      callback(jsBeautify[formatter](tabContent, {
+    let ext = getExtension(tabName);
+    let formatter = hasFormatting[ext];
+    System.import('js-beautify/beautify-' + formatter).then((jsBeautify) => {
+      let func = jsBeautify[formatter + '_beautify'];
+      callback(func(tabContent, {
         indent_size: 2
       }));
     });

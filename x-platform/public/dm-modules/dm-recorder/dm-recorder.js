@@ -4,7 +4,7 @@ define(
     'use strict';
 
     var rec = angular.module('dm-recorder', []);
-    rec.directive('dmRecorderContext', dmRecorderContext);
+    rec.directive('dmRecorderContext', dmRecorderContext.default);
     rec.factory('dmPlayer', player);
     rec.factory('dmRecorder', function($q) {
 
@@ -12,7 +12,7 @@ define(
 
         var worker = new Worker.Recorder();
 
-        var self = _.extend(newListenable(), {
+        var self = _.extend(newListenable.default(), {
 
           updateState: function(slide) {
             return worker.newState(slide);

@@ -1,4 +1,7 @@
 define(["module", "angular", "_", "ace", 'slider/slider.plugins'], function(module, angular, _, ace, sliderPlugins) {
+
+    ace = ace.default;
+
     var path = sliderPlugins.extractPath(module);
 
     var UPDATE_THROTTLE_TIME = 1000;

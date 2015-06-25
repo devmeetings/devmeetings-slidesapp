@@ -2,7 +2,7 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as _ from '_';
+import _ from '_';
 
 class PluginsGallery {
 

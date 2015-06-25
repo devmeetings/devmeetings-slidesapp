@@ -73,7 +73,7 @@ class SwEditorTools {
       self.isUploading = true;
       self.uploadingState = 0;
       $files.forEach((file) => {
-        this.$upload.upload({
+        this.Upload.upload({
           url: '/api/upload',
           file: file
         }).progress((evt) => {
@@ -104,7 +104,7 @@ class SwEditorTools {
 
 }
 
-sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
+sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
 
   return {
     restrict: 'E',
@@ -125,7 +125,7 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload) => {
     templateUrl: '/static/dm-plugins/slide-workspace/editor/tools/sw-editor-tools.html',
     controller: function($scope) {
       let tools = new SwEditorTools({
-        $scope, $rootScope, $window, $upload
+        $scope, $rootScope, $window, Upload
       });
       tools.controller(this);
 

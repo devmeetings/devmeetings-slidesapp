@@ -1,6 +1,8 @@
 define(['angular', '_', 'ace', './get-extension.es6'], function(angular, _, ace, getExtension) {
   'use strict';
 
+  ace = ace.default;
+
   var EDITOR_THEME = 'todr';
 
   var applyChangesLater = _.debounce(function(scope) {
@@ -260,7 +262,7 @@ define(['angular', '_', 'ace', './get-extension.es6'], function(angular, _, ace,
       return givenMode;
     }
 
-    mode = getExtension(name) || 'text';
+    mode = getExtension.default(name) || 'text';
     mode = modesMap[mode] || mode;
     return mode;
   }

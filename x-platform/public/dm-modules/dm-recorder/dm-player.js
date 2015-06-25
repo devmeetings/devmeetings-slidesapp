@@ -5,7 +5,7 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
 
     var source = null;
 
-    return _.extend(newListenable(), {
+    return _.extend(newListenable.default(), {
 
       setRecorderSource: function(dmRecorder, statesaveId, content) {
         this.setSource(dmRecorder);
@@ -17,7 +17,7 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
         var dmPlayerThat = this;
         var worker = new Worker.Player();
 
-        var player = _.extend(newListenable(), {
+        var player = _.extend(newListenable.default(), {
           setState: function(statesaveId, slide) {
             this.trigger('onSync', []);
             worker.setState(statesaveId, slide);

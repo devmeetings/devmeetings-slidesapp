@@ -1,5 +1,5 @@
-define(['angular', 'xplatform/xplatform-app', '_',
-  'xplatform/services/dm-events/dm-events',
+define(['angular', 'dm-xplatform/xplatform-app', '_',
+  'dm-xplatform/services/dm-events/dm-events',
   'dm-modules/dm-keys/keysListener.es6'
 ], function(angular, xplatformApp, _, dmEvents, keysListener) {
   'use strict';
@@ -15,7 +15,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
 
     $scope.withVoice = $stateParams.withVoice;
 
-    $scope.keys.keyUp = keysListener($scope);
+    $scope.keys.keyUp = keysListener.default($scope);
 
 
     dmEvents.getEvent($stateParams.event, false).then(function(data) {
