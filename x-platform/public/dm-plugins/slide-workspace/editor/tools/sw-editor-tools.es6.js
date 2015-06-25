@@ -118,12 +118,13 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
       activeTab: '=',
       activeTabName: '=',
       onNewWorkspace: '&',
-      onRefreshContent: '&'
+      onRefreshContent: '&',
+      cdnLibraries: '='
     },
     bindToController: true,
     controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/editor/tools/sw-editor-tools.html',
-    controller: function($scope) {
+    controller: function($scope, $log) {
       let tools = new SwEditorTools({
         $scope, $rootScope, $window, Upload
       });

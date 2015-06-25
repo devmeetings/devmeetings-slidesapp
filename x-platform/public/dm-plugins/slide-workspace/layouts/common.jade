@@ -5,6 +5,7 @@ mixin editor(withoutTools, filePattern)
     with-tools="!#{withoutTools}"
     with-tools-url="model.workspace.showUrl === false"
     with-file-pattern="#{filePattern}"
+    cdn-libraries="model.workspace.cdnLibraries"
 
     show-url="model.output.showUrl"
     hide-output="model.output.hideOutput"
@@ -12,11 +13,11 @@ mixin editor(withoutTools, filePattern)
     current-url="model.output.currentUrl"
     download-id="model.output.codeId"
 
-    tabs="model.workspace.tabs",
+    tabs="model.workspace.tabs"
     global-active-tab-name="model.workspace.active"
     editor-options="model.workspace"
     editor-undo-manager="model.undoManager"
-    editor-mode="model.mode",
+    editor-mode="model.mode"
 
     on-new-workspace="model.onNewWorkspace(workspace)"
     on-change="model.onEditorChange()"

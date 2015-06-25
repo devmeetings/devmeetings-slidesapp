@@ -2,46 +2,47 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
+import * as _ from '_'; 
 
 
 
-sliderPlugins.directive('swEditorCdn', () => {
+sliderPlugins.directive('swEditorCdn', ($log) => {
 
   return {
     restrict: 'E',
     replace: true,
     scope: {
-      activeTab: '=',
       activeTabName: '=',
-      onNewWorkspace: '&',
-      onRefreshContent: '&'
+      activeTab: '=',
+      onRefreshContent: '&',
+      cdnLibraries: '='
     },
     bindToController: true,
     controllerAs: 'cdn',
     templateUrl: '/static/dm-plugins/slide-workspace/editor/sw-editor-cdn/sw-editor-cdn.html',
-    controller: function($scope) {
+    controller: function($scope, $log) {
       let self = this;
 
-      self.libraries = [
-        { 
+      var libraries = [ 
+        {
           'name':'jQuery',
           'source':'/cdn/jquery/2.1.4/jquery.min.js',
-          'tag_category':'script'
+          'tagCategory':'script'
         },
         { 
           'name':'AngularJS',
           'source':'/cdn/angular.js/1.3.14/angular.js',
-          'tag_category':'script'
+          'tagCategory':'script'
         },
         { 
           'name':'Bootstrap (JS)',
           'source':'/cdn/bootstrap/3.3.5/js/bootstrap.js',
-          'tag_category':'script'
+          'tagCategory':'script'
         },
         { 
           'name':'Bootstrap (CSS)',
           'source':'/cdn/bootstrap/3.3.5/css/bootstrap.min.css',
-          'tag_category':'link'
+          'tagCategory':'link'
         }
       ];
 
@@ -52,13 +53,21 @@ sliderPlugins.directive('swEditorCdn', () => {
         } else {
           return string + input;
         } 
-
       }
+
+      self.getLibraries = function() {
+
+        if ( self.cdnLibraries.libraries && self.cdnLibraries.libraries.length >= 1 ) {
+          return self.cdnLibraries.libraries;
+        }
+        return libraries;
+      };
 
       self.selectLibrary = function(library) {
         var code = self.activeTab.content;
 
         function getCodeToInsert(source, tagCategory) {
+
           if (tagCategory === 'link') {
             return '<link href="'+source+'" rel="stylesheet">\n';
           } 
@@ -78,7 +87,6 @@ sliderPlugins.directive('swEditorCdn', () => {
           else if (tagCategory === 'script'){
             return /<\s*\/\s*body\s*>/;
           }
-
         }
 
         function findIndexWhereToInsertCode(code, tagCategory) {
@@ -91,10 +99,20 @@ sliderPlugins.directive('swEditorCdn', () => {
           return code.length;
         }
 
-        var codeToInsert = getCodeToInsert(library.source, library.tag_category);
-        var insertIndex = findIndexWhereToInsertCode(code, library.tag_category);
+        var codeToInsert = getCodeToInsert(library.source, library.tagCategory);
+        var insertIndex = findIndexWhereToInsertCode(code, library.tagCategory);
         self.activeTab.content = insertToString(code, insertIndex, codeToInsert);
         self.onRefreshContent();
+      };
+
+      self.whenHtmlFile = function(activeTabName) {
+        var activeTabExtension = activeTabName.split('|').slice(-1)[0]; 
+        var allowedExtensions = ['html', 'htm'];
+
+        if ( _.includes(allowedExtensions, activeTabExtension) ) {
+          return true;
+        }
+        return false;
       };
  
     }

@@ -128,7 +128,7 @@ sliderPlugins.directive('swEditor', () => {
       withTools: '=',
       withToolsUrl: '=',
       withFilePattern: '=',
-
+      cdnLibraries: '=',
 
       showUrl: '=',
       hideOutput: '=',
