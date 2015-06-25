@@ -25,7 +25,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
     return [parseInt(x[0], 10), x[1]];
   }
 
-  sliderPlugins.registerPlugin('slide', 'burger', 'slide-burger', 6000).directive('slideBurger', [
+  sliderPlugins.registerPlugin('slide', 'burger', 'slide-burger', {
+    name: 'Burger',
+    description: 'Displays Burgers Visualisation',
+    example: {
+      meta: {
+        type: 'bool'
+      },
+      data: true
+    },
+    order: 6000
+  }).directive('slideBurger', [
     '$timeout',
     function($timeout) {
       return {

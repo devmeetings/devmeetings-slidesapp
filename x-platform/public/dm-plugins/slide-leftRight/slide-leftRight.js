@@ -2,7 +2,19 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide', 'left', 'slide-left', 9).directive('slideLeft', [
+    sliderPlugins.registerPlugin('slide', 'left', 'slide-left', {
+        order: 9,
+        name: 'Split Left',
+        description: 'Displays content on the left side of slide',
+        example: {
+          meta: {
+            type: 'SlideObject'
+          },
+          data: {
+            text: 'Some text on the left'
+          }
+        }
+    }).directive('slideLeft', [
 
         function() {
             return {
@@ -21,7 +33,19 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
         }
     ]);
 
-    sliderPlugins.registerPlugin('slide', 'right', 'slide-right', 10).directive('slideRight', [
+    sliderPlugins.registerPlugin('slide', 'right', 'slide-right', {
+        order: 10,
+        name: 'Split Right',
+        description: 'Displays content on the right side of slide',
+        example: {
+          meta: {
+            type: 'SlideObject'
+          },
+          data: {
+            text: 'Some text on the right'
+          }
+        }
+    }).directive('slideRight', [
 
         function() {
             return {

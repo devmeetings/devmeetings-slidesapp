@@ -3,7 +3,48 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('slide.sidebar', 'quiz', 'slide-quiz', 4000).directive('slideQuiz', [
+    sliderPlugins.registerPlugin('slide.sidebar', 'quiz', 'slide-quiz', {
+      order: 4000,
+      name: 'Quiz',
+      description: 'Quiz Question',
+      example: {
+        meta: {
+          progress: [{
+              type: 'number',
+              help: 'Current Step'
+          },{
+              type: 'number',
+              help: 'Total number of steps'
+          }],
+          quizId: {
+            type: 'string',
+            help: 'Unique Id of Quiz - simplifies viewing in admin panel'
+          },
+          taskId: {
+            type: 'string',
+            help: 'Unique id of task (inside quiz).'
+          },
+          nextSlideId: {
+            type: 'string',
+            help: 'Redirect user to this slide after completing this question.'
+          },
+          getEmail: {
+            type: 'bool',
+            help: 'Should ask user for e-mail address (only if no nextSlideId)'
+          },
+          getNick: {
+            type: 'bool',
+            help: 'Should ask user for nickname (only if no nextSlideId)'
+          }
+        },
+        data: {
+          progress: [1, 3],
+          quizId: 'myQuiz1',
+          taskId: 'firstTask',
+          nextSlideId: '123asdfa9sd8fa9sd8f'
+        }
+      }
+    }).directive('slideQuiz', [
         '$http', '$window', 'DeckAndSlides',
         function($http, $window, DeckAndSlides) {
 

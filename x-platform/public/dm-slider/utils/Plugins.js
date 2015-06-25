@@ -1,21 +1,23 @@
 define(['_'], function(_) {
     var plugins = {};
 
-    var newPlugin = function(order, trigger, plugin) {
+    var newPlugin = function(order, trigger, plugin, data) {
         return {
             order: order,
             trigger: trigger,
-            plugin: plugin
+            plugin: plugin,
+            data: data
         };
     };
 
     return {
 
-        registerPlugin: function(namespace, trigger, plugin, order) {
+        registerPlugin: function(namespace, trigger, plugin, data) {
             plugins[namespace] = plugins[namespace] || [];
-            order = order || 999999;
+            data = data || {};
+            data.order = data.order || 999999;
 
-            plugins[namespace].push(newPlugin(order, trigger, plugin));
+            plugins[namespace].push(newPlugin(data.order, trigger, plugin, data));
 
             return this;
         },
@@ -34,6 +36,10 @@ define(['_'], function(_) {
                 self.unregisterPlugin(namespace, trigger, plugin);
             });
             return this.registerPlugin(namespace, trigger, plugin, order);
+        },
+
+        getAllPlugins: function() {
+          return _.clone(plugins, true);
         },
 
         getPlugins: function(namespace, trigger) {

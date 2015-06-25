@@ -5,7 +5,18 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
   var path = sliderPlugins.extractPath(module);
 
-  sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', 4000).directive('slideServerRunner', [
+  sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', {
+      order: 4000,
+      name: 'Server Runner',
+      description: 'Sends the code for execution on the server. Works with `workspace` & `code`.',
+      example: {
+        meta: {
+          type: 'string',
+          help: 'Name of the server side executor [sphero, ruby, java, burger, python, expressjs, nodejs]'
+        },
+        data: 'expressjs'
+      }
+  }).directive('slideServerRunner', [
     'Sockets', 'dmPlayer',
     function(Sockets, dmPlayer) {
 

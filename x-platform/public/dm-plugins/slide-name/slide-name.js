@@ -1,5 +1,13 @@
 define(['slider/slider.plugins'], function(sliderPlugins) {
-    sliderPlugins.registerPlugin('slide', 'name', 'slide-name', 60000).directive('slideName', [
+    sliderPlugins.registerPlugin('slide', 'name', 'slide-name', {
+      order: 60000,
+      name: 'Slide Name',
+      description: 'Slide Name displayed on Deck navbar',
+      example: {
+        meta: 'string',
+        data: 'Slide Name'
+      }
+    }).directive('slideName', [
 
         function() {
             return {

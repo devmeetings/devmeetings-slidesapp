@@ -23,7 +23,7 @@ require([
     DeckAndSlides.inContextOf('deck').slides.then(function(deckSlides) {
       $scope.deckSlides = deckSlides;
       updateDeck($scope.deck || {});
-      dmPlayer.setRecorderSource($scope.recorder);
+      dmPlayer.setRecorderSource($scope.recorderDeck);
     });
 
     $scope.$on('deck', function(ev, newDeck) {

@@ -18,6 +18,9 @@
  specific language governing permissions and limitations
  under the License.
 */
+if (!ionic.Platform.isAndroid()) {
+  return;
+}
 ;(function() {
 var PLATFORM_VERSION_BUILD_LABEL = '4.0.0';
 // file: src/scripts/require.js

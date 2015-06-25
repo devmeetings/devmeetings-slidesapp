@@ -40,15 +40,15 @@ export default function(dmRecorder) {
       recorder: '=',
       workspaceId: '='
     },
-    controller: function() {
+    controller: function($scope) {
       recorderContext.controller(this);
+
+      $scope.$watch('workspaceId', (wId) => {
+        $scope.recorder = recorderContext.createRecorder(wId);
+      });
     },
     link(scope, element) {
       recorderContext.link(scope, element);
-
-      scope.$watch('workspaceId', (wId) => {
-        scope.recorder = recorderContext.createRecorder(wId);
-      });
-    }
+     }
   };
 }

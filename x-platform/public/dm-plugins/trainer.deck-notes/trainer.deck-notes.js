@@ -2,7 +2,12 @@ define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
 
     var path = sliderPlugins.extractPath(module);
 
-    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-notes', 1).directive('trainerdeckNotes', [
+    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-notes', {
+      order: 3,
+      name: 'Notes',
+      description: 'Displays notes for current slide',
+      example: {}
+    }).directive('trainerdeckNotes', [
         'Sockets',
         function(Sockets) {
             return {
