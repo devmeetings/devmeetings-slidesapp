@@ -58,6 +58,8 @@ class SwOutputEvalFrontend {
 
     scope.isSyncing = true;
     this.dmPlayer.onCurrentStateId(scope, (id) => {
+      // TODO [ToDr] I know it's shitty.
+      this.dmPlayer.shouldRefreshPage = scope.isSyncing;
       if (!scope.isSyncing) {
         return;
       }

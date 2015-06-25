@@ -61,7 +61,7 @@ define(['angular',
       }
 
       dmPlayer.getCurrentStateId().then(function(stateId) {
-        dmSlidesaves.saveModified($scope.slide._id, stateId);
+        dmSlidesaves.saveModified($scope.slide._id, stateId, dmPlayer.shouldRefreshPage);
       });
 
     }, 1000, {
