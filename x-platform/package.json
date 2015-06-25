@@ -91,6 +91,16 @@
     "open": "0.0.5",
     "time-grunt": "^1.1.0"
   },
+  "semistandard": {
+    "ignore": [
+      "node_modules/**",
+      "public/bin/**",
+      "public/cdn/**",
+      "public/jspm_packages/**",
+      "public/components/**",
+      "app/plugins/slide-ionic-download/app/**"
+    ]
+  },
   "jspm": {
     "directories": {
       "baseURL": "public"

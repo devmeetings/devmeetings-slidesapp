@@ -1,19 +1,16 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 
-
 class ShouldRefreshLogic {
 
-
-  shouldRefresh(patches) {
+  shouldRefresh( patches) {
     return _.any(patches, this.shouldRefreshSingle, this);
   }
 
-  shouldRefreshSingle(patch) {
+  shouldRefreshSingle( patch) {
     if (patch.current) {
       return true;
     }
@@ -39,16 +36,13 @@ class ShouldRefreshLogic {
   }
 }
 
-
-
-
 class SwOutputEvalFrontend {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(scope) {
+  controller( scope) {
     this.dmPlayer.onSyncStarted(scope, (patches) => {
       if (!this.refreshLogic.shouldRefresh(patches)) {
         return;
@@ -78,11 +72,11 @@ class SwOutputEvalFrontend {
 
 class SwOutputEvalServer {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(scope) {
+  controller( scope) {
     this.dmPlayer.onSyncStarted(scope, (patches) => {
       if (!this.refreshLogic.shouldRefresh(patches)) {
         return;
@@ -146,8 +140,7 @@ sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
       isWithConsole: '=',
       isSyncing: '='
     },
-    controller: function($scope) {
-
+    controller: function ($scope) {
       let refreshLogic = new ShouldRefreshLogic();
 
       if ($scope.serverRunner) {
@@ -156,8 +149,7 @@ sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
         $scope.isWithConsole = true;
 
         let eva = new SwOutputEvalServer({
-          dmPlayer, refreshLogic, $location, $timeout
-        });
+        dmPlayer, refreshLogic, $location, $timeout});
         eva.controller($scope);
 
       } else {
@@ -166,8 +158,7 @@ sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
         $scope.isWithConsole = false;
 
         let eva = new SwOutputEvalFrontend({
-          dmPlayer, refreshLogic
-        });
+        dmPlayer, refreshLogic});
         eva.controller($scope);
       }
     }

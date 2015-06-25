@@ -2,9 +2,7 @@
 'use strict';
 
 export default function($scope) {
-
-  return function(event) {
-
+  return function (event) {
     if (event.target.type === 'textarea' || event.target.type === 'text') {
       return;
     }

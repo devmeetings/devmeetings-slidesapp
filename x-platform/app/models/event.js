@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Event = new Schema({
   title: String,
@@ -25,7 +25,7 @@ var Event = new Schema({
       ref: 'slide'
     }
   }],
-  
+
   baseSlide: {
     type: Schema.Types.ObjectId,
     ref: 'slide'

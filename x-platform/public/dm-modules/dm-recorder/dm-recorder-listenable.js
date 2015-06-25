@@ -2,8 +2,7 @@
 
 'use strict';
 
-function newListenable() {
-
+function newListenable () {
   let listeners = {
     'newId': [],
     'onSync': [],
@@ -12,16 +11,15 @@ function newListenable() {
   };
 
   return {
-
-    trigger(evName, id) {
+    trigger( evName, id) {
       var list = listeners[evName];
       list.map(cb => cb(id));
     },
 
-    listen(evName, cb) {
+    listen( evName, cb) {
       listeners[evName].push(cb);
 
-      return function removeListener() {
+      return function removeListener () {
         var toRemove = listeners[evName].indexOf(cb);
         if (toRemove === -1) {
           return;

@@ -1,26 +1,23 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import formatter from './sw-editor-formatter.es6';
 import viewTemplate from './sw-editor-tools.html!text';
 
-
 class SwEditorTools {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(self) {
+  controller( self) {
     this.initUploading(self);
     this.initTabFormatting(self);
   }
 
-
-  initTabFormatting(self) {
+  initTabFormatting( self) {
     this.$scope.$watch(() => self.activeTabName, (activeTabName) => {
       self.hasFormatting = formatter.hasFormattingForName(activeTabName);
     });
@@ -49,7 +46,7 @@ class SwEditorTools {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
-  setAutoReload(enabled) {
+  setAutoReload( enabled) {
     let perf = this.$rootScope.performance;
 
     if (enabled && !this.isAutoReload()) {
@@ -62,14 +59,12 @@ class SwEditorTools {
     }
   }
 
-
-
-  initUploading(self) {
+  initUploading( self) {
     self.onFileSelect = ($files) => {
       if (!this.$window.confirm('Uploading file will erase your current workspace. Continue?')) {
         return;
       }
-      //$files: an array of files selected, each file has name, size, and type.
+      // $files: an array of files selected, each file has name, size, and type.
       self.isUploading = true;
       self.uploadingState = 0;
       $files.forEach((file) => {
@@ -87,7 +82,7 @@ class SwEditorTools {
           var ws = {};
           ws.active = null;
           ws.tabs = {};
-          _.each(data, function(value, name) {
+          _.each(data, function (value, name) {
             ws.active = name;
             ws.tabs[name] = {
               content: value
@@ -124,10 +119,9 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller: function($scope, $log) {
+    controller: function ($scope, $log) {
       let tools = new SwEditorTools({
-        $scope, $rootScope, $window, Upload
-      });
+      $scope, $rootScope, $window, Upload});
       tools.controller(this);
 
     }

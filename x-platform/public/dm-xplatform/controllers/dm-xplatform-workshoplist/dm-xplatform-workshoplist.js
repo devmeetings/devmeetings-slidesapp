@@ -1,9 +1,8 @@
 define([
-    'angular', 'dm-xplatform/xplatform-app', '_', 
-    './unlock/dm-unlock.html!text',
-    './unlock/dm-unlock.es6'
-], function(angular, xplatformApp, _, unlockView) {
-
+  'angular', 'dm-xplatform/xplatform-app', '_',
+  './unlock/dm-unlock.html!text',
+  './unlock/dm-unlock.es6'
+], function (angular, xplatformApp, _, unlockView) {
   /**
    * Converts an HSL color value to RGB. Conversion formula
    * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -15,13 +14,13 @@ define([
    * @param   Number  l       The lightness
    * @return  Array           The RGB representation
    */
-  function hslToRgb(h, s, l) {
+  function hslToRgb (h, s, l) {
     var r, g, b;
 
     if (s === 0) {
       r = g = b = l; // achromatic
     } else {
-      var hue2rgb = function hue2rgb(p, q, t) {
+      var hue2rgb = function hue2rgb (p, q, t) {
         if (t < 0) {
           t += 1;
         }
@@ -50,46 +49,44 @@ define([
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
   }
 
-
-  xplatformApp.controller('dmXplatformWorkshoplist', function($scope, $stateParams, dmEvents, dmUser, dmSpaceRedirect, $modal, $state, $window) {
-
-    dmEvents.allEvents().then(function(events) {
+  xplatformApp.controller('dmXplatformWorkshoplist', function ($scope, $stateParams, dmEvents, dmUser, dmSpaceRedirect, $modal, $state, $window) {
+    dmEvents.allEvents().then(function (events) {
       $scope.courses = events;
 
-      dmUser.getCurrentUser().then(function(user) {
+      dmUser.getCurrentUser().then(function (user) {
         $scope.user = user;
         return dmEvents.userEvents(user.result._id);
-      }).then(function(userEvents) {
+      }).then(function (userEvents) {
         $scope.my_courses = userEvents;
       });
     });
 
-    $scope.getUnsafeAddress = function(course) {
+    $scope.getUnsafeAddress = function (course) {
       return dmSpaceRedirect.getUnsafeAddress().replace('/courses', '/space/' + course._id + '/learn/agenda');
     };
 
-    $scope.visibilityChanged = function(event) {
+    $scope.visibilityChanged = function (event) {
       dmEvents.changeEventVisibility(event.realId || event._id, event.visible);
     };
 
-    $scope.remove = function(event) {
-      dmEvents.removeEvent(event._id).then(function() {
-        _.remove($scope.courses, function(c) {
+    $scope.remove = function (event) {
+      dmEvents.removeEvent(event._id).then(function () {
+        _.remove($scope.courses, function (c) {
           return c._id === event._id;
         });
       });
     };
 
-    function getBackgroundColor(course) {
+    function getBackgroundColor (course) {
       var id = parseInt(course._id, 16) % 360;
 
       var color = hslToRgb(id / 360, 0.2, 0.3);
 
-      return '#' + color.map(function(c) {
-        return c.toString(16);
-      }).join('');
+      return '#' + color.map(function (c) {
+          return c.toString(16);
+        }).join('');
     }
-    $scope.getBackgroundStyles = function(course) {
+    $scope.getBackgroundStyles = function (course) {
       if (course.image) {
         return {
           'background': 'url(' + course.image + ') left center',
@@ -101,24 +98,23 @@ define([
       };
     };
 
-    $scope.getDescription = function(courseTitle) {
+    $scope.getDescription = function (courseTitle) {
       var chars = /([a-z]{4})/i.exec(courseTitle);
       return chars[1];
     };
 
-
-    $scope.unlockCourse = function(course) {
+    $scope.unlockCourse = function (course) {
       var modalInstance = $modal.open({
         template: unlockView,
         controller: 'dmXplatformWorkshopUnlock',
         size: 'sm',
         resolve: {
-          course: function() {
+          course: function () {
             return course;
           }
         }
       });
-      modalInstance.result.then(function(id) {
+      modalInstance.result.then(function (id) {
         if (course.shouldRedirectToUnsafe) {
           var url = $scope.getUnsafeAddress(course);
           $window.location = url;

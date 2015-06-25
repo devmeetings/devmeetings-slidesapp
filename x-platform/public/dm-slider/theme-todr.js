@@ -28,11 +28,10 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-ace.define('ace/theme/todr', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
-
-exports.isDark = true;
-exports.cssClass = "ace-todr";
-exports.cssText = ".ace-todr .ace_gutter {\
+ace.define('ace/theme/todr', ['require', 'exports', 'module' , 'ace/lib/dom'], function (require, exports, module) {
+  exports.isDark = true;
+  exports.cssClass = 'ace-todr';
+  exports.cssText = '.ace-todr .ace_gutter {\
 background: #0f0f0f;\
 color: #bebebe\
 }\
@@ -121,8 +120,8 @@ color: #C147FF\
 }\
 .ace-todr .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNgYGBgYNDTc/oPAALPAZ7hxlbYAAAAAElFTkSuQmCC) right repeat-y;\
-}";
+}';
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+  var dom = require('../lib/dom');
+  dom.importCssString(exports.cssText, exports.cssClass);
 });

@@ -9,16 +9,15 @@ import viewTemplate from './dm-event-agenda.html!text';
 
 class EventAgenda {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link(scope) {
-
+  link( scope) {
     let $state = this.$state;
     let $stateParams = this.$stateParams;
 
-    function fixActiveTask() {
+    function fixActiveTask () {
       if ($state.$current.name !== 'index.space.learn.workspace.task') {
         scope.activeTask = null;
         return;
@@ -33,7 +32,7 @@ class EventAgenda {
       scope.activeTask = scope.tasks[iterationIdx][taskIdx];
     }
 
-    function fixActiveMaterial() {
+    function fixActiveMaterial () {
       if ($state.$current.name !== 'index.space.learn.player') {
         scope.activeMaterial = null;
         return;
@@ -46,7 +45,7 @@ class EventAgenda {
         return;
       }
 
-      scope.activeMaterial = iteration.materials.reduce(function(found, material) {
+      scope.activeMaterial = iteration.materials.reduce(function (found, material) {
         if (found) {
           return found;
         }
@@ -62,8 +61,8 @@ class EventAgenda {
     scope.$watch(() => {
       var params = ['iteration', 'todo'];
       return $state.$current.name + params.reduce((memo, param) => {
-        return memo + ',' + param + ':' + this.$stateParams[param];
-      }, '');
+          return memo + ',' + param + ':' + this.$stateParams[param];
+        }, '');
     }, () => {
       fixActiveMaterial();
       fixActiveTask();
@@ -90,15 +89,13 @@ class EventAgenda {
       this.dmEvents.editEvent(scope.event);
     });
 
-
-
     this.initTaskDetails(scope);
   }
 
-  initTaskDetails(scope) {
+  initTaskDetails( scope) {
     scope.ranking = this.dmRanking;
     scope.$watch('ranking.currentRanking', () => {
-      this.dmRanking.getCurrentRankingForUser().then(function(ranking) {
+      this.dmRanking.getCurrentRankingForUser().then(function (ranking) {
         scope.userRanking = ranking;
       });
     });
@@ -121,7 +118,6 @@ class EventAgenda {
 
 }
 
-
 xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEvents, dmRanking) => {
 
   return {
@@ -132,10 +128,9 @@ xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEve
       userWorkspaceId: '='
     },
     template: viewTemplate,
-    link(scope, element) {
+    link( scope, element) {
       let eventMenu = new EventAgenda({
-        $rootScope, $stateParams, $state, dmEvents, dmRanking
-      });
+      $rootScope, $stateParams, $state, dmEvents, dmRanking});
       eventMenu.link(scope, element);
     }
   };

@@ -1,5 +1,4 @@
-define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, sliderPlugins, ace) {
-
+define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, sliderPlugins, ace) {
   ace = ace.default;
 
   var EDITOR_THEME = 'todr';
@@ -9,15 +8,15 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
     trailing: true
   };
 
-  var updateScopeLater = _.throttle(function(scope) {
+  var updateScopeLater = _.throttle(function (scope) {
     scope.$apply();
   }, 200, throttleOptions);
 
-  var triggerEventLater = _.throttle(function(scope, code, ev, editor) {
+  var triggerEventLater = _.throttle(function (scope, code, ev, editor) {
     sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor, scope.path]);
   }, 100, throttleOptions);
 
-  var getCodeData = function(code) {
+  var getCodeData = function (code) {
     if (!_.isObject(code)) {
       code = {
         content: code,
@@ -28,14 +27,13 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
     return code;
   };
 
-
-  var triggerCodeChange = function(scope, code, ev, editor) {
+  var triggerCodeChange = function (scope, code, ev, editor) {
     code.content = editor.getValue();
     updateScopeLater(scope);
     triggerEventLater(scope, code, ev, editor);
   };
 
-  var triggerCursorChange = function(scope, code, editor) {
+  var triggerCursorChange = function (scope, code, editor) {
     code.aceOptions = {
       cursorPosition: editor.getCursorPosition(),
       selectionRange: JSON.parse(JSON.stringify(editor.getSelectionRange())),
@@ -46,31 +44,30 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
   };
 
   sliderPlugins.registerPlugin('slide', 'code', 'slide-code', {
-      order: 3000,
-      name: 'Code Editor',
-      description: 'Simple code editor. It does not execute code by default',
-      example: {
-        meta: {
-          content: 'string',
-          size: {
-            type: 'enum',
-            values: ['xs', 'sm', 'md', 'xl', 'xxl']
-          },
-          mode: {
-            type: 'enum',
-            values: ['javascript', 'any ace mode']
-          }
+    order: 3000,
+    name: 'Code Editor',
+    description: 'Simple code editor. It does not execute code by default',
+    example: {
+      meta: {
+        content: 'string',
+        size: {
+          type: 'enum',
+          values: ['xs', 'sm', 'md', 'xl', 'xxl']
         },
-        data: {
-          mode: 'javascript',
-          size: 'md',
-          content: 'console.log("asd")'
+        mode: {
+          type: 'enum',
+          values: ['javascript', 'any ace mode']
         }
+      },
+      data: {
+        mode: 'javascript',
+        size: 'md',
+        content: 'console.log("asd")'
       }
+    }
   }).directive('slideCode', [
     '$timeout',
-    function($timeout) {
-
+    function ($timeout) {
       var editor = null;
 
       return {
@@ -81,10 +78,10 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
           slide: '=context'
         },
         template: '<div class="editor editor-{{ code.size }}"><div></div></div>',
-        link: function(scope, element) {
+        link: function (scope, element) {
           scope.code = getCodeData(scope.code);
 
-          $timeout(function() {
+          $timeout(function () {
             editor = ace.edit(element[0].childNodes[0]);
             editor.setTheme('ace/theme/' + EDITOR_THEME);
             editor.$blockScrolling = Infinity;
@@ -94,23 +91,23 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function(_, s
               enableLiveAutocompletion: false,
             });
 
-            scope.$watch('code.mode', function() {
+            scope.$watch('code.mode', function () {
               editor.getSession().setMode('ace/mode/' + scope.code.mode);
             });
 
-            editor.on('change', function(ev, editor) {
+            editor.on('change', function (ev, editor) {
               triggerCodeChange(scope, scope.code, ev, editor);
             });
 
-            $timeout(function() {
+            $timeout(function () {
               triggerCodeChange(scope, scope.code, {}, editor);
             }, 500);
 
-            editor.getSession().getSelection().on('changeCursor', function() {
+            editor.getSession().getSelection().on('changeCursor', function () {
               triggerCursorChange(scope, scope.code, editor);
             });
 
-            scope.$watch('code.content', function(content) {
+            scope.$watch('code.content', function (content) {
               var oldContent = editor.getValue();
               if (content && oldContent !== content) {
                 editor.setValue(content, editor.getSelection().getCursor());

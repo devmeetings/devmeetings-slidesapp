@@ -1,18 +1,17 @@
-define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], function(angular, _, ace, getExtension, viewTemplate) {
+define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], function (angular, _, ace, getExtension, viewTemplate) {
   'use strict';
 
   ace = ace.default;
 
   var EDITOR_THEME = 'todr';
 
-  var applyChangesLater = _.debounce(function(scope) {
+  var applyChangesLater = _.debounce(function (scope) {
     scope.$apply();
   }, 300);
 
   angular.module('dm-editor', []).directive('dmEditor', [
     '$timeout',
-    function($timeout) {
-
+    function ($timeout) {
       return {
         restrict: 'E',
         replace: true,
@@ -27,23 +26,22 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
           onSaveAction: '&'
         },
         template: viewTemplate,
-        link: function(scope, element) {
+        link: function (scope, element) {
           // Editor
 
           var triggerChangeLater = scope.triggerChangeLater;
 
-          function updateMode(name) {
+          function updateMode (name) {
             if (!scope.data) {
               return;
             }
             scope.mode = getMode(name, scope.data.mode);
           }
-          scope.$watch('name', function(name) {
+          scope.$watch('name', function (name) {
             name = name || '';
             updateMode(name);
             scope.dotName = name.replace(/\|/g, '.');
           });
-
 
           /* 
            * [ToDr] Not sure why we need to introduce timeout here,
@@ -51,8 +49,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
            * for the second time.
            */
           var $e = element.find('.editor');
-          $timeout(function() {
-
+          $timeout(function () {
             var indentSize = 2;
             var editor = ace.edit($e[0]);
             editor.$blockScrolling = Infinity;
@@ -73,12 +70,12 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
                 mac: 'Command-S',
                 sender: 'editor|cli'
               },
-              exec: function() {
+              exec: function () {
                 scope.onSaveAction();
               }
             });
 
-            function focusEditor() {
+            function focusEditor () {
               // Don't lose focus when playing a movie!
               if (scope.editorMode !== 'player') {
                 editor.focus();
@@ -87,7 +84,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
             focusEditor();
             var focusEditorLater = _.debounce(focusEditor, 350);
 
-            (function vimMode() {
+            (function vimMode () {
               if (scope.options.vim || (localStorage && localStorage.getItem('vimMode'))) {
                 editor.setKeyboardHandler('ace/keyboard/vim');
               }
@@ -97,11 +94,11 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
               editor.getSession().setUndoManager(scope.undoManager);
             }
 
-            scope.$on('resize', function() {
+            scope.$on('resize', function () {
               editor.resize();
             });
 
-            scope.$on('editor:update', function() {
+            scope.$on('editor:update', function () {
               if (!scope.data) {
                 return;
               }
@@ -110,17 +107,16 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
               focusEditorLater();
             });
 
-
             // TODO [ToDr] When changing tabs cursor synchronization is triggered like crazy.
             var disableSync = false;
 
-            function withoutSync(call) {
+            function withoutSync (call) {
               disableSync = true;
               call();
               disableSync = false;
             }
 
-            editor.on('change', function() {
+            editor.on('change', function () {
               if (disableSync) {
                 return;
               }
@@ -128,7 +124,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
               applyChangesLater(scope);
             });
 
-            editor.getSession().getSelection().on('changeCursor', function() {
+            editor.getSession().getSelection().on('changeCursor', function () {
               if (disableSync) {
                 return;
               }
@@ -137,47 +133,47 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
               applyChangesLater(scope);
             });
 
-            scope.$watch('mode', function(mode) {
+            scope.$watch('mode', function (mode) {
               if (!mode) {
                 return;
               }
               editor.getSession().setMode('ace/mode/' + mode);
             });
 
-            scope.$watch('data.content', function(content) {
+            scope.$watch('data.content', function (content) {
               if (!content) {
                 return;
               }
 
               if (scope.editorMode === 'player') {
-                withoutSync(function() {
+                withoutSync(function () {
                   updateEditorContent(editor, scope.data);
                 });
               }
               triggerChangeLater(scope);
             });
 
-            scope.$watch('editorMode', function() {
+            scope.$watch('editorMode', function () {
               editor.setReadOnly(scope.editorMode === 'player');
             });
 
-            scope.$watch('data.editor', function() {
+            scope.$watch('data.editor', function () {
               if (scope.editorMode !== 'player') {
                 return;
               }
               // sometimes editor is not visible yet
-              $timeout(function() {
-                withoutSync(function() {
+              $timeout(function () {
+                withoutSync(function () {
                   updateEditorOptions(editor, scope.data);
                 });
               }, 30);
             }, true);
 
-            scope.$watch('data', function() {
+            scope.$watch('data', function () {
               if (!scope.data) {
                 return;
               }
-              withoutSync(function() {
+              withoutSync(function () {
                 updateMode(scope.name);
                 updateEditorContent(editor, scope.data);
                 updateEditorOptions(editor, scope.data);
@@ -186,7 +182,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
 
             editor.resize();
 
-            scope.$on('$destroy', function() {
+            scope.$on('$destroy', function () {
               editor.destroy();
             });
           }, 150);
@@ -196,18 +192,18 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     }
   ]);
 
-  function syncEditorContent(editor, tab) {
+  function syncEditorContent (editor, tab) {
     tab.content = editor.getValue();
   }
 
-  function syncEditorOptions(editor, options) {
+  function syncEditorOptions (editor, options) {
     options.cursorPosition = editor.getCursorPosition();
     options.selectionRange = JSON.parse(JSON.stringify(editor.getSelectionRange()));
     options.firstVisibleRow = editor.getFirstVisibleRow();
     options.lastVisibleRow = editor.getLastVisibleRow();
   }
 
-  function updateEditorContent(editor, tab, forceUpdateCursor) {
+  function updateEditorContent (editor, tab, forceUpdateCursor) {
     // Remember cursor
     var pos = editor.getSelectionRange();
     editor.setValue(tab.content, -1);
@@ -217,7 +213,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     updateEditorOptions(editor, tab, forceUpdateCursor);
   }
 
-  function updateEditorSelection(editor, tab, forceUpdateCursor) {
+  function updateEditorSelection (editor, tab, forceUpdateCursor) {
     var lastRow = editor.getLastVisibleRow();
     var selection = editor.getSelection();
     var range = tab.editor.selectionRange;
@@ -227,7 +223,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     }
   }
 
-  function updateEditorScroll(editor, tab) {
+  function updateEditorScroll (editor, tab) {
     var firstRow = tab.editor.firstVisibleRow;
     // Now check if our selection is still visilbe
     var selectionRow = tab.editor.selectionRange.start.row;
@@ -243,7 +239,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     editor.scrollToLine(Math.floor(selectionRow - scaledRowDiff), false, true);
   }
 
-  function updateEditorOptions(ed, tab, forceUpdateCursor) {
+  function updateEditorOptions (ed, tab, forceUpdateCursor) {
     if (!tab || !tab.editor) {
       return;
     }
@@ -251,7 +247,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     updateEditorScroll(ed, tab);
   }
 
-  function getMode(name, givenMode) {
+  function getMode (name, givenMode) {
     var modesMap = {
       'js': 'javascript',
       'es6': 'javascript'
@@ -266,6 +262,5 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     mode = modesMap[mode] || mode;
     return mode;
   }
-
 
 });

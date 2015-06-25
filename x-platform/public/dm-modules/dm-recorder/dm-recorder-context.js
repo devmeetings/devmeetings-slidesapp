@@ -3,36 +3,30 @@
 
 import _ from '_';
 
-
 class RecorderContext {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link() {
+  link() {}
 
-  }
-
-  controller(self) {
+  controller( self) {
     self.getRecorder = () => {
       return this.recorder;
     };
   }
 
-  createRecorder(workspaceId) {
+  createRecorder( workspaceId) {
     this.recorder = this.dmRecorder(workspaceId);
     this.recorder.workspaceId = workspaceId;
     return this.recorder;
   }
 }
 
-
 export default function(dmRecorder) {
-
   let recorderContext = new RecorderContext({
-    dmRecorder
-  });
+  dmRecorder});
 
   return {
     restrict: 'E',
@@ -40,15 +34,15 @@ export default function(dmRecorder) {
       recorder: '=',
       workspaceId: '='
     },
-    controller: function($scope) {
+    controller: function ($scope) {
       recorderContext.controller(this);
 
       $scope.$watch('workspaceId', (wId) => {
         $scope.recorder = recorderContext.createRecorder(wId);
       });
     },
-    link(scope, element) {
+    link( scope, element) {
       recorderContext.link(scope, element);
-     }
+    }
   };
 }

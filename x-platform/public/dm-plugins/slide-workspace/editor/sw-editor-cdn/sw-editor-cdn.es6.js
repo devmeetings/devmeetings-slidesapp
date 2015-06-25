@@ -2,11 +2,8 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import _ from '_'; 
+import _ from '_';
 import viewTemplate from './sw-editor-cdn.html!text';
-
-
-
 
 sliderPlugins.directive('swEditorCdn', ($log) => {
 
@@ -22,81 +19,77 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
     bindToController: true,
     controllerAs: 'cdn',
     template: viewTemplate,
-    controller: function($scope, $log) {
+    controller: function ($scope, $log) {
       let self = this;
 
-      var libraries = [ 
+      var libraries = [
         {
-          'name':'jQuery',
-          'source':'/cdn/jquery/2.1.4/jquery.min.js',
-          'tagCategory':'script'
+          'name': 'jQuery',
+          'source': '/cdn/jquery/2.1.4/jquery.min.js',
+          'tagCategory': 'script'
         },
-        { 
-          'name':'AngularJS',
-          'source':'/cdn/angular.js/1.3.14/angular.js',
-          'tagCategory':'script'
+        {
+          'name': 'AngularJS',
+          'source': '/cdn/angular.js/1.3.14/angular.js',
+          'tagCategory': 'script'
         },
-        { 
-          'name':'Bootstrap (JS)',
-          'source':'/cdn/bootstrap/3.3.5/js/bootstrap.js',
-          'tagCategory':'script'
+        {
+          'name': 'Bootstrap (JS)',
+          'source': '/cdn/bootstrap/3.3.5/js/bootstrap.js',
+          'tagCategory': 'script'
         },
-        { 
-          'name':'Bootstrap (CSS)',
-          'source':'/cdn/bootstrap/3.3.5/css/bootstrap.min.css',
-          'tagCategory':'link'
+        {
+          'name': 'Bootstrap (CSS)',
+          'source': '/cdn/bootstrap/3.3.5/css/bootstrap.min.css',
+          'tagCategory': 'link'
         }
       ];
 
-      function insertToString(input, index, string) {
-
+      function insertToString (input, index, string) {
         if (index > 0) {
           return input.substring(0, index) + string + input.substring(index, input.length);
         } else {
           return string + input;
-        } 
+        }
       }
 
-      self.getLibraries = function() {
-
-        if ( self.cdnLibraries.libraries && self.cdnLibraries.libraries.length >= 1 ) {
+      self.getLibraries = function () {
+        if ( self.cdnLibraries.libraries && self.cdnLibraries.libraries.length >= 1) {
           return self.cdnLibraries.libraries;
         }
         return libraries;
       };
 
-      self.selectLibrary = function(library) {
+      self.selectLibrary = function (library) {
         var code = self.activeTab.content;
 
-        function getCodeToInsert(source, tagCategory) {
-
+        function getCodeToInsert (source, tagCategory) {
           if (tagCategory === 'link') {
-            return '<link href="'+source+'" rel="stylesheet">\n';
-          } 
-          
+            return '<link href="' + source + '" rel="stylesheet">\n';
+          }
+
           if (tagCategory === 'script') {
-            return '<script src="'+source+'"></script>\n';
+            return '<script src="' + source + '"></script>\n';
           }
 
           return source;
         }
 
-        function getSearchPattern(tagCategory) {
-
+        function getSearchPattern (tagCategory) {
           if (tagCategory === 'link') {
             return /<\s*\/\s*head\s*>/;
-          } 
-          else if (tagCategory === 'script'){
+          }
+          else if (tagCategory === 'script') {
             return /<\s*\/\s*body\s*>/;
           }
         }
 
-        function findIndexWhereToInsertCode(code, tagCategory) {
+        function findIndexWhereToInsertCode (code, tagCategory) {
           var searchPattern = getSearchPattern(tagCategory);
           var match = code.match(searchPattern);
 
           if (match) {
-            return code.indexOf((match[0])); 
+            return code.indexOf((match[0]));
           }
           return code.length;
         }
@@ -107,16 +100,16 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         self.onRefreshContent();
       };
 
-      self.whenHtmlFile = function(activeTabName) {
-        var activeTabExtension = activeTabName.split('|').slice(-1)[0]; 
+      self.whenHtmlFile = function (activeTabName) {
+        var activeTabExtension = activeTabName.split('|').slice(-1)[0];
         var allowedExtensions = ['html', 'htm'];
 
-        if ( _.includes(allowedExtensions, activeTabExtension) ) {
+        if ( _.includes(allowedExtensions, activeTabExtension)) {
           return true;
         }
         return false;
       };
- 
+
     }
   };
 

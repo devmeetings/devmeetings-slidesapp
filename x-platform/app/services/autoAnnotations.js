@@ -2,11 +2,12 @@ var cache = require('./cache');
 
 module.exports = generateAutoAnnotationsForUnifiedHistoryFormat;
 
-function generateAutoAnnotationsCached(recording) {
+/* jshint unused:false */
+function generateAutoAnnotationsCached (recording) {
   'use strict';
 
   if (recording.cacheKey) {
-    return cache.get(recording.cacheKey, function() {
+    return cache.get(recording.cacheKey, function () {
       return generateAutoAnnotationsForUnifiedHistoryFormat(recording);
     });
   }
@@ -14,8 +15,7 @@ function generateAutoAnnotationsCached(recording) {
   return generateAutoAnnotationsForUnifiedHistoryFormat(recording);
 }
 
-
-function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
+function generateAutoAnnotationsForUnifiedHistoryFormat (recording) {
   'use strict';
 
   // [ToDr] Included here because of circular dependencies.
@@ -37,7 +37,7 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
 
   var lastIdx = recording.patches.length - 1;
 
-  return states.reducePatchesContent(recording, function(memo, slide, idx) {
+  return states.reducePatchesContent(recording, function (memo, slide, idx) {
     if (!slide.current || !slide.current.workspace) {
       return memo;
     }
@@ -84,11 +84,10 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
     memo.timestamp = slide.timestamp;
     return memo;
 
-  }, start).then(function(memo) {
-
-    return memo.annotations.sort(function(a, b) {
+  }, start).then(function (memo) {
+    return memo.annotations.sort(function (a, b) {
       return a.timestamp - b.timestamp;
-    }).reduce(function(memo, anno) {
+    }).reduce(function (memo, anno) {
       if (!memo.length) {
         return [anno];
       }
@@ -103,14 +102,12 @@ function generateAutoAnnotationsForUnifiedHistoryFormat(recording) {
   });
 }
 
-
-
-function pushAnno(memo, slide, reason, description) {
+function pushAnno (memo, slide, reason, description) {
   'use strict';
   description = description || '';
   var anno = {
     description: description,
-    timestamp: Math.max(0, (slide.timestamp-100) / 1000),
+    timestamp: Math.max(0, (slide.timestamp - 100) / 1000),
     type: 'comment',
   };
   if (reason) {
@@ -119,8 +116,7 @@ function pushAnno(memo, slide, reason, description) {
   memo.annotations.push(anno);
 }
 
-
-function notesDetected(memo, slide) {
+function notesDetected (memo, slide) {
   'use strict';
   if (!slide.code.notes) {
     return false;
@@ -136,7 +132,7 @@ function notesDetected(memo, slide) {
 
   return lastNotes[lastNotes.length - 2];
 }
-function chatNotesDetected(memo, slide) {
+function chatNotesDetected (memo, slide) {
   'use strict';
   if (!slide.code.chatnotes) {
     return false;
@@ -151,7 +147,7 @@ function chatNotesDetected(memo, slide) {
   return currentNotes[currentNotes.length - 1];
 }
 
-function movementDetected(memo, slide) {
+function movementDetected (memo, slide) {
   'use strict';
   var workspace = slide.code.workspace;
   var active = workspace.active;
@@ -178,14 +174,14 @@ function movementDetected(memo, slide) {
   return false;
 }
 
-function largeJumpDetected(memo, slide) {
+function largeJumpDetected (memo, slide) {
   'use strict';
 
   var workspace = slide.code.workspace;
   var active = workspace.active;
   var tab = workspace.tabs[active];
 
-  function getRow(tab) {
+  function getRow (tab) {
     if (!tab.editor || !tab.editor.cursorPosition) {
       return null;
     }

@@ -4,11 +4,10 @@ import _ from '_';
 
 class Ranking {
 
-  //TODO [ToDr] This is shitty - taking eventId from $stateParams
-  constructor(Sockets, $q, dmUser, $stateParams, $rootScope) {
+  // TODO [ToDr] This is shitty - taking eventId from $stateParams
+  constructor( Sockets, $q, dmUser, $stateParams, $rootScope) {
     _.extend(this, {
-      Sockets, $q, dmUser, $stateParams, $rootScope
-    });
+    Sockets, $q, dmUser, $stateParams, $rootScope});
 
     // TODO [ToDr] We are assuming that user is inside proper room!
     this.Sockets.on('ranking', (ranking) => {
@@ -20,13 +19,13 @@ class Ranking {
     });
   }
 
-  onNewRanking(ranking) {
+  onNewRanking( ranking) {
     this.$rootScope.$apply(() => {
       this.currentRanking = ranking;
     });
   }
 
-  markAsDone(iterationIdx, taskIdx, isDone, noOfTasks) {
+  markAsDone( iterationIdx, taskIdx, isDone, noOfTasks) {
     var self = this;
     var d = this.$q.defer();
     this.Sockets.emit('ranking.done', {
@@ -50,7 +49,7 @@ class Ranking {
     // Fetch ranking!
     var d = this.$q.defer();
     var self = this;
-    this.Sockets.emit('ranking.fetch', eventId, function(ranking) {
+    this.Sockets.emit('ranking.fetch', eventId, function (ranking) {
       self.onNewRanking(ranking);
       d.resolve(ranking);
     });
@@ -66,6 +65,5 @@ class Ranking {
     });
   }
 }
-
 
 xplatformApp.service('dmRanking', Ranking);

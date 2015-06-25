@@ -20,15 +20,14 @@ define(['angular',
   'dm-modules/dm-sref-show/dm-sref-show',
   'dm-modules/dm-online/dm-online',
   'dm-modules/dm-history/dm-history'
-], function(angular) {
-
+], function (angular) {
   'use strict';
 
   return angular.module('xplatform', [
     'slider', 'slider.plugins',
     'ui.router', 'ui.bootstrap',
     'angularMoment', 'cfp.hotkeys', 'hc.marked', 'FBAngular', 'ngAnimate', 'ngScrollbar',
-    'dm-xplayer', 'dm-user', 'dm-mongotime', 'dm-gravatar', 
+    'dm-xplayer', 'dm-user', 'dm-mongotime', 'dm-gravatar',
     'dm-wavesurfer', 'dm-browsertab', 'dm-recorder', 'dm-history', 'dm-online', 'dm-intro', 'dm-sref-show'
   ]);
 });

@@ -49,7 +49,7 @@ import deckView from './controllers/dm-xplatform-deck/dm-xplatform-deck.html!tex
 import playerView from './controllers/dm-xplatform-player/dm-xplatform-player.html!text';
 import trainerView from './controllers/dm-xplatform-trainer/dm-xplatform-trainer.html!text';
 
-function contextMenu(tabs) {
+function contextMenu (tabs) {
   var tpl = ['<dm-xplatform-context',
     'opened="opened"',
     'event="event"',
@@ -58,29 +58,28 @@ function contextMenu(tabs) {
   ];
   if (tabs) {
     tabs = JSON.stringify(tabs);
-    tpl.push('with=\'' + tabs + '\'');
+    tpl.push("with='" + tabs + "'");
   }
   return {
     template: tpl.join(' ') + '></dm-xplatform-context>'
   };
 }
 
-function xplaMenu() {
+function xplaMenu () {
   return {
     template: '<dm-xplatform-menu user-workspace-id="workspaceId" opened="right.opened" event="event" user="user"></dm-xplatform-menu>'
   };
 }
 
-function forward() {
+function forward () {
   return {
     template: '<div class="full-height ui-view-animate" ui-view="content"></div>'
   };
 }
 
 xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser', '$window',
-  function($rootScope, $state, $modal, $location, dmUser, $window) {
-
-    $rootScope.$on('$stateChangeStart', function(event, toState) {
+  function ($rootScope, $state, $modal, $location, dmUser, $window) {
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
       if (toState.name === 'redirect') {
         var destination = $window.localStorage.redirectUrl || '/';
         $window.location.href = destination;
@@ -112,8 +111,8 @@ xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser', '$win
       });
     });
 
-    $rootScope.onEditModeSave = function(scope, func) {
-      var off = $rootScope.$watch('editMode', function(newVal, oldVal) {
+    $rootScope.onEditModeSave = function (scope, func) {
+      var off = $rootScope.$watch('editMode', function (newVal, oldVal) {
         if (newVal === oldVal || newVal) {
           return;
         }
@@ -125,7 +124,7 @@ xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser', '$win
   }
 ]);
 
-xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+xplatformApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 
   $stateProvider.state('redirect', {
@@ -143,7 +142,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         controller: 'XplatformIndexCtrl'
       }
     },
-    onEnter: function($rootScope, dmBrowserTab) {
+    onEnter: function ($rootScope, dmBrowserTab) {
       dmBrowserTab.setTitleAndIcon('XPlatform', 'xplatform');
       $rootScope.xplatformData = {
         navbar: {},
@@ -160,7 +159,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         template: loginView,
       }
     },
-    onEnter: function($rootScope, dmBrowserTab) {
+    onEnter: function ($rootScope, dmBrowserTab) {
       dmBrowserTab.setTitleAndIcon('Login');
       $rootScope.xplatformData.navbar = {
         showTitle: true,
@@ -184,7 +183,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         template: registerView
       }
     },
-    onEnter: function($rootScope, dmBrowserTab) {
+    onEnter: function ($rootScope, dmBrowserTab) {
       dmBrowserTab.setTitleAndIcon('Register');
       $rootScope.xplatformData.navbar = {
         showTitle: true,
@@ -207,7 +206,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         template: privacyView
       }
     },
-    onEnter: function($rootScope, dmBrowserTab) {
+    onEnter: function ($rootScope, dmBrowserTab) {
       dmBrowserTab.setTitleAndIcon('Polityka Prywatności');
       $rootScope.xplatformData.navbar = {
         title: 'Polityka prywatności',
@@ -230,7 +229,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         controller: 'dmXplatformDevhero'
       }
     },
-    onEnter: function($rootScope) {
+    onEnter: function ($rootScope) {
       $rootScope.xplatformData.columns = {
         left: 12,
         mid: 0,
@@ -248,7 +247,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         controller: 'dmXplatformWorkshoplist as vmWorkshoplist'
       }
     },
-    onEnter: function($rootScope, dmBrowserTab) {
+    onEnter: function ($rootScope, dmBrowserTab) {
       dmBrowserTab.setTitleAndIcon('Courses');
       $rootScope.xplatformData.navbar = {
         showTitle: true,
@@ -274,7 +273,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         template: optionsView
       }
     },
-    onEnter: function($rootScope, dmBrowserTab) {
+    onEnter: function ($rootScope, dmBrowserTab) {
       dmBrowserTab.setTitleAndIcon('Profile');
       $rootScope.xplatformData.navbar = {
         showTitle: true,
@@ -297,7 +296,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
         controller: 'dmXplatformSpace'
       },
     },
-    onEnter: function($rootScope) {
+    onEnter: function ($rootScope) {
       $rootScope.xplatformData.columns = {
         left: 0,
         mid: 12,
@@ -305,7 +304,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
       };
       $rootScope.headerHidden = true;
     },
-    onExit: function($rootScope) {
+    onExit: function ($rootScope) {
       $rootScope.headerHidden = false;
     }
   });
@@ -334,9 +333,8 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
     }
   });
 
-
-  function newOldState(space, title, data) {
-    var copy = function() {
+  function newOldState (space, title, data) {
+    var copy = function () {
       return JSON.parse(JSON.stringify(data));
     };
 
@@ -354,7 +352,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
     }
   });
 
-  $stateProvider.state('index.space.learn.slide',{
+  $stateProvider.state('index.space.learn.slide', {
     url: '/slide/:slide',
     views: {
       content: {
@@ -363,7 +361,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
       },
       context: contextMenu()
     }
-    });
+  });
 
   $stateProvider.state('index.space.collaborate.question', {
     url: '/question/:slide?parent',
@@ -415,7 +413,6 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
     }
   });
 
-
   $stateProvider.state('index.space.learn.todo', {
     url: '/todo/:iteration/:todo',
     views: {
@@ -464,7 +461,7 @@ xplatformApp.config(function($stateProvider, $urlRouterProvider, $locationProvid
     url: '/history/:historyId',
     views: {
       content: {
-        template: historyView, 
+        template: historyView,
         controller: 'dmXplatformHistory'
       },
       context: contextMenu(['history', 'notes'])

@@ -1,16 +1,14 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import getExtension from 'dm-modules/dm-editor/get-extension.es6';
 import viewTemplate from './sw-editor-tabs.html!text';
 
-
 class Tab {
 
-  constructor(tabName) {
+  constructor( tabName) {
     this.name = tabName;
     this.fileName = this.getFileName();
     this.type = this.getExtension();
@@ -33,17 +31,15 @@ class Tab {
     return dir + '/' + getExtension(file);
   }
 
-
 }
-
 
 class SwEditorTabs {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(self) {
+  controller( self) {
     self.moveTabsLeftThreshold = 5;
 
     self.insertTab = () => this.insertTab(self);
@@ -58,14 +54,14 @@ class SwEditorTabs {
     });
   }
 
-  createTabObjects(tabNames) {
+  createTabObjects( tabNames) {
     return _.sortBy(
       tabNames
-      .map((tabName) => new Tab(tabName)),
+        .map((tabName) => new Tab(tabName)),
       'order');
   }
 
-  activateTab(self, tabName) {
+  activateTab( self, tabName) {
     if (self.activeTabName === tabName) {
       this.editTabName(self, tabName);
       return;
@@ -74,7 +70,7 @@ class SwEditorTabs {
     self.activeTabName = tabName;
   }
 
-  insertTab(self) {
+  insertTab( self) {
     var name = this.promptForName();
     if (!name) {
       return;
@@ -86,7 +82,7 @@ class SwEditorTabs {
     self.editorUndoManager.initTab(name);
   }
 
-  removeTab(self, tabName) {
+  removeTab( self, tabName) {
     let sure = this.promptForRemoval(tabName);
     if (!sure) {
       return;
@@ -94,7 +90,7 @@ class SwEditorTabs {
     this.deleteTabAndFixActive(self, tabName);
   }
 
-  editTabName(self, tabName) {
+  editTabName( self, tabName) {
     var newName = this.promptForName(tabName);
     if (!newName) {
       return;
@@ -104,7 +100,7 @@ class SwEditorTabs {
     self.editorUndoManager.initTab(newName);
   }
 
-  deleteTabAndFixActive(self, tabName, newName) {
+  deleteTabAndFixActive( self, tabName, newName) {
     delete self.allTabs[tabName];
     self.editorUndoManager.removeTab(tabName);
 
@@ -114,7 +110,7 @@ class SwEditorTabs {
   }
 
   // This is temporary hack!
-  promptForName(old) {
+  promptForName( old) {
     var name = this.$window.prompt('Insert new filename', old ? old.replace(/\|/g, '.') : '');
     if (!name) {
       return;
@@ -122,17 +118,16 @@ class SwEditorTabs {
     return name.replace(/\./g, '|');
   }
 
-  promptForRemoval(tabName) {
+  promptForRemoval( tabName) {
     return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
   }
 
-  shouldDisplayTooltip(self, tabName) {
+  shouldDisplayTooltip( self, tabName) {
     let hasLongName = tabName.length > 15;
     return hasLongName;
   }
 
 }
-
 
 sliderPlugins.directive('swEditorTabs', () => {
 
@@ -147,10 +142,9 @@ sliderPlugins.directive('swEditorTabs', () => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller: function($scope, $window) {
+    controller: function ($scope, $window) {
       let tabs = new SwEditorTabs({
-        $scope, $window
-      });
+      $scope, $window});
       tabs.controller(this);
     }
   };

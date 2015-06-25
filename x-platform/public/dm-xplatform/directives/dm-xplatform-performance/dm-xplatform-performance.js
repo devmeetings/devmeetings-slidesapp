@@ -1,7 +1,7 @@
-define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.html!text'], function(angular, xplatformApp, viewTemplate) {
+define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.html!text'], function (angular, xplatformApp, viewTemplate) {
   'use strict';
 
-  function readPerformanceData(localStorage) {
+  function readPerformanceData (localStorage) {
     var perf = localStorage.performance;
     try {
       return JSON.parse(perf);
@@ -10,11 +10,11 @@ define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.htm
     }
   }
 
-  function savePerformanceData(localStorage, perf) {
+  function savePerformanceData (localStorage, perf) {
     localStorage.performance = JSON.stringify(perf);
   }
 
-  function setPropEnabled(perf, name, enabled) {
+  function setPropEnabled (perf, name, enabled) {
     if (enabled) {
       perf.push(name);
     } else if (perf.indexOf(name) > -1) {
@@ -22,31 +22,29 @@ define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.htm
     }
   }
 
-
   var props = ['anims', 'shadows', 'player_full_screen', 'workspace_output_noanim', 'workspace_output_noauto', 'workspace_output_scalling'];
 
-  xplatformApp.run(function($window, $rootScope, $timeout) {
-    $timeout(function() {
+  xplatformApp.run(function ($window, $rootScope, $timeout) {
+    $timeout(function () {
       $rootScope.performance = [];
       // Initial Loading of perforamnce data
       var performance = readPerformanceData($window.localStorage);
-      props.map(function(prop) {
+      props.map(function (prop) {
         setPropEnabled($rootScope.performance, prop, performance[prop]);
       });
     }, 100);
   });
 
-  xplatformApp.directive('dmXplatformPerformance', ['$window', '$rootScope', function($window, $rootScope) {
-
+  xplatformApp.directive('dmXplatformPerformance', ['$window', '$rootScope', function ($window, $rootScope) {
     return {
       restrict: 'E',
       scope: {},
       template: viewTemplate,
-      link: function(scope) {
+      link: function (scope) {
         scope.performance = readPerformanceData($window.localStorage);
 
-        function prop(name) {
-          scope.$watch('performance.' + name, function(enabled) {
+        function prop (name) {
+          scope.$watch('performance.' + name, function (enabled) {
             setPropEnabled($rootScope.performance, name, enabled);
             savePerformanceData($window.localStorage, scope.performance);
           });

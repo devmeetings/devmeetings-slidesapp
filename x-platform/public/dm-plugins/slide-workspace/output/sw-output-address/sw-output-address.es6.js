@@ -1,12 +1,11 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
 import viewTemplate from './sw-output-address.html!text';
 import qrCodeTemplate from './qrcode.html!text';
 
-function ModalCtrl($scope, address) {
+function ModalCtrl ($scope, address) {
   $scope.address = address;
 }
 
@@ -29,9 +28,9 @@ sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller: function() {
+    controller: function () {
       let scope = this;
-      scope.urlKeyPress = function(ev) {
+      scope.urlKeyPress = function (ev) {
         if (ev.keyCode !== 13) {
           return;
         }

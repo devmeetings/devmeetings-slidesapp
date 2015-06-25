@@ -17,14 +17,14 @@ const names = {
 
 class ContextMenuDir {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link(scope) {
+  link( scope) {
     scope.noEventMenu = true;
 
-    function refreshEditMode() {
+    function refreshEditMode () {
       var isEditMode = scope.isEditMode;
       if (!scope.display) {
         return;
@@ -103,37 +103,33 @@ class ContextMenuDir {
     this.initNotifications(scope);
   }
 
-
-  initNotifications($scope) {
+  initNotifications( $scope) {
     $scope.notifications = {};
-    $scope.$on('event.questions.update', function() {
+    $scope.$on('event.questions.update', function () {
       $scope.notifications.unread = true;
     });
   }
 
-  }
+}
 
+xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
 
-  xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      with: '=?',
+      event: '=',
+      user: '=',
+      opened: '=',
+      isEditMode: '=?'
+    },
+    template: viewTemplate,
+    link: (scope) => {
+      let contextMenu = new ContextMenuDir({
+      $stateParams, $window});
+      contextMenu.link(scope);
+    }
+  };
 
-
-    return {
-      restrict: 'E',
-      replace: true,
-      scope: {
-        with: '=?',
-        event: '=',
-        user: '=',
-        opened: '=',
-        isEditMode: '=?'
-      },
-      template: viewTemplate,
-      link: (scope) => {
-        let contextMenu = new ContextMenuDir({
-            $stateParams, $window
-        });
-        contextMenu.link(scope);
-      }
-    };
-
-  });
+});

@@ -6,7 +6,7 @@ import _ from '_';
 
 let jsondiffpatch2 = jsondiffpatch.create({
   textDiff: {
-    minLength: 1024*100
+    minLength: 1024 * 100
   }
 });
 
@@ -16,12 +16,12 @@ class Common {
     this.clear();
   }
 
-  setState(statesaveId, slide) {
+  setState( statesaveId, slide) {
     this.state.current = slide;
     this.fillInIds(statesaveId);
   }
 
-  fillInIds(id) {
+  fillInIds( id) {
     if (!id) {
       return;
     }
@@ -50,7 +50,7 @@ class Common {
 
 export class Recorder extends Common {
 
-  newState(slide) {
+  newState( slide) {
     // Now calcualte diff
     var patch = jsondiffpatch2.diff(this.state.current, slide);
     if (!patch) {
@@ -68,24 +68,23 @@ export class Recorder extends Common {
 
 export class Player extends Common {
 
-
-  applyCurrentState(current) {
+  applyCurrentState( current) {
     // We have to keep the same reference! So let's just clear the object
     var obj = this.state.current;
-    Object.keys(obj).forEach(function(key) {
+    Object.keys(obj).forEach(function (key) {
       delete obj[key];
     });
     _.extend(obj, current);
   }
 
-  getPatches(patchId) {
+  getPatches( patchId) {
     if (patchId.current) {
       return [patchId.current];
     }
     return patchId.patches;
   }
 
-  applyPatchesAndId(patches) {
+  applyPatchesAndId( patches) {
     if (patches.current) {
       this.applyCurrentState(patches.current);
     } else {
@@ -97,7 +96,7 @@ export class Player extends Common {
     this.fillInIds(patches.id);
   }
 
-  applyReversePatchesAndId(patches) {
+  applyReversePatchesAndId( patches) {
     if (patches.current) {
       this.applyCurrentState(patches.current);
     } else {

@@ -1,9 +1,8 @@
-define(['$', 'angular'], function($, angular) {
+define(['$', 'angular'], function ($, angular) {
   'use strict';
 
-  angular.module('dm-intro', []).factory('dmIntro', function($timeout, $window) {
-
-    function getData() {
+  angular.module('dm-intro', []).factory('dmIntro', function ($timeout, $window) {
+    function getData () {
       var data = $window.localStorage.getItem('introdata') || '{}';
       try {
         return JSON.parse(data);
@@ -12,22 +11,22 @@ define(['$', 'angular'], function($, angular) {
       }
     }
 
-    function saveData(data) {
+    function saveData (data) {
       $window.localStorage.setItem('introdata', JSON.stringify(data));
     }
 
-    function isFirstTime(key) {
+    function isFirstTime (key) {
       return !getData()[key];
     }
 
-    function setNotFirstTime(key) {
+    function setNotFirstTime (key) {
       var data = getData();
       data[key] = true;
       saveData(data);
     }
 
     return {
-      startIfFirstTime: function(key, $element) {
+      startIfFirstTime: function (key, $element) {
         if (!isFirstTime(key)) {
           return;
         }
@@ -35,10 +34,10 @@ define(['$', 'angular'], function($, angular) {
         setNotFirstTime(key);
         $element = $element || 'body';
 
-        // TODO [ToDr] Temporarily disable due to issues with chardin + jspm
-        // $timeout(function() {
-        // $($element).chardinJs('start');
-        // }, 1500);
+      // TODO [ToDr] Temporarily disable due to issues with chardin + jspm
+      // $timeout(function() {
+      // $($element).chardinJs('start');
+      // }, 1500);
       }
     };
 

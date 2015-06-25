@@ -7,14 +7,11 @@ import viewTemplate from './dm-event-admin.html!text';
 
 class EventAdmin {
 
-  link(scope) {
-  }
+  link( scope) {}
 
 }
 
-
 xplatformApp.directive('dmEventAdmin', () => {
-
 
   return {
     restrict: 'E',
@@ -23,7 +20,7 @@ xplatformApp.directive('dmEventAdmin', () => {
       event: '='
     },
     template: viewTemplate,
-    link: ( /*args*/ ) => {
+    link: ( /*args*/) => {
       let eventAdmin = new EventAdmin({});
       return eventAdmin.link.apply(eventAdmin, arguments);
     }

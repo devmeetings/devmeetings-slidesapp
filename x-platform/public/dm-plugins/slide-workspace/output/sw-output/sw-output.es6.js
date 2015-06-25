@@ -7,11 +7,11 @@ import viewTemplate from './sw-output.html!text';
 
 class SwOutput {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(scope, $scope) {
+  controller( scope, $scope) {
     let self = this;
     $scope.$watch(() => scope.appliedPath, (newPath, oldPath) => {
       if (newPath === oldPath) {
@@ -37,7 +37,7 @@ class SwOutput {
     };
   }
 
-  applyCurrentUrl(scope) {
+  applyCurrentUrl( scope) {
     scope.currentBaseUrl = scope.baseUrl;
     scope.currentAppliedPath = scope.appliedPath;
     this.refreshCurrentUrl(scope);
@@ -47,7 +47,7 @@ class SwOutput {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
-  refreshCurrentUrl(scope) {
+  refreshCurrentUrl( scope) {
     let path = scope.currentAppliedPath || '/';
     let randomPart = this.getRandomPart(path);
     if (!scope.currentBaseUrl) {
@@ -56,7 +56,7 @@ class SwOutput {
     scope.currentUrl = scope.currentBaseUrl + path + randomPart;
   }
 
-  getRandomPart(path) {
+  getRandomPart( path) {
     let part = new Date().getTime();
 
     if (path.indexOf('?') > -1) {
@@ -91,12 +91,11 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller($scope) {
+    controller( $scope) {
       this.output = {};
 
       let output = new SwOutput({
-        $rootScope
-      });
+      $rootScope});
 
       output.controller(this, $scope);
     }

@@ -3,11 +3,11 @@ define([
   './dm-xplayer-full.html!text',
   'dm-xplayer/directives/dm-xplayer/dm-xplayer',
   'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline',
-], function(xplayerApp, viewTemplate) {
+], function (xplayerApp, viewTemplate) {
   'use strict';
 
   xplayerApp.directive('dmXplayerFull',
-    function() {
+    function () {
       return {
         restrict: 'E',
         scope: {

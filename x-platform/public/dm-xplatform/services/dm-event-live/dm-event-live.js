@@ -4,16 +4,14 @@ import _ from '_';
 
 class EventLive {
 
-  constructor(Sockets, dmPlayer) {
+  constructor( Sockets, dmPlayer) {
     _.extend(this, {
-      Sockets, dmPlayer
-    });
+    Sockets, dmPlayer});
   }
 
-  listenToUsersOnline($scope, eventId, workspaceId, cb) {
+  listenToUsersOnline( $scope, eventId, workspaceId, cb) {
     this.Sockets.emit('event.join', {
-      eventId, workspaceId
-    }, function(users) {
+    eventId, workspaceId}, function (users) {
       cb({
         action: 'initial',
         eventId: eventId,
@@ -28,7 +26,7 @@ class EventLive {
     });
   }
 
-  watchWorkspace($scope, workspaceId, cb) {
+  watchWorkspace( $scope, workspaceId, cb) {
     this.Sockets.emit('state.subscribe', workspaceId);
     this.Sockets.on('state.patches', cb);
 
@@ -38,7 +36,7 @@ class EventLive {
     });
   }
 
-  createWorkspacePlayerSource($scope, workspaceId, statesaveId, initialState) {
+  createWorkspacePlayerSource( $scope, workspaceId, statesaveId, initialState) {
     let player = this.dmPlayer.createPlayerSource(null, statesaveId, initialState);
     this.dmPlayer.trigger('newWorkspace', workspaceId);
 
@@ -49,6 +47,5 @@ class EventLive {
     });
   }
 }
-
 
 xplatformApp.service('dmEventLive', EventLive);

@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   'use strict';
 
   var mapping = {
@@ -45,11 +45,10 @@ define([], function() {
     'sos_7': ['sos_7', 'sos majonezowy', 'majonez', 'majonezowy'],
     'sos_8': ['sos_8', 'sos tatarski', 'tatar'],
     'sos_9': ['sos_9', 'sos serowy', 'chedar', 'serowy'],
-    'sos_pomidorowy': ['sos_pomidorowy', 'tomato sauce', 'sos pomidorowy', 'uncle ben\'s'],
+    'sos_pomidorowy': ['sos_pomidorowy', 'tomato sauce', 'sos pomidorowy', "uncle ben's"],
     'szpinak': ['szpinak', 'spinachi'],
     'tempeh': ['tempeh', 'ihavenoideawhatiamdoing']
   };
-
 
   return mapping;
 

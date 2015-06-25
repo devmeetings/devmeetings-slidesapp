@@ -4,22 +4,17 @@
 import _ from '_';
 import viewTemplate from './dm-online.html!text';
 
-
 class DmOnline {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link(scope) {
-  }
+  link( scope) {}
 
 }
 
-
-export function dmOnline() {
-
-
+export function dmOnline () {
   return {
     restrict: 'E',
     scope: {

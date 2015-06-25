@@ -5,10 +5,9 @@ import _ from '_';
 
 class SpaceRedirect {
 
-  constructor($location, $window) {
+  constructor( $location, $window) {
     _.extend(this, {
-      $location, $window
-    });
+    $location, $window});
   }
 
   redirectIfNeeded() {

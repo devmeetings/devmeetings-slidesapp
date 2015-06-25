@@ -8,7 +8,7 @@ var express = require('express'),
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
-db.on('error', function() {
+db.on('error', function () {
   throw new Error('unable to connect to database at ' + config.db);
 });
 
@@ -38,7 +38,7 @@ var server = http2.createServer({
 }, app);
 
 if (config.meteorProxy) {
-  server.on('upgrade', function(req) {
+  server.on('upgrade', function (req) {
     if (req.url.indexOf('/live') === 0) {
       return proxy.ws.apply(proxy, arguments);
     }
@@ -50,15 +50,14 @@ var io = socketio(server);
 require('./config/sockets')(io, sessionConfig);
 
 // Configure blocked
-require('./config/blocked')(function(ms) {
-
+require('./config/blocked')(function (ms) {
   logger.warn('Blocked for ' + ms + 'ms', {
     blockedFor: ms
   });
 
 });
 
-server.listen(config.port, function() {
+server.listen(config.port, function () {
   logger.info('Server listening on port:', config.port, ' with env: ' + config.name);
 });
 
@@ -67,7 +66,7 @@ if (config.isDev) {
   var server = require('http').createServer(app);
   var io = socketio(server);
   require('./config/sockets')(io, sessionConfig, true);
-  server.listen(unsafePort, function() {
+  server.listen(unsafePort, function () {
     logger.info('UNSAFE DEVELOPMENT! Version listening on port:', unsafePort);
   });
 }

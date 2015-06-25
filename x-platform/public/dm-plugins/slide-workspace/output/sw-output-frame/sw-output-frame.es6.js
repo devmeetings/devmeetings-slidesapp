@@ -1,28 +1,26 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import throttle from '../../throttle.es6';
 import viewTemplate from './sw-output-frame.html!text';
 
-
 class OutputFrame {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
     this.iframe1 = this.$element.find('iframe.num-one');
     this.iframe2 = this.$element.find('iframe.num-two');
     this.progressBar = this.$element.find('.progress-bar');
     this.scope.activeFrame = 0;
 
-    this.setAddressLater = throttle(this.scope, (url)=>{
+    this.setAddressLater = throttle(this.scope, (url) => {
       this.setAddress(url);
     }, 1000);
   }
 
-  isHttp(url) {
+  isHttp( url) {
     return url.indexOf('http://') > -1;
   }
 
@@ -30,7 +28,7 @@ class OutputFrame {
     return this.$location.protocol() === 'https';
   }
 
-  setIsWarning(url) {
+  setIsWarning( url) {
     if (this.isHttp(url) && this.isCurrentPageHttps()) {
       this.scope.isWarning = true;
       return;
@@ -38,12 +36,11 @@ class OutputFrame {
     this.scope.isWarning = false;
   }
 
-  setAdressWithFramesAnimation(url) {
-
+  setAdressWithFramesAnimation( url) {
     this.iframe2.attr('src', url);
 
     this.scope.percentOfProgress = 90;
-    
+
     var currentFrame = this.iframe2;
 
     this.iframe2.one('load', () => {
@@ -54,8 +51,8 @@ class OutputFrame {
       var temporaryIframe1 = this.iframe1;
       this.iframe1 = this.iframe2;
       this.iframe2 = temporaryIframe1;
-    
-      this.scope.$apply(()=>{
+
+      this.scope.$apply(() => {
         let scope = this.scope;
         scope.activeFrame = (scope.activeFrame + 1) % 2;
         scope.percentOfProgress = 0;
@@ -64,12 +61,11 @@ class OutputFrame {
 
   }
 
-  setAdressWithoutFramesAnimation(url) {
+  setAdressWithoutFramesAnimation( url) {
     this.iframe1.attr('src', url);
   }
 
-  setAddressAndAnimateIfNeeded(url) {
-
+  setAddressAndAnimateIfNeeded( url) {
     var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
 
     if ( animationOn ) {
@@ -79,8 +75,7 @@ class OutputFrame {
     }
   }
 
-  setAddress(url) {
-
+  setAddress( url) {
     this.setIsWarning(url);
     this.setAddressAndAnimateIfNeeded(url);
 
@@ -99,10 +94,9 @@ sliderPlugins.directive('swOutputFrame', ($rootScope, $location) => {
       isDead: '='
     },
     template: viewTemplate,
-    link: function(scope, element) {
+    link: function (scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location, scope, $rootScope
-      });
+      $element: element, $location, scope, $rootScope});
 
       scope.$watch('currentUrl', (url) => {
         if (!url) {
@@ -110,7 +104,7 @@ sliderPlugins.directive('swOutputFrame', ($rootScope, $location) => {
         }
         frame.setAddressLater(url);
       });
-      
+
     }
 
   };

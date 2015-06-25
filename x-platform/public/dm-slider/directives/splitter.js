@@ -1,20 +1,19 @@
-define(['slider/slider'], function(slider) {
+define(['slider/slider'], function (slider) {
+  slider.directive('splitter', [
 
-    slider.directive('splitter', [
+    function () {
+      return {
+        restrict: 'E',
+        template: '',
+        link: function (scope, element) {
+          var section = element.children('section');
+          var aside = element.children('aside');
 
-        function() {
-            return {
-                restrict: 'E',
-                template: '',
-                link: function(scope, element) {
-                    var section = element.children('section');
-                    var aside = element.children('aside');
-
-                    scope.splitter = {
-                        size: 12
-                    };
-                }
-            };
+          scope.splitter = {
+            size: 12
+          };
         }
-    ]);
+      };
+    }
+  ]);
 });

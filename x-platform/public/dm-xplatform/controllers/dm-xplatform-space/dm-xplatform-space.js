@@ -14,15 +14,14 @@ define([
   'dm-xplatform/filters/liveLinkUrl',
   './space-visuals',
   './space-redirect'
-], function(_, xplatformApp) {
-  xplatformApp.controller('dmXplatformSpace', function(
-    $window, $scope, $stateParams, dmSpaceVisuals, 
+], function (_, xplatformApp) {
+  xplatformApp.controller('dmXplatformSpace', function (
+    $window, $scope, $stateParams, dmSpaceVisuals,
     $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab,
     dmSpaceRedirect) {
-
     dmSpaceVisuals.initialize($scope, $window);
 
-    dmUser.getCurrentUser().then(function(data) {
+    dmUser.getCurrentUser().then(function (data) {
       $scope.user = data;
       $scope.currentUserId = data.result._id;
     });
@@ -31,7 +30,7 @@ define([
     dmSlidesaves.allSaves(true);
 
     dmBrowserTab.setTitleAndIcon('xPlatform');
-    dmEvents.getEvent($stateParams.event, true).then(function(event) {
+    dmEvents.getEvent($stateParams.event, true).then(function (event) {
       if (!event) {
         return;
       }
@@ -39,12 +38,12 @@ define([
       dmBrowserTab.setTitleAndIcon(event.title);
 
       if (event.shouldRedirectToUnsafe) {
-        dmSpaceRedirect.redirectIfNeeded();       
+        dmSpaceRedirect.redirectIfNeeded();
       }
     });
 
     // Fetch current workspace
-    dmEvents.getWorkspace($stateParams.event).then(function(workspaceId) {
+    dmEvents.getWorkspace($stateParams.event).then(function (workspaceId) {
       $scope.workspaceId = workspaceId;
       dmSlidesaves.refresh();
     });

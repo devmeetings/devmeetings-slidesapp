@@ -10,21 +10,18 @@ import viewTemplate from './dm-xplatform-menu.html!text';
 
 class MenuDir {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link(scope) {
-  
+  link( scope) {
     scope.stateIncludes = (name) => this.$state.includes(name);
 
   }
 
 }
 
-
 xplatformApp.directive('dmXplatformMenu', ($window, $state, $stateParams) => {
-
 
   return {
     restrict: 'E',
@@ -39,8 +36,7 @@ xplatformApp.directive('dmXplatformMenu', ($window, $state, $stateParams) => {
     template: viewTemplate,
     link: (scope) => {
       let contextMenu = new MenuDir({
-        $window, $state, $stateParams
-      });
+      $window, $state, $stateParams});
       contextMenu.link(scope);
     }
   };

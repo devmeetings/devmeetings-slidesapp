@@ -1,22 +1,21 @@
-define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create', '../dm-xplatform-question-answer/index.html!text'], function(angular, xplatformApp, questCreate, viewTemplate) {
-  xplatformApp.controller('dmXplatformQuestion', function($scope, $rootScope, $modal, $stateParams, dmQuestions, dmEvents, dmUser) {
-
-    function checkIfActive() {
+define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-create/dm-xplatform-question-create', '../dm-xplatform-question-answer/index.html!text'], function (angular, xplatformApp, questCreate, viewTemplate) {
+  xplatformApp.controller('dmXplatformQuestion', function ($scope, $rootScope, $modal, $stateParams, dmQuestions, dmEvents, dmUser) {
+    function checkIfActive () {
       $scope.activeQuestion = $stateParams.slide;
       $scope.activeQuestionParent = $stateParams.parent;
       markAnyQuestionActive();
     }
 
-    function markAnyQuestionActive() {
+    function markAnyQuestionActive () {
       if (!$scope.questions) {
         return;
       }
-      $scope.isAnyQuestionActive = $scope.questions.reduce(function(isActive, question) {
+      $scope.isAnyQuestionActive = $scope.questions.reduce(function (isActive, question) {
         return isActive || isQuestionActive(question);
       }, false);
     }
 
-    function isQuestionActive(question) {
+    function isQuestionActive (question) {
       return $scope.activeQuestion === question.slidesave || $scope.activeQuestionParent === question.slidesave;
     }
 
@@ -25,29 +24,29 @@ define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-
     $scope.$on('$destroy', off);
 
     $scope.isQuestionActive = isQuestionActive;
-    dmQuestions.allQuestionsForEvent($stateParams.event, false).then(function(questions) {
+    dmQuestions.allQuestionsForEvent($stateParams.event, false).then(function (questions) {
       $scope.questions = questions;
       markAnyQuestionActive();
     });
 
-    dmUser.getCurrentUser().then(function(user) {
+    dmUser.getCurrentUser().then(function (user) {
       $scope.user = user;
     });
 
-    $scope.showAnswers = function(question) {
+    $scope.showAnswers = function (question) {
       var modalInstance = $modal.open({
         template: viewTemplate,
         controller: 'dmXplatformQuestionAnswer',
         windowClass: 'dm-question-modal',
         resolve: {
-          question: function() {
+          question: function () {
             return question;
           }
         }
       });
     };
 
-    $scope.createComment = function(question) {
+    $scope.createComment = function (question) {
       // TODO[ToDr] Sharing state from workspace? WTF?!
       var state = dmEvents.getState($stateParams.event, 'save');
       dmQuestions.commentQuestion(question, {

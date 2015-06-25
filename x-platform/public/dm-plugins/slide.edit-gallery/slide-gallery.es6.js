@@ -7,11 +7,11 @@ import viewTemplate from './slide-gallery.html!text';
 
 class PluginsGallery {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(vm) {
+  controller( vm) {
     vm.currentNamespace = 'slide';
 
     this.initPlugins(vm);
@@ -20,7 +20,7 @@ class PluginsGallery {
     vm.getTriggerValue = (trigger) => this.getTriggerValue(vm, trigger);
   }
 
-  initPlugins(vm) {
+  initPlugins( vm) {
     this.$scope.$watchCollection(() => Object.keys(vm.slide), () => {
 
       let allPlugins = sliderPlugins.getAllPlugins();
@@ -35,38 +35,38 @@ class PluginsGallery {
     });
   }
 
-  isActive(obj, val) {
+  isActive( obj, val) {
     return obj && obj[val];
   }
 
-  getTriggerValue(vm, trigger) {
+  getTriggerValue( vm, trigger) {
     return this.isActive(vm.slide, trigger) ||
       this.isActive(vm.slide.left, trigger) ||
       this.isActive(vm.slide.right, trigger);
   }
 
-  isPluginActive(vm, plugin) {
+  isPluginActive( vm, plugin) {
     let trigger = plugin.trigger;
     if (
-      trigger === '*' || 
+      trigger === '*' ||
       this.getTriggerValue(vm, trigger)
-     ) {
+    ) {
       return true;
     }
     return false;
   }
 
-  insertExample(vm, plugin) {
+  insertExample( vm, plugin) {
     vm.slide[plugin.trigger] = plugin.data.example.data;
   }
 
-  }
+}
 
-  sliderPlugins
+sliderPlugins
   .registerPlugin('slide.edit', '*', 'slide-plugins-gallery', {
-      name: 'Gallery',
-      description: 'Displays Gallery of plugins',
-      example: {}
+    name: 'Gallery',
+    description: 'Displays Gallery of plugins',
+    example: {}
   })
   .directive('slidePluginsGallery', () => {
     return {
@@ -79,10 +79,9 @@ class PluginsGallery {
       bindToController: true,
       controllerAs: 'vm',
       template: viewTemplate,
-      controller($scope) {
+      controller( $scope) {
         let sw = new PluginsGallery({
-            $scope
-        });
+        $scope});
         sw.controller(this);
       }
     };

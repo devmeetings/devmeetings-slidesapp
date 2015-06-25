@@ -1,7 +1,6 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import throttle from '../../throttle.es6';
@@ -9,13 +8,12 @@ import viewTemplate from './sw-editor.html!text';
 
 class SwEditor {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(self) {
-
-    self.isWithTabs = ()=>{
+  controller( self) {
+    self.isWithTabs = () => {
       return self.withTabs && self.withTools || self.withTabs && self.atLeastTwoFilteredTabs;
     };
 
@@ -60,17 +58,16 @@ class SwEditor {
       this.updateFilteredTabs(self);
     });
 
-
     self.localOnNewWorkspace = (workspace) => {
       self.onNewWorkspace({
-          workspace: workspace
+        workspace: workspace
       });
       this.refreshActiveTab(self);
     };
 
   }
 
-  updateFilteredTabs(self) {
+  updateFilteredTabs( self) {
     self.filteredTabs = this.getFilteredTabs(self.withFilePattern, self.tabs);
     self.atLeastTwoFilteredTabs = Object.keys(self.filteredTabs).length > 1;
 
@@ -79,16 +76,16 @@ class SwEditor {
     }
   }
 
-  patternToRegex(pattern) {
+  patternToRegex( pattern) {
     let p = pattern
-    .replace(/\|/g, '\\|')
-    .replace(/\*\*/g, '.+')
-    .replace(/\*/g, '([^|]+)')
-    .replace(/\./g, '\\|');
+      .replace(/\|/g, '\\|')
+      .replace(/\*\*/g, '.+')
+      .replace(/\*/g, '([^|]+)')
+      .replace(/\./g, '\\|');
     return new RegExp('^' + p + '$', 'ig');
   }
 
-  getFilteredTabs(pattern, tabs) {
+  getFilteredTabs( pattern, tabs) {
     if (!pattern) {
       return tabs;
     }
@@ -97,16 +94,15 @@ class SwEditor {
     return Object.keys(tabs).filter((tabName) => {
       return tabName.match(regex);
     }).reduce((filteredTabs, tabName) => {
-    filteredTabs[tabName] = tabs[tabName];
-    return filteredTabs;
+      filteredTabs[tabName] = tabs[tabName];
+      return filteredTabs;
     }, {});
   }
 
-  refreshActiveTab(self) {
+  refreshActiveTab( self) {
     // Refresh active tab
     self.editorActiveTab = self.tabs[self.editorActiveTabName];
   }
-
 
   $watch(...args) {
     this.$scope.$watch(...args);
@@ -117,7 +113,6 @@ class SwEditor {
   }
 
 }
-
 
 sliderPlugins.directive('swEditor', () => {
 
@@ -148,14 +143,13 @@ sliderPlugins.directive('swEditor', () => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller: function($scope) {
+    controller: function ($scope) {
       let editor = new SwEditor({
-          $scope
-      });
+      $scope});
       editor.controller(this);
 
       let vm = this;
-      vm.onChangeLater = throttle($scope, () => { 
+      vm.onChangeLater = throttle($scope, () => {
         vm.onChange();
       }, 6000);
     }

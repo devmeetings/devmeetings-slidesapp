@@ -7,11 +7,11 @@ import viewTemplate from './slide-chatnotes.html!text';
 
 class ChatNotes {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  controller(vm) {
+  controller( vm) {
     vm.addNote = () => {
       vm.notes.notes.push(vm.notes.current);
       vm.notes.current = '';
@@ -25,7 +25,7 @@ class ChatNotes {
     return 5;
   }
 
-  getCurrentLimit(isShowingAll) {
+  getCurrentLimit( isShowingAll) {
     if (isShowingAll) {
       return Infinity;
     }
@@ -34,28 +34,28 @@ class ChatNotes {
 
 }
 
-  sliderPlugins
+sliderPlugins
   .registerPlugin('slide.sidebar', 'chatnotes', 'slide-chatnotes', {
-      order: 3850,
-      name: 'Chat Notes',
-      description: 'Notes that looks like chat.',
-      example: {
-        meta: {
-          notes: [{
-            type: 'string'
-          }],
-          current: {
-            type: 'string'
-          }
-        },
-        example: {
-          notes: [
-            'My First Note',
-            'My Second Note'
-          ],
-          current: 'Writin'
+    order: 3850,
+    name: 'Chat Notes',
+    description: 'Notes that looks like chat.',
+    example: {
+      meta: {
+        notes: [{
+          type: 'string'
+        }],
+        current: {
+          type: 'string'
         }
+      },
+      example: {
+        notes: [
+          'My First Note',
+          'My Second Note'
+        ],
+        current: 'Writin'
       }
+    }
   })
   .directive('slideChatnotes', ($rootScope, $timeout) => {
     return {
@@ -68,10 +68,9 @@ class ChatNotes {
       bindToController: true,
       controllerAs: 'model',
       template: viewTemplate,
-      controller($scope) {
+      controller( $scope) {
         let sw = new ChatNotes({
-            $rootScope, $scope, $timeout
-        });
+        $rootScope, $scope, $timeout});
         sw.controller(this);
       }
     };

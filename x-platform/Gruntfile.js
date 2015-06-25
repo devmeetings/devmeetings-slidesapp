@@ -1,9 +1,8 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   'use strict';
 
   var fs = require('fs-extra');
   var open = require('open');
-
 
   var SERVER_PORT = 3000;
   var VERSION_PATH = '.version';
@@ -11,27 +10,27 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
-  if ( !( grunt.file.exists(VERSION_PATH) ) )  {
+  if ( !( grunt.file.exists(VERSION_PATH))) {
     generateAndSaveNewVersion(VERSION_PATH);
   }
   var version = grunt.file.read(VERSION_PATH);
 
-  var rjsOptimizationModule = function(path, module) {
+  var rjsOptimizationModule = function (path, module) {
     return {
       options: {
         baseUrl: 'public/' + path,
-        mainConfigFile: "public/config.js",
+        mainConfigFile: 'public/config.js',
         waitSeconds: 200,
         name: module, // assumes a production build using almond
-        out: "public/bin/" + path + '/' + module + "-" + version + ".js",
+        out: 'public/bin/' + path + '/' + module + '-' + version + '.js',
         paths: {
-          "templates": "../bin/templates-" + version,
-          "slider/bootstrap": "../bin/bootstrap",
-          "ace": "empty:",
-          "ace_languageTools": "empty:",
-          "require/plugins/paths": "../bin/plugins_paths"
+          'templates': '../bin/templates-' + version,
+          'slider/bootstrap': '../bin/bootstrap',
+          'ace': 'empty:',
+          'ace_languageTools': 'empty:',
+          'require/plugins/paths': '../bin/plugins_paths'
         },
-        optimize: "none",
+        optimize: 'none',
         findNestedDependencies: true,
         generateSourceMaps: true,
         preserveLicenseComments: false
@@ -60,19 +59,19 @@ module.exports = function(grunt) {
             PORT: SERVER_PORT
           },
           watch: ['config', 'app', 'Gruntfile.js'],
-          callback: function(nodemon) {
-            nodemon.on('log', function(event) {
+          callback: function (nodemon) {
+            nodemon.on('log', function (event) {
               console.log(event.colour);
             });
 
-            nodemon.on('config:update', function() {
-              setTimeout(function() {
+            nodemon.on('config:update', function () {
+              setTimeout(function () {
                 open('https://localhost:' + SERVER_PORT);
               }, 2000);
             });
 
-            nodemon.on('restart', function() {
-              setTimeout(function() {
+            nodemon.on('restart', function () {
+              setTimeout(function () {
                 fs.writeFileSync('.rebooted', 'rebooted');
               }, 1000);
             });
@@ -103,16 +102,16 @@ module.exports = function(grunt) {
             removeStyleLinkTypeAttributes: true
           },
           prefix: '/static',
-          bootstrap: function(module, script) {
+          bootstrap: function (module, script) {
             return [
               "define(['slider/slider'], function(slider) {",
               "slider.run(['$templateCache', function($templateCache){",
               script,
-              "}]);",
-              "});"
-            ].join("\n");
+              '}]);',
+              '});'
+            ].join('\n');
           },
-          url: function(url) {
+          url: function (url) {
             return url.replace('public/', '');
           }
         },
@@ -172,7 +171,7 @@ module.exports = function(grunt) {
           sourceMap: true,
           sourceMapURL: '/static/css/style-' + version + '.css.map'
         },
-        files: (function() {
+        files: (function () {
           var files = {};
           files['public/css/style-' + version + '.css'] = 'public/less/style.less';
           return files;
@@ -195,7 +194,7 @@ module.exports = function(grunt) {
     },
     complexity: {
       build: {
-        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', "!public/config.js", /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**', '!public/components/**', '!public/jspm_packages/**'],
+        src: ['public/dm-slider/**/*.js', 'public/dm-plugins/**/*.js', '!public/dm-slider/theme-todr.js', '!public/config.js', /* Because of hashCode function */ '!public/dm-plugins/slide-microtasks/microtasks.js', /* Because mapping is a lot of text */ '!public/dm-plugins/slide-burger/slide-burger.mapping.js', '!public/dm-slider/data-*.js', '!public/bin/**', '!public/components/**', '!public/jspm_packages/**'],
         options: {
           breakOnErrors: true,
           errorsOnly: true,
@@ -207,34 +206,34 @@ module.exports = function(grunt) {
       }
     },
     requirejs: {
-      deck: rjsOptimizationModule('dm-slider', "slider-deck"),
-      slide: rjsOptimizationModule('dm-slider', "slider-slide"),
-      trainer: rjsOptimizationModule('dm-slider', "slider-trainer"),
+      deck: rjsOptimizationModule('dm-slider', 'slider-deck'),
+      slide: rjsOptimizationModule('dm-slider', 'slider-slide'),
+      trainer: rjsOptimizationModule('dm-slider', 'slider-trainer'),
       xplatform: rjsOptimizationModule('dm-xplatform', 'dm-xplatform'),
       courses: rjsOptimizationModule('dm-courses', 'dm-courses/dm-courses'),
     }
   });
 
-  function generateAndSaveNewVersion(path) {
+  function generateAndSaveNewVersion (path) {
     // Generate new version id
     var version = new Date().getTime();
     grunt.file.write(path, version);
     return version;
   }
 
-  grunt.registerTask('bump-version', 'Version bump', function(){
+  grunt.registerTask('bump-version', 'Version bump', function () {
     generateAndSaveNewVersion(VERSION_PATH);
   });
 
-  grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function() {
+  grunt.registerTask('optimize-plugins-bootstrap', 'Create special bootstrap file with plugins inlined', function () {
     var async = this.async();
 
     var glob = require('glob');
-    glob("public/dm-plugins/**/*.js", function(err, files) {
+    glob('public/dm-plugins/**/*.js', function (err, files) {
       if (err) {
-        throw new Error("Cannot find plugins");
+        throw new Error('Cannot find plugins');
       }
-      files = files.map(function(file) {
+      files = files.map(function (file) {
         file = file.replace(/.js$/, '').replace(/^public\/dm-plugins/, 'plugins');
         if (file.indexOf('es6') > -1) {
           return '' + file;
@@ -244,18 +243,17 @@ module.exports = function(grunt) {
       });
 
       var mkdirp = require('mkdirp');
-      mkdirp('../bin', function() {
-
+      mkdirp('../bin', function () {
         var bootstrap = grunt.file.read('public/dm-slider/slider/bootstrap-prod.js');
         bootstrap = bootstrap.replace('"<plugins>"', JSON.stringify(files));
-        grunt.file.write("public/bin/bootstrap.js", bootstrap);
+        grunt.file.write('public/bin/bootstrap.js', bootstrap);
 
         async();
       });
     });
   });
 
-  grunt.registerTask('hooks', 'Set up proper git hooks', function() {
+  grunt.registerTask('hooks', 'Set up proper git hooks', function () {
     if (!fs.existsSync('./../.git/hooks/pre-commit')) {
       fs.copySync('./hooks/pre-commit.sample', '../.git/hooks/pre-commit');
       fs.chmodSync('../.git/hooks/pre-commit', '755');
@@ -266,7 +264,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('server', function() {
+  grunt.registerTask('server', function () {
     grunt.log.errorlns('Did you mean `grunt serve`?');
     grunt.log.ok('Running `serve` task');
     grunt.task.run('serve');

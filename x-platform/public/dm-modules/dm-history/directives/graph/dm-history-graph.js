@@ -6,11 +6,11 @@ import viewTemplate from './dm-history-graph.html!text';
 
 class DmHistoryGraph {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link(scope) {
+  link( scope) {
     let that = this;
     scope.$watch('recorder', (rec) => {
       if (!rec) {
@@ -33,18 +33,15 @@ class DmHistoryGraph {
       scope.history.createRecordingFromHistory(eventId, sinceId, model.start, model.end)
         .then(
           () => that.$window.alert('Recording Created'), () => that.$window.alert('Error while creating recording')
-        );
+      );
     };
   }
 
 }
 
-
-export function dmHistoryGraph(dmHistory, $window, $state) {
-
+export function dmHistoryGraph (dmHistory, $window, $state) {
   let history = new DmHistoryGraph({
-    dmHistory, $window, $state
-  });
+  dmHistory, $window, $state});
 
   return {
     restrict: 'E',

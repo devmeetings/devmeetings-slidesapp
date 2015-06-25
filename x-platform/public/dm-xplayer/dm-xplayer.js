@@ -9,11 +9,10 @@ define([
   'dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline',
   'dm-xplayer/controllers/dm-xplayer-list/dm-xplayer-list',
   'dm-xplayer/controllers/dm-xplayer-player/dm-xplayer-player',
-], function(xplayerApp, listView, playerView) {
+], function (xplayerApp, listView, playerView) {
   'use strict';
 
-  xplayerApp.config(['$stateProvider', function($stateProvider) {
-
+  xplayerApp.config(['$stateProvider', function ($stateProvider) {
     $stateProvider.state('index.player', {
       url: '/player/:id',
       views: {
@@ -25,7 +24,7 @@ define([
         }
       },
 
-      onEnter: function($rootScope) {
+      onEnter: function ($rootScope) {
         $rootScope.xplatformData.navbar = {
           showTitle: true,
           title: 'Player',
@@ -39,7 +38,7 @@ define([
         $rootScope.headerHidden = true;
       },
 
-      onExit: function($rootScope) {
+      onExit: function ($rootScope) {
         $rootScope.headerHidden = false;
       }
     });

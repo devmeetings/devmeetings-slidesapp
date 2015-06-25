@@ -8,11 +8,11 @@ import viewTemplate from './dm-event-task-details.html!text';
 
 class EventTaskDetails {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link(scope, element) {
+  link( scope, element) {
     scope.data = {};
 
     scope.getUrl = () => {
@@ -21,7 +21,7 @@ class EventTaskDetails {
     this.rankingForwarder(scope, element);
   }
 
-  markAsDone(scope, taskIdx, isDone, noOfTasks) {
+  markAsDone( scope, taskIdx, isDone, noOfTasks) {
     return this.dmRanking.markAsDone(scope.currentIterationIdx, taskIdx, isDone, noOfTasks);
   }
 
@@ -29,10 +29,10 @@ class EventTaskDetails {
     return this.dmRanking.getCurrentRankingForUser();
   }
 
-  rankingForwarder(scope, element) {
+  rankingForwarder( scope, element) {
     var self = this;
 
-    function onWindowMessage(msg) {
+    function onWindowMessage (msg) {
       var data;
       try {
         data = JSON.parse(msg.data);
@@ -46,7 +46,7 @@ class EventTaskDetails {
       self.markAsDone(scope, data.currentTask, data.isDone, data.noOfTasks).then(sendRanking);
     }
 
-    function sendRanking() {
+    function sendRanking () {
       self.getCurrentRanking().then((ranking) => {
         var $iframe = element.find('iframe.tasks-iframe');
         ranking.isRanking = true;
@@ -68,7 +68,6 @@ class EventTaskDetails {
 
 }
 
-
 xplatformApp.directive('dmEventTaskDetails', ($window, $timeout, dmRanking) => {
 
   return {
@@ -79,10 +78,9 @@ xplatformApp.directive('dmEventTaskDetails', ($window, $timeout, dmRanking) => {
       taskUrl: '='
     },
     template: viewTemplate,
-    link(scope, element) {
+    link( scope, element) {
       let eventMenu = new EventTaskDetails({
-        $window, $timeout, dmRanking
-      });
+      $window, $timeout, dmRanking});
       eventMenu.link(scope, element);
     }
   };

@@ -8,7 +8,7 @@ import viewTemplate from './slide-workspace.html!text';
 
 class SwMain {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
@@ -16,7 +16,7 @@ class SwMain {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
-  controller(self) {
+  controller( self) {
     self.output = {};
     let defaultLayout = {
       name: 'tabs',
@@ -70,7 +70,7 @@ class SwMain {
       self.layout.options = layout.options || defaultLayout.options;
     });
 
-    this.$scope.$watch(() => self.layout.name, (name) =>{
+    this.$scope.$watch(() => self.layout.name, (name) => {
       if (!self.workspace.layout || !name) {
         return;
       }
@@ -94,86 +94,86 @@ class SwMain {
     }, 500);
   }
 
-  }
+}
 
-  sliderPlugins
+sliderPlugins
   .registerPlugin('slide', 'workspace', 'slide-workspace-new', {
-      order: 3850,
-      name: 'Workspace',
-      description: 'Displays mini IDE on the slide (file management) and code output',
-      example: {
-        meta: {
-          active: {
+    order: 3850,
+    name: 'Workspace',
+    description: 'Displays mini IDE on the slide (file management) and code output',
+    example: {
+      meta: {
+        active: {
+          type: 'string',
+          help: 'Name of active tab'
+        },
+        tabs: {
+          type: '[tabName] => { content: "", editor: {}}',
+          help: 'Object that contains code and editor state (selection) on all tabs.'
+        },
+        layout: {
+          name: {
             type: 'string',
-            help: 'Name of active tab'
+            help: 'Name of the layout to display [tabs, tabs-v, angular, grid]'
           },
-          tabs: {
-            type: '[tabName] => { content: "", editor: {}}',
-            help: 'Object that contains code and editor state (selection) on all tabs.'
-          },
-          layout: {
-            name: {
-              type: 'string',
-              help: 'Name of the layout to display [tabs, tabs-v, angular, grid]'
-            },
-            options: {
-              type: ['string'],
-              help: 'Options to specific layout. Patterns of file names that should be displayed in specific space ["*.html", "*.js"]'
-            }
-          },
-          showUrl: {
-            type: 'boolean',
-            help: 'When set to false - do not display address bar by default'
-          },
-          ionic: {
-            type: 'boolean',
-            help: 'Display output as phone and add Android App download link'
-          },
-          url: {
-            type: 'string',
-            help: 'Current value of address field (not applied)'
-          },
-          permaUrl: {
-            type: 'string',
-            help: 'Applied value of address field - affects output'
-          },
-          cdn: {
-            active: {
-              type: 'bool',
-              help: 'Should display CDN dropdown menu'
-            },
-            libraries: [{
-              name: {
-                type: 'string',
-                help: 'Name to display'
-              },
-              source: {
-                type: 'string',
-                help: 'URL to add'
-              },
-              tagCategory: {
-                type: 'string',
-                help: '["script", "link"]'
-              }
-            }]
+          options: {
+            type: ['string'],
+            help: 'Options to specific layout. Patterns of file names that should be displayed in specific space ["*.html", "*.js"]'
           }
         },
-        data: {
-          'active': 'index|html',
-          'cdn': {
-            'active': true,
-            'libraries': []
+        showUrl: {
+          type: 'boolean',
+          help: 'When set to false - do not display address bar by default'
+        },
+        ionic: {
+          type: 'boolean',
+          help: 'Display output as phone and add Android App download link'
+        },
+        url: {
+          type: 'string',
+          help: 'Current value of address field (not applied)'
+        },
+        permaUrl: {
+          type: 'string',
+          help: 'Applied value of address field - affects output'
+        },
+        cdn: {
+          active: {
+            type: 'bool',
+            help: 'Should display CDN dropdown menu'
           },
-          'tabs': {
-            'index|html': {
-              'content': '<html>\n<head></head>\n<body>\n<h1>Hello World</h1>\n<script src="main.js"></script>\n</body>\n</html>'
+          libraries: [{
+            name: {
+              type: 'string',
+              help: 'Name to display'
             },
-            'main|js': {
-              'content': 'document.querySelector("h1").innerHTML = "Hello!";'
+            source: {
+              type: 'string',
+              help: 'URL to add'
+            },
+            tagCategory: {
+              type: 'string',
+              help: '["script", "link"]'
             }
+          }]
+        }
+      },
+      data: {
+        'active': 'index|html',
+        'cdn': {
+          'active': true,
+          'libraries': []
+        },
+        'tabs': {
+          'index|html': {
+            'content': '<html>\n<head></head>\n<body>\n<h1>Hello World</h1>\n<script src="main.js"></script>\n</body>\n</html>'
+          },
+          'main|js': {
+            'content': 'document.querySelector("h1").innerHTML = "Hello!";'
           }
         }
       }
+    }
   })
   .directive('slideWorkspaceNew', ($rootScope, $timeout) => {
     return {
@@ -188,10 +188,9 @@ class SwMain {
       bindToController: true,
       controllerAs: 'model',
       template: viewTemplate,
-      controller($scope) {
+      controller( $scope) {
         let sw = new SwMain({
-            $rootScope, $scope, $timeout
-        });
+        $rootScope, $scope, $timeout});
         sw.controller(this);
       }
     };

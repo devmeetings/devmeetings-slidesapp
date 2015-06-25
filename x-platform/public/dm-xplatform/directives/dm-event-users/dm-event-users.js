@@ -8,12 +8,11 @@ import viewTemplate from './dm-event-users.html!text';
 
 class EventUsers {
 
-  constructor(data) {
+  constructor( data) {
     _.extend(this, data);
   }
 
-  link($scope) {
-
+  link( $scope) {
     // Listen to users inside event
     $scope.$watch('event._id', (eventId) => {
       if (!eventId) {
@@ -29,17 +28,17 @@ class EventUsers {
     $scope.allUsers = [];
     $scope.uniqueUsers = [];
 
-    function rebuildUniqueUsers() {
+    function rebuildUniqueUsers () {
       $scope.uniqueUsers = _.uniq($scope.allUsers, 'workspaceId');
-      _.remove($scope.uniqueUsers, function(u) {
+      _.remove($scope.uniqueUsers, function (u) {
         return u._id === $scope.user.result._id;
       });
     }
 
-    function onUserInSpace(userData) {
+    function onUserInSpace (userData) {
       var user = userData.user;
 
-      $scope.$apply(function() {
+      $scope.$apply(function () {
         if (userData.action === 'joined') {
           $scope.allUsers.push(user);
           rebuildUniqueUsers();
@@ -48,7 +47,7 @@ class EventUsers {
 
         if (userData.action === 'left') {
           // Remove only one user!
-          var user2 = _.find($scope.allUsers, function(u) {
+          var user2 = _.find($scope.allUsers, function (u) {
             return u._id === user._id;
           });
           if (!user2) {
@@ -84,7 +83,6 @@ class EventUsers {
 
 }
 
-
 xplatformApp.directive('dmEventUsers', (dmEvents, dmEventLive) => {
 
   return {
@@ -97,10 +95,9 @@ xplatformApp.directive('dmEventUsers', (dmEvents, dmEventLive) => {
       opened: '='
     },
     template: viewTemplate,
-    link(scope, element) {
+    link( scope, element) {
       let eventMenu = new EventUsers({
-        dmEvents, dmEventLive
-      });
+      dmEvents, dmEventLive});
       eventMenu.link(scope, element);
     }
   };
