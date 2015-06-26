@@ -8,7 +8,6 @@ System.config({
   },
   "paths": {
     "require/*": "../../require/*.js",
-    "slider/bootstrap": "dm-slider/slider/bootstrap-dev.js",
     "slider/*": "dm-slider/slider/*.js",
     "services/*": "dm-slider/services/*.js",
     "utils/*": "dm-slider/utils/*.js",

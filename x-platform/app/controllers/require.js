@@ -58,19 +58,3 @@ exports.getSlide = function (req, res) {
     res.send(404, err);
   });
 };
-
-exports.pluginsPaths = function (req, res) {
-  glob('public/dm-plugins/**/*.js', function (err, files) {
-    if (err) {
-      res.send(404, err);
-      return;
-    }
-    files = files.map(function (file) {
-      file = file
-        .replace(/.js$/, '')
-        .replace(/^public\/dm-plugins/, 'dm-plugins');
-      return file;
-    });
-    sendAsRequireJSModule(files, res);
-  });
-};

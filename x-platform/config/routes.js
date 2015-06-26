@@ -135,11 +135,10 @@ module.exports = function (app) {
   app.get('/api/users', apiAuthenticated, users.current);
   app.get('/api/session', apiAuthenticated, users.session);
 
-  // We should change this to ordinary /api calls (except for plugins)
+  // We should change this to ordinary /api calls
   var req = require('../app/controllers/require');
   app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
   app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
-  app.get('/require/plugins/paths.js', req.pluginsPaths);
   app.get('/require/slides/:id.js', apiAuthenticated, req.getSlide);
 
   var plugins = require('./plugins');
