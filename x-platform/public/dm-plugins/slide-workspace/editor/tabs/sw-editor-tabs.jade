@@ -1,4 +1,4 @@
-.sw-workspace-tab-container(dm-defer="300")
+.sw-editor-tabs.sw-workspace-tab-container(dm-defer="300")
   ul.nav.nav-tabs(
     data-intro="All Files in your workspace are available here. Make sure to check what additional buttons do by hovering your mouse." data-position="bottom"
     ng-if="model.tabsObjects.length < model.moveTabsLeftThreshold"
@@ -35,7 +35,7 @@
         )
         | +
 
-.pull-left.sw-tabs(ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
+.sw-editor-tabs.pull-left.sw-tabs(ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
   ul.nav.nav-pills.nav-stacked
     li.workspace-tab.workspace-file-tab(
       ng-repeat="tab in model.tabsObjects",
@@ -69,3 +69,32 @@
         )
         | +
 
+
+  //treecontrol.tree-classic(
+    tree-model="dataForTheTree"
+    options="treeOptions"
+    on-selection="showSelected(node)"
+    selected-node="node1"
+    )
+    | employee: {{node.name}} age {{node.age}}
+
+  treecontrol.tree-classic(
+    tree-model="model.tabsObjects"
+    options="treeOptions"
+    on-selection="model.activateTab(node.name)"
+    )
+    span.fa-fw.workspace-tab-icon
+      span.text-muted.fa.fa-close.cursor-pointer(
+        ng-show="model.activeTabName === node.name"
+        ng-click="model.removeTab(node.name); $event.stopPropagation(); model.$log.log(node.name)", 
+        tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false', tooltip-append-to-body="true",
+        analytics-event="workspace-deleteTab", analytics-category="workspace")
+    span(
+      ng-class="{'highlight': model.activeTabName === node.name}"
+    )
+      | {{node.fileName}} 
+    
+
+
+  pre 
+    | Active tab: {{ model.activeTabName }}

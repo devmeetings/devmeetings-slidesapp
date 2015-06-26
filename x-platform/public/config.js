@@ -71,7 +71,8 @@ require.config({
       "angular-fullscreen": "../components/angular-fullscreen/src/angular-fullscreen",
       "angular-jsonedit": "../components/json-edit/js/directives",
       "angular-scrollbar": "../components/ng-scrollbar/dist/ng-scrollbar",
-      "angular-qrcode": "../components/angular-qrcode/qrcode"
+      "angular-qrcode": "../components/angular-qrcode/qrcode",
+      "angular-tree-control": "../components/angular-tree-control/angular-tree-control"
     },
     "map": {
       "*": {
@@ -179,6 +180,9 @@ require.config({
       },
       "angular-qrcode": {
         "deps": ["angular", "qrcode-generator"]
+      },
+      "angular-tree-control": {
+        "deps": ["angular"]
       }
     }
 });

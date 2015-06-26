@@ -1,12 +1,34 @@
-.sw-workspace-tab-container {
-	height: 26px;
-  border-bottom: 2px solid #0f0f0f;
+.sw-editor-tabs {
+
+	&.sw-workspace-tab-container {
+		height: 26px;
+	  border-bottom: 2px solid #0f0f0f;
+	}
+
+	&.sw-tabs {
+		position: relative;
+		z-index: 1;
+		height: calc(100% - 26px);
+		overflow-y: auto;
+	}
+
+	.tree-classic {
+		color: white !important;
+		
+		.highlight {
+			font-size: 18px;
+			font-weight: bold;
+			color: white;
+			background-color: #1e1e1e;
+		}
+	}
+
 }
 
-.sw-tabs {
-	position: relative;
-	z-index: 1;
-	height: calc(100% - 26px);
-	overflow-y: auto;
-}
 
+
+// z dokumentacji, modyfikowanie styli, testy:
+
+.c-liSelected {
+	background-color: #1e1e1e !important;
+}
