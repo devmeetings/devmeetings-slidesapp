@@ -69,6 +69,13 @@ class SwMain {
       self.layout.options = layout.options || defaultLayout.options;
     });
 
+    this.$scope.$watch(() => self.layout.name, (name) =>{
+      if (!self.workspace.layout || !name) {
+        return;
+      }
+      self.workspace.layout.name = name;
+    });
+
     this.$scope.$watch(() => self.output.codeId, (newCodeId, oldCodeId) => {
       if (newCodeId === oldCodeId) {
         return;
