@@ -28,18 +28,6 @@ EventTimings.attachSchema(new SimpleSchema({
     label: 'Announcement',
     optional: true
   },
-  ranking: {
-    type: [Object]
-  },
-  "ranking.$.username": {
-    type: String
-  },
-  "ranking.$.finished": {
-    type: [String]
-  },
-  tasks: {
-    type: [Number]
-  },
   items: {
     type: [Object]
   },
