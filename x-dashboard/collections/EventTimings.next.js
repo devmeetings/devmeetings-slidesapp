@@ -137,6 +137,18 @@ Meteor.methods({
     });
   },
 
+  "EventTimings.clone": (eventId) => {
+    let event = EventTimings.find({
+      _id: eventId
+    }).fetch()[0];
+
+    delete event._id;
+    event.id += '1';
+    event.authorId = Meteor.userId();
+
+    EventTimings.insert(event);
+  },
+
   "EventTimings.toggleRanking": (eventId, taskId, completed) => {
     var event = EventTimings.find({
       _id: eventId

@@ -11,7 +11,7 @@ const updateGuiLater = _.debounce(function() {
 Template.EventRow.helpers({
 
   isAdmin() {
-    return Meteor.userId() === this.parent.authorId;
+    return Meteor.userId() === this.parent.authorId || Roles.userIsInRole(Meteor.user(), ['admin']);
   },
 
   rowClass() {
