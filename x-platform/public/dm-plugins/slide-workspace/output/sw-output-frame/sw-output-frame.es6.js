@@ -45,12 +45,18 @@ class OutputFrame {
     this.scope.percentOfProgress = 90;
     
     var currentFrame = this.iframe2;
+    var timeoutPromise = this.$timeout(() => {
+      if (currentFrame !== this.iframe2) {
+        return;
+      }
+      currentFrame.stop();
+    }, 5000);
 
     this.iframe2.one('load', () => {
       if (currentFrame !== this.iframe2) {
         return;
       }
-
+      this.$timeout.cancel(timeoutPromise);
       var temporaryIframe1 = this.iframe1;
       this.iframe1 = this.iframe2;
       this.iframe2 = temporaryIframe1;
@@ -90,7 +96,7 @@ class OutputFrame {
 
 
 
-sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
+sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout ) => {
 
   return {
     restrict: 'E',
@@ -103,7 +109,7 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location, scope, $rootScope
+        $element: element, $location, scope, $rootScope, $timeout
       });
 
       scope.$watch('currentUrl', (url) => {

@@ -1,5 +1,9 @@
 'use strict';
 
+var searchFor = '<script src="cordova.js"></script>';
+var replaceWith = '<script src="/cdn/cordova/app1/cordova.js"></script>\n\t\t<script src="/cdn/cordova/app1/cordova_plugins.js"></script>';
+
+
 if (process.argv.length < 3) {
   console.error('you must set database name');
   process.exit(-1);
@@ -9,7 +13,7 @@ if (process.argv.length < 4) {
   process.exit(-1);
 }
 if (process.argv.length < 5) {
-  console.error('you must provide recording filename');
+  console.error('you must provide filename');
   process.exit(-1);
 }
 
@@ -34,16 +38,19 @@ var connectToMongo = function() {
 
 var file = process.argv[4];
 var name = file.replace('.', '|');
-var content = require('fs').readFileSync(file, 'utf8');
 
 function fixFile(slide) {
-  var workspace = slide.code.workspace.tabs;
-  if (workspace[name]) {
-    workspace[name].content = content;
-    console.warn('Fixing');
-  } else {
-    console.warn('Ignoring slide');
+  if (!slide || !slide.workspace || !slide.workspace.tabs) {
+    return;
   }
+  var workspace = slide.workspace.tabs;
+  if (!workspace[name]) {
+    console.warn('Ignoring slide');
+    return;
+  }
+
+  workspace[name].content = workspace[name].content.replace(searchFor, replaceWith);
+  console.warn('Fixing');
 }
 
 var db;
@@ -64,7 +71,11 @@ connectToMongo().done(function(mongoDb) {
     }
 
     recording.slides.map(function(slide) {
-      fixFile(slide);
+      fixFile(slide.original);
+      fixFile(slide.current);
+      slide.patches.map(function(patch) {
+        fixFile(patch.patch);
+      });
     });
 
     // Save back
