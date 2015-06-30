@@ -45,18 +45,8 @@ class OutputFrame {
     this.scope.percentOfProgress = 90;
     
     var currentFrame = this.iframe2;
-    var timeoutPromise = this.$timeout(() => {
-      if (currentFrame !== this.iframe2) {
-        return;
-      }
-      currentFrame.contentWindow.stop();
-    }, 5000);
-
-    this.iframe2.one('load', () => {
-      if (currentFrame !== this.iframe2) {
-        return;
-      }
-      this.$timeout.cancel(timeoutPromise);
+    
+    var swapFrames = () => {
       var temporaryIframe1 = this.iframe1;
       this.iframe1 = this.iframe2;
       this.iframe2 = temporaryIframe1;
@@ -66,6 +56,22 @@ class OutputFrame {
         scope.activeFrame = (scope.activeFrame + 1) % 2;
         scope.percentOfProgress = 0;
       });
+    };
+
+    var timeoutPromise = this.$timeout(() => {
+      if (currentFrame !== this.iframe2) {
+        return;
+      }
+      currentFrame.contentWindow.stop();
+      swapFrames();
+    }, 5000);
+
+    this.iframe2.one('load', () => {
+      if (currentFrame !== this.iframe2) {
+        return;
+      }
+      this.$timeout.cancel(timeoutPromise);
+      swapFrames();
     });
 
   }
