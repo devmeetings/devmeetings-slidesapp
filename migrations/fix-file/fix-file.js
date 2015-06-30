@@ -44,7 +44,7 @@ function fixFile(slide) {
     return;
   }
   var workspace = slide.workspace.tabs;
-  if (!workspace[name]) {
+  if (!workspace[name] || !workspace[name].content || !workspace[name].content.replace) {
     console.warn('Ignoring slide');
     return;
   }

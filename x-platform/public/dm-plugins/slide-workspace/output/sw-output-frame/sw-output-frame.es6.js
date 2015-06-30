@@ -49,7 +49,7 @@ class OutputFrame {
       if (currentFrame !== this.iframe2) {
         return;
       }
-      currentFrame.stop();
+      currentFrame.contentWindow.stop();
     }, 5000);
 
     this.iframe2.one('load', () => {
