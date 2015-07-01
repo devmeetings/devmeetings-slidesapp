@@ -1,4 +1,3 @@
 #!/bin/sh
 cd x-platform
 npm test
-grunt build

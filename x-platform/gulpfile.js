@@ -30,6 +30,12 @@ function withIgnores (arr) {
   return arr;
 }
 
+gulp.task('install_hooks', function () {
+  return gulp.src('./hooks/pre-push.sample')
+      .pipe($.rename('pre-push'))
+      .pipe(gulp.dest('../.git/hooks/'));
+});
+
 gulp.task('clean', function (cb) {
   runJspm(['unbundle']);
   del([
