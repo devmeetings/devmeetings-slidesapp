@@ -94,8 +94,9 @@ ul.nav.nav-tabs.pull-left
   treecontrol.tree-classic(
     ng-show="model.showTreeview"
     tree-model="model.treeStructure"
-    options="treeOptions"
+    options="model.treeOptions"
     on-selection="model.activateTab(node.path)"
+    expanded-nodes="model.expandedNodes"
     )
     span(
       ng-class="{'highlight': model.activeTabName === node.path }"

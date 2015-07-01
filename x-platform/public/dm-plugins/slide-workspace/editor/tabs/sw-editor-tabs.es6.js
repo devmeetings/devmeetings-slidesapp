@@ -54,10 +54,28 @@ class SwEditorTabs {
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
+    this.initTreeOptions(self);
+
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
       this.prepareTreeStructure(self, self.tabsObjects);
+
+      if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
+        self.showTreeview = true;
+      }
     });
+  }
+
+  initTreeOptions(self) {
+    self.treeOptions = {
+      nodeChildren: 'children',
+      dirSelectable: false,
+      injectClasses: {
+        // TODO [ToDr] Very hacky
+        // @see: https://github.com/wix/angular-tree-control/issues/74
+        li: 'type-{{ node.ext }}'
+      }
+    };
   }
 
   prepareTreeStructure(self, tabsObjects) {
@@ -73,26 +91,26 @@ class SwEditorTabs {
     }
 
     function createNodeAndReturnChildren(tabObject) {
-      
+
       return function(currentLevel, name) {
         var node = _.find(currentLevel, {
           name: name
         });
-        
+
         if (!node) {
           node = newNode(name, tabObject);
           currentLevel.push(node);
         }
-        
+
         return node.children;
       };
     }
 
     function createStructureForSingleFile(topLevel, tabObject) {
-      
+
       let parts = tabObject.name.split('/');
       parts.reduce(createNodeAndReturnChildren(tabObject), topLevel);
-      
+
       return topLevel;
     }
 
@@ -100,8 +118,14 @@ class SwEditorTabs {
       return input.reduce(createStructureForSingleFile, []);
     }
 
-    self.treeStructure = convertStructure(tabsObjects);
+    function getAllNodes(structure) {
+      return structure.reduce((memo, item) => {
+        return memo.concat([item]).concat(getAllNodes(item.children));
+      }, []);
+    }
 
+    self.treeStructure = convertStructure(tabsObjects);
+    self.expandedNodes = getAllNodes(self.treeStructure);
   }
 
   createTabObjects(tabNames) {
@@ -200,16 +224,6 @@ sliderPlugins.directive('swEditorTabs', ($log) => {
         $scope, $window, $log
       });
       tabs.controller(this);
-
-      $scope.treeOptions = {
-          nodeChildren: 'children',
-          dirSelectable: false,
-          injectClasses: {
-            // TODO [ToDr] Very hacky
-            // @see: https://github.com/wix/angular-tree-control/issues/74
-            li: 'type-{{ node.ext }}'
-          }
-      };
     }
   };
 
