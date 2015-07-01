@@ -51,35 +51,15 @@ class SwEditorTabs {
     self.activateTab = (name) => this.activateTab(self, name);
     self.isFile = (node) => this.isFile(self, node);
     self.setExtensionsAfterDots = (name) => this.setExtensionsAfterDots(self, name);
-    self.insertTabIfTreeview = (path) => this.insertTabIfTreeview(self, path);
-    self.removeDirectory = (node) => this.removeDirectory(self, node);
-
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
-      //this.$log.log( () => Object.keys(self.tabs) );\
-      this.converter(self, tabNames);
-
+      this.prepareTreeStructure(self, tabNames);
       self.tabsObjects = this.createTabObjects(tabNames);
-      //this.$log.log(tabNames);
-      //this.$log.log(self.tabsObjects);
-      //this.$log.log('Structure after conversion by Tomek\'s code:', self.structure);
-      //this.$log.log('tabNames:', tabNames);
-      //this.$log.log('structure:', self.structure);
-      //this.$log.log('tabObjects:', self.tabsObjects);
-      //self.tabsObjects = self.structure;
     });
   }
 
-  converter(self, tabNames) {
-
-    var tabs = [
-      'www/index.html',
-      'www/js/main.js',
-      'www/css/style.css',
-      'www/js/x.js',
-      'abc.html'
-    ];
+  prepareTreeStructure(self, tabNames) {
 
     function newNode(name, path) {
       return {
@@ -108,7 +88,6 @@ class SwEditorTabs {
     function createStructureForSingleFile(topLevel, fileName) {
       
       let parts = fileName.split('/');
-      let path = parts.slice(0, parts.length - 1);
       parts.reduce(createNodeAndReturnChildren(fileName), topLevel);
       
       return topLevel;
@@ -118,7 +97,7 @@ class SwEditorTabs {
       return input.reduce(createStructureForSingleFile, []);
     }
 
-    self.structure = convertStructure(tabNames);
+    self.treeStructure = convertStructure(tabNames);
 
   }
 
@@ -209,30 +188,6 @@ class SwEditorTabs {
     return name.replace(/\|/g, '.');
   }
 
-  promptForNameIfTreeview(self, path) {
-    this.editTabName(self, path);
-  }
-
-  insertTabIfTreeview(self, path) {
-    let parts = path.split('/');
-    let directoryPath = parts.slice(0, parts.length - 1);
-    directoryPath = directoryPath.join('/') + '/';
-
-    this.editTabName(self, directoryPath);
-  }
-
-  removeDirectory(self, node) {
-    let sure = this.$window.confirm('Sure to remove directory with all content?');
-    if (!sure) {
-      return;
-    } 
-    _.map(node.children, function(child) { 
-      console.log(child);
-      console.log(child.path);      
-      this.deleteTabAndFixActive(self, child.path);
-    });
-  }
-
 }
 
 
@@ -269,20 +224,6 @@ sliderPlugins.directive('swEditorTabs', ($log) => {
               labelSelected: "a8"
           }
       };
-      $scope.dataForTheTree =
-      [
-          { "name" : "Joe", "age" : "21", "children" : [
-              { "name" : "Smith", "age" : "42", "children" : [] },
-              { "name" : "Gary", "age" : "21", "children" : [
-                  { "name" : "Jenifer", "age" : "23", "children" : [
-                      { "name" : "Dani", "age" : "32", "children" : [] },
-                      { "name" : "Max", "age" : "34", "children" : [] }
-                  ]}
-              ]}
-          ]},
-          { "name" : "Albert", "age" : "33", "children" : [] },
-          { "name" : "Ron", "age" : "29", "children" : [] }
-      ];
     }
   };
 

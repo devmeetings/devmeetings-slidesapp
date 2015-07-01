@@ -1,14 +1,15 @@
-.sw-editor-tabs(
-  ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold"
-  )
-  .checkbox 
-    label.form-label.pull-left
-      input(
-        ng-init="model.showTreeview = true"
-        type="checkbox"
-        ng-model="model.showTreeview"
-      )
-      | Show Treeview
+ul.nav.nav-tabs.pull-left
+  li.workspace-tab.workspace-tab-condensed
+    a.cursor-pointer(
+      ng-click="model.showTreeview = !model.showTreeview"
+    )
+      span.fa.fa-fw.fa-toggle-on(
+        ng-show="model.showTreeview"
+        )
+      span.fa.fa-fw.fa-toggle-off(
+        ng-show="!model.showTreeview"
+        )
+      span Tree
 
 
 .sw-editor-tabs.sw-workspace-tab-container(dm-defer="300")
@@ -48,7 +49,10 @@
         )
         | +
 
-.sw-editor-tabs.pull-left.sw-tabs(ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold", style="height:calc(100% - 26px);overflow-y:auto", dm-defer="400")
+.sw-editor-tabs.pull-left.sw-tabs(
+  ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold"
+  dm-defer="400"
+  )
   ul.nav.nav-pills.nav-stacked(
     ng-show="!model.showTreeview"
     )
@@ -85,81 +89,16 @@
         | +
 
 
-  //treecontrol.tree-classic(
-    tree-model="dataForTheTree"
-    options="treeOptions"
-    on-selection="showSelected(node)"
-    selected-node="node1"
-    )
-    | employee: {{node.name}} age {{node.age}}
-
   treecontrol.tree-classic(
     ng-show="model.showTreeview"
-    tree-model="model.structure"
+    tree-model="model.treeStructure"
     options="treeOptions"
     on-selection="model.activateTab(node.path)"
     )
-    //span.fa-fw.workspace-tab-icon
-      span.text-muted.fa.fa-close.cursor-pointer(
-        ng-show="model.isFile(node) && hover.mouseOverFile"
-        ng-mouseleave="hover.mouseOverFile = false"
-        ng-click="model.removeTab(node.path); $event.stopPropagation()", 
-        tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false', tooltip-append-to-body="true",
-        analytics-event="workspace-deleteTab", analytics-category="workspace")
     span(
-      ng-hide="model.isFile(node)"
-      ng-mouseover="hover.mouseOverDir = true"
+      ng-class="{'highlight': model.activeTabName === node.path && model.isFile(node)}"
       )
       | {{ model.setExtensionsAfterDots(node.name) }} 
-    span(
-      ng-show="model.isFile(node)"
-      ng-class="{'highlight': model.activeTabName === node.path}"
-      ng-mouseover="hover.mouseOverFile = true"
-      ng-mouseleave="hover.mouseOverFile = false"
-      )
-      span.fa-fw.workspace-tab-icon
-        span.text-muted.fa.fa-close.cursor-pointer(
-          ng-show="model.isFile(node) && hover.mouseOverFile"
-          ng-click="model.removeTab(node.path); $event.stopPropagation()", 
-          tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false', tooltip-append-to-body="true",
-          analytics-event="workspace-deleteTab", analytics-category="workspace")
-      | {{ model.setExtensionsAfterDots(node.name) }} 
-    div.cursor-pointer.transition(
-      ng-if="!model.isFile(node) && hover.mouseOverDir"
-      ng-show="hover.mouseOverDir"
-      ng-click="model.insertTabIfTreeview(node.path); $event.stopPropagation()"
-      tooltip="Add New into this Directory"
-      tooltip-placement="right"
-      tooltip-animation="false"
-      tooltip-append-to-body="true"
-      ng-class="{'green': hover.mouseOverDir}"
-      )
-      | + Add 
-    div.cursor-pointer.transition(
-      ng-mouseleave="hover.mouseOverDir = false"
-      ng-if="!model.isFile(node) && hover.mouseOverDir"
-      ng-show="hover.mouseOverDir"
-      ng-click="model.removeDirectory(node); $event.stopPropagation()"
-      tooltip="Remove Directory with all Content"
-      tooltip-placement="right"
-      tooltip-animation="false"
-      tooltip-append-to-body="true"
-      ng-class="{'red': hover.mouseOverDir}"
-      )
-      span.fa.fa-trash
-        | Remove 
 
-  .workspace-tab.add-tab(
-    ng-show="model.showTreeview"
-    )
-    .cursor-pointer(
-      ng-click="model.insertTab()"
-      tooltip="Add New File"
-      tooltip-placement="right"
-      tooltip-animation="false"
-      tooltip-append-to-body="true"
-      )
-      | +
 
-  //pre 
-    | Active tab: {{ model.activeTabName }}
+
