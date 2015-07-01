@@ -98,9 +98,9 @@ ul.nav.nav-tabs.pull-left
     on-selection="model.activateTab(node.path)"
     )
     span(
-      ng-class="{'highlight': model.activeTabName === node.path && model.isFile(node)}"
+      ng-class="{'highlight': model.activeTabName === node.path }"
       )
-      | {{ model.setExtensionsAfterDots(node.name) }} 
+      | {{ node.fileName }} 
 
 
 

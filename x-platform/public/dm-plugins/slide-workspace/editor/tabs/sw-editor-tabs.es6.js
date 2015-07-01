@@ -6,6 +6,9 @@ import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
 import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
+function tabNameToFileName(name) {
+  return name.replace(/\|/g, '.');
+}
 
 class Tab {
 
@@ -17,7 +20,7 @@ class Tab {
   }
 
   getFileName() {
-    return this.name.replace(/\|/g, '.');
+    return tabNameToFileName(this.name);
   }
 
   getExtension() {
@@ -49,35 +52,35 @@ class SwEditorTabs {
     self.removeTab = (name) => this.removeTab(self, name);
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
-    self.isFile = (node) => this.isFile(self, node);
-    self.setExtensionsAfterDots = (name) => this.setExtensionsAfterDots(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
-      this.prepareTreeStructure(self, _.map(self.tabsObjects, 'name'));
+      this.prepareTreeStructure(self, self.tabsObjects);
     });
   }
 
-  prepareTreeStructure(self, tabNames) {
+  prepareTreeStructure(self, tabsObjects) {
 
-    function newNode(name, path) {
+    function newNode(name, tabObject) {
       return {
         name: name,
-        path: path,
+        path: tabObject.name,
+        ext: tabObject.type,
+        fileName: tabNameToFileName(name),
         children: []
       };
     }
 
-    function createNodeAndReturnChildren(path) {
+    function createNodeAndReturnChildren(tabObject) {
       
       return function(currentLevel, name) {
         var node = _.find(currentLevel, {
-          name: name,
+          name: name
         });
         
         if (!node) {
-          node = newNode(name, path);
+          node = newNode(name, tabObject);
           currentLevel.push(node);
         }
         
@@ -85,10 +88,10 @@ class SwEditorTabs {
       };
     }
 
-    function createStructureForSingleFile(topLevel, fileName) {
+    function createStructureForSingleFile(topLevel, tabObject) {
       
-      let parts = fileName.split('/');
-      parts.reduce(createNodeAndReturnChildren(fileName), topLevel);
+      let parts = tabObject.name.split('/');
+      parts.reduce(createNodeAndReturnChildren(tabObject), topLevel);
       
       return topLevel;
     }
@@ -97,7 +100,7 @@ class SwEditorTabs {
       return input.reduce(createStructureForSingleFile, []);
     }
 
-    self.treeStructure = convertStructure(tabNames);
+    self.treeStructure = convertStructure(tabsObjects);
 
   }
 
@@ -176,18 +179,6 @@ class SwEditorTabs {
     return hasLongName;
   }
 
-  isFile(self, node) {
-    let hasChildren = node.children.length > 0;
-    if (hasChildren) {
-      return false;
-    }
-    return true;
-  }
-
-  setExtensionsAfterDots(self, name) {
-    return name.replace(/\|/g, '.');
-  }
-
 }
 
 
@@ -211,17 +202,12 @@ sliderPlugins.directive('swEditorTabs', ($log) => {
       tabs.controller(this);
 
       $scope.treeOptions = {
-          nodeChildren: "children",
-          dirSelectable: true,
+          nodeChildren: 'children',
+          dirSelectable: false,
           injectClasses: {
-              ul: "a1",
-              li: "a2",
-              liSelected: "c-liSelected",
-              iExpanded: "a3",
-              iCollapsed: "a4",
-              iLeaf: "a5",
-              label: "a6",
-              labelSelected: "a8"
+            // TODO [ToDr] Very hacky
+            // @see: https://github.com/wix/angular-tree-control/issues/74
+            li: 'type-{{ node.ext }}'
           }
       };
     }
