@@ -13,7 +13,7 @@ define(['angular',
         });
 
         // TODO [ToDr] Common login screen and redirections mechanism
-        /*$stateProvider.state('index.login', {
+        /* $stateProvider.state('index.login', {
             anonymous: false,
             url: '/login',
             views: {
@@ -21,7 +21,8 @@ define(['angular',
                   template: costam
                 }
             },
-        });*/
+        });
+        */
 
         $urlRouterProvider.when('/', '/courses');
         $urlRouterProvider.otherwise('/courses');

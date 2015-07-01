@@ -20,7 +20,7 @@ xplatformApp.directive('dmEventAdmin', () => {
       event: '='
     },
     template: viewTemplate,
-    link: (/*args*/) => {
+    link: () => {
       let eventAdmin = new EventAdmin({});
       return eventAdmin.link.apply(eventAdmin, arguments);
     }

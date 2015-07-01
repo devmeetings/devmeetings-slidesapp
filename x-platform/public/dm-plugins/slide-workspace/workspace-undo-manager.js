@@ -119,7 +119,7 @@ define(['_'], function (_) {
 
   if (enableLogging) {
     _.each(WorkspaceUndoManager.prototype, function (func, key) {
-      WorkspaceUndoManager.prototype[key] = function () /*args*/ {
+      WorkspaceUndoManager.prototype[key] = function () /* args */ {
         console.log('Invoking function ' + key, arguments);
         return func.apply(this, arguments);
       };

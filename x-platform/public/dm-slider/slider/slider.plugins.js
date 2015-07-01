@@ -52,7 +52,7 @@ define(
         return;
       }
 
-      module.on(evName, function (/*args*/) {
+      module.on(evName, function () /* args */ {
         Sockets.emit(evName, [].slice.call(arguments));
       });
       forwarding[evName] = true;

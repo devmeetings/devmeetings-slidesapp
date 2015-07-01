@@ -53,7 +53,7 @@
     }, window.location);
   }
 
-  window.onerror = function () /*args*/ {
+  window.onerror = function () {
     var args = [].slice.apply(arguments);
     invokeOriginalError(args);
     handleError.apply(null, args);

@@ -22,7 +22,7 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-js
     // Actually execute code
     try {
       /* eslint-disable no-unused-vars */
-      var trigger = function (name) /*args*/ {
+      var trigger = function (name) {
         var args = [].slice.call(arguments, 1);
         sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-jsrunner.' + name].concat(args));
       };
@@ -51,7 +51,7 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-js
   var captureConsoleTo = function (log) {
     var oldLog = window.console.log;
 
-    window.console.log = function () /*args*/ {
+    window.console.log = function () {
       var args = [].slice.call(arguments);
       log.push(args);
       oldLog.apply(window.console, args);
