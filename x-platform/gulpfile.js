@@ -1,8 +1,14 @@
 var fs = require('fs');
-var gulp = require('gulp');
+var open = require('open');
 var exec = require('child_process').exec;
-var $ = require('gulp-load-plugins')();
+var Q = require('q');
+
 var generatePlugins = require('./public/dm-plugins/generatePlugins');
+
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')();
+
+var SERVER_PORT = 3000;
 
 function withIgnores (arr) {
   arr.push('!public/jspm_packages/**');
@@ -57,30 +63,44 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
     ext: 'jade js',
     delay: '100ms',
     ignore: ['public', 'node_modules'],
-    tasks: ['less']
+    tasks: ['less', 'jade'],
+    env: {
+      PORT: SERVER_PORT
+    }
+  }).on('start', function () {
+    open('https://localhost:' + SERVER_PORT);
   });
 
   gulp.watch(withIgnores(['./public/**/*.less']), ['less']);
-  gulp.watch(withIgnores(['**/*.js']), ['lint']);
 });
 
 // Build the whole platform
 
-function runJspm (moduleName, target, cb) {
-  var args = ['bundle', moduleName, target];
-  exec('./node_modules/.bin/jspm ' + args.map(function (arg) {
+function runJspm (moduleName, target) {
+  var args = ['bundle', moduleName, target, '--inject'];
+  return Q.denodeify(exec)('./node_modules/.bin/jspm ' + args.map(function (arg) {
     return '"' + arg + '"';
-  }).join(' '), function (err, stdout, stderr) {
-    console.log(stdout);
-    console.log(stderr);
-    cb(err);
+  }).join(' ')).then(function (data) {
+    console.log(data.stdout);
+    console.log(data.stderr);
   });
 }
 
-gulp.task('build', ['lint', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
+gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
   var location = function (loc) {
     return './public/bin/' + loc;
   };
 
-  runJspm('dm-xplatform/dm-xplatform', location('dm-xplatform.js'), cb);
+  var jobs = [
+    runJspm('dm-slider/slider-slide', location('slider-slide.js')),
+    runJspm('dm-slider/slider-deck', location('slider-deck.js')),
+    runJspm('dm-slider/slider-trainer', location('slider-trainer.js')),
+    runJspm('dm-xplatform/dm-xplatform', location('dm-xplatform.js')),
+    runJspm('dm-courses/dm-courses', location('dm-courses.js'))
+  ];
+
+  Q.all(jobs).then(function () {
+    cb();
+  }, cb);
 });
+
