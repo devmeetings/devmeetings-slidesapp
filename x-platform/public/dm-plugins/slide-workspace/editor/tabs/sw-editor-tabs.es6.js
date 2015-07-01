@@ -136,8 +136,6 @@ class SwEditorTabs {
   }
 
   activateTab(self, tabName) {
-    this.$log.log('activTab was called');
-
     if (self.activeTabName === tabName) {
       this.editTabName(self, tabName);
       return;
