@@ -11,7 +11,6 @@
     "build": "gulp bump_version && gulp build",
     "prestart": "npm install && gulp install_hooks",
     "start": "gulp serve",
-    "pretest": "npm install",
     "test": "semistandard",
     "postinstall": "jspm install && bower install"
   },
