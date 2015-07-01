@@ -28,18 +28,6 @@ EventTimings.attachSchema(new SimpleSchema({
     label: 'Announcement',
     optional: true
   },
-  ranking: {
-    type: [Object]
-  },
-  "ranking.$.username": {
-    type: String
-  },
-  "ranking.$.finished": {
-    type: [String]
-  },
-  tasks: {
-    type: [Number]
-  },
   items: {
     type: [Object]
   },
@@ -135,6 +123,18 @@ Meteor.methods({
     EventTimings.update(eventId, {
       $push: join
     });
+  },
+
+  "EventTimings.clone": (eventId) => {
+    let event = EventTimings.find({
+      _id: eventId
+    }).fetch()[0];
+
+    delete event._id;
+    event.id += '1';
+    event.authorId = Meteor.userId();
+
+    EventTimings.insert(event);
   },
 
   "EventTimings.toggleRanking": (eventId, taskId, completed) => {

@@ -1,3 +1,10 @@
+mixin iframe(clazz, no)
+  iframe.iframe-fiddle-output.scrollable-container(
+    class=clazz
+    sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
+    ng-class="{'is-active': activeFrame === #{no}, 'full-screen': model.iframeExpanded}"
+    )
+
 .sw-output-frame.slide-workspace-outputs.full-height(
     )
     .text-center(
@@ -8,7 +15,7 @@
       h4.text-muted No server at {{ baseUrl }}
 
     .text-center(
-      ng-if="isWarning === true"
+      ng-if="isHttpsWarning === true"
       )
       h1.text-warning
         span.fa.fa-exclamation-triangle
@@ -20,9 +27,28 @@
           target="_blank"
           )
           | open preview in separate window
+
+    .text-center(
+      ng-if="isHangWarning === true"
+      )
+      h1.text-warning
+        span.fa.fa-exclamation-triangle
+      h4.text-muted It seems that your code might have hanged your browser.
+      h5.text-muted 
+        | Please fix the code and then 
+        a(
+          ng-click="disableHangWarning()"
+          )
+          | enable live preview
+      br
+      button.btn.btn-primary(
+          ng-click="disableHangWarning()"
+        )
+        span.fa.fa-fw.fa-play
+        span Enable Preview
     
     .full-height(
-        ng-show="isDead === false && isWarning === false"
+        ng-show="isDead === false && isHttpsWarning === false && isHangWarning === false"
         ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}"
         )
       div.progress(
@@ -31,12 +57,8 @@
         div.progress-bar(
           style="width:{{ percentOfProgress }}%"
         )   
-      iframe.iframe-fiddle-output.scrollable-container.num-one(
-        ng-class="{'is-active': activeFrame === 0, 'full-screen': model.iframeExpanded}"
-        )
-      iframe.iframe-fiddle-output.scrollable-container.num-two(
-        ng-class="{'is-active': activeFrame === 1, 'full-screen': model.iframeExpanded}"
-        )
+      +iframe('num-one', 0)
+      +iframe('num-two', 1)
     .iframe-output-expander(
       ng-class="{'expanded': model.iframeExpanded}"
       ng-init='model.iframeExpanded = false'

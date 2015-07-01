@@ -14,10 +14,12 @@
           +EventRow
   .row
     .col-xs-12
-      .pull-left
-        if isAdmin
-          h6
-            a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
+      .pull-left(class="{{ isAdminClass }}")
+        h6
+          a(href="/live/admin/admin/EventTimings/{{event._id}}/edit") edit
+        button.btn.btn-link.btn-xs(role="clone")
+          span.fa.fa-fw.fa-copy
+          span Clone
       .pull-right
         if isAdmin
 
