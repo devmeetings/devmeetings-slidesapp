@@ -109,7 +109,7 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         var activeTabExtension = activeTabName.split('|').slice(-1)[0]; 
         var allowedExtensions = ['html', 'htm'];
 
-        if ( _.includes(allowedExtensions, activeTabExtension) ) {
+        if ( _.include(allowedExtensions, activeTabExtension) ) {
           return true;
         }
         return false;

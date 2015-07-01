@@ -19,7 +19,7 @@ class OutputFrame {
 
     this.setAddressLater = throttle(this.scope, (url)=>{
       this.setAddress(url);
-    }, 1000);
+    }, 2000);
   }
 
   isHttp(url) {
@@ -32,25 +32,23 @@ class OutputFrame {
 
   setIsWarning(url) {
     if (this.isHttp(url) && this.isCurrentPageHttps()) {
-      this.scope.isWarning = true;
+      this.scope.isHttpsWarning = true;
       return;
     }
-    this.scope.isWarning = false;
+    this.scope.isHttpsWarning = false;
   }
 
   setAdressWithFramesAnimation(url) {
+
+    this.$window.localStorage.wasLastFrameInactive = true;
 
     this.iframe2.attr('src', url);
 
     this.scope.percentOfProgress = 90;
     
     var currentFrame = this.iframe2;
-
-    this.iframe2.one('load', () => {
-      if (currentFrame !== this.iframe2) {
-        return;
-      }
-
+    
+    var swapFrames = () => {
       var temporaryIframe1 = this.iframe1;
       this.iframe1 = this.iframe2;
       this.iframe2 = temporaryIframe1;
@@ -59,7 +57,24 @@ class OutputFrame {
         let scope = this.scope;
         scope.activeFrame = (scope.activeFrame + 1) % 2;
         scope.percentOfProgress = 0;
+        this.$window.localStorage.wasLastFrameInactive = false;
       });
+    };
+
+    var timeoutPromise = this.$timeout(() => {
+      if (currentFrame !== this.iframe2) {
+        return;
+      }
+      currentFrame[0].contentWindow.stop();
+      swapFrames();
+    }, 5000);
+
+    this.iframe2.one('load', () => {
+      if (currentFrame !== this.iframe2) {
+        return;
+      }
+      this.$timeout.cancel(timeoutPromise);
+      swapFrames();
     });
 
   }
@@ -80,17 +95,36 @@ class OutputFrame {
   }
 
   setAddress(url) {
+    if (this.scope.isHangWarning) {
+      this.scope.lastKnownUrl = url;
+      return;
+    }
 
     this.setIsWarning(url);
     this.setAddressAndAnimateIfNeeded(url);
 
   }
 
+  setHangWarning() {
+    if (this.$window.localStorage.wasLastFrameInactive === 'true') {
+      this.scope.isHangWarning = true;
+      return;
+    }
+    this.disableHangWarning();
+  }
+
+  disableHangWarning() {
+    this.scope.isHangWarning = false;
+    if (this.scope.lastKnownUrl) {
+      this.setAddress(this.scope.lastKnownUrl);
+    }
+  }
+
 }
 
 
 
-sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
+sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout, $window ) => {
 
   return {
     restrict: 'E',
@@ -103,8 +137,14 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location ) => {
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location, scope, $rootScope
+        $element: element, $location, scope, $rootScope, $timeout, $window
       });
+      
+      frame.setHangWarning();
+
+      scope.disableHangWarning = () => {
+        frame.disableHangWarning();
+      };
 
       scope.$watch('currentUrl', (url) => {
         if (!url) {
