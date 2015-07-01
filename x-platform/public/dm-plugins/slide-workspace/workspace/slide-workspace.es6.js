@@ -58,7 +58,7 @@ class SwMain {
       return val;
     };
 
-    this.$scope.$watch(() => self.recorder.workspaceId, (workspaceId) => {
+    this.$scope.$watch(() => self.recorder && self.recorder.workspaceId, (workspaceId) => {
       self.workspaceId = workspaceId;
     });
 

@@ -3,8 +3,7 @@ var fs = require('fs');
 
 glob(__dirname + '/**/*.js', function (err, files) {
   if (err) {
-    res.send(404, err);
-    return;
+    throw err;
   }
   files = files.map(function (file) {
     file = file
@@ -16,8 +15,8 @@ glob(__dirname + '/**/*.js', function (err, files) {
   var data = [
     '/* jshint esnext:true,-W097 */',
     '\'use strict\';',
-    '',
-  ].concat(files.map(function(file) {
+    ''
+  ].concat(files.map(function (file) {
     return 'import \'' + file + '\';';
   }));
 

@@ -2,7 +2,6 @@ var DeckModel = require('../models/deck');
 var SlideModel = require('../models/slide');
 var Slides = require('../services/slides');
 
-var glob = require('glob');
 var _ = require('lodash');
 
 // TODO [ToDr] Deprecated! Update Frontend to call normal API instead of this.

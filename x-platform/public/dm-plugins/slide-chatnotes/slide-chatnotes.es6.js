@@ -17,6 +17,11 @@ class ChatNotes {
       vm.notes.current = '';
     };
 
+    vm.removeNote = (notes, note) => {
+      let idx = notes.indexOf(note);
+      notes.splice(idx, 1);
+    };
+
     vm.getLimitThreshold = () => this.getLimitThreshold();
     vm.getCurrentLimit = (isShowingAll) => this.getCurrentLimit(isShowingAll);
   }

@@ -3,7 +3,14 @@
 Template.Event.helpers({
 
   isAdmin() {
-      return Meteor.userId() === this.event.authorId;
+    return Meteor.userId() === this.event.authorId || Roles.userIsInRole(Meteor.user(), ['admin']);
+    },
+
+    isAdminClass() {
+      if (Meteor.userId() === this.event.authorId || Roles.userIsInRole(Meteor.user(), ['admin'])) {
+        return '';
+      }
+      return 'hidden';
     },
 
     mapItems() {
@@ -27,5 +34,11 @@ Template.Event.events({
     const l = eve.items.length;
     let lastItem = eve.items[l - 1];
     Meteor.call('EventTimings.finishEvent', eve._id, lastItem.idx, new Date());
+  },
+
+  'click button[role="clone"]': (ev, tpl) => {
+    const eve = tpl.data.event;
+    Meteor.call('EventTimings.clone', eve._id);
   }
+
 });
