@@ -18,9 +18,7 @@
  specific language governing permissions and limitations
  under the License.
 */
-if (!ionic.Platform.isAndroid()) {
-  return;
-}
+if (ionic.Platform.isAndroid()) {
 ;(function() {
 var PLATFORM_VERSION_BUILD_LABEL = '4.0.0';
 // file: src/scripts/require.js
@@ -1978,3 +1976,4 @@ window.cordova = require('cordova');
 require('cordova/init');
 
 })();
+}

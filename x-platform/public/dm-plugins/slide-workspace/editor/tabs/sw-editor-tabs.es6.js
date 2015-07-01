@@ -6,6 +6,9 @@ import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
 import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
+function tabNameToFileName(name) {
+  return name.replace(/\|/g, '.');
+}
 
 class Tab {
 
@@ -17,7 +20,7 @@ class Tab {
   }
 
   getFileName() {
-    return this.name.replace(/\|/g, '.');
+    return tabNameToFileName(this.name);
   }
 
   getExtension() {
@@ -49,47 +52,65 @@ class SwEditorTabs {
     self.removeTab = (name) => this.removeTab(self, name);
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
-    self.isFile = (node) => this.isFile(self, node);
-    self.setExtensionsAfterDots = (name) => this.setExtensionsAfterDots(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
+    this.initTreeOptions(self);
+
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
-      this.prepareTreeStructure(self, tabNames);
       self.tabsObjects = this.createTabObjects(tabNames);
+      this.prepareTreeStructure(self, self.tabsObjects);
+
+      if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
+        self.showTreeview = true;
+      }
     });
   }
 
-  prepareTreeStructure(self, tabNames) {
+  initTreeOptions(self) {
+    self.treeOptions = {
+      nodeChildren: 'children',
+      dirSelectable: false,
+      injectClasses: {
+        // TODO [ToDr] Very hacky
+        // @see: https://github.com/wix/angular-tree-control/issues/74
+        li: 'type-{{ node.ext }}'
+      }
+    };
+  }
 
-    function newNode(name, path) {
+  prepareTreeStructure(self, tabsObjects) {
+
+    function newNode(name, tabObject) {
       return {
         name: name,
-        path: path,
+        path: tabObject.name,
+        ext: tabObject.type,
+        fileName: tabNameToFileName(name),
         children: []
       };
     }
 
-    function createNodeAndReturnChildren(path) {
-      
+    function createNodeAndReturnChildren(tabObject) {
+
       return function(currentLevel, name) {
         var node = _.find(currentLevel, {
-          name: name,
+          name: name
         });
-        
+
         if (!node) {
-          node = newNode(name, path);
+          node = newNode(name, tabObject);
           currentLevel.push(node);
         }
-        
+
         return node.children;
       };
     }
 
-    function createStructureForSingleFile(topLevel, fileName) {
-      
-      let parts = fileName.split('/');
-      parts.reduce(createNodeAndReturnChildren(fileName), topLevel);
-      
+    function createStructureForSingleFile(topLevel, tabObject) {
+
+      let parts = tabObject.name.split('/');
+      parts.reduce(createNodeAndReturnChildren(tabObject), topLevel);
+
       return topLevel;
     }
 
@@ -97,8 +118,14 @@ class SwEditorTabs {
       return input.reduce(createStructureForSingleFile, []);
     }
 
-    self.treeStructure = convertStructure(tabNames);
+    function getAllNodes(structure) {
+      return structure.reduce((memo, item) => {
+        return memo.concat([item]).concat(getAllNodes(item.children));
+      }, []);
+    }
 
+    self.treeStructure = convertStructure(tabsObjects);
+    self.expandedNodes = getAllNodes(self.treeStructure);
   }
 
   createTabObjects(tabNames) {
@@ -109,8 +136,6 @@ class SwEditorTabs {
   }
 
   activateTab(self, tabName) {
-    this.$log.log('activTab was called');
-
     if (self.activeTabName === tabName) {
       this.editTabName(self, tabName);
       return;
@@ -176,18 +201,6 @@ class SwEditorTabs {
     return hasLongName;
   }
 
-  isFile(self, node) {
-    let hasChildren = node.children.length > 0;
-    if (hasChildren) {
-      return false;
-    }
-    return true;
-  }
-
-  setExtensionsAfterDots(self, name) {
-    return name.replace(/\|/g, '.');
-  }
-
 }
 
 
@@ -209,21 +222,6 @@ sliderPlugins.directive('swEditorTabs', ($log) => {
         $scope, $window, $log
       });
       tabs.controller(this);
-
-      $scope.treeOptions = {
-          nodeChildren: "children",
-          dirSelectable: true,
-          injectClasses: {
-              ul: "a1",
-              li: "a2",
-              liSelected: "c-liSelected",
-              iExpanded: "a3",
-              iCollapsed: "a4",
-              iLeaf: "a5",
-              label: "a6",
-              labelSelected: "a8"
-          }
-      };
     }
   };
 

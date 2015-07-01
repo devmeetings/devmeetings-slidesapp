@@ -1,5 +1,7 @@
 ul.nav.nav-tabs.pull-left
-  li.workspace-tab.workspace-tab-condensed
+  li.workspace-tab.workspace-tab-condensed(
+    ng-show="model.tabsObjects.length >= model.moveTabsLeftThreshold"
+    )
     a.cursor-pointer(
       ng-click="model.showTreeview = !model.showTreeview"
     )
@@ -92,13 +94,28 @@ ul.nav.nav-tabs.pull-left
   treecontrol.tree-classic(
     ng-show="model.showTreeview"
     tree-model="model.treeStructure"
-    options="treeOptions"
+    options="model.treeOptions"
     on-selection="model.activateTab(node.path)"
+    expanded-nodes="model.expandedNodes"
     )
     span(
-      ng-class="{'highlight': model.activeTabName === node.path && model.isFile(node)}"
+      ng-class="{'highlight': model.activeTabName === node.path }"
       )
-      | {{ model.setExtensionsAfterDots(node.name) }} 
+      | {{ node.fileName }} 
+
+  .sw-editor-tabs(
+    ng-show="model.showTreeview"
+    )
+    ul.nav.nav-tabs
+      li.workspace-tab(style="width: 150px")
+        a.cursor-pointer(
+          ng-click="model.insertTab()"
+          tooltip="Add New File"
+          tooltip-placement="bottom"
+          tooltip-animation="false"
+          tooltip-append-to-body="true"
+          )
+          | +
 
 
 
