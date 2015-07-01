@@ -5,12 +5,18 @@ glob(__dirname + '/**/*.js', function (err, files) {
   if (err) {
     throw err;
   }
-  files = files.map(function (file) {
-    file = file
-    .replace(/.js$/, '')
-    .replace(__dirname, '.');
-    return file;
-  });
+  files = files
+    .filter(function (file) {
+      return file !== __filename;
+    })
+    .map(function (file) {
+      file = file
+      .replace(/.js$/, '')
+      .replace(__dirname, '.');
+      return file;
+    }).filter(function (file) {
+      return file !== './plugins';
+    });
 
   var data = [
     '/* jshint esnext:true,-W097 */',

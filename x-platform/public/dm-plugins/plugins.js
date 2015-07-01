@@ -5,8 +5,6 @@ import './deck-layout/deck-layout';
 import './deck-navbar/deck-navbar';
 import './deck-slides/deck-slides';
 import './deck-title/deck-title';
-import './generatePlugins';
-import './plugins';
 import './slide-burger/slide-burger';
 import './slide-burger/slide-burger.mapping';
 import './slide-burger/slide-burger.microtasks';
