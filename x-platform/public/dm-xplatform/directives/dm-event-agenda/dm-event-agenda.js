@@ -37,6 +37,9 @@ class EventAgenda {
         scope.activeMaterial = null;
         return;
       }
+      if (!scope.event) {
+        return;
+      }
       let iterationIdx = $stateParams.iteration;
       let materialId = $stateParams.material;
 
