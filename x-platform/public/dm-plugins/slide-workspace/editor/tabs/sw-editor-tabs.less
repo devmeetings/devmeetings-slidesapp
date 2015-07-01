@@ -10,17 +10,39 @@
 		z-index: 1;
 		height: ~"calc(100% - 26px)";
 		overflow-y: auto;
+    width: 150px;
 	}
 
-	.tree-classic {
-		color: white !important;
-		
-		.highlight {
-			font-weight: bold;
+	treecontrol.tree-classic {
+		color: rgb(187, 187, 187) !important;
+    font-size: 0.9em;
+
+    > ul {
+      margin-left: -5px;
+    }
+
+		.highlight, li .tree-selected {
+      font-weight: normal;
 			text-decoration: underline;
-			color: white;
 			background-color: #1e1e1e;
 		}
+
+    li .tree-selected {
+      text-decoration: none;
+    }
+
+    li {
+      line-height: inherit;
+      padding-left: 12px
+    }
+
+    li i.tree-branch-head {
+      padding-right: 8px !important;
+    }
+    li.tree-leaf i.tree-leaf-head {
+      padding-right: 8px !important;
+    }
+
 	}
 
 }

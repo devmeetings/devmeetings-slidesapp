@@ -1,5 +1,7 @@
 ul.nav.nav-tabs.pull-left
-  li.workspace-tab.workspace-tab-condensed
+  li.workspace-tab.workspace-tab-condensed(
+    ng-show="model.tabsObjects.length >= model.moveTabsLeftThreshold"
+    )
     a.cursor-pointer(
       ng-click="model.showTreeview = !model.showTreeview"
     )

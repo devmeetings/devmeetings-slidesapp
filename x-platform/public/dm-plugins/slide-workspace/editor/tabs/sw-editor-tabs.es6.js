@@ -54,8 +54,8 @@ class SwEditorTabs {
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
-      this.prepareTreeStructure(self, tabNames);
       self.tabsObjects = this.createTabObjects(tabNames);
+      this.prepareTreeStructure(self, _.map(self.tabsObjects, 'name'));
     });
   }
 
