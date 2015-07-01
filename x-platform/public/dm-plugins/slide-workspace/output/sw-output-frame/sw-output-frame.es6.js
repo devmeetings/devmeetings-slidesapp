@@ -32,13 +32,15 @@ class OutputFrame {
 
   setIsWarning(url) {
     if (this.isHttp(url) && this.isCurrentPageHttps()) {
-      this.scope.isWarning = true;
+      this.scope.isHttpsWarning = true;
       return;
     }
-    this.scope.isWarning = false;
+    this.scope.isHttpsWarning = false;
   }
 
   setAdressWithFramesAnimation(url) {
+
+    this.$window.localStorage.wasLastFrameInactive = true;
 
     this.iframe2.attr('src', url);
 
@@ -55,6 +57,7 @@ class OutputFrame {
         let scope = this.scope;
         scope.activeFrame = (scope.activeFrame + 1) % 2;
         scope.percentOfProgress = 0;
+        this.$window.localStorage.wasLastFrameInactive = false;
       });
     };
 
@@ -92,17 +95,36 @@ class OutputFrame {
   }
 
   setAddress(url) {
+    if (this.scope.isHangWarning) {
+      this.scope.lastKnownUrl = url;
+      return;
+    }
 
     this.setIsWarning(url);
     this.setAddressAndAnimateIfNeeded(url);
 
   }
 
+  setHangWarning() {
+    if (this.$window.localStorage.wasLastFrameInactive === 'true') {
+      this.scope.isHangWarning = true;
+      return;
+    }
+    this.disableHangWarning();
+  }
+
+  disableHangWarning() {
+    this.scope.isHangWarning = false;
+    if (this.scope.lastKnownUrl) {
+      this.setAddress(this.scope.lastKnownUrl);
+    }
+  }
+
 }
 
 
 
-sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout ) => {
+sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout, $window ) => {
 
   return {
     restrict: 'E',
@@ -115,8 +137,14 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout ) => 
     templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
     link: function(scope, element) {
       let frame = new OutputFrame({
-        $element: element, $location, scope, $rootScope, $timeout
+        $element: element, $location, scope, $rootScope, $timeout, $window
       });
+      
+      frame.setHangWarning();
+
+      scope.disableHangWarning = () => {
+        frame.disableHangWarning();
+      };
 
       scope.$watch('currentUrl', (url) => {
         if (!url) {

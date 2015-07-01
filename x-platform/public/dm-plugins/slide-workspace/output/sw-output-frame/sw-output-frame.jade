@@ -8,7 +8,7 @@
       h4.text-muted No server at {{ baseUrl }}
 
     .text-center(
-      ng-if="isWarning === true"
+      ng-if="isHttpsWarning === true"
       )
       h1.text-warning
         span.fa.fa-exclamation-triangle
@@ -20,9 +20,28 @@
           target="_blank"
           )
           | open preview in separate window
+
+    .text-center(
+      ng-if="isHangWarning === true"
+      )
+      h1.text-warning
+        span.fa.fa-exclamation-triangle
+      h4.text-muted It seems that your code might have hanged your browser.
+      h5.text-muted 
+        | Please fix the code and then 
+        a(
+          ng-click="disableHangWarning()"
+          )
+          | enable live preview
+      br
+      button.btn.btn-primary(
+          ng-click="disableHangWarning()"
+        )
+        span.fa.fa-fw.fa-play
+        span Enable Preview
     
     .full-height(
-        ng-show="isDead === false && isWarning === false"
+        ng-show="isDead === false && isHttpsWarning === false && isHangWarning === false"
         ng-class="{'sw-outputs-scaled': $root.performance.indexOf('workspace_output_scalling') !== -1}"
         )
       div.progress(
