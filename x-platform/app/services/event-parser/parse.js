@@ -32,7 +32,6 @@ var WorkspaceType = new yaml.Type('!workspace', {
 
     var hasIndex = files.indexOf('index.html') !== -1;
     var tabs = files.reduce(function (memo, file) {
-
       var key = getKeyFromFileName(file);
       var content = fs.readFileSync(path.join(d.path, file), 'utf8');
       memo[key] = {

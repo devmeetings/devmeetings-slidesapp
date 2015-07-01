@@ -1,9 +1,9 @@
 var UserModel = require('../models/user');
 var SALT_WORK_FACTOR = 10;
 var authFields = {
-    usernameField: 'email',
-    passwordField: 'password'
-  };
+  usernameField: 'email',
+  passwordField: 'password'
+};
 
 /**
  * Check hash
