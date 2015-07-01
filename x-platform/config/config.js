@@ -3,6 +3,11 @@ var fs = require('fs');
 var rootPath = path.normalize(path.join(__dirname, '..'));
 var env = process.env.NODE_ENV || 'development';
 var staticsPath = '/static';
+var getVersion = function () {
+  return fs.readFileSync('.version', {
+    encoding: 'utf8'
+  });
+};
 
 var config = {
   development: {
@@ -42,9 +47,7 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-        encoding: 'utf8'
-      }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -78,9 +81,7 @@ var config = {
     jsModulesPath: staticsPath + '/bin',
     withInspectlet: true,
     withGoogleAnalytics: 'UA-52669907-2',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-        encoding: 'utf8'
-      }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -117,9 +118,7 @@ var config = {
     jsModulesPath: staticsPath + '/bin',
     withInspectlet: true,
     withGoogleAnalytics: 'UA-52669907-1',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-        encoding: 'utf8'
-      }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -154,9 +153,7 @@ var config = {
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
     withGoogleAnalytics: 'UA-52669907-1',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-        encoding: 'utf8'
-      }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
