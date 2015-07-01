@@ -1,6 +1,7 @@
 var fs = require('fs');
 var open = require('open');
 var exec = require('child_process').exec;
+var del = require('del');
 var Q = require('q');
 
 var generatePlugins = require('./public/dm-plugins/generatePlugins');
@@ -9,6 +10,14 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
 var SERVER_PORT = 3000;
+var VERSION_FILE = __dirname + '/.version';
+var version = (function () {
+  try {
+    return fs.readFileSync(VERSION_FILE, 'utf8');
+  } catch (e) {
+    return 'dev';
+  }
+}());
 
 function withIgnores (arr) {
   arr.push('!public/jspm_packages/**');
@@ -20,6 +29,25 @@ function withIgnores (arr) {
   arr.push('!node_modules/**');
   return arr;
 }
+
+gulp.task('clean', function (cb) {
+  runJspm(['unbundle']);
+  del([
+    VERSION_FILE,
+    './public/bin/**'
+  ], cb);
+});
+
+gulp.task('bump_version', ['clean'], function () {
+  var pkg = require('./package.json');
+  var buildDate = new Date().getTime() % 1e12;
+  var buildNo = process.env.BUILD_NUMBER;
+
+  var build = buildNo || buildDate;
+  version = pkg.version + '.' + build;
+
+  fs.writeFileSync(VERSION_FILE, version);
+});
 
 gulp.task('generate_plugins', function () {
   return generatePlugins();
@@ -39,6 +67,7 @@ gulp.task('jade', function () {
 gulp.task('less', function () {
   return gulp.src('./public/less/style.less')
     .pipe($.less())
+    .pipe($.rename('style-' + version + '.css'))
     .pipe(gulp.dest('./public/bin'))
     .pipe($.livereload());
 });
@@ -58,16 +87,21 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
     cert: fs.readFileSync('./config/certs/server.crt', 'utf8')
   });
 
+  var isOpened = false;
   $.nodemon({
     script: 'app.js',
     ext: 'jade js',
-    delay: '100ms',
+    delay: '1000ms',
     ignore: ['public', 'node_modules'],
     tasks: ['less', 'jade'],
     env: {
       PORT: SERVER_PORT
     }
   }).on('start', function () {
+    if (isOpened) {
+      return;
+    }
+    isOpened = true;
     open('https://localhost:' + SERVER_PORT);
   });
 
@@ -76,8 +110,7 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
 
 // Build the whole platform
 
-function runJspm (moduleName, target) {
-  var args = ['bundle', moduleName, target, '--inject'];
+function runJspm (args) {
   return Q.denodeify(exec)('./node_modules/.bin/jspm ' + args.map(function (arg) {
     return '"' + arg + '"';
   }).join(' ')).then(function (data) {
@@ -85,18 +118,22 @@ function runJspm (moduleName, target) {
     console.log(data.stderr);
   });
 }
+function runJspmBundle (moduleName, target) {
+  var args = ['bundle', moduleName, target, '--inject'];
+  return runJspm(args);
+}
 
 gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
   var location = function (loc) {
-    return './public/bin/' + loc;
+    return './public/bin/' + loc + '-' + version + '.js';
   };
 
   var jobs = [
-    runJspm('dm-slider/slider-slide', location('slider-slide.js')),
-    runJspm('dm-slider/slider-deck', location('slider-deck.js')),
-    runJspm('dm-slider/slider-trainer', location('slider-trainer.js')),
-    runJspm('dm-xplatform/dm-xplatform', location('dm-xplatform.js')),
-    runJspm('dm-courses/dm-courses', location('dm-courses.js'))
+    runJspmBundle('dm-slider/slider-slide', location('slider-slide')),
+    runJspmBundle('dm-slider/slider-deck', location('slider-deck')),
+    runJspmBundle('dm-slider/slider-trainer', location('slider-trainer')),
+    runJspmBundle('dm-xplatform/dm-xplatform', location('dm-xplatform')),
+    runJspmBundle('dm-courses/dm-courses', location('dm-courses'))
   ];
 
   Q.all(jobs).then(function () {

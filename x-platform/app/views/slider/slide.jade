@@ -3,12 +3,7 @@ extends ../layouts/main
 append scripts
     script.
         window.slideId = "#{slide}";
-    script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
-    script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
-    script.
-      System.import('dm-slider/slider-slide#{cacheBustingVersion}').then(function(){}, function(err){
-        throw err;
-      });
+    +loadModule('dm-slider/slider-slide')
 
 block content
     .full-height(ng-init="$root.modes.isEditMode=#{editMode}")

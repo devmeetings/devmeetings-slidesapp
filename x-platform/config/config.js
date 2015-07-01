@@ -4,9 +4,13 @@ var rootPath = path.normalize(path.join(__dirname, '..'));
 var env = process.env.NODE_ENV || 'development';
 var staticsPath = '/static';
 var getVersion = function () {
-  return fs.readFileSync('.version', {
-    encoding: 'utf8'
-  });
+  try {
+    return fs.readFileSync('.version', {
+      encoding: 'utf8'
+    });
+  } catch(e) {
+    return 'dev';
+  }
 };
 
 var config = {
@@ -16,7 +20,7 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '',
-    cacheBustingVersion: '',
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },

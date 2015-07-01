@@ -1,3 +1,12 @@
+mixin loadModule(module)
+  script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
+  script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
+  script.
+    System.import('#{module}').then(function(){}, function(err) {
+      throw err;
+    });
+
+
 doctype html
 html.full-height(
   lang='en',
