@@ -1,3 +1,10 @@
+mixin iframe(clazz, no)
+  iframe.iframe-fiddle-output.scrollable-container(
+    class=clazz
+    sandbox="allow-scripts allow-forms allow-same-origin"
+    ng-class="{'is-active': activeFrame === #{no}, 'full-screen': model.iframeExpanded}"
+    )
+
 .sw-output-frame.slide-workspace-outputs.full-height(
     )
     .text-center(
@@ -50,12 +57,8 @@
         div.progress-bar(
           style="width:{{ percentOfProgress }}%"
         )   
-      iframe.iframe-fiddle-output.scrollable-container.num-one(
-        ng-class="{'is-active': activeFrame === 0, 'full-screen': model.iframeExpanded}"
-        )
-      iframe.iframe-fiddle-output.scrollable-container.num-two(
-        ng-class="{'is-active': activeFrame === 1, 'full-screen': model.iframeExpanded}"
-        )
+      +iframe('num-one', 0)
+      +iframe('num-two', 1)
     .iframe-output-expander(
       ng-class="{'expanded': model.iframeExpanded}"
       ng-init='model.iframeExpanded = false'
