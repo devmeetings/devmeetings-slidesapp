@@ -166,7 +166,7 @@ class SwEditorTabs {
 
   editTabName(self, tabName) {
     var newName = this.promptForName(tabName);
-    if (!newName) {
+    if (!newName || newName === tabName) {
       return;
     }
     self.allTabs[newName] = self.allTabs[tabName];
