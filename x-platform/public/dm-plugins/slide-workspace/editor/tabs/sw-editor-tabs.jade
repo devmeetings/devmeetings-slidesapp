@@ -103,5 +103,19 @@ ul.nav.nav-tabs.pull-left
       )
       | {{ node.fileName }} 
 
+  .sw-editor-tabs(
+    ng-show="model.showTreeview"
+    )
+    ul.nav.nav-tabs
+      li.workspace-tab(style="width: 150px")
+        a.cursor-pointer(
+          ng-click="model.insertTab()"
+          tooltip="Add New File"
+          tooltip-placement="bottom"
+          tooltip-animation="false"
+          tooltip-append-to-body="true"
+          )
+          | +
+
 
 
