@@ -1,7 +1,7 @@
 mixin iframe(clazz, no)
   iframe.iframe-fiddle-output.scrollable-container(
     class=clazz
-    sandbox="allow-scripts allow-forms allow-same-origin"
+    sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
     ng-class="{'is-active': activeFrame === #{no}, 'full-screen': model.iframeExpanded}"
     )
 
