@@ -1,12 +1,89 @@
-.sw-workspace-tab-container {
-	height: 26px;
-  border-bottom: 2px solid #0f0f0f;
+.sw-editor-tabs {
+
+	&.sw-workspace-tab-container {
+		height: 26px;
+	  border-bottom: 2px solid #0f0f0f;
+	}
+
+	&.sw-tabs {
+		position: relative;
+		z-index: 1;
+		height: ~"calc(100% - 26px)";
+		overflow-y: auto;
+    width: 150px;
+	}
+
+	treecontrol.tree-classic {
+		color: rgb(187, 187, 187) !important;
+    font-size: 0.9em;
+
+    > ul {
+      margin-left: -5px;
+    }
+
+		.highlight, li .tree-selected {
+      font-weight: normal;
+			text-decoration: underline;
+			background-color: #1e1e1e;
+		}
+
+    i.tree-leaf-head {
+      background: none !important;
+      padding: 0 !important;
+      padding-right: 4px !important;
+
+      &::after {
+        display: inline;
+        content: '•';
+      }
+    }
+
+    .type-html i.tree-leaf-head {
+      color: #44e;
+    }
+    .type-js i.tree-leaf-head {
+      color: #4e4;
+    }
+    .type-css i.tree-leaf-head {
+      color: #e44;
+    }
+    .type-jade i.tree-leaf-head {
+      color: #59f;
+    }
+    .type-less i.tree-leaf-head {
+      color: #f82;
+    }
+    .type-coffee i.tree-leaf-head {
+      color: #6a2
+    }
+    .type-es6 i.tree-leaf-head {
+      color: #af4;
+    }
+
+    li .tree-selected {
+      text-decoration: none;
+    }
+
+    li {
+      line-height: inherit;
+      padding-left: 12px
+    }
+
+    li i.tree-branch-head {
+      padding-right: 8px !important;
+    }
+    li.tree-leaf i.tree-leaf-head {
+      padding-right: 8px !important;
+    }
+
+	}
+
 }
 
-.sw-tabs {
-	position: relative;
-	z-index: 1;
-	height: calc(100% - 26px);
-	overflow-y: auto;
-}
 
+
+// Treeview styles modification
+
+.c-liSelected {
+	background-color: #1e1e1e !important;
+}

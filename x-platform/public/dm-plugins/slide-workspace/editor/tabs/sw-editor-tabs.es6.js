@@ -6,6 +6,9 @@ import sliderPlugins from 'slider/slider.plugins';
 import * as _ from '_';
 import getExtension from 'es6!dm-modules/dm-editor/get-extension.es6';
 
+function tabNameToFileName(name) {
+  return name.replace(/\|/g, '.');
+}
 
 class Tab {
 
@@ -17,7 +20,7 @@ class Tab {
   }
 
   getFileName() {
-    return this.name.replace(/\|/g, '.');
+    return tabNameToFileName(this.name);
   }
 
   getExtension() {
@@ -49,12 +52,56 @@ class SwEditorTabs {
     self.removeTab = (name) => this.removeTab(self, name);
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
-
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
+      this.prepareTreeStructure(self, self.tabsObjects);
     });
+  }
+
+  prepareTreeStructure(self, tabsObjects) {
+
+    function newNode(name, tabObject) {
+      return {
+        name: name,
+        path: tabObject.name,
+        ext: tabObject.type,
+        fileName: tabNameToFileName(name),
+        children: []
+      };
+    }
+
+    function createNodeAndReturnChildren(tabObject) {
+      
+      return function(currentLevel, name) {
+        var node = _.find(currentLevel, {
+          name: name
+        });
+        
+        if (!node) {
+          node = newNode(name, tabObject);
+          currentLevel.push(node);
+        }
+        
+        return node.children;
+      };
+    }
+
+    function createStructureForSingleFile(topLevel, tabObject) {
+      
+      let parts = tabObject.name.split('/');
+      parts.reduce(createNodeAndReturnChildren(tabObject), topLevel);
+      
+      return topLevel;
+    }
+
+    function convertStructure(input) {
+      return input.reduce(createStructureForSingleFile, []);
+    }
+
+    self.treeStructure = convertStructure(tabsObjects);
+
   }
 
   createTabObjects(tabNames) {
@@ -65,6 +112,8 @@ class SwEditorTabs {
   }
 
   activateTab(self, tabName) {
+    this.$log.log('activTab was called');
+
     if (self.activeTabName === tabName) {
       this.editTabName(self, tabName);
       return;
@@ -133,7 +182,7 @@ class SwEditorTabs {
 }
 
 
-sliderPlugins.directive('swEditorTabs', () => {
+sliderPlugins.directive('swEditorTabs', ($log) => {
 
   return {
     restrict: 'E',
@@ -146,11 +195,21 @@ sliderPlugins.directive('swEditorTabs', () => {
     bindToController: true,
     controllerAs: 'model',
     templateUrl: '/static/dm-plugins/slide-workspace/editor/tabs/sw-editor-tabs.html',
-    controller: function($scope, $window) {
+    controller: function($scope, $window, $log) {
       let tabs = new SwEditorTabs({
-        $scope, $window
+        $scope, $window, $log
       });
       tabs.controller(this);
+
+      $scope.treeOptions = {
+          nodeChildren: 'children',
+          dirSelectable: false,
+          injectClasses: {
+            // TODO [ToDr] Very hacky
+            // @see: https://github.com/wix/angular-tree-control/issues/74
+            li: 'type-{{ node.ext }}'
+          }
+      };
     }
   };
 
