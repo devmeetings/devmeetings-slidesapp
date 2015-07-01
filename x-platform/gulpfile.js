@@ -87,6 +87,9 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
     cert: fs.readFileSync('./config/certs/server.crt', 'utf8')
   });
 
+  function later (f) {
+    setTimeout(f, 2000);
+  }
   var isOpened = false;
   $.nodemon({
     script: 'app.js',
@@ -99,10 +102,15 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
     }
   }).on('start', function () {
     if (isOpened) {
+      later(function () {
+        $.livereload.reload();
+      });
       return;
     }
     isOpened = true;
-    open('https://localhost:' + SERVER_PORT);
+    later(function () {
+      open('https://localhost:' + SERVER_PORT);
+    });
   });
 
   gulp.watch(withIgnores(['./public/**/*.less']), ['less']);
