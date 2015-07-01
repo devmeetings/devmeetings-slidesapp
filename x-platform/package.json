@@ -8,8 +8,10 @@
   },
   "scripts": {
     "prebuild": "npm install",
-    "build": "gulp bump && gulp build",
+    "build": "gulp bump_version && gulp build",
+    "prestart": "npm install",
     "start": "gulp serve",
+    "pretest": "npm install",
     "test": "semistandard",
     "postinstall": "jspm install && bower install"
   },
