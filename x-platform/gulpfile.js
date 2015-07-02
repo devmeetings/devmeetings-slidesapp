@@ -87,11 +87,22 @@ gulp.task('lint', function () {
 });
 
 gulp.task('test', function () {
+  var karmaOpts = {
+    configFile: 'karma.conf.js',
+    action: 'run'
+  };
+
+  var isCi = process.argv.filter(function (x) {
+    return x === '--ci';
+  }).length;
+
+  if (isCi) {
+    karmaOpts.browsers = ['PhantomJS'];
+  }
+
   return gulp.src(withIgnores(['**/*-spec123.js']))
-    .pipe($.karma({
-      configFile: 'karma.conf.js',
-      action: 'run'
-    })).on('error', function (err) {
+    .pipe($.karma(karmaOpts))
+    .on('error', function (err) {
       throw err;
     });
 });
