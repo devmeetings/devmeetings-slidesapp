@@ -1,11 +1,10 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import viewTemplate from './slide-chatnotes.html!text';
 
-class ChatNotes {
+export class ChatNotes {
 
   constructor (data) {
     _.extend(this, data);

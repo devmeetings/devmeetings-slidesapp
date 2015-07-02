@@ -86,6 +86,16 @@ gulp.task('lint', function () {
     }));
 });
 
+gulp.task('test', function () {
+  return gulp.src(withIgnores(['**/*-spec123.js']))
+    .pipe($.karma({
+      configFile: 'karma.conf.js',
+      action: 'run'
+    })).on('error', function (err) {
+      throw err;
+    });
+});
+
 gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
   $.livereload.listen({
     port: 26000,
