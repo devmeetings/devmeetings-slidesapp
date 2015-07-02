@@ -3,8 +3,17 @@
 ## Running platform
 
 ```sh
-$ npm install
-$ grunt [serve|build]
+$ npm start
+```
+
+## Building for production
+```sh
+$ npm run build
+```
+
+## Linting & Testing
+```sh
+$ npm run test
 ```
 
 ## Xplaform plugin generator
@@ -12,7 +21,7 @@ $ grunt [serve|build]
 install:
 
 ```sh
-$ npm link generator-xplatform/
+$ npm link tools/generator-xplatform/
 ```
 
 usage:
@@ -40,5 +49,4 @@ db.users.update({}, {$set: { acl: [
 * GIT
 * MongoDB
 * Redis
-* mkdir x-platform/data
-* npm install -g grunt-cli
+* npm install -g gulp
