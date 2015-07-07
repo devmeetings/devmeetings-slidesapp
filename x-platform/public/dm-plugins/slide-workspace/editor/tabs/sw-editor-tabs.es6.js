@@ -53,12 +53,19 @@ class SwEditorTabs {
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
+    self.isFile = (node) => this.isFile(self, node);
+    self.addIntoDirectory = (path) => this.addIntoDirectory(self, path);
+    self.removeDirectory = (node) => this.removeDirectory(self, node);
+    self.selectFilesToRemove = (node) => this.selectFilesToRemove(self, node);
+    self.renameDirectory = (node) => this.renameDirectory(self, node);
+    self.displayCheckbox = (path) => this.displayCheckbox(self, path);
 
     this.initTreeOptions(self);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
       this.prepareTreeStructure(self, self.tabsObjects);
+      this.$log.log(self.treeStructure);
 
       if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
         self.showTreeview = true;
@@ -107,7 +114,6 @@ class SwEditorTabs {
     }
 
     function createStructureForSingleFile(topLevel, tabObject) {
-
       let parts = tabObject.name.split('/');
       parts.reduce(createNodeAndReturnChildren(tabObject), topLevel);
 
@@ -124,7 +130,16 @@ class SwEditorTabs {
       }, []);
     }
 
+    // So far always directory and its first child had the same path.
+    // Path must be unique, because methods are taking it as main argument. 
+    function removeDuplicatedPaths(obj) {
+      // here must be magic!
+      // OR it can be romoved if createStructureForSingleFile
+      // will change 
+    }
+
     self.treeStructure = convertStructure(tabsObjects);
+    //self.treeStructure = removeDuplicatedPaths(self.treeStructure);
     self.expandedNodes = getAllNodes(self.treeStructure);
   }
 
@@ -199,6 +214,79 @@ class SwEditorTabs {
   shouldDisplayTooltip(self, tabName) {
     let hasLongName = tabName.length > 15;
     return hasLongName;
+  }
+
+  isFile(self, node) {
+    let hasChildren = node.children.length > 0;
+    if (hasChildren) {
+      return false;
+    }
+    return true;
+  }
+
+  addIntoDirectory(self, path) {
+    var parts = path.split('/');
+    var directoryPath = parts.slice(0, parts.length - 1);
+    directoryPath = directoryPath.join('/') + '/';
+
+    this.editTabName(self, directoryPath);
+  }
+
+  getAllPaths(self, obj, collection) {
+    if ( typeof obj === 'object' ) {
+      for ( var key in obj ) {
+        if ( key === 'path' ) {
+          var path = obj[key];
+          collection.push(path);
+        }
+        if ( key === 'children' || typeof obj[key] === 'object' ) {
+          this.getAllPaths(self, obj[key], collection);      
+        }   
+      }
+    }
+  }
+
+  removeDirectory(self, obj) {
+    var pathsToRemove = [];
+    this.getAllPaths(self, obj, pathsToRemove);
+    var sure = this.$window.confirm('Sure to remove directory with all its content?');
+    if ( sure ) {
+      for ( var key in pathsToRemove ) {
+        var path = pathsToRemove[key];
+        this.deleteTabAndFixActive(self, path);
+      }
+    }
+  }
+
+  selectFilesToRemove(self, obj) {
+    var pathsToRemove = [];
+    this.getAllPaths(self, obj, pathsToRemove);
+    this.pathsToRemove = pathsToRemove;
+  }
+
+  displayCheckbox(self, path) {
+    if ( this.pathsToRemove ) {
+      return this.pathsToRemove.indexOf(path) > -1;
+    }
+  }
+
+  renameDirectory(self, obj) {
+    var newDirName = this.$window.prompt('Insert new directory name:', obj.fileName);
+    if ( !newDirName ) {
+      return;
+    }
+    var pathsToRename = [];
+    this.getAllPaths(self, obj, pathsToRename);
+    for ( var key in pathsToRename ) {
+      var path = pathsToRename[key];
+      var oldPath = path;
+      var pathAfterDir = path.split('/');
+      pathAfterDir = pathAfterDir.slice(1, pathAfterDir.length).join('/');
+      var newPathName = newDirName + '/' + pathAfterDir;
+      self.allTabs[newPathName] = self.allTabs[oldPath];
+      this.deleteTabAndFixActive(self, oldPath, newPathName);
+      self.editorUndoManager.initTab(newPathName);
+    }
   }
 
 }

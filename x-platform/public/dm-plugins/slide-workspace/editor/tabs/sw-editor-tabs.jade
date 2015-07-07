@@ -99,9 +99,83 @@ ul.nav.nav-tabs.pull-left
     expanded-nodes="model.expandedNodes"
     )
     span(
-      ng-class="{'highlight': model.activeTabName === node.path }"
+      ng-class="{'highlight': model.activeTabName === node.path, 'remove': remove.toRemove === node.path}"
+      ng-mouseover="model.hoveredElement = node.path"
       )
-      | {{ node.fileName }} 
+      | {{ node.fileName }}
+    ul.pull-right(
+      ng-if="model.displayCheckbox(node.path) && model.isFile(node)"
+      )
+      li
+        span.fa.fa-fw.fa-trash-o(
+          ng-click="remove.toRemove = node.path; $event.stopPropagation()"
+          )
+    ul.pull-right(
+      ng-mouseover="model.hoveredElement = node.path"
+      ng-mouseleave="model.hoveredElement = false"
+      ng-class="{'do-not-show': !(model.hoveredElement === node.path)}"
+      dropdown=""
+      dropdown-append-to-body=""
+      auto-close="auto"
+      )
+      li.cursor-pointer(
+        dropdown-toggle="" 
+        ng-click="$event.stopPropagation()"
+        tooltip="Options"
+        tooltip-animation="false"
+        tooltip-placement="right"
+        tooltip-append-to-body="true"
+        )
+        span.fa.fa-fw.fa-angle-down
+      ul.dropdown-menu
+        li(
+          ng-if="model.isFile(node)"
+          )
+          a.cursor-pointer(
+            ng-click="model.removeTab(node.path); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-trash-o
+            | Remove File  
+        li(
+          ng-if="model.isFile(node)"
+          )
+          a.cursor-pointer(
+            ng-click="model.editTabName(node.path); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-file-o
+            | Rename File
+        li(
+          ng-if="!model.isFile(node)"
+          )
+          a.cursor-pointer(
+            ng-click="model.addIntoDirectory(node.path); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-plus-circle
+            | Add Into Directory
+        li(
+          ng-if="!model.isFile(node)"
+          )
+          a.cursor-pointer(
+            ng-click="model.removeDirectory(node); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-trash-o
+            | Remove Directory
+        li(
+          ng-if="!model.isFile(node)"
+          )
+          a.cursor-pointer(
+            ng-click="model.selectFilesToRemove(node); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-trash-o
+            | Select To Remove
+        li(
+          ng-if="!model.isFile(node)"
+          )
+          a.cursor-pointer(
+            ng-click="model.renameDirectory(node); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-folder-o
+            | Rename Directory
 
   .sw-editor-tabs(
     ng-show="model.showTreeview"

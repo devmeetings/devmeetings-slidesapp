@@ -17,8 +17,18 @@
 		color: rgb(187, 187, 187) !important;
     font-size: 0.9em;
 
+    .remove {
+    	text-decoration: line-through;
+    }
+
     > ul {
       margin-left: -5px;
+    }
+
+    ul.pull-right {
+      &.do-not-show {
+      	opacity: 0;
+      }
     }
 
 		.highlight, li .tree-selected {
@@ -81,9 +91,3 @@
 }
 
 
-
-// Treeview styles modification
-
-.c-liSelected {
-	background-color: #1e1e1e !important;
-}
