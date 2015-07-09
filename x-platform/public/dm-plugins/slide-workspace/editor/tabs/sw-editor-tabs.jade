@@ -99,17 +99,15 @@ ul.nav.nav-tabs.pull-left
     expanded-nodes="model.expandedNodes"
     )
     span(
-      ng-class="{'highlight': model.activeTabName === node.path, 'remove': remove.toRemove === node.path}"
+      ng-class="{'highlight': model.activeTabName === node.path}"
       ng-mouseover="model.hoveredElement = node.path"
+      tooltip="{{ node.fileName }}"
+      tooltip-enable="model.shouldDisplayTooltip(node.fileName)"
+      tooltip-placement="right"
+      tooltip-animation="false"
+      tooltip-append-to-body="true"
       )
       | {{ node.fileName }}
-    ul.pull-right(
-      ng-if="model.displayCheckbox(node.path) && model.isFile(node)"
-      )
-      li
-        span.fa.fa-fw.fa-trash-o(
-          ng-click="remove.toRemove = node.path; $event.stopPropagation()"
-          )
     ul.pull-right(
       ng-mouseover="model.hoveredElement = node.path"
       ng-mouseleave="model.hoveredElement = false"
@@ -160,14 +158,6 @@ ul.nav.nav-tabs.pull-left
           )
             span.fa.fa-fw.fa-trash-o
             | Remove Directory
-        li(
-          ng-if="!model.isFile(node)"
-          )
-          a.cursor-pointer(
-            ng-click="model.selectFilesToRemove(node); $event.stopPropagation()"
-          )
-            span.fa.fa-fw.fa-trash-o
-            | Select To Remove
         li(
           ng-if="!model.isFile(node)"
           )

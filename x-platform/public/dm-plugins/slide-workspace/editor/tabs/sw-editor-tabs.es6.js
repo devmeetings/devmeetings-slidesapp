@@ -56,16 +56,13 @@ class SwEditorTabs {
     self.isFile = (node) => this.isFile(self, node);
     self.addIntoDirectory = (path) => this.addIntoDirectory(self, path);
     self.removeDirectory = (node) => this.removeDirectory(self, node);
-    self.selectFilesToRemove = (node) => this.selectFilesToRemove(self, node);
     self.renameDirectory = (node) => this.renameDirectory(self, node);
-    self.displayCheckbox = (path) => this.displayCheckbox(self, path);
 
     this.initTreeOptions(self);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
       this.prepareTreeStructure(self, self.tabsObjects);
-      this.$log.log(self.treeStructure);
 
       if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
         self.showTreeview = true;
@@ -159,16 +156,20 @@ class SwEditorTabs {
     self.activeTabName = tabName;
   }
 
+  makeTab(self, path) {
+    self.allTabs[path] = {
+      'content': ''
+    };
+    self.activeTabName = path;
+    self.editorUndoManager.initTab(path);
+  }
+
   insertTab(self) {
-    var name = this.promptForName();
+    var name = this.promptForName(false, 'Insert new filename');
     if (!name) {
       return;
     }
-    self.allTabs[name] = {
-      'content': ''
-    };
-    self.activeTabName = name;
-    self.editorUndoManager.initTab(name);
+    this.makeTab(self, name);
   }
 
   removeTab(self, tabName) {
@@ -179,14 +180,18 @@ class SwEditorTabs {
     this.deleteTabAndFixActive(self, tabName);
   }
 
+  makePathEdition(self, oldPath, newPath) {
+    self.allTabs[newPath] = self.allTabs[oldPath];
+    this.deleteTabAndFixActive(self, oldPath, newPath);
+    self.editorUndoManager.initTab(newPath);
+  }
+
   editTabName(self, tabName) {
-    var newName = this.promptForName(tabName);
-    if (!newName) {
+    var newName = this.promptForName(tabName, 'Insert new filename');
+    if (!newName || newName === tabName) {
       return;
     }
-    self.allTabs[newName] = self.allTabs[tabName];
-    this.deleteTabAndFixActive(self, tabName, newName);
-    self.editorUndoManager.initTab(newName);
+    this.makePathEdition(self, tabName, newName)
   }
 
   deleteTabAndFixActive(self, tabName, newName) {
@@ -199,8 +204,8 @@ class SwEditorTabs {
   }
 
   // This is temporary hack!
-  promptForName(old) {
-    var name = this.$window.prompt('Insert new filename', old ? old.replace(/\|/g, '.') : '');
+  promptForName(path, textForUser) {
+    var name = this.$window.prompt(textForUser, path ? path.replace(/\|/g, '.') : '');
     if (!name) {
       return;
     }
@@ -211,14 +216,14 @@ class SwEditorTabs {
     return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
   }
 
-  shouldDisplayTooltip(self, tabName) {
-    let hasLongName = tabName.length > 15;
+  shouldDisplayTooltip(self, path) {
+    let hasLongName = path.length > 15;
     return hasLongName;
   }
 
   isFile(self, node) {
-    let hasChildren = node.children.length > 0;
-    if (hasChildren) {
+    var hasChildren = node.children.length > 0;
+    if ( hasChildren ) {
       return false;
     }
     return true;
@@ -228,65 +233,45 @@ class SwEditorTabs {
     var parts = path.split('/');
     var directoryPath = parts.slice(0, parts.length - 1);
     directoryPath = directoryPath.join('/') + '/';
-
-    this.editTabName(self, directoryPath);
+    var allPath = this.promptForName(directoryPath, 'Insert new filename after directory path');
+    if (!allPath) {
+      return;
+    }
+    this.makeTab(self, allPath);
   }
 
-  getAllPaths(self, obj, collection) {
-    if ( typeof obj === 'object' ) {
-      for ( var key in obj ) {
-        if ( key === 'path' ) {
-          var path = obj[key];
-          collection.push(path);
-        }
-        if ( key === 'children' || typeof obj[key] === 'object' ) {
-          this.getAllPaths(self, obj[key], collection);      
-        }   
-      }
-    }
+  getAllPaths(self, obj) {
+    let paths = [obj.path];
+    obj.children.forEach((child) => {
+       paths = paths.concat(this.getAllPaths(self, child));
+    });
+    return paths;
   }
 
   removeDirectory(self, obj) {
-    var pathsToRemove = [];
-    this.getAllPaths(self, obj, pathsToRemove);
     var sure = this.$window.confirm('Sure to remove directory with all its content?');
-    if ( sure ) {
-      for ( var key in pathsToRemove ) {
-        var path = pathsToRemove[key];
-        this.deleteTabAndFixActive(self, path);
-      }
+    if ( !sure ) {
+      return;
     }
-  }
-
-  selectFilesToRemove(self, obj) {
-    var pathsToRemove = [];
-    this.getAllPaths(self, obj, pathsToRemove);
-    this.pathsToRemove = pathsToRemove;
-  }
-
-  displayCheckbox(self, path) {
-    if ( this.pathsToRemove ) {
-      return this.pathsToRemove.indexOf(path) > -1;
-    }
+    var pathsToRemove = this.getAllPaths(self, obj);
+    pathsToRemove.forEach((path) => {
+      this.deleteTabAndFixActive(self, path);
+    });
   }
 
   renameDirectory(self, obj) {
-    var newDirName = this.$window.prompt('Insert new directory name:', obj.fileName);
+    var newDirName = this.promptForName(obj.fileName, 'Insert new directory name:');
     if ( !newDirName ) {
       return;
     }
-    var pathsToRename = [];
-    this.getAllPaths(self, obj, pathsToRename);
-    for ( var key in pathsToRename ) {
-      var path = pathsToRename[key];
+    var pathsToRename = this.getAllPaths(self, obj);
+    pathsToRename.forEach((path) => {
       var oldPath = path;
       var pathAfterDir = path.split('/');
       pathAfterDir = pathAfterDir.slice(1, pathAfterDir.length).join('/');
-      var newPathName = newDirName + '/' + pathAfterDir;
-      self.allTabs[newPathName] = self.allTabs[oldPath];
-      this.deleteTabAndFixActive(self, oldPath, newPathName);
-      self.editorUndoManager.initTab(newPathName);
-    }
+      var newPath = newDirName + '/' + pathAfterDir;
+      this.makePathEdition(self, oldPath, newPath);
+    });
   }
 
 }
