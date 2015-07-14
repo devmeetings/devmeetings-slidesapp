@@ -1,3 +1,6 @@
+@background-color: #1e1e1e;
+@line-height: 18px;
+
 .sw-editor-tabs {
 
 	&.sw-workspace-tab-container {
@@ -17,30 +20,39 @@
 		color: rgb(187, 187, 187) !important;
     font-size: 0.9em;
 
-    .remove {
-    	text-decoration: line-through;
-    }
-
     > ul {
       margin-left: -5px;
     }
 
-    ul.pull-right {
-      &.do-not-show {
-      	opacity: 0;
-      }
+    li {
+      line-height: @line-height;
+      height: inherit;
+      padding-left: 8px;
     }
 
-		.highlight, li .tree-selected {
-      font-weight: normal;
-			text-decoration: underline;
-			background-color: #1e1e1e;
-		}
+    li > div {
+    	display: block;
+      line-height: @line-height;
+      height: @line-height;
+    }
 
-    i.tree-leaf-head {
-      background: none !important;
-      padding: 0 !important;
-      padding-right: 4px !important;
+    li i.tree-branch-head {
+      float: left;
+      line-height: @line-height;
+      height: @line-height;
+      padding-right: 14px;
+      padding-left: 4px;
+      background: none;
+    }
+
+    li.tree-leaf i.tree-leaf-head {
+      float: left;
+      line-height: @line-height;
+      height: @line-height;
+      padding: 0;
+      padding-right: 4px;
+      padding-left: 4px;
+      background: none;
 
       &::after {
         display: inline;
@@ -70,21 +82,32 @@
       color: #af4;
     }
 
-    li .tree-selected {
-      text-decoration: none;
-    }
+		li.tree-leaf > div:hover {
+			background-color: lighten(@background-color, 10%);
+		}
 
-    li {
-      line-height: inherit;
-      padding-left: 12px
-    }
+		li > div > .toggle-dropdown {
+			opacity: 0.0;
+			transition: opacity .25s ease;
+			transition-delay: 0;
+		}
+		li:hover > div > .toggle-dropdown {
+		  opacity: 0.9;
+			transition-delay: .5s;
+		}
 
-    li i.tree-branch-head {
-      padding-right: 8px !important;
-    }
-    li.tree-leaf i.tree-leaf-head {
-      padding-right: 8px !important;
-    }
+		span.path {
+			display: inline-block;
+	    max-width: 65%;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+		}
+
+		li .tree-selected {
+      font-weight: normal;
+			text-decoration: underline;
+			background-color: lighten(@background-color, 10%);
+		}
 
 	}
 
