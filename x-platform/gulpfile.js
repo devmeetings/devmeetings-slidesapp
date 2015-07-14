@@ -146,9 +146,7 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
 // Build the whole platform
 
 function runJspm (args) {
-  return Q.denodeify(exec)('./node_modules/.bin/jspm ' + args.map(function (arg) {
-    return '"' + arg + '"';
-  }).join(' ')).then(function (data) {
+  return Q.denodeify(exec)('./node_modules/.bin/jspm ' + args.join(' ')).then(function (data) {
     console.log(data.stdout);
     console.log(data.stderr);
   });
