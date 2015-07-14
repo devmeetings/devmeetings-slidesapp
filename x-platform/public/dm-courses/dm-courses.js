@@ -1,11 +1,10 @@
 /* globals define */
 define(['angular',
-  'templates',
   'dm-courses/dm-courses-app',
   // TODO [ToDr] Move bootstrap to common module
   'slider/bootstrap'
 ],
-  function (angular, templates, app, bootstrap) {
+  function (angular, app, bootstrap) {
     app.config(['$stateProvider', '$urlRouterProvider',
       function ($stateProvider, $urlRouterProvider) {
         $stateProvider.state('index', {

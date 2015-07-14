@@ -1,12 +1,11 @@
 /* globals define */
 define([
-  'templates',
   'slider/slider',
   'slider/slider.plugins',
   'slider/bootstrap',
   'services/DeckAndSlides',
   'directives/plugins-loader'
-], function (templates, slider, sliderPlugins, bootstrap) {
+], function (slider, sliderPlugins, bootstrap) {
   slider.controller('SlideCtrl', function ($rootScope, $scope, $window, $http, Sockets, DeckAndSlides, dmPlayer) {
     DeckAndSlides.inContextOf('slide').slide.then(function (slide) {
       $scope.slide = slide;

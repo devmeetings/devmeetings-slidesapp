@@ -1,6 +1,6 @@
 var fs = require('fs');
 var open = require('open');
-var exec = require('child_process').exec;
+var fork = require('child_process').fork;
 var del = require('del');
 var Q = require('q');
 
@@ -146,7 +146,7 @@ gulp.task('serve', ['generate_plugins', 'copy_theme'], function () {
 // Build the whole platform
 
 function runJspm (args) {
-  return Q.denodeify(exec)('./node_modules/.bin/jspm ' + args.join(' ')).then(function (data) {
+  return Q.denodeify(fork)('./node_modules/.bin/jspm', args).then(function (data) {
     console.log(data.stdout);
     console.log(data.stderr);
   });

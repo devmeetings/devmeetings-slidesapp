@@ -1,12 +1,11 @@
 /* globals define */
 define([
-  'templates',
   'slider/slider',
   'slider/slider.plugins',
   'slider/bootstrap',
   'services/DeckAndSlides',
   'directives/plugins-loader'
-], function (tpl, slider, sliderPlugins, bootstrap) {
+], function (slider, sliderPlugins, bootstrap) {
   slider.controller('TrainerCtrl', ['$scope', '$window', 'DeckAndSlides',
 
     function ($scope, $window, DeckAndSlides) {

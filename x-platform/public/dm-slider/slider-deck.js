@@ -1,6 +1,5 @@
 /* globals define */
 define([
-  'templates',
   'slider/slider',
   'slider/slider.plugins',
   'slider/bootstrap',
@@ -9,7 +8,7 @@ define([
   'directives/plugins-loader',
   'directives/contenteditable',
   'directives/sidebar-control/sidebar-control'
-], function (templates, slider, sliderPlugins, bootstrap) {
+], function (slider, sliderPlugins, bootstrap) {
   slider.controller('SliderCtrl', function ($rootScope, $scope, DeckAndSlides, dmPlayer) {
     function updateDeck (deck) {
       $scope.deck = deck;
