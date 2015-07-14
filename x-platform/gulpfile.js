@@ -174,3 +174,4 @@ gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], f
   }, cb);
 });
 
+gulp.task('default', ['serve']);

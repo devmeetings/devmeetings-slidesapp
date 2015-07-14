@@ -17,7 +17,8 @@ module.exports = function () {
         .replace(__dirname, '.');
         return file;
       }).filter(function (file) {
-        return file !== './plugins';
+        return file !== './plugins' &&
+          !/-spec$/.test(file);
       });
 
     var data = [
