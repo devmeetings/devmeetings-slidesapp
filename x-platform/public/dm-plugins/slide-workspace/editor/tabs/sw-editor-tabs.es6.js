@@ -54,8 +54,6 @@ class SwEditorTabs {
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
-    self.isFile = (node) => this.isFile(self, node);
-    self.isDirectory = (node) => this.isDirectory(self, node);
     self.addIntoDirectory = (path) => this.addIntoDirectory(self, path);
     self.removeDirectory = (node) => this.removeDirectory(self, node);
     self.renameDirectory = (node) => this.renameDirectory(self, node);
@@ -227,18 +225,6 @@ class SwEditorTabs {
   shouldDisplayTooltip(self, path) {
     let hasLongName = path.length > 15;
     return hasLongName;
-  }
-
-  isFile(self, node) {
-    var hasChildren = node.children.length > 0;
-    if ( hasChildren ) {
-      return false;
-    }
-    return true;
-  }
-
-  isDirectory(self, node) {
-    return !this.isFile(self, node);
   }
 
   addIntoDirectory(self, path) {
