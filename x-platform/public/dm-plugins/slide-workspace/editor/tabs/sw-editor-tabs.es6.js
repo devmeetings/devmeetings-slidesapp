@@ -242,7 +242,6 @@ class SwEditorTabs {
     }
     obj.children.forEach((child) => {
       paths = paths.concat(this.getAllPaths(self, child));
-      this.$log.log('Paths', paths);
     });
     return paths;
   }
@@ -280,7 +279,6 @@ class SwEditorTabs {
       return;
     }
     var pathsToRename = this.getAllPaths(self, obj);
-    this.$log.log('pathsToRename', pathsToRename);
     pathsToRename.forEach((path) => {
       var newPath = this.properNewPath(self, path, oldDirName, newDirName);
       var oldPath = path;
