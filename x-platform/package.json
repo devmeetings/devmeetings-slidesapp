@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "npm install",
     "build": "gulp bump_version && gulp build",
-    "prestart": "gulp install_hooks && (mkdir public/bin || true)",
+    "prestart": "gulp install_hooks",
     "start": "gulp serve",
     "test": "semistandard && gulp test --ci",
     "postinstall": "jspm install && bower install"
