@@ -7,7 +7,7 @@ function safeApply (scope, fn) {
   var phase = scope.$root.$$phase;
   if (phase === '$apply' || phase === '$digest') {
     if (fn && (typeof (fn) === 'function')) {
-      fn()a;
+      fn();
     }
   } else {
     scope.$apply(fn);
