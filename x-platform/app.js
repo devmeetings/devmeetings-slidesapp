@@ -63,10 +63,10 @@ server.listen(config.port, function () {
 
 if (config.isDev) {
   var unsafePort = config.port + 1000;
-  var server = require('http').createServer(app);
-  var io = socketio(server);
-  require('./config/sockets')(io, sessionConfig, true);
-  server.listen(unsafePort, function () {
+  var devServer = require('http').createServer(app);
+  var devIo = socketio(devServer);
+  require('./config/sockets')(devIo, sessionConfig, true);
+  devServer.listen(unsafePort, function () {
     logger.info('UNSAFE DEVELOPMENT! Version listening on port:', unsafePort);
   });
 }
