@@ -2,18 +2,17 @@
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as _ from '_';
-
-
-
+import _ from '_';
+import viewTemplate from './sw-ionic-download.html!text';
+import qrCodeTemplate from './ionic-qrcode.html!text';
 
 class IonicDownload {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller(self) {
+  controller (self) {
     let getAppDownloadAddress = () => {
       let workspaceAddress = this.swLivereloadAddress.getFullAddress(self.workspaceId, self.currentPath);
       let hostAddress = this.swLivereloadAddress.getHostAddress();
@@ -25,8 +24,8 @@ class IonicDownload {
       let address = getAppDownloadAddress();
 
       this.$modal.open({
-        templateUrl: '/static/dm-plugins/slide-workspace/output/sw-ionic-download/ionic-qrcode.html',
-        controller: function IonicDownloadCtrl($scope, address) {
+        template: qrCodeTemplate,
+        controller: function IonicDownloadCtrl ($scope, address) {
           $scope.address = address;
         },
         size: 'md',
@@ -48,11 +47,10 @@ sliderPlugins.directive('swIonicDownload', ($window, $modal, swLivereloadAddress
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-ionic-download/sw-ionic-download.html',
-    controller($scope) {
+    template: viewTemplate,
+    controller ($scope) {
       let sw = new IonicDownload({
-        $scope, $window, $modal, swLivereloadAddress
-      });
+      $scope, $window, $modal, swLivereloadAddress});
       sw.controller(this);
     }
   };

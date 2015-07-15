@@ -1,14 +1,12 @@
-define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck'], function(module, _, angular, fs, sliderPlugins) {
-
-  var path = sliderPlugins.extractPath(module);
-
-  sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides',{
+/* globals define */
+define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', './deck-slides.html!text'], function (module, _, angular, fs, sliderPlugins, SM, viewTemplate) {
+  sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides', {
     name: 'Deck Slides',
     description: 'Slides contained in deck',
     example: {
       meta: {
         type: [{
-            type: 'SlideObject'
+          type: 'SlideObject'
         }]
       },
       data: [{
@@ -16,9 +14,8 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
         title: 'Test Title'
       }]
     }
-  }).directive('deckSlides', 
-    function($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
-
+  }).directive('deckSlides',
+    function ($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
       return {
         restrict: 'E',
         scope: {
@@ -26,10 +23,10 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
           deck: '=context',
           recorder: '=recorder'
         },
-        templateUrl: path + '/deck-slides.html',
+        template: viewTemplate,
 
-        link: function(scope) {
-          var onSlideChange = function onSlideChange(activeSlideId) {
+        link: function (scope) {
+          var onSlideChange = function onSlideChange (activeSlideId) {
             scope.slide = _.find(scope.deck.deckSlides, {
               _id: activeSlideId
             });
@@ -37,35 +34,33 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
               activateSlide(0);
             }
             if (!scope.deck.deckSlides) {
-              $timeout(function() {
+              $timeout(function () {
                 onSlideChange(activeSlideId);
               }, 100);
             }
           };
 
-          function activateSlide(idx) {
+          function activateSlide (idx) {
             scope.slide = scope.deck.deckSlides[idx];
           }
-
 
           scope.modes = $rootScope.modes;
           scope.csm = CurrentSlideManagerForDeck;
           scope.$watch('csm.activeSlideId', onSlideChange);
-          scope.$watch('slide._id', function(newId) {
+          scope.$watch('slide._id', function (newId) {
             if (!newId) {
               return;
             }
             $location.url(newId);
-            //TODO [ToDr] Shitty as fuck!
+            // TODO [ToDr] Shitty as fuck!
             DeckAndSlides.slideId = newId;
           });
 
-          scope.$on('slide', function(ev, slide_content) {
+          scope.$on('slide', function (ev, slide_content) {
             scope.slide.content = slide_content;
           });
 
-
-          function fixSlideIdx(idx, maxLength) {
+          function fixSlideIdx (idx, maxLength) {
             idx = idx % maxLength;
 
             if (idx >= 0) {
@@ -75,9 +70,9 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
             return maxLength + idx;
           }
 
-          function goToSlide(diff) {
+          function goToSlide (diff) {
             var maxLength = scope.deck.deckSlides.length;
-            var idx = _.map(scope.deck.deckSlides, function(x) {
+            var idx = _.map(scope.deck.deckSlides, function (x) {
               return x._id;
             }).indexOf(scope.slide._id);
 
@@ -95,12 +90,12 @@ define(['module', '_', 'angular', 'lib/file-saver', 'slider/slider.plugins', 'se
             callback: goToSlide.bind(null, -1)
           });
 
-          scope.downloadDeck = function() {
-            var blob = new Blob([angular.toJson(scope.deck)], {
+          scope.downloadDeck = function () {
+            var blob = new window.Blob([angular.toJson(scope.deck)], {
               type: 'application/json;charset=utf-8'
             });
             var now = new Date().toJSON();
-            $window.saveAs(blob, scope.deck.title + "-" + now + ".json");
+            $window.saveAs(blob, scope.deck.title + '-' + now + '.json');
           };
         }
       };

@@ -2,9 +2,10 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
-import 'es6!xplatform/directives/dm-event-admin/dm-event-admin';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
+import 'dm-xplatform/directives/dm-event-admin/dm-event-admin';
+import viewTemplate from './dm-xplatform-context.html!text';
 
 const names = {
   admin: 'Admin',
@@ -16,14 +17,14 @@ const names = {
 
 class ContextMenuDir {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link(scope) {
+  link (scope) {
     scope.noEventMenu = true;
 
-    function refreshEditMode() {
+    function refreshEditMode () {
       var isEditMode = scope.isEditMode;
       if (!scope.display) {
         return;
@@ -52,7 +53,7 @@ class ContextMenuDir {
       scope.display = {
         event: true,
         lastActive: false,
-        lastEvent: true,
+        lastEvent: true
       };
       what.map((w) => {
         if (w === 'history') {
@@ -102,37 +103,33 @@ class ContextMenuDir {
     this.initNotifications(scope);
   }
 
-
-  initNotifications($scope) {
+  initNotifications ($scope) {
     $scope.notifications = {};
-    $scope.$on('event.questions.update', function() {
+    $scope.$on('event.questions.update', function () {
       $scope.notifications.unread = true;
     });
   }
 
-  }
+}
 
+xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
 
-  xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      with: '=?',
+      event: '=',
+      user: '=',
+      opened: '=',
+      isEditMode: '=?'
+    },
+    template: viewTemplate,
+    link: (scope) => {
+      let contextMenu = new ContextMenuDir({
+      $stateParams, $window});
+      contextMenu.link(scope);
+    }
+  };
 
-
-    return {
-      restrict: 'E',
-      replace: true,
-      scope: {
-        with: '=?',
-        event: '=',
-        user: '=',
-        opened: '=',
-        isEditMode: '=?'
-      },
-      templateUrl: '/static/dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context.html',
-      link: (scope) => {
-        let contextMenu = new ContextMenuDir({
-            $stateParams, $window
-        });
-        contextMenu.link(scope);
-      }
-    };
-
-  });
+});

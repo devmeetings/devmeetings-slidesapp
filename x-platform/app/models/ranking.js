@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Ranking = new Schema({
   event: {
@@ -14,18 +14,18 @@ var Ranking = new Schema({
   },
   data: {
     type: Schema.Types.Mixed
-      /*
-       *    taskIdx: {
-       *      isDone,
-       *      date
-       *    }
-       */
+  /*
+   *    taskIdx: {
+   *      isDone,
+   *      date
+   *    }
+   */
   },
   counts: {
     type: Schema.Types.Mixed
-    /*
-     * iterationIdx -> count
-     */
+  /*
+   * iterationIdx -> count
+   */
   }
 });
 

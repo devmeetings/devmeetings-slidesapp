@@ -1,12 +1,11 @@
-define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular, io, asEvented, guid) {
-
-  var CreateWebSocket = function(targetOrigin, $window, $location) {
+/* globals define */
+define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angular, io, asEvented, guid) {
+  var CreateWebSocket = function (targetOrigin, $window, $location) {
     var WebSocket = {
-
       _socket: null,
 
-      _initialize: function() {
-        var deckId = (typeof slides === 'undefined') ? "-" : slides;
+      _initialize: function () {
+        var deckId = (typeof $window.slides === 'undefined') ? '-' : $window.slides;
         var protocol = $location.protocol();
         var url = $location.host() + ':' + $location.port();
         this._socket = io.connect(protocol + '://' + url + '/?deck=' + deckId);
@@ -16,14 +15,14 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
         this.off = s.off.bind(s);
         this._createRoomReconnector();
 
-        $window.addEventListener('message', function(ev) {
+        $window.addEventListener('message', function (ev) {
           var data = ev.data;
           var target = ev.source;
 
           if (data.type === 'socketEvent') {
             var cb;
             if (data.callback) {
-              cb = function(data2) {
+              cb = function (data2) {
                 target.postMessage({
                   type: 'socketCallback',
                   data: data2,
@@ -43,8 +42,8 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
         }.bind(this));
       },
 
-      _createEventForwarder: function(target, evName) {
-        return function(data) {
+      _createEventForwarder: function (target, evName) {
+        return function (data) {
           target.postMessage({
             type: 'socketEvent',
             eventName: evName,
@@ -53,22 +52,22 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
         };
       },
 
-      _createRoomReconnector: function() {
+      _createRoomReconnector: function () {
         var s = this._socket;
 
         var rooms = [];
 
-        s.on('reconnect', function() {
+        s.on('reconnect', function () {
           // Clear out rooms because we will get another rejoin events.
           var toJoin = rooms.slice();
           rooms.length = 0;
-          toJoin.forEach(function(room) {
-            s.emit(room.msg, room.args, function() {});
+          toJoin.forEach(function (room) {
+            s.emit(room.msg, room.args, function () {});
           });
 
         });
 
-        s.on('rejoin', function(channel) {
+        s.on('rejoin', function (channel) {
           // Save channel to join later
           if (channel.joined) {
             // check if channel is already there
@@ -91,97 +90,17 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
     return WebSocket;
   };
 
-  var CreateForwardingSocket = function(targetOrigin, $window) {
-    var ForwardingSocket = {
-      _callbacks: {},
-
-      _eventListeners: {
-        'socketEvent': function(data) {
-          this.trigger(data.eventName, data.data);
-        },
-        'socketCallback': function(data) {
-          var cb = this._callbacks[data.callback];
-
-          if (cb) {
-            delete this._callbacks[data.callback];
-            cb(data.data);
-          }
-        }
-      },
-
-      _initialize: function() {
-        // Apply events, but don't override emit
-        var emit = this.emit;
-        asEvented.call(this);
-        this.emit = emit;
-
-        // Because Socket.IO does not allow to listen to all events 
-        // (and knowing their names at the same time)
-        // We have to add a little aspect to .on method.
-        ['on', 'listen'].map(function(method) {
-          var org = this[method];
-
-          this[method] = function() {
-            $window.parent.postMessage({
-              type: 'socketListen',
-              eventName: arguments[0]
-            }, targetOrigin);
-            return org.apply(this, arguments);
-          };
-        }, this);
-
-        ['off'].map(function(method) {
-          var org = this[method];
-          this[method] = function() {
-            $window.parent.postMessage({
-              type: 'socketStop',
-              eventName: arguments[0]
-            }, targetOrigin);
-            return org.apply(this, arguments);
-          };
-        });
-
-        $window.addEventListener('message', function(ev) {
-          var data = ev.data;
-
-          var listener = this._eventListeners[data.type];
-          if (listener) {
-            listener.call(this, data);
-          }
-        }.bind(this));
-      },
-
-      emit: function(evName, data, callback) {
-        var uuid;
-
-        if (callback) {
-          uuid = guid();
-          this._callbacks[uuid] = callback;
-        }
-
-        $window.parent.postMessage({
-          type: 'socketEvent',
-          eventName: evName,
-          data: data,
-          callback: uuid
-        }, targetOrigin);
-      }
-    };
-    return ForwardingSocket;
-  };
-
-  var CreateBaseSocket = function($window, $rootScope) {
+  var CreateBaseSocket = function ($window, $rootScope) {
     var BaseSocket = {
-
-      _initialize: function() {
+      _initialize: function () {
         $window.___hasSockets = true;
-        this.on('connect', function() {
-          $rootScope.$apply(function() {
+        this.on('connect', function () {
+          $rootScope.$apply(function () {
             $rootScope.isOffline = false;
           });
         });
-        this.on('disconnect', function() {
-          $rootScope.$apply(function() {
+        this.on('disconnect', function () {
+          $rootScope.$apply(function () {
             $rootScope.isOffline = true;
           });
         });
@@ -192,19 +111,12 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function(_, angular
   };
 
   angular.module('dm-sockets', []).factory('Sockets',
-    function($location, $window, $rootScope) {
+    function ($location, $window, $rootScope) {
       var targetOrigin = $window.location;
 
-      // ifowisko
-      var Sockets = null;
-      // TODO [ToDr] Some problems with forwarding sockets.
-      // if ($window.parent.___hasSockets) {
-        // Sockets = CreateForwardingSocket(targetOrigin, $window);
-      // } else {
-        Sockets = CreateWebSocket(targetOrigin, $window, $location);
-      // }
+      var Sockets = CreateWebSocket(targetOrigin, $window, $location);
 
-      //initialize
+      // initialize
       var BaseSockets = CreateBaseSocket($window, $rootScope);
       var Socket = _.extend({}, BaseSockets, Sockets);
       Sockets._initialize.call(Socket);

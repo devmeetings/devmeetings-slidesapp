@@ -1,30 +1,27 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+/* globals define */
+define(['module', '_', 'slider/slider.plugins', './slide-serverRunner.html!text'], function (module, _, sliderPlugins, viewTemplate) {
   'use strict';
 
   var EXECUTION_DELAY = 1000;
 
-  var path = sliderPlugins.extractPath(module);
-
   sliderPlugins.registerPlugin('slide', 'serverRunner', 'slide-server-runner', {
-      order: 4000,
-      name: 'Server Runner',
-      description: 'Sends the code for execution on the server. Works with `workspace` & `code`.',
-      example: {
-        meta: {
-          type: 'string',
-          help: 'Name of the server side executor [sphero, ruby, java, burger, python, expressjs, nodejs]'
-        },
-        data: 'expressjs'
-      }
+    order: 4000,
+    name: 'Server Runner',
+    description: 'Sends the code for execution on the server. Works with `workspace` & `code`.',
+    example: {
+      meta: {
+        type: 'string',
+        help: 'Name of the server side executor [sphero, ruby, java, burger, python, expressjs, nodejs]'
+      },
+      data: 'expressjs'
+    }
   }).directive('slideServerRunner', [
     'Sockets', 'dmPlayer',
-    function(Sockets, dmPlayer) {
-
-      var updateScope = function() {};
-      Sockets.on('serverRunner.code.result', function(data) {
+    function (Sockets, dmPlayer) {
+      var updateScope = function () {};
+      Sockets.on('serverRunner.code.result', function (data) {
         updateScope(data);
       });
-
 
       return {
         restrict: 'E',
@@ -32,13 +29,13 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           runner: '=data',
           slide: '=context'
         },
-        templateUrl: path + '/slide-serverRunner.html',
-        controller: function($scope) {
+        template: viewTemplate,
+        controller: function ($scope) {
           var scope = $scope;
           scope.success = true;
 
-          updateScope = function(data) {
-            scope.$apply(function() {
+          updateScope = function (data) {
+            scope.$apply(function () {
               scope.success = data.success;
               scope.errors = data.errors || '';
               scope.stacktrace = data.stacktrace;
@@ -50,7 +47,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
           var lastStateId;
 
-          function emitRun(prop, path) {
+          function emitRun (prop, path) {
             if (!lastStateId) {
               return;
             }
@@ -58,7 +55,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             var data = {
               runner: scope.runner,
               path: path,
-              timestamp: new Date().getTime(),
+              timestamp: new Date().getTime()
             };
             data[prop] = lastStateId;
 
@@ -71,11 +68,11 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
           var emitRunDebounced = _.debounce(emitRun, EXECUTION_DELAY);
           // TODO [ToDr] That's terrible!
           var lastType = {};
-          dmPlayer.onCurrentStateId(scope, function(stateId) {
+          dmPlayer.onCurrentStateId(scope, function (stateId) {
             lastStateId = stateId;
           });
 
-          sliderPlugins.listen(scope, 'slide.slide-code.change', function(ev, editor, path) {
+          sliderPlugins.listen(scope, 'slide.slide-code.change', function (ev, editor, path) {
             sliderPlugins.trigger('slide.serverRunner.code.run');
             sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
 
@@ -84,7 +81,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             emitRunDebounced(lastType.type, lastType.path);
           });
 
-          sliderPlugins.listen(scope, 'slide.slide-workspace.run', function(workspace, path) {
+          sliderPlugins.listen(scope, 'slide.slide-workspace.run', function (workspace, path) {
             sliderPlugins.trigger('slide.serverRunner.code.run');
             sliderPlugins.trigger('slide.jsonOutput.display', 'Working...');
 

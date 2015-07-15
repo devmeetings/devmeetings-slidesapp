@@ -1,3 +1,12 @@
+mixin loadModule(module)
+  script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
+  script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
+  script.
+    System.import('#{module}').then(function(){}, function(err) {
+      throw err;
+    });
+
+
 doctype html
 html.full-height(
   lang='en',
@@ -14,7 +23,7 @@ html.full-height(
     link(rel="icon", type="image/png", sizes="192x192" href="/static/images/xplatform-icon-big.png")
     link(rel="icon", type="image/png", ng-href="/static/images/xplatform-{{$root.icon}}.png")
     block css
-      link(rel='stylesheet', href='/static/css/style#{cacheBustingVersion}.css')
+      link(rel='stylesheet', href='/static/bin/style#{cacheBustingVersion}.css')
     block js2
     if isDev
       script(src="https://localhost:26000/livereload.js")

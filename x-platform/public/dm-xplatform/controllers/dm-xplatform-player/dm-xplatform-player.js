@@ -1,27 +1,26 @@
-define(['angular', 'xplatform/xplatform-app', '_',
-  'xplatform/services/dm-events/dm-events',
-  'es6!dm-modules/dm-keys/keysListener.es6'
-], function(angular, xplatformApp, _, dmEvents, keysListener) {
+/* globals define */
+define(['angular', 'dm-xplatform/xplatform-app', '_',
+  'dm-xplatform/services/dm-events/dm-events',
+  'dm-modules/dm-keys/keysListener.es6',
+  './player-finish.html!text'
+], function (angular, xplatformApp, _, dmEvents, keysListener, viewTemplate) {
   'use strict';
-  xplatformApp.controller('dmXplatformPlayer', function($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {
-
-
+  xplatformApp.controller('dmXplatformPlayer', function ($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
       // next time we will be here, just continue
       $scope.state.startSecond = $scope.state.currentSecond;
     });
 
     $scope.withVoice = $stateParams.withVoice;
 
-    $scope.keys.keyUp = keysListener($scope);
+    $scope.keys.keyUp = keysListener.default($scope);
 
-
-    dmEvents.getEvent($stateParams.event, false).then(function(data) {
+    dmEvents.getEvent($stateParams.event, false).then(function (data) {
       $scope.event = data;
       $scope.currentIteration = data.iterations[$stateParams.iteration];
-      var material = _.find(data.iterations[$stateParams.iteration].materials, function(elem) {
+      var material = _.find(data.iterations[$stateParams.iteration].materials, function (elem) {
         return elem._id === $stateParams.material;
       });
       $scope.currentMaterial = material;
@@ -35,28 +34,27 @@ define(['angular', 'xplatform/xplatform-app', '_',
     $scope.$watch('recorderPlayer', updatePlayerForRecording);
     $scope.$watch('currentMaterial', updatePlayerForRecording);
 
-
-    function updatePlayerForRecording() {
+    function updatePlayerForRecording () {
       if (!$scope.recorderPlayer || !$scope.currentMaterial) {
         return;
       }
 
-      dmRecordings.preparePlayerForRecording($scope.recorderPlayer, $scope.currentMaterial.material).then(function(recording) {
+      dmRecordings.preparePlayerForRecording($scope.recorderPlayer, $scope.currentMaterial.material).then(function (recording) {
         $scope.recording = recording.recording;
         $scope.state.rate = recording.recording.original.playbackRate;
         $scope.state.max = recording.max;
       });
     }
 
-    function fetchAnnotations() {
-      dmEvents.getEventAnnotations($stateParams.event, $stateParams.iteration, $stateParams.material).then(function(annotations) {
+    function fetchAnnotations () {
+      dmEvents.getEventAnnotations($stateParams.event, $stateParams.iteration, $stateParams.material).then(function (annotations) {
         if ($stateParams.withVoice) {
           return;
         }
 
-        $scope.annotations = annotations.sort(function(a, b) {
+        $scope.annotations = annotations.sort(function (a, b) {
           return a.timestamp - b.timestamp;
-        }).filter(function(anno) {
+        }).filter(function (anno) {
           return anno.type !== 'snippet';
         });
       });
@@ -65,22 +63,21 @@ define(['angular', 'xplatform/xplatform-app', '_',
     fetchAnnotations();
     $scope.$on('newAnnotations', fetchAnnotations);
 
-
     var modalOpen = false;
-    $scope.displayFinishMessage = function() {
+    $scope.displayFinishMessage = function () {
       if (modalOpen) {
         return;
       }
 
-      function fromScope(name) {
-        return function() {
+      function fromScope (name) {
+        return function () {
           return $scope[name];
         };
       }
 
       modalOpen = true;
       $modal.open({
-        templateUrl: '/static/dm-xplatform/controllers/dm-xplatform-player/player-finish.html',
+        template: viewTemplate,
         controller: 'dmXplatformPlayerFinishModal',
         size: 'md',
         resolve: {
@@ -94,8 +91,7 @@ define(['angular', 'xplatform/xplatform-app', '_',
     };
   });
 
-  xplatformApp.controller('dmXplatformPlayerFinishModal', function($scope, event, currentIteration, currentMaterial, workspaceId) {
-
+  xplatformApp.controller('dmXplatformPlayerFinishModal', function ($scope, event, currentIteration, currentMaterial, workspaceId) {
     $scope.iterationIdx = event.iterations.indexOf(currentIteration);
     $scope.currentMaterial = currentMaterial;
     $scope.workspaceId = workspaceId;
@@ -108,7 +104,5 @@ define(['angular', 'xplatform/xplatform-app', '_',
     }
 
   });
-
-
 
 });

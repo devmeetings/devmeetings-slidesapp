@@ -2,18 +2,16 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import viewTemplate from './dm-event-admin.html!text';
 
 class EventAdmin {
 
-  link(scope) {
-  }
+  link (scope) {}
 
 }
 
-
 xplatformApp.directive('dmEventAdmin', () => {
-
 
   return {
     restrict: 'E',
@@ -21,8 +19,8 @@ xplatformApp.directive('dmEventAdmin', () => {
     scope: {
       event: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-event-admin/dm-event-admin.html',
-    link: ( /*args*/ ) => {
+    template: viewTemplate,
+    link: () => {
       let eventAdmin = new EventAdmin({});
       return eventAdmin.link.apply(eventAdmin, arguments);
     }

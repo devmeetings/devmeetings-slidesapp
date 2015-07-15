@@ -43,7 +43,7 @@ var UserModel = mongoose.model('user', new mongoose.Schema({
 
 var gravatar = require('gravatar');
 
-UserModel.schema.pre('save', function(next) {
+UserModel.schema.pre('save', function (next) {
   var user = this;
   user.avatar = gravatar.url(user.email);
   next();

@@ -4,7 +4,7 @@ var cache = require('../../services/cache');
 var logger = require('../../../config/logging');
 var pluginEvents = require('../events');
 
-function fixId(data) {
+function fixId (data) {
   'use strict';
   // This is nasty fix for strange behaviour of forwarding socket.
   // As always we don't have enough time to investigate it.
@@ -13,17 +13,15 @@ function fixId(data) {
   }
 }
 
-exports.onSocket = function(log, socket) {
+exports.onSocket = function (log, socket) {
   'use strict';
 
-
-  function patchState(data, ack) {
+  function patchState (data, ack) {
     var workspaceRoom = getRoom(data);
 
     fixId(data);
 
-    States.fetchStateForWriting(data._id, socket.request.user).done(function(save) {
-      
+    States.fetchStateForWriting(data._id, socket.request.user).done(function (save) {
       var patches = data.patches;
 
       if (save.fresh && data._id && !patches[0].current) {
@@ -56,7 +54,7 @@ exports.onSocket = function(log, socket) {
 
       // fix timestamps
       var last = save.noOfPatches || 0;
-      patches.map(function(patchData, idx) {
+      patches.map(function (patchData, idx) {
         patchData.id = save._id + '_' + (last + idx);
         patchData.timestamp = patchData.timestamp - originalTime;
       });
@@ -64,12 +62,12 @@ exports.onSocket = function(log, socket) {
       save.workspaceId = data.workspaceId;
 
       // NOTE [ToDr] For performance reasons not every field is being updated!
-      return States.update(save, patches).then(function(save) {
+      return States.update(save, patches).then(function (save) {
         return {
           save: save,
           patches: patches
         };
-      }).done(function(d) {
+      }).done(function (d) {
         // NOTE [ToDr] For performance reasons you won't get full document here!
         var save = d.save;
         var id = save._id;
@@ -99,23 +97,22 @@ exports.onSocket = function(log, socket) {
     });
   }
 
-
-  function workspaceRoom(workspaceId) {
+  function workspaceRoom (workspaceId) {
     return 'workspace_' + workspaceId;
   }
 
-  function userRoom(userId) {
+  function userRoom (userId) {
     return 'user_' + userId;
   }
 
-  function getRoom(data) {
+  function getRoom (data) {
     if (data.workspaceId) {
       return workspaceRoom(data.workspaceId);
     }
     return userRoom(socket.request.user._id);
   }
 
-  function subscribeToStates(workspaceId) {
+  function subscribeToStates (workspaceId) {
     var room = workspaceRoom(workspaceId);
     log(socket.request.user.name + ' started listening to ' + room);
     socket.join(room);
@@ -127,7 +124,7 @@ exports.onSocket = function(log, socket) {
     });
   }
 
-  function unsubscribeFromStates(workspaceId) {
+  function unsubscribeFromStates (workspaceId) {
     var room = workspaceRoom(workspaceId);
     log(socket.request.user.name + ' stopped listening to ' + room);
     socket.leave(room);

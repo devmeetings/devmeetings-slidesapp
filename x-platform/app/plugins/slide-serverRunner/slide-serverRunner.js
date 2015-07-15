@@ -6,25 +6,24 @@ var store = require('../../services/store');
 
 var Workers = null;
 
-exports.init = function() {
+exports.init = function () {
   'use strict';
 
-  var l = function( /* args */ ) {
+  var l = function (/* args */) {
     var args = [].slice.call(arguments);
     args.unshift('  [ServerRunner]');
     logger.info.apply(logger, args);
   };
 
-  Workers = (function() {
-
+  Workers = (function () {
     var ReplyQueue = 'Replies_' + uuid();
     var answers = {};
 
-    var deleteCallbackLater = _.debounce(function deleteCallback(id) {
+    var deleteCallbackLater = _.debounce(function deleteCallback (id) {
       delete answers[id];
     }, 90000);
 
-    var maybeAnswer = function(msgString) {
+    var maybeAnswer = function (msgString) {
       var msg = JSON.parse(msgString);
       var id = msg.properties.correlationId;
       if (answers[id]) {
@@ -46,7 +45,7 @@ exports.init = function() {
     store.subscribe(ReplyQueue, maybeAnswer);
 
     return {
-      send: function(Queue, msg, callback) {
+      send: function (Queue, msg, callback) {
         l('Sending message to ' + Queue);
 
         var corrId = uuid();
@@ -60,7 +59,7 @@ exports.init = function() {
           content: msg,
           properties: {
             replyTo: ReplyQueue,
-            correlationId: corrId,
+            correlationId: corrId
           }
         };
         store.publish(Queue, JSON.stringify(storeMessage));
@@ -70,14 +69,13 @@ exports.init = function() {
   }());
 };
 
-
 var States = require('../../services/states');
 
-function fillData(clientData) {
+function fillData (clientData) {
   'use strict';
 
   if (clientData.code) {
-    return States.createFromId(clientData.code).then(function(save) {
+    return States.createFromId(clientData.code).then(function (save) {
       var code = States.getData(save, clientData.path);
       clientData.code = code.content;
       return clientData;
@@ -85,7 +83,7 @@ function fillData(clientData) {
   }
 
   if (clientData.files) {
-    return States.createFromId(clientData.files).then(function(save) {
+    return States.createFromId(clientData.files).then(function (save) {
       var workspace = States.getData(save, clientData.path);
 
       if (!workspace) {
@@ -94,7 +92,7 @@ function fillData(clientData) {
       }
 
       // Todo extract files
-      var files = Object.keys(workspace.tabs).reduce(function(memo, fileName) {
+      var files = Object.keys(workspace.tabs).reduce(function (memo, fileName) {
         var content = workspace.tabs[fileName].content;
         var toName = '/' + fileName.replace('|', '.');
 
@@ -111,14 +109,13 @@ function fillData(clientData) {
   return Q.when(clientData);
 }
 
-exports.onSocket = function(log, socket, io) {
+exports.onSocket = function (log, socket, io) {
   'use strict';
 
-  socket.on('serverRunner.code.run', function(clientData) {
-
-    fillData(clientData).done(function(data) {
+  socket.on('serverRunner.code.run', function (clientData) {
+    fillData(clientData).done(function (data) {
       data.client = socket.request.user._id;
-      Workers.send('exec_' + data.runner, data, function(response) {
+      Workers.send('exec_' + data.runner, data, function (response) {
         socket.emit('serverRunner.code.result', response);
       });
     });

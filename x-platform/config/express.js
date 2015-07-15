@@ -1,20 +1,20 @@
-var express = require('express'),
-  compression = require('compression'),
-  favicon = require('serve-favicon'),
-  winston = require('express-winston'),
-  passport = require('passport'),
-  bodyParser = require('body-parser'),
-  session = require('express-session'),
-  cookieParser = require('cookie-parser'),
-  path = require('path'),
-  flash = require('connect-flash'),
-  connectJadeStatic = require('connect-jade-static');
+var express = require('express');
+var compression = require('compression');
+var favicon = require('serve-favicon');
+var winston = require('express-winston');
+var passport = require('passport');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var path = require('path');
+var flash = require('connect-flash');
+var connectJadeStatic = require('connect-jade-static');
 
 var winstonLogger = require('./logging');
 var store = require('./store');
 var sessionInit = require('./session');
 
-module.exports = function(app, config, router) {
+module.exports = function (app, config, router) {
   var jadeStatic = connectJadeStatic({
     baseDir: path.join(config.root, 'public'),
     baseUrl: '/static',
@@ -33,17 +33,17 @@ module.exports = function(app, config, router) {
       domain: config.cookieDomain,
       /*
        *  TODO [ToDr] We cannot use secure cookie :(
-       *  The reason for this are unsafe.* domains that 
+       *  The reason for this are unsafe.* domains that
        *  cannot require from you logging one more time
        */
-      secure: false, 
+      secure: false,
       httpOnly: true
     },
     cookieParser: cookieParser
   };
 
   app.use(compression());
-  app.use(config.staticsPath, function(req, res, next) {
+  app.use(config.staticsPath, function (req, res, next) {
     if (req.originalUrl.indexOf('.html') === req.originalUrl.length - 5) {
       return jadeStatic(req, res, next);
     }
@@ -51,6 +51,9 @@ module.exports = function(app, config, router) {
   });
   app.use(config.staticsPath, express.static(config.root + '/public'));
   app.use('/cdn', express.static(config.root + '/public/cdn'));
+  app.get(config.staticsPath + '/*|/cdn/*', function (req, res) {
+    res.sendStatus(404);
+  });
   app.set('port', config.port);
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
@@ -70,9 +73,9 @@ module.exports = function(app, config, router) {
   app.use(flash());
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     var configRewrite = ['jsModulesPath', 'withGoogleAnalytics', 'withInspectlet', 'cacheBustingVersion', 'version', 'isDev'];
-    configRewrite.map(function(what) {
+    configRewrite.map(function (what) {
       req[what] = config[what];
     });
     next();

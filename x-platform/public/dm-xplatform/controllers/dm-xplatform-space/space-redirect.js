@@ -1,24 +1,23 @@
 /* jshint esnext:true */
 
-import * as xplatformApp from 'xplatform/xplatform-app';
+import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
 
 class SpaceRedirect {
 
-  constructor($location, $window) {
+  constructor ($location, $window) {
     _.extend(this, {
-      $location, $window
-    });
+    $location, $window});
   }
 
-  redirectIfNeeded() {
+  redirectIfNeeded () {
     if (this.$location.protocol() === 'http') {
       return;
     }
     this.$window.location = this.getUnsafeAddress();
   }
 
-  getUnsafeAddress() {
+  getUnsafeAddress () {
     var $loc = this.$location;
     var host = $loc.host();
     if (host === 'localhost') {

@@ -1,28 +1,28 @@
+/* globals define */
 define([
   '_',
-  'xplatform/xplatform-app',
-  'xplatform/services/dm-events/dm-events',
-  'xplatform/services/dm-questions/dm-questions',
-  'es6!xplatform/services/dm-event-live/dm-event-live',
-  'es6!xplatform/services/dm-ranking/dm-ranking',
-  'xplatform/directives/dm-iframe/dm-iframe',
-  'xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
-  'xplatform/directives/dm-annotations/dm-annotations',
-  'es6!xplatform/directives/dm-ranking/dm-ranking',
-  'es6!xplatform/directives/dm-xplatform-context/dm-xplatform-context',
-  'es6!xplatform/directives/dm-xplatform-menu/dm-xplatform-menu',
-  'xplatform/filters/liveLinkUrl',
-  'es6!./space-visuals',
-  'es6!./space-redirect'
-], function(_, xplatformApp) {
-  xplatformApp.controller('dmXplatformSpace', function(
-    $window, $scope, $stateParams, dmSpaceVisuals, 
+  'dm-xplatform/xplatform-app',
+  'dm-xplatform/services/dm-events/dm-events',
+  'dm-xplatform/services/dm-questions/dm-questions',
+  'dm-xplatform/services/dm-event-live/dm-event-live',
+  'dm-xplatform/services/dm-ranking/dm-ranking',
+  'dm-xplatform/directives/dm-iframe/dm-iframe',
+  'dm-xplatform/directives/dm-xplatform-performance/dm-xplatform-performance',
+  'dm-xplatform/directives/dm-annotations/dm-annotations',
+  'dm-xplatform/directives/dm-ranking/dm-ranking',
+  'dm-xplatform/directives/dm-xplatform-context/dm-xplatform-context',
+  'dm-xplatform/directives/dm-xplatform-menu/dm-xplatform-menu',
+  'dm-xplatform/filters/liveLinkUrl',
+  './space-visuals',
+  './space-redirect'
+], function (_, xplatformApp) {
+  xplatformApp.controller('dmXplatformSpace', function (
+    $window, $scope, $stateParams, dmSpaceVisuals,
     $http, $modal, dmEvents, dmUser, dmQuestions, dmSlidesaves, dmBrowserTab,
     dmSpaceRedirect) {
-
     dmSpaceVisuals.initialize($scope, $window);
 
-    dmUser.getCurrentUser().then(function(data) {
+    dmUser.getCurrentUser().then(function (data) {
       $scope.user = data;
       $scope.currentUserId = data.result._id;
     });
@@ -31,7 +31,7 @@ define([
     dmSlidesaves.allSaves(true);
 
     dmBrowserTab.setTitleAndIcon('xPlatform');
-    dmEvents.getEvent($stateParams.event, true).then(function(event) {
+    dmEvents.getEvent($stateParams.event, true).then(function (event) {
       if (!event) {
         return;
       }
@@ -39,12 +39,12 @@ define([
       dmBrowserTab.setTitleAndIcon(event.title);
 
       if (event.shouldRedirectToUnsafe) {
-        dmSpaceRedirect.redirectIfNeeded();       
+        dmSpaceRedirect.redirectIfNeeded();
       }
     });
 
     // Fetch current workspace
-    dmEvents.getWorkspace($stateParams.event).then(function(workspaceId) {
+    dmEvents.getWorkspace($stateParams.event).then(function (workspaceId) {
       $scope.workspaceId = workspaceId;
       dmSlidesaves.refresh();
     });

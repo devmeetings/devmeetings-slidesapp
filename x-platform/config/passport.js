@@ -1,18 +1,18 @@
-var passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy,
-  GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-  FacebookStrategy = require('passport-facebook').Strategy,
-  GithubStrategy = require('passport-github').Strategy,
-  config = require('./config'),
-  users = require('../app/services/users'),
-  gravatar = require('gravatar');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GithubStrategy = require('passport-github').Strategy;
+var config = require('./config');
+var users = require('../app/services/users');
+var gravatar = require('gravatar');
 
-function getEmail(profile) {
+function getEmail (profile) {
   return profile.emails ? profile.emails.pop().value : null;
 }
 
-function createUser(id, profile, type, done) {
-  var email = getEmail(profile) || id + "@xplatform.org";
+function createUser (id, profile, type, done) {
+  var email = getEmail(profile) || id + '@xplatform.org';
   users.findOrCreate({
     userId: type + ':' + id,
     name: profile.displayName,
@@ -29,17 +29,16 @@ passport.use(new LocalStrategy(users.authFields, users.verify));
 passport.use(new GoogleStrategy({
   clientID: config.google.id,
   clientSecret: config.google.secret,
-  callbackURL: config.realmUrl + "/auth/google/callback"
-}, function(accessToken, refreshToken, profile, done) {
+  callbackURL: config.realmUrl + '/auth/google/callback'
+}, function (accessToken, refreshToken, profile, done) {
   createUser(profile.id, profile, 'g+', done);
 }));
-
 
 passport.use(new GithubStrategy({
   clientID: config.github.clientId,
   clientSecret: config.github.clientSecret,
-  callbackURL: config.realmUrl + "/auth/github/callback"
-}, function(accessToken, refreshToken, profile, done) {
+  callbackURL: config.realmUrl + '/auth/github/callback'
+}, function (accessToken, refreshToken, profile, done) {
   createUser(profile.id, profile, 'github', done);
 }));
 
@@ -47,17 +46,17 @@ passport.use(new GithubStrategy({
 passport.use(new FacebookStrategy({
   clientID: config.fb.id,
   clientSecret: config.fb.secret,
-  callbackURL: config.realmUrl + "/auth/facebook/callback"
-}, function(accessToken, refreshToken, profile, done) {
+  callbackURL: config.realmUrl + '/auth/facebook/callback'
+}, function (accessToken, refreshToken, profile, done) {
   createUser(profile.id, profile, 'fb', done);
 }));
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user._id);
 });
 
-passport.deserializeUser(function(id, done) {
-  users.findByUserId(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  users.findByUserId(id, function (err, user) {
     if (user && !user.avatar) {
       user.avatar = gravatar.url(user.email);
     }

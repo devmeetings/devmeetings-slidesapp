@@ -1,11 +1,12 @@
-define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks'], function(module, _, sliderPlugins, ace, mapping) {
+/* globals define */
+define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks', './slide-burger.html!text'], function (module, _, sliderPlugins, ace, mapping, viewTemplate) {
   'use strict';
 
   var path = sliderPlugins.extractPath(module);
 
-  function findImg(text) {
+  function findImg (text) {
     var ret = 'empty';
-    _.each(mapping, function(value, key) {
+    _.each(mapping, function (value, key) {
       if (value.indexOf(text) !== -1) {
         ret = key;
       }
@@ -13,11 +14,11 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
     return ret;
   }
 
-  function imgPath(img) {
-    return path + "/gfx/" + img + ".png";
+  function imgPath (img) {
+    return path + '/gfx/' + img + '.png';
   }
 
-  function splitText(text) {
+  function splitText (text) {
     var x = text.split(' x ');
     if (x.length === 1) {
       return [1, x[0]];
@@ -37,19 +38,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
     order: 6000
   }).directive('slideBurger', [
     '$timeout',
-    function($timeout) {
+    function ($timeout) {
       return {
         restrict: 'E',
         scope: {
           data: '=data',
           slide: '=context'
         },
-        templateUrl: path + '/slide-burger.html',
-        link: function(scope) {
-
-          function displayBurgers(output) {
-            
-            function createNewGroupIfNeeded(groups, item, key) {
+        template: viewTemplate,
+        link: function (scope) {
+          function displayBurgers (output) {
+            function createNewGroupIfNeeded (groups, item, key) {
               if (findImg(item) === 'top') {
                 var nextItem = output[key + 1];
                 if (nextItem && findImg(nextItem) === 'spod') {
@@ -63,7 +62,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
               return;
             }
 
-            var burgers = output.reduce(function(groups, item, key) {
+            var burgers = output.reduce(function (groups, item, key) {
               groups[groups.length - 1].push(item);
 
               createNewGroupIfNeeded(groups, item, key);
@@ -76,12 +75,12 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
             scope.burgers = burgers.map(displayOutput);
           }
 
-          function displayOutput(output) {
+          function displayOutput (output) {
             // images to display in reversed order
             var burger = [];
 
             // map output
-            output.filter(_.identity).map(splitText).map(function(d) {
+            output.filter(_.identity).map(splitText).map(function (d) {
               var img = findImg(d[1]);
 
               for (var i = 0; i < d[0]; ++i) {
@@ -92,17 +91,17 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
               }
             });
 
-            function animate(idx) {
+            function animate (idx) {
               var l = burger.length - 1;
               if (idx > l) {
                 return;
               }
               burger[l - idx].visible = true;
-              $timeout(function() {
+              $timeout(function () {
                 animate(idx + 1);
               }, 250);
             }
-            $timeout(function() {
+            $timeout(function () {
               animate(0);
             }, 10);
 

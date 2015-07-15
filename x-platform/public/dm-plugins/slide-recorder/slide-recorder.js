@@ -1,22 +1,22 @@
-define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugins) {
+/* globals define */
+define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlugins) {
   'use strict';
 
   sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', {
-      order: 4000,
-      name: 'Recorder',
-      description: 'The plugin cares about sending all the changes that user is doing on the slide to the server.',
-      example: {}
-  }).directive('slideRecorder', function(Sockets) {
-
+    order: 4000,
+    name: 'Recorder',
+    description: 'The plugin cares about sending all the changes that user is doing on the slide to the server.',
+    example: {}
+  }).directive('slideRecorder', function (Sockets) {
     return {
       restrict: 'E',
       scope: {
         slide: '=context',
         mode: '=',
         path: '@',
-        recorder: '=',
+        recorder: '='
       },
-      link: function(scope) {
+      link: function (scope) {
         // Disable recorder on some sub slides.
         if (scope.path !== '.*') {
           return;
@@ -24,7 +24,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
 
         var lastId;
 
-        function stopRecording() {
+        function stopRecording () {
           if (!lastId) {
             return;
           }
@@ -33,14 +33,14 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         }
 
         Sockets.on('disconnect', stopRecording);
-        scope.$on('$destroy', function() {
+        scope.$on('$destroy', function () {
           Sockets.off('disconnect', stopRecording);
         });
 
         var toSend = [];
 
-        function sendQueue(dmRecorder) {
-          dmRecorder.getCurrentStateId().then(function(stateId) {
+        function sendQueue (dmRecorder) {
+          dmRecorder.getCurrentStateId().then(function (stateId) {
             lastId = stateId;
           });
           var id = dmRecorder.startSyncingAndGetId(toSend);
@@ -50,8 +50,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
             // TODO [ToDr] Do we always should send workspaceId?
             workspaceId: dmRecorder.getWorkspaceId(),
             patches: toSend
-          }, function(isOk, stateId, lastPatch) {
-
+          }, function (isOk, stateId, lastPatch) {
             if (!isOk) {
               toSend = [{
                 timestamp: new Date().getTime(),
@@ -79,7 +78,7 @@ define(['module', '_', 'slider/slider.plugins'], function(module, _, sliderPlugi
         });
 
         // TODO [ToDr] Object.observe might be better?
-        scope.$watch('slide', function(a) {
+        scope.$watch('slide', function (a) {
           if (a === undefined) {
             return;
           }

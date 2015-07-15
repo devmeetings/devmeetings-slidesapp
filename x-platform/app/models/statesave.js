@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 /**
  * This collection should be volatile.
@@ -21,7 +21,7 @@ var Statesave = new Schema({
   },
   recordingId: {
     type: Schema.Types.ObjectId,
-    ref: 'recordings',
+    ref: 'recordings'
   },
   originalTimestamp: Date,
   original: {
@@ -43,7 +43,7 @@ var Statesave = new Schema({
   currentTimestamp: Date,
   current: {
     type: Schema.Types.Mixed
-  },
+  }
 
 });
 
