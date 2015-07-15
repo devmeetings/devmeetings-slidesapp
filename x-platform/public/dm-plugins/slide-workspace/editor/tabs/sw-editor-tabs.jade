@@ -90,18 +90,73 @@ ul.nav.nav-tabs.pull-left
         )
         | +
 
-
   treecontrol.tree-classic(
     ng-show="model.showTreeview"
     tree-model="model.treeStructure"
     options="model.treeOptions"
     on-selection="model.activateTab(node.path)"
     expanded-nodes="model.expandedNodes"
+    selected-node="model.selectedNode"
     )
-    span(
-      ng-class="{'highlight': model.activeTabName === node.path }"
+    span.path(
+      tooltip="{{ node.fileName }}"
+      tooltip-enable="model.shouldDisplayTooltip(node.fileName)"
+      tooltip-placement="bottom"
+      tooltip-animation="false"
+      tooltip-append-to-body="true"
       )
-      | {{ node.fileName }} 
+      | {{ node.fileName }}
+    ul.pull-right.toggle-dropdown(
+      dropdown=""
+      dropdown-append-to-body=""
+      auto-close="auto"
+      )
+      li.cursor-pointer(
+        dropdown-toggle="" 
+        ng-click="$event.stopPropagation()"
+        )
+        span.fa.fa-fw.fa-cog
+      ul.dropdown-menu
+        li(
+          ng-if="node.isFile"
+          )
+          a.cursor-pointer(
+            ng-click="model.removeTab(node.path); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-trash-o
+            | Remove File  
+        li(
+          ng-if="node.isFile"
+          )
+          a.cursor-pointer(
+            ng-click="model.editTabName(node.path); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-file-o
+            | Rename File
+        li(
+          ng-if="!node.isFile"
+          )
+          a.cursor-pointer(
+            ng-click="model.addIntoDirectory(node.path); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-plus-circle
+            | Add Into Directory
+        li(
+          ng-if="!node.isFile"
+          )
+          a.cursor-pointer(
+            ng-click="model.removeDirectory(node); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-trash-o
+            | Remove Directory
+        li(
+          ng-if="!node.isFile"
+          )
+          a.cursor-pointer(
+            ng-click="model.renameDirectory(node); $event.stopPropagation()"
+          )
+            span.fa.fa-fw.fa-folder-o
+            | Rename Directory
 
   .sw-editor-tabs(
     ng-show="model.showTreeview"
