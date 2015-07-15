@@ -134,7 +134,7 @@ ul.nav.nav-tabs.pull-left
             span.fa.fa-fw.fa-file-o
             | Rename File
         li(
-          ng-if="model.isDirectory(node)"
+          ng-if="!node.isFile"
           )
           a.cursor-pointer(
             ng-click="model.addIntoDirectory(node.path); $event.stopPropagation()"
@@ -142,7 +142,7 @@ ul.nav.nav-tabs.pull-left
             span.fa.fa-fw.fa-plus-circle
             | Add Into Directory
         li(
-          ng-if="model.isDirectory(node)"
+          ng-if="!node.isFile"
           )
           a.cursor-pointer(
             ng-click="model.removeDirectory(node); $event.stopPropagation()"
@@ -150,7 +150,7 @@ ul.nav.nav-tabs.pull-left
             span.fa.fa-fw.fa-trash-o
             | Remove Directory
         li(
-          ng-if="model.isDirectory(node)"
+          ng-if="!node.isFile"
           )
           a.cursor-pointer(
             ng-click="model.renameDirectory(node); $event.stopPropagation()"
