@@ -51,9 +51,12 @@ class SwEditorTabs {
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
-    self.addIntoDirectory = (path) => this.addIntoDirectory(self, path);
-    self.removeDirectory = (node) => this.removeDirectory(self, node);
-    self.renameDirectory = (node) => this.renameDirectory(self, node);
+    self.promptForName = (textForUser, path) => this.promptForName(textForUser, path);
+    self.editTabName = (path) => this.editTabName(self, path);
+    self.removeTab = (path) => this.removeTab(self, path);
+    self.makeTab = (path) => this.makeTab(self, path);
+    self.makePathEdition = (oldPath, newPath) => this.makePathEdition(self, oldPath, newPath);
+    self.deleteTabAndFixActive = (oldPath, newPath) => this.deleteTabAndFixActive(self, oldPath, newPath);
 
     this.initTreeOptions(self);
 
@@ -195,12 +198,12 @@ class SwEditorTabs {
     this.makePathEdition(self, tabName, newName);
   }
 
-  deleteTabAndFixActive (self, tabName, newName) {
-    delete self.allTabs[tabName];
-    self.editorUndoManager.removeTab(tabName);
+  deleteTabAndFixActive (self, oldPath, newPath) {
+    delete self.allTabs[oldPath];
+    self.editorUndoManager.removeTab(oldPath);
 
-    if (self.activeTabName === tabName) {
-      self.activeTabName = newName || Object.keys(self.tabs)[0];
+    if (self.activeTabName === oldPath) {
+      self.activeTabName = newPath || Object.keys(self.tabs)[0];
     }
   }
 
@@ -220,65 +223,6 @@ class SwEditorTabs {
   shouldDisplayTooltip (self, path) {
     let hasLongName = path.length > 15;
     return hasLongName;
-  }
-
-  addIntoDirectory (self, path) {
-    var allPath = this.promptForName('Insert new filename after directory path', path + '/');
-    if (!allPath) {
-      return;
-    }
-    this.makeTab(self, allPath);
-  }
-
-  getAllPaths (self, obj) {
-    let paths = [];
-    if (obj.isFile) {
-      return [obj.path];
-    }
-    obj.children.forEach((child) => {
-      paths = paths.concat(this.getAllPaths(self, child));
-    });
-    return paths;
-  }
-
-  removeDirectory (self, obj) {
-    var sure = this.$window.confirm('Sure to remove directory with all its content?');
-    if (!sure) {
-      return;
-    }
-    var pathsToRemove = this.getAllPaths(self, obj);
-    pathsToRemove.forEach((path) => {
-      this.deleteTabAndFixActive(self, path);
-    });
-  }
-
-  properNewPath (self, path, oldDirName, newDirName) {
-    var splitedPath = path.split('/');
-    var indexOfOldDirName = splitedPath.indexOf(oldDirName);
-    var pathBeforeDir = splitedPath.slice(0, indexOfOldDirName).join('/');
-    var pathAfterDir = splitedPath.slice(indexOfOldDirName + 1, splitedPath.length).join('/');
-
-    var newPath;
-    if (pathBeforeDir.length) {
-      newPath = pathBeforeDir + '/' + newDirName + '/' + pathAfterDir;
-    } else {
-      newPath = newDirName + '/' + pathAfterDir;
-    }
-    return newPath;
-  }
-
-  renameDirectory (self, obj) {
-    var oldDirName = obj.name;
-    var newDirName = this.promptForName('Insert new directory name:', oldDirName);
-    if (!newDirName || newDirName === oldDirName) {
-      return;
-    }
-    var pathsToRename = this.getAllPaths(self, obj);
-    pathsToRename.forEach((path) => {
-      var newPath = this.properNewPath(self, path, oldDirName, newDirName);
-      var oldPath = path;
-      this.makePathEdition(self, oldPath, newPath);
-    });
   }
 
 }
