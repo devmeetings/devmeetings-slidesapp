@@ -65,9 +65,6 @@ class SwEditorTabs {
       this.prepareTreeStructure(self, self.tabsObjects);
       // this.$log.log(self.treeStructure);
 
-      if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
-        self.showTreeview = true;
-      }
     });
   }
 
