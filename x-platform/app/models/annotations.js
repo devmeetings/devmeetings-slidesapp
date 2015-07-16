@@ -1,8 +1,7 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Annotations = new Schema({
-
   annotations: [{
     title: String,
     description: String,
@@ -15,6 +14,5 @@ var Annotations = new Schema({
   }]
 
 });
-
 
 module.exports = mongoose.model('annotations', Annotations);

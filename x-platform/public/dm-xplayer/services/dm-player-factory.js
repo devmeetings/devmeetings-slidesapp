@@ -1,9 +1,9 @@
-define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
+/* globals define */
+define(['_', 'dm-xplayer/dm-xplayer-app'], function (_, xplayerApp) {
   'use strict';
 
-  xplayerApp.factory('dmPlayerFactory', function() {
-
-    function searchForPatches(patches, startS, endS) {
+  xplayerApp.factory('dmPlayerFactory', function () {
+    function searchForPatches (patches, startS, endS) {
       var startIdx = _.sortedIndex(patches, {
         timestamp: startS * 1000
       }, 'timestamp');
@@ -15,13 +15,13 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
       return patches.slice(startIdx, endIdx);
     }
 
-    function newRecordingPlayer(recording, callback) {
+    function newRecordingPlayer (recording, callback) {
       var player = recording.player;
       var recPatches = recording.patches;
 
       var lastSecond = -1;
 
-      function callbackWithCode(second) {
+      function callbackWithCode (second) {
         lastSecond = second;
         callback(player.getCurrentState());
         // When we are paused and trying to fast forward
@@ -31,7 +31,7 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
       }
 
       return {
-        goToSecond: function(second) {
+        goToSecond: function (second) {
           // Before we apply patches we need to get rid of user content
           if (!player.isPlaying) {
             player.restorePreviousContent();
@@ -60,14 +60,14 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function(_, xplayerApp) {
           }
           return callbackWithCode(second);
         },
-        setIsPlaying: function(isPlaying) {
+        setIsPlaying: function (isPlaying) {
           player.setPlayerPaused(!isPlaying);
           player.isPlaying = isPlaying;
         }
       };
     }
 
-    var dmPlayerFactory = function(recording, callback) {
+    var dmPlayerFactory = function (recording, callback) {
       return newRecordingPlayer(recording, callback);
     };
 

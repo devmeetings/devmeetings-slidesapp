@@ -1,23 +1,25 @@
+/* globals define */
 define([
-  '_', 'angular', 'xplatform/xplatform-app',
-  'xplatform/directives/dm-annotation/dm-annotation',
-  'xplatform/directives/dm-microtask/dm-microtask',
-  'xplatform/directives/dm-annotation-group/dm-annotation-group',
-  'xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit'
-], function(_, angular, xplatformApp) {
+  '_', 'angular', 'dm-xplatform/xplatform-app',
+  './dm-annotations.html!text',
+  'dm-xplatform/directives/dm-annotation/dm-annotation',
+  'dm-xplatform/directives/dm-microtask/dm-microtask',
+  'dm-xplatform/directives/dm-annotation-group/dm-annotation-group',
+  'dm-xplatform/directives/dm-annotations/dm-annotation-edit/dm-annotation-edit'
+], function (_, angular, xplatformApp, viewTemplate) {
   'use strict';
 
-  function groupAnnotations(annos) {
-    return annos.filter(function(x) {
+  function groupAnnotations (annos) {
+    return annos.filter(function (x) {
       // Don't group tasks
       return x.type !== 'task' && x.type !== 'comment';
-    }).map(function(anno) {
+    }).map(function (anno) {
       return {
         data: anno,
         categories: anno.title.split(/\s*:\s*/g)
       };
-    }).reduce(function(memo, x) {
-      var currentCategory = x.categories.reduce(function(curr, category) {
+    }).reduce(function (memo, x) {
+      var currentCategory = x.categories.reduce(function (curr, category) {
         if (!curr.sub[category]) {
           curr.sub[category] = {
             name: category,
@@ -35,9 +37,7 @@ define([
     });
   }
 
-
-  xplatformApp.directive('dmAnnotations', function($timeout, dmEvents, filterFilter) {
-
+  xplatformApp.directive('dmAnnotations', function ($timeout, dmEvents, filterFilter) {
     var $filter = filterFilter;
 
     return {
@@ -49,29 +49,27 @@ define([
         materialId: '=',
         showAll: '='
       },
-      templateUrl: '/static/dm-xplatform/directives/dm-annotations/dm-annotations.html',
-      link: function($scope) {
-
-        var getSpecific = function() {
-          dmEvents.getEventAnnotations($scope.eventId, $scope.iterationId, $scope.materialId).then(function(annos) {
+      template: viewTemplate,
+      link: function ($scope) {
+        var getSpecific = function () {
+          dmEvents.getEventAnnotations($scope.eventId, $scope.iterationId, $scope.materialId).then(function (annos) {
             $scope.annotations = annos;
-            $scope.sortedAnnotations = annos.sort(function(a, b) {
+            $scope.sortedAnnotations = annos.sort(function (a, b) {
               return a.timestamp - b.timestamp;
             });
           });
         };
 
-        var getAll = function() {
-          dmEvents.getAllAnnotations($scope.eventId).then(function(annotations) {
+        var getAll = function () {
+          dmEvents.getAllAnnotations($scope.eventId).then(function (annotations) {
             $scope.annotations = annotations;
 
-            $scope.$watch('search.text', function() {
+            $scope.$watch('search.text', function () {
               var s = $scope.search.text;
               $scope.groups = groupAnnotations($filter(annotations, s));
             });
           });
         };
-
 
         if ($scope.showAll) {
           getAll();
@@ -86,16 +84,16 @@ define([
         };
 
         $scope.newSnippet = {};
-        $scope.$watch('state.currentSecond', function(val) {
+        $scope.$watch('state.currentSecond', function (val) {
           $scope.newSnippet.timestamp = val;
         });
 
         if ($scope.editMode) {
-          $scope.$watch('state.currentSecond', function(val) {
+          $scope.$watch('state.currentSecond', function (val) {
             if (!$scope.annotations) {
               return;
             }
-            var anno = _.find($scope.sortedAnnotations, function(anno) {
+            var anno = _.find($scope.sortedAnnotations, function (anno) {
               return anno.timestamp > val;
             });
             var idx = $scope.sortedAnnotations.indexOf(anno);

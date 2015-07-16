@@ -1,14 +1,13 @@
 /* jshint esnext:true */
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
 
 class Ranking {
 
-  //TODO [ToDr] This is shitty - taking eventId from $stateParams
-  constructor(Sockets, $q, dmUser, $stateParams, $rootScope) {
+  // TODO [ToDr] This is shitty - taking eventId from $stateParams
+  constructor (Sockets, $q, dmUser, $stateParams, $rootScope) {
     _.extend(this, {
-      Sockets, $q, dmUser, $stateParams, $rootScope
-    });
+    Sockets, $q, dmUser, $stateParams, $rootScope});
 
     // TODO [ToDr] We are assuming that user is inside proper room!
     this.Sockets.on('ranking', (ranking) => {
@@ -20,13 +19,13 @@ class Ranking {
     });
   }
 
-  onNewRanking(ranking) {
+  onNewRanking (ranking) {
     this.$rootScope.$apply(() => {
       this.currentRanking = ranking;
     });
   }
 
-  markAsDone(iterationIdx, taskIdx, isDone, noOfTasks) {
+  markAsDone (iterationIdx, taskIdx, isDone, noOfTasks) {
     var self = this;
     var d = this.$q.defer();
     this.Sockets.emit('ranking.done', {
@@ -42,7 +41,7 @@ class Ranking {
     return d.promise;
   }
 
-  getCurrentRanking() {
+  getCurrentRanking () {
     if (this.currentRanking) {
       return this.$q.when(this.currentRanking);
     }
@@ -50,14 +49,14 @@ class Ranking {
     // Fetch ranking!
     var d = this.$q.defer();
     var self = this;
-    this.Sockets.emit('ranking.fetch', eventId, function(ranking) {
+    this.Sockets.emit('ranking.fetch', eventId, function (ranking) {
       self.onNewRanking(ranking);
       d.resolve(ranking);
     });
     return d.promise;
   }
 
-  getCurrentRankingForUser() {
+  getCurrentRankingForUser () {
     var self = this;
     return this.getCurrentRanking().then((currentRanking) => {
       var userId = self.user.result._id;
@@ -66,6 +65,5 @@ class Ranking {
     });
   }
 }
-
 
 xplatformApp.service('dmRanking', Ranking);

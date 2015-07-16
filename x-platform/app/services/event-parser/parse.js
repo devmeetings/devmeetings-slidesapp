@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var fs = require('fs'),
-  path = require('path'),
-  yaml = require('js-yaml');
+var fs = require('fs');
+var path = require('path');
+var yaml = require('js-yaml');
 
 /**
  * Because we are parsing the file synchronously we are able to control currentDirectory with global variable.
@@ -12,7 +12,7 @@ var currentDirectory = [];
 
 var WorkspaceType = new yaml.Type('!workspace', {
   kind: 'mapping',
-  resolve: function(dirName) {
+  resolve: function (dirName) {
     if (!dirName) {
       return;
     }
@@ -25,14 +25,13 @@ var WorkspaceType = new yaml.Type('!workspace', {
     return fs.statSync(d.path).isDirectory;
   },
 
-  construct: function(workspace) {
+  construct: function (workspace) {
     var fileName = workspace.path;
     var d = getDirAndFileName(fileName);
     var files = fs.readdirSync(d.path);
 
     var hasIndex = files.indexOf('index.html') !== -1;
-    var tabs = files.reduce(function(memo, file) {
-
+    var tabs = files.reduce(function (memo, file) {
       var key = getKeyFromFileName(file);
       var content = fs.readFileSync(path.join(d.path, file), 'utf8');
       memo[key] = {
@@ -58,7 +57,7 @@ var WorkspaceType = new yaml.Type('!workspace', {
 var IncludeType = new yaml.Type('!include', {
   kind: 'scalar',
 
-  resolve: function(fileName) {
+  resolve: function (fileName) {
     if (!fileName) {
       return false;
     }
@@ -67,7 +66,7 @@ var IncludeType = new yaml.Type('!include', {
     return fs.existsSync(d.path);
   },
 
-  construct: function(fileName) {
+  construct: function (fileName) {
     var d = getDirAndFileName(fileName);
 
     // TODO Only if file is yml!
@@ -80,7 +79,7 @@ var IncludeType = new yaml.Type('!include', {
 
 var EventType = yaml.Schema.create([IncludeType, WorkspaceType]);
 
-function getDirAndFileName(fileName) {
+function getDirAndFileName (fileName) {
   var data = splitDirectoryAndName(fileName);
   data[0] = path.join(currentDirectory[currentDirectory.length - 1], data[0]);
 
@@ -91,20 +90,20 @@ function getDirAndFileName(fileName) {
   };
 }
 
-function splitDirectoryAndName(fileName) {
+function splitDirectoryAndName (fileName) {
   var p = fileName.split('/');
   var dir = p.slice(0, p.length - 1);
 
   return [path.join.apply(path, dir), p[p.length - 1]];
 }
 
-function getKeyFromFileName(fileName) {
+function getKeyFromFileName (fileName) {
   var parts = fileName.split('.');
   var ext = parts.pop();
   return parts.join('.') + '|' + ext;
 }
 
-function parseFile(dirname, filePath) {
+function parseFile (dirname, filePath) {
   currentDirectory.push(dirname);
   var content = fs.readFileSync(path.join(dirname, filePath), 'utf8');
   var loaded = yaml.safeLoad(content, {
@@ -116,16 +115,15 @@ function parseFile(dirname, filePath) {
 
 if (require.main !== module) {
   module.exports = parseFile;
-  return;
+} else {
+  if (process.argv.length < 3) {
+    console.error('Missing file');
+    process.exit(1);
+  }
+
+  var file = process.argv[2];
+  var data = splitDirectoryAndName(file);
+  var json = parseFile(data[0], data[1]);
+
+  console.log(JSON.stringify(json, null, 2));
 }
-
-if (process.argv.length < 3) {
-  console.error('Missing file');
-  process.exit(1);
-}
-
-var file = process.argv[2];
-var data = splitDirectoryAndName(file);
-var json = parseFile(data[0], data[1]);
-
-console.log(JSON.stringify(json, null, 2));

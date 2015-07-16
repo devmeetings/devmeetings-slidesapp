@@ -1,18 +1,17 @@
-define(['module',  'slider/slider.plugins'], function(module, sliderPlugins) {
+/* globals define */
+define(['module', 'slider/slider.plugins', './slide-notes.html!text'], function (module, sliderPlugins, viewTemplate) {
   'use strict';
 
-  var path = sliderPlugins.extractPath(module);
-
   sliderPlugins.registerPlugin('slide.sidebar', 'notes', 'slide-notes', {
-      order: 3800,
-      name: 'Notes',
-      description: 'Notes written in markdown.',
-      example: {
-        meta: 'string',
-        data: 'This are my `notes`\n'
-      }
+    order: 3800,
+    name: 'Notes',
+    description: 'Notes written in markdown.',
+    example: {
+      meta: 'string',
+      data: 'This are my `notes`\n'
+    }
   }).directive('slideNotes', [
-    function() {
+    function () {
       return {
         restrict: 'E',
         replace: true,
@@ -21,7 +20,7 @@ define(['module',  'slider/slider.plugins'], function(module, sliderPlugins) {
           slide: '=context',
           mode: '='
         },
-        templateUrl: path + '/slide-notes.html',
+        template: viewTemplate
       };
     }
   ]);

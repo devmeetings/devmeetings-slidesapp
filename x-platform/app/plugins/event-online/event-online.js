@@ -1,23 +1,22 @@
 var store = require('../../services/store');
-var Q = require('q'),
-  _ = require('lodash'),
-  pluginEvents = require('../events'),
-  eventRoom = require('../eventRoom');
+var Q = require('q');
+var _ = require('lodash');
+var pluginEvents = require('../events');
+var eventRoom = require('../eventRoom');
 
 // Clearing on Start
 store.del('listeners');
-store.smembers('events').done(function(events) {
+store.smembers('events').done(function (events) {
   'use strict';
-  events.forEach(function(ev) {
+  events.forEach(function (ev) {
     store.del(eventRoom(ev));
   });
 });
 
-exports.onSocket = function(log, socket, io) {
+exports.onSocket = function (log, socket, io) {
   'use strict';
 
-
-  function joinEvent(eventData, ack) {
+  function joinEvent (eventData, ack) {
     var eventId = eventData.eventId;
     var user = getUser();
     var room = eventRoom(eventId);
@@ -40,10 +39,9 @@ exports.onSocket = function(log, socket, io) {
     });
 
     // sending initial list of users
-    getAllUsers(room).done(function(allUsers) {
+    getAllUsers(room).done(function (allUsers) {
       ack(_.values(allUsers));
     });
-
 
     user.workspaceListeners = 0;
     console.log('Broadcasting user joined');
@@ -53,8 +51,8 @@ exports.onSocket = function(log, socket, io) {
       user: user
     });
 
-    socket.on('disconnect', function() {
-      unsubscribeFrom.slice().map(function(workspaceId) {
+    socket.on('disconnect', function () {
+      unsubscribeFrom.slice().map(function (workspaceId) {
         changeWorkspaceListenersCount(-1, workspaceId);
       });
 
@@ -62,7 +60,7 @@ exports.onSocket = function(log, socket, io) {
     });
   }
 
-  function leaveEvent(eventId) {
+  function leaveEvent (eventId) {
     var user = getUser();
     var room = eventRoom(eventId);
 
@@ -83,7 +81,7 @@ exports.onSocket = function(log, socket, io) {
     });
   }
 
-  function getUser() {
+  function getUser () {
     var user = socket.request.user;
 
     return {
@@ -93,25 +91,25 @@ exports.onSocket = function(log, socket, io) {
     };
   }
 
-  function hashValuesToJson(obj) {
+  function hashValuesToJson (obj) {
     if (!obj) {
       return {};
     }
-    Object.keys(obj).map(function(k) {
+    Object.keys(obj).map(function (k) {
       obj[k] = JSON.parse(obj[k]);
     });
     return obj;
   }
 
-  function getAllUsers(room) {
+  function getAllUsers (room) {
     var users = store.hgetall(room).then(hashValuesToJson);
     var workspaceListeners = store.hgetall('listeners').then(hashValuesToJson);
 
-    return Q.all([users, workspaceListeners]).then(function(data) {
+    return Q.all([users, workspaceListeners]).then(function (data) {
       var users = data[0];
       var listeners = data[1];
 
-      Object.keys(users).map(function(userId) {
+      Object.keys(users).map(function (userId) {
         var user = users[userId];
         user.workspaceListeners = listeners[user.workspaceId] || 0;
       });
@@ -127,17 +125,17 @@ exports.onSocket = function(log, socket, io) {
    */
   var unsubscribeFrom = [];
 
-  function changeWorkspaceListenersCount(mod, workspaceId) {
+  function changeWorkspaceListenersCount (mod, workspaceId) {
     if (mod > 0) {
       unsubscribeFrom.push(workspaceId);
     } else {
       unsubscribeFrom.splice(unsubscribeFrom.indexOf(workspaceId), 1);
     }
 
-    store.hincrby('listeners', workspaceId, mod).done(function(count) {
-      socket.rooms.filter(function(room) {
+    store.hincrby('listeners', workspaceId, mod).done(function (count) {
+      socket.rooms.filter(function (room) {
         return room.indexOf('event_') === 0;
-      }).map(function(roomName) {
+      }).map(function (roomName) {
         var msg = {
           action: 'state.count',
           workspaceId: workspaceId,

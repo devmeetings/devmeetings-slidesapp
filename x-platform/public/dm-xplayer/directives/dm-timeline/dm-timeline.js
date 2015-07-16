@@ -1,7 +1,8 @@
-define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
+/* globals define */
+define(['angular', 'dm-xplayer/dm-xplayer-app', './dm-timeline.html!text'], function (angular, xplayerApp, viewTemplate) {
   'use strict';
 
-  xplayerApp.directive('dmTimeline', ['$window', '$timeout', function($window, $timeout) {
+  xplayerApp.directive('dmTimeline', ['$window', '$timeout', function ($window, $timeout) {
     return {
       restrict: 'E',
       scope: {
@@ -9,23 +10,22 @@ define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
         length: '=',
         annotations: '=*'
       },
-      templateUrl: '/static/dm-xplayer/directives/dm-timeline/dm-timeline.html',
-      link: function(scope, element) {
-
-        scope.$watch('second', function(second) {
+      template: viewTemplate,
+      link: function (scope, element) {
+        scope.$watch('second', function (second) {
           scope.value = second * 100 / scope.length;
         });
 
-        scope.$watchCollection('annotations', function(annos) {
+        scope.$watchCollection('annotations', function (annos) {
           annos = annos || [];
-          scope.annos = annos.filter(function(anno) {
+          scope.annos = annos.filter(function (anno) {
             return anno.type !== 'snippet' && anno.type !== 'task';
           });
         });
 
         var el = element[0];
 
-        function fixSize() {
+        function fixSize () {
           if (!isRunning) {
             return;
           }
@@ -40,12 +40,12 @@ define(['angular', 'dm-xplayer/dm-xplayer-app'], function(angular, xplayerApp) {
         }
 
         var isRunning = true;
-        setTimeout(function() {
+        setTimeout(function () {
           fixSize();
         }, 500);
 
         $window.addEventListener('resize', fixSize);
-        scope.$on('$destroy', function() {
+        scope.$on('$destroy', function () {
           isRunning = false;
           $window.removeEventListener('resize', fixSize);
         });

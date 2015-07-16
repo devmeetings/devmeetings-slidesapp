@@ -1,9 +1,17 @@
-var path = require('path'),
-  fs = require('fs'),
-  rootPath = path.normalize(path.join(__dirname, '..')),
-  env = process.env.NODE_ENV || 'development';
+var path = require('path');
+var fs = require('fs');
+var rootPath = path.normalize(path.join(__dirname, '..'));
+var env = process.env.NODE_ENV || 'development';
 var staticsPath = '/static';
-
+var getVersion = function () {
+  try {
+    return fs.readFileSync('.version', {
+      encoding: 'utf8'
+    });
+  } catch(e) {
+    return 'dev';
+  }
+};
 
 var config = {
   development: {
@@ -12,7 +20,7 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '',
-    cacheBustingVersion: '',
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -43,9 +51,7 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-      encoding: 'utf8'
-    }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -79,9 +85,7 @@ var config = {
     jsModulesPath: staticsPath + '/bin',
     withInspectlet: true,
     withGoogleAnalytics: 'UA-52669907-2',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-      encoding: 'utf8'
-    }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -118,9 +122,7 @@ var config = {
     jsModulesPath: staticsPath + '/bin',
     withInspectlet: true,
     withGoogleAnalytics: 'UA-52669907-1',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-      encoding: 'utf8'
-    }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -155,9 +157,7 @@ var config = {
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
     withGoogleAnalytics: 'UA-52669907-1',
-    cacheBustingVersion: '-' + fs.readFileSync('.version', {
-      encoding: 'utf8'
-    }),
+    cacheBustingVersion: '-' + getVersion(),
     app: {
       name: 'platform'
     },
@@ -186,7 +186,10 @@ var config = {
 
 var currentConfig = config[env];
 // Append version
-require('fs').readFile(__dirname + '/../public/version', 'utf8', function(err, version) {
+require('fs').readFile(__dirname + '/../public/version', 'utf8', function (err, version) {
+  if (err) {
+    version = '';
+  }
   'use strict';
 
   currentConfig.version = version || '';
@@ -202,7 +205,7 @@ var fromEnv = {
   livereload_port: process.env.LIVERELOAD_PORT
 };
 
-Object.keys(fromEnv).map(function(k) {
+Object.keys(fromEnv).map(function (k) {
   'use strict';
   if (fromEnv[k]) {
     currentConfig[k] = fromEnv[k];
@@ -210,18 +213,18 @@ Object.keys(fromEnv).map(function(k) {
 });
 
 // Fix ports
-(function() {
+(function () {
   'use strict';
 
   var instance = parseInt(process.env.NODE_APP_INSTANCE || 0, 10);
 
-  ['port', 'livereload_port'].map(function(v) {
+  ['port', 'livereload_port'].map(function (v) {
     currentConfig[v] = parseInt(currentConfig[v], 10) + instance;
   });
 }());
 
 // Append CookieDomain
-(function(c) {
+(function (c) {
   'use strict';
 
   if (c.isDev) {

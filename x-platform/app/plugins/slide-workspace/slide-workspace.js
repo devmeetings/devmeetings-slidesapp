@@ -7,11 +7,11 @@ var fs = require('fs');
 var Workspaces = require('../../models/slidesave');
 var Q = require('q');
 
-exports.initApi = function(app, authenticated, app2, router2, logger) {
+exports.initApi = function (app, authenticated, app2, router2, logger) {
   'use strict';
 
-  app.post('/upload', authenticated, multiparty(), function(req, res) {
-    fs.readFile(req.files.file.path, 'binary', function(err, data) {
+  app.post('/upload', authenticated, multiparty(), function (req, res) {
+    fs.readFile(req.files.file.path, 'binary', function (err, data) {
       if (err) {
         res.send(400, err);
         return;
@@ -23,7 +23,7 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
           checkCRC32: true
         });
 
-        res.send(200, _.reduce(zip.files, function(memo, val, name) {
+        res.send(200, _.reduce(zip.files, function (memo, val, name) {
           if (val._data) {
             memo[getInternalFileName(name)] = val._data;
           }
@@ -38,29 +38,28 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
   app.get('/workspace/download/:hash', authenticated, downloadPage.bind(null, fetchWorkspace));
   app.get('/download/:hash', authenticated, downloadPage.bind(null, createStateFromId));
 
-
   app.get('/workspace/page/:hash/:file*', returnFile.bind(null, fetchWorkspace));
   app.get('/workspace/page/:hash', returnFile.bind(null, fetchWorkspace));
 
   app.get('/page/:hash/:file*', returnFile.bind(null, createStateFromId));
   app.get('/page/:hash', returnFile.bind(null, createStateFromId));
 
-  function fetchWorkspace(workspaceId) {
-    return Q.when(Workspaces.findById(workspaceId).exec()).then(function(slidesave) {
+  function fetchWorkspace (workspaceId) {
+    return Q.when(Workspaces.findById(workspaceId).exec()).then(function (slidesave) {
       return slidesave.slide;
     });
   }
 
-  function createStateFromId(hash) {
+  function createStateFromId (hash) {
     return States.createFromId(hash);
   }
 
-  function downloadPage(getSlideContent, req, res) {
-    getSlideContent(req.params.hash).then(function(slide) {
+  function downloadPage (getSlideContent, req, res) {
+    getSlideContent(req.params.hash).then(function (slide) {
       var workspace = getFiles(slide.workspace);
       // Create zip file
       var zip = new Zip();
-      _.each(workspace, function(val, name) {
+      _.each(workspace, function (val, name) {
         zip.file(getRealFileName(name), val);
       });
 
@@ -76,12 +75,12 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
       });
       res.send(new Buffer(data, 'binary'));
 
-    }, function(err) {
+    }, function (err) {
       res.send(400, err);
     }).then(null, logger.error);
   }
 
-  function returnFile(getSlideContent, req, res) {
+  function returnFile (getSlideContent, req, res) {
     var file = req.params.file || 'index.html';
     var first = req.params[0];
 
@@ -90,7 +89,7 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
     }
 
     var internalFile = getInternalFileName(file);
-    getSlideContent(req.params.hash).done(function(slide) {
+    getSlideContent(req.params.hash).done(function (slide) {
       if (!slide || !slide.workspace) {
         res.sendStatus(404);
         return;
@@ -110,16 +109,16 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
   }
 };
 
-function pushOtherFiles(res, files, internalFile) {
+function pushOtherFiles (res, files, internalFile) {
   'use strict';
   if (!res.push) {
     return;
   }
   // Only push files if connection supports it
   // TODO [ToDr] Nginx currently does not support push in SPDY!
-  Object.keys(files).filter(function(x) {
+  Object.keys(files).filter(function (x) {
     return x !== internalFile;
-  }).map(function(internalName) {
+  }).map(function (internalName) {
     var realName = getRealFileName(internalName);
 
     var content = files[internalName];
@@ -129,12 +128,14 @@ function pushOtherFiles(res, files, internalFile) {
 
     res.push(realName, {
       'Content-Type': guessType(internalName)
-    }, function(err, stream) {
-
-      stream.on('acknowledge', function() {
+    }, function (err, stream) {
+      if (err) {
+        console.error(err);
+      }
+      stream.on('acknowledge', function () {
         console.log('acknowledge', internalName);
       });
-      stream.on('error', function(err) {
+      stream.on('error', function (err) {
         console.log('error', internalName, err);
       });
 
@@ -143,7 +144,7 @@ function pushOtherFiles(res, files, internalFile) {
   });
 }
 
-function findFile(files, fileName) {
+function findFile (files, fileName) {
   'use strict';
 
   if (files[fileName]) {
@@ -164,7 +165,7 @@ function findFile(files, fileName) {
     extensionsToTry = ['coffee', 'es6'];
   }
 
-  return extensionsToTry.map(function(ext) {
+  return extensionsToTry.map(function (ext) {
     nameParts[l - 1] = ext;
     var file = files[nameParts.join('|')];
     if (file) {
@@ -174,12 +175,12 @@ function findFile(files, fileName) {
         return e.toString();
       }
     }
-  }).filter(function(x) {
+  }).filter(function (x) {
     return !!x;
   })[0];
 }
 
-function processFile(ext, content) {
+function processFile (ext, content) {
   'use strict';
 
   if (ext === 'jade') {
@@ -200,7 +201,7 @@ function processFile(ext, content) {
   return content;
 }
 
-function guessType(fileName) {
+function guessType (fileName) {
   'use strict';
 
   var name = fileName.split('|');
@@ -208,20 +209,20 @@ function guessType(fileName) {
   return mime.lookup(ext);
 }
 
-function getInternalFileName(file) {
+function getInternalFileName (file) {
   'use strict';
   return file.replace(/\./g, '|');
 }
 
-function getRealFileName(file) {
+function getRealFileName (file) {
   'use strict';
   return file.replace(/\|/g, '.');
 }
 
-function getFiles(data) {
+function getFiles (data) {
   'use strict';
   var files = {};
-  _.each(data.tabs, function(val, key) {
+  _.each(data.tabs, function (val, key) {
     files[key] = val.content;
   });
   return files;

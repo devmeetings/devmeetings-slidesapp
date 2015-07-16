@@ -2,16 +2,17 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
+import viewTemplate from './dm-ranking.html!text';
 
 class RankingDir {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link(scope) {
+  link (scope) {
     this.dmRanking.getCurrentRanking();
     scope.rankingService = this.dmRanking;
 
@@ -23,14 +24,14 @@ class RankingDir {
       }, []);
     });
 
-    function findMaxNoOfTasks(iterationIdx) {
+    function findMaxNoOfTasks (iterationIdx) {
       let it = scope.event.iterations[iterationIdx];
       return it.tasks.reduce((memo, task) => {
         return memo + (task.noOfTasks || 0);
       }, 0);
     }
 
-    scope.getTasks = function(item, iterationIdx) {
+    scope.getTasks = function (item, iterationIdx) {
       if (!item.counts) {
         return [];
       }
@@ -43,9 +44,7 @@ class RankingDir {
 
 }
 
-
 xplatformApp.directive('dmRanking', (dmRanking) => {
-
 
   return {
     restrict: 'E',
@@ -53,11 +52,10 @@ xplatformApp.directive('dmRanking', (dmRanking) => {
     scope: {
       event: '='
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-ranking/dm-ranking.html',
+    template: viewTemplate,
     link: (scope) => {
       let contextMenu = new RankingDir({
-        dmRanking
-      });
+      dmRanking});
       contextMenu.link(scope);
     }
   };
