@@ -49,7 +49,7 @@ class SwEditorTabsOptionsDropdown {
     });
   }
 
-  properNewPath (self, path, oldDirName, newDirName) {
+  prepareNewPathForDirRename (self, path, oldDirName, newDirName) {
     var splitedPath = path.split('/');
     var indexOfOldDirName = splitedPath.indexOf(oldDirName);
     var pathBeforeDir = splitedPath.slice(0, indexOfOldDirName).join('/');
@@ -73,7 +73,7 @@ class SwEditorTabsOptionsDropdown {
     }
     var pathsToRename = this.getAllPaths(self, obj);
     pathsToRename.forEach((path) => {
-      var newPath = this.properNewPath(self, path, oldDirName, newDirName);
+      var newPath = this.prepareNewPathForDirRename(self, path, oldDirName, newDirName);
       var oldPath = path;
       self.makePathEdition({oldPath: oldPath, newPath: newPath});
     });
