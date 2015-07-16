@@ -90,18 +90,31 @@ ul.nav.nav-tabs.pull-left
         )
         | +
 
-
   treecontrol.tree-classic(
     ng-show="model.showTreeview"
     tree-model="model.treeStructure"
     options="model.treeOptions"
     on-selection="model.activateTab(node.path)"
     expanded-nodes="model.expandedNodes"
+    selected-node="model.selectedNode"
     )
-    span(
-      ng-class="{'highlight': model.activeTabName === node.path }"
+    span.path(
+      tooltip="{{ node.fileName }}"
+      tooltip-enable="model.shouldDisplayTooltip(node.fileName)"
+      tooltip-placement="bottom"
+      tooltip-animation="false"
+      tooltip-append-to-body="true"
       )
-      | {{ node.fileName }} 
+      | {{ node.fileName }}
+    sw-editor-tabs-options-dropdown(
+      node="node"
+      edit-tab-name="model.editTabName(path)"
+      remove-tab="model.removeTab(path)"
+      prompt-for-name="model.promptForName(textForUser, path)"
+      make-tab="model.makeTab(path)"
+      make-path-edition="model.makePathEdition(oldPath, newPath)"
+      delete-tab-and-fix-active="deleteTabAndFixActive(path)"
+      )
 
   .sw-editor-tabs(
     ng-show="model.showTreeview"

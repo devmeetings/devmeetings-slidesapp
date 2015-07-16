@@ -51,12 +51,19 @@ class SwEditorTabs {
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
+    self.promptForName = (textForUser, path) => this.promptForName(textForUser, path);
+    self.editTabName = (path) => this.editTabName(self, path);
+    self.removeTab = (path) => this.removeTab(self, path);
+    self.makeTab = (path) => this.makeTab(self, path);
+    self.makePathEdition = (oldPath, newPath) => this.makePathEdition(self, oldPath, newPath);
+    self.deleteTabAndFixActive = (oldPath, newPath) => this.deleteTabAndFixActive(self, oldPath, newPath);
 
     this.initTreeOptions(self);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
       this.prepareTreeStructure(self, self.tabsObjects);
+      // this.$log.log(self.treeStructure);
 
       if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
         self.showTreeview = true;
@@ -69,45 +76,54 @@ class SwEditorTabs {
       nodeChildren: 'children',
       dirSelectable: false,
       injectClasses: {
-        // TODO [ToDr] Very hacky
+        // TODO [ToDr] Very hackys
         // @see: https://github.com/wix/angular-tree-control/issues/74
-        li: 'type-{{ node.ext }}'
+        li: 'type-{{ node.ext }}',
+        iExpanded: 'fa fa-fw fa-folder-open',
+        iCollapsed: 'fa fa-fw fa-folder'
       }
     };
   }
 
   prepareTreeStructure (self, tabsObjects) {
 
-    function newNode (name, tabObject) {
+    function newNode (name, pathPreffix, tabObject) {
+      let fileName = tabNameToFileName(name);
+      let path = (pathPreffix ? (pathPreffix + '/') : '') + name;
       return {
         name: name,
-        path: tabObject.name,
+        path: path,
+        isFile: path === tabObject.name,
         ext: tabObject.type,
-        fileName: tabNameToFileName(name),
+        fileName: fileName,
         children: []
       };
     }
 
     function createNodeAndReturnChildren (tabObject) {
-
       return function (currentLevel, name) {
-        var node = _.find(currentLevel, {
+        var node = _.find(currentLevel.children, {
           name: name
         });
 
         if (!node) {
-          node = newNode(name, tabObject);
-          currentLevel.push(node);
+          node = newNode(name, currentLevel.pathPreffix, tabObject);
+          currentLevel.children.push(node);
         }
 
-        return node.children;
+        return {
+          children: node.children,
+          pathPreffix: node.path
+        };
       };
     }
 
     function createStructureForSingleFile (topLevel, tabObject) {
-
       let parts = tabObject.name.split('/');
-      parts.reduce(createNodeAndReturnChildren(tabObject), topLevel);
+      parts.reduce(createNodeAndReturnChildren(tabObject), {
+        children: topLevel,
+        pathPreffix: ''
+      });
 
       return topLevel;
     }
@@ -122,8 +138,15 @@ class SwEditorTabs {
       }, []);
     }
 
+    function findNodeForActiveTab (nodes) {
+      return _.find(nodes, {
+        path: self.activeTabName
+      });
+    }
+
     self.treeStructure = convertStructure(tabsObjects);
     self.expandedNodes = getAllNodes(self.treeStructure);
+    self.selectedNode = findNodeForActiveTab(self.expandedNodes);
   }
 
   createTabObjects (tabNames) {
@@ -134,24 +157,23 @@ class SwEditorTabs {
   }
 
   activateTab (self, tabName) {
-    if (self.activeTabName === tabName) {
-      this.editTabName(self, tabName);
-      return;
-    }
-
     self.activeTabName = tabName;
   }
 
+  makeTab (self, path) {
+    self.allTabs[path] = {
+      'content': ''
+    };
+    self.activeTabName = path;
+    self.editorUndoManager.initTab(path);
+  }
+
   insertTab (self) {
-    var name = this.promptForName();
+    var name = this.promptForName('Insert new filename');
     if (!name) {
       return;
     }
-    self.allTabs[name] = {
-      'content': ''
-    };
-    self.activeTabName = name;
-    self.editorUndoManager.initTab(name);
+    this.makeTab(self, name);
   }
 
   removeTab (self, tabName) {
@@ -162,28 +184,32 @@ class SwEditorTabs {
     this.deleteTabAndFixActive(self, tabName);
   }
 
+  makePathEdition (self, oldPath, newPath) {
+    self.allTabs[newPath] = self.allTabs[oldPath];
+    this.deleteTabAndFixActive(self, oldPath, newPath);
+    self.editorUndoManager.initTab(newPath);
+  }
+
   editTabName (self, tabName) {
-    var newName = this.promptForName(tabName);
+    var newName = this.promptForName('Insert new filename', tabName);
     if (!newName || newName === tabName) {
       return;
     }
-    self.allTabs[newName] = self.allTabs[tabName];
-    this.deleteTabAndFixActive(self, tabName, newName);
-    self.editorUndoManager.initTab(newName);
+    this.makePathEdition(self, tabName, newName);
   }
 
-  deleteTabAndFixActive (self, tabName, newName) {
-    delete self.allTabs[tabName];
-    self.editorUndoManager.removeTab(tabName);
+  deleteTabAndFixActive (self, oldPath, newPath) {
+    delete self.allTabs[oldPath];
+    self.editorUndoManager.removeTab(oldPath);
 
-    if (self.activeTabName === tabName) {
-      self.activeTabName = newName || Object.keys(self.tabs)[0];
+    if (self.activeTabName === oldPath) {
+      self.activeTabName = newPath || Object.keys(self.tabs)[0];
     }
   }
 
   // This is temporary hack!
-  promptForName (old) {
-    var name = this.$window.prompt('Insert new filename', old ? old.replace(/\|/g, '.') : '');
+  promptForName (textForUser, path) {
+    var name = this.$window.prompt(textForUser, path ? path.replace(/\|/g, '.') : '');
     if (!name) {
       return;
     }
@@ -194,8 +220,8 @@ class SwEditorTabs {
     return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
   }
 
-  shouldDisplayTooltip (self, tabName) {
-    let hasLongName = tabName.length > 15;
+  shouldDisplayTooltip (self, path) {
+    let hasLongName = path.length > 15;
     return hasLongName;
   }
 
