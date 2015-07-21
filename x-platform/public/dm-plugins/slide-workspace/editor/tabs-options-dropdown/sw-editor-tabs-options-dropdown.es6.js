@@ -88,7 +88,6 @@ sliderPlugins.directive('swEditorTabsOptionsDropdown', () => {
     replace: true,
     scope: {
       node: '=',
-      inHorizontalView: '=',
       editTabName: '&',
       removeTab: '&',
       promptForName: '&',

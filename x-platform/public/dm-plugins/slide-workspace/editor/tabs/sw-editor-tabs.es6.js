@@ -18,6 +18,7 @@ class Tab {
     this.fileName = this.getFileName();
     this.type = this.getExtension();
     this.order = this.getOrder();
+    this.isFile = true;
   }
 
   getFileName () {
@@ -63,10 +64,8 @@ class SwEditorTabs {
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
-      self.inHorizontalView = self.tabsObjects.length < self.moveTabsLeftThreshold;
       this.prepareTreeStructure(self, self.tabsObjects);
       // this.$log.log(self.treeStructure);
-
     });
   }
 

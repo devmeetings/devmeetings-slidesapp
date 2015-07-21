@@ -19,9 +19,8 @@
         span.fa-fw.workspace-tab-icon
           span.fa.fa-circle.type-icon
         |  {{ tab.fileName }}
-        sw-editor-tabs-options-dropdown(
+        sw-editor-tabs-options-dropdown.horizontal-view(
           node="tab"
-          in-horizontal-view="model.inHorizontalView"
           edit-tab-name="model.editTabName(path)"
           remove-tab="model.removeTab(path)"
           prompt-for-name="model.promptForName(textForUser, path)"
