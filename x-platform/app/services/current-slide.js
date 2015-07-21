@@ -1,14 +1,13 @@
 var _ = require('lodash');
-var Q = require('q');
 var Participants = require('../services/participants');
 var pluginEvents = require('../plugins/events');
 
-var slideRoom = function(slide) {
+var slideRoom = function (slide) {
   return slide + '_slide';
 };
 
-exports.onSocket = function(log, socket, io) {
-  socket.on('slide.current.change', function(slide) {
+exports.onSocket = function (log, socket, io) {
+  socket.on('slide.current.change', function (slide) {
     var slideData = socket.slideData;
     if (!slideData) {
       return;
@@ -21,7 +20,7 @@ exports.onSocket = function(log, socket, io) {
 
     pluginEvents.emit('rejoin', socket, {
       joined: false,
-      name: name1,
+      name: name1
     });
     pluginEvents.emit('rejoin', socket, {
       joined: true,
@@ -36,9 +35,9 @@ exports.onSocket = function(log, socket, io) {
   });
 };
 
-exports.getSlideUsers = function(io, slide) {
-  return Participants.getParticipants(io, slideRoom(slide)).then(function(participants) {
-    return _.uniq(_.map(participants, function(object) {
+exports.getSlideUsers = function (io, slide) {
+  return Participants.getParticipants(io, slideRoom(slide)).then(function (participants) {
+    return _.uniq(_.map(participants, function (object) {
       return object.user._id;
     }));
   });

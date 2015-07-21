@@ -1,9 +1,8 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
-
+import viewTemplate from './sw-output-phone.html!text';
 
 sliderPlugins.directive('swOutputPhone', () => {
 
@@ -15,8 +14,8 @@ sliderPlugins.directive('swOutputPhone', () => {
     transclude: true,
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-phone/sw-output-phone.html',
-    controller() {}
+    template: viewTemplate,
+    controller () {}
   };
 
 });

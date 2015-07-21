@@ -1,24 +1,22 @@
+/* globals define */
 define(
-  ['require', '_', 'angular', './dm-player', 'es6!./dm-recorder-worker', 'es6!./dm-recorder-listenable', 'es6!./dm-recorder-context'],
-  function(require, _, angular, player, Worker, newListenable, dmRecorderContext) {
+  ['require', '_', 'angular', './dm-player', './dm-recorder-worker', './dm-recorder-listenable', './dm-recorder-context'],
+  function (require, _, angular, player, Worker, newListenable, dmRecorderContext) {
     'use strict';
 
     var rec = angular.module('dm-recorder', []);
-    rec.directive('dmRecorderContext', dmRecorderContext);
+    rec.directive('dmRecorderContext', dmRecorderContext.default);
     rec.factory('dmPlayer', player);
-    rec.factory('dmRecorder', function($q) {
-
-      return function(workspaceId) {
-
+    rec.factory('dmRecorder', function ($q) {
+      return function (workspaceId) {
         var worker = new Worker.Recorder();
 
-        var self = _.extend(newListenable(), {
-
-          updateState: function(slide) {
+        var self = _.extend(newListenable.default(), {
+          updateState: function (slide) {
             return worker.newState(slide);
           },
 
-          getCurrentStateId: function() {
+          getCurrentStateId: function () {
             if (worker.syncing) {
               return worker.idDefer.promise;
             }
@@ -28,7 +26,7 @@ define(
             return $q.when(worker.getId() + '_' + worker.getLastPatch());
           },
 
-          stopSyncingAndSetId: function(id, lastPatch) {
+          stopSyncingAndSetId: function (id, lastPatch) {
             worker.syncing = false;
             var idAndPatch = id + '_' + lastPatch;
             worker.fillInIds(idAndPatch);
@@ -37,18 +35,18 @@ define(
             worker.idDefer.resolve(idAndPatch);
           },
 
-          startSyncingAndGetId: function(patches) {
+          startSyncingAndGetId: function (patches) {
             worker.syncing = true;
             worker.idDefer = $q.defer();
             this.trigger('onSync', patches);
             return worker.getId();
           },
 
-          isSyncing: function() {
+          isSyncing: function () {
             return worker.syncing;
           },
 
-          setState: function(statesaveId, content) {
+          setState: function (statesaveId, content) {
             if (!statesaveId) {
               return;
             }
@@ -62,11 +60,11 @@ define(
             }
           },
 
-          getWorkspaceId: function() {
+          getWorkspaceId: function () {
             return workspaceId;
           },
 
-          clear: function() {
+          clear: function () {
             worker.clear();
           }
 

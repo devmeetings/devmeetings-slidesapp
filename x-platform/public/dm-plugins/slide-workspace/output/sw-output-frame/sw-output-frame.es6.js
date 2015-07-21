@@ -1,36 +1,34 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
-import * as _ from '_';
-import throttle from 'es6!../../throttle.es6';
-
-
+import _ from '_';
+import throttle from '../../throttle.es6';
+import viewTemplate from './sw-output-frame.html!text';
 
 class OutputFrame {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
     this.iframe1 = this.$element.find('iframe.num-one');
     this.iframe2 = this.$element.find('iframe.num-two');
     this.progressBar = this.$element.find('.progress-bar');
     this.scope.activeFrame = 0;
 
-    this.setAddressLater = throttle(this.scope, (url)=>{
+    this.setAddressLater = throttle(this.scope, (url) => {
       this.setAddress(url);
     }, 2000);
   }
 
-  isHttp(url) {
+  isHttp (url) {
     return url.indexOf('http://') > -1;
   }
 
-  isCurrentPageHttps() {
+  isCurrentPageHttps () {
     return this.$location.protocol() === 'https';
   }
 
-  setIsWarning(url) {
+  setIsWarning (url) {
     if (this.isHttp(url) && this.isCurrentPageHttps()) {
       this.scope.isHttpsWarning = true;
       return;
@@ -38,22 +36,22 @@ class OutputFrame {
     this.scope.isHttpsWarning = false;
   }
 
-  setAdressWithFramesAnimation(url) {
+  setAddressWithFramesAnimation (url) {
 
     this.$window.localStorage.wasLastFrameInactive = true;
 
     this.iframe2.attr('src', url);
 
     this.scope.percentOfProgress = 90;
-    
+
     var currentFrame = this.iframe2;
-    
+
     var swapFrames = () => {
       var temporaryIframe1 = this.iframe1;
       this.iframe1 = this.iframe2;
       this.iframe2 = temporaryIframe1;
-    
-      this.scope.$apply(()=>{
+
+      this.scope.$apply(() => {
         let scope = this.scope;
         scope.activeFrame = (scope.activeFrame + 1) % 2;
         scope.percentOfProgress = 0;
@@ -79,22 +77,21 @@ class OutputFrame {
 
   }
 
-  setAdressWithoutFramesAnimation(url) {
+  setAddressWithoutFramesAnimation (url) {
     this.iframe1.attr('src', url);
   }
 
-  setAddressAndAnimateIfNeeded(url) {
-
+  setAddressAndAnimateIfNeeded (url) {
     var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
 
-    if ( animationOn ) {
-      this.setAdressWithFramesAnimation(url);
+    if (animationOn) {
+      this.setAddressWithFramesAnimation(url);
     } else {
-      this.setAdressWithoutFramesAnimation(url);
+      this.setAddressWithoutFramesAnimation(url);
     }
   }
 
-  setAddress(url) {
+  setAddress (url) {
     if (this.scope.isHangWarning) {
       this.scope.lastKnownUrl = url;
       return;
@@ -102,10 +99,9 @@ class OutputFrame {
 
     this.setIsWarning(url);
     this.setAddressAndAnimateIfNeeded(url);
-
   }
 
-  setHangWarning() {
+  setHangWarning () {
     if (this.$window.localStorage.wasLastFrameInactive === 'true') {
       this.scope.isHangWarning = true;
       return;
@@ -113,7 +109,7 @@ class OutputFrame {
     this.disableHangWarning();
   }
 
-  disableHangWarning() {
+  disableHangWarning () {
     this.scope.isHangWarning = false;
     if (this.scope.lastKnownUrl) {
       this.setAddress(this.scope.lastKnownUrl);
@@ -122,9 +118,7 @@ class OutputFrame {
 
 }
 
-
-
-sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout, $window ) => {
+sliderPlugins.directive('swOutputFrame', ($rootScope, $location, $timeout, $window) => {
 
   return {
     restrict: 'E',
@@ -134,12 +128,12 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout, $win
       currentUrl: '=',
       isDead: '='
     },
-    templateUrl: '/static/dm-plugins/slide-workspace/output/sw-output-frame/sw-output-frame.html',
-    link: function(scope, element) {
+    template: viewTemplate,
+    link: function (scope, element) {
       let frame = new OutputFrame({
         $element: element, $location, scope, $rootScope, $timeout, $window
       });
-      
+
       frame.setHangWarning();
 
       scope.disableHangWarning = () => {
@@ -152,7 +146,7 @@ sliderPlugins.directive('swOutputFrame', ( $rootScope, $location, $timeout, $win
         }
         frame.setAddressLater(url);
       });
-      
+
     }
 
   };

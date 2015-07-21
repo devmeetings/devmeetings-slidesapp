@@ -10,18 +10,16 @@ var Q = require('q');
 
 var recordings = require('../services/recordings');
 
-
-function convertRecordingToUnifiedHistoryFormat(recording) {
+function convertRecordingToUnifiedHistoryFormat (recording) {
   'use strict';
 
   var slideStates = recording.slides;
   delete recording.slides;
 
   recording.original = slideStates[0].original;
-  recording.patches = slideStates.reduce(function(patches, state) {
-
+  recording.patches = slideStates.reduce(function (patches, state) {
     var timeDiff = (_.last(patches) || {}).timestamp || 0;
-    state.patches.map(function(patch) {
+    state.patches.map(function (patch) {
       patch.timestamp += timeDiff;
     });
 
@@ -44,7 +42,7 @@ function convertRecordingToUnifiedHistoryFormat(recording) {
   return recording;
 }
 
-function findRecording(id) {
+function findRecording (id) {
   'use strict';
 
   return RecordingModel.findOne({
@@ -53,8 +51,8 @@ function findRecording(id) {
 }
 
 var Recordings = {
-  list: function(req, res) {
-    RecordingModel.find({}).select('_id title group date').lean().exec(function(err, recordings) {
+  list: function (req, res) {
+    RecordingModel.find({}).select('_id title group date').lean().exec(function (err, recordings) {
       if (err) {
         logger.error(err);
         res.send(404, err);
@@ -64,8 +62,8 @@ var Recordings = {
     });
   },
 
-  get: function(req, res) {
-    findRecording(req.params.id).exec(function(err, recording) {
+  get: function (req, res) {
+    findRecording(req.params.id).exec(function (err, recording) {
       if (err || !recording) {
         logger.error(err);
         res.status(404).send(err);
@@ -77,35 +75,34 @@ var Recordings = {
     });
   },
 
-  joinForEvent: function(req, res) {
+  joinForEvent: function (req, res) {
     var eventId = req.params.eventId;
     var recId1 = req.params.id1;
     var recId2 = req.params.id2;
 
-
-    Q.when(Events.findById(eventId).exec()).then(function(event) {
+    Q.when(Events.findById(eventId).exec()).then(function (event) {
       if (!event) {
         res.sendStatus(404);
         return;
       }
 
-      function findById(prop, id) {
-        return function(x) {
+      function findById (prop, id) {
+        return function (x) {
           return x[prop].toString() === id;
         };
       }
 
-      function findIteration(event, recId1) {
-        return event.iterations.reduce(function(found, iteration) {
+      function findIteration (event, recId1) {
+        return event.iterations.reduce(function (found, iteration) {
           if (found) {
             return found;
           }
 
-          console.log("Searching for ", recId1, iteration.materials);
+          console.log('Searching for ', recId1, iteration.materials);
           var material = _.find(iteration.materials, findById('material', recId1));
 
           if (material) {
-            console.log("Found: ", material);
+            console.log('Found: ', material);
             return iteration;
           }
         }, null);
@@ -122,7 +119,7 @@ var Recordings = {
         _.remove(iteration2.materials, findById('material', recId2));
       }
 
-      return recordings.joinRecordings(recId1, recId2).then(function(recording) {
+      return recordings.joinRecordings(recId1, recId2).then(function (recording) {
         var id = recording._id;
         material.material = id;
         iteration.materials.push(material);
@@ -130,29 +127,28 @@ var Recordings = {
         return Q.when(event.save());
       });
 
-    }).done(function() {
+    }).done(function () {
       res.sendStatus(200);
-    }, function(err) {
+    }, function (err) {
       logger.error(err);
       res.status(400).send(err);
     });
   },
 
-  join: function(req, res) {
+  join: function (req, res) {
     var recId1 = req.params.id1;
     var recId2 = req.params.id2;
 
-    recordings.joinRecordings(recId1, recId2).done(function(recording) {
+    recordings.joinRecordings(recId1, recId2).done(function (recording) {
       res.send(recording);
-    }, function(err) {
+    }, function (err) {
       logger.error(err);
       res.status(400).send(err);
     });
   },
 
-  autoAnnotations: function(req, res) {
-    findRecording(req.params.id).exec(function(err, rawRecording) {
-
+  autoAnnotations: function (req, res) {
+    findRecording(req.params.id).exec(function (err, rawRecording) {
       if (err) {
         logger.error(err);
         res.status(404).send(err);
@@ -166,8 +162,8 @@ var Recordings = {
 
       var recording = convertRecordingToUnifiedHistoryFormat(rawRecording);
       recording.cacheKey = 'annotations_' + rawRecording._id;
-      autoAnnotations(recording).done(function(annotations) {
-        yamlReply(req, res, annotations, function(anno) {
+      autoAnnotations(recording).done(function (annotations) {
+        yamlReply(req, res, annotations, function (anno) {
           return {
             annotations: anno
           };

@@ -1,54 +1,53 @@
-define(['module', 'slider/slider.plugins'], function(module, sliderPlugins) {
+/* globals define */
+define(['_', 'slider/slider.plugins', './trainer.deck-nextslide.html!text'], function (_, sliderPlugins, viewTemplate) {
+  'use strict';
 
-    var path = sliderPlugins.extractPath(module);
+  sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', {
+    order: 2,
+    name: 'Next Slide',
+    description: 'Allows Trainer to switch to Next Slide on Followed User',
+    example: {}
+  }).directive('trainerdeckNextslide', [
+    'Sockets',
+    function (Sockets) {
+      return {
+        restrict: 'E',
+        scope: {
+          data: '=data',
+          deck: '=context'
+        },
+        template: viewTemplate,
+        link: function (scope) {
+          scope.followUser = null;
 
-    sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-nextslide', {
-      order: 2,
-      name: 'Next Slide',
-      description: 'Allows Trainer to switch to Next Slide on Followed User',
-      example: {}
-    }).directive('trainerdeckNextslide', [
-        'Sockets',
-        function(Sockets) {
+          function getNextSlideId (slideId) {
+            var currentSlidePosition = scope.deck.slides.indexOf(slideId);
+            return scope.deck.slides[(++currentSlidePosition % scope.deck.slides.length)];
+          }
 
-            return {
-                restrict: 'E',
-                scope: {
-                    data: '=data',
-                    deck: '=context'
-                },
-                templateUrl: path + '/trainer.deck-nextslide.html',
-                link: function(scope) {
-                    scope.followUser = null;
+          scope.$on('FollowUser:change', function (event, user) {
+            scope.followUser = user;
+          });
 
-                    function getNextSlideId(slideId) {
-                        var currentSlidePosition = scope.deck.slides.indexOf(slideId);
-                        return scope.deck.slides[(++currentSlidePosition % scope.deck.slides.length)];
-                    }
+          scope.getSlidePath = function () {
+            var slideId = getNextSlideId(scope.followUser.currentSlide);
+            return '/slides/' + slideId;
+          };
 
-                    scope.$on('FollowUser:change', function(event, user) {
-                        scope.followUser = user;
-                    });
+          Sockets.on('trainer.participants', function (data) {
+            if (!scope.followUser) {
+              return;
+            }
 
-                    scope.getSlidePath = function() {
-                        var slideId = getNextSlideId(scope.followUser.currentSlide);
-                        return '/slides/' + slideId;
-                    };
-
-                    Sockets.on('trainer.participants', function(data) {
-                        if (!scope.followUser) {
-                            return;
-                        }
-
-                        var user = _.find(data, {
-                            id: scope.followUser.id
-                        });
-                        scope.$apply(function() {
-                            scope.followUser = user || null;
-                        });
-                    });
-                }
-            };
+            var user = _.find(data, {
+              id: scope.followUser.id
+            });
+            scope.$apply(function () {
+              scope.followUser = user || null;
+            });
+          });
         }
-    ]);
+      };
+    }
+  ]);
 });

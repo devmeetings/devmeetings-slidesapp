@@ -1,7 +1,6 @@
 var yaml = require('js-yaml');
 
-
-module.exports = function reply(req, res, obj, process) {
+module.exports = function reply (req, res, obj, process) {
   'use strict';
 
   if (req.query.format === 'yaml') {

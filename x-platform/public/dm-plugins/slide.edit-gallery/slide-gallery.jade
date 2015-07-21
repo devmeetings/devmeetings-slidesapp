@@ -50,11 +50,11 @@
     pre(
       ng-if="plugin.showUsage"
       )
-      {{ vm.getTriggerValue(plugin.trigger) | json }}
+      | {{ vm.getTriggerValue(plugin.trigger) | json }}
 
     pre(
       ng-if="plugin.showExample"
       )
-      {{ plugin.data.example | json }}
+      | {{ plugin.data.example | json }}
 
 

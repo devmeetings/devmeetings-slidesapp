@@ -14,7 +14,7 @@
  *     * Neither the name of Ajax.org B.V. nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -27,12 +27,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * ***** END LICENSE BLOCK ***** */
-
-ace.define('ace/theme/todr', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
-
-exports.isDark = true;
-exports.cssClass = "ace-todr";
-exports.cssText = ".ace-todr .ace_gutter {\
+/* globals ace */
+/* eslint-disable no-multi-str */
+ace.define('ace/theme/todr', ['require', 'exports', 'module', 'ace/lib/dom'], function (require, exports, module) {
+  exports.isDark = true;
+  exports.cssClass = 'ace-todr';
+  exports.cssText = '.ace-todr .ace_gutter {\
 background: #0f0f0f;\
 color: #bebebe\
 }\
@@ -121,8 +121,8 @@ color: #C147FF\
 }\
 .ace-todr .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNgYGBgYNDTc/oPAALPAZ7hxlbYAAAAAElFTkSuQmCC) right repeat-y;\
-}";
+}';
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+  var dom = require('../lib/dom');
+  dom.importCssString(exports.cssText, exports.cssClass);
 });

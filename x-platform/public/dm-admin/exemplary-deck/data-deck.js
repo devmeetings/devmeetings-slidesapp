@@ -1,4 +1,5 @@
+/* globals define */
 define({
-    "slides": [],
-    "title": "My First presentation"
+  'slides': [],
+  'title': 'My First presentation'
 });

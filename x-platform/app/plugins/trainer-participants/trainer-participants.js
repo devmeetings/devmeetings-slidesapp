@@ -5,35 +5,31 @@ var _ = require('lodash');
 var logger = require('../../../config/logging');
 var store = require('../../services/store');
 
-
-var trainersRoom = function(roomId) {
+var trainersRoom = function (roomId) {
   return roomId + '_trainers';
 };
 
-var updateClientData = function(socket, updater) {
-  store.get('socketClientData_' + socket.id).done(function(clientData) {
+var updateClientData = function (socket, updater) {
+  store.get('socketClientData_' + socket.id).done(function (clientData) {
     updater(clientData);
     store.set('socketClientData_' + socket.id, clientData);
   });
 };
 
-var broadcastClientsToTrainers = function(io, roomId) {
-  Participants.getParticipants(io, roomId).then(function(participants) {
+var broadcastClientsToTrainers = function (io, roomId) {
+  Participants.getParticipants(io, roomId).then(function (participants) {
     io.sockets.in(trainersRoom(roomId)).emit('trainer.participants', participants);
   }, logger.error);
 };
 
-
-var getClient = function(io, roomId, id) {
-  return _.find(io.sockets.clients(roomId), function(client) {
+var getClient = function (io, roomId, id) {
+  return _.find(io.sockets.clients(roomId), function (client) {
     return client.id === id;
   });
 };
 
-
-var broadcastTrainerChangeSlide = function(userData, callback) {
-
-  DeckModel.find().where('id').equals(userData.deck).exec(function(err, decks) {
+var broadcastTrainerChangeSlide = function (userData, callback) {
+  DeckModel.find().where('id').equals(userData.deck).exec(function (err, decks) {
     var deck;
     if (err) {
       logger.error(err);
@@ -45,10 +41,8 @@ var broadcastTrainerChangeSlide = function(userData, callback) {
   });
 };
 
-
-exports.initSockets = function(io) {
-
-  var sendParticipants = function(roomId) {
+exports.initSockets = function (io) {
+  var sendParticipants = function (roomId) {
     broadcastClientsToTrainers(io, roomId);
   };
 
@@ -57,10 +51,9 @@ exports.initSockets = function(io) {
 
 };
 
-exports.onSocket = function(log, socket, io) {
-  socket.on('slide.current.change', function(slide) {
-
-    updateClientData(socket, function(clientData) {
+exports.onSocket = function (log, socket, io) {
+  socket.on('slide.current.change', function (slide) {
+    updateClientData(socket, function (clientData) {
       clientData.currentSlide = slide[0];
 
       broadcastClientsToTrainers(io, clientData.deck);
@@ -68,14 +61,14 @@ exports.onSocket = function(log, socket, io) {
 
   });
 
-  socket.on('trainer.register', function(data, callback) {
+  socket.on('trainer.register', function (data, callback) {
     // TODO [ToDr] Check authorization
     callback({
       isAuthorized: true
     });
 
-    store.get('socketClientData_' + socket.id).done(function(data) {
-      updateClientData(socket, function(data) {
+    store.get('socketClientData_' + socket.id).done(function (data) {
+      updateClientData(socket, function (data) {
         data.isTrainer = true;
       });
 
@@ -90,23 +83,23 @@ exports.onSocket = function(log, socket, io) {
         args: data
       });
 
-      Participants.getParticipants(io, data.deck).then(function(participants) {
+      Participants.getParticipants(io, data.deck).then(function (participants) {
         socket.emit('trainer.participants', participants);
       }, log.error);
     });
   });
 
-  socket.on('trainer.follow.nextSlide', function(data) {
+  socket.on('trainer.follow.nextSlide', function (data) {
     var userSocket = getClient(io, data.deck, data.user.id);
-    broadcastTrainerChangeSlide(data, function(userData, deck) {
+    broadcastTrainerChangeSlide(data, function (userData, deck) {
       var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
       userSocket.emit('slide.trainer.change_slide', deck.slides[(++currentSlidePosition % deck.slides.length)]);
     });
   });
 
-  socket.on('trainer.follow.prevSlide', function(data) {
+  socket.on('trainer.follow.prevSlide', function (data) {
     var userSocket = getClient(io, data.deck, data.user.id);
-    broadcastTrainerChangeSlide(data, function(userData, deck) {
+    broadcastTrainerChangeSlide(data, function (userData, deck) {
       var currentSlidePosition = deck.slides.indexOf(data.user.currentSlide);
       currentSlidePosition = (currentSlidePosition === 0) ? deck.slides.length : currentSlidePosition;
       userSocket.emit('slide.trainer.change_slide', deck.slides[(--currentSlidePosition)]);

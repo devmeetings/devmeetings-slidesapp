@@ -1,26 +1,23 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-
 import sliderPlugins from 'slider/slider.plugins';
-import * as _ from '_';
-import formatter from 'es6!./sw-editor-formatter.es6';
-
-
+import _ from '_';
+import formatter from './sw-editor-formatter.es6';
+import viewTemplate from './sw-editor-tools.html!text';
 
 class SwEditorTools {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller(self) {
+  controller (self) {
     this.initUploading(self);
     this.initTabFormatting(self);
   }
 
-
-  initTabFormatting(self) {
+  initTabFormatting (self) {
     this.$scope.$watch(() => self.activeTabName, (activeTabName) => {
       self.hasFormatting = formatter.hasFormattingForName(activeTabName);
     });
@@ -45,11 +42,11 @@ class SwEditorTools {
     self.isAutoReload = () => this.isAutoReload();
   }
 
-  isAutoReload() {
+  isAutoReload () {
     return this.$rootScope.performance.indexOf('workspace_output_noauto') === -1;
   }
 
-  setAutoReload(enabled) {
+  setAutoReload (enabled) {
     let perf = this.$rootScope.performance;
 
     if (enabled && !this.isAutoReload()) {
@@ -62,23 +59,21 @@ class SwEditorTools {
     }
   }
 
-
-
-  initUploading(self) {
+  initUploading (self) {
     self.onFileSelect = ($files) => {
       if (!this.$window.confirm('Uploading file will erase your current workspace. Continue?')) {
         return;
       }
-      //$files: an array of files selected, each file has name, size, and type.
+      // $files: an array of files selected, each file has name, size, and type.
       self.isUploading = true;
       self.uploadingState = 0;
       $files.forEach((file) => {
-        this.$upload.upload({
+        this.Upload.upload({
           url: '/api/upload',
           file: file
         }).progress((evt) => {
           this.$scope.$apply(() => {
-            self.uploadingState = parseInt(100.0 * evt.loaded / evt.total);
+            self.uploadingState = parseInt(100.0 * evt.loaded / evt.total, 10);
           });
         }).success((data) => {
 
@@ -87,7 +82,7 @@ class SwEditorTools {
           var ws = {};
           ws.active = null;
           ws.tabs = {};
-          _.each(data, function(value, name) {
+          _.each(data, function (value, name) {
             ws.active = name;
             ws.tabs[name] = {
               content: value
@@ -104,8 +99,7 @@ class SwEditorTools {
 
 }
 
-
-sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) => {
+sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
 
   return {
     restrict: 'E',
@@ -113,7 +107,6 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) =>
       withUrlButton: '=',
       showUrl: '=',
       hideOutput: '=',
-
       currentUrl: '=',
       downloadId: '=',
       activeTab: '=',
@@ -124,13 +117,11 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, $upload, $log) =>
     },
     bindToController: true,
     controllerAs: 'model',
-    templateUrl: '/static/dm-plugins/slide-workspace/editor/tools/sw-editor-tools.html',
-    controller: function($scope, $log) {
+    template: viewTemplate,
+    controller: function ($scope, $log) {
       let tools = new SwEditorTools({
-        $scope, $rootScope, $window, $upload
-      });
+      $scope, $rootScope, $window, Upload});
       tools.controller(this);
-
     }
   };
 });

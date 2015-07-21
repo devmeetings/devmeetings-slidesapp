@@ -1,34 +1,34 @@
-define(['angular', 'slider/slider'], function(angular, slider) {
+/* globals define */
+define(['angular', 'slider/slider', './dm-taskicon.html!text'], function (angular, slider, viewTemplate) {
+  var images = {
+    task: {
+      image: 'fa-star',
+      color: 'rgb(254,251,0)'
+    },
+    taskDone: {
+      image: 'fa-check',
+      color: 'rgb(57,179,74)'
+    },
+    snippet: {
+      image: 'fa-file-text',
+      color: '#5aabcb'
+    }
+  };
 
-    var images = {
-        task: {
-            image: 'fa-star',
-            color: 'rgb(254,251,0)'
+  slider.directive('dmTaskicon', [
+
+    function () {
+      return {
+        restrict: 'E',
+        scope: {
+          type: '='
         },
-        taskDone: {
-            image: 'fa-check',
-            color: 'rgb(57,179,74)'
-        },
-        snippet: {
-            image: 'fa-file-text',
-            color: '#5aabcb'
+        replace: 'true',
+        template: viewTemplate,
+        link: function (scope, element, attr) {
+          scope.images = images;
         }
-    };
-
-    slider.directive('dmTaskicon', [
-
-        function() {
-            return {
-                restrict: 'E',
-                scope: {
-                    type: '='
-                },
-                replace: 'true',
-                templateUrl: '/static/dm-xplatform/directives/dm-taskicon/dm-taskicon.html',
-                link: function(scope, element, attr) {
-                    scope.images = images;
-                }
-            };
-        }
-    ]);
+      };
+    }
+  ]);
 });

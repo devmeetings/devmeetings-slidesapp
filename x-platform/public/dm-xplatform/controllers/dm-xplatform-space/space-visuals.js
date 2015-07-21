@@ -1,18 +1,17 @@
 /* jshint esnext:true */
 
-import * as $ from 'jquery';
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
+import $ from 'jquery';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
 
 class SpaceVisuals {
 
-  constructor($state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab) {
+  constructor ($state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab) {
     _.extend(this, {
-      $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab
-    });
+    $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab});
   }
 
-  initFullScreen($scope) {
+  initFullScreen ($scope) {
     $scope.changeFullScreen = (enable) => {
       if (!enable) {
         this.Fullscreen.cancel();
@@ -36,7 +35,7 @@ class SpaceVisuals {
     $scope.$on('$destroy', removeFullscreenHandler);
   }
 
-  initSidebars($scope, localStorage) {
+  initSidebars ($scope, localStorage) {
     let $timeout = this.$timeout;
 
     $scope.left = {
@@ -59,7 +58,7 @@ class SpaceVisuals {
     $scope.tabs = {};
     var aSpeed = 0.2;
 
-    $scope.togglePinRight = function() {
+    $scope.togglePinRight = function () {
       var right = $scope.right;
 
       if (right.pinned) {
@@ -74,9 +73,9 @@ class SpaceVisuals {
       localStorage.setItem('sidebar.pinned', right.pinned);
     };
 
-    $scope.toggleRightDelayed = function(open) {
+    $scope.toggleRightDelayed = function (open) {
       var delay = open ? 600 : 1200;
-      $timeout(function() {
+      $timeout(function () {
         if ($scope.right.mouseOn !== open || $scope.right.pinned) {
           return;
         }
@@ -85,7 +84,7 @@ class SpaceVisuals {
       }, delay);
     };
 
-    $scope.toggleRight = function(open, force) {
+    $scope.toggleRight = function (open, force) {
       if ($scope.editMode && !force) {
         return;
       }
@@ -98,11 +97,9 @@ class SpaceVisuals {
       }
 
       if (open) {
-
-        $timeout(function() {
-
+        $timeout(function () {
           right.current = right.max;
-          $timeout(function() {
+          $timeout(function () {
             right.opened = open;
 
             $('.dm-spacesidebar-right .tab-content').fadeIn(600 * aSpeed);
@@ -129,8 +126,7 @@ class SpaceVisuals {
     });
   }
 
-
-  initLocationWatching($scope) {
+  initLocationWatching ($scope) {
     $scope.currentLocation = this.$location;
     $scope.$watch('currentLocation.$$absUrl', () => {
       $scope.activeIteration = this.$state.params.iteration;
@@ -138,7 +134,7 @@ class SpaceVisuals {
     });
   }
 
-  initialize($scope, $window) {
+  initialize ($scope, $window) {
     this.initFullScreen($scope);
     this.initSidebars($scope, $window.localStorage);
     this.initLocationWatching($scope);

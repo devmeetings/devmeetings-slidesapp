@@ -2,28 +2,26 @@
 
 'use strict';
 
-import * as xplatformApp from 'xplatform/xplatform-app';
-import * as _ from '_';
-import 'es6!../dm-event-agenda/dm-event-agenda';
-import 'es6!../dm-event-users/dm-event-users';
+import xplatformApp from 'dm-xplatform/xplatform-app';
+import _ from '_';
+import '../dm-event-agenda/dm-event-agenda';
+import '../dm-event-users/dm-event-users';
+import viewTemplate from './dm-xplatform-menu.html!text';
 
 class MenuDir {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link(scope) {
-  
+  link (scope) {
     scope.stateIncludes = (name) => this.$state.includes(name);
 
   }
 
 }
 
-
 xplatformApp.directive('dmXplatformMenu', ($window, $state, $stateParams) => {
-
 
   return {
     restrict: 'E',
@@ -35,11 +33,10 @@ xplatformApp.directive('dmXplatformMenu', ($window, $state, $stateParams) => {
       opened: '=',
       isEditMode: '=?'
     },
-    templateUrl: '/static/dm-xplatform/directives/dm-xplatform-menu/dm-xplatform-menu.html',
+    template: viewTemplate,
     link: (scope) => {
       let contextMenu = new MenuDir({
-        $window, $state, $stateParams
-      });
+      $window, $state, $stateParams});
       contextMenu.link(scope);
     }
   };

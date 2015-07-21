@@ -3,13 +3,10 @@ var _ = require('lodash');
 var Events = require('../models/event');
 var Recordings = require('../models/recording');
 
-
 module.exports = {
-
-  createRecordingForEvent: function(eventId, slides) {
+  createRecordingForEvent: function (eventId, slides) {
     'use strict';
-    return Q.when(Events.findById(eventId).exec()).then(function(event) {
-
+    return Q.when(Events.findById(eventId).exec()).then(function (event) {
       var recordingNo = event.iterations[0].materials.length + 1;
       var recording = {
         title: 'Movie ' + recordingNo,
@@ -18,7 +15,7 @@ module.exports = {
         slides: slides
       };
 
-      return Q.when(Recordings.create(recording)).then(function(rec) {
+      return Q.when(Recordings.create(recording)).then(function (rec) {
         event.iterations[0].materials.push({
           title: recording.title,
           material: rec._id
@@ -29,11 +26,11 @@ module.exports = {
     });
   },
 
-  joinRecordings: function(recId1, recId2) {
+  joinRecordings: function (recId1, recId2) {
     return Q.all([
       Q.when(Recordings.findById(recId1).lean().exec()),
       Q.when(Recordings.findById(recId2).lean().exec())
-    ]).then(function(recordings) {
+    ]).then(function (recordings) {
       var rec1 = recordings[0];
       var rec2 = recordings[1];
 
@@ -52,9 +49,9 @@ module.exports = {
 
       lastSlide.noOfPatches++;
       lastSlide.patches.push({
-          id: lastPatchId.join('_'),
-          timestamp: lastPatch.timestamp + 1,
-          patch: patch
+        id: lastPatchId.join('_'),
+        timestamp: lastPatch.timestamp + 1,
+        patch: patch
       });
 
       // We are going to create new recording

@@ -1,17 +1,17 @@
 /* jshint esnext:true,-W097 */
 'use strict';
 
-import * as _ from '_';
-import keysListener from 'es6!dm-modules/dm-keys/keysListener.es6';
-
+import _ from '_';
+import keysListener from 'dm-modules/dm-keys/keysListener.es6';
+import viewTemplate from './dm-history-player.html!text';
 
 class DmHistoryPlayer {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  link(scope) {
+  link (scope) {
     scope.mode = 'player';
     scope.state = {};
     scope.annotations = [];
@@ -21,7 +21,7 @@ class DmHistoryPlayer {
 
     let self = this;
 
-    function updatePlayer() {
+    function updatePlayer () {
       if (!scope.historyId || !scope.recorderHistory) {
         return;
       }
@@ -61,12 +61,9 @@ class DmHistoryPlayer {
 
 }
 
-
-export function dmHistoryPlayer(dmHistory, dmPlayer, $rootScope, $timeout) {
-
+export function dmHistoryPlayer (dmHistory, dmPlayer, $rootScope, $timeout) {
   let history = new DmHistoryPlayer({
-    dmHistory, dmPlayer, $rootScope, $timeout
-  });
+  dmHistory, dmPlayer, $rootScope, $timeout});
 
   return {
     restrict: 'E',
@@ -75,7 +72,7 @@ export function dmHistoryPlayer(dmHistory, dmPlayer, $rootScope, $timeout) {
       eventId: '=',
       keys: '='
     },
-    templateUrl: '/static/dm-modules/dm-history/directives/player/dm-history-player.html',
+    template: viewTemplate,
     link: history.link.bind(history)
   };
 }

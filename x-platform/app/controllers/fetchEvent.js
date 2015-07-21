@@ -1,19 +1,17 @@
-var Events = require('../models/event'),
-  Slides = require('../models/slide'),
-  Decks = require('../models/deck'),
-  Q = require('q'),
-  _ = require('lodash'),
-  logger = require('../../config/logging'),
-  Annotations = require('../models/annotations'),
-  parser = require('../services/event-parser');
+var Events = require('../models/event');
+var Slides = require('../models/slide');
+var Decks = require('../models/deck');
+var Q = require('q');
+var _ = require('lodash');
+var logger = require('../../config/logging');
+var Annotations = require('../models/annotations');
+var parser = require('../services/event-parser');
 
-
-
-exports.createEventFromZip = function(req, res) {
+exports.createEventFromZip = function (req, res) {
   'use strict';
   var zip = req.files.file.path;
 
-  parser.fetchAndParse(zip, function(err, events) {
+  parser.fetchAndParse(zip, function (err, events) {
     if (err) {
       return res.status(400).send(err);
     }
@@ -24,12 +22,11 @@ exports.createEventFromZip = function(req, res) {
 
     var cache = {};
 
-    events.reduce(function(previous, event) {
+    events.reduce(function (previous, event) {
       // Create all related entities
-      return previous.then(function(arr) {
-
-        return Q.all(event.iterations.map(function(it) {
-          return Q.all(it.materials.map(function(mat) {
+      return previous.then(function (arr) {
+        return Q.all(event.iterations.map(function (it) {
+          return Q.all(it.materials.map(function (mat) {
             var createBaseSlide = createEntityIfNeeded(mat, 'baseSlide', Slides, cache);
             var createIntro = createEntityIfNeeded(mat, 'intro', Slides, cache);
             var createAnnotations = createEntityIfNeeded(mat, 'annotations', Annotations, cache);
@@ -37,12 +34,12 @@ exports.createEventFromZip = function(req, res) {
 
             return Q.all([createBaseSlide, createIntro, createAnnotations, createDeck]);
           }));
-        })).then(function() {
+        })).then(function () {
           return arr.concat(event);
         });
       });
-    }, Q.resolve([])).then(function(events) {
-      return Q.all(events.map(function(event) {
+    }, Q.resolve([])).then(function (events) {
+      return Q.all(events.map(function (event) {
         var defer = Q.defer();
 
         Events.update({
@@ -52,10 +49,9 @@ exports.createEventFromZip = function(req, res) {
             name: event.name + '_' + new Date(),
             removed: true
           }
-        }, function() {
-
+        }, function () {
           var ev = new Events(event);
-          ev.save(function(err) {
+          ev.save(function (err) {
             if (err) {
               return defer.reject(err);
             }
@@ -67,9 +63,9 @@ exports.createEventFromZip = function(req, res) {
 
         return defer.promise;
       }));
-    }).done(function(events) {
+    }).done(function (events) {
       res.redirect('/space/' + events[0]._id);
-    }, function(err) {
+    }, function (err) {
       logger.error(err);
       res.send(400, err);
     });
@@ -77,9 +73,7 @@ exports.createEventFromZip = function(req, res) {
 
 };
 
-
-
-function createEntityIfNeeded(obj, name, Entit, cache) {
+function createEntityIfNeeded (obj, name, Entit, cache) {
   'use strict';
   if (!obj[name]) {
     return Q.when();
@@ -94,20 +88,19 @@ function createEntityIfNeeded(obj, name, Entit, cache) {
   if (cache[obj[name]]) {
     promise = cache[obj[name]];
   } else {
-    promise = Q.when(Entit.create(obj[name])).then(function(e) {
+    promise = Q.when(Entit.create(obj[name])).then(function (e) {
       return e._id.toString();
     });
   }
 
-  promise.then(function(_id) {
+  promise.then(function (_id) {
     obj[name] = _id;
   });
 
   return promise;
 }
 
-
-function createDeckIfNeeded(obj, cache) {
+function createDeckIfNeeded (obj, cache) {
   'use strict';
 
   if (!obj.deck || !obj.deck.deck) {
@@ -119,9 +112,9 @@ function createDeckIfNeeded(obj, cache) {
   }
 
   var deck = obj.deck.deck;
-  return Q.all(deck.slides.map(function(slide, slideIdx) {
+  return Q.all(deck.slides.map(function (slide, slideIdx) {
     return createEntityIfNeeded(deck.slides, slideIdx, Slides, cache);
-  })).then(function() {
+  })).then(function () {
     // All slides created. Let's create deck
     return createEntityIfNeeded(obj.deck, 'deck', Decks, cache);
   });

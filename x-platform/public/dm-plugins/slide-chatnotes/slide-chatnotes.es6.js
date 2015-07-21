@@ -1,16 +1,16 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
-import * as _ from '_';
+import _ from '_';
+import viewTemplate from './slide-chatnotes.html!text';
 
-class ChatNotes {
+export class ChatNotes {
 
-  constructor(data) {
+  constructor (data) {
     _.extend(this, data);
   }
 
-  controller(vm) {
+  controller (vm) {
     vm.addNote = () => {
       vm.notes.notes.push(vm.notes.current);
       vm.notes.current = '';
@@ -25,11 +25,11 @@ class ChatNotes {
     vm.getCurrentLimit = (isShowingAll) => this.getCurrentLimit(isShowingAll);
   }
 
-  getLimitThreshold() {
+  getLimitThreshold () {
     return 5;
   }
 
-  getCurrentLimit(isShowingAll) {
+  getCurrentLimit (isShowingAll) {
     if (isShowingAll) {
       return Infinity;
     }
@@ -38,28 +38,28 @@ class ChatNotes {
 
 }
 
-  sliderPlugins
+sliderPlugins
   .registerPlugin('slide.sidebar', 'chatnotes', 'slide-chatnotes', {
-      order: 3850,
-      name: 'Chat Notes',
-      description: 'Notes that looks like chat.',
-      example: {
-        meta: {
-          notes: [{
-            type: 'string'
-          }],
-          current: {
-            type: 'string'
-          }
-        },
-        example: {
-          notes: [
-            'My First Note',
-            'My Second Note'
-          ],
-          current: 'Writin'
+    order: 3850,
+    name: 'Chat Notes',
+    description: 'Notes that looks like chat.',
+    example: {
+      meta: {
+        notes: [{
+          type: 'string'
+        }],
+        current: {
+          type: 'string'
         }
+      },
+      example: {
+        notes: [
+          'My First Note',
+          'My Second Note'
+        ],
+        current: 'Writin'
       }
+    }
   })
   .directive('slideChatnotes', ($rootScope, $timeout) => {
     return {
@@ -71,11 +71,10 @@ class ChatNotes {
       },
       bindToController: true,
       controllerAs: 'model',
-      templateUrl: '/static/dm-plugins/slide-chatnotes/slide-chatnotes.html',
-      controller($scope) {
+      template: viewTemplate,
+      controller ($scope) {
         let sw = new ChatNotes({
-            $rootScope, $scope, $timeout
-        });
+        $rootScope, $scope, $timeout});
         sw.controller(this);
       }
     };

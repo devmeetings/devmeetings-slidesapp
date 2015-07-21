@@ -1,11 +1,13 @@
+/* globals define */
 define([
-    '_',
-    'dm-xplayer/dm-xplayer-app',
-], function(_, xplayerApp) {
+  '_',
+  'dm-xplayer/dm-xplayer-app',
+  './dm-xplayer-timeline.html!text'
+], function (_, xplayerApp, viewTemplate) {
   'use strict';
 
   xplayerApp.directive('dmXplayerTimeline',
-    function($window) {
+    function ($window) {
       return {
         restrict: 'E',
         scope: {
@@ -14,40 +16,40 @@ define([
           audioUrl: '=',
           onEnd: '&'
         },
-        templateUrl: '/static/dm-xplayer/directives/dm-xplayer-timeline/dm-xplayer-timeline.html',
+        template: viewTemplate,
 
-        link: function($scope) {
-          $scope.setTime = function(time) {
+        link: function ($scope) {
+          $scope.setTime = function (time) {
             $scope.setSecond = time;
           };
-          $window.setTime = function(time) {
-            $scope.$apply(function() {
+          $window.setTime = function (time) {
+            $scope.$apply(function () {
               $scope.setSecond = time;
             });
           };
 
-          $scope.playNext = function() {
-            var state =$scope.state;
+          $scope.playNext = function () {
+            var state = $scope.state;
             state.currentSecond += 0.001;
             state.isPlaying = !state.isPlaying;
           };
 
           var rates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 50.0, 100.0];
-          $scope.$watch('audioUrl', function(audioUrl) {
+          $scope.$watch('audioUrl', function (audioUrl) {
             $scope.withVoice = !!audioUrl;
           });
 
-          function getNextRateIndex(nextRate) {
+          function getNextRateIndex (nextRate) {
             return (nextRate + 1) % rates.length;
           }
 
-          $scope.$watch('state.currentSecond', function(sec) {
+          $scope.$watch('state.currentSecond', function (sec) {
             if (sec >= $scope.state.max) {
               $scope.onEnd();
-            } 
+            }
           });
 
-          $scope.$watch('state.rate', function(rate) {
+          $scope.$watch('state.rate', function (rate) {
             if (rate) {
               var currentRateIdx = _.sortedIndex(rates, rate);
               $scope.nextRate = rates[getNextRateIndex(currentRateIdx)];
@@ -62,16 +64,16 @@ define([
 
           });
 
-          $scope.setRate = function(rate) {
+          $scope.setRate = function (rate) {
             $scope.state.rate = rate;
           };
 
-          $scope.changeRate = function() {
+          $scope.changeRate = function () {
             var currentRateIdx = _.sortedIndex(rates, $scope.state.rate);
             $scope.setRate(rates[getNextRateIndex(currentRateIdx)]);
           };
 
-          $scope.move = function(ev) {
+          $scope.move = function (ev) {
             var width = ev.currentTarget.clientWidth;
             var x;
             var offset = (ev.offsetX || ev.originalEvent.layerX);

@@ -1,20 +1,18 @@
 @plugins: '../dm-plugins';
 @modules: '../dm-modules';
 
-@import (inline) '../components/angular-hotkeys/build/hotkeys.css';
-@import (inline) '../components/json-edit/css/styles.css';
-@import (inline) '../components/chardin.js/chardinjs.css';
-@import '../components/angular-tree-control/css/tree-control.css';
-// @import '../components/angular-tree-control/css/tree-control-attribute.css';
-@import "chardin.less";
+@import (inline) '../jspm_packages/github/chieffancypants/angular-hotkeys@1.4.5/src/hotkeys.css';
+@import (inline) '../jspm_packages/github/mb21/JSONedit@0.2.1/css/styles.css';
+@import '../jspm_packages/github/wix/angular-tree-control@0.2.9/css/tree-control.css';
 
-@import '../components/font-awesome/less/font-awesome.less';
 @import '../components/bootstrap/less/bootstrap.less';
+@icon-font-path: '../components/bootstrap/fonts/';
+
+@import '../jspm_packages/npm/font-awesome@4.3.0/less/font-awesome.less';
+@fa-font-path: '../jspm_packages/npm/font-awesome@4.3.0/fonts';
+
 @import './theme.less';
 @import './theme-bootswatch.less';
-
-@icon-font-path: '../components/bootstrap/fonts/';
-@fa-font-path: '../components/font-awesome/fonts';
 
 @import "base.less";
 @import "performance.less";
