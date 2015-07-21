@@ -87,7 +87,10 @@ class SwEditorTabs {
 
     function newNode (name, pathPreffix, tabObject) {
       let fileName = tabNameToFileName(name);
-      let path = (pathPreffix ? (pathPreffix + '/') : '') + name;
+      let path = name;
+      if (pathPreffix) {
+        name = pathPreffix + '/' + name;
+      }
       return {
         name: name,
         path: path,

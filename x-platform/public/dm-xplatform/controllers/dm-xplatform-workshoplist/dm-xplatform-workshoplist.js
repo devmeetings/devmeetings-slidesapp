@@ -40,7 +40,10 @@ define([
         return p;
       };
 
-      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var q = l + s - l * s;
+      if (l < 0.5) {
+        q = l * (1 + s);
+      }
       var p = 2 * l - q;
       r = hue2rgb(p, q, h + 1 / 3);
       g = hue2rgb(p, q, h);
