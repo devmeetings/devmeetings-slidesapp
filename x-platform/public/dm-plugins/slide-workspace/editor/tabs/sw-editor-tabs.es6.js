@@ -65,7 +65,6 @@ class SwEditorTabs {
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
       this.prepareTreeStructure(self, self.tabsObjects);
-      // this.$log.log(self.treeStructure);
     });
   }
 
@@ -90,7 +89,7 @@ class SwEditorTabs {
       let fileName = tabNameToFileName(name);
       let path = name;
       if (pathPreffix) {
-        name = pathPreffix + '/' + name;
+        path = pathPreffix + '/' + name;
       }
       return {
         name: name,
