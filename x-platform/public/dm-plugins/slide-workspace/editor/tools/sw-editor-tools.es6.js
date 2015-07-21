@@ -107,7 +107,6 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
       withUrlButton: '=',
       showUrl: '=',
       hideOutput: '=',
-
       currentUrl: '=',
       downloadId: '=',
       activeTab: '=',
@@ -123,7 +122,6 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
       let tools = new SwEditorTools({
       $scope, $rootScope, $window, Upload});
       tools.controller(this);
-
     }
   };
 });

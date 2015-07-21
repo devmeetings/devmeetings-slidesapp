@@ -16,6 +16,25 @@
     width: 150px;
 	}
 
+	li > div > .toggle-dropdown, 
+	li > a > .toggle-dropdown {
+		opacity: 0.0;
+		transition: opacity .25s ease;
+		transition-delay: 0;
+
+		&.horizontal-view {
+		  position: absolute;
+		  top: 4px;
+		  right: 6px;
+		  list-style: none;
+		}
+	}
+	li:hover > div > .toggle-dropdown,
+	li:hover > a > .toggle-dropdown {
+	  opacity: 0.9;
+		transition-delay: .35s;
+	}
+
 	treecontrol.tree-classic {
 		color: rgb(187, 187, 187) !important;
     font-size: 0.9em;
@@ -84,16 +103,6 @@
 
 		li.tree-leaf > div:hover {
 			background-color: lighten(@background-color, 10%);
-		}
-
-		li > div > .toggle-dropdown {
-			opacity: 0.0;
-			transition: opacity .25s ease;
-			transition-delay: 0;
-		}
-		li:hover > div > .toggle-dropdown {
-		  opacity: 0.9;
-			transition-delay: .5s;
 		}
 
 		span.path {

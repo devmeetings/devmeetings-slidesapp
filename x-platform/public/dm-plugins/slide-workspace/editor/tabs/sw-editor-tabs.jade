@@ -1,19 +1,3 @@
-ul.nav.nav-tabs.pull-left
-  li.workspace-tab.workspace-tab-condensed(
-    ng-show="model.tabsObjects.length >= model.moveTabsLeftThreshold"
-    )
-    a.cursor-pointer(
-      ng-click="model.showTreeview = !model.showTreeview"
-    )
-      span.fa.fa-fw.fa-toggle-on(
-        ng-show="model.showTreeview"
-        )
-      span.fa.fa-fw.fa-toggle-off(
-        ng-show="!model.showTreeview"
-        )
-      span Tree
-
-
 .sw-editor-tabs.sw-workspace-tab-container(dm-defer="300")
   ul.nav.nav-tabs(
     data-intro="All Files in your workspace are available here. Make sure to check what additional buttons do by hovering your mouse." data-position="bottom"
@@ -34,12 +18,16 @@ ul.nav.nav-tabs.pull-left
         ) 
         span.fa-fw.workspace-tab-icon
           span.fa.fa-circle.type-icon
-          span.text-muted.fa.fa-close.cursor-pointer(
-            ng-click="model.removeTab(tab.name); $event.stopPropagation()", 
-            tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false',tooltip-append-to-body="true",
-            analytics-event="workspace-deleteTab", analytics-category="workspace")
-
         |  {{ tab.fileName }}
+        sw-editor-tabs-options-dropdown.horizontal-view(
+          node="tab"
+          edit-tab-name="model.editTabName(path)"
+          remove-tab="model.removeTab(path)"
+          prompt-for-name="model.promptForName(textForUser, path)"
+          make-tab="model.makeTab(path)"
+          make-path-edition="model.makePathEdition(oldPath, newPath)"
+          delete-tab-and-fix-active="model.deleteTabAndFixActive(path)"
+          )
             
     li.workspace-tab.add-tab
       a.cursor-pointer(
@@ -55,43 +43,7 @@ ul.nav.nav-tabs.pull-left
   ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold"
   dm-defer="400"
   )
-  ul.nav.nav-pills.nav-stacked(
-    ng-show="!model.showTreeview"
-    )
-    li.workspace-tab.workspace-file-tab(
-      ng-repeat="tab in model.tabsObjects",
-      ng-class="{'workspace-tab-active': model.activeTabName === tab.name }"
-      )
-      a.cursor-pointer(
-        class="{{ 'type-' + tab.type }}",
-        ng-click="model.activateTab(tab.name);"
-        tooltip="{{ tab.fileName }}"
-        tooltip-enable="model.shouldDisplayTooltip(tab.name)"
-        tooltip-placement="bottom"
-        tooltip-animation="false"
-        tooltip-append-to-body="true"
-        ) 
-        span.fa-fw.workspace-tab-icon
-          span.fa.fa-circle.type-icon
-          span.text-muted.fa.fa-close.cursor-pointer(
-            ng-click="model.removeTab(tab.name); $event.stopPropagation()", 
-            tooltip="Delete", tooltip-placement="bottom",tooltip-animation='false', tooltip-append-to-body="true",
-            analytics-event="workspace-deleteTab", analytics-category="workspace")
-
-          |  {{ tab.fileName }}
-          
-    li.workspace-tab.add-tab
-      a.cursor-pointer(
-        ng-click="model.insertTab()"
-        tooltip="Add New File"
-        tooltip-placement="bottom"
-        tooltip-animation="false"
-        tooltip-append-to-body="true"
-        )
-        | +
-
   treecontrol.tree-classic(
-    ng-show="model.showTreeview"
     tree-model="model.treeStructure"
     options="model.treeOptions"
     on-selection="model.activateTab(node.path)"
@@ -113,7 +65,7 @@ ul.nav.nav-tabs.pull-left
       prompt-for-name="model.promptForName(textForUser, path)"
       make-tab="model.makeTab(path)"
       make-path-edition="model.makePathEdition(oldPath, newPath)"
-      delete-tab-and-fix-active="deleteTabAndFixActive(path)"
+      delete-tab-and-fix-active="model.deleteTabAndFixActive(path)"
       )
 
   .sw-editor-tabs(

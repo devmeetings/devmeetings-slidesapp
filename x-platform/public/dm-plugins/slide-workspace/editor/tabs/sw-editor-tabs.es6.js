@@ -14,9 +14,11 @@ class Tab {
 
   constructor (tabName) {
     this.name = tabName;
+    this.path = tabName;
     this.fileName = this.getFileName();
     this.type = this.getExtension();
     this.order = this.getOrder();
+    this.isFile = true;
   }
 
   getFileName () {
@@ -64,10 +66,6 @@ class SwEditorTabs {
       self.tabsObjects = this.createTabObjects(tabNames);
       this.prepareTreeStructure(self, self.tabsObjects);
       // this.$log.log(self.treeStructure);
-
-      if (self.tabsObjects.length >= self.moveTabsLeftThreshold) {
-        self.showTreeview = true;
-      }
     });
   }
 
