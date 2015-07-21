@@ -72,6 +72,7 @@ class SwEditorTabs {
   initTreeOptions (self) {
     self.treeOptions = {
       nodeChildren: 'children',
+      allowDeselect: false,
       dirSelectable: false,
       injectClasses: {
         // TODO [ToDr] Very hackys

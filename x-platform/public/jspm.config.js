@@ -39,7 +39,7 @@ System.config({
     "angular-sanitize": "github:angular/bower-angular-sanitize@1.4.0",
     "angular-scrollbar": "github:asafdav/ng-scrollbar@0.0.7",
     "angular-touch": "github:angular/bower-angular-touch@1.4.0",
-    "angular-tree-control": "github:wix/angular-tree-control@0.2.9",
+    "angular-tree-control": "github:wix/angular-tree-control@0.2.11",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "angular-ui-sortable": "github:angular-ui/ui-sortable@0.13.3",
     "angular-ui/ui-sortable": "github:angular-ui/ui-sortable@0.13.3",

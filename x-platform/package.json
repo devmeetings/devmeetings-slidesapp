@@ -128,7 +128,7 @@
       "angular-qrcode": "github:monospaced/angular-qrcode@^5.1.0",
       "angular-sanitize": "github:angular/bower-angular-sanitize@^1.4.0",
       "angular-touch": "github:angular/bower-angular-touch@^1.4.0",
-      "angular-tree-control": "github:wix/angular-tree-control@^0.2.9",
+      "angular-tree-control": "github:wix/angular-tree-control@^0.2.11",
       "angular-ui-router": "github:angular-ui/ui-router@^0.2.15",
       "angular-ui/ui-sortable": "github:angular-ui/ui-sortable@^0.13.3",
       "angulartics": "github:luisfarzati/angulartics@^0.18.0",
