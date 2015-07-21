@@ -3,6 +3,7 @@ ul.pull-right.toggle-dropdown(
   dropdown=""
   dropdown-append-to-body=""
   auto-close="auto"
+  ng-class="{'horizontal-view': model.inHorizontalView}"
   )
   li.cursor-pointer(
     dropdown-toggle="" 
@@ -11,7 +12,7 @@ ul.pull-right.toggle-dropdown(
     span.fa.fa-fw.fa-cog
   ul.dropdown-menu
     li(
-      ng-if="node.isFile"
+      ng-if="node.isFile || model.inHorizontalView"
       )
       a.cursor-pointer(
         ng-click="model.removeTab({path: node.path}); $event.stopPropagation()"
@@ -19,7 +20,7 @@ ul.pull-right.toggle-dropdown(
         span.fa.fa-fw.fa-trash-o
         | Remove File  
     li(
-      ng-if="node.isFile"
+      ng-if="node.isFile || model.inHorizontalView"
       )
       a.cursor-pointer(
         ng-click="model.editTabName({path: node.path}); $event.stopPropagation()"
@@ -27,7 +28,7 @@ ul.pull-right.toggle-dropdown(
         span.fa.fa-fw.fa-file-o
         | Rename File
     li(
-      ng-if="!node.isFile"
+      ng-if="!node.isFile && !model.inHorizontalView"
       )
       a.cursor-pointer(
         ng-click="model.addIntoDirectory(node.path); $event.stopPropagation()"
@@ -35,7 +36,7 @@ ul.pull-right.toggle-dropdown(
         span.fa.fa-fw.fa-plus-circle
         | Add Into Directory
     li(
-      ng-if="!node.isFile"
+      ng-if="!node.isFile && !model.inHorizontalView"
       )
       a.cursor-pointer(
         ng-click="model.removeDirectory(node); $event.stopPropagation()"
@@ -43,7 +44,7 @@ ul.pull-right.toggle-dropdown(
         span.fa.fa-fw.fa-trash-o
         | Remove Directory
     li(
-      ng-if="!node.isFile"
+      ng-if="!node.isFile && !model.inHorizontalView"
       )
       a.cursor-pointer(
         ng-click="model.renameDirectory(node); $event.stopPropagation()"
