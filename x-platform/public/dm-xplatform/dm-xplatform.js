@@ -47,6 +47,13 @@ import deckView from './controllers/dm-xplatform-deck/dm-xplatform-deck.html!tex
 import playerView from './controllers/dm-xplatform-player/dm-xplatform-player.html!text';
 import trainerView from './controllers/dm-xplatform-trainer/dm-xplatform-trainer.html!text';
 
+/* REMOVE WHEN BOOTSTRAP UI 0.13.01 WILL BE RELEASED */
+/* START */
+xplatformApp.config(function ($modalProvider) {
+  $modalProvider.options.animation = false;
+});
+/* END */
+
 function contextMenu (tabs) {
   var tpl = ['<dm-xplatform-context',
     'opened="opened"',
@@ -473,3 +480,4 @@ xplatformApp.config(function ($stateProvider, $urlRouterProvider, $locationProvi
 });
 
 bootstrap('xplatform');
+
