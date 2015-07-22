@@ -210,7 +210,6 @@ class SwEditorTabs {
   }
 
   promptForName (self, textForUser, oldPath, mode) {
-    // oldPath = oldPath ? oldPath.replace(/\|/g, '.') : '';
     this.displayModal(self, textForUser, oldPath, mode);
   }
 
@@ -237,11 +236,9 @@ class SwEditorTabs {
       },
       size: 'sm'
     });
-    modalInstance.result.then(function (newPath) {
-      // newPath = newPath.replace(/\./g, '|');
-
+    modalInstance.result.then((newPath) => {
       if (mode === 'editTabName') {
-        tabs.makePathEdition(self, oldPath, newPath);
+        this.makePathEdition(self, oldPath, newPath);
       }
     });
   }

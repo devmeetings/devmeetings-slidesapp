@@ -7,21 +7,13 @@ sliderPlugins.controller('SwEditorTabsModalCtrl', function ($scope, textForUser,
   $scope.textForUser = textForUser;
   $scope.path = oldPath ? oldPath.replace(/\|/g, '.') : '';
 
-	$scope.ok = function (newPath) {
-	  $modalInstance.close(newPath);
-	}
+  $scope.ok = function (newPath) {
+    newPath = newPath.replace(/\./g, '|');
+    $modalInstance.close(newPath);
+  };
 
   $scope.cancel = function () {
     $modalInstance.dismiss();
   };
+
 });
-
-
-
-
-
-
-
-
-
-
