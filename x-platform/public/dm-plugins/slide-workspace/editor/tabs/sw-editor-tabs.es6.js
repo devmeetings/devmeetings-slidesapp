@@ -56,7 +56,7 @@ class SwEditorTabs {
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
     self.promptForName = (textForUser, path) => this.promptForName(self, textForUser, path);
-    self.displayModal = (textForUser, path) => this.displayModal(textForUser, path);
+    self.displayModal = (textForUser, path, mode) => this.displayModal(textForUser, path, mode);
     self.editTabName = (path) => this.editTabName(self, path);
     self.removeTab = (path) => this.removeTab(self, path);
     self.makeTab = (path) => this.makeTab(self, path);
@@ -182,11 +182,10 @@ class SwEditorTabs {
   }
 
   removeTab (self, tabName) {
-    let sure = this.promptForRemoval(tabName);
-    if (!sure) {
-      return;
-    }
-    this.deleteTabAndFixActive(self, tabName);
+    var text = 'Sure to remove ' + tabName.replace(/\|/g, '.') + '?';
+    this.displayModal(text, tabName, 'removeMode').then((tabName) => {
+      this.deleteTabAndFixActive(self, tabName);
+    });
   }
 
   makePathEdition (self, oldPath, newPath) {
@@ -222,7 +221,7 @@ class SwEditorTabs {
     return hasLongName;
   }
 
-  displayModal (textForUser, oldPath) {
+  displayModal (textForUser, oldPath, mode) {
     var modalInstance = this.$modal.open({
       template: modalView,
       controller: 'SwEditorTabsModalCtrl',
@@ -232,9 +231,12 @@ class SwEditorTabs {
         },
         oldPath: function () {
           return oldPath;
+        },
+        mode: function () {
+          return mode;
         }
       },
-      size: 'sm'
+      size: 'md'
     });
     return modalInstance.result;
   }

@@ -1,20 +1,34 @@
 .container-fluid
   .row
     .col-xs-10.col-xs-offset-1.text-left
-      h3 {{ textForUser }}
-      form
+      h4 {{ textForUser }}
+      form(
+        ng-show="mode !== 'removeMode'"
+        )
         .form-group
           input.form-control(
             ng-model="path"
             focus-me="true"
           )
-      button.btn.btn-warning.pull-left(
+      //<-.col-xs-12(
+        style="padding: 0"
+        )
+      button.btn.btn-default.pull-left(
           ng-click="cancel()"
-          style="width: 50%"
+          style="width: 50%; border-radius: 0"
         )
         | Cancel
-      button.btn.btn-primary.pull-right(
+      button.btn.btn-success.pull-right(
+          ng-show="mode !== 'removeMode'"
+          ng-model="path"
           ng-click="ok(path)"
-          style="width: 50%"
+          style="width: 50%; border-radius: 0"
         )
         | OK
+      button.btn.btn-danger.pull-right(
+          ng-show="mode === 'removeMode'"
+          ng-click="delete(oldPath)"
+          style="width: 50%; border-radius: 0"
+        )
+        | Delete
+      

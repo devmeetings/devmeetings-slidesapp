@@ -6,17 +6,19 @@
     li.workspace-tab.workspace-file-tab(
       ng-repeat="tab in model.tabsObjects",
       ng-class="{'workspace-tab-active': model.activeTabName === tab.name }"
+      ng-click="model.activateTab(tab.name)"
       )
       a.cursor-pointer(
         class="{{ 'type-' + tab.type }}",
-        ng-click="model.activateTab(tab.name);"
         tooltip="{{ tab.fileName }}"
         tooltip-enable="model.shouldDisplayTooltip(tab.name)"
         tooltip-placement="bottom"
         tooltip-animation="false"
         tooltip-append-to-body="true"
         ) 
-        span.fa-fw.workspace-tab-icon
+        span.fa-fw.workspace-tab-icon(
+          ng-click="model.activateTab(tab.name)"
+          )
           span.fa.fa-circle.type-icon
         |  {{ tab.fileName }}
         sw-editor-tabs-options-dropdown.horizontal-view(
@@ -24,7 +26,7 @@
           edit-tab-name="model.editTabName(path)"
           remove-tab="model.removeTab(path)"
           prompt-for-name="model.promptForName(textForUser, path)"
-          display-modal="model.displayModal(textForUser, path)"
+          display-modal="model.displayModal(textForUser, path, mode)"
           make-tab="model.makeTab(path)"
           make-path-edition="model.makePathEdition(oldPath, newPath)"
           delete-tab-and-fix-active="model.deleteTabAndFixActive(path)"
@@ -64,7 +66,7 @@
       edit-tab-name="model.editTabName(path)"
       remove-tab="model.removeTab(path)"
       prompt-for-name="model.promptForName(textForUser, path)"
-      display-modal="model.displayModal(textForUser, path)"
+      display-modal="model.displayModal(textForUser, path, mode)"
       make-tab="model.makeTab(path)"
       make-path-edition="model.makePathEdition(oldPath, newPath)"
       delete-tab-and-fix-active="model.deleteTabAndFixActive(path)"

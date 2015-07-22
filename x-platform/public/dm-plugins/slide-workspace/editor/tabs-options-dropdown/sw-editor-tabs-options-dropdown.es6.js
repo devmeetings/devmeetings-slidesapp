@@ -39,15 +39,14 @@ class SwEditorTabsOptionsDropdown {
     return paths;
   }
 
-  removeDirectory (self, obj) {
-    var sure = this.$window.confirm('Sure to remove directory with all its content?');
-    if (!sure) {
-      return;
-    }
-    var pathsToRemove = this.getAllPaths(self, obj);
-    pathsToRemove.forEach((path) => {
-      let passPath = path;
-      self.deleteTabAndFixActive({path: passPath});
+  removeDirectory (self, directory) {
+    var dirName = directory.name;
+    var text = 'Sure to remove directory ' + dirName + ' with all its content?';
+    self.displayModal({textForUser: text, path: false, mode: 'removeMode'}).then(() => {
+      var pathsToRemove = this.getAllPaths(self, directory);
+      pathsToRemove.forEach((path) => {
+        self.deleteTabAndFixActive({path: path});
+      });
     });
   }
 
