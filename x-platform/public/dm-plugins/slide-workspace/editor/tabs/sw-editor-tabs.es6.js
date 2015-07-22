@@ -5,6 +5,8 @@ import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import getExtension from 'dm-modules/dm-editor/get-extension.es6';
 import viewTemplate from './sw-editor-tabs.html!text';
+import modalView from './sw-editor-tabs-modal.html!text';
+import './sw-editor-tabs-modal';
 
 function tabNameToFileName (name) {
   return name.replace(/\|/g, '.');
@@ -53,7 +55,7 @@ class SwEditorTabs {
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
-    self.promptForName = (textForUser, path) => this.promptForName(textForUser, path);
+    self.promptForName = (textForUser, path) => this.promptForName(self, textForUser, path);
     self.editTabName = (path) => this.editTabName(self, path);
     self.removeTab = (path) => this.removeTab(self, path);
     self.makeTab = (path) => this.makeTab(self, path);
@@ -170,7 +172,7 @@ class SwEditorTabs {
   }
 
   insertTab (self) {
-    var name = this.promptForName('Insert new filename');
+    var name = this.promptForName(self, 'Insert new filename');
     if (!name) {
       return;
     }
@@ -186,17 +188,16 @@ class SwEditorTabs {
   }
 
   makePathEdition (self, oldPath, newPath) {
+    if (!newPath || newPath === oldPath) {
+      return;
+    }
     self.allTabs[newPath] = self.allTabs[oldPath];
     this.deleteTabAndFixActive(self, oldPath, newPath);
     self.editorUndoManager.initTab(newPath);
   }
 
   editTabName (self, tabName) {
-    var newName = this.promptForName('Insert new filename', tabName);
-    if (!newName || newName === tabName) {
-      return;
-    }
-    this.makePathEdition(self, tabName, newName);
+    this.promptForName(self, 'Insert new filename', tabName, 'editTabName');
   }
 
   deleteTabAndFixActive (self, oldPath, newPath) {
@@ -208,13 +209,9 @@ class SwEditorTabs {
     }
   }
 
-  // This is temporary hack!
-  promptForName (textForUser, path) {
-    var name = this.$window.prompt(textForUser, path ? path.replace(/\|/g, '.') : '');
-    if (!name) {
-      return;
-    }
-    return name.replace(/\./g, '|');
+  promptForName (self, textForUser, oldPath, mode) {
+    // oldPath = oldPath ? oldPath.replace(/\|/g, '.') : '';
+    this.displayModal(self, textForUser, oldPath, mode);
   }
 
   promptForRemoval (tabName) {
@@ -224,6 +221,29 @@ class SwEditorTabs {
   shouldDisplayTooltip (self, path) {
     let hasLongName = path.length > 15;
     return hasLongName;
+  }
+
+  displayModal (self, textForUser, oldPath, mode) {
+    var modalInstance = this.$modal.open({
+      template: modalView,
+      controller: 'SwEditorTabsModalCtrl',
+      resolve: {
+        textForUser: function () {
+          return textForUser;
+        },
+        oldPath: function () {
+          return oldPath;
+        }
+      },
+      size: 'sm'
+    });
+    modalInstance.result.then(function (newPath) {
+      // newPath = newPath.replace(/\./g, '|');
+
+      if (mode === 'editTabName') {
+        tabs.makePathEdition(self, oldPath, newPath);
+      }
+    });
   }
 
 }
@@ -241,9 +261,9 @@ sliderPlugins.directive('swEditorTabs', () => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller: function ($scope, $window) {
+    controller: function ($scope, $window, $modal) {
       let tabs = new SwEditorTabs({
-        $scope, $window
+        $scope, $window, $modal
       });
       tabs.controller(this);
     }
