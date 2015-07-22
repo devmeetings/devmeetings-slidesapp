@@ -18,12 +18,14 @@ class SwEditorTabsOptionsDropdown {
   }
 
   addIntoDirectory (self, path) {
-    var allPath = self.promptForName({textForUser: 'Insert new filename after directory path',
-                                      path: path + '/'});
-    if (!allPath) {
-      return;
-    }
-    self.makeTab({path: allPath});
+    var text = 'Insert new filename after directory path:';
+    path = path + '/';
+    self.displayModal({textForUser: text, path: path}).then((allPath) => {
+      if (!allPath) {
+        return;
+      }
+      self.makeTab({path: allPath});
+    });
   }
 
   getAllPaths (self, obj) {
@@ -64,18 +66,19 @@ class SwEditorTabsOptionsDropdown {
     return newPath;
   }
 
-  renameDirectory (self, obj) {
-    var oldDirName = obj.name;
-    var newDirName = self.promptForName({textForUser: 'Insert new directory name:',
-                                         path: oldDirName});
-    if (!newDirName || newDirName === oldDirName) {
-      return;
-    }
-    var pathsToRename = this.getAllPaths(self, obj);
-    pathsToRename.forEach((path) => {
-      var newPath = this.prepareNewPathForDirRename(self, path, oldDirName, newDirName);
-      var oldPath = path;
-      self.makePathEdition({oldPath: oldPath, newPath: newPath});
+  renameDirectory (self, directory) {
+    var text = 'Insert new directory name:';
+    var oldDirName = directory.name;
+    self.displayModal({textForUser: text, path: oldDirName}).then((newDirName) => {
+      if (!newDirName || newDirName === oldDirName) {
+        return;
+      }
+      var pathsToRename = this.getAllPaths(self, directory);
+      pathsToRename.forEach((path) => {
+        var newPath = this.prepareNewPathForDirRename(self, path, oldDirName, newDirName);
+        var oldPath = path;
+        self.makePathEdition({oldPath: oldPath, newPath: newPath});
+      });
     });
   }
 
@@ -91,6 +94,7 @@ sliderPlugins.directive('swEditorTabsOptionsDropdown', () => {
       editTabName: '&',
       removeTab: '&',
       promptForName: '&',
+      displayModal: '&',
       makeTab: '&',
       makePathEdition: '&',
       deleteTabAndFixActive: '&'

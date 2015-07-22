@@ -56,6 +56,7 @@ class SwEditorTabs {
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
     self.promptForName = (textForUser, path) => this.promptForName(self, textForUser, path);
+    self.displayModal = (textForUser, path) => this.displayModal(textForUser, path);
     self.editTabName = (path) => this.editTabName(self, path);
     self.removeTab = (path) => this.removeTab(self, path);
     self.makeTab = (path) => this.makeTab(self, path);
@@ -172,11 +173,12 @@ class SwEditorTabs {
   }
 
   insertTab (self) {
-    var name = this.promptForName(self, 'Insert new filename');
-    if (!name) {
-      return;
-    }
-    this.makeTab(self, name);
+    this.displayModal('Insert new filename:', false).then((newPath) => {
+      if (!newPath) {
+        return;
+      }
+      this.makeTab(self, newPath);
+    });
   }
 
   removeTab (self, tabName) {
@@ -188,16 +190,18 @@ class SwEditorTabs {
   }
 
   makePathEdition (self, oldPath, newPath) {
-    if (!newPath || newPath === oldPath) {
-      return;
-    }
     self.allTabs[newPath] = self.allTabs[oldPath];
     this.deleteTabAndFixActive(self, oldPath, newPath);
     self.editorUndoManager.initTab(newPath);
   }
 
-  editTabName (self, tabName) {
-    this.promptForName(self, 'Insert new filename', tabName, 'editTabName');
+  editTabName (self, oldPath) {
+    this.displayModal('Insert new filename:', oldPath).then((newPath) => {
+      if (!newPath || newPath === oldPath) {
+        return;
+      }
+      this.makePathEdition(self, oldPath, newPath);
+    });
   }
 
   deleteTabAndFixActive (self, oldPath, newPath) {
@@ -209,10 +213,6 @@ class SwEditorTabs {
     }
   }
 
-  promptForName (self, textForUser, oldPath, mode) {
-    this.displayModal(self, textForUser, oldPath, mode);
-  }
-
   promptForRemoval (tabName) {
     return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
   }
@@ -222,7 +222,7 @@ class SwEditorTabs {
     return hasLongName;
   }
 
-  displayModal (self, textForUser, oldPath, mode) {
+  displayModal (textForUser, oldPath) {
     var modalInstance = this.$modal.open({
       template: modalView,
       controller: 'SwEditorTabsModalCtrl',
@@ -236,11 +236,7 @@ class SwEditorTabs {
       },
       size: 'sm'
     });
-    modalInstance.result.then((newPath) => {
-      if (mode === 'editTabName') {
-        this.makePathEdition(self, oldPath, newPath);
-      }
-    });
+    return modalInstance.result;
   }
 
 }
