@@ -1,26 +1,32 @@
 .container-fluid
   .row
-    .col-xs-10.col-xs-offset-1.text-left
+    .col-xs-12.text-left(
+        style="padding-top: 12px"
+      )
       h4 {{ textForUser }}
+      span(
+        ng-show="mode === 'removeMode'"
+        style="height: 12px"
+        )
       form(
-        ng-show="mode !== 'removeMode'"
+          ng-show="mode !== 'removeMode'"
         )
         .form-group
           input.form-control(
             ng-model="path"
             focus-me="true"
+            style="color: black; border-radius: 0"
           )
-      //<-.col-xs-12(
+    .col-xs-12(
         style="padding: 0"
-        )
+      )
       button.btn.btn-default.pull-left(
           ng-click="cancel()"
           style="width: 50%; border-radius: 0"
         )
         | Cancel
-      button.btn.btn-success.pull-right(
+      button.btn.btn-primary.pull-right(
           ng-show="mode !== 'removeMode'"
-          ng-model="path"
           ng-click="ok(path)"
           style="width: 50%; border-radius: 0"
         )
@@ -31,4 +37,4 @@
           style="width: 50%; border-radius: 0"
         )
         | Delete
-      
+    
