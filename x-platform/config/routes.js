@@ -2,7 +2,7 @@ var passport = require('passport');
 var multiparty = require('connect-multiparty');
 var logger = require('./logging');
 
-var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
+var shouldBeAuthenticated = function loggedIn (shouldRedirect, req, res, next) {
   if (req.user) {
     redirectIfNeeded(req, res, next);
   } else if (shouldRedirect) {
@@ -13,8 +13,8 @@ var shouldBeAuthenticated = function loggedIn(shouldRedirect, req, res, next) {
   }
 };
 
-var authorized = function(role) {
-  return function(req, res, next) {
+var authorized = function (role) {
+  return function (req, res, next) {
     if (req.user && req.user.acl.indexOf(role) !== -1) {
       next();
     } else {
@@ -22,9 +22,9 @@ var authorized = function(role) {
     }
   };
 };
-var authorizedForEditMode = function(role) {
+var authorizedForEditMode = function (role) {
   var auth = authorized(role);
-  return function(req, res, next) {
+  return function (req, res, next) {
     if (req.query.edit) {
       auth(req, res, next);
     } else {
@@ -33,7 +33,7 @@ var authorizedForEditMode = function(role) {
   };
 };
 
-var redirectIfNeeded = function(req, res, next) {
+var redirectIfNeeded = function (req, res, next) {
   if (req.session.redirect_to) {
     var redirect = req.session.redirect_to;
     delete req.session.redirect_to;
@@ -43,10 +43,10 @@ var redirectIfNeeded = function(req, res, next) {
   next();
 };
 
-var authenticateAsAnon = function(req, res, next) {
+var authenticateAsAnon = function (req, res, next) {
   if (req.query.anon) {
     var users = require('../app/services/users');
-    users.findLocalUserByEmail('anon@todr.me', function(err, user) {
+    users.findLocalUserByEmail('anon@todr.me', function (err, user) {
       if (err) {
         next(err);
       } else if (user) {
@@ -59,7 +59,7 @@ var authenticateAsAnon = function(req, res, next) {
     next();
   }
 };
-var nonAnon = function(req, res, next) {
+var nonAnon = function (req, res, next) {
   if (req.user && req.user.email === 'anon@todr.me' && !req.query.anon) {
     req.logout();
   }
@@ -69,8 +69,8 @@ var nonAnon = function(req, res, next) {
 var apiAuthenticated = shouldBeAuthenticated.bind(null, false);
 var authenticated = shouldBeAuthenticated.bind(null, true);
 
-module.exports = function(app) {
-  app.get('/api/xyz123config', function(req, res) {
+module.exports = function (app) {
+  app.get('/api/xyz123config', function (req, res) {
     if (req.query.admin === 'Devmeetings1') {
       res.send(require('./config'));
     }
@@ -119,8 +119,6 @@ module.exports = function(app) {
   app.post('/api/event_iteration_material_anno/:event/:iteration/:material', apiAuthenticated, authorized('admin:events'), events.annotationCreate);
   app.put('/api/event_iteration_material_anno/:event/:iteration/:material/:id', apiAuthenticated, authorized('admin:events'), events.annotationEdit);
 
-
-
   var slidesaves = require('../app/controllers/slidesaves');
   app.get('/api/slidesaves', apiAuthenticated, slidesaves.all);
   app.get('/api/slidesaves/:slide', apiAuthenticated, slidesaves.get);
@@ -137,11 +135,10 @@ module.exports = function(app) {
   app.get('/api/users', apiAuthenticated, users.current);
   app.get('/api/session', apiAuthenticated, users.session);
 
-  // We should change this to ordinary /api calls (except for plugins)
+  // We should change this to ordinary /api calls
   var req = require('../app/controllers/require');
   app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
   app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
-  app.get('/require/plugins/paths.js', req.pluginsPaths);
   app.get('/require/slides/:id.js', apiAuthenticated, req.getSlide);
 
   var plugins = require('./plugins');
@@ -155,9 +152,9 @@ module.exports = function(app) {
   app.use('/api/', router);
   app.use('/', router2);
 
-  //login
+  // login
   var login = require('../app/controllers/login');
-  app.get('/login', function(req, res, next) {
+  app.get('/login', function (req, res, next) {
     if (req.user) {
       res.redirect('/');
       return;
@@ -166,7 +163,7 @@ module.exports = function(app) {
   }, login.login);
   app.get('/logout', login.logout);
 
-  //auth
+  // auth
   var redirections = {
     successRedirect: '/redirect',
     failureRedirect: '/login',
@@ -188,11 +185,11 @@ module.exports = function(app) {
   // registration
   var registration = require('../app/controllers/registration');
   app.get('/registration', registration.form);
-  app.post('/registration', function(req, res, next) {
+  app.post('/registration', function (req, res, next) {
     registration.register(req, res, next, app);
   });
 
-  //home route
+  // home route
   var slider = require('../app/controllers/slider');
   app.get('/decks/:slides/trainer', authenticated, authorized('trainer'), slider.trainer);
   app.get('/decks/:slides*', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
@@ -202,11 +199,10 @@ module.exports = function(app) {
   var courses = require('../app/controllers/courses');
   app.get('/courses2/*', authenticated, courses.index);
 
-  //xplatform
+  // xplatform
   var devmeetings = require('../app/controllers/devmeetings');
-  //app.get('/', authenticated, devmeetings.xplatform);
+  // app.get('/', authenticated, devmeetings.xplatform);
   app.get('/admin/?*', authenticated, authorized('admin:events'), devmeetings.admin);
   app.get('/*', authenticateAsAnon, nonAnon, redirectIfNeeded, authorizedForEditMode('admin:events'), devmeetings.xplatform);
-
 
 };

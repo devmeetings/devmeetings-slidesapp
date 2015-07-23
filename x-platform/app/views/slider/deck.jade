@@ -3,10 +3,7 @@ extends ../layouts/main
 append scripts
     script.
         window.slides = "#{slides}";
-    script(src='/static/components/requirejs/require.js')
-    script(src='/static/config.js?v=#{cacheBustingVersion}')
-    script(src='#{jsModulesPath}/dm-slider/slider-deck#{cacheBustingVersion}.js')
-
+    +loadModule('dm-slider/slider-deck')
 block title
     title {{ title }} - #{title}
 

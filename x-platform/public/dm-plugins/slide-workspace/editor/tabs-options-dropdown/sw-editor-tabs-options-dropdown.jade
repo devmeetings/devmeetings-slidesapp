@@ -1,0 +1,38 @@
+ul.pull-right.toggle-dropdown(
+  ng-init="node = model.node"
+  dropdown=""
+  dropdown-append-to-body=""
+  auto-close="auto"
+  ng-click="$event.stopPropagation()"
+  )
+  li.cursor-pointer(
+    dropdown-toggle="" 
+    )
+    span.fa.fa-fw.fa-cog
+  ul.dropdown-menu
+    li(ng-if="node.isFile")
+      a.cursor-pointer(
+        ng-click="model.editTabName({path: node.path})"
+      )
+        | Rename
+    li(ng-if="node.isFile")
+      a.cursor-pointer(
+        ng-click="model.removeTab({path: node.path})"
+      )
+        | Delete File
+    li(ng-if="!node.isFile")
+      a.cursor-pointer(
+        ng-click="model.addIntoDirectory(node.path)"
+      )
+        | New File
+    li.divider(ng-if="!node.isFile")
+    li(ng-if="!node.isFile")
+      a.cursor-pointer(
+        ng-click="model.renameDirectory(node)"
+      )
+        | Rename
+    li(ng-if="!node.isFile")
+      a.cursor-pointer(
+        ng-click="model.removeDirectory(node)"
+      )
+        | Delete Folder

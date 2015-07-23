@@ -1,9 +1,9 @@
 var exec = require('child_process').exec;
 
-exports.initApi = function(app, authenticated, app2, router2, logger) {
+exports.initApi = function (app, authenticated, app2, router2, logger) {
   'use strict';
 
-  app.get('/ionic/app', function(req, res) {
+  app.get('/ionic/app', function (req, res) {
     var contentSrcPath = req.query.path || '';
     var xplaIdx = Math.max(contentSrcPath.indexOf('xplatform'), contentSrcPath.indexOf('localhost'));
 
@@ -21,16 +21,15 @@ exports.initApi = function(app, authenticated, app2, router2, logger) {
       });
 
     var output = '';
-    buildProc.stdout.on('data', function(data) {
+    buildProc.stdout.on('data', function (data) {
       output += data;
     });
 
-    buildProc.stderr.on('data', function(data) {
+    buildProc.stderr.on('data', function (data) {
       output += data;
     });
 
-
-    buildProc.on('close', function(code) {
+    buildProc.on('close', function (code) {
       logger.log(output);
       if (code) {
         res.status(400).send('' + code + output);

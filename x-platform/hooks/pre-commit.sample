@@ -1,3 +1,3 @@
 #!/bin/sh
 cd x-platform
-grunt quality
+npm test

@@ -3,9 +3,7 @@ extends ../layouts/main
 append scripts
   script.
     window.slides = "#{slides}";
-  script(src='/static/components/requirejs/require.js')
-  script(src='/static/config.js?v=#{cacheBustingVersion}')
-  script(src='#{jsModulesPath}/dm-slider/slider-trainer#{cacheBustingVersion}.js')
+  +loadModule('dm-slider/slider-trainer')
 
 block content
   div(ng-controller="TrainerCtrl")

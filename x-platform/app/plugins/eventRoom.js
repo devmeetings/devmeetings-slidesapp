@@ -1,4 +1,4 @@
-module.exports = function eventRoom(eventId) {
+module.exports = function eventRoom (eventId) {
   'use strict';
   return 'event_' + eventId;
 };

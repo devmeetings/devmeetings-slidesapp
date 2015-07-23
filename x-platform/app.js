@@ -1,14 +1,14 @@
-var express = require('express'),
-  mongoose = require('mongoose'),
-  http2 = require('spdy'),
-  fs = require('fs'),
-  socketio = require('socket.io'),
-  config = require('./config/config'),
-  logger = require('./config/logging');
+var express = require('express');
+var mongoose = require('mongoose');
+var http2 = require('spdy');
+var fs = require('fs');
+var socketio = require('socket.io');
+var config = require('./config/config');
+var logger = require('./config/logging');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
-db.on('error', function() {
+db.on('error', function () {
   throw new Error('unable to connect to database at ' + config.db);
 });
 
@@ -38,7 +38,7 @@ var server = http2.createServer({
 }, app);
 
 if (config.meteorProxy) {
-  server.on('upgrade', function(req) {
+  server.on('upgrade', function (req) {
     if (req.url.indexOf('/live') === 0) {
       return proxy.ws.apply(proxy, arguments);
     }
@@ -50,24 +50,23 @@ var io = socketio(server);
 require('./config/sockets')(io, sessionConfig);
 
 // Configure blocked
-require('./config/blocked')(function(ms) {
-
+require('./config/blocked')(function (ms) {
   logger.warn('Blocked for ' + ms + 'ms', {
     blockedFor: ms
   });
 
 });
 
-server.listen(config.port, function() {
+server.listen(config.port, function () {
   logger.info('Server listening on port:', config.port, ' with env: ' + config.name);
 });
 
 if (config.isDev) {
   var unsafePort = config.port + 1000;
-  var server = require('http').createServer(app);
-  var io = socketio(server);
-  require('./config/sockets')(io, sessionConfig, true);
-  server.listen(unsafePort, function() {
+  var devServer = require('http').createServer(app);
+  var devIo = socketio(devServer);
+  require('./config/sockets')(devIo, sessionConfig, true);
+  devServer.listen(unsafePort, function () {
     logger.info('UNSAFE DEVELOPMENT! Version listening on port:', unsafePort);
   });
 }

@@ -1,4 +1,4 @@
-module.exports = function(fn, threshold) {
+module.exports = function (fn, threshold) {
   'use strict';
 
   var start = process.hrtime();
@@ -6,7 +6,7 @@ module.exports = function(fn, threshold) {
 
   threshold = threshold || 10;
 
-  setInterval(function() {
+  setInterval(function () {
     var delta = process.hrtime(start);
     var nanosec = delta[0] * 1e9 + delta[1];
     var ms = nanosec / 1e6;
