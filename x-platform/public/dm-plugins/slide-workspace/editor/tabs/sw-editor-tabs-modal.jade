@@ -1,0 +1,34 @@
+.sw-editor-tabs-modal
+  .container-fluid
+    .row
+      .col-xs-12.text-left
+        h4(
+            ng-class="{'remove-mode-title': modal.mode === 'removeMode'}"
+          ) {{ modal.textForUser }}
+        form(
+            ng-if="modal.mode !== 'removeMode'"
+            ng-submit="modal.ok(modal.path)"
+          )
+          .form-group
+            input.form-control(
+              ng-model="modal.path"
+              autofocus
+            )
+      .col-xs-12.buttons
+        button.btn.btn-default.pull-left(
+            ng-click="modal.cancel()"
+          )
+          | Cancel
+        button.btn.btn-primary.pull-right(
+            type="submit"
+            ng-if="modal.mode !== 'removeMode'"
+            ng-click="modal.ok(modal.path)"
+          )
+          | OK
+        button.btn.btn-danger.pull-right(
+            type="submit"
+            ng-if="modal.mode === 'removeMode'"
+            ng-click="modal.delete(modal.oldPath)"
+          )
+          | Delete
+      

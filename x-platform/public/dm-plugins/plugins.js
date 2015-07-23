@@ -35,6 +35,7 @@ import './slide-title/slide-title';
 import './slide-workspace/editor/editor/sw-editor.es6';
 import './slide-workspace/editor/sw-editor-cdn/sw-editor-cdn.es6';
 import './slide-workspace/editor/tabs-options-dropdown/sw-editor-tabs-options-dropdown.es6';
+import './slide-workspace/editor/tabs/sw-editor-tabs-modal';
 import './slide-workspace/editor/tabs/sw-editor-tabs.es6';
 import './slide-workspace/editor/tools/sw-editor-formatter.es6';
 import './slide-workspace/editor/tools/sw-editor-tools.es6';

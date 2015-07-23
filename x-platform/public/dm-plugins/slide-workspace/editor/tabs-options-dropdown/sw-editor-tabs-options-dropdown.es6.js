@@ -18,12 +18,14 @@ class SwEditorTabsOptionsDropdown {
   }
 
   addIntoDirectory (self, path) {
-    var allPath = self.promptForName({textForUser: 'Insert new filename after directory path',
-                                      path: path + '/'});
-    if (!allPath) {
-      return;
-    }
-    self.makeTab({path: allPath});
+    var text = 'Insert new filename after directory path:';
+    path = path + '/';
+    self.displayModal({textForUser: text, path: path}).then((allPath) => {
+      if (!allPath) {
+        return;
+      }
+      self.makeTab({path: allPath});
+    });
   }
 
   getAllPaths (self, obj) {
@@ -37,45 +39,41 @@ class SwEditorTabsOptionsDropdown {
     return paths;
   }
 
-  removeDirectory (self, obj) {
-    var sure = this.$window.confirm('Sure to remove directory with all its content?');
-    if (!sure) {
-      return;
-    }
-    var pathsToRemove = this.getAllPaths(self, obj);
-    pathsToRemove.forEach((path) => {
-      let passPath = path;
-      self.deleteTabAndFixActive({path: passPath});
+  removeDirectory (self, directory) {
+    var dirName = directory.name;
+    var text = 'Sure to remove directory ' + dirName + ' with all its content?';
+    self.displayModal({textForUser: text, path: false, mode: 'removeMode'}).then(() => {
+      var pathsToRemove = this.getAllPaths(self, directory);
+      pathsToRemove.forEach((path) => {
+        self.deleteTabAndFixActive({path: path});
+      });
     });
   }
 
-  prepareNewPathForDirRename (self, path, oldDirName, newDirName) {
-    var splitedPath = path.split('/');
-    var indexOfOldDirName = splitedPath.indexOf(oldDirName);
-    var pathBeforeDir = splitedPath.slice(0, indexOfOldDirName).join('/');
-    var pathAfterDir = splitedPath.slice(indexOfOldDirName + 1, splitedPath.length).join('/');
+  prepareNewPathForDirRename (self, path, oldDirPath, newDirName) {
+    var pathLeft = oldDirPath.split('/');
+    pathLeft = pathLeft.slice(0, pathLeft.length - 1).join('/');
+    pathLeft = pathLeft.length > 0 ? pathLeft + '/' : '';
+    var pathRight = path.slice(oldDirPath.length, path.length);
 
-    var newPath;
-    if (pathBeforeDir.length) {
-      newPath = pathBeforeDir + '/' + newDirName + '/' + pathAfterDir;
-    } else {
-      newPath = newDirName + '/' + pathAfterDir;
-    }
+    var newPath = pathLeft + newDirName + pathRight;
     return newPath;
   }
 
-  renameDirectory (self, obj) {
-    var oldDirName = obj.name;
-    var newDirName = self.promptForName({textForUser: 'Insert new directory name:',
-                                         path: oldDirName});
-    if (!newDirName || newDirName === oldDirName) {
-      return;
-    }
-    var pathsToRename = this.getAllPaths(self, obj);
-    pathsToRename.forEach((path) => {
-      var newPath = this.prepareNewPathForDirRename(self, path, oldDirName, newDirName);
-      var oldPath = path;
-      self.makePathEdition({oldPath: oldPath, newPath: newPath});
+  renameDirectory (self, directory) {
+    var text = 'Insert new directory name:';
+    var oldDirName = directory.name;
+    var oldDirPath = directory.path;
+    self.displayModal({textForUser: text, path: oldDirName}).then((newDirName) => {
+      if (!newDirName || newDirName === oldDirName) {
+        return;
+      }
+      var pathsToRename = this.getAllPaths(self, directory);
+      pathsToRename.forEach((path) => {
+        var newPath = this.prepareNewPathForDirRename(self, path, oldDirPath, newDirName);
+        var oldPath = path;
+        self.makePathEdition({oldPath: oldPath, newPath: newPath});
+      });
     });
   }
 
@@ -90,7 +88,7 @@ sliderPlugins.directive('swEditorTabsOptionsDropdown', () => {
       node: '=',
       editTabName: '&',
       removeTab: '&',
-      promptForName: '&',
+      displayModal: '&',
       makeTab: '&',
       makePathEdition: '&',
       deleteTabAndFixActive: '&'
