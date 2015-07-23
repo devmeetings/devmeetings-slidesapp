@@ -1,6 +1,6 @@
 mixin loadModule(module)
-  script(src='/static/jspm_packages/system.js?v=#{cacheBusingVersion}')
-  script(src='/static/jspm.config.js?v=#{cacheBusingVersion}')
+  script(src='/static/jspm_packages/system.js?v=#{cacheBustingVersion}')
+  script(src='/static/jspm.config.js?v=#{cacheBustingVersion}')
   script.
     System.import('#{module}').then(function(){}, function(err) {
       throw err;
