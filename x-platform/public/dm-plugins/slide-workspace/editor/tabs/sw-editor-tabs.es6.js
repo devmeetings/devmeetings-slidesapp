@@ -212,10 +212,6 @@ class SwEditorTabs {
     }
   }
 
-  promptForRemoval (tabName) {
-    return this.$window.confirm('Sure to remove ' + tabName.replace(/\|/g, '.') + '?');
-  }
-
   shouldDisplayTooltip (self, path) {
     let hasLongName = path.length > 15;
     return hasLongName;

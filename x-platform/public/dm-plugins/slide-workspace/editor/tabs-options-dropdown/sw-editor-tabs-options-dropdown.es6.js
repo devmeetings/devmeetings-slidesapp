@@ -51,26 +51,13 @@ class SwEditorTabsOptionsDropdown {
   }
 
   prepareNewPathForDirRename (self, path, oldDirPath, newDirName) {
-    // var splitedPath = path.split('/');
     var pathLeft = oldDirPath.split('/');
     pathLeft = pathLeft.slice(0, pathLeft.length - 1).join('/');
     pathLeft = pathLeft.length > 0 ? pathLeft + '/' : '';
-    // var indexOfOldDirName = splitedPath.indexOf(oldDirName);
-    // var pathBeforeDir = splitedPath.slice(0, indexOfOldDirName).join('/');
-    // var pathAfterDir = splitedPath.slice(indexOfOldDirName + 1, splitedPath.length).join('/');
     var pathRight = path.slice(oldDirPath.length, path.length);
 
     var newPath = pathLeft + newDirName + pathRight;
-    console.log(newPath);
     return newPath;
-
-    // var newPath;
-    // if (pathBeforeDir.length) {
-    //   newPath = pathBeforeDir + '/' + newDirName + '/' + pathAfterDir;
-    // } else {
-    //   newPath = newDirName + '/' + pathAfterDir;
-    // }
-    // return newPath;
   }
 
   renameDirectory (self, directory) {
@@ -101,7 +88,6 @@ sliderPlugins.directive('swEditorTabsOptionsDropdown', () => {
       node: '=',
       editTabName: '&',
       removeTab: '&',
-      promptForName: '&',
       displayModal: '&',
       makeTab: '&',
       makePathEdition: '&',

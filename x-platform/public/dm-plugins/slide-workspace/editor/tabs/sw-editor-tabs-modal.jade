@@ -21,13 +21,15 @@
           )
           | Cancel
         button.btn.btn-primary.pull-right(
+            type="submit"
             ng-if="modal.mode !== 'removeMode'"
             ng-click="modal.ok(modal.path)"
           )
           | OK
         button.btn.btn-danger.pull-right(
+            type="submit"
             ng-if="modal.mode === 'removeMode'"
-            ng-click="modal.delete(oldPath)"
+            ng-click="modal.delete(modal.oldPath)"
           )
           | Delete
       
