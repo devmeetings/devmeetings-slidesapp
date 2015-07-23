@@ -6,9 +6,9 @@
     li.workspace-tab.workspace-file-tab(
       ng-repeat="tab in model.tabsObjects",
       ng-class="{'workspace-tab-active': model.activeTabName === tab.name }"
-      ng-click="model.activateTab(tab.name)"
       )
       a.cursor-pointer(
+        ng-click="model.activateTab(tab.name)"
         class="{{ 'type-' + tab.type }}",
         tooltip="{{ tab.fileName }}"
         tooltip-enable="model.shouldDisplayTooltip(tab.name)"
@@ -16,9 +16,7 @@
         tooltip-animation="false"
         tooltip-append-to-body="true"
         ) 
-        span.fa-fw.workspace-tab-icon(
-          ng-click="model.activateTab(tab.name)"
-          )
+        span.fa-fw.workspace-tab-icon
           span.fa.fa-circle.type-icon
         |  {{ tab.fileName }}
         sw-editor-tabs-options-dropdown.horizontal-view(

@@ -225,6 +225,7 @@ class SwEditorTabs {
     var modalInstance = this.$modal.open({
       template: modalView,
       controller: 'SwEditorTabsModalCtrl',
+      controllerAs: 'modal',
       resolve: {
         textForUser: function () {
           return textForUser;
@@ -236,7 +237,7 @@ class SwEditorTabs {
           return mode;
         }
       },
-      size: 'md'
+      size: 'sm'
     });
     return modalInstance.result;
   }

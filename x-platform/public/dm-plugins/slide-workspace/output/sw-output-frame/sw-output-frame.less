@@ -43,23 +43,23 @@
   }
 
   .iframe-output-expander {
-    z-index: 20;
+    z-index: 1000001;
     position: absolute;
     bottom: 10px;
     right: 10px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
     cursor: pointer;
 
     .fa.fa-fw.fa-compress {
       position: fixed;
       bottom: 10px;
       right: 10px;
-      z-index: 10001 !important;
     }
     &.expanded {
       position: fixed;
       bottom: 10px;
       right: 10px;
-      z-index: 10001 !important;
     }
   }
 
@@ -67,12 +67,19 @@
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 10000 !important;
+    z-index: 1000000;
     opacity: 1;
     background-color: white;
   }
 
   .opacity-0 {
     opacity: 0;
+  }
+}
+
+.sw-output-frame:hover {
+
+  .iframe-output-expander {
+    opacity: 1;
   }
 }

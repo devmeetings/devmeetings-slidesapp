@@ -1,40 +1,33 @@
-.container-fluid
-  .row
-    .col-xs-12.text-left(
-        style="padding-top: 12px"
-      )
-      h4 {{ textForUser }}
-      span(
-        ng-show="mode === 'removeMode'"
-        style="height: 12px"
-        )
-      form(
-          ng-show="mode !== 'removeMode'"
-        )
-        .form-group
-          input.form-control(
-            ng-model="path"
-            focus-me="true"
-            style="color: black; border-radius: 0"
+.sw-editor-tabs-modal
+  .container-fluid
+    .row
+      .col-xs-12.text-left
+        h4(
+            ng-class="{'remove-mode-title': modal.mode === 'removeMode'}"
+          ) {{ modal.textForUser }}
+        form(
+            ng-if="modal.mode !== 'removeMode'"
+            ng-submit="modal.ok(modal.path)"
           )
-    .col-xs-12(
-        style="padding: 0"
-      )
-      button.btn.btn-default.pull-left(
-          ng-click="cancel()"
-          style="width: 50%; border-radius: 0"
-        )
-        | Cancel
-      button.btn.btn-primary.pull-right(
-          ng-show="mode !== 'removeMode'"
-          ng-click="ok(path)"
-          style="width: 50%; border-radius: 0"
-        )
-        | OK
-      button.btn.btn-danger.pull-right(
-          ng-show="mode === 'removeMode'"
-          ng-click="delete(oldPath)"
-          style="width: 50%; border-radius: 0"
-        )
-        | Delete
-    
+          .form-group
+            input.form-control(
+              ng-model="modal.path"
+              focus-me="true"
+              autofocus
+            )
+      .col-xs-12.buttons
+        button.btn.btn-default.pull-left(
+            ng-click="modal.cancel()"
+          )
+          | Cancel
+        button.btn.btn-primary.pull-right(
+            ng-if="modal.mode !== 'removeMode'"
+            ng-click="modal.ok(modal.path)"
+          )
+          | OK
+        button.btn.btn-danger.pull-right(
+            ng-if="modal.mode === 'removeMode'"
+            ng-click="modal.delete(oldPath)"
+          )
+          | Delete
+      

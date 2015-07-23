@@ -3,22 +3,22 @@
 
 import sliderPlugins from 'slider/slider.plugins';
 
-sliderPlugins.controller('SwEditorTabsModalCtrl', function ($scope, textForUser, oldPath, mode, $modalInstance) {
-  $scope.textForUser = textForUser;
-  $scope.oldPath = oldPath;
-  $scope.path = oldPath ? oldPath.replace(/\|/g, '.') : '';
-  $scope.mode = mode ? mode : false;
+sliderPlugins.controller('SwEditorTabsModalCtrl', function (textForUser, oldPath, mode, $modalInstance) {
+  this.textForUser = textForUser;
+  this.oldPath = oldPath;
+  this.path = oldPath ? oldPath.replace(/\|/g, '.') : '';
+  this.mode = mode ? mode : false;
 
-  $scope.ok = function (newPath) {
+  this.ok = function (newPath) {
     newPath = newPath.replace(/\./g, '|');
     $modalInstance.close(newPath);
   };
 
-  $scope.delete = function (oldPath) {
+  this.delete = function (oldPath) {
     $modalInstance.close(oldPath);
   };
 
-  $scope.cancel = function () {
+  this.cancel = function () {
     $modalInstance.dismiss();
   };
 
