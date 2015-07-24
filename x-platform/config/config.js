@@ -20,7 +20,7 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '',
-    cacheBustingVersion: '-' + getVersion(),
+    cacheBustingVersion: getVersion(),
     app: {
       name: 'platform'
     },
@@ -51,7 +51,7 @@ var config = {
     root: rootPath,
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
-    cacheBustingVersion: '-' + getVersion(),
+    cacheBustingVersion: getVersion(),
     app: {
       name: 'platform'
     },
@@ -85,7 +85,7 @@ var config = {
     jsModulesPath: staticsPath + '/bin',
     withInspectlet: true,
     withGoogleAnalytics: 'UA-52669907-2',
-    cacheBustingVersion: '-' + getVersion(),
+    cacheBustingVersion: getVersion(),
     app: {
       name: 'platform'
     },
@@ -122,7 +122,7 @@ var config = {
     jsModulesPath: staticsPath + '/bin',
     withInspectlet: true,
     withGoogleAnalytics: 'UA-52669907-1',
-    cacheBustingVersion: '-' + getVersion(),
+    cacheBustingVersion: getVersion(),
     app: {
       name: 'platform'
     },
@@ -157,7 +157,7 @@ var config = {
     staticsPath: staticsPath,
     jsModulesPath: staticsPath + '/bin',
     withGoogleAnalytics: 'UA-52669907-1',
-    cacheBustingVersion: '-' + getVersion(),
+    cacheBustingVersion: getVersion(),
     app: {
       name: 'platform'
     },
