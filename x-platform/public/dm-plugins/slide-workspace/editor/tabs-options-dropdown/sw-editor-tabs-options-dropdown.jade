@@ -2,8 +2,9 @@ ul.pull-right.toggle-dropdown(
   ng-init="node = model.node"
   dropdown=""
   dropdown-append-to-body=""
-  auto-close="auto"
   ng-click="$event.stopPropagation()"
+  is-open="model.dropdownIsOpen"
+  ng-class="{'dropdown-is-open': model.dropdownIsOpen}"
   )
   li.cursor-pointer(
     dropdown-toggle="" 
@@ -35,4 +36,4 @@ ul.pull-right.toggle-dropdown(
       a.cursor-pointer(
         ng-click="model.removeDirectory(node)"
       )
-        | Delete Directory
+        | Delete Folder
