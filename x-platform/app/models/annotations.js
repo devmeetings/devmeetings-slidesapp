@@ -8,7 +8,7 @@ var Annotations = new Schema({
     timestamp: Number,
     type: {
       type: String,
-      enum: ['snippet', 'issue', 'task', 'comment']
+      enum: ['snippet', 'issue', 'task', 'comment', 'pause']
     },
     meta: String
   }]
