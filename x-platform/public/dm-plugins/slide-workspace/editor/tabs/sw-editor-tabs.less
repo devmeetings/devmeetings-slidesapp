@@ -13,7 +13,14 @@
 		z-index: 1;
 		height: ~"calc(100% - 26px)";
 		overflow-y: auto;
-    width: 150px;
+    width: 0;
+    transition: .4s ease;
+    transition-delay: 1s;
+
+    &.show {
+      width: 150px;
+      transition-delay: 0s;
+    }
 	}
 
 	li > div > .toggle-dropdown, 
