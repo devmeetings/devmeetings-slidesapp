@@ -14,6 +14,14 @@
 		height: ~"calc(100% - 26px)";
 		overflow-y: auto;
     width: 150px;
+    margin-left: -150px;
+    transition: margin .25s ease;
+    transition-delay: 0.5s;
+
+    &.show {
+      margin-left: 0;
+      transition-delay: 0.1s;
+    }
 	}
 
 	li > div > .toggle-dropdown, 
@@ -29,6 +37,10 @@
 		  list-style: none;
       padding: 0;
 		}
+
+    &.dropdown-is-open {
+      opacity: 0.9;
+    }
 	}
 	li:hover > div > .toggle-dropdown,
 	li:hover > a > .toggle-dropdown {
@@ -121,6 +133,12 @@
 		}
 
 	}
+
+  ul.nav.nav-tabs.pull-left {
+    span.fa.fa-fw.fa-thumb-tack, span.glyphicon.glyphicon-pushpin {
+      width: 15px
+    }
+  }
 
 }
 

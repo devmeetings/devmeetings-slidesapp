@@ -13,6 +13,7 @@
             input.form-control(
               ng-model="modal.path"
               autofocus
+              spellcheck="false"
             )
       .col-xs-12.buttons
         button.btn.btn-default.pull-left(
@@ -26,7 +27,6 @@
           )
           | OK
         button.btn.btn-danger.pull-right(
-            type="submit"
             ng-if="modal.mode === 'removeMode'"
             ng-click="modal.delete(modal.oldPath)"
           )
