@@ -1,24 +1,20 @@
-ul.nav.nav-tabs.pull-left
-  li.workspace-tab.workspace-tab-condensed
-    a.cursor-pointer(
-      ng-init="model.toggleTree = true"
-      ng-click="model.toggleTree = !model.toggleTree"
-      ng-mouseover="model.temporaryShowTree = true"
-      )
-      span.fa.fa-fw.fa-thumb-tack(
-        ng-show="model.toggleTree"
-        tooltip="Pin Tree"
-        tooltip-placement="right"
-        tooltip-append-to-body="true"
-        tooltip-animation="false"
-      )
-      span.glyphicon.glyphicon-pushpin(
-        ng-hide="model.toggleTree"
-        tooltip="Pin Tree"
-        tooltip-placement="right"
-        tooltip-append-to-body="true"
-        tooltip-animation="false"
-      )
+.sw-editor-tabs
+  ul.nav.nav-tabs.pull-left
+    li.workspace-tab.workspace-tab-condensed
+      a.cursor-pointer(
+        ng-init="model.toggleTree = true"
+        ng-click="model.toggleTree = !model.toggleTree"
+        ng-mouseenter="model.temporaryShowTree = true"
+        )
+        span.fa.fa-fw.fa-thumb-tack(
+          ng-show="model.toggleTree"
+          style="width: 15px"
+        )
+        span.glyphicon.glyphicon-pushpin(
+          ng-hide="model.toggleTree"
+          style="width: 15px"
+        )
+        | Files
 
 .sw-editor-tabs.sw-workspace-tab-container(dm-defer="300")
   ul.nav.nav-tabs(
@@ -63,14 +59,11 @@ ul.nav.nav-tabs.pull-left
 
 .sw-editor-tabs.pull-left.sw-tabs(
   ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold"
-  ng-show="model.toggleTree || model.temporaryShowTree"
   ng-class="{'show': model.toggleTree || model.temporaryShowTree}"
-  ng-mouseover="model.temporaryShowTree = true"
+  ng-mouseenter="model.temporaryShowTree = true"
   ng-mouseleave="model.temporaryShowTree = false"
   dm-defer="400"
   )
-  //pre model.temporaryShowTree = {{ model.temporaryShowTree }}
-  //pre model.toggleTree = {{ model.toggleTree }}
   treecontrol.tree-classic(
     tree-model="model.treeStructure"
     options="model.treeOptions"

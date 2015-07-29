@@ -13,13 +13,14 @@
 		z-index: 1;
 		height: ~"calc(100% - 26px)";
 		overflow-y: auto;
-    width: 0;
-    transition: .4s ease;
-    transition-delay: 1s;
+    width: 150px;
+    margin-left: -150px;
+    transition: margin .25s ease;
+    transition-delay: 0.5s;
 
     &.show {
-      width: 150px;
-      transition-delay: 0s;
+      margin-left: 0;
+      transition-delay: 0.1s;
     }
 	}
 
@@ -132,6 +133,12 @@
 		}
 
 	}
+
+  ul.nav.nav-tabs.pull-left {
+    span.fa.fa-fw.fa-thumb-tack, span.glyphicon.glyphicon-pushpin {
+      width: 15px
+    }
+  }
 
 }
 
