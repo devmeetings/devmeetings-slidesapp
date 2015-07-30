@@ -154,18 +154,18 @@ export class RankingDir {
   //         //span.fa.fa-fw.fa-minus.text-muted
   //         | [0 / {{ group.ranks.length }}]
 
-  makeGroupStructure (scope, groups, event) {
-    for (let group of groups) {
-      for (let rank of group.ranks) {
-        // console.log(rank.data);
-        for (let it of event.iterations) {
-          for (let i of scope.getTasks(rank, $index)) {
-            console.log(rank.data[$parent.$index + '_' + i].isDone);
-          }
-        }
-      }
-    }
-  }
+  // makeGroupStructure (scope, groups, event) {
+  //   for (let group of groups) {
+  //     for (let rank of group.ranks) {
+  //       // console.log(rank.data);
+  //       for (let it of event.iterations) {
+  //         for (let i of scope.getTasks(rank, $index)) {
+  //           console.log(rank.data[$parent.$index + '_' + i].isDone);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
 }
 
