@@ -7,9 +7,7 @@ describe('RankingDir', function () {
   it('should generate ranks', function () {
     // given
     var ranking = [
-      {
-        
-      }
+      {}
     ];
     var groups = [
       {
@@ -21,7 +19,7 @@ describe('RankingDir', function () {
     var cut = new RankingDir({});
 
     // when
-    cut.generateRanks(ranking, groups);
+    cut.generateGroupsWithRanks(ranking, groups);
     var result = groups;
 
     // then
