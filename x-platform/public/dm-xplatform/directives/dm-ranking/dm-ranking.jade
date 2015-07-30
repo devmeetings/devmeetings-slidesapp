@@ -1,5 +1,26 @@
 .col-xs-12
-  h3.text-center Ranking
+
+  h3.text-left Join Group (at this moment it doesn't work)
+    ul(
+      dropdown=""
+      dropdown-append-to-body=""
+      ng-disabled="true"
+      )
+      li.cursor-pointer(
+        dropdown-toggle="" 
+        ng-disabled="true"
+        )
+        span.fa.fa-fw.fa-users
+      ul.dropdown-menu
+        li(
+          ng-disabled="true"
+          ng-repeat="group in groups"
+          ng-click="userJoinToGroup(group)"
+          )
+          a.cursor-pointer
+            | {{ group.name }}
+
+  h3.text-center Ranking (Users)
   table.table
     tr(ng-repeat="item in ranking")
       td
@@ -15,4 +36,22 @@
             span.fa.fa-fw.fa-check.text-success
           span(ng-if="!item.data[$parent.$index + '_' + i].isDone")
             span.fa.fa-fw.fa-minus.text-muted
+
+  h2.text-center Ranking (Groups)
+  h3.text-center(
+    ng-repeat="group in groups"
+    )
+    | Group: {{ group.name }} - number of users: {{ group.ranks.length }}
+    table.table
+      tr(ng-repeat="rank in group.ranks")
+        td(ng-repeat="it in event.iterations")
+          span(ng-repeat="i in getTasks(rank, $index)")
+            span(ng-if="rank.data[$parent.$index + '_' + i].isDone")
+              //span.fa.fa-fw.fa-check.text-success
+              | [1 / {{ group.ranks.length }}]
+            span(ng-if="!rank.data[$parent.$index + '_' + i].isDone")
+              //span.fa.fa-fw.fa-minus.text-muted
+              | [0 / {{ group.ranks.length }}]
+      
+
 

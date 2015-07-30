@@ -1,4 +1,6 @@
-.sw-editor-tabs
+.sw-editor-tabs(
+  ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold"
+  )
   ul.nav.nav-tabs.pull-left
     li.workspace-tab.workspace-tab-condensed
       a.cursor-pointer(
