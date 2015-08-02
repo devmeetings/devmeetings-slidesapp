@@ -50,10 +50,8 @@ define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router', '
     $scope.selectDeck = function (deck) {
       $scope.selected = deck;
       $scope.selectedSlides = [];
-      require(['require/decks/' + deck._id + '/slides'], function (slides, deck) {
-        $scope.$apply(function () {
-          $scope.selectedSlides = slides;
-        });
+      $http.get('/api/require/decks/' + deck._id + '/slides').then(function (slides) {
+        $scope.selectedSlides = slides.data;
       });
     };
 

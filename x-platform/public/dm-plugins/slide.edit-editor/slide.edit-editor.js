@@ -1,5 +1,5 @@
 /* globals define */
-define(['module', 'angular', '_', 'ace', 'slider/slider.plugins', './editor.html!text'], function (module, angular, _, ace, sliderPlugins, viewTemplate) {
+define(['module', 'angular', '$', '_', 'ace', 'slider/slider.plugins', './editor.html!text'], function (module, angular, $, _, ace, sliderPlugins, viewTemplate) {
   ace = ace.default;
 
   var UPDATE_THROTTLE_TIME = 1000;
@@ -28,7 +28,7 @@ define(['module', 'angular', '_', 'ace', 'slider/slider.plugins', './editor.html
         link: function (scope, element) {
           scope.collapsed = true;
 
-          var editor = ace.edit(element.find('.editor')[0]);
+          var editor = ace.edit($(element[0]).find('.editor')[0]);
           editor.setTheme('ace/theme/todr');
           editor.getSession().setMode('ace/mode/json');
           editor.setValue(JSON.stringify(scope.slide, null, 2));

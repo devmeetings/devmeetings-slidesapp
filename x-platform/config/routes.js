@@ -137,9 +137,9 @@ module.exports = function (app) {
 
   // We should change this to ordinary /api calls
   var req = require('../app/controllers/require');
-  app.get('/require/decks/:id/slides.js', apiAuthenticated, req.getDeckSlides);
-  app.get('/require/decks/:id.js', apiAuthenticated, req.getDeck);
-  app.get('/require/slides/:id.js', apiAuthenticated, req.getSlide);
+  app.get('/api/require/decks/:id/slides', apiAuthenticated, req.getDeckSlides);
+  app.get('/api/require/decks/:id', apiAuthenticated, req.getDeck);
+  app.get('/api/require/slides/:id', apiAuthenticated, req.getSlide);
 
   var plugins = require('./plugins');
   var router = require('express').Router();
