@@ -29,23 +29,40 @@ mixin course(uisref, nghref, ngclick)
 .container
   .col-md-12
     .dm-workshoplist-container
-      .clearfix
-        .row
-          .col-md-4
-            input.form-control(
-              ng-show="(courses | filter:{visible: true}).length > 3 || editMode"
-              type="text"
-              ng-model="vmWorkshoplist.courses_filter"
-              placeholder="Search for courses"
-            )
-          .col-md-8     
-            .checkbox(ng-if="user.result.acl.indexOf('admin:events') > -1") 
-              label.form-label.pull-right
-                input(
-                  type="checkbox"
-                  ng-model="$root.editMode"
-                )
-                | Show All Courses
+      .row(ng-if="vmWorkshoplist.showUpload")
+        .col-md-8.col-md-offset-2
+          .panel.panel-default
+            .panel-content
+              form(method='post', enctype='multipart/form-data', action='/api/events/zip')
+                .form-group
+                  input.form-control(type='file', name='file')
+                .form-group.text-center
+                  button.btn.btn-primary(type='submit')
+                    span.fa.fa-fw.fa-upload
+                    span Upload ZIP with event
+      .row
+        .col-md-4
+          input.form-control(
+            ng-show="(courses | filter:{visible: true}).length > 3 || editMode"
+            type="text"
+            ng-model="vmWorkshoplist.courses_filter"
+            placeholder="Search for courses"
+          )
+        .col-md-8(ng-if="user.result.acl.indexOf('admin:events') > -1")
+          .checkbox
+            label.form-label.pull-right
+              input.ng-hide(
+                type="checkbox"
+                ng-model="vmWorkshoplist.showUpload"
+              )
+              | Upload New
+          .checkbox
+            label.form-label.pull-right
+              input(
+                type="checkbox"
+                ng-model="$root.editMode"
+              )
+              | Show All Courses
       .row
         .col-md-4(
           ng-repeat="cours in courses | orderBy:['order','title'] | filter:vmWorkshoplist.courses_filter", 
