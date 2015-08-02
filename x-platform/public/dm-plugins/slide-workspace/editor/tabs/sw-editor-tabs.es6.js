@@ -55,7 +55,6 @@ class SwEditorTabs {
     self.editTabName = (name) => this.editTabName(self, name);
     self.activateTab = (name) => this.activateTab(self, name);
     self.shouldDisplayTooltip = (name) => this.shouldDisplayTooltip(self, name);
-    self.promptForName = (textForUser, path) => this.promptForName(self, textForUser, path);
     self.displayModal = (textForUser, path, mode) => this.displayModal(textForUser, path, mode);
     self.editTabName = (path) => this.editTabName(self, path);
     self.removeTab = (path) => this.removeTab(self, path);

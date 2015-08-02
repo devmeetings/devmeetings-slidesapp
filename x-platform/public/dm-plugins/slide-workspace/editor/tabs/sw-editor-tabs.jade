@@ -1,3 +1,19 @@
+.sw-editor-tabs
+  ul.nav.nav-tabs.pull-left
+    li.workspace-tab.workspace-tab-condensed
+      a.cursor-pointer(
+        ng-init="model.toggleTree = true"
+        ng-click="model.toggleTree = !model.toggleTree"
+        ng-mouseenter="model.temporaryShowTree = true"
+        )
+        span.fa.fa-fw.fa-thumb-tack(
+          ng-show="model.toggleTree"
+        )
+        span.glyphicon.glyphicon-pushpin(
+          ng-hide="model.toggleTree"
+        )
+        | Files
+
 .sw-editor-tabs.sw-workspace-tab-container(dm-defer="300")
   ul.nav.nav-tabs(
     data-intro="All Files in your workspace are available here. Make sure to check what additional buttons do by hovering your mouse." data-position="bottom"
@@ -41,6 +57,9 @@
 
 .sw-editor-tabs.pull-left.sw-tabs(
   ng-if="model.tabsObjects.length >= model.moveTabsLeftThreshold"
+  ng-class="{'show': model.toggleTree || model.temporaryShowTree}"
+  ng-mouseenter="model.temporaryShowTree = true"
+  ng-mouseleave="model.temporaryShowTree = false"
   dm-defer="400"
   )
   treecontrol.tree-classic(
