@@ -19,34 +19,7 @@ export class RankingDir {
       console.log(scope.currentUser);
     });
 
-    scope.removeUserFromGroups = function () {
-      _.map(scope.groups, function (group) {
-        _.map(group.ranks, function (rank) {
-          if (rank.user._id === scope.currentUser._id) {
-            let idx = group.ranks.indexOf(rank);
-            group.ranks.splice(idx, 1);
-            console.log(scope.groups);
-          }
-        });
-      });
-    };
-
     scope.userJoinToGroup = function (groupName) {
-      // group.users.push(scope.currentUser);
-
-      // console.log(scope.currentUser.name + ' joined to ' + group.name);
-      // console.log(scope.ranking);
-
-      // let currentUserRank = _.find(scope.ranking, function (ranking) {
-      //   return ranking.user._id === scope.currentUser._id;
-      // });
-      // console.log(currentUserRank);
-
-      // scope.removeUserFromGroups();
-      // group.ranks.push(currentUserRank);
-
-      // console.log(scope.groups);
-
       let currentUserRank = _.find(scope.ranking, function (ranking) {
         return ranking.user._id === scope.currentUser._id;
       });
@@ -83,7 +56,6 @@ export class RankingDir {
 
       scope.groups = this.generateGroups(scope.ranking);
       this.populateGroupsWithRankings(scope.ranking, scope.groups);
-      // this.makeGroupStructure(scope, scope.groups, scope.event);
     });
 
     function findMaxNoOfTasks (iterationIdx) {
@@ -105,7 +77,6 @@ export class RankingDir {
   }
 
   generateGroups (ranking) {
-    // let existName = [];
     let groups = [];
 
     for (let item of ranking) {
@@ -114,13 +85,9 @@ export class RankingDir {
         ranks: []
       };
 
-      // if (existName.indexOf(group.name) === -1) {
-      //   groups.push(group);
-      // }
       if (!this.groupAlreadyExist(groups, group.name)) {
         groups.push(group);
       }
-      // existName.push(item.group);
     }
 
     console.log(groups);
@@ -160,29 +127,6 @@ export class RankingDir {
     }
     return false;
   }
-
-  // tr(ng-repeat="rank in group.ranks")
-  //   td(ng-repeat="it in event.iterations")
-  //     span(ng-repeat="i in getTasks(rank, $index)")
-  //       span(ng-if="rank.data[$parent.$index + '_' + i].isDone")
-  //         //span.fa.fa-fw.fa-check.text-success
-  //         | [1 / {{ group.ranks.length }}]
-  //       span(ng-if="!rank.data[$parent.$index + '_' + i].isDone")
-  //         //span.fa.fa-fw.fa-minus.text-muted
-  //         | [0 / {{ group.ranks.length }}]
-
-  // makeGroupStructure (scope, groups, event) {
-  //   for (let group of groups) {
-  //     for (let rank of group.ranks) {
-  //       // console.log(rank.data);
-  //       for (let it of event.iterations) {
-  //         for (let i of scope.getTasks(rank, $index)) {
-  //           console.log(rank.data[$parent.$index + '_' + i].isDone);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
 }
 
