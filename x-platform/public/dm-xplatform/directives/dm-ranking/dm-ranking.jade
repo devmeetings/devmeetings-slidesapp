@@ -1,21 +1,36 @@
 .col-xs-12
 
-  h3.text-left Join Group (at this moment it doesn't work)
+  .text-left
+    h3 Create New Group
+      form(
+          ng-submit="createNewGroup(newGroupName)"
+        )
+        .row     
+          .col-sm-5.form-group
+            input.form-control(
+              ng-model="newGroupName"
+              placeholder="Insert Name Here"
+              spellcheck="false"
+            )
+        
+          button.col-sm-2.btn.btn-primary( 
+            type="submit"
+            )
+            | Create
+
+  h3.text-left Join Group 
     ul(
       dropdown=""
       dropdown-append-to-body=""
-      ng-disabled="true"
       )
       li.cursor-pointer(
         dropdown-toggle="" 
-        ng-disabled="true"
         )
         span.fa.fa-fw.fa-users
       ul.dropdown-menu
         li(
-          ng-disabled="true"
           ng-repeat="group in groups"
-          ng-click="userJoinToGroup(group)"
+          ng-click="userJoinToGroup(group.name)"
           )
           a.cursor-pointer
             | {{ group.name }}

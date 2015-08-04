@@ -15,26 +15,9 @@ export class RankingDir {
   link (scope) {
     this.dmUser.getCurrentUser().then((user) => {
       scope.currentUser = user.result;
+      console.log('scope.currentUser:');
       console.log(scope.currentUser);
     });
-
-    // scope.groups = [
-    //   {
-    //     name: 'a',
-    //     users: [],
-    //     ranks: []
-    //   },
-    //   {
-    //     name: 'b',
-    //     users: [],
-    //     ranks: []
-    //   },
-    //   {
-    //     name: 'c',
-    //     users: [],
-    //     ranks: []
-    //   }
-    // ];
 
     scope.removeUserFromGroups = function () {
       _.map(scope.groups, function (group) {
@@ -48,21 +31,44 @@ export class RankingDir {
       });
     };
 
-    scope.userJoinToGroup = function (group) {
-      group.users.push(scope.currentUser);
+    scope.userJoinToGroup = function (groupName) {
+      // group.users.push(scope.currentUser);
 
-      console.log(scope.currentUser.name + ' joined to ' + group.name);
-      console.log(scope.ranking);
+      // console.log(scope.currentUser.name + ' joined to ' + group.name);
+      // console.log(scope.ranking);
+
+      // let currentUserRank = _.find(scope.ranking, function (ranking) {
+      //   return ranking.user._id === scope.currentUser._id;
+      // });
+      // console.log(currentUserRank);
+
+      // scope.removeUserFromGroups();
+      // group.ranks.push(currentUserRank);
+
+      // console.log(scope.groups);
 
       let currentUserRank = _.find(scope.ranking, function (ranking) {
         return ranking.user._id === scope.currentUser._id;
       });
+      currentUserRank.group = groupName;
       console.log(currentUserRank);
 
-      scope.removeUserFromGroups();
-      group.ranks.push(currentUserRank);
+      // ranking uzytkownika ze zmieniana grupa leci na back-end, ktory
+      // dokonuje wpisu w DB, nastepnie info o dokonanej zmianie leci do frontu(ow)
+    };
 
-      console.log(scope.groups);
+    scope.createNewGroup = (newGroupName) => {
+
+      // To jednak chyba powinno byc po back-endzie
+      if (this.groupAlreadyExist(scope.groups, newGroupName) || !newGroupName) {
+        return;
+      }
+      console.log('New group was created: ', newGroupName);
+      // jak to widze:
+      // na back-end zostaje wyslana nazwa nowej grupy i jesli
+      // grupa z taka nazwa nie istnieje, back-end
+      // dodaje do listy grup, po czym rozsyla ją do frontu, zeby uzytkownicy
+      // mogli przyporzadkowac sie
     };
 
     this.dmRanking.getCurrentRanking();
@@ -75,30 +81,9 @@ export class RankingDir {
         return memo;
       }, []);
 
-      // Probably temporary
-      scope.groups = [
-        {
-          name: 'a',
-          users: [],
-          ranks: []
-        },
-        {
-          name: 'b',
-          users: [],
-          ranks: []
-        },
-        {
-          name: 'c',
-          users: [],
-          ranks: []
-        }
-      ];
-
-      // Make group array with rankings
-      this.generateGroupsWithRanks(scope.ranking, scope.groups);
-      // console.log(scope.groups);
-
-      this.makeGroupStructure(scope, scope.groups, scope.event);
+      scope.groups = this.generateGroups(scope.ranking);
+      this.populateGroupsWithRankings(scope.ranking, scope.groups);
+      // this.makeGroupStructure(scope, scope.groups, scope.event);
     });
 
     function findMaxNoOfTasks (iterationIdx) {
@@ -119,7 +104,30 @@ export class RankingDir {
     };
   }
 
-  generateGroupsWithRanks (ranking, groups) {
+  generateGroups (ranking) {
+    // let existName = [];
+    let groups = [];
+
+    for (let item of ranking) {
+      let group = {
+        name: item.group,
+        ranks: []
+      };
+
+      // if (existName.indexOf(group.name) === -1) {
+      //   groups.push(group);
+      // }
+      if (!this.groupAlreadyExist(groups, group.name)) {
+        groups.push(group);
+      }
+      // existName.push(item.group);
+    }
+
+    console.log(groups);
+    return groups;
+  }
+
+  populateGroupsWithRankings (ranking, groups) {
 
     _.map(ranking, (item) => {
       _.map(groups, (group) => {
@@ -142,6 +150,15 @@ export class RankingDir {
     });
 
     return !!rankFound;
+  }
+
+  groupAlreadyExist (groups, newGroupName) {
+    for (let group of groups) {
+      if (group.name === newGroupName) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // tr(ng-repeat="rank in group.ranks")
