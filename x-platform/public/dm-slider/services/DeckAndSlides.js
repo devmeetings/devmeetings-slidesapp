@@ -3,15 +3,13 @@ define(['require', 'slider/slider.plugins'], function (require, sliderPlugins) {
   var slides = window.slides;
   var slideId = window.slideId;
 
-  sliderPlugins.factory('DeckAndSlides', ['$q', '$rootScope',
-    function ($q, $rootScope) {
+  sliderPlugins.factory('DeckAndSlides', ['$q', '$rootScope', '$http',
+    function ($q, $rootScope, $http) {
       /* TODO [ToDr] Rethink and merge CurrentSlideManagerForDeck & DeckAndSlides ? */
       var asPromise = function (path) {
-        var result = $q.defer();
-        require([path], function (promiseResult) {
-          result.resolve(promiseResult);
+        return $http.get('/api/' + path).then(function (x) {
+          return x.data;
         });
-        return result.promise;
       };
 
       return {

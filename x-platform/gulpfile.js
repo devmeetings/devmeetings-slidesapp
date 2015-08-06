@@ -141,6 +141,10 @@ gulp.task('serve', ['less', 'generate_plugins', 'copy_theme'], function () {
   });
 
   gulp.watch(withIgnores(['./public/**/*.less']), ['less']);
+  gulp.watch(withIgnores(['./public/**/*.js']), $.livereload.reload);
+  gulp.watch(withIgnores(['./public/**/*.jade']), function () {
+    $.livereload.reload();
+  });
 });
 
 // Build the whole platform
