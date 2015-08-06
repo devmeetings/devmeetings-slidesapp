@@ -56,7 +56,7 @@ export class RankingDir {
 
       scope.groups = this.generateGroups(scope.ranking);
       this.populateGroupsWithRankings(scope.ranking, scope.groups);
-      scope.aggregatedGroup = this.aggregateGroup(scope, scope.groups[2], scope.event.iterations);
+      scope.aggregatedGroups = this.getArrWithAgreggatedGroups(scope, scope.groups, scope.event.iterations);
     });
 
     function findMaxNoOfTasks (iterationIdx) {
@@ -119,7 +119,6 @@ export class RankingDir {
     let tasksInIteration = scope.getTasks(ranks[0], iterationIdx);
 
     for (let task of tasksInIteration) {
-      // let taskIdx = tasksInIteration[task];
       let id = iterationIdx + '_' + task;
 
       let sum = 0;
@@ -193,27 +192,6 @@ export class RankingDir {
     // };
   }
 
-  // aggregateGroupImpl(group) {
-
-  //   return {
-  //     noOfUsers: group.ranks.length,
-  //     results: [
-  //       //iteracja0
-  //       [
-  //         //ile osob zrobilo zadanie 0_0
-  //         1 + 0
-  //         //ile osob zrobilo zadanie 0_1
-  //         1 + 1
-  //       ],
-  //       //iteracja1
-  //       [
-  //         //ile osob zrobilo zadanie 1_0
-  //         0 + 0
-  //       ]
-  //     ]
-  //   };
-  // }
-
   generateGroups (ranking) {
     let groups = [];
 
@@ -264,6 +242,15 @@ export class RankingDir {
       }
     }
     return false;
+  }
+
+  getArrWithAgreggatedGroups (scope, groups, eventIiterations) {
+    let aggregatedGroups = [];
+    for (let group of scope.groups) {
+      let aggregatedGroup = this.aggregateGroup(scope, group, eventIiterations);
+      scope.aggregatedGroups.push(aggregatedGroup);
+    }
+    return aggregatedGroups;
   }
 
 }
