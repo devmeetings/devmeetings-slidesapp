@@ -77,6 +77,14 @@ export class RankingDir {
     };
   }
 
+  rankExist (group, item) {
+    var rankFound = _.find(group.ranks, {
+      _id: item._id
+    });
+
+    return !!rankFound;
+  }
+
   // generateGroups(ranking) {
   //   var o = _.groupBy(ranking, 'group');
   //   // var o = {
@@ -113,84 +121,6 @@ export class RankingDir {
    *     }
    *   ]
   */
-  aggregateResultsForIteration (scope, ranks, iterationIdx) {
-    let results = [];
-
-    let tasksInIteration = scope.getTasks(ranks[0], iterationIdx);
-
-    for (let task of tasksInIteration) {
-      let id = iterationIdx + '_' + task;
-
-      let sum = 0;
-      for (let rank of ranks) {
-
-        if (rank.data[id] && rank.data[id].isDone) {
-          sum += 1;
-        }
-      }
-      results.push(sum);
-    }
-
-    return results;
-
-      /*
-      return [
-        1 + 0,
-        1 + 1
-      ];*/
-  }
-  /*
-   * group = {
-   *   name: 'Grupa A',
-   *   ranks: [
-   *     {
-   *        data: {
-                "0_0": { isDone: true }
-                "0_1": { isDone: true }
-                "1_0": { isDone: false}
-          }
-   *     },
-   *     {
-   *        data: {
-                "0_0": { isDone: false }
-                "0_1": { isDone: true }
-                "1_0": { isDone: false}
-          }
-   *     }
-   *   ]
-   * }
-   * eventIteration = [,,]
-   */
-  aggregateGroup (scope, group, eventIterations) {
-    let results = [];
-
-    for (let i = 0; i < eventIterations.length; i++) {
-      let resultsForIteration = this.aggregateResultsForIteration(scope, group.ranks, i);
-      results.push(resultsForIteration);
-    }
-
-    return {
-      name: group.name,
-      noOfUsers: group.ranks.length,
-      results: results
-    };
-
-    //   [
-    //     //iteracja0
-    //     [
-    //       //ile osob zrobilo zadanie 0_0
-    //       1 + 0
-    //       //ile osob zrobilo zadanie 0_1
-    //       1 + 1
-    //     ],
-    //     //iteracja1
-    //     [
-    //       //ile osob zrobilo zadanie 1_0
-    //       0 + 0
-    //     ]
-    //   ]
-    // };
-  }
 
   generateGroups (ranking) {
     let groups = [];
@@ -227,14 +157,6 @@ export class RankingDir {
     });
   }
 
-  rankExist (group, item) {
-    var rankFound = _.find(group.ranks, {
-      _id: item._id
-    });
-
-    return !!rankFound;
-  }
-
   groupAlreadyExist (groups, newGroupName) {
     for (let group of groups) {
       if (group.name === newGroupName) {
@@ -242,6 +164,42 @@ export class RankingDir {
       }
     }
     return false;
+  }
+
+  aggregateResultsForIteration (scope, ranks, iterationIdx) {
+    let results = [];
+
+    let tasksInIteration = scope.getTasks(ranks[0], iterationIdx);
+
+    for (let task of tasksInIteration) {
+      let id = iterationIdx + '_' + task;
+
+      let sum = 0;
+      for (let rank of ranks) {
+
+        if (rank.data[id] && rank.data[id].isDone) {
+          sum += 1;
+        }
+      }
+      results.push(sum);
+    }
+
+    return results;
+  }
+
+  aggregateGroup (scope, group, eventIterations) {
+    let results = [];
+
+    for (let i = 0; i < eventIterations.length; i++) {
+      let resultsForIteration = this.aggregateResultsForIteration(scope, group.ranks, i);
+      results.push(resultsForIteration);
+    }
+
+    return {
+      name: group.name,
+      noOfUsers: group.ranks.length,
+      results: results
+    };
   }
 
   getArrWithAgreggatedGroups (scope, groups, eventIiterations) {
