@@ -46,6 +46,7 @@ export class RankingDir {
 
     this.dmRanking.getCurrentRanking();
     scope.rankingService = this.dmRanking;
+    scope.rankingViews = ['Ranking (Users)', 'Ranking (Groups - aggregated)'];
 
     scope.$watch('rankingService.currentRanking', (currentRanking) => {
       // Transform ranking to array

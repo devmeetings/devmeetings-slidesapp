@@ -19,11 +19,11 @@
             | Create
 
   h3.text-left Join Group 
-    ul(
+    span(
       dropdown=""
-      dropdown-append-to-body=""
+      dropdown-append-to-body="" 
       )
-      li.cursor-pointer(
+      a.cursor-pointer(
         dropdown-toggle="" 
         )
         span.fa.fa-fw.fa-users
@@ -35,9 +35,27 @@
           a.cursor-pointer
             | {{ group.name }}
 
-  h3.text-center Ranking (Users)
-  table.table
-    tr(ng-repeat="item in ranking")
+  h3.text-center(ng-init="currentRankingView = rankingViews[1]")
+    | {{ currentRankingView }}
+    span(
+      dropdown=""
+      dropdown-append-to-body=""
+      )
+      a.cursor-pointer(
+        dropdown-toggle="" 
+        )
+        span.fa.fa-fw.fa-cog
+      ul.dropdown-menu
+        li(
+          ng-repeat="view in rankingViews"
+          ng-click="currentRankingView = view; console.log(currentRankingView)"
+          )
+          a.cursor-pointer
+            | {{ view }}
+
+  table.table(ng-if="currentRankingView === rankingViews[0]")
+    tr(
+      ng-repeat="item in ranking")
       td
         img.img-responsive.img-rounded(
           ng-src="{{ item.user.avatar | dmGravatar:32 }}"
@@ -45,6 +63,8 @@
           tooltip-animate="false"
           tooltip-placement="right"
           )
+      td(ng-if="item.user.group")
+        | {{ item.user.group }}
       td(ng-repeat="it in event.iterations")
         span(ng-repeat="i in getTasks(item, $index)")
           span(ng-if="item.data[$parent.$index + '_' + i].isDone")
@@ -52,29 +72,36 @@
           span(ng-if="!item.data[$parent.$index + '_' + i].isDone")
             span.fa.fa-fw.fa-minus.text-muted
 
-  h2.text-center Ranking (Groups)
-  h3.text-center(
+  //h3.text-center Ranking (Groups)
+  //table.table(
     ng-repeat="group in groups"
     )
-    | Group: {{ group.name }} - number of users: {{ group.ranks.length }}
-    table.table
-      tr(ng-repeat="rank in group.ranks")
-        td(ng-repeat="it in event.iterations")
-          span(ng-repeat="i in getTasks(rank, $index)")
-            span(ng-if="rank.data[$parent.$index + '_' + i].isDone")
-              span.fa.fa-fw.fa-check.text-success
-            span(ng-if="!rank.data[$parent.$index + '_' + i].isDone")
-              span.fa.fa-fw.fa-minus.text-muted
+    tr(ng-repeat="rank in group.ranks")
+      | Group: {{ group.name }} - users number: {{ group.ranks.length }}
+      td
+        img.img-responsive.img-rounded(
+          ng-src="{{ rank.user.avatar | dmGravatar:32 }}"
+          tooltip="{{ rank.user.name }}"
+          tooltip-animate="false"
+          tooltip-placement="right"
+          )
+      td(ng-repeat="it in event.iterations")
+        span(ng-repeat="i in getTasks(rank, $index)")
+          span(ng-if="rank.data[$parent.$index + '_' + i].isDone")
+            span.fa.fa-fw.fa-check.text-success
+          span(ng-if="!rank.data[$parent.$index + '_' + i].isDone")
+            span.fa.fa-fw.fa-minus.text-muted
 
-  pre
-    span(ng-repeat="group in aggregatedGroups")
+  //pre
+    div(ng-repeat="group in aggregatedGroups")
       | {{ group }}
 
-  h2.text-center Ranking (Groups - aggregated)
-  h3.text-center(
+  div(
+    ng-if="currentRankingView === rankingViews[1]"
     ng-repeat="group in aggregatedGroups"
     )
-    | Group: {{ group.name }} - users number: {{ group.noOfUsers }}
+    h3.text-center
+      | Group: {{ group.name }} - users number: {{ group.noOfUsers }}
     table.table
       tr(ng-repeat="iteration in group.results")
         td(ng-repeat="result in iteration track by $index")
