@@ -62,13 +62,25 @@
         td(ng-repeat="it in event.iterations")
           span(ng-repeat="i in getTasks(rank, $index)")
             span(ng-if="rank.data[$parent.$index + '_' + i].isDone")
-              //span.fa.fa-fw.fa-check.text-success
-              | [1 / {{ group.ranks.length }}]
+              span.fa.fa-fw.fa-check.text-success
             span(ng-if="!rank.data[$parent.$index + '_' + i].isDone")
-              //span.fa.fa-fw.fa-minus.text-muted
-              | [0 / {{ group.ranks.length }}]
+              span.fa.fa-fw.fa-minus.text-muted
 
-  pre {{ aggregatedGroup }}
+  pre
+    span(ng-repeat="group in aggregatedGroups")
+      | {{ group }}
+
+  h2.text-center Ranking (Groups - aggregated)
+  h3.text-center(
+    ng-repeat="group in aggregatedGroups"
+    )
+    | Group: {{ group.name }} - users number: {{ group.noOfUsers }}
+    table.table
+      tr(ng-repeat="iteration in group.results")
+        td(ng-repeat="result in iteration track by $index")
+          | {{ result }}/{{ group.noOfUsers }}
+
+
       
 
 

@@ -206,7 +206,7 @@ export class RankingDir {
     let aggregatedGroups = [];
     for (let group of scope.groups) {
       let aggregatedGroup = this.aggregateGroup(scope, group, eventIiterations);
-      scope.aggregatedGroups.push(aggregatedGroup);
+      aggregatedGroups.push(aggregatedGroup);
     }
     return aggregatedGroups;
   }
