@@ -149,7 +149,10 @@ class SwEditorTabs {
 
     self.treeStructure = convertStructure(tabsObjects);
     self.expandedNodes = getAllNodes(self.treeStructure);
-    self.selectedNode = findNodeForActiveTab(self.expandedNodes);
+
+    this.$scope.$watch(() => self.activeTabName, () => {
+      self.selectedNode = findNodeForActiveTab(self.expandedNodes);
+    });
   }
 
   createTabObjects (tabNames) {
