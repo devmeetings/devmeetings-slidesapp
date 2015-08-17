@@ -1,5 +1,5 @@
 /* globals define */
-define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', 'services/DeckAndSlides', './deck-navbar.html!text'], function (module, _, sliderPlugins, CurrentSlideManagerForDeck, DeckAndSlides, viewTemplate) {
+define(['module', '_', '$', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', 'services/DeckAndSlides', './deck-navbar.html!text'], function (module, _, $, sliderPlugins, CurrentSlideManagerForDeck, DeckAndSlides, viewTemplate) {
   sliderPlugins.registerPlugin('deck', '*', 'deck-navbar', {
     name: 'Deck Navbar',
     description: 'Displays Navigation Bar with slides',
@@ -25,12 +25,17 @@ define(['module', '_', 'slider/slider.plugins', 'services/CurrentSlideManagerFor
             });
           });
 
+          function updateDeck (deck) {
+            scope.deck = deck;
+            scope.deck.deckSlides = scope.slides;
+          }
+
           DeckAndSlides.inContextOf('deck').slides.then(function (slides) {
             scope.slides = slides;
+            updateDeck(scope.deck || {});
           });
-          DeckAndSlides.inContextOf('deck').deck.then(function (deck) {
-            scope.deck = deck;
-          });
+
+          DeckAndSlides.inContextOf('deck').deck.then(updateDeck);
 
           scope.sortableOptions = {
             stop: function (em, ui) {
