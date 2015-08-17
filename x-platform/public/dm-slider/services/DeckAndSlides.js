@@ -5,11 +5,17 @@ define(['require', 'slider/slider.plugins'], function (require, sliderPlugins) {
 
   sliderPlugins.factory('DeckAndSlides', ['$q', '$rootScope', '$http',
     function ($q, $rootScope, $http) {
+      var cache = {};
       /* TODO [ToDr] Rethink and merge CurrentSlideManagerForDeck & DeckAndSlides ? */
       var asPromise = function (path) {
-        return $http.get('/api/' + path).then(function (x) {
+        if (cache[path]) {
+          return cache[path];
+        }
+        var p = $http.get('/api/' + path).then(function (x) {
           return x.data;
         });
+        cache[path] = p;
+        return p;
       };
 
       return {
