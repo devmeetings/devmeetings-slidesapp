@@ -1,113 +1,226 @@
-.col-xs-12
-
-  .text-left
-    h3 Create New Group
-      form(
-          ng-submit="createNewGroup(newGroupName)"
-        )
-        .row     
-          .col-sm-5.form-group
-            input.form-control(
-              ng-model="newGroupName"
-              placeholder="Insert Name Here"
-              spellcheck="false"
-            )
-        
-          button.col-sm-2.btn.btn-primary( 
-            type="submit"
-            )
-            | Create
-
-  h3.text-left Join Group 
-    span(
-      dropdown=""
-      dropdown-append-to-body="" 
-      )
-      a.cursor-pointer(
-        dropdown-toggle="" 
-        )
-        span.fa.fa-fw.fa-users
-      ul.dropdown-menu
-        li(
-          ng-repeat="group in groups"
-          ng-click="userJoinToGroup(group.name)"
-          )
-          a.cursor-pointer
-            | {{ group.name }}
-
-  h3.text-center(ng-init="currentRankingView = rankingViews[1]")
-    | {{ currentRankingView }}
-    span(
-      dropdown=""
-      dropdown-append-to-body=""
-      )
-      a.cursor-pointer(
-        dropdown-toggle="" 
-        )
-        span.fa.fa-fw.fa-cog
-      ul.dropdown-menu
-        li(
-          ng-repeat="view in rankingViews"
-          ng-click="currentRankingView = view; console.log(currentRankingView)"
-          )
-          a.cursor-pointer
-            | {{ view }}
-
-  table.table(ng-if="currentRankingView === rankingViews[0]")
-    tr(
-      ng-repeat="item in ranking")
-      td
-        img.img-responsive.img-rounded(
-          ng-src="{{ item.user.avatar | dmGravatar:32 }}"
-          tooltip="{{ item.user.name }}"
-          tooltip-animate="false"
-          tooltip-placement="right"
-          )
-      td(ng-if="item.user.group")
-        | {{ item.user.group }}
-      td(ng-repeat="it in event.iterations")
-        span(ng-repeat="i in getTasks(item, $index)")
-          span(ng-if="item.data[$parent.$index + '_' + i].isDone")
-            span.fa.fa-fw.fa-check.text-success
-          span(ng-if="!item.data[$parent.$index + '_' + i].isDone")
-            span.fa.fa-fw.fa-minus.text-muted
-
-  //h3.text-center Ranking (Groups)
-  //table.table(
-    ng-repeat="group in groups"
+mixin userImg(user)
+  img.img-responsive.img-rounded(
+    ng-src="{{ user.avatar | dmGravatar:32 }}"
+    tooltip="{{ user.name }}"
+    tooltip-animate="false"
+    tooltip-placement="top"
     )
-    tr(ng-repeat="rank in group.ranks")
-      | Group: {{ group.name }} - users number: {{ group.ranks.length }}
-      td
-        img.img-responsive.img-rounded(
-          ng-src="{{ rank.user.avatar | dmGravatar:32 }}"
-          tooltip="{{ rank.user.name }}"
-          tooltip-animate="false"
-          tooltip-placement="right"
+
+mixin singleUserResults(item)
+  td
+    img.img-responsive.img-rounded(
+      ng-src="{{ item.user.avatar | dmGravatar:32 }}"
+      tooltip="{{ item.user.name }}"
+      tooltip-animate="false"
+      tooltip-placement="top"
+      )
+  td(ng-repeat="it in event.iterations")
+    span(ng-repeat="i in getTasks(item, $index)")
+      span(ng-if="model.representateAsChecks")
+        span(ng-if="item.data[$parent.$parent.$index + '_' + i].isDone")
+          span.fa.fa-fw.fa-check.text-success
+        span(ng-if="!item.data[$parent.$parent.$index + '_' + i].isDone")
+          span.fa.fa-fw.fa-minus.text-muted
+      span(ng-if="!model.representateAsChecks")
+        span(ng-if="item.data[$parent.$parent.$index + '_' + i].isDone") 1&nbsp&nbsp
+        span(ng-if="!item.data[$parent.$parent.$index + '_' + i].isDone") 0&nbsp&nbsp
+
+
+.dm-ranking
+  .col-xs-12
+
+    h3.text-left(ng-if="!currentUser.group") Create New Group
+    form(
+        ng-if="!currentUser.group"
+        ng-submit="createNewGroup(newGroupName)"
+      )
+      .row     
+        .col-sm-5.form-group
+          input.form-control(
+            ng-model="newGroupName"
+            placeholder="Insert Name Here"
+            spellcheck="false"
           )
-      td(ng-repeat="it in event.iterations")
-        span(ng-repeat="i in getTasks(rank, $index)")
-          span(ng-if="rank.data[$parent.$index + '_' + i].isDone")
-            span.fa.fa-fw.fa-check.text-success
-          span(ng-if="!rank.data[$parent.$index + '_' + i].isDone")
-            span.fa.fa-fw.fa-minus.text-muted
-
-  //pre
-    div(ng-repeat="group in aggregatedGroups")
-      | {{ group }}
-
-  div(
-    ng-if="currentRankingView === rankingViews[1]"
-    ng-repeat="group in aggregatedGroups"
-    )
-    h3.text-center
-      | Group: {{ group.name }} - users number: {{ group.noOfUsers }}
-    table.table
-      tr(ng-repeat="iteration in group.results")
-        td(ng-repeat="result in iteration track by $index")
-          | {{ result }}/{{ group.noOfUsers }}
-
-
       
+        button.col-sm-2.btn.btn-primary( 
+          type="submit"
+          )
+          | Create
+      .row
+        .col-sm-7
+          alert(
+            ng-repeat="alert in alerts"
+            type="{{alert.type}}"
+            close="closeAlert($index)"
+            )
+            | {{alert.msg}}
+
+    h3.text-left(ng-if="!currentUser.group") Join Group
+      span(
+        dropdown=""
+        dropdown-append-to-body="" 
+        )
+        a.cursor-pointer(
+          dropdown-toggle="" 
+          )
+          span.fa.fa-fw.fa-users
+        ul.dropdown-menu
+          li(
+            ng-repeat="group in groups"
+            ng-click="userJoinToGroup(group.name)"
+            )
+            a.cursor-pointer
+              | {{ group.name }}
+
+    h3.text-center.view-title
+      | {{ model.currentRankingView }}
+      span(
+        dropdown=""
+        dropdown-append-to-body=""
+        auto-close="disabled"
+        is-open="rankingControlMenuIsOpen"
+        )
+        a.cursor-pointer(
+          dropdown-toggle="" 
+          )
+          span.fa.fa-fw.fa-cog(ng-class="{'ranking-ctrl-menu-is-open': rankingControlMenuIsOpen}")
+        ul.dropdown-menu
+          li(
+            ng-if="currentUser.acl.length >= trainerAcl"
+            ng-repeat="view in rankingViews"
+            ng-click="model.currentRankingView = view"
+            )
+            a.cursor-pointer
+              | {{ view }}
+              span.fa.fa-fw.fa-check(ng-if="view === model.currentRankingView")
+          li.add-padding(style="padding: 5px")
+            input.form-control.input-sm(
+              type="search"
+              ng-model="model.searchFor"
+              placeholder="Type Group or User" 
+              ) 
+          li.show-more-options(
+            ng-click="model.showMoreOptions = !model.showMoreOptions"
+            )
+            a.cursor-pointer
+              span.fa.fa-fw.fa-chevron-down(ng-if="!model.showMoreOptions")
+              span.fa.fa-fw.fa-chevron-up(ng-if="model.showMoreOptions")
+          li(
+            ng-click="model.representateAsChecks = true"
+            ng-if="model.showMoreOptions"
+            )
+            a.cursor-pointer 
+              | Representate as checks
+              span.fa.fa-fw.fa-check(ng-if="model.representateAsChecks")
+          li(
+            ng-click="model.representateAsChecks = false"
+            ng-if="model.showMoreOptions"
+            )
+            a.cursor-pointer 
+              | Representate as numbers
+              span.fa.fa-fw.fa-check(ng-if="!model.representateAsChecks")
+          li.divider(ng-if="model.showMoreOptions")
+          li(
+            ng-if="model.showMoreOptions"
+            ng-click="model.showOnly === 'points' ? model.showOnly = false : model.showOnly = 'points'"
+            )
+            a.cursor-pointer 
+              | Show only points
+              span.fa.fa-fw.fa-check(ng-if="model.showOnly === 'points'")
+          li(
+            ng-if="model.showMoreOptions"
+            ng-click="model.showOnly === 'progressbars' ? model.showOnly = false : model.showOnly = 'progressbars'"
+            )
+            a.cursor-pointer 
+              | Show only progressbars
+              span.fa.fa-fw.fa-check(ng-if="model.showOnly === 'progressbars'")
+
+    table.table(ng-if="model.currentRankingView === rankingViews[0]")
+      tr(ng-repeat="item in ranking | orderBy: '-result' | filter:model.searchFor as searchResult")
+        // niech to bedzie na jakis czas zakomentowane, pozniej postaram sie jeszcze
+        // ogarnac problem gwiazki, a jak nie uda sie, wywale
+        //span.fa.fa-fw.fa-star.star(
+          ng-if="item.user._id === theBestUserRank.user._id"
+          tooltip="The best programmer!"
+          tooltip-animate="false"
+          tooltip-placement="top"
+          tooltip-append-to-body=""
+          )
+        +singleUserResults(item)
+
+    div.animate-repeat(
+      ng-if="model.currentRankingView === rankingViews[1]"
+      ng-repeat="group in aggregatedGroups | orderBy: '-resultSummary.percentageResult' | filter:model.searchFor as searchResult"
+      )
+      h3.text-center.group-title(
+        ng-class="{'text-bolded': currentUser.group === group.name}"
+        )
+        span.fa.fa-fw.fa-star(
+          ng-if="group.name === theBestGroup.name"
+          tooltip="The best group!"
+          tooltip-animate="false"
+          tooltip-placement="top"
+          tooltip-append-to-body=""
+          )
+        | {{ group.name }} 
+        span.fa.fa-fw.fa-check.text-success(
+          ng-if="currentUser.group === group.name"
+          tooltip="Your group"
+          tooltip-animate="false"
+          tooltip-placement="top"
+          tooltip-append-to-body=""
+          ) 
+      table(ng-if="currentUser.acl.length >= trainerAcl || currentUser.group === group.name")
+        tr.text-center.fixed-width
+          td.fixed-padding(ng-repeat="user in group.users")
+            +userImg(user)
+
+      table.table(collapse="!(model.showOnly === 'points' || !model.showOnly)")
+          td(ng-repeat="iteration in group.results")
+            span(
+              ng-repeat="task in iteration track by $index"
+              tooltip="{{ task.result }}/{{ group.noOfUsers }}\n{{ properForTooltip(task.doneBy) }}"
+              tooltip-animate="false"
+              tooltip-append-to-body="true"
+              )
+              span(ng-if="model.representateAsChecks")
+                span.fa.fa-fw.fa-check.text-success(ng-if="task.result / group.noOfUsers === 1")
+                span.fa.fa-fw.fa-check.orange(ng-if="task.result / group.noOfUsers >= 0.5 && task.result / group.noOfUsers < 1")
+                span.fa.fa-fw.fa-check.orange-weak(ng-if="task.result / group.noOfUsers > 0 && task.result / group.noOfUsers < 0.5")
+                span.fa.fa-fw.fa-minus.text-muted(ng-if="task.result / group.noOfUsers === 0")
+              span(ng-if="!model.representateAsChecks") {{ task.result }}&nbsp&nbsp
+
+      progressbar(
+        collapse="!(model.showOnly === 'progressbars' || !model.showOnly)"
+        value="group.resultSummary.percentageResult" 
+        type="success"
+        )
+        | {{ group.resultSummary.percentageResult }}%
+
+      div(ng-if="currentUser.acl.length >= trainerAcl")
+        h5
+          span.cursor-pointer(
+            ng-hide="model.showUsersDetailsinGroup.indexOf(group.name) > -1"
+            ng-click="model.showUsersDetailsinGroup.push(group.name)"
+            )
+            | Show Users
+          span.cursor-pointer(
+            ng-show="model.showUsersDetailsinGroup.indexOf(group.name) > -1"
+            ng-click="model.showUsersDetailsinGroup.splice(model.showUsersDetailsinGroup.indexOf(group.name), 1)"
+            )
+            | Hide Users
+        table.table.users-details-in-group(ng-class="{'show': model.showUsersDetailsinGroup.indexOf(group.name) > -1}")
+          tr(ng-repeat="item in ranking | orderBy: '-result' | filter: { group: group.name }")
+            +singleUserResults(item)
+
+    div(ng-if="searchResult.length === 0")
+      h4 No results found...
+
+    pre
+      div(ng-repeat="group in aggregatedGroups")
+        | {{ group }}
+
+
+        
 
 

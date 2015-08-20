@@ -1,0 +1,139 @@
+.dm-ranking {
+
+	.view-title {
+
+		span a span {
+		opacity: 0;
+		transition: opacity .4s ease;
+
+			&.ranking-ctrl-menu-is-open {
+				opacity: 1;
+			}	
+	    }
+
+		span ul.dropdown-menu li.show-more-options {
+		    height: 10px;
+		    text-align: center;
+		    opacity: 0.2;
+
+	    	a {
+		    	span {
+				    position: absolute;
+				    top: 90px;
+				    left: 101px;
+		    	}
+	    	}
+		}
+	}
+
+	.view-title:hover span a span {
+		opacity: 1;
+	}
+
+	li.add-padding {
+		padding: 5px;
+	}
+
+	.star {
+	  position: absolute;
+	  left: -15px;
+	  padding: 3px;
+	  font-size: 20px;
+	  border: none;
+	}
+
+	.group-title {
+		margin-top: 26px;
+	}
+
+	.text-bolded {
+		font-weight: bold;
+	}
+
+	.fixed-width {
+		width: 100%;
+	}
+
+	.fixed-padding {
+		padding: 0px 3px 2px 0px;
+	}
+
+	.orange {
+		color: rgba(255, 165, 0, 1);
+	}
+
+	.orange-weak {
+		color: rgba(255, 165, 0, 0.33);
+	}
+
+	/* tak srednio mi wyszla ta animacja, najwyzej odlacze potem 
+	.users-details-in-group {
+  		margin-top: -300px;
+  		margin-left: -1000px;
+  		opacity: 0;
+   		z-index: -100;
+  		transition: all linear 0.3s;
+
+		&.show {
+			margin-top: 0;
+			margin-left: 0;
+			opacity: 1;
+			z-index: 1;
+		}
+	}*/
+	.users-details-in-group {
+		margin-top: -200px;
+  		visibility: hidden;
+  		opacity: 0;
+  		transition: all linear 0.3s;
+
+		&.show {
+			margin-top: 0;
+		    visibility: visible;
+			opacity: 1;
+		}
+	}
+
+	.progressbar {
+		max-height: 0;
+		margin-top: -50;
+  		visibility: hidden;
+  		opacity: 0;
+  		transition: all linear 0.3s;
+
+		&.show {
+			max-height: 100px;
+			margin: 0px 0 10px 0;
+		    visibility: visible;
+			opacity: 1;
+						
+			/*&.only-progressbars {
+				margin: 10px 0 10px 0;
+			}*/
+		}
+	}
+
+	/* niestety raczej nie bede mogl uzyc, bo nawalaja przy kazdym watch'u
+	.animate-repeat {
+	    line-height:40px;
+	    list-style:none;
+	    box-sizing:border-box;
+	}
+
+	.animate-repeat.ng-move,
+	.animate-repeat.ng-leave {
+  		transition: max-height linear 0.4s, opacity linear 0.4s;
+	}
+
+	.animate-repeat.ng-leave.ng-leave-active,
+	.animate-repeat.ng-move {
+	    opacity: 0;
+	    max-height: 0;
+	}
+
+	.animate-repeat.ng-leave {
+	    opacity: 1;
+	    max-height: 340px;
+	}
+	*/
+}
