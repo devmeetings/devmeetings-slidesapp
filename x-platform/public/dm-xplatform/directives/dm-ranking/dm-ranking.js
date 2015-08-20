@@ -86,43 +86,6 @@ export class RankingDir {
     return !!rankFound;
   }
 
-  // generateGroups(ranking) {
-  //   var o = _.groupBy(ranking, 'group');
-  //   // var o = {
-  //   //   'Grupa A' : [{}, {} , {}],
-  //   //   'Grupa B': [{}, {}]
-  //   // }
-
-  //   var keys  = Object.keys(o);
-  //   // keys === ['Grupa A', 'Grupa B'];
-
-  //   return keys.map((groupName) => {
-  //     return {
-  //       name: groupName,
-  //       ranks: o[groupName]
-  //     };
-  //   });
-  // }
-
-  /*
-      [
-   *     {
-   *        data: {
-                "0_0": { isDone: true }
-                "0_1": { isDone: true }
-                "1_0": { isDone: false}
-          }
-   *     },
-   *     {
-   *        data: {
-                "0_0": { isDone: false }
-                "0_1": { isDone: true }
-                "1_0": { isDone: false }
-          }
-   *     }
-   *   ]
-  */
-
   generateGroups (ranking) {
     let groups = [];
 
