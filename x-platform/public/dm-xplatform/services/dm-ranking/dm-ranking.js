@@ -41,6 +41,19 @@ class Ranking {
     return d.promise;
   }
 
+  updateUsersGroup (groupName) {
+    var self = this;
+    var d = this.$q.defer();
+    this.Sockets.emit('ranking.group', {
+      eventId: this.$stateParams.event,
+      groupName: groupName
+    }, (ranking) => {
+      self.onNewRanking(ranking);
+      d.resolve(ranking);
+    });
+    return d.promise;
+  }
+
   getCurrentRanking () {
     if (this.currentRanking) {
       return this.$q.when(this.currentRanking);

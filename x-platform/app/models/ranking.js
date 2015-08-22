@@ -12,6 +12,7 @@ var Ranking = new Schema({
     ref: 'user',
     index: true
   },
+  group: String,
   data: {
     type: Schema.Types.Mixed
   /*
