@@ -16,19 +16,30 @@ class Ranking {
     this.dmUser.getCurrentUser().then((user) => {
       scope.currentUser = user.result;
     });
-    scope.trainerAcl = 2;
     this.dmRanking.getCurrentRanking();
     scope.rankingService = this.dmRanking;
     scope.rankingViews = ['Users Ranking', 'Groups Ranking'];
-    scope.alerts = [];
+
     scope.model = {
       currentRankingView: scope.rankingViews[1],
       showUsersDetailsinGroup: [],
-      representateAsChecks: true
+      representateAsChecks: true,
+      showOnly: 'points'
     };
 
     scope.$watch('rankingService.currentRanking', (currentRanking) => {
-      // sugestia - zeby watch nie odpalal czesciej niz np. co 5-10s
+      refreshRanking(currentRanking);
+    });
+
+    scope.$watch('event', () => {
+      refreshRanking(this.dmRanking.currentRanking);
+    });
+
+    let refreshRanking = (currentRanking) => {
+      if (!scope.event) {
+        return;
+      }
+
       // Transform ranking to array
       scope.ranking = _.reduce(currentRanking, (memo, value) => {
         memo.push(value);
@@ -41,7 +52,14 @@ class Ranking {
       scope.currentUser.group = this.getCurrentUserGroup(scope.currentUser, scope.ranking);
       scope.theBestGroup = this.getTheBestGroup(scope.aggregatedGroups);
       scope.getTheBestUserRank = this.getTheBestUserRank(scope.ranking);
-    });
+    };
+
+    scope.isTrainer = (currentUser) => {
+      if (!currentUser) {
+        return false;
+      }
+      return _.contains(currentUser.acl, 'trainer');
+    };
 
     scope.getTasks = (item, iterationIdx) => {
 
@@ -56,7 +74,7 @@ class Ranking {
 
     scope.properForTooltip = function (doneBy) {
 
-      if (!(scope.currentUser.acl.length >= scope.trainerAcl)) {
+      if (!scope.isTrainer(scope.currentUser)) {
         return;
       }
       let users = '';
@@ -66,42 +84,12 @@ class Ranking {
       return users;
     };
 
-    scope.userJoinToGroup = (groupName) => {
-      let currentUserRank = this.getCurrentUserRank(scope.ranking, scope.currentUser._id);
-      currentUserRank.group = groupName;
-      // TODO BACK-END
-      //
-      // ranking uzytkownika ze zmieniana grupa leci na back-end, ktory
-      // dokonuje wpisu w DB, nastepnie info o dokonanej zmianie leci do frontu
-    };
-
-    scope.createNewGroup = (newGroupName) => {
-
-      if (!newGroupName) {
-        scope.alerts.push({type: 'warrning', msg: 'No idea how to name group? Be creative!'});
-        return;
-      }
-      if (this.groupAlreadyExist(scope.groups, newGroupName)) {
-        scope.alerts.push({type: 'warrning', msg: 'Group with this name already exist!'});
-        return;
-      }
-
-      let currentUserRank = this.getCurrentUserRank(scope.ranking, scope.currentUser._id);
-      currentUserRank.group = newGroupName;
-      // TODO BACK-END
-      //
-      // w skrocie:
-      // uzytkownik tworzy grupe automatycznie dodajac sie do niej po zatwierdzeniu nazwy
-      //
-      // rozwiniecie:
-      // ranking uzytkownika z nowa grupa leci na back-end, ktory
-      // dokonuje wpisu w DB, nastepnie info o dokonanej zmianie leci do frontu
-      // (informacje o tym ze grupa istnieje sa przechowywane w rankingu eventu z rankami userow, wiec
-      // na tej podstawie po froncie bedziemy miec nowa grupe, do ktorej inni userzy beda mogli sie dodac)
-    };
-
-    scope.closeAlert = function (index) {
-      scope.alerts.splice(index, 1);
+    scope.updateGroup = (newGroupName) => {
+      this.dmRanking.updateUsersGroup(newGroupName).then(() => {
+        let currentUserRank = this.getCurrentUserRank(scope.ranking, scope.currentUser._id);
+        currentUserRank.group = newGroupName;
+        scope.currentUser.group = newGroupName;
+      });
     };
 
   }
@@ -230,12 +218,11 @@ class Ranking {
   }
 
   getCurrentUserGroup (currentUser, ranking) {
-
-    for (let rank of ranking) {
-      if (currentUser._id === rank.user._id) {
-        return rank.group;
-      }
+    let currentUserRank = this.getCurrentUserRank(ranking, currentUser._id);
+    if (!currentUserRank) {
+      return '';
     }
+    return currentUserRank.group;
   }
 
   countUserResults (ranking) {
@@ -257,6 +244,7 @@ class Ranking {
       return group.resultSummary.percentageResult;
     });
   }
+
   getTheBestUserRank (ranking) {
     return _.max(ranking, function (rank) {
       return rank.result;
