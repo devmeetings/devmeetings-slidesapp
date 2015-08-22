@@ -23,8 +23,8 @@ mixin singleUserResults(item)
         span(ng-if="!item.data[$parent.$parent.$index + '_' + i].isDone")
           span.fa.fa-fw.fa-minus.text-muted
       span(ng-if="!model.representateAsChecks")
-        span(ng-if="item.data[$parent.$parent.$index + '_' + i].isDone") 1&nbsp&nbsp
-        span(ng-if="!item.data[$parent.$parent.$index + '_' + i].isDone") 0&nbsp&nbsp
+        span(ng-if="item.data[$parent.$parent.$index + '_' + i].isDone") 1&nbsp;&nbsp;
+        span(ng-if="!item.data[$parent.$parent.$index + '_' + i].isDone") 0&nbsp;&nbsp;
 
 
 .dm-ranking
