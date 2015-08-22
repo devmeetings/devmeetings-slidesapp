@@ -17,8 +17,15 @@ exports.onSocket = function (log, socket, io) {
       event: eventId,
       user: userId
     }, {
-      group: groupName
+      event: eventId,
+      user: userId,
+      group: groupName,
+      $setOnInsert: {
+        data: {},
+        counts: {}
+      }
     }, {
+      upsert: true,
       multi: true
     }).exec()).done(
       fetchAndBroadcastRanking(eventId, ack),

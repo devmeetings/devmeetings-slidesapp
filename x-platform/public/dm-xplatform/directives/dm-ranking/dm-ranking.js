@@ -105,15 +105,14 @@ class Ranking {
     let groups = [];
 
     for (let item of ranking) {
-      if (item.group) {
-        let group = {
-          name: item.group,
-          ranks: []
-        };
+      item.group = item.group || 'Others';
+      let group = {
+        name: item.group,
+        ranks: []
+      };
 
-        if (!this.groupAlreadyExist(groups, group.name)) {
-          groups.push(group);
-        }
+      if (!this.groupAlreadyExist(groups, group.name)) {
+        groups.push(group);
       }
     }
     return groups;
