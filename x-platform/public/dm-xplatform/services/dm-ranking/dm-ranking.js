@@ -55,10 +55,12 @@ class Ranking {
   }
 
   getCurrentRanking () {
-    if (this.currentRanking) {
+    var eventId = this.$stateParams.event;
+
+    if (this.currentRanking && this.lastEventId === eventId) {
       return this.$q.when(this.currentRanking);
     }
-    var eventId = this.$stateParams.event;
+    this.lastEventId = eventId;
     // Fetch ranking!
     var d = this.$q.defer();
     var self = this;
