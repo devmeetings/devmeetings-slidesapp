@@ -195,6 +195,10 @@ module.exports = function (app) {
   app.get('/decks/:slides*', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.deck);
   app.get('/slides/:slide', authenticateAsAnon, authenticated, authorizedForEditMode('admin:slides'), slider.slide);
 
+  // Dashboard
+  var dashboard = require('../app/controllers/dashboard');
+  app.get('/dashboard/*', authenticated, dashboard.index);
+
   // Courses
   var courses = require('../app/controllers/courses');
   app.get('/courses2/*', authenticated, courses.index);

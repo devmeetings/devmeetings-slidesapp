@@ -1,6 +1,6 @@
 exports.index = function (req, res) {
-  res.render('dm-courses/dm-courses', {
-    title: 'Courses',
+  res.render('dm-dashboard/dm-dashboard', {
+    title: 'XPlatform Dashboard',
     isDev: req.isDev,
     editMode: req.query.edit,
     withInspectlet: req.withInspectlet,

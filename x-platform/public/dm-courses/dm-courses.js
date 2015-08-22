@@ -1,31 +1,26 @@
-/* globals define */
-define(['angular',
-  'dm-courses/dm-courses-app',
-  // TODO [ToDr] Move bootstrap to common module
-  'slider/bootstrap'
-],
-  function (angular, app, bootstrap) {
-    app.config(['$stateProvider', '$urlRouterProvider',
-      function ($stateProvider, $urlRouterProvider) {
-        $stateProvider.state('index', {
-          url: '/courses'
-        });
+import app from './dm-courses-app';
+import bootstrap from 'slider/bootstrap';
 
-        // TODO [ToDr] Common login screen and redirections mechanism
-        /* $stateProvider.state('index.login', {
-            anonymous: false,
-            url: '/login',
-            views: {
-                left: {
-                  template: costam
-                }
-            },
-        });
-        */
+app.config(['$stateProvider', '$urlRouterProvider',
+  function ($stateProvider, $urlRouterProvider) {
+    $stateProvider.state('index', {
+      url: '/courses'
+    });
 
-        $urlRouterProvider.when('/', '/courses');
-        $urlRouterProvider.otherwise('/courses');
-      }
-    ]);
-    bootstrap('dm-courses');
-  });
+    // TODO [ToDr] Common login screen and redirections mechanism
+    /* $stateProvider.state('index.login', {
+        anonymous: false,
+        url: '/login',
+        views: {
+            left: {
+              template: costam
+            }
+        },
+    });
+    */
+
+    $urlRouterProvider.when('/', '/courses');
+    $urlRouterProvider.otherwise('/courses');
+  }
+]);
+bootstrap('dm-courses');
