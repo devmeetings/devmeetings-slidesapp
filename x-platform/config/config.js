@@ -202,7 +202,8 @@ var fromEnv = {
   realmUrl: process.env.REALM_URL,
   db: process.env.MONGO_URL,
   store: process.env.REDIS_URL,
-  livereload_port: process.env.LIVERELOAD_PORT
+  livereload_port: process.env.LIVERELOAD_PORT,
+  cookieDomain: process.env.COOKIE_DOMAIN
 };
 
 Object.keys(fromEnv).map(function (k) {
@@ -227,7 +228,7 @@ Object.keys(fromEnv).map(function (k) {
 (function (c) {
   'use strict';
 
-  if (c.isDev) {
+  if (c.isDev || c.cookieDomain) {
     return;
   }
 
