@@ -1,0 +1,21 @@
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+  up iptables-restore < /etc/iptables.ipv4.nat
+  post-up service dnsmasq restart
+  post-up service nginx restart
+
+iface wlan0 inet manual
+	post-up service hostapd restart
+iface p2p1 inet manual
+
+auto br0
+iface br0 inet static
+  address 192.168.66.1
+  netmask 255.255.255.0
+  bridge-ports p2p1 wlan0
+
+
+

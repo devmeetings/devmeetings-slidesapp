@@ -49,6 +49,30 @@
     - xplatform-deploy
     - xdashboard
 
+- hosts: xplatform-nuc
+  become: yes
+  become_user: root
+  vars:
+    hostname: "{{server_hostname if server_hostname is defined else server_domain}}"
+    xpla_job: 'XPlatform'
+    xpla_version: 'lastSuccessfulBuild'
+    server_env: 'production'
+    server_cluster: 2
+    live_version: 'lastSuccessfulBuild'
+    cookie_domain: 'xplatform.org'
+  tags:
+    - xplatform-nuc
+  roles:
+    - common
+    - redis
+    - mongodb
+    - nodejs
+    - xplatform
+    - xplatform-main
+    - xplatform-deploy
+    - xdashboard
+    - nuc 
+
 - hosts: xplatform-deploy
   become: yes
   become_user: root
