@@ -1,3 +1,123 @@
+mixin problems(event)
+  .problems
+    h4.cursor-pointer(
+      ng-if="event.reportedProblems.length"
+      ng-click="event.showProblemsReporter = !event.showProblemsReporter" 
+      )
+      span(tooltip="Show/Hide Problems Reporter")
+        | Unsolved problems: 
+      span(
+        tooltip="{{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }} unsolved / {{ event.reportedProblems.length }} all problems"
+        ng-class="{'text-danger': vm.getNumOfUnsolvedProblems(event.reportedProblems) > 0, 'text-muted': vm.getNumOfUnsolvedProblems(event.reportedProblems) === 0}"
+        )
+        | {{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }}
+    h4(ng-if="!event.reportedProblems.length") 
+      span
+        | No reported problems
+    .reporter(ng-if="event.showProblemsReporter")
+      ul
+        li(ng-repeat="problem in event.reportedProblems | orderBy: '-solved'")
+          h5.bold(ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}")
+            span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
+              | {{ problem.title }}
+              span(ng-if="problem.solved") 
+                i 
+                  | (solved)
+            span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
+              span.fa.fa-fw.fa-check(ng-if="!problem.solved")
+              span.fa.fa-fw.fa-minus(ng-if="problem.solved")
+          p(
+            ng-if="problem.showDescription"
+            ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}"
+            ) 
+              | {{ problem.description }}
+
+
 .dm-dashboard-index
-  h1 Dashboard Index directive
-  h3 {{ vm.greeting }} {{ vm.name }}
+
+  .row
+    .event(
+      ng-init="event.isFullscreen = false"
+      ng-repeat="event in vm.model.activeEvents"
+      ng-class="{'col-md-6': !event.isFullscreen, 'col-md-12': event.isFullscreen}"
+      )
+      .header.col-xs-12.text-center
+        h1.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen") {{ event.name }}
+        div(ng-if="event.timing.started")
+          h4 Started at: {{ event.timing.startedAt.toString() }}
+          h4 Expected end: {{ event.timing.expectedEnd.toString() }}
+        div(ng-if="!event.timing.started")
+          h4 Event has not yet begun
+      .streaming.col-md-6(
+        ng-if="event.isFullscreen"
+        )
+        img
+      div(ng-class="{'col-md-12': !event.isFullscreen, 'col-md-6': event.isFullscreen}")
+        .people
+          h4(ng-click="event.showPeopleDetails = !event.showPeopleDetails") 
+            span.cursor-pointer(
+              tooltip="Show/Hide Details"
+              tooltip-placement="right"
+              )
+              | People: 
+              span.bold.text-success{{ event.members.number }} 
+          div(ng-if="event.showPeopleDetails")
+            div
+              h5 Organizers: 
+                span.bold.text-success {{ event.members.organizers.length }} 
+              div
+                img.avatar.img-responsive.img-rounded(
+                  ng-repeat="organizer in event.members.organizers"
+                  src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
+                  tooltip="{{ organizer.name }}"
+                  )
+            //div
+              span Trainers: {{ event.members.trainers.length }} 
+              span(
+                ng-repeat="trainer in event.members.trainers"
+                ng-src="{{ trainer.avatar | dmGravatar:16 }}"
+                )
+            div
+              h5 Students: 
+                span.bold.text-success {{ event.members.students.all.length }} 
+              div
+                img.avatar.img-responsive.img-rounded(
+                  ng-repeat="student in event.members.students.all"
+                  src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+                  tooltip="{{ student.name }}"
+                  )     
+          h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
+            span.cursor-pointer(
+              ng-init="vm.numOfActvStudents = event.members.students.active.length; vm.numOfAllStudents = event.members.students.all.length"
+              tooltip="Show/Hide Details"
+              tooltip-placement="right"
+              )
+              | Active students: 
+              span.bold.text-success(ng-if="vm.numOfActvStudents / vm.numOfAllvStudents >= 0.66")
+                | {{ event.members.students.active.length }}
+              span.bold.text-warning(
+                ng-if="vm.numOfActvStudents / vm.numOfAllvStudents < 0.66 && vm.numOfActvStudents / vm.numOfAllvStudents >= 0.33"
+                )
+                | {{ event.members.students.active.length }}
+              span.bold.text-danger(ng-if="vm.numOfActvStudents / vm.numOfAllvStudents < 0.33")
+                | {{ event.members.students.active.length }}
+          div(ng-if="event.showActiveStudents")
+            img.avatar.img-responsive.img-rounded(
+              ng-repeat="activeStudent in event.members.students.active"
+              src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
+              tooltip="{{ activeStudent.name }}"
+              )
+        .stage
+          h4 Current stage: 
+            span.bold.text-success {{ event.currentStage }}
+        div(ng-if="!event.isFullscreen")
+          +problems(event)
+      .col-xs-12(ng-if="event.isFullscreen")
+        .col-md-6
+          +problems(event)
+        .col-md-6
+          h6 tescik!
+
+
+
+  
