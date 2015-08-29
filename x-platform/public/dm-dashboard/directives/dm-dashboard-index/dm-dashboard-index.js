@@ -29,12 +29,17 @@ class DmDashboardIndex {
 
   controller (vm) {
     vm.getNumOfUnsolvedProblems = (reportedProblems) => this.getNumOfUnsolvedProblems(reportedProblems);
+
+    vm.viewOptions = {
+      allProblemsOnScreen: false
+    };
+
     vm.model = {
       activeEvents: [
       // Wroclaw
       {
         _id: '12345xxx',
-        name: 'Responsive Web Design Wroclaw',
+        name: 'RWD Wroclaw',
         timing: {
           started: true,
           startedAt: 9.00,
@@ -228,7 +233,7 @@ class DmDashboardIndex {
       // Warszawa
       {
         _id: '12345xxx',
-        name: 'Responsive Web Design Warszawa',
+        name: 'RWD Warszawa',
         timing: {
           started: false
         },
@@ -295,7 +300,20 @@ class DmDashboardIndex {
           }
         },
         currentStage: 'Iteration 0',
-        reportedProblems: [],
+        reportedProblems: [
+          {
+            title: 'Brak Internetu',
+            description: 'Nie mamy dostepu do Internetu'
+          },
+          {
+            title: 'Brak wody',
+            description: 'Brak wody, nie mozna sie napic, umieramy z pragnienia'
+          },
+          {
+            title: 'Mentor Chory',
+            description: 'Jeden Mentor - Kuba Xiniski jest chory i nie przyjechal'
+          }
+        ],
         ranking: {
 
         },
@@ -307,7 +325,7 @@ class DmDashboardIndex {
       // Poznan
       {
         _id: '12345xxx',
-        name: 'Responsive Web Design Krakow',
+        name: 'RWD Poznan',
         timing: {
           started: true,
           startedAt: 8.53,
@@ -392,7 +410,20 @@ class DmDashboardIndex {
           }
         },
         currentStage: 'Iteration 2',
-        reportedProblems: [],
+        reportedProblems: [
+          {
+            title: 'Brak Internetu',
+            description: 'Nie mamy dostepu do Internetu'
+          },
+          {
+            title: 'Brak wody',
+            description: 'Brak wody, nie mozna sie napic, umieramy z pragnienia'
+          },
+          {
+            title: 'Mentor Chory',
+            description: 'Jeden Mentor - Kuba Xiniski jest chory i nie przyjechal'
+          }
+        ],
         ranking: {
 
         },
