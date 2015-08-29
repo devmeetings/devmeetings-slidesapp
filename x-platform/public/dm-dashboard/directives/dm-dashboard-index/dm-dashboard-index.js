@@ -29,6 +29,8 @@ class DmDashboardIndex {
 
   controller (vm) {
     vm.getNumOfUnsolvedProblems = (reportedProblems) => this.getNumOfUnsolvedProblems(reportedProblems);
+    vm.getPercentages = (numOfActvStudents, numOfAllStudents) => this.getPercentages(numOfActvStudents, numOfAllStudents);
+    vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
 
     vm.viewOptions = {
       allProblemsOnScreen: false
@@ -42,8 +44,8 @@ class DmDashboardIndex {
         name: 'RWD Wroclaw',
         timing: {
           started: true,
-          startedAt: 9.00,
-          expectedEnd: 16.00
+          startedAt: 9.03,
+          expectedEnd: 16.03
         },
         members: {
           number: 32,
@@ -198,7 +200,71 @@ class DmDashboardIndex {
               },
               {
                 name: 'Alek Cieślak',
-                avatar: 'https:https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Sławek Śmietanka',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Małgosia Kordus',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Kasia Jankowska',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Tomek Szczypiński',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Kuba Rudnicki',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Paweł Biczysko',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Kuba Bartczuk',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Alek Cieślak',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Bruno Gałka',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Ewelina Opałka',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Sławek Śmietanka',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Małgosia Kordus',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Kasia Jankowska',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Tomek Szczypiński',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Kuba Rudnicki',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+              },
+              {
+                name: 'Paweł Biczysko',
+                avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
               }
             ]
           }
@@ -223,7 +289,21 @@ class DmDashboardIndex {
           }
         ],
         ranking: {
-
+          bestUser: {
+            _id: '123',
+            name: 'Kuba Rudnicki',
+            avatar: '',
+            percentageResult: 50.3
+          },
+          bestGroup: {
+            _id: '321',
+            name: 'Ninja JS!',
+            percentageResult: 43.7
+          }
+        },
+        hyperlinks: {
+          rankingView: 'https://www.google.com',
+          trainerView: 'https://www.google.com'
         },
         streaming: {
           active: true,
@@ -315,7 +395,21 @@ class DmDashboardIndex {
           }
         ],
         ranking: {
-
+          bestUser: {
+            _id: '123',
+            name: 'Kuba Rudnicki',
+            avatar: '',
+            percentageResult: 50.3
+          },
+          bestGroup: {
+            _id: '321',
+            name: 'Ninja JS!',
+            percentageResult: 43.7
+          }
+        },
+        hyperlinks: {
+          rankingView: 'https://www.google.com',
+          trainerView: 'https://www.google.com'
         },
         streaming: {
           active: true,
@@ -425,7 +519,21 @@ class DmDashboardIndex {
           }
         ],
         ranking: {
-
+          bestUser: {
+            _id: '123',
+            name: 'Kuba Rudnicki',
+            avatar: '',
+            percentageResult: 50.3
+          },
+          bestGroup: {
+            _id: '321',
+            name: 'Ninja JS!',
+            percentageResult: 43.7
+          }
+        },
+        hyperlinks: {
+          rankingView: 'https://www.google.com',
+          trainerView: 'https://www.google.com'
         },
         streaming: {
           active: false,
@@ -445,6 +553,23 @@ class DmDashboardIndex {
       }
     }
     return numOfUnsolvedProblems;
+  }
+
+  getPercentages (numOfActvStudents, numOfAllStudents) {
+    return Math.round((numOfActvStudents / numOfAllStudents * 100) * 100) / 100;
+  }
+
+  getNumOfAllUnsolvedProblems (events) {
+    let allProblems = 0;
+
+    for (let event of events) {
+      for (let problem of event.reportedProblems) {
+        if (!problem.solved) {
+          allProblems++;
+        }
+      }
+    }
+    return allProblems;
   }
 
 }

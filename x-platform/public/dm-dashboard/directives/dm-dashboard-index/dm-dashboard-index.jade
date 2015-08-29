@@ -16,8 +16,27 @@ mixin problems(event)
         | No reported problems
     .reporter(ng-if="event.showProblemsReporter")
       ol
+        // ponizsze dwa li sa do zamienienia w jeden z orderBy, ale cos mi nie dzialalo
+        // i zrobilem dwa z filter, wiec ten kod jest powielony i brzydki, 
+        // wybiore jedna z opcji i usune co niepotrzebne, narazie nie przejmuj sie
+        // logika jest ok
         li(
-          ng-repeat="problem in event.reportedProblems | orderBy: 'solved'"
+          ng-repeat="problem in event.reportedProblems | filter:({problem: 'solved'})"
+          ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}"
+          )
+          h5.bold(ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}")
+            span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
+              | {{ problem.title }}
+              span(ng-if="problem.solved") 
+                i 
+                  | (solved)
+            span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
+              span.fa.fa-fw.fa-check(ng-if="!problem.solved")
+              span.fa.fa-fw.fa-minus(ng-if="problem.solved")
+          p(ng-if="problem.showDescription") 
+              | {{ problem.description }}
+        li(
+          ng-repeat="problem in event.reportedProblems | filter:({problem: '!solved'})"
           ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}"
           )
           h5.bold(ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}")
@@ -41,13 +60,18 @@ mixin problems(event)
       ng-repeat="event in vm.model.activeEvents"
       ng-class="{'col-md-6': !event.isFullscreen, 'col-md-12': event.isFullscreen}"
       )
-      .header.col-xs-12.text-center
+      .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': event.isFullscreen}")
         h1.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen") {{ event.name }}
         div(ng-if="event.timing.started")
-          h4 Started at: {{ event.timing.startedAt.toString() }}
-          h4 Expected end: {{ event.timing.expectedEnd.toString() }}
+          h4 Started at: 
+            span.bold {{ event.timing.startedAt.toString() }}
+          h4 Expected end: 
+            span.bold {{ event.timing.expectedEnd.toString() }}
         div(ng-if="!event.timing.started")
           h4 Event has not yet begun
+          // quick hack to improve view below:
+          h4(style="opacity: 0") QH
+          // hack end
       .streaming.col-md-6(
         ng-if="event.isFullscreen"
         )
@@ -88,19 +112,18 @@ mixin problems(event)
                   )     
           h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
             span.cursor-pointer(
-              ng-init="vm.numOfActvStudents = event.members.students.active.length; vm.numOfAllStudents = event.members.students.all.length"
               tooltip="Show/Hide Details"
               tooltip-placement="right"
               )
               | Active students: 
-              span.bold.text-success(ng-if="vm.numOfActvStudents / vm.numOfAllvStudents >= 0.66")
-                | {{ event.members.students.active.length }}
+              span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
+                | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
               span.bold.text-warning(
-                ng-if="vm.numOfActvStudents / vm.numOfAllvStudents < 0.66 && vm.numOfActvStudents / vm.numOfAllvStudents >= 0.33"
+                ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
                 )
-                | {{ event.members.students.active.length }}
-              span.bold.text-danger(ng-if="vm.numOfActvStudents / vm.numOfAllvStudents < 0.33")
-                | {{ event.members.students.active.length }}
+                | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+              span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
+                | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
           div(ng-if="event.showActiveStudents")
             img.avatar.img-responsive.img-rounded(
               ng-repeat="activeStudent in event.members.students.active"
@@ -112,11 +135,33 @@ mixin problems(event)
             span.bold.text-success {{ event.currentStage }}
         div(ng-if="!event.isFullscreen")
           +problems(event)
-      .col-xs-12(ng-if="event.isFullscreen")
+      .col-xs-12.bottomView(ng-if="event.isFullscreen")
         .col-md-6
           +problems(event)
         .col-md-6
-          h6 tescik!
+          h4.text-center 
+            span.fa.fa-star
+            span.fa.fa-star
+            span.fa.fa-star
+          h4 Best Student: {{ event.ranking.bestUser.name }}
+          progressbar(
+            value="event.ranking.bestUser.percentageResult" 
+            type="success"
+            )
+            | {{ event.ranking.bestUser.percentageResult }}%
+          h4 Best Group: {{ event.ranking.bestGroup.name }}
+          progressbar(
+            value="event.ranking.bestGroup.percentageResult" 
+            type="success"
+            )
+            | {{ event.ranking.bestGroup.percentageResult }}%
+          h4 
+            a(ng-href="event.hyperlinks.rankingView")
+              | Go to ranking view
+          h4
+            a(ng-href="event.hyperlinks.trainerView")
+              | Go to trainers view
+        hr
 
   .all-problems(ng-class="{'show': vm.viewOptions.allProblemsOnScreen}")
     div(ng-repeat="event in vm.model.activeEvents")
@@ -128,8 +173,9 @@ mixin problems(event)
     ng-click="vm.viewOptions.allProblemsOnScreen = !vm.viewOptions.allProblemsOnScreen"
     )
     span.fa.fa-fw.fa-toggle-on(ng-if="!vm.viewOptions.allProblemsOnScreen")
+      span.numOfAllProblems.text-danger(
+        tooltip="Unsolved Problems"
+        tooltip-placement="right"
+        )
+        | {{ vm.getNumOfAllUnsolvedProblems(vm.model.activeEvents) }}
     span.fa.fa-fw.fa-toggle-off(ng-if="vm.viewOptions.allProblemsOnScreen")
-  
-    //tooltip="Toggle Sidebar Problems Reporter"
-      tooltip-placement="right"
-      tooltip-append-to-body=""

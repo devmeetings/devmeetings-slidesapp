@@ -7,7 +7,7 @@
 
   .events {
     margin-left: 0;
-    transition: margin 0.4s linear;
+    transition: margin 0.2s linear;
 
     &.move-right {
       margin-left: 25%;
@@ -18,7 +18,13 @@
       /*border: 1px solid white;*/
 
       &.col-md-12 {
-        background-color: lighten(black, 5%);
+        /*background-color: lighten(black, 5%);*/
+      }
+
+      .header {
+        &.add-margin-bottom {
+          margin-bottom: 21px;
+        }
       }
 
       .streaming {
@@ -34,6 +40,10 @@
         display: inline-block;
         width: 24px;
         margin: 0 2px 2px 0;
+      }
+
+      .bottomView {
+        margin-top: 21px;
       }
     }
   }
@@ -53,7 +63,7 @@
           h5 .pull-right.cursor-pointer {
             .fa-check, .fa-minus {
               opacity: 0;
-              transition: opacity 0.35s linear;
+              /*transition: opacity 0.35s linear;*/
               /*transition-delay: 0.4s;*/
             }
           }
@@ -83,10 +93,14 @@
     background-color: lighten(black, 5%);
     border-right: 1px solid rgb(40, 40, 40);
     box-sizing: border-box;
-    transition: margin 0.25s linear;
+    transition: margin 0.2s linear;
 
     &.show {
       margin-left: 0;
+    }
+
+    .reporter {
+      border: none;
     }
 
     h4 {
@@ -100,6 +114,10 @@
     left: 10px;
     font-size: 20px;
     z-index: 1000;
+
+    span span.numOfAllProblems {
+      padding-left: 5px;
+    }
   }
 
 }
