@@ -14,7 +14,6 @@ import './slide-commit/slide-commit';
 import './slide-edit-sync/slide-edit-sync';
 import './slide-fiddle/fiddle';
 import './slide-jsonOutput/slide-jsonOutput';
-import './slide-jsrunner/jsrunner-coffee';
 import './slide-jsrunner/slide-jsrunner';
 import './slide-leftRight/slide-leftRight';
 import './slide-microtasks/evalAssertion';
