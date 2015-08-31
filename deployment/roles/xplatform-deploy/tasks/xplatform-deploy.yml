@@ -42,6 +42,7 @@
 - name: Installing Modules
   npm: 
     path: "/srv/{{server_domain}}/x-platform"
+    production: yes
 
 - name: Creating directory for local Cache
   file:

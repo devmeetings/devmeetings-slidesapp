@@ -149,6 +149,7 @@
       "monospaced/angular-qrcode": "github:monospaced/angular-qrcode@^5.1.0",
       "ng-file-upload": "github:danialfarid/ng-file-upload@^5.0.9",
       "ng-scrollbar": "github:asafdav/ng-scrollbar@^0.0.7",
+      "raven-js": "github:getsentry/raven-js@^1.1.19",
       "socket.io-client": "github:Automattic/socket.io-client@^1.3.5",
       "text": "github:systemjs/plugin-text@^0.0.2"
     },
@@ -165,6 +166,9 @@
             "angular"
           ]
         },
+        "format": "global"
+      },
+      "github:getsentry/raven-js@^1.1.19": {
         "format": "global"
       },
       "github:mb21/JSONedit@0.2.1": {

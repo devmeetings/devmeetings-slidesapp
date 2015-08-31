@@ -1,8 +1,8 @@
 /* globals define */
-define(['angular'], function (angular) {
+define(['angular', '../dm-errors/dm-errors'], function (angular) {
   'use strict';
-  angular.module('dm-user', []).factory('dmUser', ['$rootScope', '$http', '$q',
-    function ($rootScope, $http, $q) {
+  angular.module('dm-user', ['ngRaven']).factory('dmUser', ['$rootScope', '$http', '$q', 'Raven',
+    function ($rootScope, $http, $q, Raven) {
       var data = {};
       var result;
       var cache = {};
@@ -38,9 +38,11 @@ define(['angular'], function (angular) {
           result = $q.defer();
           $http.get('/api/users').success(function (user) {
             data.result = user;
+            Raven.setUserContext(user);
             result.resolve(data);
             $rootScope.isLoggedIn = true;
           }).error(function (data, status) {
+            Raven.setUserContext();
             result.reject(status);
             $rootScope.isLoggedIn = false;
           });
