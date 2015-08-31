@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var path = require('path');
+var raven = require('raven');
 var flash = require('connect-flash');
 var connectJadeStatic = require('connect-jade-static');
 
@@ -42,6 +43,7 @@ module.exports = function (app, config, router) {
     cookieParser: cookieParser
   };
 
+  app.use(raven.middleware.express.requestHandler(config.sentryDsn));
   app.use(compression());
   app.use(config.staticsPath, function (req, res, next) {
     if (req.originalUrl.indexOf('.html') === req.originalUrl.length - 5) {
@@ -82,6 +84,7 @@ module.exports = function (app, config, router) {
   });
   app.use(router);
 
+  app.use(raven.middleware.express.errorHandler(config.sentryDsn));
   app.use(winston.errorLogger({
     winstonInstance: winstonLogger.forExpress,
     dumpExceptions: true,
