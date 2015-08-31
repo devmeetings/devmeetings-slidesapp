@@ -1,5 +1,5 @@
 /* globals define */
-define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-jsrunner.html!text'], function (module, _, sliderPlugins, coffeeRunner, viewTemplate) {
+define(['module', '_', 'slider/slider.plugins', './slide-jsrunner.html!text'], function (module, _, sliderPlugins, viewTemplate) {
   'use strict';
 
   var EXECUTION_DELAY = 300;
@@ -65,16 +65,16 @@ define(['module', '_', 'slider/slider.plugins', './jsrunner-coffee', './slide-js
   };
 
   var compilers = {
-    'coffee': coffeeRunner
+      // 'cofeee': coffeeRunner
   };
 
   sliderPlugins.registerPlugin('slide', 'jsrunner', 'slide-jsrunner', {
     name: 'JSRunner',
-    description: 'Evaluates JS code from `code` plugin in clients browser. It is possible to preprocess data (coffee) before executing',
+    description: 'Evaluates JS code from `code` plugin in clients browser. It is possible to preprocess data before executing',
     example: {
       meta: {
         type: 'string/bool',
-        help: 'true - run js, "coffee" - run CoffeeScript'
+        help: 'true - run js'
       },
       data: true
     },
