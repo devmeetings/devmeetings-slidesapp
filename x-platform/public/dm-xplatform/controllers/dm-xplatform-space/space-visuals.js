@@ -8,7 +8,8 @@ class SpaceVisuals {
 
   constructor ($state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab) {
     _.extend(this, {
-    $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab});
+      $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab
+    });
   }
 
   initFullScreen ($scope) {

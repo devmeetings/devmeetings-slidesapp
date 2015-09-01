@@ -14,8 +14,8 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
   }, 200, throttleOptions);
 
   var triggerEventLater = _.throttle(function (scope, code, ev, editor) {
-    sliderPlugins.trigger.apply(sliderPlugins, ['slide.slide-code.change', ev, editor, scope.path]);
-  }, 100, throttleOptions);
+      sliderPlugins.trigger('slide.slide-code.change', ev, editor, scope.path);
+    }, 100, throttleOptions);
 
   var getCodeData = function (code) {
     if (!_.isObject(code)) {

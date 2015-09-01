@@ -7,7 +7,8 @@ export class History {
 
   constructor (dmRecorder, $http) {
     _.extend(this, {
-    $http});
+      $http
+    });
 
     this.history = [];
 

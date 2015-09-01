@@ -63,12 +63,15 @@ exports.createEventFromZip = function (req, res) {
 
         return defer.promise;
       }));
-    }).done(function (events) {
-      res.redirect('/space/' + events[0]._id + '/learn/agenda');
-    }, function (err) {
-      logger.error(err);
-      res.send(400, err);
-    });
+    }).done(
+      function (events) {
+        res.redirect('/space/' + events[0]._id + '/learn/agenda');
+      },
+      function (err) {
+        logger.error(err);
+        res.send(400, err);
+      }
+    );
   });
 
 };

@@ -81,7 +81,8 @@ sliderPlugins
       template: viewTemplate,
       controller ($scope) {
         let sw = new PluginsGallery({
-        $scope});
+          $scope
+        });
         sw.controller(this);
       }
     };

@@ -269,7 +269,8 @@ xplatformApp.directive('dmRanking', (dmRanking, dmUser) => {
     template: viewTemplate,
     link: (scope) => {
       let contextMenu = new Ranking({
-      dmRanking, dmUser});
+        dmRanking, dmUser
+      });
       contextMenu.link(scope);
     }
   };

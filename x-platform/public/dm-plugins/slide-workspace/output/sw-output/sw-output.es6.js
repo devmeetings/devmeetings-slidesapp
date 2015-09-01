@@ -95,7 +95,8 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       this.output = {};
 
       let output = new SwOutput({
-      $rootScope});
+        $rootScope
+      });
 
       output.controller(this, $scope);
     }

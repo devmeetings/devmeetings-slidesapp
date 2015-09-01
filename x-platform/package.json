@@ -72,7 +72,6 @@
     "hiredis": "^0.3.0"
   },
   "devDependencies": {
-    "babel-eslint": "^4.1.1",
     "bower": "^1.4.1",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
@@ -98,7 +97,6 @@
     "semistandard": "^7.0.2"
   },
   "semistandard": {
-    "parser": "babel-eslint",
     "ignore": [
       "node_modules/**",
       "public/bin/**",

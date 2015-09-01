@@ -145,7 +145,8 @@ sliderPlugins.directive('swEditor', () => {
     template: viewTemplate,
     controller: function ($scope) {
       let editor = new SwEditor({
-      $scope});
+        $scope
+      });
       editor.controller(this);
 
       let vm = this;

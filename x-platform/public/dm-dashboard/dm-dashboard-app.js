@@ -9,7 +9,7 @@ import 'angular-ui-router';
 import 'slider/slider.plugins';
 
 export default angular.module('dm-dashboard', [
-    'slider.plugins', 'ui.router', 'ui.bootstrap',
-    'angularMoment', 'cfp.hotkeys', 'hc.marked',
-    'ngAnimate'
+  'slider.plugins', 'ui.router', 'ui.bootstrap',
+  'angularMoment', 'cfp.hotkeys', 'hc.marked',
+  'ngAnimate'
 ]);

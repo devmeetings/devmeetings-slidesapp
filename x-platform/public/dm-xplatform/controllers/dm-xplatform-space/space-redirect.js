@@ -7,7 +7,8 @@ class SpaceRedirect {
 
   constructor ($location, $window) {
     _.extend(this, {
-    $location, $window});
+      $location, $window
+    });
   }
 
   redirectIfNeeded () {

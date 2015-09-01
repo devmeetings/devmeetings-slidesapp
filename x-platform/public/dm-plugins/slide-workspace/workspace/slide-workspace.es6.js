@@ -190,7 +190,8 @@ sliderPlugins
       template: viewTemplate,
       controller ($scope) {
         let sw = new SwMain({
-        $rootScope, $scope, $timeout});
+          $rootScope, $scope, $timeout
+        });
         sw.controller(this);
       }
     };

@@ -115,7 +115,7 @@ define(['_'], function (_) {
       return this.getCurrentTabsStack().dirtyCounter === 0;
     };
 
-  }).call(WorkspaceUndoManager.prototype);
+  }.call(WorkspaceUndoManager.prototype));
 
   if (enableLogging) {
     _.each(WorkspaceUndoManager.prototype, function (func, key) {
