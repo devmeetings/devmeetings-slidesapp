@@ -16,8 +16,10 @@ define(['module', '_', 'slider/slider.plugins'],
           dragActive: '='
         },
         link: function (scope, element) {
-          scope.left = '50%';
-          scope.right = 'calc(50% - 3px)';
+          if (!scope.left) {
+            scope.left = '50%';
+            scope.right = 'calc(50% - 3px)';
+          }
 
           var currentDiff = 0;
 

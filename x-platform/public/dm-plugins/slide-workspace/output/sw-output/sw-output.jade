@@ -21,10 +21,12 @@ mixin frameWithAddress()
     )
     sw-output-devices(
       with-devices="model.devices.show"
-      active-devices="model.devices.active"
+      without-controls="model.devices.hideControls"
+      active-device="model.devices.active"
       width="model.devices.width"
       height="model.devices.height"
       scale="model.devices.scale"
+      workspace-id="model.workspaceId"
       )
       sw-output-frame(
           base-url="model.baseUrl"

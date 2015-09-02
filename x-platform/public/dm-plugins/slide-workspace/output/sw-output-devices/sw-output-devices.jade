@@ -16,12 +16,21 @@ mixin device(name, icon, title)
       ng-class="model.getWrapperClass()"
     )
     .sw-output-devices__selector(
-      ng-if="model.withDevices"   
+      ng-if="model.withDevices"
+      ng-hide="model.withoutControls"
       )
       ul.nav.nav-pills.nav-justified
         +device('phone', 'mobile', 'Phone')
         +device('tablet', 'tablet', 'Tablet')
         +device('desktop', 'laptop', 'Desktop')
+        li
+          a.cursor-pointer(
+            tooltip="Open All Previews"
+            target="previews"
+            ui-sref="previewWorkspace({workspaceId: model.workspaceId})"
+            )
+            span.fa.fa-fw.fa-th
+
     .sw-output-devices__size(
       ng-if="model.withDevices"
     )

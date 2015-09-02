@@ -11,10 +11,12 @@ sliderPlugins.directive('swOutputDevices', () => {
     restrict: 'E',
     scope: {
       withDevices: '=',
+      withoutControls: '=',
       activeDevice: '=',
       width: '=',
       height: '=',
-      scale: '='
+      scale: '=',
+      workspaceId: '='
     },
     transclude: true,
     bindToController: true,

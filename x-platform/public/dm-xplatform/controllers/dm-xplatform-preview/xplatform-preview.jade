@@ -1,0 +1,76 @@
+.full-height.slide-workspace
+  .sw-col.full-height(ng-style="{width: output.leftSize}")
+    .overlay(ng-if="output.dragActive")
+    sw-output(
+      with-console="false"
+      with-console-in-columns="false"
+      with-address="false"
+      with-ionic="false"
+      is-dead="false"
+      base-url="baseUrl"
+      devices="devicesA"
+      hide-base-url="true"
+      current-path="currentPath"
+      applied-path="appliedPath"
+      workspace-id="workspaceId"
+      )
+  sw-splitter(left="output.leftSize", right="output.rightSize", drag-active="output.dragActive")
+  .sw-col.full-height(ng-style="{width: output.rightSize}")
+    .sw-row(
+      ng-style="{height: output.topSize2}"
+      )
+      .overlay(ng-if="output.dragActive")
+      sw-output(
+        with-console="false"
+        with-console-in-columns="false"
+        with-address="true"
+        with-ionic="false"
+        is-dead="false"
+        base-url="baseUrl"
+        devices="devicesD"
+        hide-base-url="true"
+        current-path="currentPath"
+        applied-path="appliedPath"
+        workspace-id="workspaceId"
+        )
+    sw-splitter(left="output.topSize2", right="output.bottomSize2", drag-active="output.dragActive", is-row="true")
+    .sw-row(
+      ng-style="{height: output.bottomSize2}"
+      )
+      .sw-row(
+        ng-style="{height: output.topSize}"
+        )
+        .overlay(ng-if="output.dragActive")
+        sw-output(
+          with-console="false"
+          with-console-in-columns="false"
+          with-address="false"
+          with-ionic="false"
+          is-dead="false"
+          base-url="baseUrl"
+          devices="devicesC"
+          hide-base-url="true"
+          current-path="currentPath"
+          applied-path="appliedPath"
+          workspace-id="workspaceId"
+          )
+      sw-splitter(left="output.topSize", right="output.bottomSize", drag-active="output.dragActive", is-row="true")
+      .sw-row(
+        ng-style="{height: output.bottomSize}"
+        )
+        .overlay(ng-if="output.dragActive")
+        sw-output(
+          with-console="false"
+          with-console-in-columns="false"
+          with-address="false"
+          with-ionic="false"
+          is-dead="false"
+          base-url="baseUrl"
+          devices="devicesB"
+          hide-base-url="true"
+          current-path="currentPath"
+          applied-path="appliedPath"
+          workspace-id="workspaceId"
+          )
+
+
