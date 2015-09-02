@@ -21,7 +21,8 @@ class Formatter {
   format (tabName, tabContent, callback) {
     let ext = getExtension(tabName);
     let formatter = hasFormatting[ext];
-    System.import('js-beautify/beautify-' + formatter).then((jsBeautify) => {
+    let importName = (formatter === 'js') ? 'beautify' : 'beautify-' + formatter;
+    System.import('js-beautify/' + importName).then((jsBeautify) => {
       let func = jsBeautify[formatter + '_beautify'];
       callback(func(tabContent, {
         indent_size: 2

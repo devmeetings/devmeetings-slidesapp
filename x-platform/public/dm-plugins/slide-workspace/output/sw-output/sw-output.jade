@@ -5,6 +5,7 @@ mixin frameWithAddress()
       highlight-refresh="model.needsEval"
       base-url="model.baseUrl"
       hide-base-url="model.hideBaseUrl"
+      show-devices="model.devices.show"
       current-path="model.currentPath"
       applied-path="model.appliedPath"
       workspace-id="model.workspaceId"
@@ -18,8 +19,12 @@ mixin frameWithAddress()
   .full-height(
       ng-class="{'with-address': model.withAddress}"
     )
-    sw-output-phone(
-        with-phone="model.withIonic"
+    sw-output-devices(
+      with-devices="model.devices.show"
+      active-devices="model.devices.active"
+      width="model.devices.width"
+      height="model.devices.height"
+      scale="model.devices.scale"
       )
       sw-output-frame(
           base-url="model.baseUrl"

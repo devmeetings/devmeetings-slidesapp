@@ -80,6 +80,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       withIonic: '=',
       isDead: '=',
       baseUrl: '=',
+      devices: '=',
       hideBaseUrl: '=',
       currentPath: '=',
       appliedPath: '=',

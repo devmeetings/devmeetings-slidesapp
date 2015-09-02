@@ -19,6 +19,7 @@ sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
       onRefresh: '&',
       highlightRefresh: '=',
       hideBaseUrl: '=',
+      showDevices: '=',
       baseUrl: '=',
       currentPath: '=',
       appliedPath: '=',
