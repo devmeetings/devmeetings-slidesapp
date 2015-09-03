@@ -16,48 +16,37 @@ mixin problems(event)
         | No reported problems
     .reporter(ng-if="event.showProblemsReporter")
       ol
-        // ponizsze dwa li sa do zamienienia w jeden z orderBy, ale cos mi nie dzialalo
-        // i zrobilem dwa z filter, wiec ten kod jest powielony i brzydki, 
-        // wybiore jedna z opcji i usune co niepotrzebne, narazie nie przejmuj sie
-        // logika jest ok
-        li(
-          ng-repeat="problem in event.reportedProblems | filter:({problem: 'solved'})"
-          ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}"
-          )
-          h5.bold(ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}")
+        li.text-danger(ng-repeat="problem in event.reportedProblems | filter: { solved: false }")
+          h5.bold
             span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
               | {{ problem.title }}
-              span(ng-if="problem.solved") 
+            span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
+              span.fa.fa-fw.fa-check
+          p(ng-if="problem.showDescription") 
+              | {{ problem.description }}
+        li.text-muted(ng-repeat="problem in event.reportedProblems | filter: { solved: true }")
+          h5.bold
+            span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
+              | {{ problem.title }}
+              span
                 i 
                   | (solved)
             span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
-              span.fa.fa-fw.fa-check(ng-if="!problem.solved")
-              span.fa.fa-fw.fa-minus(ng-if="problem.solved")
+              span.fa.fa-fw.fa-minus
           p(ng-if="problem.showDescription") 
               | {{ problem.description }}
-        li(
-          ng-repeat="problem in event.reportedProblems | filter:({problem: '!solved'})"
-          ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}"
-          )
-          h5.bold(ng-class="{'text-danger': !problem.solved, 'text-muted': problem.solved}")
-            span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
-              | {{ problem.title }}
-              span(ng-if="problem.solved") 
-                i 
-                  | (solved)
-            span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
-              span.fa.fa-fw.fa-check(ng-if="!problem.solved")
-              span.fa.fa-fw.fa-minus(ng-if="problem.solved")
-          p(ng-if="problem.showDescription") 
-              | {{ problem.description }}
+
 
 
 .dm-dashboard-index
 
+  // ----------- WIDOK BLOKOWY - STARY -------------
+  // ----------- oraz WIDOK SZCZEGOLOWY ------------
+  // ----------- WYBRANEGO EVENTU ------------------
+
   .events.row(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
     .event(
-      ng-init="event.isFullscreen = false"
-      ng-repeat="event in vm.model.activeEvents"
+      ng-repeat="event in vm.model.activeEvents | filter: { isFullscreen: true }"
       ng-class="{'col-md-6': !event.isFullscreen, 'col-md-12': event.isFullscreen}"
       )
       .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': event.isFullscreen}")
@@ -156,12 +145,81 @@ mixin problems(event)
             )
             | {{ event.ranking.bestGroup.percentageResult }}%
           h4 
-            a(ng-href="event.hyperlinks.rankingView")
+            a(ng-href="{{ event.hyperlinks.rankingView }}")
               | Go to ranking view
           h4
-            a(ng-href="event.hyperlinks.trainerView")
+            a(ng-href="{{ event.hyperlinks.trainerView }}")
               | Go to trainers view
         hr
+
+
+  // ----------- WIDOK STRATEGICZNY - NOWY ------------
+
+  .events(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
+    table.table.table-bordered.table-hover
+      tr.labels
+        th.name 
+          | Event
+        th.timing-started
+          | Started at
+        th.timing-expected-end
+          | Expected end at
+        th.people
+          | All People
+        th.stage 
+          | Current stage
+        th.active-students
+          | Active students
+        th.unsolved-problems
+          | Unsolved problems
+
+      tr.data(ng-repeat="event in vm.model.activeEvents")
+        td.name.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen")
+          span.bold
+            | {{ event.name }}
+        td.timing-started 
+          span.bold 
+            | {{ event.timing.startedAt.toString() }}
+        td.timing-expected-end
+          span.bold 
+            | {{ event.timing.expectedEnd.toString() }}
+        td.people
+          span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
+            | {{ event.members.number }} 
+        td.stage
+          span.bold.text-success 
+            | {{ event.currentStage }}
+        td.active-students 
+          span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
+            | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+          span.bold.text-warning(
+            ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
+            )
+            | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+          span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
+            | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+        td.unsolved-problems
+          span.bold(
+            tooltip="{{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }} unsolved / {{ event.reportedProblems.length }} all problems"
+            ng-class="{'text-danger': vm.getNumOfUnsolvedProblems(event.reportedProblems) > 0, 'text-muted': vm.getNumOfUnsolvedProblems(event.reportedProblems) === 0}"
+            )
+            | {{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // left sidebar z zebranymi problemami sposrod lokacji i jego toggle
 
   .all-problems(ng-class="{'show': vm.viewOptions.allProblemsOnScreen}")
     div(ng-repeat="event in vm.model.activeEvents")
