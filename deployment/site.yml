@@ -8,7 +8,15 @@
   tasks:
     - name: Installing Python
       raw: apt-get update && apt-get install python python-simplejson python-apt -y
-      
+     
+- hosts: xplatform-local
+  become: yes
+  become_user: root
+  tags:
+    - xplatform-local
+  roles:
+    - localxpla-mgmt
+
 - hosts: xplatform-node
   become: yes
   become_user: root
