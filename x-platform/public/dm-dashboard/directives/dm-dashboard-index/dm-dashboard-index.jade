@@ -44,8 +44,6 @@ mixin sortIcon()
 
 .dm-dashboard-index
 
-  pre(style="margin-top: 40px") {{ vm.sort | json }}
-
   // ----------- WIDOK STRATEGICZNY - NOWY ------------
 
   .events(
@@ -223,28 +221,26 @@ mixin sortIcon()
           .col-md-6
             +problems(event)
           .col-md-6
-            h4.text-center 
-              span.fa.fa-star
-              span.fa.fa-star
-              span.fa.fa-star
-            h4 Best Students
-            div(ng-repeat="user in event.ranking.bestUsers")
-              h4 {{ user.name }}
-                span
-                  progressbar(
-                    value="user.percentageResult" 
-                    type="success"
-                    )
-                    | {{ user.percentageResult }}%
-            h4 Worse Students
-            div(ng-repeat="user in event.ranking.worseUsers")
-              h4 {{ user.name }}
-                span
-                  progressbar(
-                    value="user.percentageResult" 
-                    type="warning"
-                    )
-                    | {{ user.percentageResult }}%
+            h4 Best Students:
+            h5(ng-repeat="user in event.ranking.bestUsers")
+              span.user-name.pull-left
+                | {{ user.name }}
+              span
+                progressbar(
+                  value="user.percentageResult" 
+                  type="success"
+                  )
+                  | {{ user.percentageResult }}%
+            h4 Worse Students:
+            h5(ng-repeat="user in event.ranking.worseUsers")
+              span.user-name.pull-left
+                | {{ user.name }}
+              span
+                progressbar(
+                  value="user.percentageResult" 
+                  type="warning"
+                  )
+                  | {{ user.percentageResult }}%
             h4 Best Group: {{ event.ranking.bestGroup.name }}
             progressbar(
               value="event.ranking.bestGroup.percentageResult" 

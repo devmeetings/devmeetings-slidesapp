@@ -1,5 +1,7 @@
 
 .dm-dashboard-index {
+  max-width: 1550px;
+  margin: 0 auto;
 
   .bold {
     font-weight: bold;
@@ -17,7 +19,7 @@
     .table {
       width: 100%;
 
-      thead > tr > th {
+      > tbody > tr > th {
         width: 10%;
       }
     }
@@ -61,13 +63,17 @@
 
       .bottomView {
         margin-top: 21px;
+
+        .user-name.pull-left {
+          width: 140px;
+        }
       }
     }
   }
 
   .problems {
     .reporter {
-      max-height: 200px;
+      max-height: 300px;
       padding-left: 10px;
       border: 1px solid rgb(40, 40, 40);
       overflow: auto;

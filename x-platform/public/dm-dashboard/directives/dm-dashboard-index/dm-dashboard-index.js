@@ -428,7 +428,7 @@ class DmDashboardIndex {
           }
         },
         currentStage: {
-          name: 'It. 1',
+          name: 'It. 0',
           minFromStart: 5.20
         },
         reportedProblems: [
@@ -902,8 +902,8 @@ class DmDashboardIndex {
           }
         },
         currentStage: {
-          name: 'It. 4',
-          minFromStart: 55.20
+          name: 'It. 0',
+          minFromStart: 15.50
         },
         reportedProblems: [
           {
