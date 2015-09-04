@@ -17,15 +17,15 @@ mixin problems(event)
     .reporter(ng-if="event.showProblemsReporter")
       ol
         li.text-danger(ng-repeat="problem in event.reportedProblems | filter: { solved: false }")
-          h5.bold
+          h5.text-danger.bold
             span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
               | {{ problem.title }}
             span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
               span.fa.fa-fw.fa-check
           p(ng-if="problem.showDescription") 
-              | {{ problem.description }}
+            | {{ problem.description }}
         li.text-muted(ng-repeat="problem in event.reportedProblems | filter: { solved: true }")
-          h5.bold
+          h5.text-muted.bold
             span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
               | {{ problem.title }}
               span
@@ -34,146 +34,58 @@ mixin problems(event)
             span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
               span.fa.fa-fw.fa-minus
           p(ng-if="problem.showDescription") 
-              | {{ problem.description }}
+            | {{ problem.description }}
+
+mixin sortIcon()
+  span.fa.fa-fw.fa-chevron-down(ng-show="vm.sort.desc")
+  span.fa.fa-fw.fa-chevron-up(ng-hide="vm.sort.desc")
 
 
 
 .dm-dashboard-index
 
-  // ----------- WIDOK BLOKOWY - STARY -------------
-  // ----------- oraz WIDOK SZCZEGOLOWY ------------
-  // ----------- WYBRANEGO EVENTU ------------------
-
-  .events.row(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
-    .event(
-      ng-repeat="event in vm.model.activeEvents | filter: { isFullscreen: true }"
-      ng-class="{'col-md-6': !event.isFullscreen, 'col-md-12': event.isFullscreen}"
-      )
-      .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': event.isFullscreen}")
-        h1.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen") {{ event.name }}
-        div(ng-if="event.timing.started")
-          h4 Started at: 
-            span.bold {{ event.timing.startedAt.toString() }}
-          h4 Expected end: 
-            span.bold {{ event.timing.expectedEnd.toString() }}
-        div(ng-if="!event.timing.started")
-          h4 Event has not yet begun
-          // quick hack to improve view below:
-          h4(style="opacity: 0") QH
-          // hack end
-      .streaming.col-md-6(
-        ng-if="event.isFullscreen"
-        )
-        img
-      div(ng-class="{'col-md-12': !event.isFullscreen, 'col-md-6': event.isFullscreen}")
-        .people
-          h4(ng-click="event.showPeopleDetails = !event.showPeopleDetails") 
-            span.cursor-pointer(
-              tooltip="Show/Hide Details"
-              tooltip-placement="right"
-              )
-              | People: 
-              span.bold.text-success {{ event.members.number }} 
-          div(ng-if="event.showPeopleDetails")
-            div
-              h5 Organizers: 
-                span.bold.text-success {{ event.members.organizers.length }} 
-              div
-                img.avatar.img-responsive.img-rounded(
-                  ng-repeat="organizer in event.members.organizers"
-                  src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
-                  tooltip="{{ organizer.name }}"
-                  )
-            //div
-              span Trainers: {{ event.members.trainers.length }} 
-              span(
-                ng-repeat="trainer in event.members.trainers"
-                ng-src="{{ trainer.avatar | dmGravatar:16 }}"
-                )
-            div
-              h5 Students: 
-                span.bold.text-success {{ event.members.students.all.length }} 
-              div
-                img.avatar.img-responsive.img-rounded(
-                  ng-repeat="student in event.members.students.all"
-                  src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
-                  tooltip="{{ student.name }}"
-                  )     
-          h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
-            span.cursor-pointer(
-              tooltip="Show/Hide Details"
-              tooltip-placement="right"
-              )
-              | Active students: 
-              span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
-                | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-              span.bold.text-warning(
-                ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
-                )
-                | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-              span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
-                | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-          div(ng-if="event.showActiveStudents")
-            img.avatar.img-responsive.img-rounded(
-              ng-repeat="activeStudent in event.members.students.active"
-              src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
-              tooltip="{{ activeStudent.name }}"
-              )
-        .stage
-          h4 Current stage: 
-            span.bold.text-success {{ event.currentStage }}
-        div(ng-if="!event.isFullscreen")
-          +problems(event)
-      .col-xs-12.bottomView(ng-if="event.isFullscreen")
-        .col-md-6
-          +problems(event)
-        .col-md-6
-          h4.text-center 
-            span.fa.fa-star
-            span.fa.fa-star
-            span.fa.fa-star
-          h4 Best Student: {{ event.ranking.bestUser.name }}
-          progressbar(
-            value="event.ranking.bestUser.percentageResult" 
-            type="success"
-            )
-            | {{ event.ranking.bestUser.percentageResult }}%
-          h4 Best Group: {{ event.ranking.bestGroup.name }}
-          progressbar(
-            value="event.ranking.bestGroup.percentageResult" 
-            type="success"
-            )
-            | {{ event.ranking.bestGroup.percentageResult }}%
-          h4 
-            a(ng-href="{{ event.hyperlinks.rankingView }}")
-              | Go to ranking view
-          h4
-            a(ng-href="{{ event.hyperlinks.trainerView }}")
-              | Go to trainers view
-        hr
-
+  pre(style="margin-top: 40px") {{ vm.sort | json }}
 
   // ----------- WIDOK STRATEGICZNY - NOWY ------------
 
-  .events(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
+  .events(
+    ng-if="vm.viewOptions.strategicView === 'table'"
+    ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
+    )
     table.table.table-bordered.table-hover
       tr.labels
-        th.name 
+        th.name.cursor-pointer(ng-click="vm.sortBy('name')") 
           | Event
-        th.timing-started
+          span(ng-if="vm.sort.by === 'name'")
+            +sortIcon()
+        th.timing-started.cursor-pointer(ng-click="vm.sortBy('timing.startedAt')")
           | Started at
-        th.timing-expected-end
+          span(ng-if="vm.sort.by === 'timing.startedAt'")
+            +sortIcon()
+        th.timing-expected-end.cursor-pointer(ng-click="vm.sortBy('timing.expectedEnd')")
           | Expected end at
-        th.people
+          span(ng-if="vm.sort.by === 'timing.expectedEnd'")
+            +sortIcon()
+        th.people.cursor-pointer(ng-click="vm.sortBy('members.number')")
           | All People
-        th.stage 
+          span(ng-if="vm.sort.by === 'members.number'")
+            +sortIcon()
+        th.stage.cursor-pointer(ng-click="vm.sortBy('currentStage.name')") 
           | Current stage
+          span(ng-if="vm.sort.by === 'currentStage.name'")
+            +sortIcon()
         th.active-students
           | Active students
+        th.best-users
+          | Best Students 
+        th.worse-users
+          | Worse Students
+        th.best-group
+          | Best Group
         th.unsolved-problems
           | Unsolved problems
 
-      tr.data(ng-repeat="event in vm.model.activeEvents")
+      tr.event(ng-repeat="event in vm.model.activeEvents | orderBy:vm.sort.by:vm.sort.desc")
         td.name.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen")
           span.bold
             | {{ event.name }}
@@ -188,7 +100,7 @@ mixin problems(event)
             | {{ event.members.number }} 
         td.stage
           span.bold.text-success 
-            | {{ event.currentStage }}
+            | {{ event.currentStage.name }}, {{ event.currentStage.minFromStart }} min.
         td.active-students 
           span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
@@ -198,6 +110,21 @@ mixin problems(event)
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
           span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+        td.best-users
+          img.avatar.small.img-responsive.img-rounded(
+            ng-repeat="user in event.ranking.bestUsers"
+            src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+            tooltip="{{ user.name }}, {{ user.percentageResult }}%"
+            ) 
+        td.worse-users
+          img.avatar.small.img-responsive.img-rounded(
+            ng-repeat="user in event.ranking.worseUsers"
+            src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+            tooltip="{{ user.name }}, {{ user.percentageResult }}%"
+            ) 
+        td.best-group
+          span.bold(tooltip="{{ event.ranking.bestGroup.name }}, {{ event.ranking.bestGroup.percentageResult }}%")
+            {{ event.ranking.bestGroup.name }}
         td.unsolved-problems
           span.bold(
             tooltip="{{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }} unsolved / {{ event.reportedProblems.length }} all problems"
@@ -207,15 +134,150 @@ mixin problems(event)
 
 
 
+  // ----------- WIDOK BLOKOWY - STARY -------------
+  // ----------- oraz WIDOK SZCZEGOLOWY ------------
+  // ----------- WYBRANEGO EVENTU ------------------
+
+  .events.row(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
+    .event(
+      ng-repeat="event in vm.model.activeEvents"
+      ng-class="{'col-md-6': !event.isFullscreen, 'col-md-12': event.isFullscreen, 'no-padding': vm.viewOptions.strategicView === 'table'}"
+      )
+      div(ng-if="vm.viewOptions.strategicView === 'blocks' || event.isFullscreen")
+        .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': event.isFullscreen}")
+          h1.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen") {{ event.name }}
+          div(ng-if="event.timing.started")
+            h4 Started at: 
+              span.bold {{ event.timing.startedAt.toString() }}
+            h4 Expected end: 
+              span.bold {{ event.timing.expectedEnd.toString() }}
+          div(ng-if="!event.timing.started")
+            h4 Event has not yet begun
+            // quick hack to improve view below:
+            h4(style="opacity: 0") QH
+            // hack end
+        .streaming.col-md-6(
+          ng-if="event.isFullscreen"
+          )
+          img
+        div(ng-class="{'col-md-12': !event.isFullscreen, 'col-md-6': event.isFullscreen}")
+          .people
+            h4(ng-click="event.showPeopleDetails = !event.showPeopleDetails") 
+              span.cursor-pointer(
+                tooltip="Show/Hide Details"
+                tooltip-placement="right"
+                )
+                | People: 
+                span.bold.text-success {{ event.members.number }} 
+            div(ng-if="event.showPeopleDetails || event.isFullscreen")
+              div
+                h5 Organizers: 
+                  span.bold.text-success {{ event.members.organizers.length }} 
+                div
+                  img.avatar.img-responsive.img-rounded(
+                    ng-repeat="organizer in event.members.organizers"
+                    src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
+                    tooltip="{{ organizer.name }}"
+                    )
+              //div
+                span Trainers: {{ event.members.trainers.length }} 
+                span(
+                  ng-repeat="trainer in event.members.trainers"
+                  ng-src="{{ trainer.avatar | dmGravatar:16 }}"
+                  )
+              div
+                h5 Students: 
+                  span.bold.text-success {{ event.members.students.all.length }} 
+                div
+                  img.avatar.img-responsive.img-rounded(
+                    ng-repeat="student in event.members.students.all"
+                    src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+                    tooltip="{{ student.name }}"
+                    )     
+            h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
+              span.cursor-pointer(
+                tooltip="Show/Hide Details"
+                tooltip-placement="right"
+                )
+                | Active students: 
+                span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
+                  | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+                span.bold.text-warning(
+                  ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
+                  )
+                  | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+                span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
+                  | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+            div(ng-if="event.showActiveStudents || event.isFullscreen")
+              img.avatar.img-responsive.img-rounded(
+                ng-repeat="activeStudent in event.members.students.active"
+                src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
+                tooltip="{{ activeStudent.name }}"
+                )
+          .stage
+            h4 Current stage: 
+              span.bold.text-success {{ event.currentStage.name }}, {{ event.currentStage.minFromStart }} min.
+          div(ng-if="!event.isFullscreen")
+            +problems(event)
+        .col-xs-12.bottomView(ng-if="event.isFullscreen")
+          .col-md-6
+            +problems(event)
+          .col-md-6
+            h4.text-center 
+              span.fa.fa-star
+              span.fa.fa-star
+              span.fa.fa-star
+            h4 Best Students
+            div(ng-repeat="user in event.ranking.bestUsers")
+              h4 {{ user.name }}
+                span
+                  progressbar(
+                    value="user.percentageResult" 
+                    type="success"
+                    )
+                    | {{ user.percentageResult }}%
+            h4 Worse Students
+            div(ng-repeat="user in event.ranking.worseUsers")
+              h4 {{ user.name }}
+                span
+                  progressbar(
+                    value="user.percentageResult" 
+                    type="warning"
+                    )
+                    | {{ user.percentageResult }}%
+            h4 Best Group: {{ event.ranking.bestGroup.name }}
+            progressbar(
+              value="event.ranking.bestGroup.percentageResult" 
+              type="success"
+              )
+              | {{ event.ranking.bestGroup.percentageResult }}%
+            h4 
+              a(ng-href="{{ event.hyperlinks.rankingView }}")
+                | Go to ranking view
+            h4
+              a(ng-href="{{ event.hyperlinks.trainerView }}")
+                | Go to trainers view
+          hr
 
 
 
+  // przelacznik widokow: tabelaryczny - blokowy 
 
-
-
-
-
-
+  .toggle-strategic-view.cursor-pointer
+    span(
+      ng-if="vm.viewOptions.strategicView === 'table'"
+      ng-click="vm.viewOptions.strategicView = 'blocks'"
+      tooltip="Change to Blocks View"
+      tooltip-placement="left"
+      )
+      | View: Table
+    span(
+      ng-if="vm.viewOptions.strategicView === 'blocks'"
+      ng-click="vm.viewOptions.strategicView = 'table'"
+      tooltip="Change to Table View"
+      tooltip-placement="left"
+      )
+      | View: Blocks
 
 
 
