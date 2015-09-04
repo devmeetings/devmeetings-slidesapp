@@ -7,7 +7,8 @@ class Ranking {
   // TODO [ToDr] This is shitty - taking eventId from $stateParams
   constructor (Sockets, $q, dmUser, $stateParams, $rootScope) {
     _.extend(this, {
-    Sockets, $q, dmUser, $stateParams, $rootScope});
+      Sockets, $q, dmUser, $stateParams, $rootScope
+    });
 
     // TODO [ToDr] We are assuming that user is inside proper room!
     this.Sockets.on('ranking', (ranking) => {
@@ -41,11 +42,26 @@ class Ranking {
     return d.promise;
   }
 
+  updateUsersGroup (groupName) {
+    var self = this;
+    var d = this.$q.defer();
+    this.Sockets.emit('ranking.group', {
+      eventId: this.$stateParams.event,
+      groupName: groupName
+    }, (ranking) => {
+      self.onNewRanking(ranking);
+      d.resolve(ranking);
+    });
+    return d.promise;
+  }
+
   getCurrentRanking () {
-    if (this.currentRanking) {
+    var eventId = this.$stateParams.event;
+
+    if (this.currentRanking && this.lastEventId === eventId) {
       return this.$q.when(this.currentRanking);
     }
-    var eventId = this.$stateParams.event;
+    this.lastEventId = eventId;
     // Fetch ranking!
     var d = this.$q.defer();
     var self = this;

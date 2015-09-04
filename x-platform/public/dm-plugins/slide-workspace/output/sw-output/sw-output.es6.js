@@ -80,6 +80,7 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       withIonic: '=',
       isDead: '=',
       baseUrl: '=',
+      devices: '=',
       hideBaseUrl: '=',
       currentPath: '=',
       appliedPath: '=',
@@ -95,7 +96,8 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       this.output = {};
 
       let output = new SwOutput({
-      $rootScope});
+        $rootScope
+      });
 
       output.controller(this, $scope);
     }

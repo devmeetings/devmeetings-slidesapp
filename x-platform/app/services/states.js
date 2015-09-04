@@ -127,10 +127,18 @@ var States = (function () {
     },
 
     createFromRecordingId: function (compoundId) {
+      function normalizeNo (no) {
+        var x = parseInt(no, 10) || 0;
+        if (isNaN(x)) {
+          x = 0;
+        }
+        return Math.max(x, 0);
+      }
+
       var parts = compoundId.split('_');
       var recId = parts[0].replace('r', '');
-      var slideNo = parseInt(parts[1], 10) || 0;
-      var patchNo = parseInt(parts[2], 10) || 0;
+      var slideNo = normalizeNo(parts[1]);
+      var patchNo = normalizeNo(parts[2]);
 
       var query = recordings.findById(recId)
         .select('slides')

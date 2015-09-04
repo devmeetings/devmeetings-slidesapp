@@ -1,6 +1,7 @@
 exports.index = function (req, res) {
   res.render('dm-courses/dm-courses', {
     title: 'Courses',
+    isDev: req.isDev,
     editMode: req.query.edit,
     withInspectlet: req.withInspectlet,
     withGoogleAnalytics: req.withGoogleAnalytics,

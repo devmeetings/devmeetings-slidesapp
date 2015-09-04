@@ -24,7 +24,8 @@ class RecorderContext {
 
 export default function (dmRecorder) {
   let recorderContext = new RecorderContext({
-  dmRecorder});
+    dmRecorder
+  });
 
   return {
     restrict: 'E',

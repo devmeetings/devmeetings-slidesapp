@@ -170,7 +170,8 @@ gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], f
     runJspmBundle('dm-slider/slider-deck', location('slider-deck')),
     runJspmBundle('dm-slider/slider-trainer', location('slider-trainer')),
     runJspmBundle('dm-xplatform/dm-xplatform', location('dm-xplatform')),
-    runJspmBundle('dm-courses/dm-courses', location('dm-courses'))
+    runJspmBundle('dm-dashboard/dm-dashboard', location('dm-dashboard'))
+    // runJspmBundle('dm-courses/dm-courses', location('dm-courses'))
   ];
 
   Q.all(jobs).then(function () {

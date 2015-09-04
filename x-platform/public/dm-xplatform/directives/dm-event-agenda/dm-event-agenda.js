@@ -133,7 +133,8 @@ xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEve
     template: viewTemplate,
     link (scope, element) {
       let eventMenu = new EventAgenda({
-      $rootScope, $stateParams, $state, dmEvents, dmRanking});
+        $rootScope, $stateParams, $state, dmEvents, dmRanking
+      });
       eventMenu.link(scope, element);
     }
   };

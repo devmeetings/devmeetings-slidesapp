@@ -1,11 +1,11 @@
 extends ../layouts/main
 
 append scripts
-    +loadModule('dm-courses/dm-courses');
+  +loadModule('dm-courses/dm-courses')
 
 block content
-    .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
-        div(ui-view)
-            h1 Hello Courses
+  .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
+    div(ui-view)
+      h1 Hello Courses
 
 

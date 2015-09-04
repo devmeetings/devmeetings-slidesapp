@@ -1,4 +1,3 @@
-/* jshint esnext:true */
 import xplatformApp from 'dm-xplatform/xplatform-app';
 import _ from '_';
 
@@ -6,12 +5,14 @@ class EventLive {
 
   constructor (Sockets, dmPlayer) {
     _.extend(this, {
-    Sockets, dmPlayer});
+      Sockets, dmPlayer
+    });
   }
 
   listenToUsersOnline ($scope, eventId, workspaceId, cb) {
     this.Sockets.emit('event.join', {
-    eventId, workspaceId}, function (users) {
+      eventId, workspaceId
+    }, function (users) {
       cb({
         action: 'initial',
         eventId: eventId,

@@ -1,17 +1,15 @@
-/* globals define */
-define(['angular',
-  'angular-ui-router',
-  'angular-moment',
-  'angular-hotkeys',
-  'angular-bootstrap',
-  'angular-marked',
-  'angular-animate',
-  'angular-ui-router',
-  'slider/slider.plugins'
-], function (angular) {
-  return angular.module('dm-courses', [
-    'slider.plugins', 'ui.router', 'ui.bootstrap',
-    'angularMoment', 'cfp.hotkeys', 'hc.marked',
-    'ngAnimate'
-  ]);
-});
+import angular from 'angular';
+import 'angular-ui-router';
+import 'angular-moment';
+import 'angular-hotkeys';
+import 'angular-bootstrap';
+import 'angular-marked';
+import 'angular-animate';
+import 'angular-ui-router';
+import 'slider/slider.plugins';
+
+export default angular.module('dm-courses', [
+  'slider.plugins', 'ui.router', 'ui.bootstrap',
+  'angularMoment', 'cfp.hotkeys', 'hc.marked',
+  'ngAnimate'
+]);

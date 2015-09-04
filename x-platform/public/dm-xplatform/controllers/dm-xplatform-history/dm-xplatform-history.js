@@ -1,4 +1,3 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import xplatformApp from 'dm-xplatform/xplatform-app';

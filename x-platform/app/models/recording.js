@@ -11,7 +11,7 @@ var Recording = new Schema({
   },
   date: Date,
   slides: {
-    type: [Schema.Types.Mixed /* Like statesave */],
+    type: [Schema.Types.Mixed],  // Like statesave
     editable: false
   }
 });

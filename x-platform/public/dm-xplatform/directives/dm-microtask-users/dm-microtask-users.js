@@ -3,8 +3,7 @@ define([
   '_', 'angular', 'dm-xplatform/xplatform-app', 'slider/slider.plugins',
   './dm-microtask-users.html!text', 'dm-xplatform/controllers/dm-xplatform-users/dm-xplatform-users.html!text',
   'dm-xplatform/services/dm-tasks/dm-tasks'
-  ],
-  function (_, angular, xplatformApp, sliderPlugins, viewTemplate, modalTemplate) {
+], function (_, angular, xplatformApp, sliderPlugins, viewTemplate, modalTemplate) {
   sliderPlugins.registerPlugin('microtask', '*', 'microtask-users', 500).directive('microtaskUsers', [
     '$modal', 'dmTasks', function ($modal, dmTasks) {
       return {

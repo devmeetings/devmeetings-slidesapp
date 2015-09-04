@@ -42,6 +42,7 @@ var config = {
     db: 'mongodb://localhost/platform-box',
     store: 'redis://localhost:6379',
     graylog: false,
+    sentryDsn: false,
     meteorProxy: 'http://localhost:3001/',
     logger: 'dev'
   },
@@ -74,6 +75,7 @@ var config = {
     db: 'mongodb://localhost/platform-test',
     store: 'redis://localhost:6379/2',
     graylog: false,
+    sentryDsn: false,
     meteorProxy: false,
     logger: 'dev'
   },
@@ -111,6 +113,7 @@ var config = {
       host: 'pinkiepie.todr.me',
       port: 1782
     },
+    sentryDsn: 'https://6c43d401c96b4b919268c8c371e5171d:da0022813ef34e0cb6c67911c5fe0bf4@app.getsentry.com/51503',
     meteorProxy: false,
     logger: 'dev'
   },
@@ -148,6 +151,7 @@ var config = {
       host: 'pinkiepie.todr.me',
       port: 1782
     },
+    sentryDsn: 'https://6c43d401c96b4b919268c8c371e5171d:da0022813ef34e0cb6c67911c5fe0bf4@app.getsentry.com/51503',
     logger: 'combined'
   },
 
@@ -202,7 +206,8 @@ var fromEnv = {
   realmUrl: process.env.REALM_URL,
   db: process.env.MONGO_URL,
   store: process.env.REDIS_URL,
-  livereload_port: process.env.LIVERELOAD_PORT
+  livereload_port: process.env.LIVERELOAD_PORT,
+  cookieDomain: process.env.COOKIE_DOMAIN
 };
 
 Object.keys(fromEnv).map(function (k) {
@@ -227,7 +232,7 @@ Object.keys(fromEnv).map(function (k) {
 (function (c) {
   'use strict';
 
-  if (c.isDev) {
+  if (c.isDev || c.cookieDomain) {
     return;
   }
 

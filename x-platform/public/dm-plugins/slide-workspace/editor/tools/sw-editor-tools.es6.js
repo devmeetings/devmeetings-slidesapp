@@ -120,7 +120,8 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
     template: viewTemplate,
     controller: function ($scope, $log) {
       let tools = new SwEditorTools({
-      $scope, $rootScope, $window, Upload});
+        $scope, $rootScope, $window, Upload
+      });
       tools.controller(this);
     }
   };

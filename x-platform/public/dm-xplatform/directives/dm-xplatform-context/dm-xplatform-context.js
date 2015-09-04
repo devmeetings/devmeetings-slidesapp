@@ -127,7 +127,8 @@ xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
     template: viewTemplate,
     link: (scope) => {
       let contextMenu = new ContextMenuDir({
-      $stateParams, $window});
+        $stateParams, $window
+      });
       contextMenu.link(scope);
     }
   };

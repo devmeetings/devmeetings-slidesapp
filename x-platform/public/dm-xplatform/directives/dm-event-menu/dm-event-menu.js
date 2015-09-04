@@ -103,7 +103,8 @@ class EventMenu {
 xplatformApp.directive('dmEventMenu', ($window, $timeout, dmRanking) => {
 
   let eventMenu = new EventMenu({
-  $window, $timeout, dmRanking});
+    $window, $timeout, dmRanking
+  });
 
   return {
     restrict: 'E',
