@@ -159,6 +159,8 @@ mixin sortIcon()
           )
           img
         div(ng-class="{'col-md-12': !event.isFullscreen, 'col-md-6': event.isFullscreen}")
+          .logs
+            h2 {{ event.logs[0].data.toString() }}: {{ event.logs[0].description }}
           .people
             h4(ng-click="event.showPeopleDetails = !event.showPeopleDetails") 
               span.cursor-pointer(
@@ -223,8 +225,9 @@ mixin sortIcon()
           .col-md-6
             h4 Best Students:
             h5(ng-repeat="user in event.ranking.bestUsers")
-              span.user-name.pull-left
+              span.user-name
                 | {{ user.name }}
+              img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
               span
                 progressbar(
                   value="user.percentageResult" 
@@ -233,8 +236,9 @@ mixin sortIcon()
                   | {{ user.percentageResult }}%
             h4 Worse Students:
             h5(ng-repeat="user in event.ranking.worseUsers")
-              span.user-name.pull-left
+              span.user-name
                 | {{ user.name }}
+              img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
               span
                 progressbar(
                   value="user.percentageResult" 
@@ -247,10 +251,9 @@ mixin sortIcon()
               type="success"
               )
               | {{ event.ranking.bestGroup.percentageResult }}%
-            h4 
-              a(ng-href="{{ event.hyperlinks.rankingView }}")
-                | Go to ranking view
             h4
+              a.margin-right(ng-href="{{ event.hyperlinks.rankingView }}")
+                | Go to ranking view
               a(ng-href="{{ event.hyperlinks.trainerView }}")
                 | Go to trainers view
           hr
