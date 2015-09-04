@@ -5,11 +5,11 @@ block content
       h3.panel-title Cache
     .panel-body.text-center
       form(
-        action="/api/populate"
+        action="/local/api/populate"
         method="post"
         )
         button.btn.btn-warning(type="submit")
           | Repopulate Cache
-      a(href="/api/logs/populate") See Log
+      a(href="/local/api/logs/populate") See Log
       | &nbsp;|&nbsp;
-      a(href="/api/populate") See Last Date
+      a(href="/local/api/populate") See Last Date

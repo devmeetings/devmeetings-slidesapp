@@ -17,10 +17,19 @@ server {
 	}
 
   location /public {
-    try_files index.json;
     root /srv/xplatform/tools/localxpla-manager/public;
+  }
+
+  location /cdn {
+    root /srv/xplatform/tools/localxpla-manager/public/cdn;
+  }
+
+  location /api {
+    try_files index.json;
+    root /srv/xplatform/tools/localxpla-manager/public/api;
     default_type application/json;
   }
 
 }
+
 

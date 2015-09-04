@@ -27,30 +27,30 @@ app.get('/isLocal', function (req, res) {
   res.send(true);
 });
 
-app.get('/api/populate', function (req, res) {
+app.get('/local/api/populate', function (req, res) {
   fs.createReadStream(LAST_REFRESH_DATE, 'utf8').pipe(res);
 });
 
-app.post('/api/populate', function (req, res, next) {
+app.post('/local/api/populate', function (req, res, next) {
   populateCache(POPULATE_LOGS_PATH).done(function (done) {
     fs.writeFileSync(LAST_REFRESH_DATE, new Date());
     res.send(done.split('\n').join('<br>'));
   });
 });
 
-app.get('/api/logs/populate', function (req, res) {
+app.get('/local/api/logs/populate', function (req, res) {
   execCommand('cat ' + POPULATE_LOGS_PATH).done(function (lines) {
     res.send(lines.split('\n').join('<br>'));
   });
 });
 
-app.get('/api/logs/raw', function (req, res) {
+app.get('/local/api/logs/raw', function (req, res) {
   execCommand('tail -n 100 ' + LOGS_PATH).done(function (lines) {
     res.send(lines);
   });
 });
 
-app.get('/api/logs', function (req, res) {
+app.get('/local/api/logs', function (req, res) {
   var parser = new NginxParser('$remote_addr - $remote_user [$time_local] ' +
                                 '"$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"');
 

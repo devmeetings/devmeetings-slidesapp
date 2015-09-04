@@ -34,7 +34,7 @@ html
         var $logs = $('[data-hook="logs"]');
 
         $.ajax({
-          url: '/api/logs',
+          url: '/local/api/logs',
           success: function (data) {
             data.sort(function (a, b) { 
               return a - b;
@@ -65,7 +65,7 @@ html
         var $logs = $('[data-hook="raw-logs"]');
 
         $.ajax({
-          url: '/api/logs/raw',
+          url: '/local/api/logs/raw',
           success: function (data) {
             $logs.html(data.split('\n').map(function(row) {
               return '<pre>' + row + '</pre>';
