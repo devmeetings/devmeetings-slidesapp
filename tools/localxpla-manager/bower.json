@@ -1,0 +1,21 @@
+{
+  "name": "localxpla-manager",
+  "version": "0.0.0",
+  "homepage": "https://github.com/devmeetings/devmeetings-slidesapp",
+  "authors": [
+    "Tomusdrw <tomusdrw@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bsw-yeti": "~3.2.1"
+  }
+}

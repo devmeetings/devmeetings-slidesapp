@@ -42,6 +42,17 @@ var onDone = function () {};
 
 var eventFields = 'title pin description image order visible shouldRedirectToUnsafe';
 var Events = {
+
+  raw: function (req, res) {
+    Q.when(Event.find({
+      removed: {
+        $ne: true
+      }
+    }).select(eventFields).lean().exec()).then(function (events) {
+      res.send(events);
+    }).fail(onError(res)).done(onDone);
+  },
+
   all: function (req, res) {
     Q.when(Event.find({
       removed: {

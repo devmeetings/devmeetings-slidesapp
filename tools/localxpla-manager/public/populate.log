@@ -1,0 +1,604 @@
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [AUTH] Logging to xplatform
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [AUTH] Logged in. Asking for recordings
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fd977af89e2f9e29b4adea undefined (JavaScript)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 54846da1d72a039541c98291 Materiał 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 54847034d72a039541c98293 Angular3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9903  (Node &amp; Express Demo)-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5406f70e8cc21c5423e1bec7 devmeeting-angularjs-03
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5406f7238cc21c5423e1beca devmeeting-angularjs-04
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5406f7388cc21c5423e1becd devmeeting-angularjs-05
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5407095e8cc21c5423e1bfa5 devmeeting-angularjs-01-ver2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 548474d1d72a039541c98296 Materiały 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5484761cd72a039541c98298 Materiały 22
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb7  (BackboneJS)-12
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5541d8fb10e2d35a31b29b59 Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55488cd8a06c08234b3927c8 Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 554b7c2319fd93360a783543 Movie 2, Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 554b90cf304011df1716dd3f Movie 2, Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 554b91c5a6b6e7c6182b9fd0 Movie 2, Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 554b91e754711cf8182d4f4c Movie 2, Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 554b9259f3c71876195bb0f4 Movie 2, Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 554b96e666232f9b2273a39e Movie 2, Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5579fa29e50988a43f214b82 Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5579fc3ee50988a43f214b84 Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5579feea77bf114344b8dda8 Movie 4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5579ff6e08a9523045765d63 Movie 5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53b2cd856703ba00002096e9 Szkolenie
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53df6359a9568eb6336b4fd9 angular_no_sound
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53df6359a9568eb6336b4fda angular_no_sound
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fec6c4d0268d566c79e959  (JavaScript)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fec6c4d0268d566c79e95a  (JavaScript)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fec6c4d0268d566c79e95b  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fec6c4d0268d566c79e95c  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fee008ad81770871437e48 angular_no_sound from 1200
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fee036ad81770871437e49 angular_no_sound backup
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fee285a361512575acd2ea Workspace-testing (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fee285a361512575acd2eb Workspace-testing (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 53fee285a361512575acd2ec Workspace-testing (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 54004777d8aeba4a4537be40 Backbone-last (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 54004777d8aeba4a4537be41 Backbone-last (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5406e45f8cc21c5423e1be5d dm-angular-01-intro
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5406e5b38cc21c5423e1be72 dm-angular-02
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5406f6f68cc21c5423e1bec4 devmeeting-angularjs-02
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5407082a8cc21c5423e1bf9d devmeeting-angularjs-01
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 54350e9c7311332b5378a9ac Film
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5458b14a68c95a932c909867 HTML 0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5458d6812fd1a1233fc82c71 D3 Start
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550d2f7ffb2f867818a091c8 Tomasz Drwięga (8. AngularJS (FI)) [1]
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9904  (Node &amp; Express Demo)-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9905 NodeExpress2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9906 NodeExpress3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9907 NodeExpress4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9908 NodeExpress5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e990c NodeExpress9
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9910 NodeExpress13
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9912 NodeExpress15
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5526d2c9f9ae6cc16e71a836  (undefined)-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fab  (undefined)-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fad  (BackboneJS)-2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9909 NodeExpress6
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e990a NodeExpress7
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e990b NodeExpress8
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e990d NodeExpress10
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e990e NodeExpress11
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e990f NodeExpress12
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9911 NodeExpress14
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9913 NodeExpress16
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9914 NodeExpress17
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9915 NodeExpress18
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9916 NodeExpress19
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9917 NodeExpress20
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9918 NodeExpress21
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e9919 NodeExpress22
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e991a NodeExpress23
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e991b NodeExpress24
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e991c NodeExpress25
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e991d NodeExpress26
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e991e NodeExpress27
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 550daa643340f578180e991f NodeExpress28
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517abe566a6815069ca3a54 NodeExpress-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517abe566a6815069ca3a55 NodeExpress-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517abe566a6815069ca3a56 NodeExpress-2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517abe566a6815069ca3a57 NodeExpress-3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517ad3066a6815069ca3a60 NodeExpress-4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517b48366a6815069ca3a6a NodeExpress-5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517b4c066a6815069ca3a6b NodeExpress-6
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517b73766a6815069ca3a74 NodeExpress-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517b78366a6815069ca3a75 NodeExpress-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517b7f8f054a0bd72c56d07 NodeExpress-2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517b807f054a0bd72c56d08 NodeExpress-3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517bf7e88a13e257751d53a NodeExpress-7
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5517bfa988a13e257751d53b NodeExpress-8
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5526d2c9f9ae6cc16e71a837  (BackboneJS)-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263f9f  (BackboneJS)-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa0  (BackboneJS)-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa1  (BackboneJS)-2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa2  (BackboneJS)-3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa3  (BackboneJS)-4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa4  (BackboneJS)-5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa5  (BackboneJS)-6
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa6  (BackboneJS)-7
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa7  (BackboneJS)-8
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa8  (BackboneJS)-9
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263fa9  (BackboneJS)-10
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529250a24d1300a7d263faa  (BackboneJS)-11
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fac  (BackboneJS)-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fae  (BackboneJS)-3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263faf  (BackboneJS)-4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb0  (BackboneJS)-5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb1  (BackboneJS)-6
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb2  (BackboneJS)-7
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb3  (BackboneJS)-8
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb4  (BackboneJS)-9
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb5  (BackboneJS)-10
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb6  (BackboneJS)-11
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb8  (BackboneJS)-13
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fb9  (BackboneJS)-14
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529254d24d1300a7d263fbc  (BackboneJS)-17
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fbd  (BackboneJS)-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fbe  (BackboneJS)-1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fbf  (BackboneJS)-2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc0  (BackboneJS)-3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc1  (BackboneJS)-4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc2  (BackboneJS)-5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc3  (BackboneJS)-6
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc4  (BackboneJS)-7
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc5  (BackboneJS)-8
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc6  (BackboneJS)-9
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc7  (BackboneJS)-10
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5529291d24d1300a7d263fc8  (BackboneJS)-11
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55292c4cbc3ebb0464a69627  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55292ce9bc3ebb0464a69628  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55292d6011e5e64565c36599  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55292d9611e5e64565c3659a  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55292dc211e5e64565c3659b  (BackboneJS)-0
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a5bd611e5e64565c3659c  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a5c9011e5e64565c365a1  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a5d3411e5e64565c365a4  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a5e5511e5e64565c365a5  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a654e9180da5d62b38a59  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a65b69180da5d62b38a5a  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a65b69180da5d62b38a5b  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a65fe9180da5d62b38a5c  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a66949180da5d62b38a5d  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a66b59180da5d62b38a5e  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a67219180da5d62b38a5f  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a67219180da5d62b38a60  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6c6c9180da5d62b38a61  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6ec902874cfe66d2282f  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a753bf956b15169c874cb  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5579fbbbce908b2a0a8baff8 Movie 1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5579fc14ce908b2a0a8bb021 Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6e3302874cfe66d2282e  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6f2002874cfe66d22830  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6f9502874cfe66d22831  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6ff102874cfe66d22832  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a6ff102874cfe66d22833  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a702702874cfe66d22834  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a704102874cfe66d22835  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a708602874cfe66d22836  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a70c702874cfe66d22837  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a70fc02874cfe66d22838  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a718c02874cfe66d22839  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a721d02874cfe66d2283a  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a726ff956b15169c874c0  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a72bdf956b15169c874c1  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a72f9f956b15169c874c2  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a7369f956b15169c874c5  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a73bbf956b15169c874c6  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a73f6f956b15169c874c7  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a743ff956b15169c874c8  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a748af956b15169c874c9  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 552a74dbf956b15169c874ca  (BackboneJS)
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a0212a42ab8590e75d6ee Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a059dd35739e310c8b504 Movie 4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a08c0d35739e310c8b859 Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a09cf45bda83c1324df43 Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a0bff45bda83c1324e0f3 Movie 4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a0c6845bda83c1324e1d9 Movie 5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a0cbc45bda83c1324e24b Movie 6
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557a0d5645bda83c1324e324 Movie 7
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557b219e0b5ce4e84def3be2 Movie 8
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557b21ec0b5ce4e84def3c91 Movie 9
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 557b22b80b5ce4e84def3e38 Movie 10
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 558984dac596715b12350879 Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 55898525c596715b1235087e Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5591c7b47f547b630584d591 Movie 1
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5591c82e7f547b630584d5bf Movie 2
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5591c9c77f547b630584d668 Movie 5
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5591c9057f547b630584d613 Movie 3
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5591c97e7f547b630584d647 Movie 4
+Sat Sep 05 2015 00:20:38 GMT+0200 (CEST)  [RECORDINGS] Fetching recording: 5591ca127f547b630584d69d Movie 6
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f7238cc21c5423e1beca/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee008ad81770871437e48/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fad/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517ad3066a6815069ca3a60/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb0/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fc3ee50988a43f214b84/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9904/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991a/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa4/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc2/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb7/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54004777d8aeba4a4537be40/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990e/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b7f8f054a0bd72c56d07/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb5/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5e5511e5e64565c365a5/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53df6359a9568eb6336b4fda/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990c/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991f/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54847034d72a039541c98293/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b91c5a6b6e7c6182b9fd0/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5407082a8cc21c5423e1bf9d/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9915/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263f9f/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fbd/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a66949180da5d62b38a5d/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a73bbf956b15169c874c6/index.json
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa6/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc4/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9912/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a55/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fac/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee285a361512575acd2ea/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5bd611e5e64565c3659c/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55488cd8a06c08234b3927c8/annotations
+Sat Sep 05 2015 00:20:40 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e95a/annotations
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292d9611e5e64565c3659a/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a704102874cfe66d22835/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557b22b80b5ce4e84def3e38/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9903/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e95b/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6ec902874cfe66d2282f/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0212a42ab8590e75d6ee/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a721d02874cfe66d2283a/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa9/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc7/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6f2002874cfe66d22830/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0c6845bda83c1324e1d9/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b7c2319fd93360a783543/index.json
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fbbbce908b2a0a8baff8/annotations
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b9259f3c71876195bb0f4/annotations
+Sat Sep 05 2015 00:20:42 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5458b14a68c95a932c909867/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5526d2c9f9ae6cc16e71a836/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a56/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fae/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292ce9bc3ebb0464a69628/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6ff102874cfe66d22833/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b96e666232f9b2273a39e/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5458d6812fd1a1233fc82c71/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9918/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa2/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc0/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a67219180da5d62b38a60/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a748af956b15169c874c9/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c9c77f547b630584d668/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/548474d1d72a039541c98296/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee285a361512575acd2eb/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990b/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b73766a6815069ca3a74/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb3/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5c9011e5e64565c365a1/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a70fc02874cfe66d22838/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53b2cd856703ba00002096e9/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9907/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991d/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406e5b38cc21c5423e1be72/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9913/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517bfa988a13e257751d53b/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb9/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a65b69180da5d62b38a5b/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a72f9f956b15169c874c2/index.json
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fad/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fc3ee50988a43f214b84/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa4/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc2/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa9/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc7/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55898525c596715b1235087e/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579ff6e08a9523045765d63/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b91c5a6b6e7c6182b9fd0/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6ff102874cfe66d22832/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9915/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990e/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990c/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb8/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990a/annotations
+Sat Sep 05 2015 00:20:44 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6ec902874cfe66d2282f/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557b219e0b5ce4e84def3be2/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e959/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9910/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a54/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263faa/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b91e754711cf8182d4f4c/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54350e9c7311332b5378a9ac/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9916/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa0/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fbe/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a66b59180da5d62b38a5e/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c7b47f547b630584d591/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa7/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc5/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fc14ce908b2a0a8bb021/index.json
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9903/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e95b/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5526d2c9f9ae6cc16e71a836/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292c4cbc3ebb0464a69627/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee008ad81770871437e48/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9913/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292ce9bc3ebb0464a69628/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a72bdf956b15169c874c1/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9906/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa1/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fbf/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9911/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991c/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b7c2319fd93360a783543/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517bf7e88a13e257751d53a/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a67219180da5d62b38a5f/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a65b69180da5d62b38a5a/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a73bbf956b15169c874c6/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9904/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5e5511e5e64565c365a5/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53df6359a9568eb6336b4fda/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b4c066a6815069ca3a6b/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263f9f/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fbd/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292d9611e5e64565c3659a/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a704102874cfe66d22835/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991a/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a66949180da5d62b38a5d/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a743ff956b15169c874c8/annotations
+Sat Sep 05 2015 00:20:46 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6f2002874cfe66d22830/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc8/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6f9502874cfe66d22831/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0cbc45bda83c1324e24b/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a73f6f956b15169c874c7/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54846da1d72a039541c98291/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b90cf304011df1716dd3f/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f7388cc21c5423e1becd/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee036ad81770871437e49/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9909/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b48366a6815069ca3a6a/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb1/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292dc211e5e64565c3659b/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a708602874cfe66d22836/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a09cf45bda83c1324df43/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591ca127f547b630584d69d/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5541d8fb10e2d35a31b29b59/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54004777d8aeba4a4537be41/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990f/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b807f054a0bd72c56d08/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb6/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a654e9180da5d62b38a59/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fd977af89e2f9e29b4adea/index.json
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb5/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9917/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991d/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa7/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc5/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e959/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa2/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc0/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5458d6812fd1a1233fc82c71/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fc14ce908b2a0a8bb021/annotations
+Sat Sep 05 2015 00:20:47 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fae/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53df6359a9568eb6336b4fd9/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9908/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f6f68cc21c5423e1bec4/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9914/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5526d2c9f9ae6cc16e71a837/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fbc/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a65fe9180da5d62b38a5c/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a7369f956b15169c874c5/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e95a/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/558984dac596715b12350879/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f70e8cc21c5423e1bec7/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e95c/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fab/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a57/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263faf/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579feea77bf114344b8dda8/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9905/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991b/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa5/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc3/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a753bf956b15169c874cb/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a726ff956b15169c874c0/index.json
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fd977af89e2f9e29b4adea/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263faa/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc8/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a72f9f956b15169c874c2/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b96e666232f9b2273a39e/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee285a361512575acd2eb/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517ad3066a6815069ca3a60/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54350e9c7311332b5378a9ac/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557b22b80b5ce4e84def3e38/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9910/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb3/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5541d8fb10e2d35a31b29b59/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0d5645bda83c1324e324/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b90cf304011df1716dd3f/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b91e754711cf8182d4f4c/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517bfa988a13e257751d53b/annotations
+Sat Sep 05 2015 00:20:49 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a08c0d35739e310c8b859/annotations
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991e/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa8/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc6/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9912/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a55/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fac/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292c4cbc3ebb0464a69627/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6ff102874cfe66d22832/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292d6011e5e64565c36599/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a702702874cfe66d22834/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557b21ec0b5ce4e84def3c91/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/554b9259f3c71876195bb0f4/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a059dd35739e310c8b504/index.json
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b7f8f054a0bd72c56d07/annotations
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0cbc45bda83c1324e24b/annotations
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5526d2c9f9ae6cc16e71a837/annotations
+Sat Sep 05 2015 00:20:51 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990f/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0bff45bda83c1324e0f3/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55488cd8a06c08234b3927c8/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0d5645bda83c1324e324/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5458b14a68c95a932c909867/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9917/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa1/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fbf/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a67219180da5d62b38a5f/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a743ff956b15169c874c8/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fa29e50988a43f214b82/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550d2f7ffb2f867818a091c8/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9919/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa3/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc1/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6c6c9180da5d62b38a61/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c9057f547b630584d613/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5484761cd72a039541c98298/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee285a361512575acd2ec/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990d/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b78366a6815069ca3a75/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb4/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5d3411e5e64565c365a4/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54846da1d72a039541c98291/index.json
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fab/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9905/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa5/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc3/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a753bf956b15169c874cb/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb0/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a70c702874cfe66d22837/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53b2cd856703ba00002096e9/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9907/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54004777d8aeba4a4537be40/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb2/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a721d02874cfe66d2283a/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53df6359a9568eb6336b4fd9/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579feea77bf114344b8dda8/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9914/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6ff102874cfe66d22833/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a56/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee036ad81770871437e49/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b73766a6815069ca3a74/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990b/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a65b69180da5d62b38a5b/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a67219180da5d62b38a60/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292d6011e5e64565c36599/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c97e7f547b630584d647/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263faf/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557b219e0b5ce4e84def3be2/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb6/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991f/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557b21ec0b5ce4e84def3c91/annotations
+Sat Sep 05 2015 00:20:53 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9918/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406e45f8cc21c5423e1be5d/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9911/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517bf7e88a13e257751d53a/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb8/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a65b69180da5d62b38a5a/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a74dbf956b15169c874ca/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5407095e8cc21c5423e1bfa5/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee285a361512575acd2ea/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990a/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b4c066a6815069ca3a6b/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb2/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5bd611e5e64565c3659c/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a718c02874cfe66d22839/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6f9502874cfe66d22831/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a70fc02874cfe66d22838/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa8/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc6/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fa29e50988a43f214b82/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550d2f7ffb2f867818a091c8/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa3/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc1/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb1/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0212a42ab8590e75d6ee/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9908/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c9c77f547b630584d668/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9909/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0c6845bda83c1324e1d9/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/558984dac596715b12350879/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a7369f956b15169c874c5/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9919/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a748af956b15169c874c9/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fbc/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9916/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/548474d1d72a039541c98296/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55292dc211e5e64565c3659b/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a66b59180da5d62b38a5e/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a65fe9180da5d62b38a5c/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a54/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa0/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5c9011e5e64565c365a1/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a702702874cfe66d22834/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb7/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b807f054a0bd72c56d08/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991b/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517abe566a6815069ca3a57/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fec6c4d0268d566c79e95c/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b48366a6815069ca3a6a/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a726ff956b15169c874c0/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a73f6f956b15169c874c7/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fbe/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f7238cc21c5423e1beca/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a708602874cfe66d22836/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54004777d8aeba4a4537be41/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a72bdf956b15169c874c1/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a70c702874cfe66d22837/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/55898525c596715b1235087e/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c82e7f547b630584d5bf/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579ff6e08a9523045765d63/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e9906/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991c/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/54847034d72a039541c98293/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/53fee285a361512575acd2ec/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a09cf45bda83c1324df43/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591ca127f547b630584d69d/annotations
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c97e7f547b630584d647/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529250a24d1300a7d263fa6/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529291d24d1300a7d263fc4/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5579fbbbce908b2a0a8baff8/index.json
+Sat Sep 05 2015 00:20:56 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6e3302874cfe66d2282e/index.json
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a08c0d35739e310c8b859/index.json
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb4/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5529254d24d1300a7d263fb9/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a74dbf956b15169c874ca/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e990d/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a0bff45bda83c1324e0f3/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f7388cc21c5423e1becd/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5484761cd72a039541c98298/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c7b47f547b630584d591/annotations
+Sat Sep 05 2015 00:20:57 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6e3302874cfe66d2282e/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a654e9180da5d62b38a59/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5517b78366a6815069ca3a75/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/550daa643340f578180e991e/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a718c02874cfe66d22839/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f70e8cc21c5423e1bec7/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5407095e8cc21c5423e1bfa5/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406e5b38cc21c5423e1be72/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/557a059dd35739e310c8b504/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5407082a8cc21c5423e1bf9d/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c9057f547b630584d613/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406e45f8cc21c5423e1be5d/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a6c6c9180da5d62b38a61/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/552a5d3411e5e64565c365a4/annotations
+Sat Sep 05 2015 00:20:58 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5406f6f68cc21c5423e1bec4/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/recordings/5591c82e7f547b630584d5bf/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [EVENTS] Fetching events
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/552e815dd74b71006bf08d79/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/5455f89957dc0a441455ad09/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/552e5f6a9c12bbc433c6e149/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/544a988661fe87447ce0bb72/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/550ad03e33dfc24518d5411c/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/555c4f0be3a0d39b3e7e3bf8/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/550ad03e33dfc24518d54106/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/557b2e68b7fab8ab3da99820/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/550a9c0cc9703095352eb9fa/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/5440f9bb2b93bbe1766b7a1a/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/54907f68c7831e9d55c1e55a/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/543b6a198e5ae61210571b70/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548fd0ab0000054d3e617552/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/5431a8eff18b40bb0bcc1bd9/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548fd0a70000054d3e617551/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548d55c42fc95e456a695e84/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548f387f8b4c9ba02499803e/index.json
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/543b6a198e5ae61210571b70/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548f387f8b4c9ba02499803e/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/550ad03e33dfc24518d5411c/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548fd0ab0000054d3e617552/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548d55c42fc95e456a695e84/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/555c4f0be3a0d39b3e7e3bf8/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/5431a8eff18b40bb0bcc1bd9/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/5455f89957dc0a441455ad09/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/550ad03e33dfc24518d54106/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/5440f9bb2b93bbe1766b7a1a/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/548fd0a70000054d3e617551/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/552e5f6a9c12bbc433c6e149/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/552e815dd74b71006bf08d79/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/54907f68c7831e9d55c1e55a/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/557b2e68b7fab8ab3da99820/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/544a988661fe87447ce0bb72/annotations
+Sat Sep 05 2015 00:20:59 GMT+0200 (CEST)  [FILE] Wrote file: /api/events/550a9c0cc9703095352eb9fa/annotations

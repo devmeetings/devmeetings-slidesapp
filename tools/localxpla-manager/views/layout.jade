@@ -1,0 +1,82 @@
+doctype html
+html
+  head
+    title XPlatform Cache
+    link(rel="stylesheet", href="/public/bower_components/bsw-yeti/css/bootstrap.min.css")
+  body
+    .container
+      .row
+        .col-xs-12
+          .jumbotron
+            h1 XPlatform Cache
+            p Here you can watch and control XPlatform Cache
+      .row
+        .col-xs-12
+          block content
+          .panel.panel-primary
+            .panel-heading
+              h3.panel-title Logs
+            .panel-body
+              div(
+                data-hook="logs"
+                )
+          .panel.panel-default
+            .panel-heading
+              h3.panel-title Raw Logs
+            .panel-body
+              div(
+                data-hook="raw-logs"
+                )
+
+    script(src="/public/bower_components/jquery/dist/jquery.js")
+    script.
+      function fetchLogs () {
+        var $logs = $('[data-hook="logs"]');
+
+        $.ajax({
+          url: '/api/logs',
+          success: function (data) {
+            data.sort(function (a, b) { 
+              return a - b;
+            });
+            $logs.html(
+              data.map(function(row) {
+                return '<div>' + [
+                  row.count,
+                  '<code>',
+                  row.request,
+                  '</code>',
+                  row.lastStatus,
+                  '<kbd>',
+                  row.timestamp,
+                  '</kbd>'
+                ].join('&nbsp;') + '</div>';
+              })
+            );
+            setTimeout(fetchLogs, 1500);
+          },
+          error: function (err) {
+            throw err;
+          }
+        });
+      }
+
+      function fetchRawLogs () {
+        var $logs = $('[data-hook="raw-logs"]');
+
+        $.ajax({
+          url: '/api/logs/raw',
+          success: function (data) {
+            $logs.html(data.split('\n').map(function(row) {
+              return '<pre>' + row + '</pre>';
+            }));
+            setTimeout(fetchRawLogs, 700);
+          },
+          error: function (err) {
+            throw err;
+          }
+        });
+      }
+
+      fetchLogs();
+      fetchRawLogs();
