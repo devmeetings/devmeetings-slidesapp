@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
+    "build": "npm install",
     "postinstall": "bower --allow-root install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
