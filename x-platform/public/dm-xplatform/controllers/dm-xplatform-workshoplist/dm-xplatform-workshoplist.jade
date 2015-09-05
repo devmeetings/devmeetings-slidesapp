@@ -12,8 +12,8 @@ mixin course(uisref, nghref, ngclick)
     .workshopdesc-detailsholder
       .workshoplist-details
         .workshoplist-details-shadow
-        h4
-          span.fa.fa-fw.fa-lock(
+        h3
+          span.fa.fa-fw.fa-lock.pull-right(
             ng-show="cours.pin"
           )
           a.cursor-pointer(
@@ -75,7 +75,7 @@ mixin course(uisref, nghref, ngclick)
             +course("index.space.learn.agenda({event: cours._id})")
       .row(ng-if="my_courses.length")
         .col-xs-12
-          h3 Your Previous Workshops
+          h2 Your Previous Workshops
         .col-sm-4(
           ng-repeat="cours in my_courses | orderBy:['order', 'title'] | filter:vmWorkshoplist.courses_filter track by cours._id"
           )

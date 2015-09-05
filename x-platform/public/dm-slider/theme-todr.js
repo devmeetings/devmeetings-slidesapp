@@ -65,10 +65,10 @@ margin: -1px 0 0 -1px;\
 border: 1px solid #404040\
 }\
 .ace-todr .ace_marker-layer .ace_active-line {\
-background: #333333\
+background: #2f2f2f\
 }\
 .ace-todr .ace_gutter-active-line {\
-background-color: #333333\
+background-color: #2f2f2f\
 }\
 .ace-todr .ace_marker-layer .ace_selected-word {\
 border: 1px solid #16589B\

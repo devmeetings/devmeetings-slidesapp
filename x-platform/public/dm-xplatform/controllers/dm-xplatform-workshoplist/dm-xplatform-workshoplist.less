@@ -2,7 +2,16 @@
     padding: 40px 0 40px 0;
     margin: 0 auto;
 
+    h3 {
+      margin-top: 0;
+    }
 
+    a {
+      color: @brand-primary;
+      &:hover {
+        color: saturate(@brand-primary, 50%);
+      }
+    }
 
     .dm-workshoplist-separator {
         background-color: rgb(45,45,45);
@@ -19,7 +28,7 @@
         position: absolute;
         bottom: 140px;
         right: 9px;
-        font-size: 4em;
+        font-size: 4rem;
         z-index: 10;
     }
 
@@ -44,8 +53,8 @@
         text-transform: uppercase;
         line-height: 95px;
         text-align: center;
-        font-size: 30px;
         text-decoration: none;
+        font-size: 5rem;
         color: #212121;
         font-weight: bold;
         font-family: monospace;
@@ -59,7 +68,7 @@
     }
 
     .workshoplist-details {
-        padding: 15px 20px 0;
+        padding: 15px 10px 30px;
 
         .workshoplist-details-shadow {
             box-shadow: 0 -15px 16px #212121 inset;
@@ -85,7 +94,6 @@
     }
     .workshoplist-details a:hover {
         text-decoration: none;
-        color: #00B9FF;
     }
 
 
@@ -156,22 +164,6 @@
     .ico-search-course {
         top: 2px;
         left: 5px;
-    }
-
-
-    input.form-control {
-        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 16px;
-        font-weight: 500;
-    }
-
-
-    .checkbox {
-        label.form-label {
-            font-size: 18px;
-            font-weight: 500;
-            color: white !important;
-        }
     }
 
 

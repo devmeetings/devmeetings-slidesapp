@@ -34,10 +34,9 @@ mixin singleUserResults(item)
       ng-submit="updateGroup(model.newGroupName); model.editingGroup = false"
       )
       .form-group
-        label.form-label(
+        label.form-label.cursor-pointer(
           ng-if="currentUser.group && !model.editingGroup"
           ng-click="model.editingGroup = true"
-          style="cursor:text"
           ) 
           | Group &nbsp;
           span.text-primary {{ currentUser.group }}
@@ -52,10 +51,15 @@ mixin singleUserResults(item)
       .form-group(
           ng-show="model.editingGroup || !currentUser.group"
         )
-        button.btn.btn-default(
+        button.btn.btn-primary(
           type="submit"
           )
           | OK
+        button.btn.btn-link(
+          ng-show="currentUser.group"
+          ng-click="model.editingGroup = false"
+          )
+          | &times;
 
     h3.view-title(
       style="margin-bottom: 20px;"

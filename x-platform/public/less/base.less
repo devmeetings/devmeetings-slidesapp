@@ -1,5 +1,12 @@
-table {
-    background-color: rgba(0,0,0,0);
+html,body {
+  font-size: @font-size-base
+}
+
+.nav li > a {
+  color: @color-gray90;
+  &:hover {
+    color: lighten(@color-gray90, 20%);
+  }
 }
 
 .dm-version {
@@ -19,7 +26,7 @@ table {
   bottom: 0;
   right: 0;
   z-index: 10000;
-  font-size: 10px;
+  font-size: 0.8rem;
   text-transform: uppercase;
   white-space: nowrap;
   background-color: #222;
@@ -34,9 +41,6 @@ table {
 .text-special {
   color: #aa2;
 }
-
-// @import 'http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700';
-
 
 @import 'fonts.less';
 @import 'variables.less';
