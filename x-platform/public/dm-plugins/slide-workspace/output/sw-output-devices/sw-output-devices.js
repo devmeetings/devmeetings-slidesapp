@@ -34,7 +34,7 @@ const DEFAULT_SIZES = {
   'phone': {
     width: 375,
     height: 667,
-    scale: 1.0
+    scale: 0.9
   },
   'tablet': {
     width: 1024,
