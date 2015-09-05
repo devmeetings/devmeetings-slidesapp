@@ -86,13 +86,13 @@
     float: left;
     width: 3px;
     cursor: col-resize;
-    background-color: #222;
+    background-color: @color-dark;
   }
   .sw-row-grip {
     height: 3px;
     width: 100%;
     cursor: row-resize;
-    background-color: #222;
+    background-color: @color-dark;
   }
   .overlay {
     position: absolute;
@@ -121,7 +121,6 @@
   }
 
   .sw-tabs {
-    background: #1e1e1e;
     .nav {
       li > a {
         border-radius: 0;
@@ -161,7 +160,7 @@
     &.workspace-upload > div, 
     > a {
       color: #bbb;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       padding: 4px 15px;
       overflow: hidden;
     }
@@ -174,7 +173,7 @@
 
     &.workspace-tab-condensed > a, &.workspace-tab-condensed > div {
       padding: 4px 5px;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       max-height: @addressHeight - 1px;
     }
 
@@ -230,22 +229,11 @@
     }
   }
 
-
-  .workspace-tab-output a {
-    border: 1px solid #222;
-    background-color: #777;
-
-    &:hover {
-      background-color: #555;
-    }
-  }
-
   .workspace-upload {
     > div {
       margin-right: 2px;
       line-height: 1.428571429;
       border: 1px solid transparent;
-      border-radius: 4px 4px 0 0;
       position: relative;
       display: block;
       padding: 10px 15px;
@@ -271,7 +259,7 @@
   }
 
   .tab-content {
-    height: ~"calc(100% - 28px)";
+    height: ~"calc(100% - 31px)";
 
     overflow: hidden;
   }
@@ -326,17 +314,18 @@
   background-color: #fff;
 
   &.with-address {
-    height: ~"calc(100% - 27px)";
+    height: ~"calc(100% - 31px)";
   }
   &.sw-outputs-scaled.with-address {
-    height: ~"calc(133% - 27px)";
+    height: ~"calc(133% - 31px)";
   }
 }
 
-@addressHeight: 27px;
+@addressHeight: 30px;
 .workspace-address {
-  @addressColor: #1e1e1e;
+  @addressColor: @color-dark;
   color: #bbb;
+  border-bottom: 1px solid #2F2F2F;
 
   input {
     color: #ddd;
@@ -345,18 +334,20 @@
   .form-control, input, .btn {
     height: @addressHeight;
     padding: 4px;
-    border-radius: 0;
     box-sizing: border-box;
     border: none;
     background: @addressColor;
     color: inherit;
     box-shadow: none;
+    &:hover {
+      background: lighten(@addressColor, 10%);
+    }
   }
 
   .form-control.address-bar {
     box-shadow: -1px -1px 0 #444 inset;
-    border: 3px solid #1e1e1e;
     background-color: @color-gray25;
+    border-bottom: 1px solid @addressColor;
     display: flex;
 
     div,input {
@@ -366,13 +357,13 @@
     @size: 128px;
     div {
       padding: 0 1px 0 4px;
-      line-height: 12px;
+      line-height: 16px;
       opacity: 0.5;
       text-align: right;
     }
 
     input {
-      height: 20px;
+      height: 27px;
       padding-left: 0;
       background: inherit;
       width: auto;
@@ -386,9 +377,8 @@
     .btn-success;
   }
 
-  height: 25px;
+  height: 30px;
   background: @addressColor;
-  border-bottom: 1px solid #000;
   margin-bottom: 0;
   position: relative;
   z-index: 2;
