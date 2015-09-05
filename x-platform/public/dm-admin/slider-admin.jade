@@ -1,7 +1,7 @@
-mixin slideCell(trashAction)
+mixin slideCell(trashAction, withHandle)
   a.pull-right.hover-content.cursor-pointer(ng-click="#{trashAction}")
     span.glyphicon.glyphicon-trash.text-danger
-  label.text-primary
+  label.text-primary(as-sortable-item-handle=withHandle)
     | {{slide.content.name}} - {{slide.content.title}}<br/>
   | {{slide._id}}
 
@@ -38,9 +38,14 @@ mixin slideCell(trashAction)
       h3.panel-title Slajdy: {{selected.title}}
       input.form-control(placeholder="Search...", ng-model='deckSlidesSearch')
     .panel.body.slides-scroll
-      ul.list-group(ui-sortable="orderUpdated", ng-model="selectedSlides")
-        li.list-group-item.hover-trigger(ng-repeat="slide in selectedSlides | filter: { content: {name: deckSlidesSearch}}")
-          mixin slideCell("removeSlideFromDeck(selected, selectedSlides, slide)") 
+      ul.list-group(
+        as-sortable="orderUpdated"
+        ng-model="selectedSlides")
+          li.list-group-item.hover-trigger(
+            ng-repeat="slide in selectedSlides | filter: { content: {name: deckSlidesSearch}}"
+            as-sortable-item
+            )
+            mixin slideCell("removeSlideFromDeck(selected, selectedSlides, slide)", true) 
 .col-xs-4
   .panel.panel-primary
     .panel-heading
@@ -48,8 +53,10 @@ mixin slideCell(trashAction)
       input.form-control(placeholder="Search...", ng-model='allSlidesSearch')
     .panel.body.slides-scroll 
       ul.list-group
-        li.list-group-item.hover-trigger(ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}}")
-          mixin slideCell("removeSlide(slides, slide)")  
+        li.list-group-item.hover-trigger(
+          ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}}" 
+          )
+          mixin slideCell("removeSlide(slides, slide)", false)
           a.pull-right.hover-content.cursor-pointer(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
             span.glyphicon.glyphicon-plus.text-success
             | &nbsp;
