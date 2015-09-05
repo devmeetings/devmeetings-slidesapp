@@ -9,6 +9,30 @@
     transform-origin: top left;
     margin: auto;
 
+    .sw-output-devices__left,
+    .sw-output-devices__right,
+    .sw-output-devices__top,
+    .sw-output-devices__bottom {
+      position: absolute;
+    }
+    .sw-output-devices__top,
+    .sw-output-devices__bottom {
+      left: 0;
+      right: 0;
+    }
+    .sw-output-devices__left {
+      left: 0;
+    }
+    .sw-output-devices__right {
+      right: 0;
+    }
+    .sw-output-devices__top {
+      top: 0;
+    }
+    .sw-output-devices__bottom {
+      bottom: 0;
+    }
+
     img {
       position: absolute;
       top: 0;
@@ -48,27 +72,69 @@
     height: calc(100% - 1px);
 
     &.with-phone {
+      @top-size: 7em;
+      @left-size: 1.5em;
       .sw-output-devices__container {
-        padding-top: 21.5%;
-        padding-bottom: 22%;
-        padding-left: 7%;
-        padding-right: 7%;
+        padding-top: @top-size;
+        padding-bottom: @top-size;
+        padding-left: @left-size;
+        padding-right: @left-size;
+      }
+      .sw-output-devices__top,
+      .sw-output-devices__bottom {
+        height: @top-size;
+      }
+      .sw-output-devices__left,
+      .sw-output-devices__right {
+        top: @top-size;
+        bottom: @top-size;
+        width: @left-size;
       }
     }
     &.with-tablet {
+      @top-size: 2.5em;
+      @left-size: 7em;
       .sw-output-devices__container {
-        padding-top: 11%;
-        padding-bottom: 11%;
-        padding-left: 22.5%;
-        padding-right: 14%;
+        padding-top: @top-size;
+        padding-bottom: @top-size;
+        padding-left: @left-size;
+        padding-right: @left-size;
+      }
+      .sw-output-devices__top,
+      .sw-output-devices__bottom {
+        height: @top-size;
+        left: @left-size;
+        right: @left-size;
+      }
+      .sw-output-devices__left,
+      .sw-output-devices__right {
+        top: 0;
+        bottom: 0;
+        width: @left-size;
       }
     }
     &.with-desktop {
+      @top-size: 2.5em;
+      @bottom-size: 15em;
+      @left-size: 2.5em;
+
       .sw-output-devices__container {
-        padding-top: 5%;
-        padding-bottom: 32%;
-        padding-left: 5%;
-        padding-right: 5%;
+        padding-top: @top-size;
+        padding-bottom: @bottom-size;
+        padding-left: @left-size;
+        padding-right: @left-size;
+      }
+      .sw-output-devices__top {
+        height: @top-size;
+      }
+      .sw-output-devices__bottom {
+        height: @bottom-size;
+      }
+      .sw-output-devices__left,
+      .sw-output-devices__right {
+        top: @top-size;
+        bottom: @bottom-size;
+        width: @left-size;
       }
     }
   }
