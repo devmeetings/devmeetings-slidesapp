@@ -1,9 +1,9 @@
 mixin showContextAndPreferences()
-  .full-height(
+  .full-height.col-xs-12(
     ng-show="!showPreferences"
     ui-view="context"
   )
-  .full-height(
+  .full-height.col-xs-12(
     ng-show="showPreferences"
   )
     dm-xplatform-performance

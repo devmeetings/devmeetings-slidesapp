@@ -102,6 +102,13 @@ module.exports = function (app) {
 
   var events = require('../app/controllers/events');
   app.get('/api/events', events.all);
+  app.get('/api/events/raw', function (req, res, next) {
+    if (req.query.raw === 'raw') {
+      next();
+      return;
+    }
+    res.sendStatus(403);
+  }, events.raw);
   app.get('/api/events/:id/_id', events.getRealId);
   app.get('/api/users/:userId/events', apiAuthenticated, events.userEvents);
   app.get('/api/events/:id', apiAuthenticated, events.get);

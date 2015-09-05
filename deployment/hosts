@@ -26,4 +26,8 @@ root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new ser
 
 [xplatform-nuc]
 192.168.0.53 ansible_ssh_user=platforma server_domain=local.xplatform.org server_short=xpla_local server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
-  
+ 
+[xplatform-local] 
+localhost
+ 
+

@@ -62,9 +62,26 @@ mixin device(name, icon, title)
     .sw-output-devices__container(
       ng-style="model.getContainerStyles()"
       )
-      img(
-        ng-if="model.withDevices"
-        ng-src="/static/images/devices/{{ model.activeDevice }}.svg"
-        alt="{{model.activeDevice}}"
-        )
+      div(ng-if="model.withDevices")
+        .sw-output-devices__top
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/top.svg"
+            alt="{{model.activeDevice}}_top"
+            )
+        .sw-output-devices__bottom(ng-mousedown="model.onVResize($event)")
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/bottom.svg"
+            alt="{{model.activeDevice}}_bottom"
+            )
+        .sw-output-devices__left
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/left.svg"
+            alt="{{model.activeDevice}}_left"
+            )
+        .sw-output-devices__right(ng-mousedown="model.onHResize($event)")
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/right.svg"
+            alt="{{model.activeDevice}}_right"
+            )
+      .sw-output-devices__overlay(ng-show="dragActive")
       .sw-output-devices__content(ng-transclude)

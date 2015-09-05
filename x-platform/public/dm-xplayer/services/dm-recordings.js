@@ -2,16 +2,16 @@
 define(['_', 'angular', 'dm-xplayer/dm-xplayer-app'], function (_, angular, xplayerApp) {
   'use strict';
 
-  xplayerApp.service('dmRecordings', function ($http, $q, dmPlayer) {
+  xplayerApp.service('dmRecordings', function ($http, $q, dmPlayer, dmLocalData) {
     var recordings = {};
 
     return {
       getList: function () {
-        return $q.when($http.get('/api/recordings'));
+        return $q.when(dmLocalData.get('/api/recordings'));
       },
 
       getAutoAnnotations: function (recordingId) {
-        return $http.get('/api/recordings/' + recordingId + '/annotations').then(function (data) {
+        return dmLocalData.get('/api/recordings/' + recordingId + '/annotations').then(function (data) {
           return data.data;
         });
       },
@@ -41,9 +41,10 @@ define(['_', 'angular', 'dm-xplayer/dm-xplayer-app'], function (_, angular, xpla
           return result;
         }
 
-        result = $http.get('/api/recordings/' + recording).then(function (data) {
+        result = dmLocalData.get('/api/recordings/' + recording).then(function (data) {
           return data.data;
         });
+
         recordings[recording] = result;
         return result;
       }

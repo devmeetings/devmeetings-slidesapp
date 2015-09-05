@@ -1,6 +1,6 @@
 /* globals define */
-define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router', './slider-admin.html!text'], function (require, angular, _, angularSortable, angularRouter, viewTemplate) {
-  var module = angular.module('slider.admin', ['ui.sortable', 'ui.router']);
+define(['require', 'angular', '_', 'angular-ui-router', 'ng-sortable', './slider-admin.html!text'], function (require, angular, _, angularRouter, ngSortable, viewTemplate) {
+  var module = angular.module('slider.admin', ['as.sortable', 'ui.router']);
 
   module.config(['$stateProvider', function ($stateProvider) {
     $stateProvider.state('index.decks', {
@@ -56,7 +56,7 @@ define(['require', 'angular', '_', 'angular-ui-sortable', 'angular-ui-router', '
     };
 
     $scope.orderUpdated = {
-      stop: function (em, ui) {
+      dragEnd: function () {
         $scope.selected.slides = _.pluck($scope.selectedSlides, '_id');
         $http.put('/api/decks/' + $scope.selected._id, $scope.selected);
       }
