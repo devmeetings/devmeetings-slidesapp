@@ -46,5 +46,4 @@ define(['module', 'slider/slider.plugins', 'services/DeckAndSlides', './slide-co
       };
     }
   ]);
-
 });

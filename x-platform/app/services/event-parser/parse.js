@@ -38,7 +38,6 @@ var WorkspaceType = new yaml.Type('!workspace', {
         content: content
       };
       return memo;
-
     }, {});
 
     return {

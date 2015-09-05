@@ -22,7 +22,6 @@ class SwOutputErrors {
 }
 
 sliderPlugins.directive('swOutputErrors', () => {
-
   return {
     restrict: 'E',
     scope: {
@@ -55,5 +54,4 @@ sliderPlugins.directive('swOutputErrors', () => {
       });
     }
   };
-
 });

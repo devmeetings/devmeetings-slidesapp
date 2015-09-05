@@ -39,7 +39,6 @@ define(['module',
       };
 
       $scope.comments = {};
-
     }
   ]);
 });

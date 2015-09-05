@@ -1,4 +1,3 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
@@ -22,7 +21,6 @@ class PluginsGallery {
 
   initPlugins (vm) {
     this.$scope.$watchCollection(() => Object.keys(vm.slide), () => {
-
       let allPlugins = sliderPlugins.getAllPlugins();
       vm.namespaces = Object.keys(allPlugins);
       vm.namespaces.map((namespace) => {
@@ -31,7 +29,6 @@ class PluginsGallery {
         });
       });
       vm.plugins = allPlugins;
-
     });
   }
 

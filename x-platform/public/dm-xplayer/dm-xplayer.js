@@ -43,9 +43,7 @@ define([
         $rootScope.headerHidden = false;
       }
     });
-
   }]);
 
   return xplayerApp;
-
 });

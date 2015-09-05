@@ -100,9 +100,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
 
           sendQueueLater(dmRecorder);
         }, true);
-
       }
     };
   });
-
 });

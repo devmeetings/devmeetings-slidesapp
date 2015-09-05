@@ -109,11 +109,9 @@ define(['module', '_', 'slider/slider.plugins', './slide-jsrunner.html!text'], f
 
             var errors = evalJsCode(code);
             setErrors(errors);
-
           }, EXECUTION_DELAY));
         }
       };
     }
   ]);
-
 });

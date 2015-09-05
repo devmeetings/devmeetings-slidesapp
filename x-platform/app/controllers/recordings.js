@@ -126,7 +126,6 @@ var Recordings = {
 
         return Q.when(event.save());
       });
-
     }).done(
       function () {
         res.sendStatus(200);

@@ -44,6 +44,5 @@ define(['_', 'utils/Plugins', './evalAssertion'], function (_, Plugins, evalAsse
         setTimeout(verify, 1000);
       }
     }, EXECUTION_DELAY));
-
   });
 });

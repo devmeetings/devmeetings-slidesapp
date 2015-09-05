@@ -119,5 +119,4 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
       };
     }
   ]);
-
 });

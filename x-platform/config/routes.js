@@ -208,5 +208,4 @@ module.exports = function (app) {
   // app.get('/', authenticated, devmeetings.xplatform);
   app.get('/admin/?*', authenticated, authorized('admin:events'), devmeetings.admin);
   app.get('/*', authenticateAsAnon, nonAnon, redirectIfNeeded, authorizedForEditMode('admin:events'), devmeetings.xplatform);
-
 };

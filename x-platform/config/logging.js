@@ -19,7 +19,6 @@ if (config.graylog) {
     graylogHost: config.graylog.host,
     graylogPort: config.graylog.port
   });
-
 }
 
 winston.forExpress = forExpress;

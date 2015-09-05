@@ -37,7 +37,6 @@ class OutputFrame {
   }
 
   setAddressWithFramesAnimation (url) {
-
     this.$window.localStorage.wasLastFrameInactive = true;
 
     this.iframe2.attr('src', url);
@@ -74,7 +73,6 @@ class OutputFrame {
       this.$timeout.cancel(timeoutPromise);
       swapFrames();
     });
-
   }
 
   setAddressWithoutFramesAnimation (url) {
@@ -119,7 +117,6 @@ class OutputFrame {
 }
 
 sliderPlugins.directive('swOutputFrame', ($rootScope, $location, $timeout, $window) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -146,9 +143,6 @@ sliderPlugins.directive('swOutputFrame', ($rootScope, $location, $timeout, $wind
         }
         frame.setAddressLater(url);
       });
-
     }
-
   };
-
 });

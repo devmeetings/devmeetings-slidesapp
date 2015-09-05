@@ -102,7 +102,5 @@ define(['angular', 'dm-xplatform/xplatform-app', '_',
       var materialIdx = _.findIndex(currentIteration.materials, currentMaterial);
       $scope.nextMaterial = currentIteration.materials[materialIdx + 1];
     }
-
   });
-
 });

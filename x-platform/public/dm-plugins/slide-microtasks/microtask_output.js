@@ -18,6 +18,5 @@ define(['_', 'utils/Plugins', './evalAssertion'], function (_, Plugins, evalAsse
         markTaskCompleted();
       }
     }, EXECUTION_DELAY));
-
   });
 });

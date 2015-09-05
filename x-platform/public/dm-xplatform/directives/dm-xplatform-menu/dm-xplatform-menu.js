@@ -16,13 +16,11 @@ class MenuDir {
 
   link (scope) {
     scope.stateIncludes = (name) => this.$state.includes(name);
-
   }
 
 }
 
 xplatformApp.directive('dmXplatformMenu', ($window, $state, $stateParams) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -41,5 +39,4 @@ xplatformApp.directive('dmXplatformMenu', ($window, $state, $stateParams) => {
       contextMenu.link(scope);
     }
   };
-
 });

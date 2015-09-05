@@ -9,6 +9,5 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
     $scope.createComment = function () {
       dmQuestions.commentQuestion(question, $scope.comment.text);
     };
-
   }]);
 });

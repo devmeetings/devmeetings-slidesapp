@@ -241,7 +241,6 @@ Object.keys(fromEnv).map(function (k) {
   cookieDomain = cookieDomain.replace(/:[0-9]+$/, '');
   var domainParts = cookieDomain.split('.').reverse();
   c.cookieDomain = '.' + domainParts[1] + '.' + domainParts[0];
-
 }(currentConfig));
 
 module.exports = currentConfig;

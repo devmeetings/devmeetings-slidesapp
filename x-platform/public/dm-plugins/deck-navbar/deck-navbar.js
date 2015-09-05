@@ -83,5 +83,4 @@ define(['module', '_', '$', 'slider/slider.plugins', 'services/CurrentSlideManag
       };
     }
   ]);
-
 });

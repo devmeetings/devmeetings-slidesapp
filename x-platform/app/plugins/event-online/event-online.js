@@ -146,7 +146,6 @@ exports.onSocket = function (log, socket, io) {
         // Send also to myself
         socket.emit('event.user', msg);
       });
-
     });
   }
 
@@ -155,5 +154,4 @@ exports.onSocket = function (log, socket, io) {
 
   socket.on('state.subscribe', changeWorkspaceListenersCount.bind(null, +1));
   socket.on('state.unsubscribe', changeWorkspaceListenersCount.bind(null, -1));
-
 };

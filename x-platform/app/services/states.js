@@ -317,7 +317,6 @@ var States = (function () {
 
     skipSilence: skipSilence
   };
-
 }());
 
 module.exports = States;
@@ -364,7 +363,6 @@ function convertHistorySlidesToPatches (slides) {
     });
 
     return patches.concat(newPatches);
-
   }, []);
 
   skipSilence(patches);

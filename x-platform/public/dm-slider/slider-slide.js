@@ -15,7 +15,6 @@ define([
     $scope.$on('slide', function (ev, slide_content) {
       $scope.slide.content = slide_content;
     });
-
   });
 
   bootstrap();

@@ -21,7 +21,5 @@ exports.onSocket = function (log, socket) {
         lrServer.notifyClientsOnUrl('page/' + slidesaveId, ['index.html']);
       }
     });
-
   });
-
 };

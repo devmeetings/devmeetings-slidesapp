@@ -27,5 +27,4 @@ define(['dm-xplayer/dm-xplayer-app'], function (xplayerApp) {
       });
     }
   );
-
 });

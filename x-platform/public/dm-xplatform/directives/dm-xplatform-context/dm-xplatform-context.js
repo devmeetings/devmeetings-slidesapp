@@ -109,11 +109,9 @@ class ContextMenuDir {
       $scope.notifications.unread = true;
     });
   }
-
 }
 
 xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -132,5 +130,4 @@ xplatformApp.directive('dmXplatformContext', ($stateParams, $window) => {
       contextMenu.link(scope);
     }
   };
-
 });

@@ -22,7 +22,6 @@ exports.since = function (req, res) {
   states.getSinceId(req.params.id).done(function (history) {
     res.send(history);
   }, sendError(res));
-
 };
 
 exports.convertToRecording = function (req, res) {
@@ -32,5 +31,4 @@ exports.convertToRecording = function (req, res) {
   states.convertToRecording(eventId, req.params.id, req.params.from, req.params.to).done(function () {
     res.sendStatus(200);
   }, sendError(res));
-
 };

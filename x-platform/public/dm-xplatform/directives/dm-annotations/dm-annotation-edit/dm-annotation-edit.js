@@ -35,7 +35,6 @@ define(['angular', 'dm-xplatform/xplatform-app', './dm-annotation-edit.html!text
 
             // TODO [ToDr] :(
             $rootScope.$broadcast('newAnnotations');
-
           };
 
           scope.addPause = function (snippet) {

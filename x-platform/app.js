@@ -54,7 +54,6 @@ require('./config/blocked')(function (ms) {
   logger.warn('Blocked for ' + ms + 'ms', {
     blockedFor: ms
   });
-
 });
 
 server.listen(config.port, function () {

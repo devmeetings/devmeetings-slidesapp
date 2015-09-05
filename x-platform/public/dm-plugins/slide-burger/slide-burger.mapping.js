@@ -52,5 +52,4 @@ define([], function () {
   };
 
   return mapping;
-
 });

@@ -20,7 +20,6 @@ define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformAp
         };
       }
     };
-
   });
 
   xplatformApp.directive('dmIframeAutosize', function () {

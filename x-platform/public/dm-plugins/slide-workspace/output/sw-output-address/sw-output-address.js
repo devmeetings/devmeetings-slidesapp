@@ -10,7 +10,6 @@ function ModalCtrl ($scope, address) {
 }
 
 sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -57,5 +56,4 @@ sliderPlugins.directive('swOutputAddress', ($modal, swLivereloadAddress) => {
       };
     }
   };
-
 });

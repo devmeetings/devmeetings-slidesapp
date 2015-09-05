@@ -38,5 +38,4 @@ define(['module', '_', 'slider/slider', 'slider/slider.plugins', './sidebar-cont
       };
     }
   ]);
-
 });

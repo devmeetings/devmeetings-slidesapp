@@ -8,9 +8,7 @@ exports.onSocket = function (log, socket) {
     Slides.upsertSlide(slideId, data).then(res, function (err) {
       log.error(err);
     });
-
   };
 
   socket.on('slide.edit.put', onPutSlide);
-
 };

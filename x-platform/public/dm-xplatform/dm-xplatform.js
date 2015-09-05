@@ -127,7 +127,6 @@ xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser', '$win
       });
       scope.$on('$destroy', off);
     };
-
   }
 ]);
 

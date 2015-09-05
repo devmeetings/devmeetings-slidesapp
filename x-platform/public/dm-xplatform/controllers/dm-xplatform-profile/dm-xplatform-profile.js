@@ -15,8 +15,6 @@ define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformAp
       $state.go('index.devhero', {
         id: $scope.userData.result._id
       });
-
     };
-
   }]);
 });

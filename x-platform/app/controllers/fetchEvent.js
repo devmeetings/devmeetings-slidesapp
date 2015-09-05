@@ -58,7 +58,6 @@ exports.createEventFromZip = function (req, res) {
 
             return defer.resolve(ev);
           });
-
         });
 
         return defer.promise;
@@ -73,7 +72,6 @@ exports.createEventFromZip = function (req, res) {
       }
     );
   });
-
 };
 
 function createEntityIfNeeded (obj, name, Entit, cache) {

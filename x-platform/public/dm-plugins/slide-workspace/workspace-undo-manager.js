@@ -54,7 +54,6 @@ define(['_'], function (_) {
       }
 
       this.setUpStack(options);
-
     };
     this.undo = function (dontSelect) {
       var currentStack = this.getCurrentTabsStack();
@@ -114,7 +113,6 @@ define(['_'], function (_) {
     this.isClean = function () {
       return this.getCurrentTabsStack().dirtyCounter === 0;
     };
-
   }.call(WorkspaceUndoManager.prototype));
 
   if (enableLogging) {

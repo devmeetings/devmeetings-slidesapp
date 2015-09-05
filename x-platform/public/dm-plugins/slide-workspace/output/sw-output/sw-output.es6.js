@@ -1,4 +1,3 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
@@ -69,7 +68,6 @@ class SwOutput {
 }
 
 sliderPlugins.directive('swOutput', ($rootScope) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -102,5 +100,4 @@ sliderPlugins.directive('swOutput', ($rootScope) => {
       output.controller(this, $scope);
     }
   };
-
 });

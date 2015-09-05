@@ -28,7 +28,6 @@ exports.get = function (req, res) {
     logger.error(err);
     res.send(404, err);
   });
-
 };
 
 exports.list = function (req, res) {

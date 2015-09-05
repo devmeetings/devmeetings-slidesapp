@@ -50,5 +50,4 @@ define(['module', 'slider/slider.plugins', './slide-timer.html!text'], function 
       };
     }
   ]);
-
 });

@@ -25,7 +25,5 @@ export default function ($scope) {
       state.currentSecond = state.playFrom;
       return;
     }
-
   };
-
 }
