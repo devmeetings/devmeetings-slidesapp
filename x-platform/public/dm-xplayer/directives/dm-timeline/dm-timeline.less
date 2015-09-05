@@ -18,7 +18,7 @@ dm-timeline {
     background-color: #0f0f0f;
 
     .progress-bar {
-      background-color: darken(#aa2, 10%);
+      background-color: darken(@brand-secondary, 10%);
     }
   }
 }
@@ -30,11 +30,11 @@ dm-timeline {
   height: 100%;
   margin-left: -1px;
   z-index: 10;
-  border-left: 1px solid darken(#aa2, 20%);
+  border-left: 1px solid darken(@brand-secondary, 20%);
   border-right: 1px solid #222;
 
   &.info-color {
-    background-color: darken(#5aabcb, 10%);
+    background-color: darken(@brand-primary, 10%);
   }
 }
 
@@ -47,14 +47,14 @@ dm-timeline {
 }
 
 .info-color {
-  background-color: #5aabcb;
+  background-color: @brand-primary;
 }
 
 .dm-timeline-image {
   background-color: rgb(26,26,26);
   width: 24px;
   position: relative;
-  color: #5aabcb;
+  color: @brand-primary;
   top: 11px;
   left: -12px;
 }

@@ -6,7 +6,7 @@
 }
 .dm-xplayer-timeline {
   .progress-bar {
-    background-color: #aa2;
+    background-color: @brand-secondary;
   }
 }
 
@@ -22,7 +22,7 @@
 }
 
 .dm-player-subtitles {
-  @color: #aa0;
+  @color: darken(@brand-secondary, 5%);
 
   .dm-annos-item > *:last-child {
     margin-bottom: 20px;
@@ -57,7 +57,7 @@
   opacity: 1.0;
   position: absolute;
   color: @color;
-  font-weight: bold;
+  font-weight: 600;
   text-shadow: 1px 1px 1px #222;
   text-align: center;
   font-size: 1rem;
@@ -132,7 +132,7 @@
   }
 }
 .btn-next-subtitle {
-  @color: #aa2;
+  @color: @brand-secondary;
   @fg: #0f0f0f;
 
   background-color: @color;

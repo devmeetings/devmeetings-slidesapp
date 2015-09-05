@@ -4,9 +4,14 @@ html,body {
 
 .nav li > a {
   color: @color-gray90;
+  font-weight: 300;
   &:hover {
     color: lighten(@color-gray90, 20%);
   }
+}
+
+strong, label {
+  font-weight: 600;
 }
 
 .dm-version {
@@ -39,7 +44,7 @@ html,body {
 }
 
 .text-special {
-  color: #aa2;
+  color: @brand-secondary;
 }
 
 @import 'fonts.less';
