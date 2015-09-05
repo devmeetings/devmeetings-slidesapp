@@ -20,7 +20,7 @@ mixin activeMaterialAnnotations()
             )
             | Agenda
         li(
-          ng-repeat="link in event.links"
+          ng-repeat="link in event.links track by $index"
           ui-sref-active="active"
           )
           a(
@@ -85,7 +85,7 @@ mixin activeMaterialAnnotations()
         ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
           li(
             ui-sref-active="active"
-            ng-repeat="material in i.materials"
+            ng-repeat="material in i.materials track by $index"
             )
 
             a.dm-external-link(
@@ -123,7 +123,7 @@ mixin activeMaterialAnnotations()
             +activeMaterialAnnotations
           li(
             ui-sref-active="active"
-            ng-repeat="material in i.materials"
+            ng-repeat="material in i.materials track by $index"
             )
             .input-group.input-group-sm
               input.form-control(
@@ -147,7 +147,7 @@ mixin activeMaterialAnnotations()
                     
         ul.nav.nav-tabs.nav-stacked(ng-if="!$root.editMode")
           li(
-            ng-repeat="task in tasks[$index]"
+            ng-repeat="task in tasks[$index] track by $index"
             ng-class="{'active': activeTask === task}"
             )
 
@@ -185,7 +185,7 @@ mixin activeMaterialAnnotations()
         ul.nav.nav-tabs.nav-stacked(ng-if="$root.editMode")
           li(
             ui-sref-active="active"
-            ng-repeat="task in i.tasks"
+            ng-repeat="task in i.tasks track by $index"
             )
             hr
             .form-group
