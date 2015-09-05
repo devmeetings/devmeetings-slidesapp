@@ -61,7 +61,6 @@ define([
             } else {
               $scope.setRate(7.5);
             }
-
           });
 
           $scope.setRate = function (rate) {
@@ -80,7 +79,6 @@ define([
             if (ev.target.clientWidth === ev.currentTarget.clientWidth) {
               // Clicking on timeline
               x = offset;
-
             } else {
               // Clicking on annotation
               var rect = ev.target.getBoundingClientRect();

@@ -62,7 +62,6 @@ class Ranking {
     };
 
     scope.getTasks = (item, iterationIdx) => {
-
       if (!item.counts) {
         return [];
       }
@@ -73,7 +72,6 @@ class Ranking {
     };
 
     scope.properForTooltip = function (doneBy) {
-
       if (!scope.isTrainer(scope.currentUser)) {
         return;
       }
@@ -91,7 +89,6 @@ class Ranking {
         scope.currentUser.group = newGroupName;
       });
     };
-
   }
 
   findMaxNoOfTasks (eventIterations, iterationIdx) {
@@ -119,7 +116,6 @@ class Ranking {
   }
 
   populateGroupsWithRankings (ranking, groups) {
-
     _.map(ranking, (item) => {
       _.map(groups, (group) => {
         if (item.group && item.group === group.name) {
@@ -130,7 +126,6 @@ class Ranking {
   }
 
   groupAlreadyExist (groups, newGroupName) {
-
     for (let group of groups) {
       if (group.name === newGroupName) {
         return true;
@@ -151,7 +146,6 @@ class Ranking {
       let doneBy = [];
 
       for (let rank of ranks) {
-
         if (rank.data[id] && rank.data[id].isDone) {
           sum += 1;
           allGainedPoints += 1;
@@ -225,7 +219,6 @@ class Ranking {
   }
 
   countUserResults (ranking) {
-
     for (let rank of ranking) {
       let result = 0;
       _.forIn(rank.data, function (value, key) {
@@ -259,7 +252,6 @@ class Ranking {
 }
 
 xplatformApp.directive('dmRanking', (dmRanking, dmUser) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -274,6 +266,5 @@ xplatformApp.directive('dmRanking', (dmRanking, dmUser) => {
       contextMenu.link(scope);
     }
   };
-
 });
 

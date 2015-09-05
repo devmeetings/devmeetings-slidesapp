@@ -81,7 +81,6 @@ class SpaceVisuals {
           return;
         }
         $scope.toggleRight(open);
-
       }, delay);
     };
 
@@ -105,7 +104,6 @@ class SpaceVisuals {
 
             $('.dm-spacesidebar-right .tab-content').fadeIn(600 * aSpeed);
           }, 250 * aSpeed);
-
         }, 500 * aSpeed);
 
         return;

@@ -278,7 +278,6 @@ var Events = {
           'annotations': req.body
         }
       }).lean().exec());
-
     }).fail(onError(res)).done(function (data) {
       res.send(data);
     });
@@ -304,7 +303,6 @@ var Events = {
         });
         return Q.ninvoke(anno, 'save');
       });
-
     }).fail(onError(res)).done(function (data) {
       res.send(data);
     });

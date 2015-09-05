@@ -82,7 +82,6 @@ function generateAutoAnnotationsForUnifiedHistoryFormat (recording) {
     memo.previousChatnotes = slide.code.chatnotes;
     memo.timestamp = slide.timestamp;
     return memo;
-
   }, start).then(function (memo) {
     return memo.annotations.sort(function (a, b) {
       return a.timestamp - b.timestamp;
@@ -97,7 +96,6 @@ function generateAutoAnnotationsForUnifiedHistoryFormat (recording) {
       }
       return memo;
     }, []);
-
   });
 }
 

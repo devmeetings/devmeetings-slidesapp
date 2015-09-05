@@ -86,7 +86,6 @@ class SwEditorTabs {
   }
 
   prepareTreeStructure (self, tabsObjects) {
-
     function newNode (name, pathPreffix, tabObject) {
       let fileName = tabNameToFileName(name);
       let path = name;
@@ -243,7 +242,6 @@ class SwEditorTabs {
 }
 
 sliderPlugins.directive('swEditorTabs', () => {
-
   return {
     restrict: 'E',
     scope: {
@@ -262,5 +260,4 @@ sliderPlugins.directive('swEditorTabs', () => {
       tabs.controller(this);
     }
   };
-
 });

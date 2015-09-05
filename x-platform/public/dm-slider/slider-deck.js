@@ -26,7 +26,6 @@ define([
     $scope.$on('deck', function (ev, newDeck) {
       updateDeck($scope.deck);
     });
-
   });
 
   bootstrap();

@@ -65,7 +65,6 @@ exports.init = function () {
         store.publish(Queue, JSON.stringify(storeMessage));
       }
     };
-
   }());
 };
 

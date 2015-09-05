@@ -4,6 +4,5 @@ define(['angular', '_', 'dm-xplatform/xplatform-app', 'slider/slider', 'services
     dmUser.getCurrentUser().then(function (data) {
       $scope.user = data;
     });
-
   }]);
 });

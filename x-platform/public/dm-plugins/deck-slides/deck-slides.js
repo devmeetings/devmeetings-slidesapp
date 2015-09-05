@@ -101,5 +101,4 @@ define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'service
       };
     }
   );
-
 });

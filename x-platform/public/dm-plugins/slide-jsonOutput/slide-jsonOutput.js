@@ -41,7 +41,6 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
             outputAce.setValue(res);
             outputAce.clearSelection();
           });
-
         }
       };
     }
@@ -76,5 +75,4 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
       };
     }
   ]);
-
 });

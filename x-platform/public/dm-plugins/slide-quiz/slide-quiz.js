@@ -91,11 +91,9 @@ define(['angular', '_', 'slider/slider.plugins', './slide-quiz.html!text'], func
             }, function () {
               $window.alert('Nie udało się wysłać odpowiedzi.');
             });
-
           };
         }
       };
     }
   ]);
-
 });

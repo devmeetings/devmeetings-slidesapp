@@ -57,7 +57,6 @@ exports.onSocket = function (log, socket, io) {
       data.slidesave = slidesave._id;
       doCreateQuestion();
     }).fail(log).done(function () {});
-
   };
 
   var createComment = function (data, res) {

@@ -38,7 +38,5 @@ exports.initApi = function (app, authenticated, app2, router2, logger) {
       res.attachment('xpla-ionic.apk');
       res.sendFile(targetFile);
     });
-
   });
-
 };

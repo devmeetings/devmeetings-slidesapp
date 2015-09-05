@@ -15,7 +15,6 @@ define([
       DeckAndSlides.inContextOf('deck').slides.then(function (slides) {
         $scope.slide = slides[0];
       });
-
     }
   ]);
 

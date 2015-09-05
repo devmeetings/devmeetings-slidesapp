@@ -1,6 +1,5 @@
 /* globals define */
 define(['module', 'slider/slider.plugins'], function (module, sliderPlugins) {
-
   sliderPlugins.registerPlugin('deck', 'title', 'deck-title', {
     name: 'Deck Title',
     description: 'Deck Title Displayed as Page Title',
@@ -24,5 +23,4 @@ define(['module', 'slider/slider.plugins'], function (module, sliderPlugins) {
       };
     }
   ]);
-
 });

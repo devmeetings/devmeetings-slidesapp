@@ -77,15 +77,12 @@ define(['module', 'angular', '$', '_', 'ace', 'slider/slider.plugins', './editor
               editor.moveCursorToPosition(cursorPosition);
               editor.on('change', updateSlideContentThrottled);
             }
-
           }, UPDATE_THROTTLE_TIME, {
             leading: false,
             trailing: true
           }), true);
-
         }
       };
     }
   ]);
-
 });

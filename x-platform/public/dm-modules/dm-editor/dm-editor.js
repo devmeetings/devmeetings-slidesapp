@@ -189,7 +189,6 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
           }, 150);
         }
       };
-
     }
   ]);
 
@@ -263,5 +262,4 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     mode = modesMap[mode] || mode;
     return mode;
   }
-
 });

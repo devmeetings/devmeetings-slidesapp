@@ -25,6 +25,5 @@ define(['angular', 'dm-xplatform/xplatform-app', '_', 'dm-xplatform/services/dm-
         });
       });
     };
-
   });
 });

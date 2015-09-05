@@ -41,7 +41,5 @@ define(['$', 'angular'], function ($, angular) {
       // }, 1500);
       }
     };
-
   });
-
 });

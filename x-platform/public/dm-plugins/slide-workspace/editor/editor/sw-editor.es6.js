@@ -64,7 +64,6 @@ class SwEditor {
       });
       this.refreshActiveTab(self);
     };
-
   }
 
   updateFilteredTabs (self) {
@@ -115,7 +114,6 @@ class SwEditor {
 }
 
 sliderPlugins.directive('swEditor', () => {
-
   return {
     restrict: 'E',
     scope: {
@@ -155,5 +153,4 @@ sliderPlugins.directive('swEditor', () => {
       }, 6000);
     }
   };
-
 });

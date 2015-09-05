@@ -6,7 +6,6 @@ define(['angular', 'dm-xplatform/xplatform-app'], function (angular, xplatformAp
         dmBrowserTab.setTitleAndIcon(task.title, 'todo').withBadge(1 + parseInt($stateParams.iteration, 10));
         $scope.url = $sce.trustAsResourceUrl(task.url);
       });
-
     }
   ]);
 });

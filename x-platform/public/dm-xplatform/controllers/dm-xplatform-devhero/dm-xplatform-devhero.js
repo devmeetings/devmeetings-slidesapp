@@ -11,6 +11,5 @@ define(['angular', '_', 'dm-xplatform/xplatform-app', 'slider/slider'], function
       $scope.xplatformData.navbar.title = user.name;
       dmBrowserTab.setTitleAndIcon(user.name + ' - Devhero');
     });
-
   });
 });

@@ -6,7 +6,6 @@ import sliderPlugins from 'slider/slider.plugins';
 import viewTemplate from './sw-output-devices.html!text';
 
 sliderPlugins.directive('swOutputDevices', () => {
-
   return {
     restrict: 'E',
     scope: {
@@ -29,7 +28,6 @@ sliderPlugins.directive('swOutputDevices', () => {
       d.controller(this);
     }
   };
-
 });
 
 const DEFAULT_SIZES = {
