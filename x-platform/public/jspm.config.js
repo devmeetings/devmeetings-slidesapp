@@ -64,6 +64,7 @@ System.config({
     "monospaced/angular-qrcode": "github:monospaced/angular-qrcode@5.1.0",
     "ng-file-upload": "github:danialfarid/ng-file-upload@5.0.9",
     "ng-scrollbar": "github:asafdav/ng-scrollbar@0.0.7",
+    "qrcode-generator": "github:monospaced/bower-qrcode-generator@0.0.2",
     "socket.io": "github:Automattic/socket.io-client@1.3.5",
     "socket.io-client": "github:Automattic/socket.io-client@1.3.5",
     "text": "github:systemjs/plugin-text@0.0.2",
