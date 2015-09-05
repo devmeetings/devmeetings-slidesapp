@@ -15,7 +15,7 @@
           )
           span.fa.fa-fw.fa-arrow-left.pull-left.direction
           span Back To The Movie
-        a.btn.btn-block.btn-primary.cursor-pointer(
+        a.btn.btn-block.btn-success.cursor-pointer(
             ng-if="nextMaterial"
             ui-sref="index.space.learn.player({iteration: iterationIdx, material: nextMaterial._id })"
             ng-click="$close()"
@@ -24,7 +24,7 @@
           span.fa.fa-fw.fa-film
           span {{nextMaterial.title}}
           span.fa.fa-fw.fa-arrow-right.pull-right.direction
-        a.btn.btn-block.btn-primary.cursor-pointer(
+        a.btn.btn-block.btn-success.cursor-pointer(
             ng-if="nextTask"
             ui-sref="index.space.learn.workspace.task({slide:workspaceId, iteration: iterationIdx, todo: 0 })"
             ng-click="$close()"

@@ -1,6 +1,6 @@
 .sw-output-devices {
   height: 100%;
-  background-color: #333;
+  background-color: @color-gray25;
   overflow: auto;
 
   .sw-output-devices__container {
@@ -73,15 +73,15 @@
       border-radius: 0;
       color: #fff;
       padding: 0 3px;
-      font-size: 11px;
-      line-height: 13px;
+      font-size: 0.9rem;
+      line-height: 1.2;
       height: 20px;
       flex: 2;
     }
   }
 
   .sw-output-devices__wrapper {
-    height: calc(100% - 1px);
+    height: ~"calc(100% - 5px)";
 
     &.with-phone {
       @top-size: 7em;

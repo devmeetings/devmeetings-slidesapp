@@ -7,54 +7,49 @@ mixin slideCell(trashAction, withHandle)
 
 
 .col-xs-4
-  .panel.panel-primary
-    .panel-heading
-      h3.panel-title Zestawy slajdów
-      .form-group
-      form.input-group(ng-submit="addDeck()")
-        input.form-control(placeholder="Deck title", ng-model="deckTitle")
-        span.input-group-btn
-          button.btn.btn-success
-            |  Create new Deck 
-    .panel-body
-      ul.list-group 
-        li.list-group-item.hover-trigger(ng-repeat="deck in decks")
-          a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
-            span.glyphicon.glyphicon-trash
-          a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}")
-            span.fa.fa-external-link
-          a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}?edit=true")
-            span.fa.fa-pencil
-          span &nbsp;
-          a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
-            | {{ deck.title }}
-    .panel-footer
-      a(ng-click="addExemplaryDeck()")
-        span.glyphicon.glyphicon-bell
-        |  Add exemplary Deck
-.col-xs-4(ng-if="selected.slides.length")
-  .panel.panel-primary
-    .panel-heading
-      h3.panel-title Slajdy: {{selected.title}}
-      input.form-control(placeholder="Search...", ng-model='deckSlidesSearch')
-    .panel.body.slides-scroll
-      ul.list-group(
-        as-sortable="orderUpdated"
-        ng-model="selectedSlides")
-          li.list-group-item.hover-trigger(
-            ng-repeat="slide in selectedSlides | filter: { content: {name: deckSlidesSearch}}"
-            as-sortable-item
-            )
-            mixin slideCell("removeSlideFromDeck(selected, selectedSlides, slide)", true) 
+    h1 Decks
+    input.form-control(placeholder="Search...", ng-model='deckSearch')
+    ul.list-group 
+      li.list-group-item.hover-trigger(ng-repeat="deck in decks | filter:deckSearch track by $index")
+        a.pull-right.hover-content.cursor-pointer(ng-click="removeDeck(deck._id)")
+          span.glyphicon.glyphicon-trash
+        a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}")
+          span.fa.fa-external-link
+        a.btn.btn-default.btn-xs(href="/decks/{{deck._id}}?edit=true")
+          span.fa.fa-pencil
+        span &nbsp;
+        a.pointer.cursor-pointer(ng-click="selectDeck(deck)")
+          | {{ deck.title }}
+    form.input-group(ng-submit="addDeck()")
+      input.form-control(placeholder="Deck title", ng-model="deckTitle")
+      span.input-group-btn
+        button.btn.btn-success
+          |  Create new Deck 
+    a.btn.btn-default.btn-block(ng-click="addExemplaryDeck()")
+      span.glyphicon.glyphicon-bell
+      |  Add exemplary Deck
+
 .col-xs-4
-  .panel.panel-primary
-    .panel-heading
-      h3.panel-title Slajdy
-      input.form-control(placeholder="Search...", ng-model='allSlidesSearch')
-    .panel.body.slides-scroll 
+    h1 Slides for: {{selected.title}}
+
+    div(ng-if="selected.slides.length")
+      input.form-control(placeholder="Search...", ng-model='deckSlidesSearch')
+      .slides-scroll
+        ul.list-group(
+          as-sortable="orderUpdated"
+          ng-model="selectedSlides")
+            li.list-group-item.hover-trigger(
+              ng-repeat="slide in selectedSlides | filter: { content: {name: deckSlidesSearch}} track by slide._id"
+              as-sortable-item
+              )
+              mixin slideCell("removeSlideFromDeck(selected, selectedSlides, slide)", true) 
+.col-xs-4
+    h1 All Slides
+    input.form-control(placeholder="Search...", ng-model='allSlidesSearch')
+    .slides-scroll 
       ul.list-group
         li.list-group-item.hover-trigger(
-          ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}}" 
+          ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}} track by slide._id" 
           )
           mixin slideCell("removeSlide(slides, slide)", false)
           a.pull-right.hover-content.cursor-pointer(ng-click="addSlideToDeck(selected, selectedSlides, slide)")
