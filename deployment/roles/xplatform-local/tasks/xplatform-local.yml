@@ -1,0 +1,46 @@
+---
+
+- name: Nginx | Copying site
+  template:
+    src: nginx/sites/local.xplatform.ssl.tpl
+    dest: "/etc/nginx/sites-available/local.{{server_domain}}"
+
+- name: Nginx | Checking if there is domain specific key
+  local_action: "stat path={{role_path}}/files/local.{{server_domain}}.crt"
+  sudo: no
+  become: no
+  register: result
+
+- name: Nginx | Copying Keys
+  copy:
+    src: local.xplatform.org.crt
+    dest: /etc/nginx/xpla/keys/local.{{server_domain}}.crt
+  when: result.stat.exists == False
+
+- name: Nginx | Copying Keys2
+  copy:
+    src: local.xplatform.org.key
+    dest: /etc/nginx/xpla/keys/local.{{server_domain}}.key 
+  when: result.stat.exists == False
+
+- name: Nginx | Copying Domain Specific Keys
+  copy:
+    src: local.{{server_domain}}.crt
+    dest: /etc/nginx/xpla/keys/local.{{server_domain}}.crt
+  when: result.stat.exists
+
+- name: Nginx | Copying Domain Specific Keys2
+  copy:
+    src: local.{{server_domain}}.key
+    dest: /etc/nginx/xpla/keys/local.{{server_domain}}.key 
+  when: result.stat.exists
+
+- name: Nginx | Enabling XPlatform
+  file: 
+    src: "/etc/nginx/sites-available/local.{{server_domain}}"
+    dest: "/etc/nginx/sites-enabled/local.{{server_domain}}" 
+    state: link
+
+- service: name=nginx state=restarted 
+- service: name=nginx enabled=yes
+

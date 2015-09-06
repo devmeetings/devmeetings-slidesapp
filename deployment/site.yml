@@ -54,6 +54,7 @@
     - nodejs
     - xplatform
     - xplatform-main
+    - xplatform-local
     - xplatform-deploy
     - xdashboard
 

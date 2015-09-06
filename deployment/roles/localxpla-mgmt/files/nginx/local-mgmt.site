@@ -17,16 +17,20 @@ server {
 	}
 
   location /public {
-    root /srv/xplatform/tools/localxpla-manager/public;
+    root /srv/xplatform/tools/localxpla-manager/;
   }
 
   location /cdn {
-    root /srv/xplatform/tools/localxpla-manager/public/cdn;
+    root /srv/xplatform/tools/localxpla-manager/public;
+    gzip on;
+    gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
+
+    expires 365d;
   }
 
   location /api {
     try_files index.json;
-    root /srv/xplatform/tools/localxpla-manager/public/api;
+    root /srv/xplatform/tools/localxpla-manager/public;
     default_type application/json;
   }
 
