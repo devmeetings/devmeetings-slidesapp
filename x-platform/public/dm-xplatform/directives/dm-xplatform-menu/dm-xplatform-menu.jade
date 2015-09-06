@@ -29,7 +29,10 @@
         span.fa.fa-fw.fa-pencil-square-o(ng-show="!$root.editMode")
         span.fa.fa-fw.fa-check-square-o(ng-show="$root.editMode")
 
-  .full-height(ng-if="opened")
+  .full-height(
+    ng-show="opened"
+    style="min-width:300px"
+    )
     .scroll.full-height(dm-sref-show="index.space.learn")
       dm-event-agenda(
         event="event"
@@ -37,14 +40,14 @@
         user-workspace-id="userWorkspaceId"
         )
 
-    .scroll.full-height(dm-sref-show="index.space.collaborate")
+    .scroll.full-height(ng-if="stateIncludes('index.space.collaborate')")
       dm-event-users(
         event="event"
         user="user"
         opened="opened"
         user-workspace-id="userWorkspaceId"
         )
-    .scroll.full-height(dm-sref-show="index.space.trainer")
+    .scroll.full-height(ng-if="stateIncludes('index.space.trainer')")
       .full-height(
         ui-view="context"
       )

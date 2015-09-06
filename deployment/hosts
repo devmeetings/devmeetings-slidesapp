@@ -13,7 +13,8 @@ root@xpla.org server_domain=xpla.org server_short=xpla_xpla server_port=5000 liv
 
 
 [exec-node]
-root@pl-2.xplatform.org hostname=pl-2.xplatform.org exec_node_server_url=pl-2.xplatform.org
+#root@pl-2.xplatform.org hostname=pl-2.xplatform.org exec_node_server_url=pl-2.xplatform.org
+ubuntu@asia.xplatform.org hostname=asia.xplatform.org exec_node_server_url=asia.xplatform.org
 
 [exec-burger]
 root@pl-2.xplatform.org hostname=pl-2.xplatform.org

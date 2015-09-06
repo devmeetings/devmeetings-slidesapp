@@ -150,7 +150,7 @@ sliderPlugins.directive('swEditor', () => {
       let vm = this;
       vm.onChangeLater = throttle($scope, () => {
         vm.onChange();
-      }, 6000);
+      }, 8000);
     }
   };
 });

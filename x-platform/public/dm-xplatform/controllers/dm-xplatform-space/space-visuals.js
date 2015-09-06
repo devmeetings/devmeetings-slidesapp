@@ -52,7 +52,8 @@ class SpaceVisuals {
       max: '330px',
       current: '330px',
       opened: true,
-      pinned: true
+      pinned: true,
+      mouseOn: false
     };
 
     $scope.keys = {};
@@ -72,6 +73,20 @@ class SpaceVisuals {
         $scope.toggleRight(true);
       }
       localStorage.setItem('sidebar.pinned', right.pinned);
+    };
+
+    $scope.setPinRight = function (shouldBePinned) {
+      if (shouldBePinned && !$scope.right.pinned) {
+        $scope.togglePinRight();
+        return;
+      }
+      if (!shouldBePinned && $scope.right.pinned) {
+        $scope.togglePinRight();
+        if ($scope.right.opened) {
+          $scope.toggleRightDelayed(false);
+        }
+        return;
+      }
     };
 
     $scope.toggleRightDelayed = function (open) {
@@ -102,14 +117,14 @@ class SpaceVisuals {
           $timeout(function () {
             right.opened = open;
 
-            $('.dm-spacesidebar-right .tab-content').fadeIn(600 * aSpeed);
+            $('.dm-spacesidebar-right .scroll').fadeIn(600 * aSpeed);
           }, 250 * aSpeed);
         }, 500 * aSpeed);
 
         return;
       }
 
-      $('.dm-spacesidebar-right .tab-content').hide();
+      $('.dm-spacesidebar-right .scroll').hide();
 
       right.opened = open;
       right.current = right.baseMin;

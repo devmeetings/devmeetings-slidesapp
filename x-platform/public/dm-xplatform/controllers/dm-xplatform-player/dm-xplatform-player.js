@@ -6,6 +6,8 @@ define(['angular', 'dm-xplatform/xplatform-app', '_',
 ], function (angular, xplatformApp, _, dmEvents, keysListener, viewTemplate) {
   'use strict';
   xplatformApp.controller('dmXplatformPlayer', function ($scope, $stateParams, $timeout, dmEvents, dmRecordings, dmBrowserTab, $modal) {
+    $scope.setPinRight(false);
+
     $scope.state = dmEvents.getState($stateParams.event, $stateParams.material);
 
     $scope.$on('$destroy', function () {

@@ -1,7 +1,6 @@
 .dm-xplatform-context.full-height(
     ng-show="opened")
   div(
-    ng-if="opened"
     ng-class="{'full-height': noEventMenu || !display.event, 'half-height': !noEventMenu && display.active && display.event, 'small-height': !display.active }"
   )
     ul.nav.nav-tabs.nav-context-menu.nav-flex(

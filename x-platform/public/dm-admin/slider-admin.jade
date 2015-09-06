@@ -49,7 +49,7 @@ mixin slideCell(trashAction, withHandle)
     .slides-scroll 
       ul.list-group
         li.list-group-item.hover-trigger(
-          ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}} track by slide._id" 
+          ng-repeat="slide in slides | filter: { content: {name: allSlidesSearch}} | limitTo:50 track by slide._id" 
           )
           mixin slideCell("removeSlide(slides, slide)", false)
           a.pull-right.hover-content.cursor-pointer(ng-click="addSlideToDeck(selected, selectedSlides, slide)")

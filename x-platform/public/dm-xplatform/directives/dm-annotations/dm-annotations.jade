@@ -35,7 +35,7 @@
 
         .list-group.dm-annos-subs(ng-if="!showAll && !$root.editMode")
           .list-group-item.dm-annos-item(
-                ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index" track by p._id', 
+                ng-repeat='p in annotations | filter: search.text | orderBy: "-timestamp" | orderBy: "index" track by p.timestamp', 
                 ng-if='p.timestamp <= state.currentSecond && p.description')
                 dm-annotation(annotation='p', show-iteration='showAll', ng-if='p.type === "snippet" || p.type === "comment"')
                 dm-microtask(microtask='p', ng-if='p.type === "task"')

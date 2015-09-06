@@ -17,7 +17,7 @@ class OutputFrame {
 
     this.setAddressLater = throttle(this.scope, (url) => {
       this.setAddress(url);
-    }, 2000);
+    }, 5000);
   }
 
   isHttp (url) {

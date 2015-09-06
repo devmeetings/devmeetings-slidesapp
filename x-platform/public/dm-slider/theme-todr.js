@@ -50,9 +50,6 @@ color: #FFFFFF\
 .ace-todr .ace_cursor {\
 color: #FFFFFF\
 }\
-.ace-todr .ace_content {\
-font-size: 13px;\
-}\
 .ace-todr .ace_marker-layer .ace_selection {\
 background: #16589B\
 }\

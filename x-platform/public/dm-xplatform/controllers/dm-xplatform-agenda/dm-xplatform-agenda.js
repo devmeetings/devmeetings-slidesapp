@@ -10,6 +10,8 @@ function agendaCtrl ($scope, $state, $stateParams, $location, dmBrowserTab, dmEv
   port = port !== 443 && port !== 80 ? ':' + port : '';
   $scope.url = '//' + $location.host() + port;
 
+  $scope.setPinRight(true);
+
   $scope.cloneEvent = function () {
     dmEvents.cloneEvent($scope.event).then(function (event) {
       $state.go('index.space.learn.agenda', {
