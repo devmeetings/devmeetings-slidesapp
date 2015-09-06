@@ -1,0 +1,120 @@
+---
+- name: Nginx | Make sure the ansible required dependencies are installed
+  apt:
+    pkg: python-pycurl
+    state: present
+
+- name: Nginx | Add the nginx repository
+  apt_repository:
+    repo: ppa:nginx/stable
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Nginx | Adding Keyring
+  apt: name=debian-keyring
+  when: ansible_distribution == 'Debian'
+
+- name: Nginx | Adding backports
+  apt_repository:
+    repo: deb http://http.debian.net/debian wheezy-backports main
+  when: ansible_distribution == 'Debian'
+
+- name: Nginx | Make sure nginx is installed (package)
+  apt:
+    pkg: nginx
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Nginx | Make sure nginx is installed (package)
+  apt:
+    pkg: nginx
+    state: present
+    force: yes
+    default_release: 'wheezy-backports'
+  when: ansible_distribution == 'Debian'
+
+- name: Nginx | Copying Configuration file
+  copy:
+    src: nginx/syslog.conf
+    dest: /etc/nginx/conf.d/syslog.conf
+
+- name: Nginx | Disabling default website
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+
+- name: Nginx | Copying site
+  template:
+    src: nginx/sites/xplatform.ssl.tpl
+    dest: "/etc/nginx/sites-available/{{server_domain}}"
+
+- name: Nginx | Create directory for config
+  file: 
+    path: /etc/nginx/xpla 
+    state: directory 
+    mode: 0755 
+
+- name: Nginx | Create directory for cache
+  file: 
+    path: /var/cache/nginx
+    state: directory 
+    mode: 0755 
+
+- name: Nginx | Create directory for cache2
+  file: 
+    path: /var/cache/nginx/{{server_domain}}
+    state: directory 
+    mode: 0755 
+
+- name: Nginx | Create directory for config and keys
+  file: 
+    path: /etc/nginx/xpla/keys
+    state: directory 
+    mode: 0755 
+
+- name: Nginx | Copying Configuration
+  template:
+    src: nginx/sites/xplatform.config.tpl
+    dest: "/etc/nginx/xpla/{{server_domain}}.config"  
+
+- name: Nginx | Copying Services Configuration
+  template:
+    src: nginx/sites/xplatform.services.tpl
+    dest: /etc/nginx/xpla/{{server_domain}}.services
+
+- name: Nginx | Checking if there is domain specific key
+  local_action: "stat path={{role_path}}/files/keys/{{server_domain}}.crt"
+  sudo: no
+  become: no
+  register: result
+
+- name: Nginx | Copying Keys
+  copy:
+    src: keys/xplatform.org.crt
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.crt
+  when: result.stat.exists == False
+
+- name: Nginx | Copying Keys2
+  copy:
+    src: keys/xplatform.org.key
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.key 
+  when: result.stat.exists == False
+
+- name: Nginx | Copying Domain Specific Keys
+  copy:
+    src: keys/{{server_domain}}.crt
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.crt
+  when: result.stat.exists
+
+- name: Nginx | Copying Domain Specific Keys2
+  copy:
+    src: keys/{{server_domain}}.key
+    dest: /etc/nginx/xpla/keys/{{server_domain}}.key 
+  when: result.stat.exists
+
+- name: Nginx | Enabling XPlatform
+  file: 
+    src: "/etc/nginx/sites-available/{{server_domain}}"
+    dest: "/etc/nginx/sites-enabled/{{server_domain}}" 
+    state: link
+
+- service: name=nginx state=restarted 
+- service: name=nginx enabled=yes
+
