@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 
-const LOCAL_ADDRESS = 'https://loc.xplatform.org';
+const LOCAL_ADDRESS = 'https://local.xplatform.org';
 
 class LocalData {
 
