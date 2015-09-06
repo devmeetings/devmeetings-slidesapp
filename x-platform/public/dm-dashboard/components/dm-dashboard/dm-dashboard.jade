@@ -3,6 +3,8 @@
     .col-xs-12
       dm-dashboard-index(
         name="vm.name"
+        dashboard="vm.dashboard"
         )
     .col-xs-12
-      pre(ng-bind="vm.dashboard")
+      //pre(ng-bind="vm.dashboard")
+      pre {{ vm.dashboard | json }}
