@@ -7,6 +7,8 @@ server {
     root /srv/{{server_domain}}/x-platform/public;
     gzip on;
     gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
+  
+    add_header Access-Control-Allow-Origin *;
 
     expires 365d;
   }

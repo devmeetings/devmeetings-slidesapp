@@ -25,12 +25,17 @@ server {
     gzip on;
     gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
 
+    add_header Access-Control-Allow-Origin *;
+
     expires 365d;
   }
 
   location /api {
     try_files index.json;
     root /srv/xplatform/tools/localxpla-manager/public;
+
+    add_header Access-Control-Allow-Origin *;
+
     default_type application/json;
   }
 
