@@ -75,7 +75,6 @@
     PORT: "{{server_port}}"
     LIVERELOAD_PORT: "{{livereload_port}}"
     REALM_URL: "https://{{server_domain}}"
-    COOKIE_DOMAIN: "{{cookie_domain if cookie_domain else ''}}"
 
 - name: Register keymetrics
   command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'
