@@ -23,7 +23,7 @@ mixin device(name, icon, title)
         +device('phone', 'mobile', 'Phone')
         +device('tablet', 'tablet', 'Tablet')
         +device('desktop', 'laptop', 'Desktop')
-        li
+        li(ng-if="model.workspaceId")
           a.cursor-pointer(
             tooltip="Open All Previews"
             target="previews"

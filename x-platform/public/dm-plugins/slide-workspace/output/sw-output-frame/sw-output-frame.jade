@@ -54,7 +54,7 @@ mixin iframe(clazz, no)
       div.progress(
         ng-class="{'is-visible': percentOfProgress !== 0}"
         )
-        div.progress-bar(
+        div.progress-bar.progress-bar-success(
           style="width:{{ percentOfProgress }}%"
         )   
       +iframe('num-one', 0)

@@ -16,7 +16,6 @@
   &.dm-breadcrumb-left {
     > li {
       > a, > .a {
-
         &::after {
           transform: scale(0.707) rotate(-135deg);
           right: auto;
@@ -127,9 +126,9 @@
       color: #ddd;
       display: block;
       text-decoration: none;
-      padding: 0 @height/3 0 @height/3;
+      padding: 0 @height/4 0 @height/4;
       height: @height;
-      line-height: @height;
+      line-height: @height - 4px;
       box-sizing: border-box;
       background-color: @background;
       @borderSize: 1px;
