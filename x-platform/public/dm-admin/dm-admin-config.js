@@ -27,9 +27,8 @@ define(['angular',
         }
       });
 
-      $urlRouterProvider.otherwise('');
+      $urlRouterProvider.otherwise('/decks');
     }
   ]);
   bootstrap('dm-admin');
-// angular.bootstrap(document, ['dm-admin']);
 });

@@ -85,6 +85,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
           $timeout(function () {
             editor = ace.edit(element[0].childNodes[0]);
             editor.setTheme('ace/theme/' + EDITOR_THEME);
+            editor.setFontSize(16);
             editor.$blockScrolling = Infinity;
             editor.setOptions({
               enableBasicAutocompletion: true,

@@ -27,6 +27,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
           var outputAce = ace.edit(element[0].querySelector('.editor'));
           outputAce.$blockScrolling = Infinity;
           outputAce.setTheme('ace/theme/' + OUTPUT_THEME);
+          outputAce.setFontSize(16);
           outputAce.getSession().setMode('ace/mode/json');
           outputAce.setReadOnly(true);
           outputAce.setHighlightActiveLine(false);

@@ -8,6 +8,8 @@ define(['angular',
   xplatformApp.controller('dmXplatformSlide',
     function ($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {
       //
+      $scope.setPinRight(false);
+
       var state = (function () {
         var name = $state.current.name.split('.');
         return name[name.length - 1];

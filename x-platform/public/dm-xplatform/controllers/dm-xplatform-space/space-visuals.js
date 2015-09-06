@@ -74,6 +74,17 @@ class SpaceVisuals {
       localStorage.setItem('sidebar.pinned', right.pinned);
     };
 
+    $scope.setPinRight = function (shouldBePinned) {
+      if (shouldBePinned && !$scope.right.pinned) {
+        $scope.togglePinRight();
+        return;
+      }
+      if (!shouldBePinned && $scope.right.pinned) {
+        $scope.togglePinRight();
+        return;
+      }
+    };
+
     $scope.toggleRightDelayed = function (open) {
       var delay = open ? 600 : 1200;
       $timeout(function () {
