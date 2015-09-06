@@ -35,6 +35,15 @@
     - xplatform
     - xplatform-deploy
 
+
+- hosts: xplatform-main-local
+  become: yes
+  become_user: root
+  tags:
+    - xplatform-main-local
+  roles:
+    - xplatform-main-local
+
 - hosts: xplatform-main
   become: yes
   become_user: root
@@ -54,7 +63,7 @@
     - nodejs
     - xplatform
     - xplatform-main
-    - xplatform-local
+    - xplatform-main-local
     - xplatform-deploy
     - xdashboard
 

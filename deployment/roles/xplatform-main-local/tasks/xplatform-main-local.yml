@@ -2,7 +2,7 @@
 
 - name: Nginx | Copying site
   template:
-    src: nginx/sites/local.xplatform.ssl.tpl
+    src: local.xplatform.ssl.tpl
     dest: "/etc/nginx/sites-available/local.{{server_domain}}"
 
 - name: Nginx | Checking if there is domain specific key
