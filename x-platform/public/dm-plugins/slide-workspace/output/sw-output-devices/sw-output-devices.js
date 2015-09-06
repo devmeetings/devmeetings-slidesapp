@@ -15,6 +15,7 @@ sliderPlugins.directive('swOutputDevices', () => {
       width: '=',
       height: '=',
       scale: '=',
+      isLandscape: '=',
       workspaceId: '='
     },
     transclude: true,
@@ -34,16 +35,19 @@ const DEFAULT_SIZES = {
   'phone': {
     width: 375,
     height: 667,
+    isLandscape: false,
     scale: 0.9
   },
   'tablet': {
     width: 1024,
     height: 768,
+    isLandscape: true,
     scale: 0.4
   },
   'desktop': {
     width: 1366,
     height: 768,
+    isLandscape: true,
     scale: 0.3
   }
 };
@@ -127,6 +131,13 @@ class SwOutputDevices {
       return x;
     };
 
+    vm.swap = () => {
+      let tmp = vm.height;
+      vm.height = vm.width;
+      vm.width = tmp;
+      vm.isLandscape = !vm.isLandscape;
+    };
+
     vm.getContainerStyles = () => {
       if (!vm.withDevices) {
         return {
@@ -172,5 +183,6 @@ class SwOutputDevices {
     vm.width = size.width;
     vm.height = size.height;
     vm.scale = size.scale;
+    vm.isLandscape = size.isLandscape;
   }
 }
