@@ -1,1 +1,0 @@
-../../../dm-plugins/slide-workspace/output/sw-output-errors/reporter.js

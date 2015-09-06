@@ -3,8 +3,8 @@
   small {
     white-space: normal;
     position: absolute;
-    top: -14px;
-    font-size: 8px;
+    top: -6px;
+    font-size: 0.8rem;
     color: #888;
     right: 4px;
   }
@@ -48,20 +48,20 @@
   border-radius: 0;
 }
 .questions-list {
-  font-size: 14px;
+  font-size: 1.1rem;
   padding: 0 5px;
   .nav > li {
     margin-top: 0;
   }
   li > a {
-    border-top: 1px solid lighten(#1E1E1E, 10%);
+    border-top: 1px solid @color-gray25;
     padding: 5px 10px;
   }
   li.active > a {
-    background-color: #5d5959;
+    background-color: @color-gray25;
 
     &:hover {
-      background-color: lighten(#5d5959, 10%); 
+      background-color: lighten(@color-gray25, 10%); 
     }
   }
   form {
@@ -70,9 +70,8 @@
   }
 
   li > ul {
-    font-size: 13px;
-    margin-left: 15px;
-    border-left: #666;
+    font-size: 1rem;
+    margin-left: 1.5rem;
   }
 }
 

@@ -76,7 +76,6 @@ class SwEditorTools {
             self.uploadingState = parseInt(100.0 * evt.loaded / evt.total, 10);
           });
         }).success((data) => {
-
           self.isUploading = false;
           // override workspace
           var ws = {};
@@ -96,11 +95,9 @@ class SwEditorTools {
       });
     };
   }
-
 }
 
 sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
-
   return {
     restrict: 'E',
     scope: {
@@ -120,7 +117,8 @@ sliderPlugins.directive('swEditorTools', ($window, $rootScope, Upload) => {
     template: viewTemplate,
     controller: function ($scope, $log) {
       let tools = new SwEditorTools({
-      $scope, $rootScope, $window, Upload});
+        $scope, $rootScope, $window, Upload
+      });
       tools.controller(this);
     }
   };

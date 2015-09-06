@@ -24,5 +24,4 @@ define(['module', 'slider/slider.plugins', './slide-notes.html!text'], function 
       };
     }
   ]);
-
 });

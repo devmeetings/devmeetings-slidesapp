@@ -36,8 +36,8 @@ class EventMenu {
       } else {
         scope.taskUrl = null;
       }
-
     });
+
     scope.$watch('iteration.currentTaskIdx', (idx) => {
       let task = scope.iteration.active.tasks[idx];
       if (task) {
@@ -101,9 +101,9 @@ class EventMenu {
 }
 
 xplatformApp.directive('dmEventMenu', ($window, $timeout, dmRanking) => {
-
   let eventMenu = new EventMenu({
-  $window, $timeout, dmRanking});
+    $window, $timeout, dmRanking
+  });
 
   return {
     restrict: 'E',
@@ -115,5 +115,4 @@ xplatformApp.directive('dmEventMenu', ($window, $timeout, dmRanking) => {
     template: viewTemplate,
     link: eventMenu.link.bind(eventMenu)
   };
-
 });

@@ -13,5 +13,4 @@ define(['angular',
     'ui.router', 'ui.bootstrap',
     'angularMoment'
   ]);
-
 });

@@ -69,7 +69,6 @@ class EventTaskDetails {
 }
 
 xplatformApp.directive('dmEventTaskDetails', ($window, $timeout, dmRanking) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -80,9 +79,9 @@ xplatformApp.directive('dmEventTaskDetails', ($window, $timeout, dmRanking) => {
     template: viewTemplate,
     link (scope, element) {
       let eventMenu = new EventTaskDetails({
-      $window, $timeout, dmRanking});
+        $window, $timeout, dmRanking
+      });
       eventMenu.link(scope, element);
     }
   };
-
 });

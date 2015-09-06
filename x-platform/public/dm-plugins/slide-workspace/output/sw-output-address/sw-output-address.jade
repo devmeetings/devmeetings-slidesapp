@@ -60,5 +60,18 @@
         analytics-category="workspace"
         )
             span.fa.fa-link
+    .input-group-btn
+      button.btn(
+        ng-class="{'active': model.showDevices}"
+        ng-click="model.showDevices = !model.showDevices"
+        tooltip="Display page on different devices"
+        tooltip-placement="left"
+        tooltip-animation="false"
+        tooltip-append-to-body="true"
+        analytics-event="workspace-devices"
+        analytics-category="workspace"
+        )
+            span.fa.fa-desktop
+
 
 

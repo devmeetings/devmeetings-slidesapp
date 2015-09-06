@@ -126,13 +126,15 @@ var Recordings = {
 
         return Q.when(event.save());
       });
-
-    }).done(function () {
-      res.sendStatus(200);
-    }, function (err) {
-      logger.error(err);
-      res.status(400).send(err);
-    });
+    }).done(
+      function () {
+        res.sendStatus(200);
+      },
+      function (err) {
+        logger.error(err);
+        res.status(400).send(err);
+      }
+    );
   },
 
   join: function (req, res) {

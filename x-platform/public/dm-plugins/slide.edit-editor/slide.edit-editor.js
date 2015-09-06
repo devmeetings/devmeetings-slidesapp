@@ -31,6 +31,7 @@ define(['module', 'angular', '$', '_', 'ace', 'slider/slider.plugins', './editor
           var editor = ace.edit($(element[0]).find('.editor')[0]);
           editor.setTheme('ace/theme/todr');
           editor.getSession().setMode('ace/mode/json');
+          editor.setFontSize(16);
           editor.setValue(JSON.stringify(scope.slide, null, 2));
           editor.clearSelection();
           editor.$blockScrolling = Infinity;
@@ -77,15 +78,12 @@ define(['module', 'angular', '$', '_', 'ace', 'slider/slider.plugins', './editor
               editor.moveCursorToPosition(cursorPosition);
               editor.on('change', updateSlideContentThrottled);
             }
-
           }, UPDATE_THROTTLE_TIME, {
             leading: false,
             trailing: true
           }), true);
-
         }
       };
     }
   ]);
-
 });

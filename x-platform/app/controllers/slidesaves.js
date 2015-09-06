@@ -121,7 +121,6 @@ var Slidesaves = {
           var toInsert = transformToSlidesave(slide, req.user, eventId);
           return Q.when(Slidesave.create(toInsert));
         });
-
       }).then(function (slidesave) {
         res.send({
           slidesave: slidesave._id

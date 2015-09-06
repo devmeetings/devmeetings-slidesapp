@@ -6,13 +6,13 @@ div(ng-controller="dmXplayerList")
         img(src="static/images/navbar/xplatform_logo.png")
 
   div.list-group
-    div(ng-repeat="recordings in groups")
+    div(ng-repeat="recordings in groups track by $index")
       .list-group-item(ng-show="recordings.length > 1")
         h5.list-group-item-heading.cursor-pointer(ng-click="isVisible = !isVisible")
           | {{recordings[0].group}}
       a.list-group-item(
         ng-show="isVisible || recordings.length < 2"
-        ng-repeat="rec in recordings | orderBy:'date':true", ui-sref="index.player({id: rec._id})", ui-sref-active='active')
+        ng-repeat="rec in recordings | orderBy:'date':true track by $index", ui-sref="index.player({id: rec._id})", ui-sref-active='active')
         .list-group-item-heading(tooltip="{{rec.group}}") 
           span(ng-if="recordings.length < 2") {{ rec.group }}
           span {{ rec.title }}

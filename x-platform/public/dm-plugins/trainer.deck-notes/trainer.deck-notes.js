@@ -1,6 +1,5 @@
 /* globals define */
 define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
-
   sliderPlugins.registerPlugin('trainer.deck', '*', 'trainerdeck-notes', {
     order: 3,
     name: 'Notes',

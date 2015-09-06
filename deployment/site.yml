@@ -8,7 +8,15 @@
   tasks:
     - name: Installing Python
       raw: apt-get update && apt-get install python python-simplejson python-apt -y
-      
+     
+- hosts: xplatform-local
+  become: yes
+  become_user: root
+  tags:
+    - xplatform-local
+  roles:
+    - localxpla-mgmt
+
 - hosts: xplatform-node
   become: yes
   become_user: root
@@ -26,6 +34,15 @@
     - xplatform-tunnels
     - xplatform
     - xplatform-deploy
+
+
+- hosts: xplatform-main-local
+  become: yes
+  become_user: root
+  tags:
+    - xplatform-main-local
+  roles:
+    - xplatform-main-local
 
 - hosts: xplatform-main
   become: yes
@@ -46,8 +63,33 @@
     - nodejs
     - xplatform
     - xplatform-main
+    - xplatform-main-local
     - xplatform-deploy
     - xdashboard
+
+- hosts: xplatform-nuc
+  become: yes
+  become_user: root
+  vars:
+    hostname: "{{server_hostname if server_hostname is defined else server_domain}}"
+    xpla_job: 'XPlatform'
+    xpla_version: 'lastSuccessfulBuild'
+    server_env: 'production'
+    server_cluster: 2
+    live_version: 'lastSuccessfulBuild'
+    cookie_domain: 'xplatform.org'
+  tags:
+    - xplatform-nuc
+  roles:
+    - common
+    - redis
+    - mongodb
+    - nodejs
+    - xplatform
+    - xplatform-main
+    - xplatform-deploy
+    - xdashboard
+    - nuc 
 
 - hosts: xplatform-deploy
   become: yes

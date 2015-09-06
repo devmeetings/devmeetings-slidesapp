@@ -27,7 +27,6 @@ define(['module', 'slider/slider.plugins', './part.html!text'], function (module
         template: viewTemplate,
         link: function (scope) {
           scope.size = 60;
-
         }
       };
     }
@@ -62,5 +61,4 @@ define(['module', 'slider/slider.plugins', './part.html!text'], function (module
       };
     }
   ]);
-
 });

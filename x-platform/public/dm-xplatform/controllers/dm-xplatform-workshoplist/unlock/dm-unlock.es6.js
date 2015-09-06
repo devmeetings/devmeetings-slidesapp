@@ -15,5 +15,4 @@ xplatformApp.controller('dmXplatformWorkshopUnlock', function ($scope, course, d
       $scope.wrongPin = true;
     });
   };
-
 });

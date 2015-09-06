@@ -113,5 +113,4 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
       };
     }
   ]);
-
 });

@@ -7,6 +7,8 @@ define([
     '$scope', '$stateParams', '$state', 'dmEvents', 'dmWorkspaces',
 
     function ($scope, $stateParams, $state, dmEvents, dmWorkspaces) {
+      $scope.setPinRight(true);
+
       var eventId = $stateParams.event;
 
       function fetchWorkspaces () {
@@ -57,5 +59,4 @@ define([
       };
     }
   ]);
-
 });

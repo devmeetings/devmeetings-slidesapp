@@ -50,7 +50,6 @@ var Users = {
       fixAvatar(user);
       res.send(user);
     });
-
   }
 };
 

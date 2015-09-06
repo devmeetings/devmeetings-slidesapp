@@ -1,14 +1,21 @@
-mixin slidesMixin()
-    li(ng-repeat="slide in slides", ng-class="{ 'active' : slide._id === csm.activeSlideId}")
-        a(href='\#{{slide._id}}') {{ slide.content.name }}
+mixin slidesMixin(withHandle)
+  li(
+    ng-repeat="slide in slides"
+    ng-class="{ 'active' : slide._id === csm.activeSlideId}"
+    as-sortable-item=withHandle
+    )
+      a(
+        href='\#{{slide._id}}' 
+        as-sortable-item-handle=withHandle
+        ) {{ slide.content.name }}
 
 
 nav.navbar.navbar-default.navbar-slides.navbar-fixed-bottom(role='navigation')
     div.slimScrollDiv(style="position: relative; width: calc(100% - 120px); height: 45px; overflow-x: visible; overflow-y: hidden; white-space: nowrap;") 
-        ul.nav.navbar-nav.nav-slides(ng-if="$root.modes.isEditMode", ui-sortable="sortableOptions", ng-model="slides")
-            mixin slidesMixin() 
+        ul.nav.navbar-nav.nav-slides(ng-if="$root.modes.isEditMode", as-sortable="sortableOptions", ng-model="slides")
+            mixin slidesMixin(true)
         ul.nav.navbar-nav.nav-slides(ng-if="!$root.modes.isEditMode")
-            mixin slidesMixin()
+            mixin slidesMixin(false)
     ul.nav.nav-new-slide.cursor-pointer(ng-if="$root.modes.isEditMode")
         li
             a.btn.btn-link(ng-click="addSlide()")

@@ -50,7 +50,8 @@ sliderPlugins.directive('swIonicDownload', ($window, $modal, swLivereloadAddress
     template: viewTemplate,
     controller ($scope) {
       let sw = new IonicDownload({
-      $scope, $window, $modal, swLivereloadAddress});
+        $scope, $window, $modal, swLivereloadAddress
+      });
       sw.controller(this);
     }
   };

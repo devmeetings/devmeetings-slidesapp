@@ -1,17 +1,17 @@
-@background-color: #1e1e1e;
+@background-color: @color-dark;
 @line-height: 18px;
 
 .sw-editor-tabs {
+  background: @background-color;
 
 	&.sw-workspace-tab-container {
-		height: 26px;
-	  border-bottom: 2px solid #0f0f0f;
+		height: 30px;
 	}
 
 	&.sw-tabs {
 		position: relative;
 		z-index: 1;
-		height: ~"calc(100% - 26px)";
+		height: ~"calc(100% - 31px)";
 		overflow-y: auto;
     width: 150px;
     margin-left: -150px;
@@ -49,8 +49,8 @@
 	}
 
 	treecontrol.tree-classic {
-		color: rgb(187, 187, 187) !important;
-    font-size: 0.9em;
+		color: @gray-light !important;
+    font-size: 0.85rem;
 
     > ul {
       margin-left: -5px;
@@ -128,8 +128,10 @@
 
 		li .tree-selected {
       font-weight: normal;
-			text-decoration: underline;
 			background-color: lighten(@background-color, 10%);
+      span {
+        text-decoration: underline;
+      }
 		}
 
 	}

@@ -55,6 +55,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
             var editor = ace.edit($e[0]);
             editor.$blockScrolling = Infinity;
             editor.setTheme('ace/theme/' + EDITOR_THEME);
+            editor.setFontSize(15);
             editor.setValue('');
             editor.getSession().setTabSize(indentSize);
             editor.getSession().setUseSoftTabs(true);
@@ -189,7 +190,6 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
           }, 150);
         }
       };
-
     }
   ]);
 
@@ -263,5 +263,4 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
     mode = modesMap[mode] || mode;
     return mode;
   }
-
 });

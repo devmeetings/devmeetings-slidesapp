@@ -67,5 +67,4 @@ module.exports = (function () {
       client.publish(channelName, message);
     }
   };
-
 }());

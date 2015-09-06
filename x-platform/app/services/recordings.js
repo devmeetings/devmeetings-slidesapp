@@ -63,7 +63,6 @@ module.exports = {
         date: rec1.date,
         slides: rec1.slides.concat(rec2.slides)
       }));
-
     });
   }
 

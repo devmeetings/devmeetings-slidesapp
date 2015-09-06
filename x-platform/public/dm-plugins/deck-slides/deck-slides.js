@@ -1,5 +1,9 @@
 /* globals define */
-define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'services/CurrentSlideManagerForDeck', './deck-slides.html!text'], function (module, _, angular, fs, sliderPlugins, SM, viewTemplate) {
+define([
+  'module', '_', 'angular', 'FileSaver',
+  'slider/slider.plugins', 'services/CurrentSlideManagerForDeck',
+  './deck-slides.html!text'
+], function (module, _, angular, saveAs, sliderPlugins, SM, viewTemplate) {
   sliderPlugins.registerPlugin('deck', 'slides', 'deck-slides', {
     name: 'Deck Slides',
     description: 'Slides contained in deck',
@@ -95,11 +99,10 @@ define(['module', '_', 'angular', 'FileSaver', 'slider/slider.plugins', 'service
               type: 'application/json;charset=utf-8'
             });
             var now = new Date().toJSON();
-            $window.saveAs(blob, scope.deck.title + '-' + now + '.json');
+            saveAs(blob, scope.deck.title + '-' + now + '.json');
           };
         }
       };
     }
   );
-
 });

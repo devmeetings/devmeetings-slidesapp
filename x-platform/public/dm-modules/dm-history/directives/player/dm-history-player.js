@@ -63,7 +63,8 @@ class DmHistoryPlayer {
 
 export function dmHistoryPlayer (dmHistory, dmPlayer, $rootScope, $timeout) {
   let history = new DmHistoryPlayer({
-  dmHistory, dmPlayer, $rootScope, $timeout});
+    dmHistory, dmPlayer, $rootScope, $timeout
+  });
 
   return {
     restrict: 'E',

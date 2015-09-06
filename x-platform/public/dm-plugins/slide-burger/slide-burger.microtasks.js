@@ -33,8 +33,6 @@ define(['_', 'utils/Plugins', '../slide-microtasks/evalAssertion', './slide-burg
       if (result) {
         markTaskCompleted();
       }
-
     }), 250);
   });
-
 });

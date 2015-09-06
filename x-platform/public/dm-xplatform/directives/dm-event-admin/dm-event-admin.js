@@ -1,5 +1,3 @@
-/* jshint esnext:true,-W097 */
-
 'use strict';
 
 import xplatformApp from 'dm-xplatform/xplatform-app';
@@ -12,7 +10,6 @@ class EventAdmin {
 }
 
 xplatformApp.directive('dmEventAdmin', () => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -25,5 +22,4 @@ xplatformApp.directive('dmEventAdmin', () => {
       return eventAdmin.link.apply(eventAdmin, arguments);
     }
   };
-
 });

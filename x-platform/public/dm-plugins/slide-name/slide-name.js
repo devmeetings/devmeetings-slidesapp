@@ -22,5 +22,4 @@ define(['slider/slider.plugins'], function (sliderPlugins) {
       };
     }
   ]);
-
 });

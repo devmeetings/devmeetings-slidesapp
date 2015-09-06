@@ -8,6 +8,8 @@ define(['angular',
   xplatformApp.controller('dmXplatformSlide',
     function ($scope, $rootScope, $state, $stateParams, $timeout, dmSlidesaves, dmPlayer, dmEvents, dmBrowserTab, dmEventLive, dmIntro) {
       //
+      $scope.setPinRight(false);
+
       var state = (function () {
         var name = $state.current.name.split('.');
         return name[name.length - 1];
@@ -63,7 +65,6 @@ define(['angular',
         dmPlayer.getCurrentStateId().then(function (stateId) {
           dmSlidesaves.saveModified($scope.slide._id, stateId, dmPlayer.shouldRefreshPage);
         });
-
       }, 1000, {
         leading: false,
         trailing: true
@@ -74,6 +75,5 @@ define(['angular',
 
         saveLater();
       }, true);
-
     });
 });

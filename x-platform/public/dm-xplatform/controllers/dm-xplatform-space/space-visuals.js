@@ -8,7 +8,8 @@ class SpaceVisuals {
 
   constructor ($state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab) {
     _.extend(this, {
-    $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab});
+      $state, $location, $rootScope, $timeout, Fullscreen, dmBrowserTab
+    });
   }
 
   initFullScreen ($scope) {
@@ -51,7 +52,8 @@ class SpaceVisuals {
       max: '330px',
       current: '330px',
       opened: true,
-      pinned: true
+      pinned: true,
+      mouseOn: false
     };
 
     $scope.keys = {};
@@ -73,6 +75,20 @@ class SpaceVisuals {
       localStorage.setItem('sidebar.pinned', right.pinned);
     };
 
+    $scope.setPinRight = function (shouldBePinned) {
+      if (shouldBePinned && !$scope.right.pinned) {
+        $scope.togglePinRight();
+        return;
+      }
+      if (!shouldBePinned && $scope.right.pinned) {
+        $scope.togglePinRight();
+        if ($scope.right.opened) {
+          $scope.toggleRightDelayed(false);
+        }
+        return;
+      }
+    };
+
     $scope.toggleRightDelayed = function (open) {
       var delay = open ? 600 : 1200;
       $timeout(function () {
@@ -80,7 +96,6 @@ class SpaceVisuals {
           return;
         }
         $scope.toggleRight(open);
-
       }, delay);
     };
 
@@ -102,15 +117,14 @@ class SpaceVisuals {
           $timeout(function () {
             right.opened = open;
 
-            $('.dm-spacesidebar-right .tab-content').fadeIn(600 * aSpeed);
+            $('.dm-spacesidebar-right .scroll').fadeIn(600 * aSpeed);
           }, 250 * aSpeed);
-
         }, 500 * aSpeed);
 
         return;
       }
 
-      $('.dm-spacesidebar-right .tab-content').hide();
+      $('.dm-spacesidebar-right .scroll').hide();
 
       right.opened = open;
       right.current = right.baseMin;

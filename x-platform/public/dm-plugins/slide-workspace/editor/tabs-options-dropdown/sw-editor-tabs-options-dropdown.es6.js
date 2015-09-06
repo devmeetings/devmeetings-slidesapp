@@ -76,11 +76,9 @@ class SwEditorTabsOptionsDropdown {
       });
     });
   }
-
 }
 
 sliderPlugins.directive('swEditorTabsOptionsDropdown', () => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -103,5 +101,4 @@ sliderPlugins.directive('swEditorTabsOptionsDropdown', () => {
       options.controller(this);
     }
   };
-
 });

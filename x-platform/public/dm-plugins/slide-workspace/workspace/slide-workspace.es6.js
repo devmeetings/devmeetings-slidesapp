@@ -1,4 +1,3 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import sliderPlugins from 'slider/slider.plugins';
@@ -190,7 +189,8 @@ sliderPlugins
       template: viewTemplate,
       controller ($scope) {
         let sw = new SwMain({
-        $rootScope, $scope, $timeout});
+          $rootScope, $scope, $timeout
+        });
         sw.controller(this);
       }
     };

@@ -27,6 +27,7 @@ import 'dm-xplatform/controllers/dm-xplatform-deck/dm-xplatform-deck';
 import 'dm-xplatform/controllers/dm-xplatform-deck-slide/dm-xplatform-deck-slide';
 import 'dm-xplatform/controllers/dm-xplatform-agenda/dm-xplatform-agenda';
 import 'dm-xplatform/controllers/dm-xplatform-history/dm-xplatform-history';
+import 'dm-xplatform/controllers/dm-xplatform-preview/xplatform-preview';
 
 import registerView from './controllers/dm-xplatform-register/dm-xplatform-register.html!text';
 import loginView from './controllers/dm-xplatform-login/dm-xplatform-login.html!text';
@@ -46,6 +47,7 @@ import todoView from './controllers/dm-xplatform-todo/dm-xplatform-todo.html!tex
 import deckView from './controllers/dm-xplatform-deck/dm-xplatform-deck.html!text';
 import playerView from './controllers/dm-xplatform-player/dm-xplatform-player.html!text';
 import trainerView from './controllers/dm-xplatform-trainer/dm-xplatform-trainer.html!text';
+import previewView from './controllers/dm-xplatform-preview/xplatform-preview.html!text';
 
 /* REMOVE WHEN BOOTSTRAP UI 0.13.01 WILL BE RELEASED */
 /* START */
@@ -125,7 +127,6 @@ xplatformApp.run(['$rootScope', '$state', '$modal', '$location', 'dmUser', '$win
       });
       scope.$on('$destroy', off);
     };
-
   }
 ]);
 
@@ -134,6 +135,28 @@ xplatformApp.config(function ($stateProvider, $urlRouterProvider, $locationProvi
 
   $stateProvider.state('redirect', {
     url: '/redirect'
+  });
+
+  $stateProvider.state('previewWorkspace', {
+    url: '/previewWorkspace/:workspaceId',
+    views: {
+      navbar: {
+        template: navbarView,
+        controller: 'XplatformNavbarCtrl'
+      },
+      content: {
+        template: previewView,
+        controller: 'XplatformPreviewCtrl'
+      }
+    },
+    onEnter: function ($rootScope, dmBrowserTab) {
+      dmBrowserTab.setTitleAndIcon('Preview', 'xplatform');
+      $rootScope.xplatformData = {
+        navbar: {},
+        columns: {}
+      };
+      $rootScope.headerHidden = true;
+    }
   });
 
   $stateProvider.state('index', {

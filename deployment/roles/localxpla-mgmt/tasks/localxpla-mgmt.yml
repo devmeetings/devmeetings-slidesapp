@@ -1,0 +1,50 @@
+---
+
+- name: Nginx | Management site file
+  copy:
+    src: nginx/local-mgmt.site
+    dest: /etc/nginx/sites-available/local-mgmt.site
+
+- name: Nginx | Authorization file
+  copy:
+    src: nginx/local-mgmt.passwd
+    dest: /etc/nginx/
+
+- name: Nginx | Keys
+  copy:
+    src: nginx/keys/local.xpla.key
+    dest: /etc/ssl/private/
+
+- name: Nginx | Cert
+  copy:
+    src: nginx/keys/local.xpla.pem
+    dest: /etc/ssl/certs/
+
+- name: Nginx | Enabling Box Management
+  file: src=/etc/nginx/sites-available/local-mgmt.site dest=/etc/nginx/sites-enabled/local-mgmt.site state=link
+
+- name: Installing Modules
+  npm: path=/srv/xplatform/tools/localxpla-manager
+
+- name: Putting to Autostart
+  command: forever-service install localxpla-mgmt -e "NODE_ENV={{ node_env }}" --start
+  args:
+    chdir: /srv/xplatform/tools/localxpla-manager
+    creates: /etc/init.d/localxpla-mgmt
+
+- name: Starting service
+  service:
+    name: localxpla-mgmt
+    state: started
+
+- name: Enabling service
+  service:
+    name: localxpla-mgmt
+    enabled: yes 
+
+- name: Enabling Mgmt
+  lineinfile:
+    line: sleep 5 && su root -c "service localxpla-mgmt start"
+    dest: /etc/rc.local
+    insertbefore: ^exit
+

@@ -2,24 +2,28 @@
 @modules: '../dm-modules';
 
 @import (inline) '../jspm_packages/github/chieffancypants/angular-hotkeys@1.4.5/src/hotkeys.css';
-@import (inline) '../jspm_packages/github/mb21/JSONedit@0.2.1/css/styles.css';
 @import (inline) '../jspm_packages/github/wix/angular-tree-control@0.2.11/css/tree-control.css';
 
-@import '../components/bootstrap/less/bootstrap.less';
+ 
+@import 'theme-variables.less';
 @icon-font-path: '../components/bootstrap/fonts/';
+@import 'bootstrap.less';
 
 @import '../jspm_packages/npm/font-awesome@4.3.0/less/font-awesome.less';
 @fa-font-path: '../jspm_packages/npm/font-awesome@4.3.0/fonts';
 
-@import './theme.less';
-@import './theme-bootswatch.less';
-
-@import "base.less";
-@import "performance.less";
+@import 'base.less';
+@import 'variables.less';
+@import 'main-classes.less';
+@import 'admin.less';
+@import 'layout.less';
+@import 'login.less';
+@import 'dm-breadcrumb.less';
+@import 'performance.less';
 
 @import '../dm-xplatform/dm-xplatform-app.less';
 @import '../dm-admin/dm-admin-app.less';
-@impor '../dm-xplayer/dm-xplayer.less';
+@import '../dm-xplayer/dm-xplayer.less';
 
 @import '@{modules}/dm-wavesurfer/dm-wavesurfer.less';
 @import '@{modules}/dm-editor/dm-editor.less';

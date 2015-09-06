@@ -62,7 +62,7 @@ class SwEditorTabs {
     self.makePathEdition = (oldPath, newPath) => this.makePathEdition(self, oldPath, newPath);
     self.deleteTabAndFixActive = (oldPath, newPath) => this.deleteTabAndFixActive(self, oldPath, newPath);
 
-    this.initTreeOptions(self);
+    this.initTreeOptions(self, this.$window.localStorage);
 
     this.$scope.$watchCollection(() => Object.keys(self.tabs), (tabNames) => {
       self.tabsObjects = this.createTabObjects(tabNames);
@@ -70,7 +70,12 @@ class SwEditorTabs {
     });
   }
 
-  initTreeOptions (self) {
+  initTreeOptions (self, localStorage) {
+    self.toggleTree = localStorage.getItem('tree.open') !== 'false';
+    this.$scope.$watch(() => self.toggleTree, () => {
+      localStorage.setItem('tree.open', self.toggleTree);
+    });
+
     self.treeOptions = {
       nodeChildren: 'children',
       allowDeselect: false,
@@ -86,7 +91,6 @@ class SwEditorTabs {
   }
 
   prepareTreeStructure (self, tabsObjects) {
-
     function newNode (name, pathPreffix, tabObject) {
       let fileName = tabNameToFileName(name);
       let path = name;
@@ -243,7 +247,6 @@ class SwEditorTabs {
 }
 
 sliderPlugins.directive('swEditorTabs', () => {
-
   return {
     restrict: 'E',
     scope: {
@@ -262,5 +265,4 @@ sliderPlugins.directive('swEditorTabs', () => {
       tabs.controller(this);
     }
   };
-
 });

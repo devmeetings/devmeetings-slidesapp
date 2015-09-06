@@ -64,7 +64,6 @@ class SwEditor {
       });
       this.refreshActiveTab(self);
     };
-
   }
 
   updateFilteredTabs (self) {
@@ -115,7 +114,6 @@ class SwEditor {
 }
 
 sliderPlugins.directive('swEditor', () => {
-
   return {
     restrict: 'E',
     scope: {
@@ -145,14 +143,14 @@ sliderPlugins.directive('swEditor', () => {
     template: viewTemplate,
     controller: function ($scope) {
       let editor = new SwEditor({
-      $scope});
+        $scope
+      });
       editor.controller(this);
 
       let vm = this;
       vm.onChangeLater = throttle($scope, () => {
         vm.onChange();
-      }, 6000);
+      }, 8000);
     }
   };
-
 });

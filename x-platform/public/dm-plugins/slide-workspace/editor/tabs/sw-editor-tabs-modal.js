@@ -21,5 +21,4 @@ sliderPlugins.controller('SwEditorTabsModalCtrl', function (textForUser, oldPath
   this.cancel = function () {
     $modalInstance.dismiss();
   };
-
 });

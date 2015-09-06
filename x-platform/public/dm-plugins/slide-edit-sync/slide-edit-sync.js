@@ -1,6 +1,5 @@
 /* globals define */
 define(['angular', '_', 'slider/slider.plugins', 'services/DeckAndSlides'], function (angular, _, sliderPlugins, DeckAndSlides) {
-
   sliderPlugins.registerPlugin('slide.edit', '*', 'slide-edit-sync', {
     name: 'Edit-sync',
     description: 'Saves Slide content on server while edit mode is active.',

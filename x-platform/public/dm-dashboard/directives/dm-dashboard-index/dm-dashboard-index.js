@@ -3,7 +3,6 @@ import app from 'dm-dashboard/dm-dashboard-app';
 import template from './dm-dashboard-index.html!text';
 
 app.directive('dmDashboardIndex', () => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -19,7 +18,6 @@ app.directive('dmDashboardIndex', () => {
     },
     template: template
   };
-
 });
 
 class DmDashboardIndex {
