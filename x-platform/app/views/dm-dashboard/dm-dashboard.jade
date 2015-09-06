@@ -5,7 +5,8 @@ append scripts
 
 block content
   .full-height(ng-init='$root.isLoggedIn=#{isLoggedIn}; $root.editMode=#{editMode}')
+    dm-online(is-online='!$root.isOffline')
     div(ui-view)
-      h1 Hello Dashboard
+      h1.text-center.margin-top-20 Loading dashboard...
 
 

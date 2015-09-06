@@ -122,7 +122,7 @@ mixin sortIcon()
             ) 
         td.best-group
           span.bold(tooltip="{{ event.ranking.bestGroup.name }}, {{ event.ranking.bestGroup.percentageResult }}%")
-            {{ event.ranking.bestGroup.name }}
+            | {{ event.ranking.bestGroup.name }}
         td.unsolved-problems
           span.bold(
             tooltip="{{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }} unsolved / {{ event.reportedProblems.length }} all problems"
