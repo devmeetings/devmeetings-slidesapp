@@ -1,7 +1,7 @@
 /* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatformApp, _) {
-  xplatformApp.service('dmEvents', ['$http', '$q',
-    function ($http, $q) {
+  xplatformApp.service('dmEvents', ['$http', '$q', 'dmLocalData',
+    function ($http, $q, LocalData) {
       var promises = {};
       var annotationPromises = {};
       var states = {};
@@ -89,10 +89,10 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
 
           var promi = this.getEventMaterial(event, iteration, material).then(function (data) {
             function getAuto () {
-              return $http.get('/api/recordings/' + data.material + '/annotations').then(extractBody);
+              return LocalData.get('/api/recordings/' + data.material + '/annotations').then(extractBody);
             }
             function getAnnotations () {
-              return $http.get('/api/events/' + event + '/annotations/' + data.annotations).then(extractBody);
+              return LocalData.get('/api/events/' + event + '/annotations/' + data.annotations).then(extractBody);
             }
 
             if (!data.annotations) {
@@ -148,7 +148,7 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
           });
         },
         getAllAnnotations: function (event) {
-          return $http.get('/api/events/' + event + '/annotations').then(extractBody);
+          return LocalData.get('/api/events/' + event + '/annotations').then(extractBody);
         },
         removeEvent: function (event) {
           var result = $q.defer();

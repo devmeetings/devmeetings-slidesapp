@@ -74,7 +74,6 @@ exports.initApi = function (app, authenticated, app2, router2, logger) {
         'Content-disposition': 'attachment; filename="' + req.params.hash + '.zip"'
       });
       res.send(new Buffer(data, 'binary'));
-
     }, function (err) {
       res.send(400, err);
     }).then(null, logger.error);

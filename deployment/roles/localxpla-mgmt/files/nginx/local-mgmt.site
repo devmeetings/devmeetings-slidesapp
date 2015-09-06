@@ -1,0 +1,44 @@
+
+server {
+  listen 443 ssl;
+  server_name local.xplatform.org;
+
+  ssl on;
+  ssl_certificate /etc/ssl/certs/local.xpla.pem;
+  ssl_certificate_key /etc/ssl/private/local.xpla.key;
+	
+ 	location / {
+	    proxy_pass  http://localhost:9922;
+	    proxy_set_header Host      $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+
+      auth_basic "You shall not pass!";
+      auth_basic_user_file /etc/nginx/local-mgmt.passwd;
+	}
+
+  location /public {
+    root /srv/xplatform/tools/localxpla-manager/;
+  }
+
+  location /cdn {
+    root /srv/xplatform/tools/localxpla-manager/public;
+    gzip on;
+    gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
+
+    add_header Access-Control-Allow-Origin *;
+
+    expires 365d;
+  }
+
+  location /api {
+    try_files index.json;
+    root /srv/xplatform/tools/localxpla-manager/public;
+
+    add_header Access-Control-Allow-Origin *;
+
+    default_type application/json;
+  }
+
+}
+
+

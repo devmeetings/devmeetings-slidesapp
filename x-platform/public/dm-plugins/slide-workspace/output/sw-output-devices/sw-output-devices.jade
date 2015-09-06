@@ -1,0 +1,92 @@
+mixin device(name, icon, title)
+  li(
+    ng-class="{'active': model.activeDevice === '#{name}'}"
+    )
+      a.cursor-pointer(
+        tooltip=title
+        tooltip-animation="false"
+        tooltip-placement="bottom"
+        ng-click="model.activeDevice = '#{name}'"
+        )
+        span.fa(class="fa-#{icon}")
+
+
+.sw-output-devices
+  .sw-output-devices__wrapper(
+      ng-class="model.getWrapperClass()"
+    )
+    .sw-output-devices__selector(
+      ng-if="model.withDevices"
+      ng-hide="model.withoutControls"
+      )
+      ul.nav.nav-pills.nav-justified
+        +device('phone', 'mobile', 'Phone')
+        +device('tablet', 'tablet', 'Tablet')
+        +device('desktop', 'laptop', 'Desktop')
+        li(ng-if="model.workspaceId")
+          a.cursor-pointer(
+            tooltip="Open All Previews"
+            target="previews"
+            ui-sref="previewWorkspace({workspaceId: model.workspaceId})"
+            )
+            span.fa.fa-fw.fa-th
+
+    .sw-output-devices__size(
+      ng-if="model.withDevices"
+    )
+      span.fa.fa-fw.fa-retweet.cursor-pointer(
+        ng-click="model.swap()"
+        )
+
+      span.fa.fa-arrows-h.fa-fw
+      input.sw-output-devices__control.form-control(
+        type="number"
+        ng-model="model.width"
+        step="50"
+        min="200"
+        max="5120"
+      )
+
+      span.fa.fa-arrows-v.fa-fw
+      input.sw-output-devices__control.form-control(
+        type="number"
+        ng-model="model.height"
+        step="50"
+        min="100"
+        max="5120"
+      )
+      span.fa.fa-fw.fa-search-plus
+      input.sw-output-devices__control.form-control(
+        type="number"
+        ng-model="model.scale"
+        step="0.1"
+        min="0"
+        max="2"
+      )
+
+    .sw-output-devices__container(
+      ng-style="model.getContainerStyles()"
+      )
+      div(ng-if="model.withDevices")
+        .sw-output-devices__top
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/top.svg"
+            alt="{{model.activeDevice}}_top"
+            )
+        .sw-output-devices__bottom(ng-mousedown="model.onVResize($event)")
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/bottom.svg"
+            alt="{{model.activeDevice}}_bottom"
+            )
+        .sw-output-devices__left
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/left.svg"
+            alt="{{model.activeDevice}}_left"
+            )
+        .sw-output-devices__right(ng-mousedown="model.onHResize($event)")
+          img(
+            ng-src="/static/images/devices/{{ model.activeDevice }}/right.svg"
+            alt="{{model.activeDevice}}_right"
+            )
+      .sw-output-devices__overlay(ng-show="dragActive")
+      .sw-output-devices__content(ng-transclude)

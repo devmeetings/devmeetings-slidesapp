@@ -111,7 +111,7 @@ define([
       var modalInstance = $modal.open({
         template: unlockView,
         controller: 'dmXplatformWorkshopUnlock',
-        size: 'sm',
+        size: 'md',
         resolve: {
           course: function () {
             return course;
@@ -129,6 +129,5 @@ define([
         }
       });
     };
-
   });
 });

@@ -66,7 +66,6 @@ class SwOutputEvalFrontend {
     scope.$on('evalOutput', () => {
       scope.onRefresh();
     });
-
   }
 }
 
@@ -122,7 +121,6 @@ class SwOutputEvalServer {
 }
 
 sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -149,19 +147,19 @@ sliderPlugins.directive('swOutputEval', (dmPlayer, $location, $timeout) => {
         $scope.isWithConsole = true;
 
         let eva = new SwOutputEvalServer({
-        dmPlayer, refreshLogic, $location, $timeout});
+          dmPlayer, refreshLogic, $location, $timeout
+        });
         eva.controller($scope);
-
       } else {
         $scope.hideBaseUrl = true;
         $scope.isDead = false;
         $scope.isWithConsole = false;
 
         let eva = new SwOutputEvalFrontend({
-        dmPlayer, refreshLogic});
+          dmPlayer, refreshLogic
+        });
         eva.controller($scope);
       }
     }
   };
-
 });

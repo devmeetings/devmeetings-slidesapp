@@ -48,7 +48,6 @@ exports.initSockets = function (io) {
 
   pluginsEvents.on('room.joined', sendParticipants);
   pluginsEvents.on('room.left', sendParticipants);
-
 };
 
 exports.onSocket = function (log, socket, io) {
@@ -58,7 +57,6 @@ exports.onSocket = function (log, socket, io) {
 
       broadcastClientsToTrainers(io, clientData.deck);
     });
-
   });
 
   socket.on('trainer.register', function (data, callback) {

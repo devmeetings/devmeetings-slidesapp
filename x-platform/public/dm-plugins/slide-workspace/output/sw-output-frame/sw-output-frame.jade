@@ -41,7 +41,7 @@ mixin iframe(clazz, no)
           )
           | enable live preview
       br
-      button.btn.btn-primary(
+      button.btn.btn-success(
           ng-click="disableHangWarning()"
         )
         span.fa.fa-fw.fa-play
@@ -54,7 +54,7 @@ mixin iframe(clazz, no)
       div.progress(
         ng-class="{'is-visible': percentOfProgress !== 0}"
         )
-        div.progress-bar(
+        div.progress-bar.progress-bar-success(
           style="width:{{ percentOfProgress }}%"
         )   
       +iframe('num-one', 0)

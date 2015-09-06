@@ -1,0 +1,5 @@
+public/bower_components
+public/api
+public/cdn
+node-debug.log
+public/*.log

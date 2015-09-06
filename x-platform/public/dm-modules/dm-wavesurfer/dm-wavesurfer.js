@@ -86,7 +86,6 @@ define(['angular', './dm-wavesurfer.html!text'], function (angular, viewTemplate
                   width: width
                 });
               }
-
             });
           }, false);
 

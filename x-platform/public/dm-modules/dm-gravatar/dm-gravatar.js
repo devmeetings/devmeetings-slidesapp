@@ -12,5 +12,4 @@ define(['angular'], function (angular) {
       };
     }
   ]);
-
 });

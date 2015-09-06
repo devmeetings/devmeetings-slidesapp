@@ -11,6 +11,10 @@
 
 .sw-output-address {
   .input-group-btn {
-    background-color: #1e1e1e;
+    background-color: @color-dark;
+
+    .btn.active {
+      background: lighten(@color-dark, 20%);
+    }
   }
 }

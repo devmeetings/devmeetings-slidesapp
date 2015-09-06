@@ -93,5 +93,4 @@ define(['module', '_', 'slider/slider.plugins', './slide-serverRunner.html!text'
       };
     }
   ]);
-
 });

@@ -1,6 +1,6 @@
 div(ng-if="length", dm-defer="700")
   .dm-timeline-point(
-    ng-repeat='p in annos',
+    ng-repeat='p in annos track by p.timestamp',
     tooltip="{{p.description}}\n{{ p.timestamp | number:1 }}s", 
     tooltip-animation="false", 
     tooltip-placement="top",

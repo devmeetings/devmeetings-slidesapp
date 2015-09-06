@@ -8,6 +8,8 @@ define(['angular',
   xplatformApp.controller('dmXplatformDeckSlide',
     ['$scope', '$q', '$state', '$stateParams', 'dmSlides', 'dmBrowserTab',
       function ($scope, $q, $state, $stateParams, dmSlides, dmBrowserTab) {
+        $scope.setPinRight(false);
+
         dmSlides.getSlide($stateParams.slide).then(function (slide) {
           $scope.slide = slide;
           dmBrowserTab.setTitleAndIcon(slide.data.content.name, 'slide');

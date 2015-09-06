@@ -2,7 +2,6 @@ var glob = require('glob');
 var fs = require('fs');
 
 module.exports = function () {
-
   glob(__dirname + '/**/*.js', function (err, files) {
     if (err) {
       throw err;
@@ -33,5 +32,4 @@ module.exports = function () {
 
     fs.writeFile(__dirname + '/plugins.js', data.join('\n'), 'utf8');
   });
-
 };

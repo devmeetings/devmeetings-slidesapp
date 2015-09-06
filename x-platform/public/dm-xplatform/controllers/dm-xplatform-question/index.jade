@@ -1,72 +1,73 @@
 .dm-questions
   include ../dm-xplatform-question-create/index
-  //hr
-  .dm-question.clearfix(
-    ng-repeat="question in questions | orderBy: '-timestamp'"
-    )
+  hr.clearfix(style="clear:both;border-top:0")
+  .col-xs-12
+    .dm-question.clearfix(
+      ng-repeat="question in questions | orderBy: '-timestamp' track by question._id"
+      )
 
-    ul.dm-breadcrumb
-      li.title(
+      ul.dm-breadcrumb
+        li.title(
+            ng-class="{'active': isQuestionActive(question) }"
+          )
+          a
+            img.img-rounded(
+              alt="{{question.user.name || 'Anonymous' }}"
+              title="{{question.user.name || 'Anonymous' }}"
+              ng-src="{{question.user.avatar | dmGravatar:24}}"
+              )
+        li(
           ng-class="{'active': isQuestionActive(question) }"
-        )
-        a
-          img.img-rounded(
-            alt="{{question.user.name || 'Anonymous' }}"
-            title="{{question.user.name || 'Anonymous' }}"
-            ng-src="{{question.user.avatar | dmGravatar:24}}"
-            )
-      li(
-        ng-class="{'active': isQuestionActive(question) }"
-        )
-        a(
-          ui-sref='index.space.collaborate.question({slide: question.slidesave, parent:null})'
           )
-          small.pull-right(am-time-ago='question.timestamp')
-          span.fa.fa-fw
-          span {{question.description}}
-    div
-      .col-xs-11.col-xs-offset-1.dm-answers(
-        ng-show="isQuestionActive(question)"
-        )
-        ul.dm-breadcrumb.dm-breadcrumb-left(
-          ng-repeat="comment in question.comments"
+          a(
+            ui-sref='index.space.collaborate.question({slide: question.slidesave, parent:null})'
+            )
+            small.pull-right(am-time-ago='question.timestamp')
+            span.fa.fa-fw
+            span {{question.description}}
+      div
+        .col-xs-11.col-xs-offset-1.dm-answers(
+          ng-show="isQuestionActive(question)"
           )
-          li(
-            ui-sref-active="active"
+          ul.dm-breadcrumb.dm-breadcrumb-left(
+            ng-repeat="comment in question.comments"
             )
-            a.text-right(
-              ui-sref='index.space.collaborate.question({slide: comment.slidesave, parent: question.slidesave})'
-            )
-              small.pull-left(am-time-ago='comment.timestamp')
-              span {{comment.text}}
-              span.fa.fa-fw
-          li.title
-            a
-              img.img-rounded(
-                alt="{{comment.user.name || 'Anonymous' }}"
-                title="{{comment.user.name || 'Anonymous' }}"
-                ng-src="{{comment.user.avatar | dmGravatar:24}}"
-                )
-
-        form(ng-submit='createComment(question)')
-          ul.dm-breadcrumb.dm-breadcrumb-flat
+            li(
+              ui-sref-active="active"
+              )
+              a.text-right(
+                ui-sref='index.space.collaborate.question({slide: comment.slidesave, parent: question.slidesave})'
+              )
+                small.pull-left(am-time-ago='comment.timestamp')
+                span {{comment.text}}
+                span.fa.fa-fw
             li.title
               a
                 img.img-rounded(
-                   alt="{{user.result.name }}"
-                  title="{{user.result.name }}"
-                  ng-src="{{user.result.avatar | dmGravatar:24}}"
-                )
-            li
-              a
-                .input-group
-                  input.input-sm.form-control(
-                    required, 
-                    ng-model='question.text', 
-                    autofocus, 
-                    placeholder="Your Answer")
-            li.title
-              button.a.btn(
-                type="submit"
-                )
-                span.fa.fa-reply
+                  alt="{{comment.user.name || 'Anonymous' }}"
+                  title="{{comment.user.name || 'Anonymous' }}"
+                  ng-src="{{comment.user.avatar | dmGravatar:24}}"
+                  )
+
+          form(ng-submit='createComment(question)')
+            ul.dm-breadcrumb.dm-breadcrumb-flat
+              li.title
+                a
+                  img.img-rounded(
+                     alt="{{user.result.name }}"
+                    title="{{user.result.name }}"
+                    ng-src="{{user.result.avatar | dmGravatar:24}}"
+                  )
+              li
+                a
+                  .input-group
+                    input.input-sm.form-control(
+                      required, 
+                      ng-model='question.text', 
+                      autofocus, 
+                      placeholder="Your Answer")
+              li.title
+                button.a.btn(
+                  type="submit"
+                  )
+                  span.fa.fa-reply

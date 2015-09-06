@@ -125,5 +125,4 @@ define(['module', '_', 'slider/slider.plugins', 'howler', './slide-speedDating.h
     };
   }
   );
-
 });

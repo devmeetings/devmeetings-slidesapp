@@ -40,7 +40,6 @@ function fetchAndParse (file, cb) {
     openStream(file, cb, function (stream) {
       stream.pipe(fileStream).on('error', function () {
         return cb('Problem writing to tmp stream: ' + tmpFile, null);
-
       }).on('finish', function () {
         var zip = new AdmZip(tmpFile);
         // Extract
@@ -59,9 +58,7 @@ function fetchAndParse (file, cb) {
           return cb(e, null);
         }
       });
-
     });
-
   });
 }
 

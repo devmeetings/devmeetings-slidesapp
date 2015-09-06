@@ -55,6 +55,5 @@ define(['angular', 'dm-xplatform/xplatform-app', '_', '../dm-xplatform-question-
       }, state.save);
       question.text = '';
     };
-
   });
 });

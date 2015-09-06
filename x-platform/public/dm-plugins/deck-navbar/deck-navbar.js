@@ -38,7 +38,7 @@ define(['module', '_', '$', 'slider/slider.plugins', 'services/CurrentSlideManag
           DeckAndSlides.inContextOf('deck').deck.then(updateDeck);
 
           scope.sortableOptions = {
-            stop: function (em, ui) {
+            dragEnd: function () {
               // elements are already sorted here
               scope.deck.slides = _.pluck(scope.slides, '_id');
               $http.put('/api/decks/' + scope.deck._id, scope.deck);
@@ -83,5 +83,4 @@ define(['module', '_', '$', 'slider/slider.plugins', 'services/CurrentSlideManag
       };
     }
   ]);
-
 });

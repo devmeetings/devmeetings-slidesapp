@@ -1,6 +1,7 @@
 /* globals define */
 define(
   ['_', 'angular', 'angular-sanitize',
+    'qrcode-generator',
     'angular-qrcode',
     'asEvented',
     'dm-modules/dm-sockets/dm-sockets',
@@ -8,7 +9,7 @@ define(
     'dm-modules/dm-recorder/dm-recorder',
     '../utils/Plugins', '../utils/ExtractPath'
   ],
-  function (_, angular, angularSanitize, angularQr, asEvented, Editor, Sockets, DmRecorder, Plugins, ExtractPath) {
+  function (_, angular, angularSanitize, qrcode, angularQr, asEvented, Editor, Sockets, DmRecorder, Plugins, ExtractPath) {
     'use strict';
 
     var module = angular.module('slider.plugins', [

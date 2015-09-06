@@ -20,8 +20,6 @@
   }
 
   .nav-tabs {
-    border-bottom: 1px solid #1f1f1f;
-    border-top: 1px solid #282828;
     margin-top: -1px;
   }
   .nav-tabs > li {
@@ -30,10 +28,10 @@
   }
 
   .nav-context-menu {
-    background-color: #161616;
+    background-color: @color-dark;
 
     > li.active a {
-      background-color: #1e1e1e;
+      background-color: @color-gray25;
     }
     > li > a, > li.active > a {
       cursor: pointer;
@@ -47,7 +45,7 @@
     }
 
     > li > a, > li.active > a {
-      font-size: 1em;
+      font-size: 1rem;
       padding: 5px 6px;
       text-align: left;
     }

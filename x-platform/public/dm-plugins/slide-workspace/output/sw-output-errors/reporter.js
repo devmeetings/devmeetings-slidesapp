@@ -58,7 +58,6 @@
     invokeOriginalError(args);
     handleError.apply(null, args);
   };
-
 }(function displayErrorInfo (errorsList) {
   function $ (sel) {
     return document.querySelector(sel);

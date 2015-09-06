@@ -90,7 +90,6 @@ define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins)
             setTimeout(function () {
               insideRefresh = false;
             }, pluginsLoaderTimeout * plugins.length);
-
           };
 
           $scope.$watch('context', refresh);

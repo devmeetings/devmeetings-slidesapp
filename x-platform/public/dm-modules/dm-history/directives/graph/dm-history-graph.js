@@ -41,7 +41,8 @@ class DmHistoryGraph {
 
 export function dmHistoryGraph (dmHistory, $window, $state) {
   let history = new DmHistoryGraph({
-  dmHistory, $window, $state});
+    dmHistory, $window, $state
+  });
 
   return {
     restrict: 'E',

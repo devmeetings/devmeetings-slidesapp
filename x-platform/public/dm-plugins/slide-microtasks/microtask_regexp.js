@@ -27,9 +27,7 @@ define(['_', 'utils/Plugins'], function (_, Plugins) {
         if (result) {
           markTaskCompleted();
         }
-
       }, EXECUTION_DELAY));
-
     });
   });
 });

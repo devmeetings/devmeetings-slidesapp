@@ -6,7 +6,6 @@ import _ from '_';
 import viewTemplate from './sw-editor-cdn.html!text';
 
 sliderPlugins.directive('swEditorCdn', ($log) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -108,8 +107,6 @@ sliderPlugins.directive('swEditorCdn', ($log) => {
         }
         return false;
       };
-
     }
   };
-
 });

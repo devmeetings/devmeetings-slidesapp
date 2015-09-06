@@ -3,6 +3,7 @@ var open = require('open');
 var fork = require('child_process').fork;
 var del = require('del');
 var Q = require('q');
+var merge = require('merge-stream');
 
 var generatePlugins = require('./public/dm-plugins/generatePlugins');
 
@@ -76,6 +77,21 @@ gulp.task('less', function () {
     .pipe($.rename('style-' + version + '.css'))
     .pipe(gulp.dest('./public/bin'))
     .pipe($.livereload());
+});
+
+gulp.task('less-external', function () {
+  var buildLess = gulp.src('./public/less/base-external-styles.less')
+    .pipe($.less())
+    .pipe($.rename('xpla-styles.css'))
+    .pipe(gulp.dest('./public/bin/xpla-styles'));
+
+  var copyFonts = gulp.src('./public/fonts/*')
+    .pipe(gulp.dest('./public/bin/xpla-styles/fonts'));
+
+  var copyFontAwesome = gulp.src('./public/jspm_packages/npm/font-awesome@4.3.0/fonts/*')
+    .pipe(gulp.dest('./public/bin/xpla-styles/fonts'));
+
+  return merge([buildLess, copyFonts, copyFontAwesome]);
 });
 
 gulp.task('lint', function () {

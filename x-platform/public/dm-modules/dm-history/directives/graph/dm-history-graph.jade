@@ -9,7 +9,7 @@
         )
       .col-xs-6
         button.btn.btn-block.btn-sm(
-            ng-class="{'btn-primary': !cutModel.start}"
+            ng-class="{'btn-success': !cutModel.start}"
             ng-click="setCurrentTime(cutModel, 'start')"
         )
           | Set Start Mark
@@ -21,14 +21,14 @@
         )
       .col-xs-6
         button.btn.btn-block.btn-sm(
-            ng-class="{'btn-primary': cutModel.start && !cutModel.end}"
+            ng-class="{'btn-success': cutModel.start && !cutModel.end}"
             ng-click="setCurrentTime(cutModel, 'end')"
         )
           | Set End Mark
     .row
       .col-xs-12
         button.btn.btn-block.btn-sm(
-          ng-class="{'btn-primary': cutModel.start && cutModel.end}"
+          ng-class="{'btn-success': cutModel.start && cutModel.end}"
           ng-disabled="!cutModel.start || !cutModel.end"
           ng-click="convertToRecording(cutModel)"
         )

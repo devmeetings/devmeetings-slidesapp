@@ -57,7 +57,6 @@ class EventAgenda {
           material.iterationIdx = iterationIdx;
           return material;
         }
-
       }, null);
     }
 
@@ -122,7 +121,6 @@ class EventAgenda {
 }
 
 xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEvents, dmRanking) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -133,9 +131,9 @@ xplatformApp.directive('dmEventAgenda', ($rootScope, $state, $stateParams, dmEve
     template: viewTemplate,
     link (scope, element) {
       let eventMenu = new EventAgenda({
-      $rootScope, $stateParams, $state, dmEvents, dmRanking});
+        $rootScope, $stateParams, $state, dmEvents, dmRanking
+      });
       eventMenu.link(scope, element);
     }
   };
-
 });

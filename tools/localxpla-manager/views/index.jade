@@ -1,0 +1,15 @@
+extends layout
+block content
+  .panel.panel-default
+    .panel-heading
+      h3.panel-title Cache
+    .panel-body.text-center
+      form(
+        action="/local/api/populate"
+        method="post"
+        )
+        button.btn.btn-warning(type="submit")
+          | Repopulate Cache
+      a(href="/local/api/logs/populate") See Log
+      | &nbsp;|&nbsp;
+      a(href="/local/api/populate") See Last Date

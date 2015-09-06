@@ -64,7 +64,6 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angula
           toJoin.forEach(function (room) {
             s.emit(room.msg, room.args, function () {});
           });
-
         });
 
         s.on('rejoin', function (channel) {
@@ -125,5 +124,4 @@ define(['_', 'angular', 'socket.io', 'asEvented', './guid'], function (_, angula
       return Socket;
     }
   );
-
 });

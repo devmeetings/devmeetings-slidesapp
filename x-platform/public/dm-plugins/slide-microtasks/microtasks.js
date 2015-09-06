@@ -89,7 +89,6 @@ define([
                     meta.completed = true;
                   });
                 });
-
               });
             });
           });
@@ -97,5 +96,4 @@ define([
       };
     }
   ]);
-
 });

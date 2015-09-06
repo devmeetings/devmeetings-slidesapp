@@ -103,5 +103,4 @@ define(['module', '_', 'slider/slider.plugins', 'ace', 'ace_languageTools', './f
       };
     }
   ]);
-
 });

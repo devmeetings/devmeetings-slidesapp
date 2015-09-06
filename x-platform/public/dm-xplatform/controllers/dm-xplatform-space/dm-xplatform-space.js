@@ -48,6 +48,5 @@ define([
       $scope.workspaceId = workspaceId;
       dmSlidesaves.refresh();
     });
-
   });
 });

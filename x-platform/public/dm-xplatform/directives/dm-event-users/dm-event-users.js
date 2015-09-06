@@ -22,7 +22,6 @@ class EventUsers {
       this.dmEvents.getWorkspace(eventId).then((workspaceId) => {
         this.dmEventLive.listenToUsersOnline($scope, eventId, workspaceId, onUserInSpace);
       });
-
     });
 
     $scope.allUsers = [];
@@ -78,13 +77,10 @@ class EventUsers {
         }
       });
     }
-
   }
-
 }
 
 xplatformApp.directive('dmEventUsers', (dmEvents, dmEventLive) => {
-
   return {
     restrict: 'E',
     replace: true,
@@ -97,9 +93,9 @@ xplatformApp.directive('dmEventUsers', (dmEvents, dmEventLive) => {
     template: viewTemplate,
     link (scope, element) {
       let eventMenu = new EventUsers({
-      dmEvents, dmEventLive});
+        dmEvents, dmEventLive
+      });
       eventMenu.link(scope, element);
     }
   };
-
 });
