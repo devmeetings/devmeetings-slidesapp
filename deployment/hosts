@@ -7,8 +7,9 @@
 #ubuntu@de.xplatform.org server_domain=de.xplatform.org server_short=xpla_de server_port=3000 livereload_port=30000
 #root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2 server_port=3000 livereload_port=30000
 #root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1 server_port=3000 livereload_port=30000
-root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
-root@xpla.org server_domain=xpla.org server_short=xpla_xpla server_port=5000 livereload_port=50000
+ubuntu@ec2-52-76-70-180.ap-southeast-1.compute.amazonaws.com server_domain=ec2-52-76-70-180.ap-southeast-1.compute.amazonaws.com server_short=xpla_asia server_port=3000 livereload_port=30000
+# root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
+# root@xpla.org server_domain=xpla.org server_short=xpla_xpla server_port=5000 livereload_port=50000
 
 
 [exec-node]
