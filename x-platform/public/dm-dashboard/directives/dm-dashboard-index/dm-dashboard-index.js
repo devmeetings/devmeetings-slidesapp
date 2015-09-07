@@ -12,9 +12,9 @@ app.directive('dmDashboardIndex', () => {
     },
     controllerAs: 'vm',
     bindToController: true,
-    controller () {
-      let c = new DmDashboardIndex({});
-      c.controller(this);
+    controller ($scope) {
+      let c = new DmDashboardIndex({$scope});
+      c.controller(this, $scope);
     },
     template: template
   };
@@ -42,7 +42,8 @@ class DmDashboardIndex {
       strategicView: 'table'
     };
 
-    vm.model = vm.dashboard;
+    this.$scope.$watch(() => vm.dashboard, () => { vm.model = vm.dashboard; });
+    // vm.model = vm.dashboard;
     console.log(vm.model);
     // dla porownania, potem usun name
     console.log(vm.name);
