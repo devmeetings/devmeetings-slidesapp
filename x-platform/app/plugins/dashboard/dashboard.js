@@ -1634,7 +1634,7 @@ function getDashboard (hardcodedDashboard) {
   var eventFields = 'title pin description image order visible shouldRedirectToUnsafe';
 
   function getAllEvents () {
-    Q.when(Event.find({
+    return Q.when(Event.find({
       removed: {
         $ne: true
       }
@@ -1646,5 +1646,5 @@ function getDashboard (hardcodedDashboard) {
     return events;
   });
 
-  return Q.when(dashboard);
+  return dashboard;
 }
