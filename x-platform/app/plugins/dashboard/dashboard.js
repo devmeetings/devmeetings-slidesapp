@@ -1,6 +1,7 @@
 var Q = require('q');
 var logger = require('../../../config/logging');
 var Event = require('../../models/event');
+var _ = require('lodash');
 
 var hardcodedDashboard = {
   activeEvents: [
@@ -1621,7 +1622,7 @@ exports.onSocket = function (log, socket, io) {
     logger.info('Client is fetching dashboard.');
 
     getDashboard(hardcodedDashboard).done(function (dashboard) {
-      logger.info('Sending dashboard to client', dashboard);
+      logger.info('Sending dashboard to client');
       ack(dashboard);
     });
   }
@@ -1635,22 +1636,30 @@ function getVisibleEvents () {
       $ne: true
     },
     visible: {
-      // do poprawy linijka nizej
+      // change line below - simply i don't know syntax to retrive existing value
       $ne: false
     }
   }).select(eventFields).lean().exec());
 }
 
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {
-  var activeEvents = [];
+  logger.info('TEST!!!');
+  var activeEvents = _.map(visibleEvents, function (event) {
+    var e = hardcodedDashboard.activeEvents[1]; // 0 is too big
+    e._id = event._id;
+    e.name = event.name;
+    logger.info(e._id);
+    logger.info(e.name);
+    return e;
+  });
 
-  for (var event of visibleEvents) {
-    var e = hardcodedDashboard.activeEvents[0];
+  /* for (var event of visibleEvents) { // for of comes from ES6 - it's no ES6?
+    var e = hardcodedDashboard.activeEvents[1]; // 0 is too big
     e._id = event._id;
     e.name = event.name;
     activeEvents.push(e);
-  }
-
+  }*/
+  logger.info('activeEvents', activeEvents);
   return {
     activeEvents: activeEvents
   };
@@ -1660,11 +1669,9 @@ function getDashboard (hardcodedDashboard) {
 
   logger.info('Getting dashboard for him.');
 
-  var visibleEvents = getVisibleEvents().then(function (events) {
-    return events;
+  var dashboard = getVisibleEvents().then(function (visibleEvents) {
+    return makeDashboardModel(hardcodedDashboard, visibleEvents);
   });
-
-  var dashboard = makeDashboardModel(hardcodedDashboard, visibleEvents);
 
   return dashboard;
 }
