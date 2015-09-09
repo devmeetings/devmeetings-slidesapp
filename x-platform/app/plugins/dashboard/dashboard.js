@@ -1627,24 +1627,44 @@ exports.onSocket = function (log, socket, io) {
   }
 };
 
+function getVisibleEvents () {
+  var eventFields = 'name title pin description image order visible shouldRedirectToUnsafe';
+
+  return Q.when(Event.find({
+    removed: {
+      $ne: true
+    },
+    visible: {
+      // do poprawy linijka nizej
+      $ne: false
+    }
+  }).select(eventFields).lean().exec());
+}
+
+function makeDashboardModel (hardcodedDashboard, visibleEvents) {
+  var activeEvents = [];
+
+  for (var event of visibleEvents) {
+    var e = hardcodedDashboard.activeEvents[0];
+    e._id = event._id;
+    e.name = event.name;
+    activeEvents.push(e);
+  }
+
+  return {
+    activeEvents: activeEvents
+  };
+}
+
 function getDashboard (hardcodedDashboard) {
 
   logger.info('Getting dashboard for him.');
 
-  var eventFields = 'title pin description image order visible shouldRedirectToUnsafe';
-
-  function getAllEvents () {
-    return Q.when(Event.find({
-      removed: {
-        $ne: true
-      }
-    }).select(eventFields).lean().exec());
-  }
-
-  var dashboard = getAllEvents().then(function (events) {
-    logger.info('Num of all events', events.length);
+  var visibleEvents = getVisibleEvents().then(function (events) {
     return events;
   });
+
+  var dashboard = makeDashboardModel(hardcodedDashboard, visibleEvents);
 
   return dashboard;
 }
