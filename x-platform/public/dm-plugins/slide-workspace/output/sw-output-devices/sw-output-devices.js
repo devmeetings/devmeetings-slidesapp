@@ -179,6 +179,9 @@ class SwOutputDevices {
   }
 
   applySize (vm, size) {
+    if (!size) {
+      return;
+    }
     vm.width = size.width;
     vm.height = size.height;
     vm.scale = size.scale;

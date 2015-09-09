@@ -15,16 +15,32 @@
     padding: 2px;
     width: 25px;
     height: 38px;
-    overflow: hidden;
     line-height: 38px;
     font-size: 1rem;
     font-weight: 300;
+
+    overflow: hidden;
 
     &.big {
       width: 55px;
     }
 
     .text-special;
+
+    &.btn-secondary {
+      margin: 10px 0;
+      padding: 3px 7px;
+      height: 26px;
+      line-height: 18px;
+      color: @color-white-o;
+      background-color: @brand-secondary;
+      width: auto;
+    }
+    
+    &.text-muted {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
 
     input {
       margin: 0;
