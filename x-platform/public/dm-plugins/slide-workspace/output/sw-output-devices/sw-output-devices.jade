@@ -34,6 +34,10 @@ mixin device(name, icon, title)
     .sw-output-devices__size(
       ng-if="model.withDevices"
     )
+      span.fa.fa-fw.fa-retweet.cursor-pointer(
+        ng-click="model.swap()"
+        )
+
       span.fa.fa-arrows-h.fa-fw
       input.sw-output-devices__control.form-control(
         type="number"
@@ -42,6 +46,7 @@ mixin device(name, icon, title)
         min="200"
         max="5120"
       )
+
       span.fa.fa-arrows-v.fa-fw
       input.sw-output-devices__control.form-control(
         type="number"

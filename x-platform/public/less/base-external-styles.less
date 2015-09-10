@@ -1,0 +1,113 @@
+// This is used to generate css file for external services (i.e. tasks)
+
+@import 'theme-variables.less';
+@icon-font-path: './fonts/';
+@import 'bootstrap.less';
+@import '../jspm_packages/npm/font-awesome@4.3.0/less/font-awesome.less';
+@fa-font-path: './fonts';
+@import 'base.less';
+@xpla-font-path: './fonts';
+
+body {
+  background-color: #161616;
+}
+
+.embed body {
+  font-size: 12px;
+  background-color: #333;
+}
+.embed h1 {
+  font-size: 4rem;
+}
+.embed h2 {
+  font-size: 2.8rem;
+}
+.embed h3 {
+  font-size: 2rem;
+}
+.embed h4 {
+  font-size: 1.4rem;
+}
+.embed h5 {
+  font-size: 1rem;
+}
+
+.embed  header, .embed hr, .embed section {
+  display: none;
+}
+
+.embed section.active {
+  display: block;
+}
+
+.container {
+  position: relative;
+  padding-top: 40px;
+}
+.nav-done, .nav-new-window {
+  margin: 5px 0 10px;
+  position: absolute;
+  z-index: 2;
+}
+.nav-done {
+  bottom: -50px;
+  right: 0;
+  border-radius: 0;
+  background-color: #288e37;
+  border-color: #288e67;
+}
+.nav-done.nav-done-muted {
+  background-color: #444;
+  border-color: #444;
+}
+.nav-new-window {
+  top: 5px;
+  right: 10px;
+  float: right;
+  color: #eee;
+}
+.tasks-nav {
+  position: fixed;
+  top: 5px;
+  text-align: left;
+  left: 0;
+  right: 0;
+}
+.tasks-nav-item {
+  cursor: pointer;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid #666;
+  margin: 2px 3px;
+}
+.tasks-nav-item.active {
+  background-color: #444;
+}
+.tasks-nav-item.active.done {
+  background-color: #555;
+}
+.tasks-nav-item.active a {
+  color: #fff;
+}
+.tasks-nav-item.done {
+  border-color: #288e37;
+}
+.tasks-nav-item.done a {
+  color: #fffd00;
+}
+.tasks-nav-item a {
+  padding: 5px;
+  color: #aaa;
+  font-size: 15px;
+  opacity: 0.9;
+  line-height: 14px;
+  font-family: monospace;
+  display: block;
+  text-align: center;
+}
+.tasks-nav-item a:hover {
+  text-decoration: none;
+  opacity: 1.0;
+}
