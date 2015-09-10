@@ -1,22 +1,22 @@
 a.btn.dm-timeline-button(
+  ng-click='state.currentSecond = state.nextPlayTo'
+  ng-class="{'disabled': !state.nextPlayTo, 'btn-secondary': !state.firstRun}"
+  )
+  span.fa.fa-fast-forward
+
+a.btn.dm-timeline-button.text-muted(
   ng-click='state.currentSecond = state.playFrom'
   ng-class="{'disabled': !state.playFrom}"
   )
   span.fa.fa-step-backward
 
-a.btn.dm-timeline-button(
+a.btn.dm-timeline-button.text-muted(
     ng-click='playNext()', 
     analytics-category='timeline',
     analytics-on='click', analytics-event='audio.play_pause'
     tooltip='{{state.isPlaying ? "Pause" : "Play"}}', tooltip-placement='top')
     span.fa.fa-play(ng-if='!state.isPlaying')
     span.fa.fa-pause(ng-if='state.isPlaying')
-
-a.btn.dm-timeline-button(
-  ng-click='state.currentSecond = state.nextPlayTo'
-  ng-class="{'disabled': !state.nextPlayTo}"
-  )
-  span.fa.fa-step-forward
 
 a.btn.dm-timeline-button(
     ng-click="setTime(state.currentSecond - 0.5)"

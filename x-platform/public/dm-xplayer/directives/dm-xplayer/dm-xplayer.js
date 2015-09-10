@@ -59,6 +59,19 @@ define([
             }, 150);
           };
 
+          $scope.runStepNext = function () {
+            $scope.hideBtn = true;
+            if ($scope.state.firstRun) {
+              $scope.onFirstRun();
+            }
+
+            makeSubtitlesFixed();
+            $timeout(function () {
+              $scope.state.firstRun = false;
+              $scope.state.currentSecond = $scope.state.nextPlayTo;
+            }, 150);
+          };
+
           $scope.state.firstRun = true;
 
           function selectNewAnnotation (second) {
@@ -80,6 +93,12 @@ define([
             setIfHasAnno('playFrom', nextAnnotationIdx - 1);
             setIfHasAnno('playTo', nextAnnotationIdx);
             setIfHasAnno('nextPlayTo', nextAnnotationIdx + 1);
+            if ($scope.state.nextPlayTo === null) {
+              // Add a jump to end of movie
+              if ($scope.state.currentSecond !== $scope.state.max) {
+                $scope.state.nextPlayTo = $scope.state.max;
+              }
+            }
           }
 
           var goToSecond = function (curr, prev) {

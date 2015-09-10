@@ -153,13 +153,20 @@
     color: @fg;
     background-color: lighten(@color, 10%);
   }
+
   &:focus {
     color: @fg;
     background-color: darken(@color, 10%);
   }
+
   &:active {
     color: @fg;
     background-color: darken(@color, 10%);
+  }
+
+  &.muted {
+    color: @color;
+    background: transparent;
   }
 }
 

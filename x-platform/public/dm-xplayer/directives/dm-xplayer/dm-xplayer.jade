@@ -15,8 +15,9 @@ mixin currentAnnotation()
 
 mixin nextButtons(icon)
     button.btn.btn-default.btn-next-subtitle(
-      autofocus,
-      ng-click="runNext()",
+      autofocus
+      ng-click="runStepNext()"
+      ng-class="{muted: !state.firstRun}"
       ng-show="state.playTo < state.max && !state.isPlaying")
         span.fa.fa-fw(class="fa-#{icon}")
 
