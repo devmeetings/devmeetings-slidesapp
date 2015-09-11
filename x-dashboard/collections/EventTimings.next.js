@@ -11,6 +11,10 @@ EventTimings.attachSchema(new SimpleSchema({
     index: true,
     unique: true
   },
+  adminPass: {
+    type: String,
+    label: 'Admin Password'
+  },
   eventDate: {
     type: Date,
     label: 'Event Date',
@@ -123,6 +127,20 @@ Meteor.methods({
     EventTimings.update(eventId, {
       $push: join
     });
+  },
+
+  "EventTimings.becomeAdmin": (eventId, adminPass) => {
+    let event = EventTimings.find({
+      _id: eventId
+    }).fetch()[0];
+
+    if (event.adminPass === adminPass) {
+      EventTimings.update(eventId, {
+        $set: {
+          authorId: Meteor.userId()
+        }
+      });
+    }
   },
 
   "EventTimings.clone": (eventId) => {
