@@ -72,7 +72,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
           toSend = [];
         }
 
-        var sendQueueLater = _.throttle(sendQueue, 800, {
+        var sendQueueLater = _.throttle(sendQueue, 1500, {
           leading: false,
           trailing: true
         });

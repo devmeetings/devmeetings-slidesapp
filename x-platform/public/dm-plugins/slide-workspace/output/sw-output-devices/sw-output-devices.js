@@ -14,7 +14,6 @@ sliderPlugins.directive('swOutputDevices', () => {
       activeDevice: '=',
       width: '=',
       height: '=',
-      scale: '=',
       isLandscape: '=',
       workspaceId: '='
     },
@@ -42,13 +41,13 @@ const DEFAULT_SIZES = {
     width: 1024,
     height: 768,
     isLandscape: true,
-    scale: 0.4
+    scale: 0.5
   },
   'desktop': {
     width: 1366,
     height: 768,
     isLandscape: true,
-    scale: 0.3
+    scale: 0.4
   }
 };
 
@@ -180,6 +179,9 @@ class SwOutputDevices {
   }
 
   applySize (vm, size) {
+    if (!size) {
+      return;
+    }
     vm.width = size.width;
     vm.height = size.height;
     vm.scale = size.scale;

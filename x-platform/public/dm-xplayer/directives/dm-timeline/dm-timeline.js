@@ -13,7 +13,9 @@ define(['angular', 'dm-xplayer/dm-xplayer-app', './dm-timeline.html!text'], func
       template: viewTemplate,
       link: function (scope, element) {
         scope.$watch('second', function (second) {
-          scope.value = second * 100 / scope.length;
+          second = second || 0;
+          var length = scope.length || 1;
+          scope.value = second * 100 / length;
         });
 
         scope.$watchCollection('annotations', function (annos) {
