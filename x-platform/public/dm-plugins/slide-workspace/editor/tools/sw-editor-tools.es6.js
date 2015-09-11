@@ -61,6 +61,9 @@ class SwEditorTools {
 
   initUploading (self) {
     self.onFileSelect = ($files) => {
+      if (!$files || !$files.length) {
+        return;
+      }
       if (!this.$window.confirm('Uploading file will erase your current workspace. Continue?')) {
         return;
       }
@@ -72,9 +75,7 @@ class SwEditorTools {
           url: '/api/upload',
           file: file
         }).progress((evt) => {
-          this.$scope.$apply(() => {
-            self.uploadingState = parseInt(100.0 * evt.loaded / evt.total, 10);
-          });
+          self.uploadingState = parseInt(100.0 * evt.loaded / evt.total, 10);
         }).success((data) => {
           self.isUploading = false;
           // override workspace
