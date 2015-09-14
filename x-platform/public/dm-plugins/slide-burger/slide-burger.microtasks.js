@@ -22,7 +22,7 @@ define(['_', 'utils/Plugins', '../slide-microtasks/evalAssertion', './slide-burg
       if (task.completed) {
         return;
       }
-      if (!obj.map) {
+      if (!obj || !obj.map) {
         return;
       }
 
