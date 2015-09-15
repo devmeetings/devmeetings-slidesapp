@@ -22,6 +22,10 @@ define(['_', 'utils/Plugins', '../slide-microtasks/evalAssertion', './slide-burg
       if (task.completed) {
         return;
       }
+      if (!obj || !obj.map) {
+        return;
+      }
+
       var assertion = task.burgerOutput;
 
       obj = obj.map(mapToBase);

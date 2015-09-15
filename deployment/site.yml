@@ -23,7 +23,7 @@
   vars:
     hostname: "{{server_hostname if server_hostname is defined else server_domain}}"
     xpla_job: 'XPlatform'
-    xpla_version: '164'
+    xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
     server_cluster: 2
   tags:
