@@ -7,7 +7,10 @@ var cache = {
   cap: 5000,
 
   put: function (key, value) {
-    this.map[key] = value;
+    this.map[key] = {
+      date: new Date(),
+      content: value
+    };
     this.keys.push(key);
     this.cleanup();
   },
