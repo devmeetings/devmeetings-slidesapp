@@ -13,9 +13,11 @@ function getEmail (profile) {
 
 function createUser (id, profile, type, done) {
   var email = getEmail(profile) || id + '@xplatform.org';
+  // Some github profiles does not have displayName configured
+  var name = profile.displayName || id;
   users.findOrCreate({
     userId: type + ':' + id,
-    name: profile.displayName,
+    name: name,
     email: email,
     avatar: gravatar.url(email),
     type: type,
