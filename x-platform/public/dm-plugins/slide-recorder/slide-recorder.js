@@ -87,6 +87,10 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
             return;
           }
 
+          if (dmRecorder.isChangeFromRecording) {
+            return;
+          }
+
           var patch = dmRecorder.updateState(scope.slide);
           if (!patch) {
             return;

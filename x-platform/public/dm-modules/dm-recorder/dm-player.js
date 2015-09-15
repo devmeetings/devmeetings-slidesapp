@@ -17,6 +17,11 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
         var worker = new Worker.Player();
 
         var player = _.extend(newListenable.default(), {
+
+          setIsChangeFromRecording: function (isFromRecording) {
+            dmRecorder.isChangeFromRecording = isFromRecording;
+          },
+
           setState: function (statesaveId, slide) {
             this.trigger('onSync', []);
             worker.setState(statesaveId, slide);
@@ -52,6 +57,13 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
             return $q.when(this._currentStateId());
           },
 
+          runInPlayerSourceContext: function (cb) {
+            dmPlayerThat.setSource(player);
+            var ret = cb();
+            dmPlayerThat.setSource(dmRecorder);
+            return ret;
+          },
+
           setPlayerPaused: function (isPaused) {
             if (!isPaused) {
               return this._resumePlayer();
@@ -70,6 +82,7 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
           updatePreviousContent: function () {
             dmPlayerThat.previousContent = JSON.stringify(this.getCurrentState());
           },
+
           restorePreviousContent: function () {
             if (!dmPlayerThat.previousContent) {
               return;
@@ -96,6 +109,9 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
       },
 
       setSource: function (s) {
+        if (s === source) {
+          return;
+        }
         this._removeListeners(source);
         source = s;
         this._attachListeners(source);
