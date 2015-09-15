@@ -40,6 +40,10 @@ define(['_', 'dm-xplayer/dm-xplayer-app'], function (_, xplayerApp) {
             player.restorePreviousContent();
           }
 
+          if (lastSecond === second) {
+            return;
+          }
+
           return player.runInPlayerSourceContext(function () {
             var patches;
             // We can just apply patches
