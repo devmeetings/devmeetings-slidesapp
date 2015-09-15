@@ -13,6 +13,14 @@ define(['_'], function (_) {
     this.reset();
   };
   var enableLogging = false;
+  var undoStackLimit = 50;
+
+  function pushToUndoStack ($undoStack, deltas) {
+    $undoStack.push(deltas);
+    if ($undoStack.length > undoStackLimit) {
+      $undoStack.shift();
+    }
+  }
 
   (function () {
     this.setUpTabsSwitched = function (val) {
@@ -36,7 +44,7 @@ define(['_'], function (_) {
       this.$doc = options.args[1];
 
       deltas = this.mergeUndoStack(options.merge, deltas, currentStack);
-      currentStack.$undoStack.push(deltas);
+      pushToUndoStack(currentStack.$undoStack, deltas);
       currentStack.$redoStack = [];
 
       if (currentStack.dirtyCounter < 0) {
@@ -70,7 +78,7 @@ define(['_'], function (_) {
 
       return this.makeStackAction(currentStack.$redoStack, function (deltas) {
         var range = this.$doc.redoChanges(deltas, dontSelect);
-        currentStack.$undoStack.push(deltas);
+        pushToUndoStack(currentStack.$undoStack, deltas);
         currentStack.dirtyCounter++;
         return range;
       }.bind(this));

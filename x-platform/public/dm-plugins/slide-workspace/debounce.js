@@ -14,12 +14,9 @@ function safeApply (scope, fn) {
 }
 
 export default function (scope, func, timeout) {
-  return _.throttle((...args) => {
+  return _.debounce((...args) => {
     safeApply(scope, () => {
       func(...args);
     });
-  }, timeout, {
-    leading: true,
-    trailing: true
-  });
+  }, timeout);
 }
