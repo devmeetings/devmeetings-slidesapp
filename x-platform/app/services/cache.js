@@ -1,4 +1,5 @@
 var Q = require('q');
+var logger = require('../../config/logging');
 
 var cache = {
   map: {},
@@ -23,6 +24,23 @@ var cache = {
   }
 };
 
+var cacheStats = {
+  requests: 0,
+  hits: 0,
+  logEvery: 1000,
+
+  log: function (isHit) {
+    this.requests += 1;
+    if (isHit) {
+      this.hits += 1;
+    }
+    if (this.requests % this.logEvery === 0) {
+      var rate = this.hits / this.requests * 100;
+      logger.info('Cache statistics: ' + this.requests + '/' + this.hits + '; ' + rate.toFixed(2) + '%');
+    }
+  }
+};
+
 module.exports = {
   get: function (key, generatingFunction) {
     'use strict';
@@ -31,9 +49,11 @@ module.exports = {
     var doc = cache.get(key);
 
     if (doc) {
+      cacheStats.log(true);
       return Q.when(doc.content);
     }
 
+    cacheStats.log(false);
     // Populate cache
     return Q.when(generatingFunction(key)).then(function (doc) {
       return that.populate(key, doc).then(function () {
