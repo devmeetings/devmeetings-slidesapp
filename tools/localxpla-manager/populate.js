@@ -16,7 +16,7 @@ module.exports = function populateCache (logsPath) {
     logStream.write(new Date() + '  [' + tag.toUpperCase() + '] ' + msg + '\n');
   }
 
-  log('auth', 'Logging to xplatform');
+  log('auth', 'Logging to xplatform: ' + SERVER_PATH);
 
   var jar = request.jar();
   return req({
