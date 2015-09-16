@@ -54,7 +54,7 @@
     path: "/srv/local.{{server_domain}}/localxpla-manager"
 
 - name: Putting to Autostart
-  command: forever-service install localxpla-mgmt -e "NODE_ENV={{ node_env }} SERVER_PATH={{ server_path }}" --start
+  command: forever-service install localxpla-mgmt -e "NODE_ENV=\"{{ node_env }}\" SERVER_PATH=\"{{ server_path }}\"" --start
   args:
     chdir: "/srv/local.{{server_domain}}/localxpla-manager"
     creates: /etc/init.d/localxpla-mgmt
