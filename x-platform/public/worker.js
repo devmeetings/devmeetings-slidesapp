@@ -13,7 +13,7 @@ var LOCAL_CHECK_INTERVAL = 30000;
 var isLocalActive = false;
 var isLocalLastTry = null;
 
-var isCdn = /\/static\/cdn/;
+var isCdn = /\/cdn\//;
 var isStatic = /\/static\//;
 var isRecording = /\/api\/recordings\//;
 var isApi = /\/api\//;
