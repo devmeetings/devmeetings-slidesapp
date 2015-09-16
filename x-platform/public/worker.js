@@ -68,7 +68,6 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-
   var url = event.request.url;
 
   if (!isLocalActive) {
@@ -144,7 +143,6 @@ function redirectToLocalAndCache (request) {
 }
 
 function cachedResponseIfNeeded (request) {
-
   if (isCdn.test(request.url)) {
     return cachedResponse(request);
   }
