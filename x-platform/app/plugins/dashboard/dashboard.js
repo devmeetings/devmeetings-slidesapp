@@ -1636,10 +1636,7 @@ function getVisibleEvents () {
     removed: {
       $ne: true
     },
-    visible: {
-      // change line below - simply i don't know syntax to retrive existing value
-      $ne: false
-    }
+    visible: true
   }).select(eventFields).lean().exec());
 }
 
@@ -1650,35 +1647,58 @@ function getActiveEventsIds (activeEvents) {
 }
 
 function getUsersRanks (activeEventsIds) {
-  //activeEventsIds --> jak z pomoca tych id-kow wydobyc ranki userow tylko z eventow z tymi id
+  // activeEventsIds --> jak z pomoca tych id-kow wydobyc ranki userow tylko z eventow z tymi id
   logger.info('Array with ids', activeEventsIds);
 
-  return Q.when(Ranking.find().select().lean().exec());
+  return Q.when(Ranking.find({
+    _id: {
+      $in: activeEventsIds
+    }
+  }).lean().exec());
+}
+
+function getEventFromHardModelRandomly (hardcodedActiveEvents) {
+  var num = Math.floor((Math.random() * hardcodedActiveEvents.length) + 1);
+
+  return hardcodedActiveEvents[num];
+}
+
+function assignUsersRanksToEvents (activeEvents, usersRanks) {
+  var activeEventsWithUsersRanks = _.map(activeEvents, function (event) {
+    usersRanks.forEach(function (usersRank, idx) {
+      if (usersRank._id === event._id) {
+        event.ranking.push(usersRank);
+        usersRank.splice(idx, 1);
+      }
+    });
+    return event;
+  });
+  logger.info('assignUsersRanksToEvents: activeEvents:', activeEventsWithUsersRanks);
+  return activeEventsWithUsersRanks;
 }
 
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {
-
   var activeEvents = _.map(visibleEvents, function (event) {
-    var e = _.cloneDeep(hardcodedDashboard.activeEvents[1]); // 0 is too big
+    var e = _.cloneDeep(getEventFromHardModelRandomly(hardcodedDashboard.activeEvents));
     e._id = event._id;
     e.name = event.name;
     return e;
   });
 
   var activeEventsIds = getActiveEventsIds(activeEvents);
-
-  var allUsersRanks = getUsersRanks(activeEventsIds).then(function (ranks) {
+  var usersRanks = getUsersRanks(activeEventsIds).then(function (ranks) {
     return ranks;
   });
+  activeEvents = assignUsersRanksToEvents(activeEvents, usersRanks);
 
   return {
     activeEvents: activeEvents,
-    allUsersRanks: allUsersRanks
+    // remove later:
+    usersRanks: usersRanks
   };
 }
 
 function getDashboard (hardcodedDashboard) {
-
   logger.info('Getting dashboard for him.');
 
   var dashboard = getVisibleEvents().then(function (visibleEvents) {
