@@ -1642,42 +1642,60 @@ function getVisibleEvents () {
 
 function getActiveEventsIds (activeEvents) {
   return _.map(activeEvents, function (event) {
-    return event._id;
+    return event._id.toString();
   });
 }
 
 function getUsersRanks (activeEventsIds) {
-  // activeEventsIds --> jak z pomoca tych id-kow wydobyc ranki userow tylko z eventow z tymi id
-  logger.info('Array with ids', activeEventsIds);
-
   return Q.when(Ranking.find({
-    _id: {
+    event: {
       $in: activeEventsIds
     }
   }).lean().exec());
 }
 
 function getEventFromHardModelRandomly (hardcodedActiveEvents) {
-  var num = Math.floor((Math.random() * hardcodedActiveEvents.length) + 1);
+  var lastIdx = hardcodedActiveEvents.length - 1;
+  var randomIdx = _.random(lastIdx);
 
-  return hardcodedActiveEvents[num];
+  return hardcodedActiveEvents[randomIdx];
 }
 
 function assignUsersRanksToEvents (activeEvents, usersRanks) {
-  var activeEventsWithUsersRanks = _.map(activeEvents, function (event) {
-    usersRanks.forEach(function (usersRank, idx) {
-      if (usersRank._id === event._id) {
-        event.ranking.push(usersRank);
-        usersRank.splice(idx, 1);
+  // tak, czytajac to powiesz, ze i2 to tragedia.
+  // tak, tragedia, ale tak jest kiedy piszac w ES6 przechodzi sie na JS bez ES6...
+  // for of i in nie moge uzyc, _map i forEach gubi scope,
+  // lambda niemozliwa do uzycia. wiec wrocilem do najzwyklejszej i w sumie
+  // jak czytalem na Stack'u najwydajniejszej petli, a jakos interatory rozroznic
+  // trzeba... wiec i2.
+  // jesli da sie ladniej, z checia wyslucham
+
+  for (var i = 0; i < activeEvents.length; i++) {
+    var event = activeEvents[i];
+    event.ranking = {};
+    event.ranking.ranks = [];
+    // console.log('[2]event', event);
+    // console.log('[2]usersRanks', usersRanks);
+    console.log('iterating for ', event.name);
+    for (var i2 = 0; i2 < usersRanks.length; i2++) {
+      var usersRank = usersRanks[i2];
+      console.log('usersRank.event', usersRank.event);
+      console.log('event._id', event._id);
+      if (usersRank.event.toString() === event._id.toString()) {
+        console.log('true');
+        event.ranking.ranks.push(usersRank);
       }
-    });
-    return event;
-  });
-  logger.info('assignUsersRanksToEvents: activeEvents:', activeEventsWithUsersRanks);
-  return activeEventsWithUsersRanks;
+    }
+  }
+
+  logger.info('assignUsersRanksToEvents: activeEvents:', activeEvents);
+  return activeEvents;
 }
 
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {
+  // console.log('makeDashboardModel logs:');
+  // console.log(hardcodedDashboard);
+  // console.log(visibleEvents);
   var activeEvents = _.map(visibleEvents, function (event) {
     var e = _.cloneDeep(getEventFromHardModelRandomly(hardcodedDashboard.activeEvents));
     e._id = event._id;
@@ -1686,25 +1704,25 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
   });
 
   var activeEventsIds = getActiveEventsIds(activeEvents);
-  var usersRanks = getUsersRanks(activeEventsIds).then(function (ranks) {
-    return ranks;
-  });
-  activeEvents = assignUsersRanksToEvents(activeEvents, usersRanks);
 
-  return {
-    activeEvents: activeEvents,
-    // remove later:
-    usersRanks: usersRanks
-  };
+  return getUsersRanks(activeEventsIds).then(function (usersRanks) {
+    // console.log('usersRanks [1]', usersRanks);
+    var activeEventsWithUsersRanks = assignUsersRanksToEvents(activeEvents, usersRanks);
+
+    return {
+      activeEvents: activeEventsWithUsersRanks,
+      // remove later:
+      usersRanks: usersRanks
+    };
+  });
 }
 
 function getDashboard (hardcodedDashboard) {
   logger.info('Getting dashboard for him.');
 
-  var dashboard = getVisibleEvents().then(function (visibleEvents) {
+  return getVisibleEvents().then(function (visibleEvents) {
+    // hardcodedDashboard jest widoczny z wewnatrz tej funkcji, ale czemu, nie trzeba go podac
+    // jako arg
     return makeDashboardModel(hardcodedDashboard, visibleEvents);
   });
-
-  logger.info('dashboard in getDashboard', dashboard);
-  return dashboard;
 }

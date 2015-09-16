@@ -16,8 +16,10 @@ var store = require('./store');
 var sessionInit = require('./session');
 
 module.exports = function (app, config, router) {
-  // To catch exceptions in socketio too.
-  raven.patchGlobal(config.sentryDsn);
+  if (config.sentryDsn) {
+    // To catch exceptions in socketio too.
+    raven.patchGlobal(config.sentryDsn);
+  }
 
   var jadeStatic = connectJadeStatic({
     baseDir: path.join(config.root, 'public'),
@@ -45,8 +47,9 @@ module.exports = function (app, config, router) {
     },
     cookieParser: cookieParser
   };
-
+    
   app.use(raven.middleware.express.requestHandler(config.sentryDsn));
+
   app.use(compression());
   app.use(config.staticsPath, function (req, res, next) {
     if (req.originalUrl.indexOf('.html') === req.originalUrl.length - 5) {
