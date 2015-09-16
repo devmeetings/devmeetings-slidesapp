@@ -62,7 +62,7 @@
 - name: Starting service
   service:
     name: localxpla-mgmt
-    state: started
+    state: restarted
 
 - name: Enabling service
   service:

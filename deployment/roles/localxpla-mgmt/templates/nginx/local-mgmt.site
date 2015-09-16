@@ -17,6 +17,12 @@ server {
       access_log /var/log/nginx/localxpla.access.log combined;
 	}
 
+  location /isLocal {
+      proxy_pass  http://localhost:9922;
+	    proxy_set_header Host      $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+  } 
+
   location /public {
     root /srv/local.{{server_domain}}/localxpla-manager;
     access_log /var/log/nginx/localxpla.access.log combined;
