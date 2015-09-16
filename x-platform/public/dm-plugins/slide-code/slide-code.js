@@ -1,5 +1,7 @@
 /* globals define */
-define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, sliderPlugins, ace) {
+define(
+  ['_', 'slider/slider.plugins', 'ace', 'ace_languageTools', '../slide-workspace/throttle.es6'],
+  function (_, sliderPlugins, ace, aceLangTools, throttle) {
   ace = ace.default;
 
   var EDITOR_THEME = 'todr';
@@ -9,9 +11,9 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
     trailing: true
   };
 
-  var updateScopeLater = _.throttle(function (scope) {
-    scope.$apply();
-  }, 200, throttleOptions);
+  var saveSlideLater = _.throttle(function (scope) {
+    throttle.default.safeApply(scope);
+  }, 100);
 
   var triggerEventLater = _.throttle(function (scope, code, ev, editor) {
       sliderPlugins.trigger('slide.slide-code.change', ev, editor, scope.path);
@@ -30,8 +32,8 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
 
   var triggerCodeChange = function (scope, code, ev, editor) {
     code.content = editor.getValue();
-    updateScopeLater(scope);
     triggerEventLater(scope, code, ev, editor);
+    saveSlideLater(scope);
   };
 
   var triggerCursorChange = function (scope, code, editor) {
@@ -41,7 +43,7 @@ define(['_', 'slider/slider.plugins', 'ace', 'ace_languageTools'], function (_, 
       firstVisibleRow: editor.getFirstVisibleRow(),
       lastVisibleRow: editor.getLastVisibleRow()
     };
-    updateScopeLater(scope);
+    saveSlideLater(scope);
   };
 
   sliderPlugins.registerPlugin('slide', 'code', 'slide-code', {

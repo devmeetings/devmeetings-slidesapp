@@ -4,8 +4,6 @@ define([
   function (module, _, sliderPlugins, ace, mapping, microtasks, viewTemplate) {
   'use strict';
 
-  var path = sliderPlugins.extractPath(module);
-
   function findImg (text) {
     var ret = 'empty';
     _.each(mapping, function (value, key) {
@@ -17,7 +15,7 @@ define([
   }
 
   function imgPath (img) {
-    return path + '/gfx/' + img + '.png';
+    return '/static/dm-plugins/slide-burger/gfx/' + img + '.png';
   }
 
   function splitText (text) {

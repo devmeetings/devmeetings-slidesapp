@@ -2,7 +2,7 @@
 
 importScripts('/static/serviceworker-cache-polyfill.js');
 
-var CACHE_VERSION = '1';
+var CACHE_VERSION = 0;
 var CACHE_NAME = 'xpla-cache';
 var CACHE = CACHE_NAME + '-v' + CACHE_VERSION;
 
@@ -17,6 +17,7 @@ var isCdn = /\/static\/cdn/;
 var isStatic = /\/static\//;
 var isRecording = /\/api\/recordings\//;
 var isApi = /\/api\//;
+var isDevCode = /(\/static\/dm)|(\/api\/recordings)/;
 
 var INITIAL_CACHE = [
   '/static/fonts/opensans/woff/OpenSans-Light.woff',
@@ -163,15 +164,22 @@ function cachedResponse (request) {
 
     return fetch(request).then(function (response) {
       // Don't cache errors
-      if (response.status < 400) {
-        var responseToCache = response.clone();
-        console.log('Caching the response to', request.url);
-        caches.open(CACHE).then(function (cache) {
-          cache.put(request, responseToCache).catch(function (err) {
-            console.warn('Unable to put response to cache', err);
-          });
-        });
+      if (response.status >= 400) {
+        return response;
       }
+
+      // Don't cache when doing local development
+      if (CACHE_VERSION === 0 && isDevCode.test(request.url)) {
+        return response;
+      }
+
+      var responseToCache = response.clone();
+      console.log('Caching the response to', request.url);
+      caches.open(CACHE).then(function (cache) {
+        cache.put(request, responseToCache).catch(function (err) {
+          console.warn('Unable to put response to cache', err);
+        });
+      });
 
       return response;
     });
