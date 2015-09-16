@@ -16,6 +16,10 @@
     - xplatform-local
   roles:
     - localxpla-mgmt
+  vars:
+    localxpla_job: 'XPlatform-LocalCache'
+    localxpla_version: 'lastSuccessfulBuild'
+    node_env: 'production'
 
 - hosts: xplatform-node
   become: yes

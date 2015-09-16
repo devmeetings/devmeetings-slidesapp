@@ -11,6 +11,12 @@
   become: no
   register: result
 
+- name: Nginx | Create directory for config and keys
+  file: 
+    path: /etc/nginx/xpla/keys
+    state: directory 
+    mode: 0755 
+
 - name: Nginx | Copying Keys
   copy:
     src: local.xplatform.org.crt
