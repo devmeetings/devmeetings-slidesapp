@@ -1,4 +1,5 @@
 mixin loadModule(module)
+  script(src='/static/worker.register.js?v=#{cacheBustingVersion}')
   script(src='/static/jspm_packages/system.js?v=#{cacheBustingVersion}')
   script(src='/static/jspm.config.js?v=#{cacheBustingVersion}')
   script.

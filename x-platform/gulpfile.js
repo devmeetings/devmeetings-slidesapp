@@ -12,6 +12,8 @@ var $ = require('gulp-load-plugins')();
 
 var SERVER_PORT = 3000;
 var VERSION_FILE = __dirname + '/.version';
+var SERVICE_WORKER = __dirname + '/public/worker.js';
+
 var version = (function () {
   try {
     return fs.readFileSync(VERSION_FILE, 'utf8');
@@ -54,6 +56,9 @@ gulp.task('bump_version', ['clean'], function () {
   version = pkg.version + '.' + build;
 
   fs.writeFileSync(VERSION_FILE, version);
+  var worker = fs.readFileSync(SERVICE_WORKER, 'utf8');
+  worker = worker.replace(/var CACHE_VERSION.*/, 'var CACHE_VERSION = \'' + version + '\';');
+  fs.writeFileSync(SERVICE_WORKER, worker);
 });
 
 gulp.task('generate_plugins', function () {
