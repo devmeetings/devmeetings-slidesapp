@@ -1,6 +1,7 @@
 var Q = require('q');
 var logger = require('../../../config/logging');
 var Event = require('../../models/event');
+var Ranking = require('../../models/ranking');
 var _ = require('lodash');
 
 var hardcodedDashboard = {
@@ -1642,26 +1643,37 @@ function getVisibleEvents () {
   }).select(eventFields).lean().exec());
 }
 
+function getActiveEventsIds (activeEvents) {
+  return _.map(activeEvents, function (event) {
+    return event._id;
+  });
+}
+
+function getUsersRanks (activeEventsIds) {
+  //activeEventsIds --> jak z pomoca tych id-kow wydobyc ranki userow tylko z eventow z tymi id
+  logger.info('Array with ids', activeEventsIds);
+
+  return Q.when(Ranking.find().select().lean().exec());
+}
+
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {
-  logger.info('TEST!!!');
+
   var activeEvents = _.map(visibleEvents, function (event) {
-    var e = hardcodedDashboard.activeEvents[1]; // 0 is too big
+    var e = _.cloneDeep(hardcodedDashboard.activeEvents[1]); // 0 is too big
     e._id = event._id;
     e.name = event.name;
-    logger.info(e._id);
-    logger.info(e.name);
     return e;
   });
 
-  /* for (var event of visibleEvents) { // for of comes from ES6 - it's no ES6?
-    var e = hardcodedDashboard.activeEvents[1]; // 0 is too big
-    e._id = event._id;
-    e.name = event.name;
-    activeEvents.push(e);
-  }*/
-  logger.info('activeEvents', activeEvents);
+  var activeEventsIds = getActiveEventsIds(activeEvents);
+
+  var allUsersRanks = getUsersRanks(activeEventsIds).then(function (ranks) {
+    return ranks;
+  });
+
   return {
-    activeEvents: activeEvents
+    activeEvents: activeEvents,
+    allUsersRanks: allUsersRanks
   };
 }
 
@@ -1673,5 +1685,6 @@ function getDashboard (hardcodedDashboard) {
     return makeDashboardModel(hardcodedDashboard, visibleEvents);
   });
 
+  logger.info('dashboard in getDashboard', dashboard);
   return dashboard;
 }
