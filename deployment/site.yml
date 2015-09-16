@@ -20,6 +20,7 @@
     localxpla_job: 'XPlatform-LocalCache'
     localxpla_version: 'lastSuccessfulBuild'
     node_env: 'production'
+    server_path: 'https://xplatform.org'
 
 - hosts: xplatform-node
   become: yes

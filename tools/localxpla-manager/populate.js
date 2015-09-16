@@ -6,7 +6,7 @@ var mkdirpOrig = require('mkdirp');
 var req = Q.denodeify(request);
 var mkdirp = Q.denodeify(mkdirpOrig);
 
-var SERVER_PATH = 'http://localhost:4000';
+var SERVER_PATH = process.env.SERVER_PATH || 'http://localhost:4000';
 var WRITE_PATH = './public';
 
 module.exports = function populateCache (logsPath) {
