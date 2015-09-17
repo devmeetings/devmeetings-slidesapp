@@ -8,8 +8,6 @@ export class DmDashboard {
     this.Sockets = Sockets;
     this.$scope = $scope;
 
-    this.name = 'World';
-
     this.initializeSockets();
   }
 

@@ -1630,7 +1630,7 @@ exports.onSocket = function (log, socket, io) {
 };
 
 function getVisibleEvents () {
-  var eventFields = 'name title pin description image order visible shouldRedirectToUnsafe';
+  var eventFields = 'name title pin description image order visible iterations shouldRedirectToUnsafe';
 
   return Q.when(Event.find({
     removed: {
@@ -1676,19 +1676,19 @@ function assignUsersRanksToEvents (activeEvents, usersRanks) {
     event.ranking.ranks = [];
     // console.log('[2]event', event);
     // console.log('[2]usersRanks', usersRanks);
-    console.log('iterating for ', event.name);
+    // console.log('iterating for ', event.name);
     for (var i2 = 0; i2 < usersRanks.length; i2++) {
       var usersRank = usersRanks[i2];
-      console.log('usersRank.event', usersRank.event);
-      console.log('event._id', event._id);
+      // console.log('usersRank.event', usersRank.event);
+      // console.log('event._id', event._id);
       if (usersRank.event.toString() === event._id.toString()) {
-        console.log('true');
+        // console.log('true');
         event.ranking.ranks.push(usersRank);
       }
     }
   }
 
-  logger.info('assignUsersRanksToEvents: activeEvents:', activeEvents);
+  // logger.info('assignUsersRanksToEvents: activeEvents:', activeEvents);
   return activeEvents;
 }
 
@@ -1700,6 +1700,8 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
     var e = _.cloneDeep(getEventFromHardModelRandomly(hardcodedDashboard.activeEvents));
     e._id = event._id;
     e.name = event.name;
+    e.iterations = event.iterations;
+    console.log('EEEEVEEENT!!! (event)', event);
     return e;
   });
 
