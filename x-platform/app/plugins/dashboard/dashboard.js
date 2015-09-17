@@ -1683,6 +1683,8 @@ function assignUsersRanksToEvents (activeEvents, usersRanks) {
       // console.log('event._id', event._id);
       if (usersRank.event.toString() === event._id.toString()) {
         // console.log('true');
+        console.log('usersRank.user', usersRank.user);
+        usersRank.user = usersRank.user;
         event.ranking.ranks.push(usersRank);
       }
     }
@@ -1701,7 +1703,7 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
     e._id = event._id;
     e.name = event.name;
     e.iterations = event.iterations;
-    console.log('EEEEVEEENT!!! (event)', event);
+    // console.log('EEEEVEEENT!!! (event)', event);
     return e;
   });
 

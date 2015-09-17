@@ -42,40 +42,13 @@ class DmDashboardIndex {
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {
-      vm.dashboardFromBackend = _.cloneDeep(vm.dashboard);
       vm.model = vm.dashboard;
-
-      let iterations = vm.model.activeEvents[6].iterations;
-      let rank = vm.model.activeEvents[6].ranking.ranks[0];
-      // let allTasks = [];
-      let resultForRank = [];
-      let maxNumOfPointsToGain = 0;
-      let allGainedPoints = 0;
-      for (let iterationIdx in iterations) {
-        // console.log('Iteration', iteration);
-        let tasksInIteration = this.getTasks(rank, iterationIdx, iterations);
-        // allTasks.push(tasksInIteration);
-        let resultInIteration = [];
-
-        for (let task of tasksInIteration) {
-          let id = iterationIdx + '_' + task;
-          maxNumOfPointsToGain += 1;
-
-          if (rank.data[id] && rank.data[id].isDone) {
-            allGainedPoints += 1;
-            resultInIteration.push(1);
-          }else {
-            resultInIteration.push(0);
-          }
-        }
-        resultForRank.push(resultInIteration);
-      }
-      let summaryResultForRank = {};
-      summaryResultForRank.allGainedPoints = allGainedPoints;
-      summaryResultForRank.maxNumOfPointsToGain = maxNumOfPointsToGain;
-      summaryResultForRank.tasks = resultForRank;
-      // vm.model.allTasks = allTasks;
-      vm.model.summaryResultForRank = summaryResultForRank;
+      // below obj is only used in template to see difference (now off)
+      // vm.dashboardFromBackend = _.cloneDeep(vm.dashboard);
+      let event = vm.model.activeEvents[6];
+      event.ranking.ranks = this.getSummaryResultsForRanks(event);
+      event.ranking.bestUsers = this.getBestUsers(event.ranking.ranks);
+      event.ranking.worseUsers = this.getWorseUsers(event.ranking.ranks);
     });
   }
 
@@ -123,6 +96,84 @@ class DmDashboardIndex {
     return it.tasks.reduce(function (memo, task) {
       return memo + (task.noOfTasks || 0);
     }, 0);
+  }
+
+  getSummaryResultForRank (iterations, rank) {
+    // let allTasks = [];
+    let resultForRank = [];
+    let maxNumOfPointsToGain = 0;
+    let allGainedPoints = 0;
+    for (let iterationIdx in iterations) {
+      // console.log('Iteration', iteration);
+      let tasksInIteration = this.getTasks(rank, iterationIdx, iterations);
+      // allTasks.push(tasksInIteration);
+      let resultInIteration = [];
+
+      for (let task of tasksInIteration) {
+        let id = iterationIdx + '_' + task;
+        maxNumOfPointsToGain += 1;
+
+        if (rank.data[id] && rank.data[id].isDone) {
+          allGainedPoints += 1;
+          resultInIteration.push(1);
+        }else {
+          resultInIteration.push(0);
+        }
+      }
+      resultForRank.push(resultInIteration);
+    }
+    return {
+      allGainedPoints: allGainedPoints,
+      maxNumOfPointsToGain: maxNumOfPointsToGain,
+      percent: Math.round((allGainedPoints / maxNumOfPointsToGain) * 10000) / 100,
+      tasks: resultForRank
+    };
+  }
+
+  getSummaryResultsForRanks (event) {
+    let iterations = event.iterations;
+    let ranks = event.ranking.ranks;
+
+    for (let rank of ranks) {
+      rank.summary = this.getSummaryResultForRank(iterations, rank);
+    }
+    return ranks;
+  }
+
+  sortRanksbyPercentResult (ranks) {
+    return _.sortBy(ranks, 'summary.percent');
+  }
+
+  getBestRanks (sortedRanks, numOfBests) {
+    let bestUsers = [];
+    let i = 0;
+    while (i < numOfBests) {
+      i++;
+      bestUsers.push(sortedRanks[sortedRanks.length - i]);
+    }
+    return bestUsers;
+  }
+
+  getWorseRanks (sortedRanks, numOfWorse) {
+    let worseUsers = [];
+    let i = 0;
+    while (i < numOfWorse) {
+      worseUsers.push(sortedRanks[i]);
+      i++;
+    }
+    return worseUsers;
+  }
+
+  getBestUsers (ranks) {
+    let sortedRanks = this.sortRanksbyPercentResult(ranks);
+    let numOfBests = 3;
+    return this.getBestRanks(sortedRanks, numOfBests);
+  }
+
+  getWorseUsers (ranks) {
+    let sortedRanks = this.sortRanksbyPercentResult(ranks);
+    let numOfWorse = 3;
+    return this.getWorseRanks(sortedRanks, numOfWorse);
   }
 
 }

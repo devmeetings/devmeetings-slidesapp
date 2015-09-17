@@ -110,15 +110,15 @@ mixin sortIcon()
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
         td.best-users
           img.avatar.small.img-responsive.img-rounded(
-            ng-repeat="user in event.ranking.bestUsers"
+            ng-repeat="rank in event.ranking.bestUsers"
             src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
-            tooltip="{{ user.name }}, {{ user.percentageResult }}%"
+            tooltip="{{ rank.user.name }}, {{ rank.summary.percent }}%"
             ) 
         td.worse-users
           img.avatar.small.img-responsive.img-rounded(
-            ng-repeat="user in event.ranking.worseUsers"
+            ng-repeat="rank in event.ranking.worseUsers"
             src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
-            tooltip="{{ user.name }}, {{ user.percentageResult }}%"
+            tooltip="{{ rank.user.name }}, {{ rank.summary.percent }}%"
             ) 
         td.best-group
           span.bold(tooltip="{{ event.ranking.bestGroup.name }}, {{ event.ranking.bestGroup.percentageResult }}%")
@@ -303,5 +303,3 @@ mixin sortIcon()
   .col-xs-12
     //pre {{ vm.dashboardFromBackend.activeEvents[6] | json }}
     pre {{ vm.model.activeEvents[6] | json }}
-    pre {{ vm.model.tasks }}
-    pre {{ vm.model.summaryResultForRank }}
