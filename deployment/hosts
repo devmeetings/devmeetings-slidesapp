@@ -28,7 +28,7 @@ root@pl-2.xplatform.org hostname=pl-2.xplatform.org
 
 [xplatform-main]
 root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
-root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
+#root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
 
 [xplatform-main-local]
 #root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org

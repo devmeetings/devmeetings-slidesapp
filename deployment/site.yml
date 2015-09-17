@@ -105,7 +105,7 @@
     xpla_job: 'XPlatform'
     xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
-    server_cluster: 2
+    server_cluster: 4
   roles:
     - xplatform-deploy
     - xdashboard
