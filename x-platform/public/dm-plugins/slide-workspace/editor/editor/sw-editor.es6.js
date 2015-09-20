@@ -6,6 +6,44 @@ import _ from '_';
 import throttle from '../../throttle.es6';
 import viewTemplate from './sw-editor.html!text';
 
+class Filler {
+  constructor ($timeout) {
+    this.$timeout = $timeout;
+    this.initialDelay = window.localStorage.getItem('f.delay') | 10000;
+  }
+
+  fill (text, activeTab, refreshContent) {
+    let letters = text.split('');
+    let that = this;
+    activeTab.content = '';
+
+    function fillNextLetter () {
+      if (!that.isActive) {
+        return;
+      }
+      let letter = letters.shift();
+      if (!letter) {
+        // restart on end
+        that.fill(text, activeTab, refreshContent);
+        return;
+      }
+
+      activeTab.content += letter;
+      refreshContent();
+
+      let randomDelay = Math.random() < 0.35 ? 200 : 0;
+      that.$timeout(fillNextLetter, 50 + Math.random() * 100 + randomDelay);
+    }
+
+    that.isActive = true;
+    that.$timeout(fillNextLetter, this.initialDelay);
+  }
+
+  stop () {
+    this.isActive = false;
+  }
+}
+
 class SwEditor {
 
   constructor (data) {
@@ -46,6 +84,19 @@ class SwEditor {
     self.onRefreshContent = () => {
       this.$scope.$broadcast('editor:update');
     };
+
+    let filler = new Filler(this.$timeout);
+    this.Sockets.on('perfTest.start', (testText) => {
+      window.localStorage.setItem('m.isActive', 'true');
+      filler.fill(testText, self.editorActiveTab, self.onRefreshContent);
+    });
+    this.Sockets.on('perfTest.stop', () => {
+      filler.stop();
+    });
+
+    this.Sockets.on('perfTest.sendResults', () => {
+      window.sendLatency();
+    });
 
     // observe when tabs are changing
     this.$watch(() => self.tabs, () => {
@@ -141,9 +192,9 @@ sliderPlugins.directive('swEditor', () => {
     bindToController: true,
     controllerAs: 'model',
     template: viewTemplate,
-    controller: function ($scope) {
+    controller: function ($scope, $timeout, Sockets) {
       let editor = new SwEditor({
-        $scope
+        $scope, $timeout, Sockets
       });
       editor.controller(this);
 

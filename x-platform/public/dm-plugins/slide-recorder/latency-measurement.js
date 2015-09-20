@@ -1,6 +1,7 @@
 'use strict';
 
 import $ from 'jquery';
+import _ from '_';
 
 var storage = window.localStorage;
 
@@ -31,14 +32,18 @@ class Latency {
 
     var that = this;
     window.sendLatency = function () {
-      $.ajax({
-        url: '/api/latency',
-        method: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-          latency: that.log
-        })
+      var log = _.chunk(that.log, 1000);
+
+      log.map(function (logPart) {
+        $.ajax({
+          url: '/api/latency',
+          method: 'POST',
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'json',
+          data: JSON.stringify({
+            latency: logPart
+          })
+        });
       });
       Storage.put('m.log', []);
     };
