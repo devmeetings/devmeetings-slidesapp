@@ -17,8 +17,14 @@ var store = require('./store');
 var sessionInit = require('./session');
 
 module.exports = function (app, config, router) {
-  // To catch exceptions in socketio too.
-  raven.patchGlobal(config.sentryDsn);
+  if (config.sentryDsn) {
+    // To catch exceptions in socketio too.
+    raven.patchGlobal(config.sentryDsn, function (err) {
+      console.error('Crashing!');
+      console.error(err);
+      process.exit(1);
+    });
+  }
 
   var jadeStatic = connectJadeStatic({
     baseDir: path.join(config.root, 'public'),

@@ -136,6 +136,10 @@ module.exports = function (app) {
   var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
   app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getForEvent);
 
+  var latency = require('../app/controllers/latency');
+  app.post('/api/latency', apiAuthenticated, latency.add);
+  app.get('/api/latency', apiAuthenticated, latency.get);
+
   var users = require('../app/controllers/users');
   app.get('/api/users/:id', apiAuthenticated, users.get);
   app.put('/api/users', apiAuthenticated, users.edit);
