@@ -49,6 +49,8 @@ class DmDashboardIndex {
       event.ranking.ranks = this.getSummaryResultsForRanks(event);
       event.ranking.bestUsers = this.getBestUsers(event.ranking.ranks);
       event.ranking.worseUsers = this.getWorseUsers(event.ranking.ranks);
+      // to clear view:
+      event.ranking.ranks = undefined;
     });
   }
 

@@ -299,7 +299,10 @@ mixin sortIcon()
         | {{ vm.getNumOfAllUnsolvedProblems(vm.model.activeEvents) }}
     span.fa.fa-fw.fa-toggle-off(ng-if="vm.viewOptions.allProblemsOnScreen")
 
+
+
   // kontrola danych 
   .col-xs-12
     //pre {{ vm.dashboardFromBackend.activeEvents[6] | json }}
     pre {{ vm.model.activeEvents[6] | json }}
+    pre {{ vm.model.eventTimings   | json }}

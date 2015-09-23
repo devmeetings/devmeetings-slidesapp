@@ -2,6 +2,7 @@ var Q = require('q');
 var logger = require('../../../config/logging');
 var Event = require('../../models/event');
 var Ranking = require('../../models/ranking');
+var EventTiming = require('../../models/eventTiming');
 var _ = require('lodash');
 
 var hardcodedDashboard = {
@@ -1630,20 +1631,12 @@ exports.onSocket = function (log, socket, io) {
 };
 
 function getVisibleEvents () {
-  var eventFields = 'name title pin description image order visible iterations shouldRedirectToUnsafe';
-
   return Q.when(Event.find({
     removed: {
       $ne: true
     },
     visible: true
-  }).select(eventFields).lean().exec());
-}
-
-function getActiveEventsIds (activeEvents) {
-  return _.map(activeEvents, function (event) {
-    return event._id.toString();
-  });
+  }).lean().exec());
 }
 
 function getUsersRanks (activeEventsIds) {
@@ -1651,7 +1644,21 @@ function getUsersRanks (activeEventsIds) {
     event: {
       $in: activeEventsIds
     }
+  }).populate('user').lean().exec());
+}
+
+function getEventTimings (eventTimingsIds) {
+  return Q.when(EventTiming.find({
+    id: {
+      $in: eventTimingsIds
+    }
   }).lean().exec());
+}
+
+function getActiveEventsIds (activeEvents) {
+  return _.map(activeEvents, function (event) {
+    return event._id.toString();
+  });
 }
 
 function getEventFromHardModelRandomly (hardcodedActiveEvents) {
@@ -1670,21 +1677,16 @@ function assignUsersRanksToEvents (activeEvents, usersRanks) {
   // trzeba... wiec i2.
   // jesli da sie ladniej, z checia wyslucham
 
+  // czy to dobrze, ze operuje funkcjami, ktore przyjmuja obiekt, zmieniaja
+  // go, a potem zwracaja, choc i tak juz jest zmieniony?
+
   for (var i = 0; i < activeEvents.length; i++) {
     var event = activeEvents[i];
     event.ranking = {};
     event.ranking.ranks = [];
-    // console.log('[2]event', event);
-    // console.log('[2]usersRanks', usersRanks);
-    // console.log('iterating for ', event.name);
     for (var i2 = 0; i2 < usersRanks.length; i2++) {
       var usersRank = usersRanks[i2];
-      // console.log('usersRank.event', usersRank.event);
-      // console.log('event._id', event._id);
       if (usersRank.event.toString() === event._id.toString()) {
-        // console.log('true');
-        console.log('usersRank.user', usersRank.user);
-        usersRank.user = usersRank.user;
         event.ranking.ranks.push(usersRank);
       }
     }
@@ -1694,30 +1696,70 @@ function assignUsersRanksToEvents (activeEvents, usersRanks) {
   return activeEvents;
 }
 
+function getEventTimingsId (event) {
+  return event.liveLink.split('/')[event.liveLink.length - 1];
+}
+
+function getEventTimingsIds (activeEvents) {
+  console.log('FROM getEventTimingsIds:');
+  var ids = [];
+  for (var i = 0; i < activeEvents.length; i++) {
+    var event = activeEvents[i];
+    // console.log(event.liveLink);
+    if (event.liveLink) {
+      var id = getEventTimingsId(event);
+      console.log(id);
+      ids.push(id);
+    }
+  }
+  return ids;
+}
+
+function assignTimingsToEvents (activeEvents, eventTimings) {
+  for (var evItr = 0; evItr < activeEvents.length; evItr++) {
+    for (var timItr = 0; timItr < eventTimings.length; timItr++) {
+      var event = activeEvents[evItr];
+      var eventTimingId = getEventTimingsId(event);
+      var timing = eventTimings[timItr];
+      if (eventTimingId && eventTimingId === timing.id) {
+        event.timing = timing;
+      }
+    }
+  }
+  return activeEvents;
+}
+
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {
-  // console.log('makeDashboardModel logs:');
-  // console.log(hardcodedDashboard);
-  // console.log(visibleEvents);
   var activeEvents = _.map(visibleEvents, function (event) {
     var e = _.cloneDeep(getEventFromHardModelRandomly(hardcodedDashboard.activeEvents));
     e._id = event._id;
     e.name = event.name;
     e.iterations = event.iterations;
-    // console.log('EEEEVEEENT!!! (event)', event);
+    e.liveLink = event.liveLink;
     return e;
   });
+  // console.log('activeEvents', activeEvents);
 
   var activeEventsIds = getActiveEventsIds(activeEvents);
+  var eventTimingsIds = getEventTimingsIds(activeEvents);
+  console.log('[1]activeEvents', activeEvents);
+  console.log('eventTimingsIds', eventTimingsIds);
 
+  // do tego nestowiska promisow mam njawieksze zastrzezenia, ale tez nie mialem sily i
+  // skilla zeby cos z tym zrobic, chociaz probowalem
   return getUsersRanks(activeEventsIds).then(function (usersRanks) {
-    // console.log('usersRanks [1]', usersRanks);
-    var activeEventsWithUsersRanks = assignUsersRanksToEvents(activeEvents, usersRanks);
+    console.log('[2]activeEvents', activeEvents);
+    var activeEvents = assignUsersRanksToEvents(activeEvents, usersRanks);
 
-    return {
-      activeEvents: activeEventsWithUsersRanks,
-      // remove later:
-      usersRanks: usersRanks
-    };
+    return getEventTimings(eventTimingsIds).then(function (eventTimings) {
+      // console.log('eventTimings', eventTimings);
+      activeEvents = assignTimingsToEvents(activeEvents, eventTimings);
+
+      return {
+        activeEvents: activeEvents,
+        eventTimings: eventTimings
+      };
+    });
   });
 }
 
