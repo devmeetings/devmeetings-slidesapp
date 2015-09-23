@@ -19,6 +19,9 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
         var player = _.extend(newListenable.default(), {
 
           setIsChangeFromRecording: function (isFromRecording) {
+            if (!dmRecorder) {
+              return;
+            }
             dmRecorder.isChangeFromRecording = isFromRecording;
           },
 
@@ -60,7 +63,9 @@ define(['require', '_', './dm-recorder-worker', './dm-recorder-listenable'], fun
           runInPlayerSourceContext: function (cb) {
             dmPlayerThat.setSource(player);
             var ret = cb();
-            dmPlayerThat.setSource(dmRecorder);
+            if (dmRecorder) {
+              dmPlayerThat.setSource(dmRecorder);
+            }
             return ret;
           },
 

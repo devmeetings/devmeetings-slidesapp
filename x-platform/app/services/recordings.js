@@ -16,12 +16,23 @@ module.exports = {
       };
 
       return Q.when(Recordings.create(recording)).then(function (rec) {
-        event.iterations[0].materials.push({
-          title: recording.title,
-          material: rec._id
+        // Fix ids of patches
+        rec.slides.map(function (slide, slideIdx) {
+          slide.patches.map(function (patch, patchIdx) {
+            var id = 'r' + rec._id + '_' + slideIdx + '_' + patchIdx;
+            patch.id = id;
+          });
         });
+        rec.markModified('slides');
 
-        return event.save();
+        return Q.when(rec.save()).then(function () {
+          event.iterations[0].materials.push({
+            title: recording.title,
+            material: rec._id
+          });
+
+          return event.save();
+        });
       });
     });
   },
