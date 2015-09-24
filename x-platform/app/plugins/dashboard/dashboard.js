@@ -132,20 +132,31 @@ function getEventStartedDate (iterations) {
   return iterations ? iterations[0].startedAt : undefined;
 }
 
+function buildCurrentStage (iteration) {
+  var currentStage = {
+    name: iteration.title,
+    startedAt: iteration.startedAt,
+    icon: iteration.icon
+  };
+  return currentStage;
+}
+
 function getEventCurrentStage (iterations) {
-  if (iterations) {
-    for (var i = 0; i < iterations.length; i++) {
-      var iteration = iterations[i];
-      if (iteration.startedAt && !iteration.finishedAt) {
-        var currentStage = {
-          name: iteration.title,
-          startedAt: iteration.startedAt,
-          icon: iteration.icon
-        };
-        return currentStage;
-      }
+  if (!iterations) {
+    return;
+  }
+
+  var iteration;
+
+  for (var i = 0; i < iterations.length; i++) {
+    iteration = iterations[i];
+    if (iteration.startedAt && !iteration.finishedAt) {
+      return buildCurrentStage(iteration);
     }
   }
+
+  iteration = iterations[iterations.length - 1];
+  return buildCurrentStage(iteration);
 }
 
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {

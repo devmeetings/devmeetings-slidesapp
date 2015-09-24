@@ -211,8 +211,10 @@ mixin sortIcon()
                 )
           .stage
             h4 Current stage: 
+              span(ng-class="{'{{event.currentStage.icon}}': event.currentStage.icon")
               span.bold.text-success {{ event.currentStage.name }}, 
-              span.bold.text-success(am-time-ago="event.currentStage.startedAt") 
+              br
+              span.small.text-success(am-time-ago="event.currentStage.startedAt") 
           div(ng-if="!vm.isFullscreen(event._id)")
             +problems(event)
         .col-xs-12.bottomView(ng-if="vm.isFullscreen(event._id)")

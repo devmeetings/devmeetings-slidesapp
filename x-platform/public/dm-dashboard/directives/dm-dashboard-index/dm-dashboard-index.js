@@ -163,15 +163,25 @@ class DmDashboardIndex {
     return worseUsers;
   }
 
+  getNumOfUsersToDisplayInRankRows (ranks) {
+    let defaultNum = 8;
+    if (ranks.length <= defaultNum) {
+      return Math.round(ranks.length / 2);
+    }
+    return Math.round(defaultNum / 2);
+  }
+
   getBestUsers (ranks) {
     let sortedRanks = this.sortRanksbyPercentResult(ranks);
-    let numOfBest = 3;
+    let numOfBest = this.getNumOfUsersToDisplayInRankRows(ranks);
     return this.getBestRanks(sortedRanks, numOfBest);
   }
 
   getWorseUsers (ranks) {
+    ranks = ranks.filter(this.isNotTrainer, this);
+    console.log(ranks);
     let sortedRanks = this.sortRanksbyPercentResult(ranks);
-    let numOfWorse = 3;
+    let numOfWorse = this.getNumOfUsersToDisplayInRankRows(ranks);
     return this.getWorseRanks(sortedRanks, numOfWorse);
   }
 
@@ -204,14 +214,18 @@ class DmDashboardIndex {
     });
   }
 
-  isTrainer (user) {
-    return _.contains(user.acl, 'trainer');
+  isTrainer (rank) {
+    return _.contains(rank.user.acl, 'trainer');
+  }
+
+  isNotTrainer (rank) {
+    return !this.isTrainer(rank);
   }
 
   getOrganizers (ranks) {
     let organizers = [];
     for (let rank of ranks) {
-      if (this.isTrainer(rank.user)) {
+      if (this.isTrainer(rank)) {
         organizers.push({
           name: rank.user.name,
           avatar: rank.user.avatar
@@ -227,7 +241,7 @@ class DmDashboardIndex {
       active: []
     };
     for (let rank of ranks) {
-      if (!this.isTrainer(rank.user)) {
+      if (this.isNotTrainer(rank)) {
         students.all.push({
           name: rank.user.name,
           avatar: rank.user.avatar,
