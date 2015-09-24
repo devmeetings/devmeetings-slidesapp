@@ -92,6 +92,7 @@ module.exports = function (app) {
   app.get('/api/recordings', apiAuthenticated, recordings.list);
   app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
   app.get('/api/recordings/:id/annotations', apiAuthenticated, recordings.autoAnnotations);
+  app.post('/api/recordings/:id/fixIds', apiAuthenticated, authorized('admin:events'), recordings.fixIds);
   app.post('/api/recordings/:id1/join/:id2', apiAuthenticated, authorized('admin:events'), recordings.join);
   app.post('/api/events/:eventId/recordings/:id1/join/:id2', apiAuthenticated, authorized('admin:events'), recordings.joinForEvent);
 
