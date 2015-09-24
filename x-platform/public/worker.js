@@ -2,13 +2,13 @@
 
 importScripts('/static/serviceworker-cache-polyfill.js');
 
-var CACHE_VERSION = 0;
+var CACHE_VERSION = 1;
 var CACHE_NAME = 'xpla-cache';
 var CACHE = CACHE_NAME + '-v' + CACHE_VERSION;
 
 var LOCAL_DOMAIN = 'local.xplatform.org';
 var LOCAL_CHECK = 'https://' + LOCAL_DOMAIN + '/isLocal';
-var LOCAL_CHECK_INTERVAL = 30000;
+var LOCAL_CHECK_INTERVAL = 60000;
 
 var isLocalActive = false;
 var isLocalLastTry = null;
@@ -17,7 +17,7 @@ var isCdn = /\/cdn\//;
 var isStatic = /\/static\//;
 var isRecording = /\/api\/recordings\//;
 var isApi = /\/api\//;
-var isDevCode = /(\/static\/dm)|(\/api\/recordings)/;
+var isDevCode = /(\/static\/dm)|(\/api\/recordings)|(\/static\/bin)/;
 
 var INITIAL_CACHE = [
   '/static/fonts/opensans/woff/OpenSans-Light.woff',
