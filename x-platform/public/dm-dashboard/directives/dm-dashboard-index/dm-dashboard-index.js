@@ -30,6 +30,8 @@ class DmDashboardIndex {
     vm.getPercentages = (numOfActvStudents, numOfAllStudents) => this.getPercentages(numOfActvStudents, numOfAllStudents);
     vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
     vm.sortBy = (byWhat) => this.sortBy(vm, byWhat);
+    vm.isFullscreen = (eventId) => this.isFullscreen(vm, eventId);
+    vm.toggleEventDetailedView = (eventId) => this.toggleEventDetailedView(vm, eventId);
 
     vm.sort = {
       by: false,
@@ -38,13 +40,16 @@ class DmDashboardIndex {
 
     vm.viewOptions = {
       allProblemsOnScreen: false,
-      strategicView: 'table'
+      strategicView: 'table',
+      fullscreenEvent: {
+        _id: undefined
+      }
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {
-      vm.model = vm.dashboard;
+      // vm.model = vm.dashboard;
       // czy nie powinienem zwracac?
-      this.buildFinalDashboardModel(vm.model.activeEvents);
+      vm.model = this.buildFinalDashboardModel(vm.dashboard);
     });
   }
 
@@ -253,8 +258,8 @@ class DmDashboardIndex {
     return members;
   }
 
-  buildFinalDashboardModel (activeEvents) {
-    for (let event of activeEvents) {
+  buildFinalDashboardModel (dashboard) {
+    for (let event of dashboard.activeEvents) {
       event.ranking.ranks = this.getSummaryResultsForRanks(event);
       event.ranking.bestUsers = this.getBestUsers(event.ranking.ranks);
       event.ranking.worseUsers = this.getWorseUsers(event.ranking.ranks);
@@ -263,7 +268,19 @@ class DmDashboardIndex {
       // to clear view:
       event.ranking.ranks = undefined;
     }
-    // return dashboard;
+    return dashboard;
+  }
+
+  isFullscreen (vm, eventId) {
+    return eventId === vm.viewOptions.fullscreenEvent._id;
+  }
+
+  toggleEventDetailedView (vm, eventId) {
+    if (this.isFullscreen(vm, eventId)) {
+      vm.viewOptions.fullscreenEvent._id = false;
+    }else {
+      vm.viewOptions.fullscreenEvent._id = eventId;
+    }
   }
 
 }

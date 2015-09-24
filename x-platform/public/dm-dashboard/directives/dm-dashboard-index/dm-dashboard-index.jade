@@ -84,7 +84,7 @@ mixin sortIcon()
           | Unsolved problems
 
       tr.event(ng-repeat="event in vm.model.activeEvents | orderBy:vm.sort.by:vm.sort.desc")
-        td.name.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen")
+        td.name.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)")
           span.bold
             | {{ event.name }}
         td.timing-started 
@@ -140,11 +140,11 @@ mixin sortIcon()
   .events.row(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
     .event(
       ng-repeat="event in vm.model.activeEvents"
-      ng-class="{'col-md-6': !event.isFullscreen, 'col-md-12': event.isFullscreen, 'no-padding': vm.viewOptions.strategicView === 'table'}"
+      ng-class="{'col-md-6': !vm.isFullscreen(event._id), 'col-md-12': vm.isFullscreen(event._id), 'no-padding': vm.viewOptions.strategicView === 'table'}"
       )
-      div(ng-if="vm.viewOptions.strategicView === 'blocks' || event.isFullscreen")
-        .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': event.isFullscreen}")
-          h1.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen") {{ event.name }}
+      div(ng-if="vm.viewOptions.strategicView === 'blocks' || vm.isFullscreen(event._id)")
+        .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': vm.isFullscreen(event._id)}")
+          h1.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)") {{ event.name }}
           div(ng-if="event.timing.started")
             h4 Started at: 
               span.bold {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
@@ -156,10 +156,10 @@ mixin sortIcon()
             h4(style="opacity: 0") QH
             // hack end
         .streaming.col-md-6(
-          ng-if="event.isFullscreen"
+          ng-if="vm.isFullscreen(event._id)"
           )
           img
-        div(ng-class="{'col-md-12': !event.isFullscreen, 'col-md-6': event.isFullscreen}")
+        div(ng-class="{'col-md-12': !vm.isFullscreen(event._id), 'col-md-6': vm.isFullscreen(event._id)}")
           .logs
             h2 {{ event.logs[0].data.toString() }}: {{ event.logs[0].description }}
           .people
@@ -170,7 +170,7 @@ mixin sortIcon()
                 )
                 | People: 
                 span.bold.text-success {{ event.members.number }} 
-            div(ng-if="event.showPeopleDetails || event.isFullscreen")
+            div(ng-if="event.showPeopleDetails || vm.isFullscreen(event._id)")
               div
                 h5 Organizers: 
                   span.bold.text-success {{ event.members.organizers.length }} 
@@ -203,7 +203,7 @@ mixin sortIcon()
                   | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
                 span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
                   | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-            div(ng-if="event.showActiveStudents || event.isFullscreen")
+            div(ng-if="event.showActiveStudents || vm.isFullscreen(event._id)")
               img.avatar.img-responsive.img-rounded(
                 ng-repeat="activeStudent in event.members.students.active"
                 src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
@@ -213,9 +213,9 @@ mixin sortIcon()
             h4 Current stage: 
               span.bold.text-success {{ event.currentStage.name }}, 
               span.bold.text-success(am-time-ago="event.currentStage.startedAt") 
-          div(ng-if="!event.isFullscreen")
+          div(ng-if="!vm.isFullscreen(event._id)")
             +problems(event)
-        .col-xs-12.bottomView(ng-if="event.isFullscreen")
+        .col-xs-12.bottomView(ng-if="vm.isFullscreen(event._id)")
           .col-md-6
             +problems(event)
           .col-md-6
