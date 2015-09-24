@@ -119,7 +119,7 @@ class DmDashboardIndex {
     return {
       allGainedPoints: allGainedPoints,
       maxNumOfPointsToGain: maxNumOfPointsToGain,
-      percent: Math.round((allGainedPoints / maxNumOfPointsToGain) * 10000) / 100,
+      percent: Math.round((allGainedPoints / maxNumOfPointsToGain * 100) * 100) / 100,
       tasks: resultForRank
     };
   }
@@ -138,10 +138,10 @@ class DmDashboardIndex {
     return _.sortBy(ranks, 'summary.percent');
   }
 
-  getBestRanks (sortedRanks, numOfBests) {
+  getBestRanks (sortedRanks, numOfBest) {
     let bestUsers = [];
     let i = 0;
-    while (i < numOfBests) {
+    while (i < numOfBest) {
       i++;
       bestUsers.push(sortedRanks[sortedRanks.length - i]);
     }
@@ -160,8 +160,8 @@ class DmDashboardIndex {
 
   getBestUsers (ranks) {
     let sortedRanks = this.sortRanksbyPercentResult(ranks);
-    let numOfBests = 3;
-    return this.getBestRanks(sortedRanks, numOfBests);
+    let numOfBest = 3;
+    return this.getBestRanks(sortedRanks, numOfBest);
   }
 
   getWorseUsers (ranks) {
@@ -184,7 +184,7 @@ class DmDashboardIndex {
       }
       aggregatedGroups.push({
         name: groupName,
-        percent: _.round(sumPercent / members, 2)
+        percent: Math.round(sumPercent / members * 100) / 100
       });
     }
 

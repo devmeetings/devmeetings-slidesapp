@@ -99,7 +99,7 @@ mixin sortIcon()
         td.stage
           span.bold.text-success 
             | {{ event.currentStage.name }}, 
-            span(am-time-ago="event.currentStage.startedAt") min.
+            span(am-time-ago="event.currentStage.startedAt")
         td.active-students 
           span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
@@ -111,13 +111,13 @@ mixin sortIcon()
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
         td.best-users
           img.avatar.small.img-responsive.img-rounded(
-            ng-repeat="rank in event.ranking.bestUsers"
+            ng-repeat="rank in event.ranking.bestUsers track by $index"
             src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.worse-users
           img.avatar.small.img-responsive.img-rounded(
-            ng-repeat="rank in event.ranking.worseUsers"
+            ng-repeat="rank in event.ranking.worseUsers track by $index"
             src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
@@ -220,7 +220,7 @@ mixin sortIcon()
             +problems(event)
           .col-md-6
             h4 Best Students:
-            h5(ng-repeat="rank in event.ranking.bestUsers")
+            h5(ng-repeat="rank in event.ranking.bestUsers track by $index")
               span.user-name
                 | {{ rank.user.name }}
               img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
@@ -231,7 +231,7 @@ mixin sortIcon()
                   )
                   | {{ rank.summary.percent }}%
             h4 Worse Students:
-            h5(ng-repeat="rank in event.ranking.worseUsers")
+            h5(ng-repeat="rank in event.ranking.worseUsers track by $index")
               span.user-name
                 | {{ rank.user.name }}
               img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
