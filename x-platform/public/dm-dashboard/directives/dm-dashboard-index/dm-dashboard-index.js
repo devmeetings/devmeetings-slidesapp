@@ -43,14 +43,8 @@ class DmDashboardIndex {
 
     this.$scope.$watch(() => vm.dashboard, () => {
       vm.model = vm.dashboard;
-      // below obj is only used in template to see difference (now off)
-      // vm.dashboardFromBackend = _.cloneDeep(vm.dashboard);
-      let event = vm.model.activeEvents[6];
-      event.ranking.ranks = this.getSummaryResultsForRanks(event);
-      event.ranking.bestUsers = this.getBestUsers(event.ranking.ranks);
-      event.ranking.worseUsers = this.getWorseUsers(event.ranking.ranks);
-      // to clear view:
-      event.ranking.ranks = undefined;
+      // czy nie powinienem zwracac?
+      this.buildFinalDashboardModel(vm.model.activeEvents);
     });
   }
 
@@ -101,14 +95,12 @@ class DmDashboardIndex {
   }
 
   getSummaryResultForRank (iterations, rank) {
-    // let allTasks = [];
     let resultForRank = [];
     let maxNumOfPointsToGain = 0;
     let allGainedPoints = 0;
+
     for (let iterationIdx in iterations) {
-      // console.log('Iteration', iteration);
       let tasksInIteration = this.getTasks(rank, iterationIdx, iterations);
-      // allTasks.push(tasksInIteration);
       let resultInIteration = [];
 
       for (let task of tasksInIteration) {
@@ -176,6 +168,102 @@ class DmDashboardIndex {
     let sortedRanks = this.sortRanksbyPercentResult(ranks);
     let numOfWorse = 3;
     return this.getWorseRanks(sortedRanks, numOfWorse);
+  }
+
+  aggregateGroups (ranks) {
+    let groups = _.groupBy(ranks, 'group');
+    let groupsNames = Object.keys(groups);
+    let aggregatedGroups = [];
+
+    for (let groupName of groupsNames) {
+      let sumPercent = 0;
+      let members = 0;
+      for (let rank of groups[groupName]) {
+        sumPercent = sumPercent + rank.summary.percent;
+        members++;
+      }
+      aggregatedGroups.push({
+        name: groupName,
+        percent: _.round(sumPercent / members, 2)
+      });
+    }
+
+    return aggregatedGroups;
+  }
+
+  getBestGroup (ranks) {
+    let aggregatedGroups = this.aggregateGroups(ranks);
+
+    return _.max(aggregatedGroups, function (group) {
+      return group.percent;
+    });
+  }
+
+  isTrainer (user) {
+    return _.contains(user.acl, 'trainer');
+  }
+
+  getOrganizers (ranks) {
+    let organizers = [];
+    for (let rank of ranks) {
+      if (this.isTrainer(rank.user)) {
+        organizers.push({
+          name: rank.user.name,
+          avatar: rank.user.avatar
+        });
+      }
+    }
+    return organizers;
+  }
+
+  getStudents (ranks) {
+    let students = {
+      all: [],
+      active: []
+    };
+    for (let rank of ranks) {
+      if (!this.isTrainer(rank.user)) {
+        students.all.push({
+          name: rank.user.name,
+          avatar: rank.user.avatar,
+          percent: rank.summary.percent,
+          group: rank.group
+        });
+        students.active.push({
+          name: rank.user.name,
+          avatar: rank.user.avatar,
+          percent: rank.summary.percent,
+          group: rank.group
+        });
+      }
+    }
+    return students;
+  }
+
+  getMembers (ranks) {
+    let number = ranks.length;
+    let organizers = this.getOrganizers(ranks);
+    let students = this.getStudents(ranks);
+
+    let members = {
+      number: number,
+      organizers: organizers,
+      students: students
+    };
+    return members;
+  }
+
+  buildFinalDashboardModel (activeEvents) {
+    for (let event of activeEvents) {
+      event.ranking.ranks = this.getSummaryResultsForRanks(event);
+      event.ranking.bestUsers = this.getBestUsers(event.ranking.ranks);
+      event.ranking.worseUsers = this.getWorseUsers(event.ranking.ranks);
+      event.ranking.bestGroup = this.getBestGroup(event.ranking.ranks);
+      event.members = this.getMembers(event.ranking.ranks);
+      // to clear view:
+      event.ranking.ranks = undefined;
+    }
+    // return dashboard;
   }
 
 }

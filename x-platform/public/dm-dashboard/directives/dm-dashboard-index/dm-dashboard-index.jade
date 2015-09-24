@@ -89,7 +89,7 @@ mixin sortIcon()
             | {{ event.name }}
         td.timing-started 
           span.bold 
-            | {{ event.timing.startedAt.toString() }}
+            | {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
         td.timing-expected-end
           span.bold 
             | {{ event.timing.expectedEnd.toString() }}
@@ -98,7 +98,8 @@ mixin sortIcon()
             | {{ event.members.number }} 
         td.stage
           span.bold.text-success 
-            | {{ event.currentStage.name }}, {{ event.currentStage.minFromStart }} min.
+            | {{ event.currentStage.name }}, 
+            span(am-time-ago="event.currentStage.startedAt") min.
         td.active-students 
           span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
@@ -112,16 +113,16 @@ mixin sortIcon()
           img.avatar.small.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.bestUsers"
             src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
-            tooltip="{{ rank.user.name }}, {{ rank.summary.percent }}%"
+            tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.worse-users
           img.avatar.small.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.worseUsers"
             src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
-            tooltip="{{ rank.user.name }}, {{ rank.summary.percent }}%"
+            tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.best-group
-          span.bold(tooltip="{{ event.ranking.bestGroup.name }}, {{ event.ranking.bestGroup.percentageResult }}%")
+          span.bold(tooltip="{{ event.ranking.bestGroup.percent }}%")
             | {{ event.ranking.bestGroup.name }}
         td.unsolved-problems
           span.bold(
@@ -146,7 +147,7 @@ mixin sortIcon()
           h1.cursor-pointer(ng-click="event.isFullscreen = !event.isFullscreen") {{ event.name }}
           div(ng-if="event.timing.started")
             h4 Started at: 
-              span.bold {{ event.timing.startedAt.toString() }}
+              span.bold {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
             h4 Expected end: 
               span.bold {{ event.timing.expectedEnd.toString() }}
           div(ng-if="!event.timing.started")
@@ -179,12 +180,6 @@ mixin sortIcon()
                     src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
                     tooltip="{{ organizer.name }}"
                     )
-              //div
-                span Trainers: {{ event.members.trainers.length }} 
-                span(
-                  ng-repeat="trainer in event.members.trainers"
-                  ng-src="{{ trainer.avatar | dmGravatar:16 }}"
-                  )
               div
                 h5 Students: 
                   span.bold.text-success {{ event.members.students.all.length }} 
@@ -192,7 +187,7 @@ mixin sortIcon()
                   img.avatar.img-responsive.img-rounded(
                     ng-repeat="student in event.members.students.all"
                     src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
-                    tooltip="{{ student.name }}"
+                    tooltip="{{ student.name }} ({{ student.group }}), {{ student.percent }}%"
                     )     
             h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
               span.cursor-pointer(
@@ -212,11 +207,12 @@ mixin sortIcon()
               img.avatar.img-responsive.img-rounded(
                 ng-repeat="activeStudent in event.members.students.active"
                 src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
-                tooltip="{{ activeStudent.name }}"
+                tooltip="{{ activeStudent.name }} ({{ activeStudent.group }}), {{ activeStudent.percent }}%"
                 )
           .stage
             h4 Current stage: 
-              span.bold.text-success {{ event.currentStage.name }}, {{ event.currentStage.minFromStart }} min.
+              span.bold.text-success {{ event.currentStage.name }}, 
+              span.bold.text-success(am-time-ago="event.currentStage.startedAt") 
           div(ng-if="!event.isFullscreen")
             +problems(event)
         .col-xs-12.bottomView(ng-if="event.isFullscreen")
@@ -224,33 +220,33 @@ mixin sortIcon()
             +problems(event)
           .col-md-6
             h4 Best Students:
-            h5(ng-repeat="user in event.ranking.bestUsers")
+            h5(ng-repeat="rank in event.ranking.bestUsers")
               span.user-name
-                | {{ user.name }}
+                | {{ rank.user.name }}
               img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
               span
                 progressbar(
-                  value="user.percentageResult" 
+                  value="rank.summary.percent" 
                   type="success"
                   )
-                  | {{ user.percentageResult }}%
+                  | {{ rank.summary.percent }}%
             h4 Worse Students:
-            h5(ng-repeat="user in event.ranking.worseUsers")
+            h5(ng-repeat="rank in event.ranking.worseUsers")
               span.user-name
-                | {{ user.name }}
+                | {{ rank.user.name }}
               img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
               span
                 progressbar(
-                  value="user.percentageResult" 
+                  value="rank.summary.percent" 
                   type="warning"
                   )
-                  | {{ user.percentageResult }}%
+                  | {{ rank.summary.percent }}%
             h4 Best Group: {{ event.ranking.bestGroup.name }}
             progressbar(
-              value="event.ranking.bestGroup.percentageResult" 
+              value="event.ranking.bestGroup.percent" 
               type="success"
               )
-              | {{ event.ranking.bestGroup.percentageResult }}%
+              | {{ event.ranking.bestGroup.percent }}%
             h4
               a.margin-right(ng-href="{{ event.hyperlinks.rankingView }}")
                 | Go to ranking view
@@ -305,4 +301,3 @@ mixin sortIcon()
   .col-xs-12
     //pre {{ vm.dashboardFromBackend.activeEvents[6] | json }}
     pre {{ vm.model.activeEvents[6] | json }}
-    pre {{ vm.model.eventTimings   | json }}
