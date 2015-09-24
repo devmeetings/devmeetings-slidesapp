@@ -128,7 +128,7 @@ gulp.task('test', function () {
     });
 });
 
-gulp.task('serve', ['less', 'generate_plugins', 'copy_theme'], function () {
+gulp.task('serve', ['less', 'jade', 'generate_plugins', 'copy_theme'], function () {
   $.livereload.listen({
     port: 26000,
     key: fs.readFileSync('./config/certs/server.key', 'utf8'),

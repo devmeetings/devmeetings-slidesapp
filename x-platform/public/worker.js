@@ -2,7 +2,7 @@
 
 importScripts('/static/serviceworker-cache-polyfill.js');
 
-var CACHE_VERSION = 1;
+var CACHE_VERSION = -1;
 var CACHE_NAME = 'xpla-cache';
 var CACHE = CACHE_NAME + '-v' + CACHE_VERSION;
 
