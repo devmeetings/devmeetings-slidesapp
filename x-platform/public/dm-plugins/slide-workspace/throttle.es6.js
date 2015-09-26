@@ -1,4 +1,3 @@
-/* jshint esnext:true,-W097 */
 'use strict';
 
 import _ from '_';
@@ -14,7 +13,7 @@ function safeApply (scope, fn) {
   }
 }
 
-export default function (scope, func, timeout) {
+function createThrottle (scope, func, timeout) {
   return _.throttle((...args) => {
     safeApply(scope, () => {
       func(...args);
@@ -24,3 +23,7 @@ export default function (scope, func, timeout) {
     trailing: true
   });
 }
+
+createThrottle.safeApply = safeApply;
+
+export default createThrottle;

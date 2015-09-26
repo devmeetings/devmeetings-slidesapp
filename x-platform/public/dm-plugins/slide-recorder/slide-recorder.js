@@ -1,6 +1,8 @@
 /* globals define */
-define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlugins) {
+define(['module', '_', 'slider/slider.plugins', './latency-measurement'], function (module, _, sliderPlugins, latMeasurement) {
   'use strict';
+
+  var latencyMeasurement = latMeasurement.default;
 
   sliderPlugins.registerPlugin('slide', '*', 'slide-recorder', {
     order: 4000,
@@ -25,6 +27,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
         var lastId;
 
         function stopRecording () {
+          latencyMeasurement.disconnected();
           if (!lastId) {
             return;
           }
@@ -43,6 +46,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
           dmRecorder.getCurrentStateId().then(function (stateId) {
             lastId = stateId;
           });
+          latencyMeasurement.sendStart();
           var id = dmRecorder.startSyncingAndGetId(toSend);
           // TODO [ToDr] Gather data from other plugins?
           Sockets.emit('state.patch', {
@@ -61,6 +65,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
             }
 
             dmRecorder.stopSyncingAndSetId(stateId, lastPatch);
+            latencyMeasurement.sendStop();
 
             // Send queue one more time - new patches are waiting
             if (toSend.length) {
@@ -72,7 +77,7 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
           toSend = [];
         }
 
-        var sendQueueLater = _.throttle(sendQueue, 1500, {
+        var sendQueueLater = _.throttle(sendQueue, 300, {
           leading: false,
           trailing: true
         });
@@ -87,11 +92,16 @@ define(['module', '_', 'slider/slider.plugins'], function (module, _, sliderPlug
             return;
           }
 
+          if (dmRecorder.isChangeFromRecording) {
+            return;
+          }
+
           var patch = dmRecorder.updateState(scope.slide);
           if (!patch) {
             return;
           }
 
+          latencyMeasurement.addingPatch();
           toSend.push(patch);
 
           if (dmRecorder.isSyncing()) {

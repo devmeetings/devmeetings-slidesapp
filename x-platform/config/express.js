@@ -6,6 +6,7 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var fs = require('fs');
 var path = require('path');
 var raven = require('raven');
 var flash = require('connect-flash');
@@ -18,7 +19,15 @@ var sessionInit = require('./session');
 module.exports = function (app, config, router) {
   if (config.sentryDsn) {
     // To catch exceptions in socketio too.
-    raven.patchGlobal(config.sentryDsn);
+// <<<<<<< HEAD
+//     raven.patchGlobal(config.sentryDsn);
+// =======
+    raven.patchGlobal(config.sentryDsn, function (err) {
+      console.error('Crashing!');
+      console.error(err);
+      process.exit(1);
+    });
+// >>>>>>> master
   }
 
   var jadeStatic = connectJadeStatic({
@@ -61,6 +70,10 @@ module.exports = function (app, config, router) {
   app.use('/cdn', express.static(config.root + '/public/cdn'));
   app.get(config.staticsPath + '/*|/cdn/*', function (req, res) {
     res.sendStatus(404);
+  });
+  app.get('/worker.js', function (req, res) {
+    res.header('Content-type', 'application/javascript');
+    fs.createReadStream(config.root + '/public/worker.js').pipe(res);
   });
   app.set('port', config.port);
   app.set('views', config.root + '/app/views');

@@ -12,6 +12,9 @@ define(
         var worker = new Worker.Recorder();
 
         var self = _.extend(newListenable.default(), {
+
+          isChangeFromRecording: false,
+
           updateState: function (slide) {
             return worker.newState(slide);
           },

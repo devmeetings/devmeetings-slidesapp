@@ -3,5 +3,4 @@
   )
   .errors.alert.alert-danger
     | {{ errors.join("\n") }}
-    pre(ng-if="stacktrace") 
-      | {{ stacktrace.join("\n") }}
+    pre(ng-if="stacktrace") {{ stacktrace.join("\n") }}

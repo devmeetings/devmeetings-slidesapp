@@ -39,6 +39,13 @@ Template.Event.events({
   'click button[role="clone"]': (ev, tpl) => {
     const eve = tpl.data.event;
     Meteor.call('EventTimings.clone', eve._id);
+  },
+
+  'submit form[role="admin"]': function(ev, tpl) {
+    ev.preventDefault();
+    const eve = tpl.data.event;
+    const pass = ev.target.pass.value;
+    Meteor.call('EventTimings.becomeAdmin', eve._id, pass);
   }
 
 });

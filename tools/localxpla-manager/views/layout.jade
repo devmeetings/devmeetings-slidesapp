@@ -37,7 +37,7 @@ html
           url: '/local/api/logs',
           success: function (data) {
             data.sort(function (a, b) { 
-              return a - b;
+              return b.count - a.count;
             });
             $logs.html(
               data.map(function(row) {

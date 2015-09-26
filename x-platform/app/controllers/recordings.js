@@ -75,6 +75,14 @@ var Recordings = {
     });
   },
 
+  fixIds: function (req, res) {
+    var recId = req.params.id;
+
+    recordings.fixIds(recId).done(function () {
+      res.sendStatus(200);
+    });
+  },
+
   joinForEvent: function (req, res) {
     var eventId = req.params.eventId;
     var recId1 = req.params.id1;

@@ -92,6 +92,7 @@ module.exports = function (app) {
   app.get('/api/recordings', apiAuthenticated, recordings.list);
   app.get('/api/recordings/:id', apiAuthenticated, recordings.get);
   app.get('/api/recordings/:id/annotations', apiAuthenticated, recordings.autoAnnotations);
+  app.post('/api/recordings/:id/fixIds', apiAuthenticated, authorized('admin:events'), recordings.fixIds);
   app.post('/api/recordings/:id1/join/:id2', apiAuthenticated, authorized('admin:events'), recordings.join);
   app.post('/api/events/:eventId/recordings/:id1/join/:id2', apiAuthenticated, authorized('admin:events'), recordings.joinForEvent);
 
@@ -135,6 +136,10 @@ module.exports = function (app) {
 
   var eventsWorkspaces = require('../app/controllers/eventsWorkspaces');
   app.get('/api/events/:eventId/workspaces', apiAuthenticated, authorized('trainer'), eventsWorkspaces.getForEvent);
+
+  var latency = require('../app/controllers/latency');
+  app.post('/api/latency', apiAuthenticated, latency.add);
+  app.get('/api/latency', apiAuthenticated, latency.get);
 
   var users = require('../app/controllers/users');
   app.get('/api/users/:id', apiAuthenticated, users.get);

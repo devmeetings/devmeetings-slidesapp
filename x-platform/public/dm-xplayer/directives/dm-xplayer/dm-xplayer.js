@@ -30,6 +30,8 @@ define([
             }
             var layout = (recording.original ? recording.original.layout : null) || null;
             recordingPlayer = dmPlayerFactory(recording, function (slide) {
+              // Mark that the change is comming from recording
+              recordingPlayer.setIsFromRecording(true);
               $scope.slide = slide;
               // TODO [ToDr] Temporary (viewing of notes)
               $rootScope.slide = {
@@ -40,6 +42,10 @@ define([
                 slide.workspace.layout = layout;
               }
               $scope.$broadcast('slide:update');
+              // Unmark recording!
+              $timeout(function () {
+                recordingPlayer.setIsFromRecording(false);
+              });
             });
             recordingPlayer.setIsPlaying(false);
             goToSecond();

@@ -4,6 +4,7 @@
 import sliderPlugins from 'slider/slider.plugins';
 import _ from '_';
 import throttle from '../../throttle.es6';
+import debounce from '../../debounce';
 import viewTemplate from './sw-output-frame.html!text';
 
 class OutputFrame {
@@ -15,9 +16,18 @@ class OutputFrame {
     this.progressBar = this.$element.find('.progress-bar');
     this.scope.activeFrame = 0;
 
-    this.setAddressLater = throttle(this.scope, (url) => {
+    var setAddressThrottled = throttle(this.scope, (url) => {
       this.setAddress(url);
-    }, 5000);
+    }, 15000);
+
+    var setAddressDebounced = debounce(this.scope, (url) => {
+      this.setAddress(url);
+    }, 1500);
+
+    this.setAddressLater = (url) => {
+      setAddressThrottled(url);
+      setAddressDebounced(url);
+    };
   }
 
   isHttp (url) {

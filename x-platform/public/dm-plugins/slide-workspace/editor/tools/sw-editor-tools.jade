@@ -22,6 +22,7 @@ ul.nav.nav-tabs.pull-right
 
   li.workspace-tab.workspace-tab-condensed(
       dropdown=""
+      append-to-body="true"
       auto-close="outsideClick"
     )
     a.cursor-pointer(
@@ -85,14 +86,15 @@ ul.nav.nav-tabs.pull-right
         a(ng-if="model.isUploading")
           | Uploading {{ model.uploadingState }}%
         div.cursor-pointer(
-          ng-if="!model.isUploading"
+          style="position:relative"
           analytics-event="workspace-upload"
           analytics-category="workspace"
           analytics-on="click"
           )
           input.cursor-pointer(
             type="file"
-            ng-file-select="model.onFileSelect($files)"
+            accept="application/zip,application/octet-stream"
+            ngf-select="model.onFileSelect($files)"
             title="Upload saved ZIP with files"
             )
           span.fa.fa-fw.fa-upload

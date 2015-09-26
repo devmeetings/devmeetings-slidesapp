@@ -2,7 +2,6 @@
 - name: Create directory /srv/_packages
   file: path=/srv/_packages state=directory mode=0755 owner=xplatform
 
-
 - name: Create directory for Domain
   file: 
     path: "/srv/{{server_domain}}"
@@ -44,12 +43,11 @@
     path: "/srv/{{server_domain}}/x-platform"
     production: true
 
-- name: Creating directory for local Cache
+# TODO [ToDr] Remove after all instances are cleared
+- name: Removing directory for local Cache
   file:
     path: "/srv/{{server_domain}}/x-platform/data"
-    state: directory
-    mode: 0755
-    owner: xplatform
+    state: absent
 
 - name: Run On Startup
   command: pm2 startup -u xplatform && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-xplatform.sh

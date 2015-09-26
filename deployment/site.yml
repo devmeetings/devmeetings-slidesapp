@@ -16,6 +16,11 @@
     - xplatform-local
   roles:
     - localxpla-mgmt
+  vars:
+    localxpla_job: 'XPlatform-LocalCache'
+    localxpla_version: 'lastSuccessfulBuild'
+    node_env: 'production'
+    server_path: 'https://xplatform.org'
 
 - hosts: xplatform-node
   become: yes
@@ -23,7 +28,7 @@
   vars:
     hostname: "{{server_hostname if server_hostname is defined else server_domain}}"
     xpla_job: 'XPlatform'
-    xpla_version: '164'
+    xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
     server_cluster: 2
   tags:
@@ -100,7 +105,7 @@
     xpla_job: 'XPlatform'
     xpla_version: 'lastSuccessfulBuild'
     server_env: 'production'
-    server_cluster: 2
+    server_cluster: 4
   roles:
     - xplatform-deploy
     - xdashboard

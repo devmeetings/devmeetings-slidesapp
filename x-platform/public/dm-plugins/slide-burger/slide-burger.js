@@ -1,8 +1,8 @@
 /* globals define */
-define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks', './slide-burger.html!text'], function (module, _, sliderPlugins, ace, mapping, viewTemplate) {
+define([
+  'module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping', './slide-burger.microtasks', './slide-burger.html!text'],
+  function (module, _, sliderPlugins, ace, mapping, microtasks, viewTemplate) {
   'use strict';
-
-  var path = sliderPlugins.extractPath(module);
 
   function findImg (text) {
     var ret = 'empty';
@@ -15,7 +15,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace', './slide-burger.mapping',
   }
 
   function imgPath (img) {
-    return path + '/gfx/' + img + '.png';
+    return '/static/dm-plugins/slide-burger/gfx/' + img + '.png';
   }
 
   function splitText (text) {

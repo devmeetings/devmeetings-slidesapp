@@ -31,4 +31,7 @@
             button.btn.btn-link.btn-xs(role="finishEvent")
               span.fa.fa-fw.fa-stop
               span Finish Event
-          
+
+        unless isAdmin
+          form(role="admin")
+            input.form-control.input-xs(name="pass", type="password")

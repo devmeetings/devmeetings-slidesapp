@@ -1,7 +1,7 @@
 ---
 
 - name: Nginx | Management site file
-  copy:
+  template:
     src: nginx/local-mgmt.site
     dest: /etc/nginx/sites-available/local-mgmt.site
 
@@ -23,19 +23,46 @@
 - name: Nginx | Enabling Box Management
   file: src=/etc/nginx/sites-available/local-mgmt.site dest=/etc/nginx/sites-enabled/local-mgmt.site state=link
 
+- name: Create directory /srv/_packages
+  file: path=/srv/ state=directory mode=0755 owner=root
+
+- name: Create directory /srv/_packages
+  file: path=/srv/_local_packages state=directory mode=0755 owner=root
+
+- name: Create directory for domain
+  file: path=/srv/local.{{server_domain}} state=directory mode=0755 owner=root
+
+- name: XPlatform | Verify newest version
+  file:
+    state: absent
+    path: /srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz
+  when: localxpla_version == 'lastSuccessfulBuild'
+
+- name: Fetching LocalXplaMgmt build
+  command: "wget http://applejack.todr.me:8080/job/{{localxpla_job}}/{{localxpla_version}}/artifact/localxpla-manager.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz"
+  args:
+    creates: /srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz
+
+- name: Unpacking LocalXplaMgmt
+  unarchive:
+    copy: no
+    dest: "/srv/local.{{server_domain}}"
+    src: "/srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz"
+
 - name: Installing Modules
-  npm: path=/srv/xplatform/tools/localxpla-manager
+  npm: 
+    path: "/srv/local.{{server_domain}}/localxpla-manager"
 
 - name: Putting to Autostart
-  command: forever-service install localxpla-mgmt -e "NODE_ENV={{ node_env }}" --start
+  command: forever-service install localxpla-mgmt -e "NODE_ENV=\"{{ node_env }}\" SERVER_PATH=\"{{ server_path }}\"" --start
   args:
-    chdir: /srv/xplatform/tools/localxpla-manager
+    chdir: "/srv/local.{{server_domain}}/localxpla-manager"
     creates: /etc/init.d/localxpla-mgmt
 
 - name: Starting service
   service:
     name: localxpla-mgmt
-    state: started
+    state: restarted
 
 - name: Enabling service
   service:

@@ -6,7 +6,7 @@ var mkdirpOrig = require('mkdirp');
 var req = Q.denodeify(request);
 var mkdirp = Q.denodeify(mkdirpOrig);
 
-var SERVER_PATH = 'http://localhost:4000';
+var SERVER_PATH = process.env.SERVER_PATH || 'http://localhost:4000';
 var WRITE_PATH = './public';
 
 module.exports = function populateCache (logsPath) {
@@ -16,7 +16,7 @@ module.exports = function populateCache (logsPath) {
     logStream.write(new Date() + '  [' + tag.toUpperCase() + '] ' + msg + '\n');
   }
 
-  log('auth', 'Logging to xplatform');
+  log('auth', 'Logging to xplatform: ' + SERVER_PATH);
 
   var jar = request.jar();
   return req({
