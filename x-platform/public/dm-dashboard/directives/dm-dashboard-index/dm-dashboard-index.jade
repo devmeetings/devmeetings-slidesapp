@@ -91,8 +91,10 @@ mixin sortIcon()
           span.bold 
             | {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
         td.timing-expected-end
+          // feature in progress
+          // span.bold {{ event.timing.expectedEnd.toString() }}
           span.bold 
-            | {{ event.timing.expectedEnd.toString() }}
+            | end
         td.people
           span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
             | {{ event.members.number }} 
@@ -112,13 +114,13 @@ mixin sortIcon()
         td.best-users
           img.avatar.small.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.bestUsers track by $index"
-            ng-src="https:{{ rank.user.avatar }}"
+            ng-src="{{ rank.user.avatar | dmGravatar:15 }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.worse-users
           img.avatar.small.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.worseUsers track by $index"
-            src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+            ng-src="{{ rank.user.avatar | dmGravatar:15 }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.best-group
@@ -149,7 +151,10 @@ mixin sortIcon()
             h4 Started at: 
               span.bold {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
             h4 Expected end: 
-              span.bold {{ event.timing.expectedEnd.toString() }}
+              // feature in progress
+              // span.bold {{ event.timing.expectedEnd.toString() }}
+              span.bold 
+                | end
           div(ng-if="!event.timing.started")
             h4 Event has not yet begun
             // quick hack to improve view below:
@@ -177,7 +182,7 @@ mixin sortIcon()
                 div
                   img.avatar.img-responsive.img-rounded(
                     ng-repeat="organizer in event.members.organizers"
-                    src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
+                    ng-src="{{ organizer.avatar | dmGravatar:24 }}"
                     tooltip="{{ organizer.name }}"
                     )
               div
@@ -186,7 +191,7 @@ mixin sortIcon()
                 div
                   img.avatar.img-responsive.img-rounded(
                     ng-repeat="student in event.members.students.all"
-                    src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+                    ng-src="{{ student.avatar | dmGravatar:24 }}"
                     tooltip="{{ student.name }} ({{ student.group }}), {{ student.percent }}%"
                     )     
             h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
@@ -206,7 +211,7 @@ mixin sortIcon()
             div(ng-if="event.showActiveStudents || vm.isFullscreen(event._id)")
               img.avatar.img-responsive.img-rounded(
                 ng-repeat="activeStudent in event.members.students.active"
-                src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af"
+                ng-src="{{ activeStudent.avatar | dmGravatar:24 }}"
                 tooltip="{{ activeStudent.name }} ({{ activeStudent.group }}), {{ activeStudent.percent }}%"
                 )
           .stage
@@ -223,7 +228,9 @@ mixin sortIcon()
             h5(ng-repeat="rank in event.ranking.bestUsers track by $index")
               span.user-name
                 | {{ rank.user.name }}
-              img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
+              img.avatar.big.pull-left.img-responsive.img-rounded(
+                ng-src="{{ rank.user.avatar | dmGravatar:35 }}"
+                )
               span
                 progressbar(
                   value="rank.summary.percent" 
@@ -234,7 +241,9 @@ mixin sortIcon()
             h5(ng-repeat="rank in event.ranking.worseUsers track by $index")
               span.user-name
                 | {{ rank.user.name }}
-              img.avatar.big.pull-left.img-responsive.img-rounded(src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af")
+              img.avatar.big.pull-left.img-responsive.img-rounded(
+                ng-src="{{ rank.user.avatar | dmGravatar:35 }}"
+                )
               span
                 progressbar(
                   value="rank.summary.percent" 

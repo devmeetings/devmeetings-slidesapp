@@ -179,7 +179,6 @@ class DmDashboardIndex {
 
   getWorseUsers (ranks) {
     ranks = ranks.filter(this.isNotTrainer, this);
-    console.log(ranks);
     let sortedRanks = this.sortRanksbyPercentResult(ranks);
     let numOfWorse = this.getNumOfUsersToDisplayInRankRows(ranks);
     return this.getWorseRanks(sortedRanks, numOfWorse);
