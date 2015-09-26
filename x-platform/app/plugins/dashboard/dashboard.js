@@ -63,17 +63,6 @@ function getEventFromHardModelRandomly (hardcodedActiveEvents) {
 }
 
 function assignUsersRanksToEvents (activeEvents, usersRanks) {
-  // tak, czytajac to powiesz, ze i2 to tragedia.
-  // tak, tragedia, ale tak jest kiedy piszac w ES6 przechodzi sie na JS bez ES6...
-  // for of i in nie moge uzyc, _map i forEach gubi scope,
-  // lambda niemozliwa do uzycia. wiec wrocilem do najzwyklejszej i w sumie
-  // jak czytalem na Stack'u najwydajniejszej petli, a jakos interatory rozroznic
-  // trzeba... wiec i2.
-  // jesli da sie ladniej, z checia wyslucham
-
-  // czy to dobrze, ze operuje funkcjami, ktore przyjmuja obiekt, zmieniaja
-  // go, a potem zwracaja, choc i tak juz jest zmieniony?
-
   for (var i = 0; i < activeEvents.length; i++) {
     var event = activeEvents[i];
     event.ranking = {};
@@ -160,13 +149,6 @@ function getEventCurrentStage (iterations) {
     return buildCurrentStage(iteration);
   }
 
-  // for (var i = 0; i < iterations.length; i++) {
-  //   iteration = iterations[i];
-  //   if (iteration.startedAt && !iteration.finishedAt) {
-  //     return buildCurrentStage(iteration);
-  //   }
-  // }
-
   iteration = iterations[iterations.length - 1];
   return buildCurrentStage(iteration);
 }
@@ -203,8 +185,6 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
   var activeEventsIds = getActiveEventsIds(activeEvents);
   var eventTimingsIds = getEventTimingsIds(activeEvents);
 
-  // do tego nestowiska promisow mam njawieksze zastrzezenia, ale tez nie mialem sily i
-  // skilla zeby cos z tym zrobic, chociaz probowalem
   return getUsersRanks(activeEventsIds).then(function (usersRanks) {
     activeEvents = assignUsersRanksToEvents(activeEvents, usersRanks);
 

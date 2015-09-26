@@ -18,16 +18,11 @@ var sessionInit = require('./session');
 
 module.exports = function (app, config, router) {
   if (config.sentryDsn) {
-    // To catch exceptions in socketio too.
-// <<<<<<< HEAD
-//     raven.patchGlobal(config.sentryDsn);
-// =======
     raven.patchGlobal(config.sentryDsn, function (err) {
       console.error('Crashing!');
       console.error(err);
       process.exit(1);
     });
-// >>>>>>> master
   }
 
   var jadeStatic = connectJadeStatic({
