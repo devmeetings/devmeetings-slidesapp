@@ -106,30 +106,36 @@ function getEventTimingsIds (activeEvents) {
   return ids;
 }
 
-function assignTimingsToEvents (activeEvents, eventTimings) {
-  for (var evItr = 0; evItr < activeEvents.length; evItr++) {
-    for (var timItr = 0; timItr < eventTimings.length; timItr++) {
-      var event = activeEvents[evItr];
-      if (event.liveLink) {
-        var eventTimingId = getEventTimingsId(event);
-        var timing = eventTimings[timItr];
-        if (eventTimingId === timing.id) {
-          event.timing.started = isEventStarted(timing.items);
-          event.timing.startedAt = getEventStartedDate(timing.items);
-          event.currentStage = getEventCurrentStage(timing.items);
-        }
-      }
-    }
-  }
-  return activeEvents;
-}
-
 function isEventStarted (iterations) {
   return iterations ? true : false;
 }
 
 function getEventStartedDate (iterations) {
   return iterations ? iterations[0].startedAt : undefined;
+}
+
+function getEventCurrentStageIdx (iterations) {
+  for (var i = 0; i < iterations.length; i++) {
+    var iteration = iterations[i];
+    if (iteration.startedAt && !iteration.finishedAt) {
+      return i;
+    }
+  }
+}
+
+function getEventExpectedEndDate (iterations) {
+  var currentStageIdx = getEventCurrentStageIdx(iterations);
+  if (currentStageIdx) {
+    return 0;
+  }
+  for (var i = currentStageIdx; i < iterations.length; i++) {
+    if (i === currentStageIdx) {
+      var minutesToEnd = 0;// iterations[i].time - (now - startedAt)
+    } else {
+      minutesToEnd = minutesToEnd + iterations[i].time;
+    }
+  }
+  // return moment.now + minutesToEnd
 }
 
 function buildCurrentStage (iteration) {
@@ -148,15 +154,40 @@ function getEventCurrentStage (iterations) {
 
   var iteration;
 
-  for (var i = 0; i < iterations.length; i++) {
-    iteration = iterations[i];
-    if (iteration.startedAt && !iteration.finishedAt) {
-      return buildCurrentStage(iteration);
-    }
+  var currentStageIdx = getEventCurrentStageIdx(iterations);
+  if (currentStageIdx) {
+    iteration = iterations[currentStageIdx];
+    return buildCurrentStage(iteration);
   }
+
+  // for (var i = 0; i < iterations.length; i++) {
+  //   iteration = iterations[i];
+  //   if (iteration.startedAt && !iteration.finishedAt) {
+  //     return buildCurrentStage(iteration);
+  //   }
+  // }
 
   iteration = iterations[iterations.length - 1];
   return buildCurrentStage(iteration);
+}
+
+function assignTimingsToEvents (activeEvents, eventTimings) {
+  for (var evItr = 0; evItr < activeEvents.length; evItr++) {
+    for (var timItr = 0; timItr < eventTimings.length; timItr++) {
+      var event = activeEvents[evItr];
+      if (event.liveLink) {
+        var eventTimingId = getEventTimingsId(event);
+        var timing = eventTimings[timItr];
+        if (eventTimingId === timing.id) {
+          event.timing.started = isEventStarted(timing.items);
+          event.timing.startedAt = getEventStartedDate(timing.items);
+          // event.timing.expectedEnd = getEventExpectedEndDate(timing.items);
+          event.currentStage = getEventCurrentStage(timing.items);
+        }
+      }
+    }
+  }
+  return activeEvents;
 }
 
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {

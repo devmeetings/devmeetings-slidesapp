@@ -248,12 +248,6 @@ class DmDashboardIndex {
           percent: rank.summary.percent,
           group: rank.group
         });
-        students.active.push({
-          name: rank.user.name,
-          avatar: rank.user.avatar,
-          percent: rank.summary.percent,
-          group: rank.group
-        });
       }
     }
     return students;

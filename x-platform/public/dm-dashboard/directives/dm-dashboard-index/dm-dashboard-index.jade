@@ -97,9 +97,9 @@ mixin sortIcon()
           span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
             | {{ event.members.number }} 
         td.stage
-          span.bold.text-success 
-            | {{ event.currentStage.name }}, 
-            span(am-time-ago="event.currentStage.startedAt")
+          span.bold.text-success {{ event.currentStage.name }},
+          br 
+          span.text-success(am-time-ago="event.currentStage.startedAt")
         td.active-students 
           span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
@@ -112,7 +112,7 @@ mixin sortIcon()
         td.best-users
           img.avatar.small.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.bestUsers track by $index"
-            src="https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5afr"
+            ng-src="https:{{ rank.user.avatar }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.worse-users
@@ -211,10 +211,8 @@ mixin sortIcon()
                 )
           .stage
             h4 Current stage: 
-              span(ng-class="{'{{event.currentStage.icon}}': event.currentStage.icon")
               span.bold.text-success {{ event.currentStage.name }}, 
-              br
-              span.small.text-success(am-time-ago="event.currentStage.startedAt") 
+              span.bold.text-success(am-time-ago="event.currentStage.startedAt") 
           div(ng-if="!vm.isFullscreen(event._id)")
             +problems(event)
         .col-xs-12.bottomView(ng-if="vm.isFullscreen(event._id)")
