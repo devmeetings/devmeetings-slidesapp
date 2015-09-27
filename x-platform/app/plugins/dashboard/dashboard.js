@@ -96,7 +96,7 @@ function getEventTimingsIds (activeEvents) {
 }
 
 function isEventStarted (iterations) {
-  return iterations ? true : false;
+  return !!iterations;
 }
 
 function getEventStartedDate (iterations) {
@@ -110,21 +110,6 @@ function getEventCurrentStageIdx (iterations) {
       return i;
     }
   }
-}
-
-function getEventExpectedEndDate (iterations) {
-  var currentStageIdx = getEventCurrentStageIdx(iterations);
-  if (currentStageIdx) {
-    return 0;
-  }
-  for (var i = currentStageIdx; i < iterations.length; i++) {
-    if (i === currentStageIdx) {
-      var minutesToEnd = 0;// iterations[i].time - (now - startedAt)
-    } else {
-      minutesToEnd = minutesToEnd + iterations[i].time;
-    }
-  }
-  // return moment.now + minutesToEnd
 }
 
 function buildCurrentStage (iteration) {
@@ -163,7 +148,6 @@ function assignTimingsToEvents (activeEvents, eventTimings) {
         if (eventTimingId === timing.id) {
           event.timing.started = isEventStarted(timing.items);
           event.timing.startedAt = getEventStartedDate(timing.items);
-          // event.timing.expectedEnd = getEventExpectedEndDate(timing.items);
           event.currentStage = getEventCurrentStage(timing.items);
         }
       }

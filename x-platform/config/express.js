@@ -51,7 +51,7 @@ module.exports = function (app, config, router) {
     },
     cookieParser: cookieParser
   };
-    
+
   app.use(raven.middleware.express.requestHandler(config.sentryDsn));
 
   app.use(compression());
