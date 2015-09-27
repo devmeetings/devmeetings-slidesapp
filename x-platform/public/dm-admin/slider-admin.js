@@ -83,11 +83,13 @@ define(['require', 'angular', '_', 'angular-ui-router', 'ng-sortable', './slider
     };
 
     $scope.addExemplaryDeck = function () {
-      require([require.toUrl('./exemplary-deck/data-slides.js'), require.toUrl('./exemplary-deck/data-deck.js')], function (slides, deck) {
-        $http.post('/api/slides', slides).success(function (data, status) {
-          deck.slides = data;
-          $http.post('/api/decks', deck).then(function () {
-            $scope.decks.push(deck);
+      System.import('dm-admin/exemplary-deck/data-slides').then(function (slides) {
+        System.import('dm-admin/exemplary-deck/data-deck').then(function (deck) {
+          $http.post('/api/slides', slides).success(function (data, status) {
+            deck.slides = data;
+            $http.post('/api/decks', deck).then(function () {
+              $scope.decks.push(deck);
+            });
           });
         });
       });
