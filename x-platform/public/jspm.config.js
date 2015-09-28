@@ -1,3 +1,4 @@
+System.buildCSS = false;
 System.config({
   "baseURL": "/static",
   "transpiler": "babel",
