@@ -112,13 +112,13 @@ mixin sortIcon()
           span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
             | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
         td.best-users
-          img.avatar.small.img-responsive.img-rounded(
+          img.avatar.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.bestUsers track by $index"
             ng-src="{{ rank.user.avatar | dmGravatar:15 }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.worse-users
-          img.avatar.small.img-responsive.img-rounded(
+          img.avatar.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.worseUsers track by $index"
             ng-src="{{ rank.user.avatar | dmGravatar:15 }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
@@ -228,7 +228,7 @@ mixin sortIcon()
             h5(ng-repeat="rank in event.ranking.bestUsers track by $index")
               span.user-name
                 | {{ rank.user.name }}
-              img.avatar.big.pull-left.img-responsive.img-rounded(
+              img.avatar.pull-left.img-responsive.img-rounded(
                 ng-src="{{ rank.user.avatar | dmGravatar:35 }}"
                 )
               span
@@ -241,7 +241,7 @@ mixin sortIcon()
             h5(ng-repeat="rank in event.ranking.worseUsers track by $index")
               span.user-name
                 | {{ rank.user.name }}
-              img.avatar.big.pull-left.img-responsive.img-rounded(
+              img.avatar.pull-left.img-responsive.img-rounded(
                 ng-src="{{ rank.user.avatar | dmGravatar:35 }}"
                 )
               span

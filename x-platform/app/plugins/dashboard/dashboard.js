@@ -5,6 +5,7 @@ var Ranking = require('../../models/ranking');
 var EventTiming = require('../../models/eventTiming');
 var hardcodedDashboard = require('./hardcodedDashboard');
 var _ = require('lodash');
+var moment = require('moment');
 
 logger.info('Loading dashboard plugin.');
 exports.onSocket = function (log, socket, io) {
@@ -112,6 +113,24 @@ function getEventCurrentStageIdx (iterations) {
   }
 }
 
+function getEventExpectedEndDate (iterations) {
+  var currentStageIdx = getEventCurrentStageIdx(iterations);
+  if (currentStageIdx) {
+    return 0;
+  }
+  for (var i = currentStageIdx; i < iterations.length; i++) {
+    if (i === 'currentStageIdx') {
+      var minutesToEnd = 0;// iterations[i].time - (now - startedAt)
+    } else {
+      minutesToEnd = minutesToEnd + iterations[i].time;
+    }
+  }
+  // return moment.now + minutesToEnd
+  console.log(moment().add('minutes', minutesToEnd));
+  console.log(moment().add('minutes', minutesToEnd).format('HH:mm'));
+  return moment().add('minutes', minutesToEnd).format('MMMM Do, YYYY');
+}
+
 function buildCurrentStage (iteration) {
   var currentStage = {
     name: iteration.title,
@@ -148,6 +167,7 @@ function assignTimingsToEvents (activeEvents, eventTimings) {
         if (eventTimingId === timing.id) {
           event.timing.started = isEventStarted(timing.items);
           event.timing.startedAt = getEventStartedDate(timing.items);
+          event.timing.expectedEnd = getEventExpectedEndDate(timing.items);
           event.currentStage = getEventCurrentStage(timing.items);
         }
       }

@@ -47,8 +47,9 @@ class DmDashboardIndex {
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {
-      // vm.model = vm.dashboard;
-      // czy nie powinienem zwracac?
+      if (!vm.dashboard.length || !vm.dashboard) {
+        return;
+      }
       vm.model = this.buildFinalDashboardModel(vm.dashboard);
     });
   }
