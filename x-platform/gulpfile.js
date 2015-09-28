@@ -187,17 +187,21 @@ gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], f
   };
 
   var jobs = [
-    runJspmBundle('dm-slider/slider-slide', location('slider-slide')),
-    runJspmBundle('dm-slider/slider-deck', location('slider-deck')),
-    runJspmBundle('dm-slider/slider-trainer', location('slider-trainer')),
-    runJspmBundle('dm-xplatform/dm-xplatform', location('dm-xplatform')),
-    runJspmBundle('dm-dashboard/dm-dashboard', location('dm-dashboard'))
+    ['dm-slider/slider-slide', location('slider-slide')],
+    ['dm-slider/slider-deck', location('slider-deck')],
+    ['dm-slider/slider-trainer', location('slider-trainer')],
+    ['dm-xplatform/dm-xplatform', location('dm-xplatform')],
+    ['dm-dashboard/dm-dashboard', location('dm-dashboard')]
     // runJspmBundle('dm-courses/dm-courses', location('dm-courses'))
   ];
 
-  Q.all(jobs).then(function () {
+  jobs.reduce(function (memo, args) {
+    return memo.then(function () {
+      return runJspmBundle.apply(null, args);
+    });
+  }, Q.when()).then(function () {
     cb();
-  }, cb);
+  });
 });
 
 gulp.task('default', ['serve']);
