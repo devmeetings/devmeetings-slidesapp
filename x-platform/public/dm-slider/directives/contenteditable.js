@@ -1,6 +1,6 @@
 /* globals define */
 define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins) {
-  slider.directive('contenteditable', [function () {
+  slider.directive('contenteditable', [ function () {
     return {
       require: 'ngModel',
       link: function (scope, elm, attrs, ctrl) {

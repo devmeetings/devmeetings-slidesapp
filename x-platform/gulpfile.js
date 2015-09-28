@@ -187,7 +187,7 @@ function runJspmBundle (moduleName, target) {
   return runJspm(args);
 }
 
-gulp.task('build', ['jade', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
+gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
   var location = function (loc) {
     return './public/bin/' + loc + '-' + version + '.js';
   };

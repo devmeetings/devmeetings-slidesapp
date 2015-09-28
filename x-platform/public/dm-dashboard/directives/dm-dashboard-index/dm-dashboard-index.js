@@ -115,7 +115,7 @@ class DmDashboardIndex {
         if (rank.data[id] && rank.data[id].isDone) {
           allGainedPoints += 1;
           resultInIteration.push(1);
-        }else {
+        } else {
           resultInIteration.push(0);
         }
       }
@@ -285,7 +285,7 @@ class DmDashboardIndex {
   toggleEventDetailedView (vm, eventId) {
     if (this.isFullscreen(vm, eventId)) {
       vm.viewOptions.fullscreenEvent._id = false;
-    }else {
+    } else {
       vm.viewOptions.fullscreenEvent._id = eventId;
     }
   }
