@@ -89,6 +89,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins)
 
             setTimeout(function () {
               insideRefresh = false;
+              $scope.$digest();
             }, pluginsLoaderTimeout * plugins.length);
           };
 
