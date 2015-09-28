@@ -1,9 +1,11 @@
 .slide-leftright {
-  plugins-loader {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  align-items: stretch;
+
+  .slide-left {
+    flex: 6;
   }
-  plugins-loader > * {
-    flex: 1;
+  .slide-right {
+    flex: 4;
   }
 }

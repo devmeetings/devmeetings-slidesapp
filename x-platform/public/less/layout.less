@@ -28,3 +28,28 @@ body.full-height {
     }
   }
 }
+
+plugins-loader {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+plugins-loader:empty {
+  display: none;
+}
+
+plugins-loader > * {
+  flex: 1;
+  display: block;
+  overflow: hidden;
+
+  &:empty {
+    display: none;
+    flex: 0;
+  }
+
+  > * {
+    display: block;
+    height: 100%;
+  }
+}
