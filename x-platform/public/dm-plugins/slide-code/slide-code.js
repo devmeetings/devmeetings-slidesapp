@@ -96,6 +96,9 @@ define(
             });
 
             scope.$watch('code.mode', function () {
+              if (!scope.code) {
+                return;
+              }
               editor.getSession().setMode('ace/mode/' + scope.code.mode);
             });
 
