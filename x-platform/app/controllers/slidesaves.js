@@ -108,8 +108,8 @@ var Slidesaves = {
         if (slidesave) {
           // TODO [ToDr] Potential race. $addToSet would be nice (but we have older version of mongo)
           if (!slidesave.events || slidesave.events.map(function (e) {
-              return e.toString();
-            }).indexOf(eventId) === -1) {
+            return e.toString();
+          }).indexOf(eventId) === -1) {
             updateEvent(slidesave, eventId);
           }
           return slidesave;

@@ -72,7 +72,9 @@ class OutputFrame {
       if (currentFrame !== this.iframe2) {
         return;
       }
-      currentFrame[0].contentWindow.stop();
+      if (currentFrame[0].currentWindow) {
+        currentFrame[0].contentWindow.stop();
+      }
       swapFrames();
     }, 5000);
 

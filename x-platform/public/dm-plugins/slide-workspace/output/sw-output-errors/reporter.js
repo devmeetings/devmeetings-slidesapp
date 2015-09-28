@@ -30,7 +30,7 @@
         msg: error.message || msg,
         stack: error.stack.split('\n') || []
       };
-    } catch(e) {
+    } catch (e) {
       console.warn(e);
       return {
         msg: msg,

@@ -61,7 +61,7 @@ define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins)
 
             if (newContext !== oldContext && hasSameKeys(newContext, oldContext)) {
               // Just broadcast info about new context
-              childScope.$broadcast('slide:update');
+              childScope.$broadcast('editor:update');
               return;
             }
 
@@ -81,15 +81,14 @@ define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins)
             var pluginsLoaderTimeout = 50;
 
             plugins.map(function (plugin, idx) {
-              setTimeout(function () {
-                var el = $compile(plugin)(childScope);
-                $element.append(el);
-              }, pluginsLoaderTimeout * idx);
+              var el = $compile(plugin)(childScope);
+              $element.append(el);
             });
 
             setTimeout(function () {
               insideRefresh = false;
-            }, pluginsLoaderTimeout * plugins.length);
+              $scope.$digest();
+            }, pluginsLoaderTimeout);
           };
 
           $scope.$watch('context', refresh);

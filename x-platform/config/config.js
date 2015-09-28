@@ -8,7 +8,7 @@ var getVersion = function () {
     return fs.readFileSync('.version', {
       encoding: 'utf8'
     });
-  } catch(e) {
+  } catch (e) {
     return 'dev';
   }
 };

@@ -6,6 +6,7 @@ var logger = require('../../config/logging');
 exports.create = function (req, res) {
   var contents = (_.isArray(req.body) ? req.body : [req.body]).map(function (slide) {
     return {
+      name: slide.name,
       content: slide
     };
   });
@@ -13,7 +14,7 @@ exports.create = function (req, res) {
   SlideModel.create(contents, function (err) {
     if (err) {
       logger.error(err);
-      res.send(404, err);
+      res.status(400).send(err);
       return;
     }
     var slides = Array.prototype.slice.call(arguments, 1);
