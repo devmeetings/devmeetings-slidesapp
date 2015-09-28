@@ -171,17 +171,23 @@ gulp.task('serve', ['less', 'generate_plugins', 'copy_theme'], function () {
 // Build the whole platform
 
 function runJspm (args) {
-  return Q.denodeify(fork)('./node_modules/.bin/jspm', args).then(function (data) {
-    console.log(data.stdout);
-    console.log(data.stderr);
+  var defer = Q.defer();
+  var child = fork('./node_modules/.bin/jspm', args);
+  child.on('error', function () {
+    defer.reject();
   });
+
+  child.on('exit', function () {
+    defer.resolve();
+  });
+  return defer.promise;
 }
 function runJspmBundle (moduleName, target) {
   var args = ['bundle', moduleName, target, '--inject'];
   return runJspm(args);
 }
 
-gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
+gulp.task('build', ['jade', 'less', 'copy_theme', 'generate_plugins'], function (cb) {
   var location = function (loc) {
     return './public/bin/' + loc + '-' + version + '.js';
   };
@@ -195,12 +201,18 @@ gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], f
     // runJspmBundle('dm-courses/dm-courses', location('dm-courses'))
   ];
 
-  jobs.reduce(function (memo, args) {
-    return memo.then(function () {
-      return runJspmBundle.apply(null, args);
+  var currentPromise = Q.when();
+  jobs.map(function (jobArgs) {
+    currentPromise = currentPromise.then(function () {
+      return runJspmBundle.apply(null, jobArgs);
     });
-  }, Q.when()).then(function () {
+  });
+
+  currentPromise.done(function () {
     cb();
+  }, function (err) {
+    console.error(err);
+    cb(err);
   });
 });
 
