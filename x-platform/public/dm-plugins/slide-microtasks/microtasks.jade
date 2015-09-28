@@ -1,4 +1,4 @@
-.slide-microtasks
+.slide-microtasks(ng-if="microtasks.length")
   .microtasks(
     ng-class='{"microtask-active": !taskMeta[task.description].completed}'
     ng-repeat='task in microtasks track by $index'
