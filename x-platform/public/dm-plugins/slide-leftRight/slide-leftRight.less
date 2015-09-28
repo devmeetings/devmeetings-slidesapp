@@ -2,6 +2,16 @@
   display: flex;
   align-items: stretch;
 
+  .slide-left, .slide-right {
+    height: auto;
+    display: flex;
+
+    > * {
+      flex: 1;
+      height: auto;
+    }
+  }
+
   .slide-left {
     flex: 6;
   }

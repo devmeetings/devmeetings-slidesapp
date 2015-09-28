@@ -22,7 +22,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
         scope: {
           options: '=data'
         },
-        template: '<div><div class="editor editor-output"></div></div>',
+        template: '<div class="editor editor-output"></div>',
         link: function (scope, element) {
           function isJson () {
             if (scope.options && scope.options.noJson) {
@@ -31,7 +31,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
             return true;
           }
 
-          var outputAce = ace.edit(element[0].querySelector('.editor'));
+          var outputAce = ace.edit(element[0]);
           outputAce.$blockScrolling = Infinity;
           outputAce.setTheme('ace/theme/' + OUTPUT_THEME);
           outputAce.setFontSize(16);
