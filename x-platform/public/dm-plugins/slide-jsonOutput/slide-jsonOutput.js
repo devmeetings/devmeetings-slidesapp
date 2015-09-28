@@ -20,11 +20,10 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
       return {
         restrict: 'E',
         scope: {
-          options: '=data',
+          options: '=data'
         },
         template: '<div><div class="editor editor-output"></div></div>',
         link: function (scope, element) {
-
           function isJson () {
             if (scope.options && scope.options.noJson) {
               return false;
@@ -71,7 +70,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
               setValue(res.join('\n'));
               return;
             }
-  
+
             setValue(output);
           });
         }
