@@ -71,6 +71,9 @@ class EventAgenda {
     });
 
     scope.$watch('event', (event) => {
+      if (!event) {
+        return;
+      }
       scope.tasks = event.iterations.map((it, itIdx) => {
         return it.tasks.reduce((memo, task) => {
           let tasks = _.range(task.noOfTasks || 1).map(id => {
