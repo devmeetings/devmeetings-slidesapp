@@ -81,16 +81,14 @@ define(['_', 'slider/slider', '../utils/Plugins'], function (_, slider, Plugins)
             var pluginsLoaderTimeout = 50;
 
             plugins.map(function (plugin, idx) {
-              setTimeout(function () {
-                var el = $compile(plugin)(childScope);
-                $element.append(el);
-              }, pluginsLoaderTimeout * idx);
+              var el = $compile(plugin)(childScope);
+              $element.append(el);
             });
 
             setTimeout(function () {
               insideRefresh = false;
               $scope.$digest();
-            }, pluginsLoaderTimeout * plugins.length);
+            }, pluginsLoaderTimeout);
           };
 
           $scope.$watch('context', refresh);
