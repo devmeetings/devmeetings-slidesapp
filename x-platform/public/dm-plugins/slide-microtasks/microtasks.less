@@ -1,14 +1,12 @@
-.microtask-holder {
-    display: table;
-    height: auto;
-    width: 100%;
+.microtask {
+    display: flex;
+    align-items: stretch;
 }
 .microtask-col {
-    display: table-cell;
-    vertical-align: middle;
-    width: 30px;
-    text-align: center;
+  flex: 0 0 30px;
+  text-align: center;
 }
+
 .microtask-border-up {
     border-top: 1px solid #181818;
     height: 1px;
@@ -19,12 +17,13 @@
 }
 
 
-
 .microtask-content {
-    display: table-cell;
-    h1,h2,h3,h4,h5,h6, p {
-      color: #555;
-    }
+  flex: 1;
+
+  h1,h2,h3,h4,h5,h6, p {
+    margin: 0;
+    color: #aaa;
+  }
 }
 
 .microtask-desc {
@@ -92,11 +91,13 @@
 }    
 
 
-.dm-slide-left {
-    .microtasks {
-        padding: 10px 15px;
-        display: inline-block;
-    }
+.slide-microtasks {
+  display: flex;
+  .microtasks {
+      padding: 10px 15px;
+      flex: 1;
+      display: flex;
+  }
 }
 
 .dm-slide-panel {
