@@ -232,7 +232,7 @@ Object.keys(fromEnv).map(function (k) {
 (function (c) {
   'use strict';
 
-  if (c.isDev || c.cookieDomain) {
+  if (c.isDev) {
     return;
   }
 
