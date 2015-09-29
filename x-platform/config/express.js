@@ -36,7 +36,7 @@ module.exports = function (app, config, router) {
   var sessionConfig = {
     key: config.cookieName || 'new_xpla.sid',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret: 'ImSecretAndIKnowIt',
     store: store.sessionStore(session),
     cookie: {
