@@ -45,7 +45,7 @@
     "mongoose": "~3.8.26",
     "node-uuid": "~1.4.3",
     "node-zip": "^1.1.0",
-    "passport": "^0.3.0",
+    "passport": "^0.2.1",
     "passport-facebook": "^2.0.0",
     "passport-github": "^0.1.5",
     "passport-google-oauth": "^0.2.0",
