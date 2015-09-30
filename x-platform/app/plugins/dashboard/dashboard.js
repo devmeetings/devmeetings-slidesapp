@@ -113,22 +113,29 @@ function getEventCurrentStageIdx (iterations) {
   }
 }
 
-function getEventExpectedEndDate (iterations) {
+function getEventExpectedEndDate (iterations, name) {
+  console.log('=====getEventExpectedEndDate=====');
+  console.log(name);
   var currentStageIdx = getEventCurrentStageIdx(iterations);
-  if (currentStageIdx) {
-    return 0;
+  console.log('currentStageIdx', currentStageIdx);
+  if (!currentStageIdx) {
+    console.log('ENDED');
+    return false;
   }
+  var minutesToEnd = 0;
+  console.log('ITERATION!');
   for (var i = currentStageIdx; i < iterations.length; i++) {
-    if (i === 'currentStageIdx') {
-      var minutesToEnd = 0;// iterations[i].time - (now - startedAt)
+    console.log(i);
+    if (i === 'currentStageIdx') { // unstring currentStIdx
+      // var minutesToEnd = 0;// iterations[i].time - (now - startedAt)
     } else {
       minutesToEnd = minutesToEnd + iterations[i].time;
     }
   }
-  // return moment.now + minutesToEnd
-  console.log(moment().add('minutes', minutesToEnd));
-  console.log(moment().add('minutes', minutesToEnd).format('HH:mm'));
-  return moment().add('minutes', minutesToEnd).format('MMMM Do, YYYY');
+  console.log('minutesToEnd', minutesToEnd);
+  console.log('[1]', moment().add('minutes', minutesToEnd));
+  console.log('[2]', moment().add('minutes', minutesToEnd).format('HH:mm'));
+  return moment().add('minutes', minutesToEnd);
 }
 
 function buildCurrentStage (iteration) {
@@ -167,7 +174,7 @@ function assignTimingsToEvents (activeEvents, eventTimings) {
         if (eventTimingId === timing.id) {
           event.timing.started = isEventStarted(timing.items);
           event.timing.startedAt = getEventStartedDate(timing.items);
-          event.timing.expectedEnd = getEventExpectedEndDate(timing.items);
+          event.timing.expectedEnd = getEventExpectedEndDate(timing.items, timing.id);
           event.currentStage = getEventCurrentStage(timing.items);
         }
       }

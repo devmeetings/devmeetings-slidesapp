@@ -89,12 +89,12 @@ mixin sortIcon()
             | {{ event.name }}
         td.timing-started 
           span.bold 
-            | {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
+            | {{ event.timing.startedAt | amDateFormat:'HH:mm (YYYY.MM.DD)' }}
         td.timing-expected-end
-          // feature in progress
-          // span.bold {{ event.timing.expectedEnd.toString() }}
-          span.bold 
-            | end
+          span.bold(ng-if="event.timing.expectedEnd")
+            | {{ event.timing.expectedEnd | amDateFormat:'HH:mm' }}
+          span.bold(ng-if="!event.timing.expectedEnd")
+            | ended
         td.people
           span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
             | {{ event.members.number }} 
