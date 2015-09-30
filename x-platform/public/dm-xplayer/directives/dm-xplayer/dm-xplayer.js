@@ -41,7 +41,7 @@ define([
               if (layout && slide.workspace) {
                 slide.workspace.layout = layout;
               }
-              $scope.$broadcast('slide:update');
+              $scope.$broadcast('editor:update');
               // Unmark recording!
               $timeout(function () {
                 recordingPlayer.setIsFromRecording(false);

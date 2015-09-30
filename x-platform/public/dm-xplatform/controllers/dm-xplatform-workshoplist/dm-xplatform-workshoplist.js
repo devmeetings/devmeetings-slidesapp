@@ -87,8 +87,8 @@ define([
       var color = hslToRgb(id / 360, 0.2, 0.3);
 
       return '#' + color.map(function (c) {
-          return c.toString(16);
-        }).join('');
+        return c.toString(16);
+      }).join('');
     }
     $scope.getBackgroundStyles = function (course) {
       if (course.image) {

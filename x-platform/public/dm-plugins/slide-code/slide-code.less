@@ -1,29 +1,24 @@
+slide-code, slide-jsonoutput {
+  display: flex;
+  flex-direction: column;
+}
+slide-code {
+  flex: 2;
+}
 .editor {
-  height: 240px;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
   background-color: #272822;
 }
 .editor .ace_gutter {
   opacity: 0.6;
   transform: translateZ(0);
 }
-.editor-xs {
-  height: 140px;
-}
-.editor-sm {
-  height: 200px;
-}
-.editor-md {
-  height: 280px;
-}
-.editor-lg {
-  height: 350px;
-}
-.editor-xl {
-  height: 450px;
+.errors:empty {
+  display: none;
 }
 .editor-xxl {
   height: 100%;
-}
-.errors:empty {
-  display: none;
 }

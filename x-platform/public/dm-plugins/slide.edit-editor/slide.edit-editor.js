@@ -29,12 +29,12 @@ define(['module', 'angular', '$', '_', 'ace', 'slider/slider.plugins', './editor
           scope.collapsed = true;
 
           var editor = ace.edit($(element[0]).find('.editor')[0]);
+          editor.$blockScrolling = Infinity;
           editor.setTheme('ace/theme/todr');
           editor.getSession().setMode('ace/mode/json');
           editor.setFontSize(16);
           editor.setValue(JSON.stringify(scope.slide, null, 2));
           editor.clearSelection();
-          editor.$blockScrolling = Infinity;
 
           scope.$watch('collapsed', function () {
             editor.resize();

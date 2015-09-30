@@ -1,2 +1,5 @@
-div(style="width: {{size}}%; float: left")
-  plugins-loader(namespace="'slide'", context="data", path="{{path}}")
+.slide-leftright
+  .slide-left
+    plugins-loader(namespace="'slide'", context="left", path="{{path}}")
+  .slide-right
+    plugins-loader(namespace="'slide'", context="right", path="{{ getRightPath(path) }}")

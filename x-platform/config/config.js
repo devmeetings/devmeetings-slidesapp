@@ -8,7 +8,7 @@ var getVersion = function () {
     return fs.readFileSync('.version', {
       encoding: 'utf8'
     });
-  } catch(e) {
+  } catch (e) {
     return 'dev';
   }
 };
@@ -232,7 +232,7 @@ Object.keys(fromEnv).map(function (k) {
 (function (c) {
   'use strict';
 
-  if (c.isDev || c.cookieDomain) {
+  if (c.isDev) {
     return;
   }
 

@@ -128,7 +128,7 @@ gulp.task('test', function () {
     });
 });
 
-gulp.task('serve', ['less', 'generate_plugins', 'copy_theme'], function () {
+gulp.task('serve', ['less', 'jade', 'generate_plugins', 'copy_theme'], function () {
   $.livereload.listen({
     port: 26000,
     key: fs.readFileSync('./config/certs/server.key', 'utf8'),
@@ -171,10 +171,16 @@ gulp.task('serve', ['less', 'generate_plugins', 'copy_theme'], function () {
 // Build the whole platform
 
 function runJspm (args) {
-  return Q.denodeify(fork)('./node_modules/.bin/jspm', args).then(function (data) {
-    console.log(data.stdout);
-    console.log(data.stderr);
+  var defer = Q.defer();
+  var child = fork('./node_modules/.bin/jspm', args);
+  child.on('error', function () {
+    defer.reject();
   });
+
+  child.on('exit', function () {
+    defer.resolve();
+  });
+  return defer.promise;
 }
 function runJspmBundle (moduleName, target) {
   var args = ['bundle', moduleName, target, '--inject'];
@@ -187,17 +193,27 @@ gulp.task('build', ['lint', 'jade', 'less', 'copy_theme', 'generate_plugins'], f
   };
 
   var jobs = [
-    runJspmBundle('dm-slider/slider-slide', location('slider-slide')),
-    runJspmBundle('dm-slider/slider-deck', location('slider-deck')),
-    runJspmBundle('dm-slider/slider-trainer', location('slider-trainer')),
-    runJspmBundle('dm-xplatform/dm-xplatform', location('dm-xplatform')),
-    runJspmBundle('dm-dashboard/dm-dashboard', location('dm-dashboard'))
+    ['dm-slider/slider-slide', location('slider-slide')],
+    ['dm-slider/slider-deck', location('slider-deck')],
+    ['dm-slider/slider-trainer', location('slider-trainer')],
+    ['dm-xplatform/dm-xplatform', location('dm-xplatform')],
+    ['dm-dashboard/dm-dashboard', location('dm-dashboard')]
     // runJspmBundle('dm-courses/dm-courses', location('dm-courses'))
   ];
 
-  Q.all(jobs).then(function () {
+  var currentPromise = Q.when();
+  jobs.map(function (jobArgs) {
+    currentPromise = currentPromise.then(function () {
+      return runJspmBundle.apply(null, jobArgs);
+    });
+  });
+
+  currentPromise.done(function () {
     cb();
-  }, cb);
+  }, function (err) {
+    console.error(err);
+    cb(err);
+  });
 });
 
 gulp.task('default', ['serve']);

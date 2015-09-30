@@ -19,14 +19,23 @@ define(['module', 'slider/slider.plugins', './part.html!text'], function (module
     function () {
       return {
         restrict: 'E',
+        replace: true,
         scope: {
-          data: '=data',
+          left: '=data',
           slide: '=context',
           path: '@'
         },
         template: viewTemplate,
         link: function (scope) {
-          scope.size = 60;
+          scope.$watch(function () {
+            return scope.slide.right;
+          }, function (right) {
+            scope.right = right;
+          });
+
+          scope.getRightPath = function (path) {
+            return path.replace(/left$/, 'right');
+          };
         }
       };
     }
@@ -44,21 +53,5 @@ define(['module', 'slider/slider.plugins', './part.html!text'], function (module
         text: 'Some text on the right'
       }
     }
-  }).directive('slideRight', [
-
-    function () {
-      return {
-        restrict: 'E',
-        scope: {
-          data: '=data',
-          slide: '=context',
-          path: '@'
-        },
-        template: viewTemplate,
-        link: function (scope) {
-          scope.size = 40;
-        }
-      };
-    }
-  ]);
+  });
 });
