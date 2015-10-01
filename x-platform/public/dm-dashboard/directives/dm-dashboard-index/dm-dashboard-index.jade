@@ -57,6 +57,91 @@ mixin sortIcon()
     toggleEventDetailedView="vm.toggleEventDetailedView(eventId)"
   )
 
+  .dm-dashboard-strategic-table-view
+    .events(
+      ng-if="vm.viewOptions.strategicView === 'table'"
+      ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
+      )
+      table.table.table-bordered.table-hover
+        tr.labels
+          th.name.cursor-pointer(ng-click="vm.sortBy('name')") 
+            | Event
+            span(ng-if="vm.sort.by === 'name'")
+              +sortIcon()
+          th.timing-started.cursor-pointer(ng-click="vm.sortBy('timing.startedAt')")
+            | Started at
+            span(ng-if="vm.sort.by === 'timing.startedAt'")
+              +sortIcon()
+          th.timing-expected-end.cursor-pointer(ng-click="vm.sortBy('timing.expectedEnd')")
+            | Expected end at
+            span(ng-if="vm.sort.by === 'timing.expectedEnd'")
+              +sortIcon()
+          th.people.cursor-pointer(ng-click="vm.sortBy('members.number')")
+            | All People
+            span(ng-if="vm.sort.by === 'members.number'")
+              +sortIcon()
+          th.stage.cursor-pointer(ng-click="vm.sortBy('currentStage.name')") 
+            | Current stage
+            span(ng-if="vm.sort.by === 'currentStage.name'")
+              +sortIcon()
+          th.active-students
+            | Active students
+          th.best-users
+            | Best Students 
+          th.worse-users
+            | Worse Students
+          th.best-group
+            | Best Group
+          th.unsolved-problems
+            | Unsolved problems
+
+        tr.event(ng-repeat="event in vm.model.activeEvents | orderBy:vm.sort.by:vm.sort.desc")
+          td.name.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)")
+            span.bold
+              | {{ event.name }}
+          td.timing-started 
+            span.bold 
+              | {{ event.timing.startedAt | amDateFormat:'HH:mm (DD.MM.YYYY)' }}
+          td.timing-expected-end
+            span.bold
+              | {{ vm.referToExpectedEndDate(event.timing.expectedEnd) }}
+          td.people
+            span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
+              | {{ event.members.number }} 
+          td.stage
+            span.bold.text-success {{ event.currentStage.name }},
+            br 
+            span.text-success(am-time-ago="event.currentStage.startedAt")
+          td.active-students 
+            span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
+              | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+            span.bold.text-warning(
+              ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
+              )
+              | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+            span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
+              | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+          td.best-users
+            img.avatar.img-responsive.img-rounded(
+              ng-repeat="rank in event.ranking.bestUsers track by $index"
+              ng-src="{{ rank.user.avatar | dmGravatar:24 }}"
+              tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
+              ) 
+          td.worse-users
+            img.avatar.img-responsive.img-rounded(
+              ng-repeat="rank in event.ranking.worseUsers track by $index"
+              ng-src="{{ rank.user.avatar | dmGravatar:24 }}"
+              tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
+              ) 
+          td.best-group
+            span.bold(tooltip="{{ event.ranking.bestGroup.percent }}%")
+              | {{ event.ranking.bestGroup.name }}
+          td.unsolved-problems
+            span.bold(
+              tooltip="{{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }} unsolved / {{ event.reportedProblems.length }} all problems"
+              ng-class="{'text-danger': vm.getNumOfUnsolvedProblems(event.reportedProblems) > 0, 'text-muted': vm.getNumOfUnsolvedProblems(event.reportedProblems) === 0}"
+              )
+              | {{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }}
 
 
 
@@ -71,20 +156,19 @@ mixin sortIcon()
       )
       div(ng-if="vm.viewOptions.strategicView === 'blocks' || vm.isFullscreen(event._id)")
         .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': vm.isFullscreen(event._id)}")
-          h1.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)") {{ event.name }}
-          div(ng-if="event.timing.started")
-            h4 Started at: 
-              span.bold {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
-            h4 Expected end: 
-              // feature in progress
-              // span.bold {{ event.timing.expectedEnd.toString() }}
-              span.bold 
-                | end
-          div(ng-if="!event.timing.started")
-            h4 Event has not yet begun
-            // quick hack to improve view below:
-            h4(style="opacity: 0") QH
-            // hack end
+          .name
+            h1.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)") {{ event.name }}
+          .timing
+            div(ng-if="event.timing.started")
+              h4 Started at: 
+                span.bold {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
+              h4 Expected end: 
+                span.bold {{ vm.referToExpectedEndDate(event.timing.expectedEnd) }}
+            div(ng-if="!event.timing.started")
+              h4 Event has not yet begun
+              // quick hack to improve view below:
+              h4(style="opacity: 0") QH
+              // hack end
         .streaming.col-md-6(
           ng-if="vm.isFullscreen(event._id)"
           )

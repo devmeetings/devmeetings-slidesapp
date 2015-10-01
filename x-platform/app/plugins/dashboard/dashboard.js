@@ -113,11 +113,11 @@ function getEventCurrentStageIdx (iterations) {
   }
 }
 
-function isNowDateAfterExpectedEndDate (expectedEnd) {
-  var now = moment();
-  var difference = now.diff(expectedEnd, 'minutes');
-  return difference;
-}
+// function isNowDateAfterExpectedEndDate (expectedEnd) {
+//   var now = moment();
+//   var difference = now.diff(expectedEnd, 'minutes');
+//   return difference;
+// }
 
 function getEventExpectedEndDate (iterations, name) {
   var currentStageIdx = getEventCurrentStageIdx(iterations);
@@ -130,9 +130,9 @@ function getEventExpectedEndDate (iterations, name) {
   }
   var currentIteration = iterations[currentStageIdx];
   var expectedEnd = moment(currentIteration.startedAt).add(minutesToEnd, 'minutes');
-  if (isNowDateAfterExpectedEndDate(expectedEnd)) {
-    return false;
-  }
+  // if (isNowDateAfterExpectedEndDate(expectedEnd)) {
+  //   return false;
+  // }
   return expectedEnd;
 }
 

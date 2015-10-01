@@ -1,6 +1,7 @@
-import _ from '_';
 import app from 'dm-dashboard/dm-dashboard-app';
 import template from './dm-dashboard-index.html!text';
+import _ from '_';
+import moment from 'moment';
 
 app.directive('dmDashboardIndex', () => {
   return {
@@ -32,6 +33,7 @@ class DmDashboardIndex {
     vm.sortBy = (byWhat) => this.sortBy(vm, byWhat);
     vm.isFullscreen = (eventId) => this.isFullscreen(vm, eventId);
     vm.toggleEventDetailedView = (eventId) => this.toggleEventDetailedView(vm, eventId);
+    vm.referToExpectedEndDate = (expectedEnd) => this.referToExpectedEndDate(expectedEnd);
 
     vm.sort = {
       by: false,
@@ -52,6 +54,8 @@ class DmDashboardIndex {
       }
       vm.model = this.buildFinalDashboardModel(vm.dashboard);
     });
+
+    console.log('moment', moment());
   }
 
   getNumOfUnsolvedProblems (reportedProblems) {
@@ -289,6 +293,33 @@ class DmDashboardIndex {
     } else {
       vm.viewOptions.fullscreenEvent._id = eventId;
     }
+  }
+
+  minutesAfterExpectedEndDate (expectedEnd) {
+    if (!expectedEnd) {
+      return false;
+    }
+    let now = moment();
+    let difference = now.diff(expectedEnd, 'minutes');
+    return difference;
+  }
+
+  referToExpectedEndDate (expectedEnd) {
+    if (!expectedEnd) {
+      return 'ended';
+    }
+
+    let minutesAfterExpectedEndDate = this.minutesAfterExpectedEndDate(expectedEnd);
+
+    if (minutesAfterExpectedEndDate) {
+      if (minutesAfterExpectedEndDate < 60) {
+        return minutesAfterExpectedEndDate + 'min. after expected end';
+      } else {
+        return 'ended';
+      }
+    }
+
+    return moment(expectedEnd).format('HH:mm');
   }
 
 }
