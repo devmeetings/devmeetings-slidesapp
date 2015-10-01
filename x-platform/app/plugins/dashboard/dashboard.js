@@ -113,29 +113,27 @@ function getEventCurrentStageIdx (iterations) {
   }
 }
 
+function isNowDateAfterExpectedEndDate (expectedEnd) {
+  var now = moment();
+  var difference = now.diff(expectedEnd, 'minutes');
+  return difference;
+}
+
 function getEventExpectedEndDate (iterations, name) {
-  console.log('=====getEventExpectedEndDate=====');
-  console.log(name);
   var currentStageIdx = getEventCurrentStageIdx(iterations);
-  console.log('currentStageIdx', currentStageIdx);
   if (!currentStageIdx) {
-    console.log('ENDED');
     return false;
   }
   var minutesToEnd = 0;
-  console.log('ITERATION!');
   for (var i = currentStageIdx; i < iterations.length; i++) {
-    console.log(i);
-    if (i === 'currentStageIdx') { // unstring currentStIdx
-      // var minutesToEnd = 0;// iterations[i].time - (now - startedAt)
-    } else {
-      minutesToEnd = minutesToEnd + iterations[i].time;
-    }
+    minutesToEnd = minutesToEnd + iterations[i].time;
   }
-  console.log('minutesToEnd', minutesToEnd);
-  console.log('[1]', moment().add('minutes', minutesToEnd));
-  console.log('[2]', moment().add('minutes', minutesToEnd).format('HH:mm'));
-  return moment().add('minutes', minutesToEnd);
+  var currentIteration = iterations[currentStageIdx];
+  var expectedEnd = moment(currentIteration.startedAt).add(minutesToEnd, 'minutes');
+  if (isNowDateAfterExpectedEndDate(expectedEnd)) {
+    return false;
+  }
+  return expectedEnd;
 }
 
 function buildCurrentStage (iteration) {

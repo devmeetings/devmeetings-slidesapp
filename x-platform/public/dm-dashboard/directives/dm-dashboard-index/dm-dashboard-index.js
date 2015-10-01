@@ -47,7 +47,7 @@ class DmDashboardIndex {
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {
-      if (!vm.dashboard.length || !vm.dashboard) {
+      if (!vm.dashboard) {
         return;
       }
       vm.model = this.buildFinalDashboardModel(vm.dashboard);

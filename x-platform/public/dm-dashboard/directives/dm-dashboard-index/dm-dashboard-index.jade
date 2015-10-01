@@ -44,6 +44,10 @@ mixin sortIcon()
 
 .dm-dashboard-index
 
+  dm-dashboard-tiles(
+    dashboard="vm.dashboard"
+  )
+
   // ----------- WIDOK STRATEGICZNY - NOWY ------------
 
   .events(
@@ -89,7 +93,7 @@ mixin sortIcon()
             | {{ event.name }}
         td.timing-started 
           span.bold 
-            | {{ event.timing.startedAt | amDateFormat:'HH:mm (YYYY.MM.DD)' }}
+            | {{ event.timing.startedAt | amDateFormat:'HH:mm (DD.MM.YYYY)' }}
         td.timing-expected-end
           span.bold(ng-if="event.timing.expectedEnd")
             | {{ event.timing.expectedEnd | amDateFormat:'HH:mm' }}
@@ -114,13 +118,13 @@ mixin sortIcon()
         td.best-users
           img.avatar.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.bestUsers track by $index"
-            ng-src="{{ rank.user.avatar | dmGravatar:15 }}"
+            ng-src="{{ rank.user.avatar | dmGravatar:24 }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.worse-users
           img.avatar.img-responsive.img-rounded(
             ng-repeat="rank in event.ranking.worseUsers track by $index"
-            ng-src="{{ rank.user.avatar | dmGravatar:15 }}"
+            ng-src="{{ rank.user.avatar | dmGravatar:24 }}"
             tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
             ) 
         td.best-group
