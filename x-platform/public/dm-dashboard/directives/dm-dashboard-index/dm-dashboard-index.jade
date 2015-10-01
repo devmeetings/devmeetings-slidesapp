@@ -45,97 +45,18 @@ mixin sortIcon()
 .dm-dashboard-index
 
   dm-dashboard-tiles(
-    dashboard="vm.dashboard"
+    dashboard="vm.model"
+    allProblemsOnScreen="vm.viewOptions"
   )
 
   // ----------- WIDOK STRATEGICZNY - NOWY ------------
+  dm-dashboard-strategic-table-view(
+    model="vm.model"
+    allProblemsOnScreen="vm.viewOptions"
+    sortBy="vm.sortBy(byWhat)"
+    toggleEventDetailedView="vm.toggleEventDetailedView(eventId)"
+  )
 
-  .events(
-    ng-if="vm.viewOptions.strategicView === 'table'"
-    ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
-    )
-    table.table.table-bordered.table-hover
-      tr.labels
-        th.name.cursor-pointer(ng-click="vm.sortBy('name')") 
-          | Event
-          span(ng-if="vm.sort.by === 'name'")
-            +sortIcon()
-        th.timing-started.cursor-pointer(ng-click="vm.sortBy('timing.startedAt')")
-          | Started at
-          span(ng-if="vm.sort.by === 'timing.startedAt'")
-            +sortIcon()
-        th.timing-expected-end.cursor-pointer(ng-click="vm.sortBy('timing.expectedEnd')")
-          | Expected end at
-          span(ng-if="vm.sort.by === 'timing.expectedEnd'")
-            +sortIcon()
-        th.people.cursor-pointer(ng-click="vm.sortBy('members.number')")
-          | All People
-          span(ng-if="vm.sort.by === 'members.number'")
-            +sortIcon()
-        th.stage.cursor-pointer(ng-click="vm.sortBy('currentStage.name')") 
-          | Current stage
-          span(ng-if="vm.sort.by === 'currentStage.name'")
-            +sortIcon()
-        th.active-students
-          | Active students
-        th.best-users
-          | Best Students 
-        th.worse-users
-          | Worse Students
-        th.best-group
-          | Best Group
-        th.unsolved-problems
-          | Unsolved problems
-
-      tr.event(ng-repeat="event in vm.model.activeEvents | orderBy:vm.sort.by:vm.sort.desc")
-        td.name.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)")
-          span.bold
-            | {{ event.name }}
-        td.timing-started 
-          span.bold 
-            | {{ event.timing.startedAt | amDateFormat:'HH:mm (DD.MM.YYYY)' }}
-        td.timing-expected-end
-          span.bold(ng-if="event.timing.expectedEnd")
-            | {{ event.timing.expectedEnd | amDateFormat:'HH:mm' }}
-          span.bold(ng-if="!event.timing.expectedEnd")
-            | ended
-        td.people
-          span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
-            | {{ event.members.number }} 
-        td.stage
-          span.bold.text-success {{ event.currentStage.name }},
-          br 
-          span.text-success(am-time-ago="event.currentStage.startedAt")
-        td.active-students 
-          span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
-            | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-          span.bold.text-warning(
-            ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
-            )
-            | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-          span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
-            | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
-        td.best-users
-          img.avatar.img-responsive.img-rounded(
-            ng-repeat="rank in event.ranking.bestUsers track by $index"
-            ng-src="{{ rank.user.avatar | dmGravatar:24 }}"
-            tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
-            ) 
-        td.worse-users
-          img.avatar.img-responsive.img-rounded(
-            ng-repeat="rank in event.ranking.worseUsers track by $index"
-            ng-src="{{ rank.user.avatar | dmGravatar:24 }}"
-            tooltip="{{ rank.user.name }} ({{ rank.group }}), {{ rank.summary.percent }}%"
-            ) 
-        td.best-group
-          span.bold(tooltip="{{ event.ranking.bestGroup.percent }}%")
-            | {{ event.ranking.bestGroup.name }}
-        td.unsolved-problems
-          span.bold(
-            tooltip="{{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }} unsolved / {{ event.reportedProblems.length }} all problems"
-            ng-class="{'text-danger': vm.getNumOfUnsolvedProblems(event.reportedProblems) > 0, 'text-muted': vm.getNumOfUnsolvedProblems(event.reportedProblems) === 0}"
-            )
-            | {{ vm.getNumOfUnsolvedProblems(event.reportedProblems) }}
 
 
 
@@ -312,5 +233,4 @@ mixin sortIcon()
 
   // kontrola danych 
   .col-xs-12
-    //pre {{ vm.dashboardFromBackend.activeEvents[6] | json }}
     pre {{ vm.model.activeEvents[6] | json }}

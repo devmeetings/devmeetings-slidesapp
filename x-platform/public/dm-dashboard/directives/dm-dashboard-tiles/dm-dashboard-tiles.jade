@@ -1,2 +1,13 @@
-.dm-dashboard-tiles
-  | Hello Tiles!
+.dm-dashboard-tiles.text-center(
+  ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
+  )
+  .tiles.text-center
+    .row
+      .col-md-6
+        .tile.events-num
+          span.fa.fa-fw.fa-globe
+            | {{ vm.getAllEventsNum() }}
+      .col-md-6
+        .tile.people-num
+          span.fa.fa-fw.fa-users
+            | {{ vm.getAllPeopleNum() }}

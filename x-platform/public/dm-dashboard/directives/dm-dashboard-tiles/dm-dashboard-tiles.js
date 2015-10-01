@@ -7,7 +7,8 @@ app.directive('dmDashboardTiles', () => {
     restrict: 'E',
     replace: true,
     scope: {
-      dashboard: '='
+      dashboard: '=',
+      allProblemsOnScreen: '='
     },
     controllerAs: 'vm',
     bindToController: true,
@@ -26,6 +27,24 @@ class DmDashboardTiles {
   }
 
   controller (vm) {
+    vm.getAllEventsNum = () => this.getAllEventsNum(vm);
+    vm.getAllPeopleNum = () => this.getAllPeopleNum(vm);
+  }
+
+  getAllEventsNum (vm) {
+    let allEventsNum = 0;
+    for (let event of vm.dashboard.activeEvents) {
+      allEventsNum++;
+    }
+    return allEventsNum;
+  }
+
+  getAllPeopleNum (vm) {
+    let allPeopleNum = 0;
+    for (let event of vm.dashboard.activeEvents) {
+      allPeopleNum = allPeopleNum + event.members.number;
+    }
+    return allPeopleNum;
   }
 
 }
