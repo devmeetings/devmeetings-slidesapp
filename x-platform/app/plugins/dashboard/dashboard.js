@@ -11,13 +11,9 @@ logger.info('Loading dashboard plugin.');
 exports.onSocket = function (log, socket, io) {
   'use strict';
 
-  logger.info('New client conntected to dashboard');
-
   socket.on('dashboard.fetch', fetchDashboardForClient);
 
   function fetchDashboardForClient (data, ack) {
-    logger.info('Client is fetching dashboard.');
-
     getDashboard(hardcodedDashboard).done(function (dashboard) {
       logger.info('Sending dashboard to client');
       ack(dashboard);
@@ -42,10 +38,10 @@ function getUsersRanks (activeEventsIds) {
   }).populate('user').lean().exec());
 }
 
-function getEventTimings (eventTimingsIds) {
+function getEventsTimings (eventsTimingsIds) {
   return Q.when(EventTiming.find({
     id: {
-      $in: eventTimingsIds
+      $in: eventsTimingsIds
     }
   }).lean().exec());
 }
@@ -64,36 +60,29 @@ function getEventFromHardModelRandomly (hardcodedActiveEvents) {
 }
 
 function assignUsersRanksToEvents (activeEvents, usersRanks) {
-  for (var i = 0; i < activeEvents.length; i++) {
-    var event = activeEvents[i];
+  return activeEvents.map(function assignRanks (event) {
     event.ranking = {};
-    event.ranking.ranks = [];
-    for (var i2 = 0; i2 < usersRanks.length; i2++) {
-      var usersRank = usersRanks[i2];
-      if (usersRank.event.toString() === event._id.toString()) {
-        event.ranking.ranks.push(usersRank);
-      }
-    }
-  }
-  return activeEvents;
+    event.ranking.ranks = usersRanks.filter(function eventHasUsersRank (usersRank) {
+      return usersRank.event.toString() === event._id.toString();
+    });
+    return event;
+  });
 }
 
-function getEventTimingsId (event) {
+function getEventsTimingsId (event) {
   var tempArr = event.liveLink.split('/');
   var id = tempArr[tempArr.length - 1];
   return id;
 }
 
-function getEventTimingsIds (activeEvents) {
-  var ids = [];
-  for (var i = 0; i < activeEvents.length; i++) {
-    var event = activeEvents[i];
-    if (event.liveLink) {
-      var id = getEventTimingsId(event);
-      ids.push(id);
-    }
-  }
-  return ids;
+function hasLiveLink (event) {
+  return !!event.liveLink;
+}
+
+function getEventsTimingsIds (activeEvents) {
+  return activeEvents
+    .filter(hasLiveLink)
+    .map(getEventsTimingsId);
 }
 
 function isEventStarted (iterations) {
@@ -153,13 +142,34 @@ function getEventCurrentStage (iterations) {
   return buildCurrentStage(iteration);
 }
 
-function assignTimingsToEvents (activeEvents, eventTimings) {
+// function assignTiming (timing, event) {
+//   if (!hasLivelink(event)) {
+//     return;
+//   }
+//   var eventTimingId = getEventsTimingsId(event);
+//   if (eventTimingId === timing.id) {
+//     event.timing.started = isEventStarted(timing.items);
+//     event.timing.startedAt = getEventStartedDate(timing.items);
+//     event.timing.expectedEnd = getEventExpectedEndDate(timing.items, timing.id);
+//     event.currentStage = getEventCurrentStage(timing.items);
+//   }
+//   return event;
+// }
+
+function assignTimingsToEvents (activeEvents, eventsTimings) {
+  // return activeEvents
+  //   .map(function (event) {
+  //     return eventsTimings.map(
+  //       function (timing) { return assignTiming(timing, event); }, event
+  //     );
+  //   });
+
   for (var evItr = 0; evItr < activeEvents.length; evItr++) {
-    for (var timItr = 0; timItr < eventTimings.length; timItr++) {
+    for (var timItr = 0; timItr < eventsTimings.length; timItr++) {
       var event = activeEvents[evItr];
       if (event.liveLink) {
-        var eventTimingId = getEventTimingsId(event);
-        var timing = eventTimings[timItr];
+        var eventTimingId = getEventsTimingsId(event);
+        var timing = eventsTimings[timItr];
         if (eventTimingId === timing.id) {
           event.timing.started = isEventStarted(timing.items);
           event.timing.startedAt = getEventStartedDate(timing.items);
@@ -183,13 +193,13 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
   });
 
   var activeEventsIds = getActiveEventsIds(activeEvents);
-  var eventTimingsIds = getEventTimingsIds(activeEvents);
+  var eventsTimingsIds = getEventsTimingsIds(activeEvents);
 
   return getUsersRanks(activeEventsIds).then(function (usersRanks) {
     activeEvents = assignUsersRanksToEvents(activeEvents, usersRanks);
 
-    return getEventTimings(eventTimingsIds).then(function (eventTimings) {
-      activeEvents = assignTimingsToEvents(activeEvents, eventTimings);
+    return getEventsTimings(eventsTimingsIds).then(function (eventsTimings) {
+      activeEvents = assignTimingsToEvents(activeEvents, eventsTimings);
 
       return {
         activeEvents: activeEvents
