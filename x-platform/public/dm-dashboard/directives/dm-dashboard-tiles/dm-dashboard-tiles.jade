@@ -1,7 +1,11 @@
-.dm-dashboard-tiles.text-center(
-  ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
-  )
-  .tiles.text-center
+.dm-dashboard-tiles
+  .toggle-tiles(ng-click="vm.showTiles = !vm.showTiles")
+    span.fa.fa-globe
+
+  .tiles.text-center(
+    ng-if="vm.showTiles"
+    ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
+    )
     .row
       .col-md-6
         .tile.events-num
