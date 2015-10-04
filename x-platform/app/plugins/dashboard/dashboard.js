@@ -142,28 +142,7 @@ function getEventCurrentStage (iterations) {
   return buildCurrentStage(iteration);
 }
 
-// function assignTiming (timing, event) {
-//   if (!hasLivelink(event)) {
-//     return;
-//   }
-//   var eventTimingId = getEventsTimingsId(event);
-//   if (eventTimingId === timing.id) {
-//     event.timing.started = isEventStarted(timing.items);
-//     event.timing.startedAt = getEventStartedDate(timing.items);
-//     event.timing.expectedEnd = getEventExpectedEndDate(timing.items, timing.id);
-//     event.currentStage = getEventCurrentStage(timing.items);
-//   }
-//   return event;
-// }
-
 function assignTimingsToEvents (activeEvents, eventsTimings) {
-  // return activeEvents
-  //   .map(function (event) {
-  //     return eventsTimings.map(
-  //       function (timing) { return assignTiming(timing, event); }, event
-  //     );
-  //   });
-
   for (var evItr = 0; evItr < activeEvents.length; evItr++) {
     for (var timItr = 0; timItr < eventsTimings.length; timItr++) {
       var event = activeEvents[evItr];
@@ -195,16 +174,17 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
   var activeEventsIds = getActiveEventsIds(activeEvents);
   var eventsTimingsIds = getEventsTimingsIds(activeEvents);
 
-  return getUsersRanks(activeEventsIds).then(function (usersRanks) {
+  var addUsersRanks = getUsersRanks(activeEventsIds).then(function (usersRanks) {
     activeEvents = assignUsersRanksToEvents(activeEvents, usersRanks);
+  });
+  var addTimings = getEventsTimings(eventsTimingsIds).then(function (eventsTimings) {
+    activeEvents = assignTimingsToEvents(activeEvents, eventsTimings);
+  });
 
-    return getEventsTimings(eventsTimingsIds).then(function (eventsTimings) {
-      activeEvents = assignTimingsToEvents(activeEvents, eventsTimings);
-
-      return {
-        activeEvents: activeEvents
-      };
-    });
+  return Q.all([addUsersRanks, addTimings]).then(function () {
+    return {
+      activeEvents: activeEvents
+    };
   });
 }
 
