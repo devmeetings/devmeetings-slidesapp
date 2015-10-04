@@ -293,6 +293,13 @@ mixin sortIcon()
       | View: Blocks
 
 
+  // toggle tiles
+  .toggle-tiles.cursor-pointer(ng-click="vm.viewOptions.showTiles = !vm.viewOptions.showTiles")
+    span.fa.fa-globe(
+      tooltip="Toggle tiles"
+      tooltip-placement="left"
+      )
+
 
   // left sidebar z zebranymi problemami sposrod lokacji i jego toggle
 

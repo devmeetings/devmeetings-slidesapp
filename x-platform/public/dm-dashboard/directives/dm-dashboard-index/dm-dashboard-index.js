@@ -46,7 +46,8 @@ class DmDashboardIndex {
       strategicView: 'table',
       fullscreenEvent: {
         _id: undefined
-      }
+      },
+      showTiles: true
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {

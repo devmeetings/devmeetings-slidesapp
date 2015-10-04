@@ -1,9 +1,6 @@
 .dm-dashboard-tiles
-  .toggle-tiles(ng-click="vm.showTiles = !vm.showTiles")
-    span.fa.fa-globe
-
   .tiles.text-center(
-    ng-if="vm.showTiles"
+    ng-if="vm.viewOptions.showTiles"
     ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
     )
     .row
