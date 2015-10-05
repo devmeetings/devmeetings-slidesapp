@@ -15,7 +15,7 @@ location /ext/itunes/ {
   add_header X-Cache-Status $upstream_cache_status;
 
   proxy_ignore_headers "Cache-Control";
-  proxy_pass https://itunes.apple.com/search;
+  proxy_pass https://itunes.apple.com/;
   proxy_set_header X-Real-IP $remote_addr;
   add_header User-Agent xplatform;
 }
