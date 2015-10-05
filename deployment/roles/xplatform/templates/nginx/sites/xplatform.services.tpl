@@ -9,6 +9,17 @@ location /ext/convert/ {
   proxy_set_header X-Real-IP $remote_addr;
 }
 
+location /ext/itunes/ {
+  proxy_cache {{server_short}}one;
+  proxy_cache_valid 200 60m;
+  add_header X-Cache-Status $upstream_cache_status;
+
+  proxy_ignore_headers "Cache-Control";
+  proxy_pass https://itunes.apple.com/search;
+  proxy_set_header X-Real-IP $remote_addr;
+  add_header User-Agent xplatform;
+}
+
 location /ext/github/ {
   proxy_cache {{server_short}}one;
   proxy_cache_valid 200 60m; 
