@@ -6,6 +6,8 @@ var EventTiming = require('../../models/eventTiming');
 var hardcodedDashboard = require('./hardcodedDashboard');
 var _ = require('lodash');
 var moment = require('moment');
+var store = require('../../services/store');
+var eventRoom = require('../eventRoom');
 
 logger.info('Loading dashboard plugin.');
 exports.onSocket = function (log, socket, io) {
@@ -161,6 +163,16 @@ function assignTimingsToEvents (activeEvents, eventsTimings) {
   return activeEvents;
 }
 
+function hashValuesToJson (obj) {
+  if (!obj) {
+    return {};
+  }
+  Object.keys(obj).map(function (k) {
+    obj[k] = JSON.parse(obj[k]);
+  });
+  return obj;
+}
+
 function makeDashboardModel (hardcodedDashboard, visibleEvents) {
   var activeEvents = _.map(visibleEvents, function (event) {
     var e = _.cloneDeep(getEventFromHardModelRandomly(hardcodedDashboard.activeEvents));
@@ -181,7 +193,19 @@ function makeDashboardModel (hardcodedDashboard, visibleEvents) {
     activeEvents = assignTimingsToEvents(activeEvents, eventsTimings);
   });
 
-  return Q.all([addUsersRanks, addTimings]).then(function () {
+  var addActiveUsers = activeEvents.map(function (event) {
+    var room = eventRoom(event._id);
+    console.log(room);
+    return store.hgetall(room).then(function (users) {
+      console.log(users);
+      users = hashValuesToJson(users);
+      event.members.students.active = users;
+      console.log(users);
+      return event;
+    });
+  });
+
+  return Q.all([addUsersRanks, addTimings, addActiveUsers]).then(function () {
     return {
       activeEvents: activeEvents
     };

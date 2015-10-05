@@ -10,6 +10,17 @@ var hardcodedDashboard = {
         expectedEnd: 16.03
       },
       members: {
+        number: 36,
+        organizers: [
+          {
+            name: 'Tomasz Drwięga',
+            avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+          },
+          {
+            name: 'Łukasz Słomski',
+            avatar: 'https://www.gravatar.com/avatar/1dc4a7d97cb29cf81d0c58bc1a17a5af'
+          }
+        ],
         students: {
           all: [
             {
