@@ -51,9 +51,9 @@ class DmDashboardIndex {
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {
-      if (!vm.dashboard) {
-        return;
-      }
+      // if (!vm.dashboard) {
+      //   return;
+      // }
       let dashboardModelBuilder = new DashboardModelBuilder();
       vm.model = dashboardModelBuilder.buildFinalDashboardModel(vm.dashboard);
     });

@@ -173,7 +173,21 @@ function hashValuesToJson (obj) {
   return obj;
 }
 
-function makeDashboardModel (hardcodedDashboard, visibleEvents) {
+// function assignUsersActivityToEventsRanks (activeEvents) {
+//   return activeEvents.map(function (event) {
+//     var room = eventRoom(event._id);
+//     console.log(room);
+//     return store.hgetall(room).then(function (users) {
+//       console.log(users);
+//       users = hashValuesToJson(users);
+//       event.members.students.active = users;
+//       console.log(users);
+//       return event;
+//     });
+//   });
+// }
+
+function buildDashboardModel (hardcodedDashboard, visibleEvents) {
   var activeEvents = _.map(visibleEvents, function (event) {
     var e = _.cloneDeep(getEventFromHardModelRandomly(hardcodedDashboard.activeEvents));
     e._id = event._id;
@@ -216,6 +230,6 @@ function getDashboard (hardcodedDashboard) {
   logger.info('Getting dashboard for him.');
 
   return getVisibleEvents().then(function (visibleEvents) {
-    return makeDashboardModel(hardcodedDashboard, visibleEvents);
+    return buildDashboardModel(hardcodedDashboard, visibleEvents);
   });
 }

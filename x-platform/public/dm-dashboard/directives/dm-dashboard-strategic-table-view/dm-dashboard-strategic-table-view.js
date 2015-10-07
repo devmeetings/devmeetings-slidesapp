@@ -30,6 +30,7 @@ class DmDashboardStrategicTableView {
 
   controller (vm) {
     console.log(vm.model);
+    console.log(vm.allProblemsOnScreen);
   }
 }
 
