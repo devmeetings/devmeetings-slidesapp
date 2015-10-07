@@ -34,6 +34,7 @@ class DmDashboardIndex {
     vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
     vm.referToExpectedEndDate = (expectedEnd) => this.referToExpectedEndDate(expectedEnd);
     let dVOperator = new DashboardViewOperator();
+    vm.dVOperator = dVOperator;
     vm.isFullscreen = (eventId) => dVOperator.isFullscreen(vm, eventId);
     vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
     vm.sortBy = (byWhat) => dVOperator.sortBy(vm, byWhat);

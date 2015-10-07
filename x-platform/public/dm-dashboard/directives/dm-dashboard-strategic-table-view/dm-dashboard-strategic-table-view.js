@@ -1,7 +1,6 @@
 import _ from '_';
 import app from 'dm-dashboard/dm-dashboard-app';
 import template from './dm-dashboard-strategic-table-view.html!text';
-import DashboardViewOperator from '../dm-dashboard-index/dashboard-view-operator';
 
 app.directive('dmDashboardStrategicTableView', () => {
   return {
@@ -9,7 +8,8 @@ app.directive('dmDashboardStrategicTableView', () => {
     replace: true,
     scope: {
       model: '=',
-      viewOptions: '='
+      viewOptions: '=',
+      dashboardViewOperator: '='
     },
     controllerAs: 'vm',
     bindToController: true,
@@ -32,10 +32,12 @@ class DmDashboardStrategicTableView {
     console.log(vm.model);
     console.log(vm.viewOptions);
 
-    let dVOperator = new DashboardViewOperator();
-    vm.isFullscreen = (eventId) => dVOperator.isFullscreen(vm, eventId);
-    vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
-    vm.sortBy = (byWhat) => dVOperator.sortBy(vm, byWhat);
+    // let's create shorter name
+    let vOp = vm.dashboardViewOperator;
+
+    vm.isFullscreen = (eventId) => vOp.isFullscreen(vm, eventId);
+    vm.toggleEventDetailedView = (eventId) => vOp.toggleEventDetailedView(vm, eventId);
+    vm.sortBy = (byWhat) => vOp.sortBy(vm, byWhat);
   }
 
 }

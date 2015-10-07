@@ -78,7 +78,7 @@ mixin sortIcon()
         th.unsolved-problems
           | Unsolved problems
 
-      tr.event(ng-repeat="event in vm.model.activeEvents | orderBy:vm.sort.by:vm.sort.desc")
+      tr.event(ng-repeat="event in vm.model.activeEvents | orderBy:vm.viewOptions.sort.by:vm.viewOptions.sort.desc")
         td.name.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)")
           span.bold
             | {{ event.name }}
