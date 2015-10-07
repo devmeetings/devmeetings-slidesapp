@@ -7,8 +7,9 @@ app.directive('dmDashboardStrategicTableView', () => {
     restrict: 'E',
     replace: true,
     scope: {
+      dashboard: '=',
       model: '=',
-      allProblemsOnScreen: '=',
+      viewOptions: '=',
       sortBy: '&',
       toggleEventDetailedView: '&'
     },
@@ -29,8 +30,10 @@ class DmDashboardStrategicTableView {
   }
 
   controller (vm) {
+    console.log('from strategic view');
+    console.log(vm.dashboard);
     console.log(vm.model);
-    console.log(vm.allProblemsOnScreen);
+    console.log(vm.viewOptions);
   }
 }
 

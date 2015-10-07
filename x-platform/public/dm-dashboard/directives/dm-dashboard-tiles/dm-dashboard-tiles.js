@@ -8,7 +8,7 @@ app.directive('dmDashboardTiles', () => {
     replace: true,
     scope: {
       dashboard: '=',
-      allProblemsOnScreen: '='
+      viewOptions: '='
     },
     controllerAs: 'vm',
     bindToController: true,
@@ -29,6 +29,9 @@ class DmDashboardTiles {
   controller (vm) {
     vm.getAllEventsNum = () => this.getAllEventsNum(vm);
     vm.getAllPeopleNum = () => this.getAllPeopleNum(vm);
+    console.log('from tiles');
+    console.log(vm.dashboard);
+    console.log(vm.viewOptions);
   }
 
   getAllEventsNum (vm) {
