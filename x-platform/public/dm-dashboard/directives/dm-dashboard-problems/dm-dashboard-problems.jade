@@ -1,0 +1,37 @@
+.dm-dashboard-problems
+  .problems
+    h4.cursor-pointer(
+      ng-if="vm.event.reportedProblems.length"
+      ng-click="vm.event.showProblemsReporter = !vm.event.showProblemsReporter" 
+      )
+      span(tooltip="Show/Hide Problems Reporter")
+        | Unsolved problems: 
+      span.bold(
+        tooltip="{{ vm.getNumOfUnsolvedProblems(vm.event.reportedProblems) }} unsolved / {{ vm.event.reportedProblems.length }} all problems"
+        ng-class="{'text-danger': vm.getNumOfUnsolvedProblems(vm.event.reportedProblems) > 0, 'text-muted': vm.getNumOfUnsolvedProblems(vm.event.reportedProblems) === 0}"
+        )
+        | {{ vm.getNumOfUnsolvedProblems(vm.event.reportedProblems) }}
+    h4(ng-if="!vm.event.reportedProblems.length") 
+      span
+        | No reported problems
+    .reporter(ng-if="vm.event.showProblemsReporter")
+      ol
+        li.text-danger(ng-repeat="problem in vm.event.reportedProblems | filter: { solved: false }")
+          h5.text-danger.bold
+            span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
+              | {{ problem.title }}
+            span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
+              span.fa.fa-fw.fa-check
+          p(ng-if="problem.showDescription") 
+            | {{ problem.description }}
+        li.text-muted(ng-repeat="problem in vm.event.reportedProblems | filter: { solved: true }")
+          h5.text-muted.bold
+            span.cursor-pointer(ng-click="problem.showDescription = !problem.showDescription")
+              | {{ problem.title }}
+              span
+                i 
+                  | (solved)
+            span.pull-right.cursor-pointer(ng-click="problem.solved = !problem.solved")
+              span.fa.fa-fw.fa-minus
+          p(ng-if="problem.showDescription") 
+            | {{ problem.description }}
