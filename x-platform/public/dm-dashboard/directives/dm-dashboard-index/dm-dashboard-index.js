@@ -3,6 +3,7 @@ import template from './dm-dashboard-index.html!text';
 import _ from '_';
 import moment from 'moment';
 import DashboardModelBuilder from './dashboard-model-builder';
+import DashboardViewOperator from './dashboard-view-operator';
 
 app.directive('dmDashboardIndex', () => {
   return {
@@ -31,23 +32,23 @@ class DmDashboardIndex {
     vm.getNumOfUnsolvedProblems = (reportedProblems) => this.getNumOfUnsolvedProblems(reportedProblems);
     vm.getPercentages = (numOfActvStudents, numOfAllStudents) => this.getPercentages(numOfActvStudents, numOfAllStudents);
     vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
-    vm.sortBy = (byWhat) => this.sortBy(vm, byWhat);
-    vm.isFullscreen = (eventId) => this.isFullscreen(vm, eventId);
-    vm.toggleEventDetailedView = (eventId) => this.toggleEventDetailedView(vm, eventId);
     vm.referToExpectedEndDate = (expectedEnd) => this.referToExpectedEndDate(expectedEnd);
-
-    vm.sort = {
-      by: false,
-      desc: false
-    };
+    let dVOperator = new DashboardViewOperator();
+    vm.isFullscreen = (eventId) => dVOperator.isFullscreen(vm, eventId);
+    vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
+    vm.sortBy = (byWhat) => dVOperator.sortBy(vm, byWhat);
 
     vm.viewOptions = {
-      allProblemsOnScreen: false,
       strategicView: 'table',
       fullscreenEvent: {
         _id: undefined
       },
-      showTiles: true
+      showTiles: true,
+      sort: {
+        by: undefined,
+        desc: false
+      },
+      allProblemsOnScreen: false
     };
 
     this.$scope.$watch(() => vm.dashboard, () => {
@@ -81,23 +82,6 @@ class DmDashboardIndex {
       allProblems = allProblems + this.getNumOfUnsolvedProblems(event.reportedProblems);
     }
     return allProblems;
-  }
-
-  sortBy (vm, byWhat) {
-    vm.sort.by = byWhat;
-    vm.sort.desc = !vm.sort.desc;
-  }
-
-  isFullscreen (vm, eventId) {
-    return eventId === vm.viewOptions.fullscreenEvent._id;
-  }
-
-  toggleEventDetailedView (vm, eventId) {
-    if (this.isFullscreen(vm, eventId)) {
-      vm.viewOptions.fullscreenEvent._id = false;
-    } else {
-      vm.viewOptions.fullscreenEvent._id = eventId;
-    }
   }
 
   minutesAfterExpectedEndDate (expectedEnd) {

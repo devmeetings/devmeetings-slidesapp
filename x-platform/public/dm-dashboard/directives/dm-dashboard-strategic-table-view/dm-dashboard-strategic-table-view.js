@@ -1,17 +1,15 @@
 import _ from '_';
 import app from 'dm-dashboard/dm-dashboard-app';
 import template from './dm-dashboard-strategic-table-view.html!text';
+import DashboardViewOperator from '../dm-dashboard-index/dashboard-view-operator';
 
 app.directive('dmDashboardStrategicTableView', () => {
   return {
     restrict: 'E',
     replace: true,
     scope: {
-      dashboard: '=',
       model: '=',
-      viewOptions: '=',
-      sortBy: '&',
-      toggleEventDetailedView: '&'
+      viewOptions: '='
     },
     controllerAs: 'vm',
     bindToController: true,
@@ -31,9 +29,14 @@ class DmDashboardStrategicTableView {
 
   controller (vm) {
     console.log('from strategic view');
-    console.log(vm.dashboard);
     console.log(vm.model);
     console.log(vm.viewOptions);
+
+    let dVOperator = new DashboardViewOperator();
+    vm.isFullscreen = (eventId) => dVOperator.isFullscreen(vm, eventId);
+    vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
+    vm.sortBy = (byWhat) => dVOperator.sortBy(vm, byWhat);
   }
+
 }
 
