@@ -1,0 +1,127 @@
+.dm-dashboard-strategic-block-and-detailed-views
+  .events.row(ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}")
+    .event(
+      ng-repeat="event in vm.model.activeEvents"
+      ng-class="{'col-md-6': !vm.isFullscreen(event._id), 'col-md-12': vm.isFullscreen(event._id), 'no-padding': vm.viewOptions.strategicView === 'table'}"
+      )
+      div(ng-if="vm.viewOptions.strategicView === 'blocks' || vm.isFullscreen(event._id)")
+        .header.col-xs-12.text-center(ng-class="{'add-margin-bottom': vm.isFullscreen(event._id)}")
+          .name
+            h1.cursor-pointer(ng-click="vm.toggleEventDetailedView(event._id)") {{ event.name }}
+          .timing
+            div(ng-if="event.timing.started")
+              h4 Started at: 
+                span.bold {{ event.timing.startedAt | amDateFormat:'HH:mm' }}
+              h4 Expected end: 
+                span.bold {{ vm.referToExpectedEndDate(event.timing.expectedEnd) }}
+            div(ng-if="!event.timing.started")
+              h4 Event has not yet begun
+              // quick hack to improve view below:
+              h4(style="opacity: 0") QH
+              // hack end
+        .streaming.col-md-6(
+          ng-if="vm.isFullscreen(event._id)"
+          )
+          img
+        div(ng-class="{'col-md-12': !vm.isFullscreen(event._id), 'col-md-6': vm.isFullscreen(event._id)}")
+          .logs
+            h2 {{ event.logs[0].data.toString() }}: {{ event.logs[0].description }}
+          .people
+            h4(ng-click="event.showPeopleDetails = !event.showPeopleDetails") 
+              span.cursor-pointer(
+                tooltip="Show/Hide Details"
+                tooltip-placement="right"
+                )
+                | People: 
+                span.bold.text-success {{ event.members.number }} 
+            div(ng-if="event.showPeopleDetails || vm.isFullscreen(event._id)")
+              div
+                h5 Organizers: 
+                  span.bold.text-success {{ event.members.organizers.length }} 
+                div
+                  img.avatar.img-responsive.img-rounded(
+                    ng-repeat="organizer in event.members.organizers"
+                    ng-src="{{ organizer.avatar | dmGravatar:24 }}"
+                    tooltip="{{ organizer.name }}"
+                    )
+              div
+                h5 Students: 
+                  span.bold.text-success {{ event.members.students.all.length }} 
+                div
+                  img.avatar.img-responsive.img-rounded(
+                    ng-repeat="student in event.members.students.all"
+                    ng-src="{{ student.avatar | dmGravatar:24 }}"
+                    tooltip="{{ student.name }} ({{ student.group }}), {{ student.percent }}%"
+                    )     
+            h4(ng-click="event.showActiveStudents = !event.showActiveStudents")
+              span.cursor-pointer(
+                tooltip="Show/Hide Details"
+                tooltip-placement="right"
+                )
+                | Active students: 
+                span.bold.text-success(ng-if="event.members.students.active.length / event.members.students.all.length >= 0.66")
+                  | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+                span.bold.text-warning(
+                  ng-if="event.members.students.active.length / event.members.students.all.length < 0.66 && event.members.students.active.length / event.members.students.all.length >= 0.33"
+                  )
+                  | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+                span.bold.text-danger(ng-if="event.members.students.active.length / event.members.students.all.length < 0.33")
+                  | {{ event.members.students.active.length }} ({{ vm.getPercentages(event.members.students.active.length, event.members.students.all.length) }}%)
+            div(ng-if="event.showActiveStudents || vm.isFullscreen(event._id)")
+              img.avatar.img-responsive.img-rounded(
+                ng-repeat="activeStudent in event.members.students.active"
+                ng-src="{{ activeStudent.avatar | dmGravatar:24 }}"
+                tooltip="{{ activeStudent.name }} ({{ activeStudent.group }}), {{ activeStudent.percent }}%"
+                )
+          .stage
+            h4 Current stage: 
+              span.bold.text-success {{ event.currentStage.name }}, 
+              span.bold.text-success(am-time-ago="event.currentStage.startedAt") 
+          div(ng-if="!vm.isFullscreen(event._id)")
+            dm-dashboard-problems(
+              event="event"
+            )
+        .col-xs-12.bottomView(ng-if="vm.isFullscreen(event._id)")
+          .col-md-6
+            dm-dashboard-problems(
+              event="event"
+            )
+          .col-md-6
+            h4 Best Students:
+            h5(ng-repeat="rank in event.ranking.bestUsers track by $index")
+              span.user-name
+                | {{ rank.user.name }}
+              img.avatar.pull-left.img-responsive.img-rounded(
+                ng-src="{{ rank.user.avatar | dmGravatar:35 }}"
+                )
+              span
+                progressbar(
+                  value="rank.summary.percent" 
+                  type="success"
+                  )
+                  | {{ rank.summary.percent }}%
+            h4 Worse Students:
+            h5(ng-repeat="rank in event.ranking.worseUsers track by $index")
+              span.user-name
+                | {{ rank.user.name }}
+              img.avatar.pull-left.img-responsive.img-rounded(
+                ng-src="{{ rank.user.avatar | dmGravatar:35 }}"
+                )
+              span
+                progressbar(
+                  value="rank.summary.percent" 
+                  type="warning"
+                  )
+                  | {{ rank.summary.percent }}%
+            h4 Best Group: {{ event.ranking.bestGroup.name }}
+            progressbar(
+              value="event.ranking.bestGroup.percent" 
+              type="success"
+              )
+              | {{ event.ranking.bestGroup.percent }}%
+            h4
+              a.margin-right(ng-href="{{ event.hyperlinks.rankingView }}")
+                | Go to ranking view
+              a(ng-href="{{ event.hyperlinks.trainerView }}")
+                | Go to trainers view
+          hr
