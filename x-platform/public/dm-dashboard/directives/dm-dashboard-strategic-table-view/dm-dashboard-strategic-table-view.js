@@ -28,18 +28,10 @@ class DmDashboardStrategicTableView {
   }
 
   controller (vm) {
-    // let's create shorter name
-    let vOp = vm.dashboardViewOperator;
-
-    // vm.isFullscreen2 = (eventId, fullScrEId) => this.isFullscreen2(eventId, fullScrEId);
-    let fullscreenEventId = vm.viewOptions.fullscreenEvent._id;
-    vm.isFullscreen = (eventId) => vOp.isFullscreen(eventId, fullscreenEventId);
-    vm.toggleEventDetailedView = (eventId) => vOp.toggleEventDetailedView(vm, eventId);
-    vm.sortBy = (byWhat) => vOp.sortBy(vm, byWhat);
-  }
-
-  isFullscreen2 (eventId, fullScrEId) {
-    return eventId === fullScrEId;
+    let dVOperator = vm.dashboardViewOperator;
+    vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
+    vm.sortBy = (byWhat) => dVOperator.sortBy(vm, byWhat);
+    vm.referToExpectedEndDate = (expectedEnd) => dVOperator.referToExpectedEndDate(expectedEnd);
   }
 
 }

@@ -28,6 +28,10 @@ class DmDashboardStrategicBlockAndDetailedViews {
   }
 
   controller (vm) {
+    let dVOperator = vm.dashboardViewOperator;
+    vm.isFullscreen = (eventId) => dVOperator.isFullscreen(vm, eventId);
+    vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
+    vm.referToExpectedEndDate = (expectedEnd) => dVOperator.referToExpectedEndDate(expectedEnd);
   }
 
 }
