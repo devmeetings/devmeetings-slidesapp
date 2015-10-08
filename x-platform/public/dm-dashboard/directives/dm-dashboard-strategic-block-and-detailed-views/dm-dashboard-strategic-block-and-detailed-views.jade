@@ -20,7 +20,7 @@
               h4(style="opacity: 0") QH
               // hack end
         .streaming.col-md-6(
-          ng-if="vm.isFullscreen(event._id)"
+          ng-if="vm.isFullscreen2(event._id, vm.viewOptions.fullscreenEvent._id)"
           )
           img
         div(ng-class="{'col-md-12': !vm.isFullscreen(event._id), 'col-md-6': vm.isFullscreen(event._id)}")

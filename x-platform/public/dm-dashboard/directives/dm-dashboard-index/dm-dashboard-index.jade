@@ -13,13 +13,10 @@
     view-options="vm.viewOptions"
     dashboard-view-operator="vm.dVOperator" 
   )
-  .all-problems(ng-class="{'show': vm.viewOptions.allProblemsOnScreen}")
-    div(ng-repeat="event in vm.model.activeEvents")
-      h4 {{ event.name }}
-      dm-dashboard-problems(
-        event="event"
-      )
-      hr
+  dm-dashboard-problems-all(
+    model="vm.model"
+    view-options="vm.viewOptions"
+  )
   // Togglers
   .toggle-strategic-view.cursor-pointer
     span(
