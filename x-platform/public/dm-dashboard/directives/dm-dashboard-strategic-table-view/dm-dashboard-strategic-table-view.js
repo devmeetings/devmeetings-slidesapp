@@ -28,10 +28,6 @@ class DmDashboardStrategicTableView {
   }
 
   controller (vm) {
-    console.log('from strategic view');
-    console.log(vm.model);
-    console.log(vm.viewOptions);
-
     // let's create shorter name
     let vOp = vm.dashboardViewOperator;
 
