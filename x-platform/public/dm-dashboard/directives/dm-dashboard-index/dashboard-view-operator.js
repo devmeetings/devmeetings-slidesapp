@@ -1,6 +1,6 @@
 export default class DashboardViewOperator {
-  isFullscreen (vm, eventId) {
-    return eventId === vm.viewOptions.fullscreenEvent._id;
+  isFullscreen (eventId, fullscreenEventId) {
+    return eventId === fullscreenEventId;
   }
 
   toggleEventDetailedView (vm, eventId) {

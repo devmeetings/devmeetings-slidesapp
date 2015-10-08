@@ -31,9 +31,9 @@ class DmDashboardStrategicTableView {
     // let's create shorter name
     let vOp = vm.dashboardViewOperator;
 
-    vm.isFullscreen2 = (eventId, fullScrEId) => this.isFullscreen2(eventId, fullScrEId);
-
-    vm.isFullscreen = (eventId) => vOp.isFullscreen(vm, eventId);
+    // vm.isFullscreen2 = (eventId, fullScrEId) => this.isFullscreen2(eventId, fullScrEId);
+    let fullscreenEventId = vm.viewOptions.fullscreenEvent._id;
+    vm.isFullscreen = (eventId) => vOp.isFullscreen(eventId, fullscreenEventId);
     vm.toggleEventDetailedView = (eventId) => vOp.toggleEventDetailedView(vm, eventId);
     vm.sortBy = (byWhat) => vOp.sortBy(vm, byWhat);
   }
