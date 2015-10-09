@@ -25,7 +25,7 @@
           img
         div(ng-class="{'col-md-12': !vm.isFullscreen(event._id), 'col-md-6': vm.isFullscreen(event._id)}")
           .logs
-            h2 {{ event.logs[0].data.toString() }}: {{ event.logs[0].description }}
+            h2 {{ event.logs[0].date.toString() }}: {{ event.logs[0].description }}
           .people
             h4(ng-click="event.showPeopleDetails = !event.showPeopleDetails") 
               span.cursor-pointer(

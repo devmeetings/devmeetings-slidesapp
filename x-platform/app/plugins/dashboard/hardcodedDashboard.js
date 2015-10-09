@@ -312,23 +312,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -477,23 +477,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -660,23 +660,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -843,23 +843,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -1008,23 +1008,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -1191,23 +1191,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -1374,23 +1374,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     },
@@ -1557,23 +1557,23 @@ var hardcodedDashboard = {
       logs: [
         {
           description: 'Task 2.4 was done by Kuba Bartczuk',
-          data: 10.55
+          date: 10.55
         },
         {
           description: 'Task 2.1 was done by Kuba Rudnicki',
-          data: 10.54
+          date: 10.54
         },
         {
           description: 'Iteration 2 started',
-          data: 10.53
+          date: 10.53
         },
         {
           description: 'Task 1.8 was done by Kasia Jankowska',
-          data: 10.52
+          date: 10.52
         },
         {
           description: 'Task 1.9 was done by Bruno Gałka',
-          data: 10.51
+          date: 10.51
         }
       ]
     }

@@ -185,6 +185,13 @@ export default class DashboardModelBuilder {
     return members;
   }
 
+  getHyperlinks (id) {
+    return {
+      rankingView: 'https://new.xplatform.org/space/' + id + 'learn/agenda',
+      trainerView: 'https://new.xplatform.org/space/' + id + 'trainer/users'
+    };
+  }
+
   buildFinalDashboardModel (dashboard) {
     for (let event of dashboard.activeEvents) {
       event.ranking.ranks = this.getSummaryResultsForRanks(event);
@@ -192,6 +199,7 @@ export default class DashboardModelBuilder {
       event.ranking.worseUsers = this.getWorseUsers(event.ranking.ranks);
       event.ranking.bestGroup = this.getBestGroup(event.ranking.ranks);
       event.members = this.getMembers(event.ranking.ranks);
+      event.hyperlinks = this.getHyperlinks(event._id);
       // to clear view:
       event.ranking.ranks = undefined;
     }

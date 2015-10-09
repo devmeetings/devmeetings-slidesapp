@@ -1,11 +1,13 @@
+var _ = require('lodash');
+var moment = require('moment');
 var Q = require('q');
 var logger = require('../../../config/logging');
 var Event = require('../../models/event');
 var Ranking = require('../../models/ranking');
 var EventTiming = require('../../models/eventTiming');
+// turned off because of crash trying to get data from empty database
+// var EventLogs = require('../../models/EventLogs');
 var hardcodedDashboard = require('./hardcodedDashboard');
-var _ = require('lodash');
-var moment = require('moment');
 var store = require('../../services/store');
 var eventRoom = require('../eventRoom');
 
@@ -47,6 +49,15 @@ function getEventsTimings (eventsTimingsIds) {
     }
   }).lean().exec());
 }
+
+// turned off because of crash trying to get data from empty database
+// function getEventLogs (activeEventsIds) {
+//   return Q.when(EventLogs.find({
+//     eventId: {
+//       $in: activeEventsIds
+//     }
+//   }).lean().exec());
+// }
 
 function getActiveEventsIds (activeEvents) {
   return _.map(activeEvents, function (event) {
@@ -173,6 +184,7 @@ function hashValuesToJson (obj) {
   return obj;
 }
 
+// function for Redis logic - turned off because of problems described to Tomek
 // function assignUsersActivityToEventsRanks (activeEvents) {
 //   return activeEvents.map(function (event) {
 //     var room = eventRoom(event._id);
@@ -206,6 +218,12 @@ function buildDashboardModel (hardcodedDashboard, visibleEvents) {
   var addTimings = getEventsTimings(eventsTimingsIds).then(function (eventsTimings) {
     activeEvents = assignTimingsToEvents(activeEvents, eventsTimings);
   });
+  // turned off because of crash trying to get data from empty database
+  // getEventLogs(activeEventsIds).then(function (eventLogs) {
+  //   console.log(eventLogs);
+  //   // build:
+  //   // activeEvents = assignLogsToEvents(activeEvents, eventLogs);
+  // });
 
   var addActiveUsers = activeEvents.map(function (event) {
     var room = eventRoom(event._id);
