@@ -24,7 +24,9 @@ function convertRecordingToUnifiedHistoryFormat (recording) {
     });
 
     // Apply current
-    state.patches[0].current = state.original;
+    if (state.patches[0]) {
+      state.patches[0].current = state.original;
+    }
 
     // Udate patches
     return patches.concat(state.patches);
