@@ -80,11 +80,13 @@
           div(ng-if="!vm.isFullscreen(event._id)")
             dm-dashboard-problems(
               event="event"
+              dashboard-view-operator="vm.dashboardViewOperator"
             )
         .col-xs-12.bottomView(ng-if="vm.isFullscreen(event._id)")
           .col-md-6
             dm-dashboard-problems(
               event="event"
+              dashboard-view-operator="vm.dashboardViewOperator"
             )
           .col-md-6
             h4 Best Students:
@@ -120,8 +122,14 @@
               )
               | {{ event.ranking.bestGroup.percent }}%
             h4
-              a.margin-right(ng-href="{{ event.hyperlinks.rankingView }}")
+              a.margin-right(
+                ng-href="{{ event.hyperlinks.rankingView }}"
+                target="_blank"
+                )
                 | Go to ranking view
-              a(ng-href="{{ event.hyperlinks.trainerView }}")
+              a(
+                ng-href="{{ event.hyperlinks.trainerView }}"
+                target="_blank"
+                )
                 | Go to trainers view
           hr

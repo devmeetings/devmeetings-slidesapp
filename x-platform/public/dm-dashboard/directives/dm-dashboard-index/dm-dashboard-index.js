@@ -28,12 +28,10 @@ class DmDashboardIndex {
   }
 
   controller (vm) {
-    vm.getNumOfUnsolvedProblems = (reportedProblems) => this.getNumOfUnsolvedProblems(reportedProblems);
-    vm.getPercentages = (numOfActvStudents, numOfAllStudents) => this.getPercentages(numOfActvStudents, numOfAllStudents);
-    vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
-
     vm.dVOperator = dVOperator;
     vm.viewOptions = dVOperator.viewOptions;
+
+    vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
 
     this.$scope.$watch(() => vm.dashboard, () => {
       // if (!vm.dashboard) {
@@ -44,26 +42,11 @@ class DmDashboardIndex {
     });
   }
 
-  getPercentages (numOfActvStudents, numOfAllStudents) {
-    return Math.round((numOfActvStudents / numOfAllStudents * 100) * 100) / 100;
-  }
-
-  getNumOfUnsolvedProblems (reportedProblems) {
-    let numOfUnsolvedProblems = 0;
-
-    for (let problem of reportedProblems) {
-      if (!problem.solved) {
-        numOfUnsolvedProblems++;
-      }
-    }
-    return numOfUnsolvedProblems;
-  }
-
   getNumOfAllUnsolvedProblems (events) {
     let allProblems = 0;
 
     for (let event of events) {
-      allProblems = allProblems + this.getNumOfUnsolvedProblems(event.reportedProblems);
+      allProblems = allProblems + dVOperator.getNumOfUnsolvedProblems(event.reportedProblems);
     }
     return allProblems;
   }

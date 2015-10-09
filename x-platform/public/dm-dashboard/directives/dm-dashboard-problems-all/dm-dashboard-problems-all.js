@@ -8,7 +8,8 @@ app.directive('dmDashboardProblemsAll', () => {
     replace: true,
     scope: {
       model: '=',
-      viewOptions: '='
+      viewOptions: '=',
+      dashboardViewOperator: '='
     },
     controllerAs: 'vm',
     bindToController: true,
@@ -27,6 +28,8 @@ class DmDashboardProblemsAll {
   }
 
   controller (vm) {
+    let dVOperator = vm.dashboardViewOperator;
+    vm.getNumOfUnsolvedProblems = (reportedProblems) => dVOperator.getNumOfUnsolvedProblems(reportedProblems);
   }
 
 }

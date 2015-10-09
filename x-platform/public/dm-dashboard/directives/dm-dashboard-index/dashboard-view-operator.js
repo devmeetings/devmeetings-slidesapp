@@ -32,6 +32,21 @@ class DashboardViewOperator {
     }
   }
 
+  getPercentages (numOfActvStudents, numOfAllStudents) {
+    return Math.round((numOfActvStudents / numOfAllStudents * 100) * 100) / 100;
+  }
+
+  getNumOfUnsolvedProblems (reportedProblems) {
+    let numOfUnsolvedProblems = 0;
+
+    for (let problem of reportedProblems) {
+      if (!problem.solved) {
+        numOfUnsolvedProblems++;
+      }
+    }
+    return numOfUnsolvedProblems;
+  }
+
   minutesAfterExpectedEndDate (expectedEnd) {
     let now = moment();
     let difference = now.diff(expectedEnd, 'minutes');
@@ -48,9 +63,8 @@ class DashboardViewOperator {
     if (minutesAfterExpectedEndDate) {
       if (minutesAfterExpectedEndDate < 60) {
         return minutesAfterExpectedEndDate + 'min. after expected end';
-      } else {
-        return 'ended';
       }
+      return 'ended';
     }
 
     return moment(expectedEnd).format('HH:mm');

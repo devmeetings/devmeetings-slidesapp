@@ -49,10 +49,8 @@ mixin sortIcon()
           span.bold 
             | {{ event.timing.startedAt | amDateFormat:'HH:mm (DD.MM.YYYY)' }}
         td.timing-expected-end
-          span.bold(ng-if="event.timing.expectedEnd")
-            | {{ event.timing.expectedEnd | amDateFormat:'HH:mm' }}
-          span.bold(ng-if="!event.timing.expectedEnd")
-            | ended
+          span.bold
+            | {{ vm.referToExpectedEndDate(event.timing.expectedEnd) }}
         td.people
           span.bold.text-success(tooltip="{{ event.members.organizers.length }} organizers, {{ event.members.students.all.length }} students") 
             | {{ event.members.number }} 

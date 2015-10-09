@@ -30,8 +30,15 @@ class DmDashboardStrategicTableView {
   controller (vm) {
     let dVOperator = vm.dashboardViewOperator;
     vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
-    vm.sortBy = (byWhat) => dVOperator.sortBy(vm, byWhat);
+    vm.getPercentages = (numOfActvStudents, numOfAllStudents) => dVOperator.getPercentages(numOfActvStudents, numOfAllStudents);
+    vm.getNumOfUnsolvedProblems = (reportedProblems) => dVOperator.getNumOfUnsolvedProblems(reportedProblems);
     vm.referToExpectedEndDate = (expectedEnd) => dVOperator.referToExpectedEndDate(expectedEnd);
+    vm.sortBy = (byWhat) => this.sortBy(vm, byWhat);
+  }
+
+  sortBy (vm, byWhat) {
+    vm.viewOptions.sort.by = byWhat;
+    vm.viewOptions.sort.desc = !vm.viewOptions.sort.desc;
   }
 
 }

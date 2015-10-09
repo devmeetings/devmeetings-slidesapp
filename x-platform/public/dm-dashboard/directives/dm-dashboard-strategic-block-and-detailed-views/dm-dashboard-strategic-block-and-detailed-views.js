@@ -31,6 +31,7 @@ class DmDashboardStrategicBlockAndDetailedViews {
     let dVOperator = vm.dashboardViewOperator;
     vm.isFullscreen = (eventId) => dVOperator.isFullscreen(vm, eventId);
     vm.toggleEventDetailedView = (eventId) => dVOperator.toggleEventDetailedView(vm, eventId);
+    vm.getPercentages = (numOfActvStudents, numOfAllStudents) => dVOperator.getPercentages(numOfActvStudents, numOfAllStudents);
     vm.referToExpectedEndDate = (expectedEnd) => dVOperator.referToExpectedEndDate(expectedEnd);
   }
 
