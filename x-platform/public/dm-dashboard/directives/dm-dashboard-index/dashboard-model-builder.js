@@ -187,8 +187,8 @@ export default class DashboardModelBuilder {
 
   getHyperlinks (id) {
     return {
-      rankingView: 'https://new.xplatform.org/space/' + id + 'learn/agenda',
-      trainerView: 'https://new.xplatform.org/space/' + id + 'trainer/users'
+      rankingView: 'https://new.xplatform.org/space/' + id + '/learn/agenda',
+      trainerView: 'https://new.xplatform.org/space/' + id + '/trainer/users'
     };
   }
 
