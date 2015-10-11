@@ -1,0 +1,9 @@
+.dm-dashboard-problems-all
+  .all-problems(ng-class="{'show': vm.viewOptions.allProblemsOnScreen}")
+    div(ng-repeat="event in vm.model.activeEvents")
+      h4 {{ event.name }}
+      dm-dashboard-problems(
+        event="event"
+        dashboard-view-operator="vm.dashboardViewOperator"
+      )
+      hr

@@ -1,0 +1,14 @@
+.dm-dashboard-tiles
+  .tiles.text-center(
+    ng-if="vm.viewOptions.showTiles"
+    ng-class="{'move-right': vm.viewOptions.allProblemsOnScreen}"
+    )
+    .row
+      .col-md-6
+        .tile.events-num
+          span.fa.fa-fw.fa-globe
+            | {{ vm.getAllEventsNum() }}
+      .col-md-6
+        .tile.people-num
+          span.fa.fa-fw.fa-users
+            | {{ vm.getAllPeopleNum() }}
