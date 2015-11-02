@@ -34,6 +34,7 @@ class DmDashboardTiles {
   getAllEventsNum (vm) {
     let allEventsNum = 0;
     for (let event of vm.dashboard.activeEvents) {
+      event;
       allEventsNum++;
     }
     return allEventsNum;
