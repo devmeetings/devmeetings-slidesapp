@@ -7,6 +7,8 @@ var fs = require('fs');
 var Workspaces = require('../../models/slidesave');
 var Q = require('q');
 
+var compileTsAndReturnSemanticErrors = require('./compileTs');
+
 exports.initApi = function (app, authenticated, app2, router2, logger) {
   'use strict';
 
@@ -80,6 +82,9 @@ exports.initApi = function (app, authenticated, app2, router2, logger) {
   }
 
   function returnFile (getSlideContent, req, res) {
+    if (req.params.file === 'tsErrors') {
+      return compileTsAndReturnSemanticErrors(getSlideContent, getFiles, req, res);
+    }
     var file = req.params.file || 'index.html';
     var first = req.params[0];
 
