@@ -34,6 +34,8 @@ class DmDashboardTiles {
   getAllEventsNum (vm) {
     let allEventsNum = 0;
     for (let event of vm.dashboard.activeEvents) {
+      // because of lint error - I must use event even if I won't
+      event;
       allEventsNum++;
     }
     return allEventsNum;
