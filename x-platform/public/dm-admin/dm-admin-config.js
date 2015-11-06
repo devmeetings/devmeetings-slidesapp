@@ -5,10 +5,12 @@ define(['angular',
   'dm-admin/dm-admin-app',
   './controllers/dm-admin-slider/dm-admin-slider.html!text',
   './controllers/dm-admin-quiz/dm-admin-quiz.html!text',
+  './controllers/dm-admin-perf/dm-admin-perf.html!text',
   'dm-admin/controllers/dm-admin-slider/dm-admin-slider',
+  'dm-admin/controllers/dm-admin-perf/dm-admin-perf',
   'dm-admin/controllers/dm-admin-quiz/dm-admin-quiz',
   'directives/plugins-loader'
-], function (angular, angularRouter, bootstrap, adminApp, adminSliderView, adminQuizView) {
+], function (angular, angularRouter, bootstrap, adminApp, adminSliderView, adminQuizView, adminPerfView) {
   adminApp.config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
       $stateProvider.state('index', {
@@ -23,6 +25,16 @@ define(['angular',
           content: {
             template: adminQuizView,
             controller: 'dmAdminQuiz'
+          }
+        }
+      });
+
+      $stateProvider.state('index.perf', {
+        url: '/perftest',
+        views: {
+          content: {
+            template: adminPerfView,
+            controller: 'dmAdminPerf'
           }
         }
       });

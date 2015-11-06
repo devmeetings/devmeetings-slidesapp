@@ -1,20 +1,21 @@
-import _ from '_';
 import app from 'dm-dashboard/dm-dashboard-app';
 import template from './dm-dashboard-index.html!text';
+import _ from '_';
+import DashboardModelBuilder from './dashboard-model-builder';
+import dVOperator from './dashboard-view-operator';
 
 app.directive('dmDashboardIndex', () => {
   return {
     restrict: 'E',
     replace: true,
-
     scope: {
-      name: '='
+      dashboard: '='
     },
     controllerAs: 'vm',
     bindToController: true,
-    controller () {
-      let c = new DmDashboardIndex({});
-      c.controller(this);
+    controller ($scope) {
+      let c = new DmDashboardIndex({$scope});
+      c.controller(this, $scope);
     },
     template: template
   };
@@ -27,7 +28,28 @@ class DmDashboardIndex {
   }
 
   controller (vm) {
-    vm.greeting = 'Hi';
+    vm.dVOperator = dVOperator;
+    vm.viewOptions = dVOperator.viewOptions;
+
+    vm.getNumOfAllUnsolvedProblems = (events) => this.getNumOfAllUnsolvedProblems(events);
+
+    this.$scope.$watch(() => vm.dashboard, () => {
+      // if (!vm.dashboard) {
+      //   return;
+      // }
+      let dashboardModelBuilder = new DashboardModelBuilder();
+      vm.model = dashboardModelBuilder.buildFinalDashboardModel(vm.dashboard);
+    });
   }
+
+  getNumOfAllUnsolvedProblems (events) {
+    let allProblems = 0;
+
+    for (let event of events) {
+      allProblems = allProblems + dVOperator.getNumOfUnsolvedProblems(event.reportedProblems);
+    }
+    return allProblems;
+  }
+
 }
 

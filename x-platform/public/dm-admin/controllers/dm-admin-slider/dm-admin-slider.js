@@ -12,6 +12,9 @@ define(['module',
       }, {
         title: 'Quiz',
         sref: 'index.quiz'
+      }, {
+        title: 'Perf Test',
+        sref: 'index.perf'
       }];
     }
   ]);

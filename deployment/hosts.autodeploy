@@ -6,3 +6,5 @@
 # root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=30000 live_port=3500 live_version=lastSuccessfulBuild
 root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000
 root@xpla.org server_domain=xpla.org server_short=xpla_xpla server_port=5000 livereload_port=50000
+# Disabling ASIA due to very slow build times
+# ubuntu@asia.xplatform.org server_domain=asia.xplatform.org server_short=xpla_asia server_port=3000 livereload_port=30000

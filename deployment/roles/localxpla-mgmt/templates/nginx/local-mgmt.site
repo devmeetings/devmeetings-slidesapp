@@ -6,7 +6,7 @@ server {
   ssl on;
   ssl_certificate /etc/ssl/certs/local.xpla.pem;
   ssl_certificate_key /etc/ssl/private/local.xpla.key;
-	
+
  	location / {
 	    proxy_pass  http://localhost:9922;
 	    proxy_set_header Host      $host;
@@ -14,14 +14,22 @@ server {
 
       auth_basic "You shall not pass!";
       auth_basic_user_file /etc/nginx/local-mgmt.passwd;
+      access_log /var/log/nginx/localxpla.access.log combined;
 	}
 
+  location /isLocal {
+      proxy_pass  http://localhost:9922;
+	    proxy_set_header Host      $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+  } 
+
   location /public {
-    root /srv/xplatform/tools/localxpla-manager/;
+    root /srv/local.{{server_domain}}/localxpla-manager;
+    access_log /var/log/nginx/localxpla.access.log combined;
   }
 
   location /cdn {
-    root /srv/xplatform/tools/localxpla-manager/public;
+    root /srv/local.{{server_domain}}/localxpla-manager/public;
     gzip on;
     gzip_types text/plain application/x-javascript application/javascript text/css application/octet-stream;
 
@@ -31,8 +39,8 @@ server {
   }
 
   location /api {
-    try_files index.json;
-    root /srv/xplatform/tools/localxpla-manager/public;
+    try_files $uri index.json;
+    root /srv/local.{{server_domain}}/localxpla-manager/public;
 
     add_header Access-Control-Allow-Origin *;
 
@@ -40,5 +48,4 @@ server {
   }
 
 }
-
 

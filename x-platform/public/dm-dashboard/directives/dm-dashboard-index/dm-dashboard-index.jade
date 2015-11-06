@@ -1,3 +1,63 @@
 .dm-dashboard-index
-  h1 Dashboard Index directive
-  h3 {{ vm.greeting }} {{ vm.name }}
+  dm-dashboard-tiles(
+    dashboard="vm.model"
+    view-options="vm.viewOptions"
+  )
+  dm-dashboard-strategic-table-view(
+    model="vm.model"
+    view-options="vm.viewOptions"
+    dashboard-view-operator="vm.dVOperator"
+  )
+  dm-dashboard-strategic-block-and-detailed-views(
+    model="vm.model"
+    view-options="vm.viewOptions"
+    dashboard-view-operator="vm.dVOperator" 
+  )
+  dm-dashboard-problems-all(
+    model="vm.model"
+    view-options="vm.viewOptions"
+    dashboard-view-operator="vm.dVOperator" 
+  )
+  // Togglers
+  .toggle-strategic-view.cursor-pointer
+    span(
+      ng-if="vm.viewOptions.strategicView === 'table'"
+      ng-click="vm.viewOptions.strategicView = 'blocks'"
+      tooltip="Change to Blocks View"
+      tooltip-placement="left"
+      )
+      | View: Table
+    span(
+      ng-if="vm.viewOptions.strategicView === 'blocks'"
+      ng-click="vm.viewOptions.strategicView = 'table'"
+      tooltip="Change to Table View"
+      tooltip-placement="left"
+      )
+      | View: Blocks
+  .toggle-tiles.cursor-pointer(ng-click="vm.viewOptions.showTiles = !vm.viewOptions.showTiles")
+    span.fa.fa-globe(
+      tooltip="Toggle tiles"
+      tooltip-placement="left"
+      )
+  .toggle-all-problems.cursor-pointer(
+    ng-click="vm.viewOptions.allProblemsOnScreen = !vm.viewOptions.allProblemsOnScreen"
+    )
+    span.fa.fa-fw.fa-toggle-on(ng-if="!vm.viewOptions.allProblemsOnScreen")
+      span.numOfAllProblems.text-danger(
+        tooltip="Unsolved Problems"
+        tooltip-placement="right"
+        )
+        | {{ vm.getNumOfAllUnsolvedProblems(vm.model.activeEvents) }}
+    span.fa.fa-fw.fa-toggle-off(ng-if="vm.viewOptions.allProblemsOnScreen")
+
+
+
+  //- // kontrola danych 
+  //- h2 From Back-End
+  //- .col-xs-12
+  //-   pre {{ vm.dashboard.activeEvents[6] | json }}
+  //- h2 Final
+  //- .col-xs-12
+  //-   pre {{ vm.model.activeEvents[6] | json }}
+
+    

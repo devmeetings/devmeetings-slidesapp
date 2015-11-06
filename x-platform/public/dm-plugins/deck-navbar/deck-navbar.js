@@ -41,7 +41,8 @@ define(['module', '_', '$', 'slider/slider.plugins', 'services/CurrentSlideManag
             dragEnd: function () {
               // elements are already sorted here
               scope.deck.slides = _.pluck(scope.slides, '_id');
-              $http.put('/api/decks/' + scope.deck._id, scope.deck);
+
+              saveUpdatedDeck(scope.deck);
             }
           };
 
@@ -76,8 +77,15 @@ define(['module', '_', '$', 'slider/slider.plugins', 'services/CurrentSlideManag
               deck.slides = deck.slides.concat(data);
               deck.deckSlides = deck.deckSlides.concat(newSlideData);
 
-              $http.put('/api/decks/' + deck._id, deck);
+              saveUpdatedDeck(deck);
             });
+          }
+
+          function saveUpdatedDeck (deck) {
+            var deck2 = _.clone(deck);
+            delete deck2.deckSlides;
+
+            $http.put('/api/decks/' + deck._id, deck2);
           }
         }
       };

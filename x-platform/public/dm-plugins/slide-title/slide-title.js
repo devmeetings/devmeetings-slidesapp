@@ -18,7 +18,7 @@ define(['slider/slider.plugins'], function (sliderPlugins) {
           title: '=data',
           slide: '=context'
         },
-        template: '<div><h1 ng-if="!$root.modes.isEditMode" ng-bind-html="slide.title"></h1><h1 ng-if="$root.modes.isEditMode" contenteditable ng-model="slide.title"></h1></div>'
+        template: '<div class="slide-title"><h1 ng-if="!$root.modes.isEditMode" ng-bind-html="slide.title"></h1><h1 ng-if="$root.modes.isEditMode" contenteditable ng-model="slide.title"></h1></div>'
       };
     }
   ]);

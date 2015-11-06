@@ -13,7 +13,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
     $stateProvider.state('dashboard', {
       url: '/dashboard',
       controller: DmDashboard,
-      controllerAs: DmDashboard.tpl,
+      controllerAs: DmDashboard.as,
       template: DmDashboard.tpl
     });
 

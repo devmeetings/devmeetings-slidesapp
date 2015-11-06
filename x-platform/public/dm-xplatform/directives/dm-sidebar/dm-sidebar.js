@@ -1,6 +1,6 @@
 /* globals define */
 define(['angular', 'dm-xplatform/xplatform-app', './dm-sidebar.html!text'], function (angular, xplatformApp, viewTemplate) {
-  xplatformApp.directive('dmSidebar', [function () {
+  xplatformApp.directive('dmSidebar', [ function () {
     return {
       restrict: 'E',
       scope: {

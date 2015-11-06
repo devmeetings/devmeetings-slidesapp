@@ -18,7 +18,6 @@ define(['_', 'slider/slider.plugins'], function (_, sliderPlugins) {
           title: '=data',
           deck: '=context'
         },
-        template: '<div></div>',
         link: function (scope, element) {
           sliderPlugins.forwardEventToServer('slide.current.change', Sockets);
         }

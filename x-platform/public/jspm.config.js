@@ -16,7 +16,8 @@ System.config({
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js"
-  }
+  },
+  "buildCSS": false
 });
 
 System.config({
@@ -57,7 +58,7 @@ System.config({
     "jsondiffpatch": "github:benjamine/JsonDiffPatch@0.1.31",
     "lodash": "npm:lodash@3.9.3",
     "marked": "npm:marked@0.3.3",
-    "moment": "github:moment/moment@2.10.3",
+    "moment": "github:moment/moment@2.10.6",
     "monospaced/angular-qrcode": "github:monospaced/angular-qrcode@5.1.0",
     "ng-file-upload": "github:danialfarid/ng-file-upload@5.0.9",
     "ng-scrollbar": "github:asafdav/ng-scrollbar@0.0.7",

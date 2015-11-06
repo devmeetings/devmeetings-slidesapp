@@ -20,27 +20,58 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
       return {
         restrict: 'E',
         scope: {
-          // monitor: '=data',
+          options: '=data'
         },
-        template: '<div><div class="editor editor-output"></div></div>',
+        template: '<div class="editor editor-output"></div>',
         link: function (scope, element) {
-          var outputAce = ace.edit(element[0].querySelector('.editor'));
+          function isJson () {
+            if (scope.options && scope.options.noJson) {
+              return false;
+            }
+            return true;
+          }
+
+          var outputAce = ace.edit(element[0]);
           outputAce.$blockScrolling = Infinity;
           outputAce.setTheme('ace/theme/' + OUTPUT_THEME);
           outputAce.setFontSize(16);
-          outputAce.getSession().setMode('ace/mode/json');
+          if (isJson()) {
+            outputAce.getSession().setMode('ace/mode/json');
+          }
           outputAce.setReadOnly(true);
           outputAce.setHighlightActiveLine(false);
           outputAce.setShowPrintMargin(false);
           outputAce.renderer.setShowGutter(false);
 
-          sliderPlugins.listen(scope, 'slide.jsonOutput.display', function (output, what) {
-            var res = JSON.stringify(output, null, 2);
-            if (what) {
-              res = what + ':\n' + res;
-            }
-            outputAce.setValue(res);
+          function setValue (val) {
+            outputAce.setValue(val);
             outputAce.clearSelection();
+          }
+
+          sliderPlugins.listen(scope, 'slide.jsonOutput.display', function (output, what) {
+            var res;
+
+            if (isJson()) {
+              res = JSON.stringify(output, null, 2);
+              if (what) {
+                res = what + ':\n' + res;
+              }
+              setValue(res);
+              return;
+            }
+
+            if (_.isArray(output)) {
+              res = output.map(function (line) {
+                if (_.isArray(line)) {
+                  return JSON.stringify(line);
+                }
+                return line;
+              });
+              setValue(res.join('\n'));
+              return;
+            }
+
+            setValue(output);
           });
         }
       };
@@ -64,7 +95,7 @@ define(['module', '_', 'slider/slider.plugins', 'ace'], function (module, _, sli
         },
         link: function (scope) {
           sliderPlugins.registerScopePlugin(scope, 'slide.slide-jsrunner', 'process', {
-            monitor: scope.monitor,
+            monitor: _.isObject(scope.monitor) ? scope.monitor.output : scope.monitor,
             name: 'jsonoutput'
           });
 

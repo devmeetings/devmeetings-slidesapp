@@ -5,10 +5,14 @@
 }
 
 .content-height {
-    height: calc(~'100% - 51px');
+    height: calc(~'100% - 52px');
     &.header-hidden {
       height: 100%;
     }
+}
+
+plugins-loader:nth-child(2) {
+  height: auto;
 }
 
 body.full-height {
@@ -26,5 +30,30 @@ body.full-height {
     .hide-on-hover {
       display: none;
     }
+  }
+}
+
+plugins-loader {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+plugins-loader:empty {
+  display: none;
+}
+
+plugins-loader > * {
+  flex: 1;
+  display: block;
+  overflow: auto;
+
+  &:empty {
+    display: none;
+    flex: 0;
+  }
+
+  > * {
+    display: block;
+    height: 100%;
   }
 }

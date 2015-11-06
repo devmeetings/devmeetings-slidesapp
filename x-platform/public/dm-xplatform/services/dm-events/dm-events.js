@@ -164,10 +164,10 @@ define(['angular', 'dm-xplatform/xplatform-app', '_'], function (angular, xplatf
           return $http.post(
             ['/api/event_iteration_material_anno', eventId, iterationId, materialId].join('/'),
             snippet).then(function () {
-            that.getEvent(eventId, false).then(function (eventObject) {
-              annotations.push(snippet);
+              that.getEvent(eventId, false).then(function (eventObject) {
+                annotations.push(snippet);
+              });
             });
-          });
         },
         editEventAnnotation: function (eventId, iterationId, materialId, snippet) {
           return $http.put(

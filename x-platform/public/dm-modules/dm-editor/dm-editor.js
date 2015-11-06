@@ -251,6 +251,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
   function getMode (name, givenMode) {
     var modesMap = {
       'js': 'javascript',
+      'ts': 'typescript',
       'es6': 'javascript'
     };
 

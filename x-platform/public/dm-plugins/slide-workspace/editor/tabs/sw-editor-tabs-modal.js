@@ -7,7 +7,7 @@ sliderPlugins.controller('SwEditorTabsModalCtrl', function (textForUser, oldPath
   this.textForUser = textForUser;
   this.oldPath = oldPath;
   this.path = oldPath ? oldPath.replace(/\|/g, '.') : '';
-  this.mode = mode ? mode : false;
+  this.mode = mode || false;
 
   this.ok = function (newPath) {
     newPath = newPath.replace(/\./g, '|');

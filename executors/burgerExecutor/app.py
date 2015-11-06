@@ -40,7 +40,7 @@ def runCode(code, q):
         stacktrace = [x[1:] for x in traceback.extract_tb(tb)[2:]]
         q.put({
             'success': False,
-            'errors': [str(ex)],
+            'errors': [ex_type.__name__ + ': ' + str(ex)],
             'stacktrace': stacktrace
         })
     finally:
