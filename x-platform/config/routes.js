@@ -143,6 +143,9 @@ module.exports = function (app) {
 
   var users = require('../app/controllers/users');
   app.get('/api/users/:id', apiAuthenticated, users.get);
+  app.delete('/api/users/:id/password', apiAuthenticated, authorized('admin:super'), users.resetPasswordRequest);
+  app.post('/api/users/:id/password', users.resetPassword);
+  app.get('/api/users/:id/password', users.resetPasswordView);
   app.put('/api/users', apiAuthenticated, users.edit);
   app.get('/api/users', apiAuthenticated, users.current);
   app.get('/api/session', apiAuthenticated, users.session);

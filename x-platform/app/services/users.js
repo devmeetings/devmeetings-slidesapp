@@ -123,6 +123,20 @@ exports.verify = function (email, password, done) {
   });
 };
 
+exports.setNewPassword = function (userId, password, done) {
+  UserModel.findOne({
+    _id: userId
+  }, function (err, user) {
+    if (err || !user) {
+      throw err;
+    }
+
+    user.passwordChangeCode = '';
+    user.password = password;
+    user.save(done);
+  });
+};
+
 exports.findLocalUserByEmail = function (email, done) {
   UserModel.findOne({
     email: email,
