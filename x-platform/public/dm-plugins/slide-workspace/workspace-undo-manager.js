@@ -40,6 +40,9 @@ define(['_'], function (_) {
     this.setUpStack = function (options) {
       var deltas = options.args[0];
       var currentStack = this.getCurrentTabsStack();
+      if (!currentStack) {
+        return;
+      }
 
       this.$doc = options.args[1];
 
@@ -65,6 +68,9 @@ define(['_'], function (_) {
     };
     this.undo = function (dontSelect) {
       var currentStack = this.getCurrentTabsStack();
+      if (!currentStack) {
+        return;
+      }
 
       return this.makeStackAction(currentStack.$undoStack, function (deltas) {
         var range = this.$doc.undoChanges(deltas, dontSelect);
@@ -75,6 +81,9 @@ define(['_'], function (_) {
     };
     this.redo = function (dontSelect) {
       var currentStack = this.getCurrentTabsStack();
+      if (!currentStack) {
+        return;
+      }
 
       return this.makeStackAction(currentStack.$redoStack, function (deltas) {
         var range = this.$doc.redoChanges(deltas, dontSelect);
@@ -110,16 +119,26 @@ define(['_'], function (_) {
       };
     };
     this.hasUndo = function () {
-      return this.getCurrentTabsStack().$undoStack.length > 0;
+      var stack = this.getCurrentTabsStack();
+      return stack ? stack.$undoStack.length > 0 : false;
     };
     this.hasRedo = function () {
-      return this.getCurrentTabsStack().$redoStack.length > 0;
+      var stack = this.getCurrentTabsStack();
+      return stack ? stack.$redoStack.length > 0 : false;
     };
     this.markClean = function () {
-      this.getCurrentTabsStack().dirtyCounter = 0;
+      var stack = this.getCurrentTabsStack();
+      if (!stack) {
+        return;
+      }
+      stack.dirtyCounter = 0;
     };
     this.isClean = function () {
-      return this.getCurrentTabsStack().dirtyCounter === 0;
+      var stack = this.getCurrentTabsStack();
+      if (!stack) {
+        return true;
+      }
+      return stack.dirtyCounter === 0;
     };
   }.call(WorkspaceUndoManager.prototype));
 
