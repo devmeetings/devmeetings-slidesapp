@@ -84,7 +84,7 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
             var doFocusEditorLater = _.debounce(focusEditor, 350);
             var focusEditorLater = function () {
               // Don't lose focus when playing a movie!
-              if (scope.editorMode !== 'player') {
+              if (scope.editorMode !== 'player' && scope.editorMode !== 'possiblePlayer') {
                 doFocusEditorLater();
               }
             };
