@@ -1,0 +1,28 @@
+extends ../layouts/main
+
+block content
+    .container
+        .login-holder
+            form(action="/api/users/#{id}/password", method="post")
+                .row.auth-holder
+                    .col-md-12
+                        .login-header
+                            | Reset Password
+                    .col-md-12
+                        if error
+                            .alert.alert-danger #{error}
+                        .form-group
+                            .ico-holder
+                                img.ico-sub.ico-user(src='/static/images/login/ico_user.png')
+                            input.form-control.form-login(type="text", name="code", placeholder="Reset Code", autofocus)
+                        .form-group
+                            .ico-holder
+                                img.ico-sub.ico-password(src='/static/images/login/ico_password.png')
+                            input.form-control.form-login(type="password", name="password", placeholder="New Passwod")
+                        .form-group
+                            .ico-holder
+                                img.ico-sub.ico-password(src='/static/images/login/ico_password.png')
+                            input.form-control.form-login(type="password", name="password2", placeholder="Confirm New Password")
+                        .form-group
+                            button.btn.btn-log.pull-right(type="submit")
+                                | Change Password

@@ -21,7 +21,7 @@ define(['angular', 'dm-xplayer/dm-xplayer-app', './dm-timeline.html!text'], func
         scope.$watchCollection('annotations', function (annos) {
           annos = annos || [];
           scope.annos = annos.filter(function (anno) {
-            return anno.type !== 'snippet' && anno.type !== 'task';
+            return anno.type !== 'snippet' && anno.type !== 'task' && anno.timestamp;
           });
         });
 

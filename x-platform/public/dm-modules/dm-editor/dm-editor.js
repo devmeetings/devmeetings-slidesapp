@@ -78,13 +78,16 @@ define(['angular', '_', 'ace', './get-extension.es6', './dm-editor.html!text'], 
             });
 
             function focusEditor () {
-              // Don't lose focus when playing a movie!
-              if (scope.editorMode !== 'player') {
-                editor.focus();
-              }
+              editor.focus();
             }
             focusEditor();
-            var focusEditorLater = _.debounce(focusEditor, 350);
+            var doFocusEditorLater = _.debounce(focusEditor, 350);
+            var focusEditorLater = function () {
+              // Don't lose focus when playing a movie!
+              if (scope.editorMode !== 'player' && scope.editorMode !== 'possiblePlayer') {
+                doFocusEditorLater();
+              }
+            };
 
             (function vimMode () {
               if (scope.options.vim || ($window.localStorage && $window.localStorage.getItem('vimMode'))) {

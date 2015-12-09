@@ -15,6 +15,9 @@ var UserModel = mongoose.model('user', new mongoose.Schema({
   password: {
     type: String
   },
+  passwordChangeCode: {
+    type: String
+  },
   type: {
     type: String,
     enum: ['local', 'g+', 'fb', 'github'],
