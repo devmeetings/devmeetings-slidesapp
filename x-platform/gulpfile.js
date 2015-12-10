@@ -29,6 +29,7 @@ function withIgnores (arr) {
   arr.push('!public/cdn/**');
   arr.push('!public/jspm.config.js');
   arr.push('!app/plugins/slide-ionic-download/app/**');
+  arr.push('!app/plugins/slide-workspace/node_modules/**');
   arr.push('!node_modules/**');
   return arr;
 }
