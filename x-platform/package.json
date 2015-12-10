@@ -104,6 +104,7 @@
       "public/cdn/**",
       "public/jspm_packages/**",
       "public/components/**",
+      "app/plugins/slide-workspace/node_modules/**",
       "app/plugins/slide-ionic-download/app/**",
       "public/jspm.config.js"
     ]
