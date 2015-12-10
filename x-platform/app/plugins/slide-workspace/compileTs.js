@@ -9,7 +9,6 @@ module.exports = function compileTsAndReturnSemanticErrors (getSlideContent, get
     }
     var workspace = getFiles(slide.workspace);
 
-    console.log(workspace);
     var errors = compileTsFilesAndGetErrors(workspace);
     res.send(flatten([
       '<html><head>',
@@ -81,7 +80,6 @@ function tsSysForWorkspace (workspace) {
     newLine: '\n',
     readFile: function (fileName, encoding) {
       fileName = fileName.replace(/\.ts\.ts$/, '.ts');
-      console.log('readFile', arguments);
       var f = workspace[fileName];
       if (f) {
         return f;
@@ -92,22 +90,29 @@ function tsSysForWorkspace (workspace) {
         return c.toString();
       }
 
+      fileName = __dirname + '/node_modules/' + fileName;
+      if (fs.existsSync(fileName)) {
+        var d = fs.readFileSync(fileName, encoding);
+        return d.toString();
+      }
+
       return '';
     },
     writeFile: function () {
-      console.log('writeFile', arguments);
     },
     resolvePath: function (path) {
-      console.log('resolvePath', arguments);
       return path;
     },
     fileExists: function (path) {
       path = path.replace(/\.ts\.ts$/, '.ts');
-      console.log('fileExists', arguments);
-      return !!workspace[path];
+      var existsInWorkspace = !!workspace[path];
+      if (existsInWorkspace) {
+        return true;
+      }
+      path = __dirname + '/node_modules/' + path;
+      return fs.existsSync(path);
     },
     directoryExists: function (path) {
-      console.log('directoryExists', arguments);
       return true;
     }
   };

@@ -2,8 +2,10 @@
 define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.html!text'], function (angular, xplatformApp, viewTemplate) {
   'use strict';
 
+  var VERSION = 2;
+
   function readPerformanceData (localStorage) {
-    var perf = localStorage.performance;
+    var perf = localStorage['performance' + VERSION];
     try {
       return JSON.parse(perf);
     } catch (e) {
@@ -12,7 +14,7 @@ define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.htm
   }
 
   function savePerformanceData (localStorage, perf) {
-    localStorage.performance = JSON.stringify(perf);
+    localStorage['performance' + VERSION] = JSON.stringify(perf);
   }
 
   function setPropEnabled (perf, name, enabled) {
@@ -23,7 +25,7 @@ define(['angular', 'dm-xplatform/xplatform-app', './dm-xplatform-performance.htm
     }
   }
 
-  var props = ['anims', 'shadows', 'player_full_screen', 'workspace_output_noanim', 'workspace_output_noauto', 'workspace_output_scalling'];
+  var props = ['anims', 'shadows', 'player_full_screen', 'workspace_output_anim', 'workspace_output_noauto', 'workspace_output_scalling'];
 
   xplatformApp.run(function ($window, $rootScope, $timeout) {
     $timeout(function () {

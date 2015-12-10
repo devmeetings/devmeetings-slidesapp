@@ -12,7 +12,7 @@
     "prestart": "gulp install_hooks",
     "start": "gulp serve",
     "test": "semistandard && gulp test --ci",
-    "postinstall": "jspm install && bower install"
+    "postinstall": "jspm install && bower install && cd ./app/plugins/slide-workspace && npm install"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",

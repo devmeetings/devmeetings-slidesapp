@@ -92,7 +92,7 @@ class OutputFrame {
   }
 
   setAddressAndAnimateIfNeeded (url) {
-    var animationOn = this.$rootScope.performance.indexOf('workspace_output_noanim') === -1;
+    var animationOn = this.$rootScope.performance.indexOf('workspace_output_anim') !== -1;
 
     if (animationOn) {
       this.setAddressWithFramesAnimation(url);
