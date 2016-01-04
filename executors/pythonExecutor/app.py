@@ -49,7 +49,7 @@ def onMessage(message):
     body = message['data']
     jsonBody = json.loads(body)
     print('[x] Received %r' % jsonBody)
-    message = runCode(jsonBody['content']['code'])
+    message = runCode(jsonBody['content']['files']['index.py']['content'])
 
     client.publish(
         jsonBody['properties']['replyTo'],

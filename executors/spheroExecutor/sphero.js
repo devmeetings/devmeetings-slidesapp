@@ -40,7 +40,7 @@ module.exports = {
 		try {
 			var requireWhitelist = ['q', 'cylon'];
 			var output = [];
-			vm.runInNewContext(msg.code, {
+			vm.runInNewContext(msg.files['index.js'].content, {
 		        console: {
 		            log: function() {
 		                var args = [].slice.call(arguments);

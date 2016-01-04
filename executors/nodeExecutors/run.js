@@ -21,9 +21,7 @@ temp.track();
 
 function run(obj, env, consoleMock, cb) {
 
-  var files = obj.files || {
-    '/index.js': obj.code
-  };
+  var files = obj.files; 
   var indexFile = '/index.js';
 
   if (!files[indexFile]) {
@@ -34,7 +32,7 @@ function run(obj, env, consoleMock, cb) {
 
     return Q.all(Object.keys(files).map(function(file) {
 
-      var content = files[file];
+      var content = files[file].content;
       var filename = path.join(dir, file);
       
       var currentDir = path.dirname(filename);
@@ -78,7 +76,7 @@ function run(obj, env, consoleMock, cb) {
 
         if (isFile) {
           var globals = prepareGlobals('/' + path.basename(newFile), path.dirname(newFile));
-          return vm.runInNewContext(files[file], globals);
+          return vm.runInNewContext(files[file].content, globals);
         }
     
         return requireInPath(mod);
@@ -105,7 +103,7 @@ function run(obj, env, consoleMock, cb) {
    
     var globals = prepareGlobals(indexFile, dir);
     // Invoke index.js file
-    return vm.runInNewContext(files[indexFile], globals);
+    return vm.runInNewContext(files[indexFile].content, globals);
 
   }).done(function(data) {
     cb(null, data);

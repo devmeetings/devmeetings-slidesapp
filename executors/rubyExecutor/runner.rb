@@ -12,7 +12,7 @@ connection = MessageQueueConnection.new
 puts '[*] Waiting for messages.'
 
 connection.subscribe do |metadata, payload|
-  result = Evaluator.new(JSON.parse(payload)['code']).evaluate!
+  result = Evaluator.new(JSON.parse(payload)['content']['files']['index.rb']['content']).evaluate!
   Responder.new(connection, metadata, result).publish!
 
   puts result.inspect
