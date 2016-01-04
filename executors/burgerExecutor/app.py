@@ -55,7 +55,7 @@ def onMessage(message):
     jsonBody = json.loads(body.decode('utf-8'))
     print('[x] Received %r' % jsonBody)
     q = Queue()
-    p = Process(target=runCode, args=(jsonBody['content']['code'], q, ))
+    p = Process(target=runCode, args=(jsonBody['content']['files']['index.py']['content'], q, ))
     p.start()
     try:
         timeout = 2

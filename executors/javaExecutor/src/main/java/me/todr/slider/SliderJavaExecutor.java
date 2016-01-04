@@ -59,7 +59,7 @@ public class SliderJavaExecutor {
 		Jedis redis = new Jedis(URI.create("redis://" + host));
 
 		// Consume queue
-		System.out.println("[*] Waiting for messages.");
+		System.out.println("[*] Waiting for messages on " + QUEUE_NAME);
 		redis.subscribe(new Subscriber(exec, publisher), QUEUE_NAME);
 		// closing
 		redis.quit();
@@ -70,8 +70,12 @@ public class SliderJavaExecutor {
 	}
 
 	private static final class ExecuteMessageWithTimeout implements Callable<Void> {
+    private static final String MAIN_FILE = "main.java";
+
 		private static final Map<String, Object> TOO_LONG_MAP = ImmutableMap.of("success", false, "errors",
 				ImmutableList.of("Your code has taken to long to execute."));
+		private static final Map<String, Object> FILE_NOT_FOUND_MAP = ImmutableMap.of("success", false, "errors",
+				ImmutableList.of("Main file not found (" + MAIN_FILE + ")"));
 		private static final ObjectMapper objectMapper = new ObjectMapper();
 
 		private final ExecutorService exec;
@@ -90,7 +94,15 @@ public class SliderJavaExecutor {
 			// Read JSON
 			JsonNode readTree = objectMapper.readTree(message);
 			JsonNode properties = readTree.get("properties");
-			String code = readTree.get("content").get("code").asText();
+			JsonNode files = readTree.get("content").get("files");
+
+      if (!files.has(MAIN_FILE)) {
+        System.err.println("Couldn't find main file: " + MAIN_FILE);
+        answer(properties, FILE_NOT_FOUND_MAP);
+        return null;
+      }
+
+      String code = files.get(MAIN_FILE).get("content").asText();
 
 			Future<Map<String, Object>> submit = exec.submit(new CompileAndRunMessage(code));
 			try {
@@ -104,6 +116,7 @@ public class SliderJavaExecutor {
 				submit.cancel(true);
 				answer(properties, TOO_LONG_MAP);
 			}
+
 			watch.stop();
 			System.out.println(MessageFormat.format("Total: {0}us", watch.elapsed(TimeUnit.MICROSECONDS)));
 			return null;
