@@ -1,7 +1,6 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-moment';
-import 'angular-hotkeys';
 import 'angular-bootstrap';
 import 'angular-marked';
 import 'angular-animate';
@@ -10,6 +9,6 @@ import 'slider/slider.plugins';
 
 export default angular.module('dm-courses', [
   'slider.plugins', 'ui.router', 'ui.bootstrap',
-  'angularMoment', 'cfp.hotkeys', 'hc.marked',
+  'angularMoment', 'marked',
   'ngAnimate'
 ]);

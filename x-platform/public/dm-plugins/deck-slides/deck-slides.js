@@ -19,7 +19,7 @@ define([
       }]
     }
   }).directive('deckSlides',
-    function ($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides, hotkeys) {
+    function ($timeout, $rootScope, $window, $location, CurrentSlideManagerForDeck, DeckAndSlides) {
       return {
         restrict: 'E',
         scope: {
@@ -64,35 +64,35 @@ define([
             scope.slide.content = slide_content;
           });
 
-          function fixSlideIdx (idx, maxLength) {
-            idx = idx % maxLength;
+          // function fixSlideIdx (idx, maxLength) {
+          //   idx = idx % maxLength;
+          //
+          //   if (idx >= 0) {
+          //     return idx;
+          //   }
+          //
+          //   return maxLength + idx;
+          // }
 
-            if (idx >= 0) {
-              return idx;
-            }
+          // function goToSlide (diff) {
+          //   var maxLength = scope.deck.deckSlides.length;
+          //   var idx = _.map(scope.deck.deckSlides, function (x) {
+          //     return x._id;
+          //   }).indexOf(scope.slide._id);
+          //
+          //   idx = fixSlideIdx(idx + diff, maxLength);
+          //   activateSlide(idx);
+          // }
 
-            return maxLength + idx;
-          }
-
-          function goToSlide (diff) {
-            var maxLength = scope.deck.deckSlides.length;
-            var idx = _.map(scope.deck.deckSlides, function (x) {
-              return x._id;
-            }).indexOf(scope.slide._id);
-
-            idx = fixSlideIdx(idx + diff, maxLength);
-            activateSlide(idx);
-          }
-
-          hotkeys.bindTo(scope).add({
-            combo: 'right',
-            description: 'Next slide',
-            callback: goToSlide.bind(null, 1)
-          }).add({
-            combo: 'left',
-            description: 'Previous slide',
-            callback: goToSlide.bind(null, -1)
-          });
+          // hotkeys.bindTo(scope).add({
+          //   combo: 'right',
+          //   description: 'Next slide',
+          //   callback: goToSlide.bind(null, 1)
+          // }).add({
+          //   combo: 'left',
+          //   description: 'Previous slide',
+          //   callback: goToSlide.bind(null, -1)
+          // });
 
           scope.downloadDeck = function () {
             var blob = new window.Blob([angular.toJson(scope.deck)], {

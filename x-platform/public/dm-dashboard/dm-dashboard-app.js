@@ -1,7 +1,6 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import 'angular-moment';
-import 'angular-hotkeys';
 import 'angular-bootstrap';
 import 'angular-marked';
 import 'angular-animate';
@@ -14,6 +13,6 @@ import 'dm-modules/dm-online/dm-online';
 
 export default angular.module('dm-dashboard', [
   'slider.plugins', 'ui.router', 'ui.bootstrap',
-  'angularMoment', 'cfp.hotkeys', 'hc.marked',
+  'angularMoment', 'hc.marked',
   'ngAnimate', 'dm-online', 'dm-gravatar'
 ]);
