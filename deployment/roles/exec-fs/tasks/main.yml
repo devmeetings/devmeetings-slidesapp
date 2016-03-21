@@ -32,6 +32,9 @@
   npm:
     path: "/srv/executors/fs/fsExecutor"
 
+- name: Installing go support
+  apt: name=golang
+
 - name: Installing Modules for Go
   npm:
     path: "/srv/executors/fs/goExecutor"
