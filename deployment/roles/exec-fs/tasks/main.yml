@@ -39,12 +39,33 @@
   npm:
     path: "/srv/executors/fs/goExecutor"
 
+- name: FsExec | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-init.sh
 
-- name: Run On Startup
-  command: pm2 startup -u exec-fs && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-fs.sh
+- name: FsExec | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-exec-fs.sh
+
+- name: FsExec | Run On Startup
+  command: pm2 startup -u exec-fs
   args:
-    creates: /etc/init.d/pm2-exec-fs.sh
     chdir: "/srv/executors/fs"
+
+- name: FsExec | Rename Startup Script
+  command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-fs.sh
+  args:
+    chdir: "/srv/executors/fs"
+
+- name: FsExec | Removing wrong names
+  command: find . | grep pm2-init | xargs rm
+  args:
+    chdir: "/etc"
+
+- name: FsExec | Run on startup
+  command: update-rc.d pm2-exec-fs.sh defaults
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete exec_go"

@@ -49,11 +49,31 @@
     path: "/srv/{{server_domain}}/x-platform/data"
     state: absent
 
-- name: Run On Startup
-  command: pm2 startup -u xplatform && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-xplatform.sh
+- name: Xplatform | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-init.sh
+
+- name: Xplatform | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-xplatform.sh
+
+- name: Xplatform | Run On Startup
+  command: pm2 startup -u xplatform
   args:
-    creates: /etc/init.d/pm2-xplatform.sh
     chdir: "/srv/{{server_domain}}"
+
+- name: Xplatform | Rename Startup Script
+  command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-xplatform.sh
+
+- name: Xplatform | Removing wrong names
+  command: find . | grep pm2-init | xargs rm
+  args:
+    chdir: "/etc"
+
+- name: Xplatform | Run on startup
+  command: update-rc.d pm2-xplatform.sh defaults
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete {{server_short}}"
