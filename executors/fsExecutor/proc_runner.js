@@ -21,7 +21,7 @@ function sendError(e) {
     success: false,
     result: output.concat([e.toString()]),
     errors: [e.toString()],
-    stacktrace: e.stack.split("\n")
+    stacktrace: (e.stack || "build error").split("\n")
   });
 }
 
@@ -103,6 +103,7 @@ function series(arr, f) {
   function next() {
     var current = arr.shift();
     if (!current) {
+      sendOutput("");
       return;
     }
     f(current, next);
