@@ -68,7 +68,7 @@
   command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-xplatform.sh
 
 - name: Xplatform | Removing wrong names
-  command: find . | grep pm2-init | xargs rm
+  command: bash -c "find . | grep pm2-init | xargs rm"
   args:
     chdir: "/etc"
 

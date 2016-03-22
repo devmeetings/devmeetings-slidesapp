@@ -56,7 +56,7 @@
   command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-node.sh
 
 - name: NodeExec | Removing wrong names
-  command: find . | grep pm2-init | xargs rm
+  command: bash -c "find . | grep pm2-init | xargs rm"
   args:
     chdir: "/etc"
 
