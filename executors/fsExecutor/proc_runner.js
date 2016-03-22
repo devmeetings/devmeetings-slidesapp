@@ -15,12 +15,15 @@ setTimeout(function () {
 }, PROCESSTIMEOUT);
 
 var output = [];
+var errors = [];
 
 function sendError(e) {
+  errors.push(e.toString());
+
   process.send({
     success: false,
     result: output.concat([e.toString()]),
-    errors: [e.toString()],
+    errors: errors,
     stacktrace: (e.stack || "build error").split("\n")
   });
 }
@@ -34,7 +37,7 @@ function sendOutput(o) {
   process.send({
     success: true,
     result: output,
-    errors: []
+    errors: errors
   });
 }
 
@@ -103,7 +106,7 @@ function series(arr, f) {
   function next() {
     var current = arr.shift();
     if (!current) {
-      sendOutput("");
+      sendOutput(" ");
       return;
     }
     f(current, next);
