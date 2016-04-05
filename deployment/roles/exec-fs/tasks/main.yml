@@ -80,6 +80,7 @@
   sudo: yes
   sudo_user: exec-fs
   environment:
+    GOPATH: '/srv/executors/fs/goExecutor/'
     SERVER_URL: '{{exec_fs_server_url}}'
     REDIS_HOST: '{{exec_fs_redis_host}}'
 
