@@ -37,6 +37,7 @@ module.exports = function runExecutor(Queue, commands) {
 
     var env = {
       PORT: 15000 + Math.floor(Math.random() * 1000) * 10, //allocate ports with offset of 10
+      GOPATH: '/srv/executors/fs/goExecutor'
     };
 
 
