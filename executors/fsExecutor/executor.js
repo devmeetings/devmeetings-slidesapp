@@ -4,7 +4,7 @@ var _ = require('lodash');
 
 var TIMEOUT = 5000;
 
-module.exports = function runExecutor(Queue, commands) {
+module.exports = function runExecutor(Queue, commands, baseEnv) {
   var address = process.env.REDIS_HOST || 'localhost:6379';
 
   console.log("Connecting to Redis", address);
@@ -37,11 +37,14 @@ module.exports = function runExecutor(Queue, commands) {
 
     var env = {
       PORT: 15000 + Math.floor(Math.random() * 1000) * 10, //allocate ports with offset of 10
-      GOPATH: '/srv/executors/fs/goExecutor'
     };
 
+    for (var k in baseEnv) {
+      env[k] = baseEnv[k];
+    }
 
     var reply = function(thing) {
+      thing = thing || {};
       thing.timestamp = msgContent.timestamp;
       thing.port = env.PORT;
 

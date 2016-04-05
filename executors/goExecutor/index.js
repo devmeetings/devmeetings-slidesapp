@@ -4,5 +4,7 @@ var exec = require('../fsExecutor/executor.js');
 exec('exec_go', [
   ['go', 'build', 'index.go'],
   ['./index']
-]);
+], {
+  GOPATH: process.cwd()
+});
 
