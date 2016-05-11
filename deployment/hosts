@@ -17,8 +17,11 @@ root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new ser
 
 
 [exec-node]
-#root@pl-2.xplatform.org hostname=pl-2.xplatform.org exec_node_server_url=pl-2.xplatform.org
+root@pl-2.xplatform.org hostname=pl-2.xplatform.org exec_node_server_url=pl-2.xplatform.org
 #ubuntu@asia.xplatform.org hostname=asia.xplatform.org exec_node_server_url=asia.xplatform.org
+
+[exec-fs]
+root@pl-2.xplatform.org hostname=pl-2.xplatform.org
 
 [exec-burger]
 root@pl-2.xplatform.org hostname=pl-2.xplatform.org

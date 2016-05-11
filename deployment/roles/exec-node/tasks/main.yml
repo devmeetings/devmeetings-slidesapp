@@ -37,11 +37,31 @@
     path: "/srv/executors/node/nodeExecutors/modules"
 
 
-- name: Run On Startup
-  command: pm2 startup -u exec-node && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-node.sh
+- name: NodeExec | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-init.sh
+
+- name: NodeExec | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-exec-node.sh
+
+- name: NodeExec | Run On Startup
+  command: pm2 startup -u exec-node
   args:
-    creates: /etc/init.d/pm2-exec-node.sh
     chdir: "/srv/executors/node"
+
+- name: NodeExec | Rename Startup Script
+  command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-node.sh
+
+- name: NodeExec | Removing wrong names
+  command: bash -c "find . | grep pm2-init | xargs rm"
+  args:
+    chdir: "/etc"
+
+- name: NodeExec | Run on startup
+  command: update-rc.d pm2-exec-node.sh defaults
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete exec_express"

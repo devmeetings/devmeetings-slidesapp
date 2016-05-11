@@ -28,11 +28,31 @@
     dest: "/srv/executors/burger"
     src: /srv/_packages/exec_burger_{{exec_burger_version}}.tar.gz
 
-- name: Run On Startup
-  command: pm2 startup -u exec-burger && mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-burger.sh
+- name: BurgerExec | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-init.sh
+
+- name: BurgerExec | Startup - remove old script
+  file:
+    state: absent
+    path: /etc/init.d/pm2-exec-burger.sh
+
+- name: BurgerExec | Run On Startup
+  command: pm2 startup -u exec-burger
   args:
-    creates: /etc/init.d/pm2-exec-burger.sh
     chdir: "/srv/executors/burger"
+
+- name: BurgerExec | Rename Startup Script
+  command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-burger.sh
+
+- name: BurgerExec | Removing wrong names
+  command: bash -c "find . | grep pm2-init | xargs rm"
+  args:
+    chdir: "/etc"
+
+- name: BurgerExec | Run on startup
+  command: update-rc.d pm2-exec-burger.sh defaults
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete exec_burger"

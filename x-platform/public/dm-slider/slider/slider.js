@@ -3,13 +3,13 @@ define(['angular',
   './slider.plugins',
   'angular-bootstrap', 'angular-animate', 'angular-touch',
   'angular-moment', 'angular-local-storage', 'angular-contenteditable', 'angulartics', 'angulartics/dist/angulartics-ga.min', 'angular-marked',
-  'angular-hotkeys', 'ng-file-upload', 'angular-tree-control'
+  'ng-file-upload', 'angular-tree-control'
 ],
   function (angular) {
     var mod = angular.module('slider', [
       'slider.plugins', 'ui.bootstrap', 'ngAnimate', 'ngTouch',
       'angularMoment', 'LocalStorageModule', 'contenteditable',
-      'angulartics', 'angulartics.google.analytics', 'hc.marked', 'cfp.hotkeys', 'ngFileUpload',
+      'angulartics', 'angulartics.google.analytics', 'hc.marked', 'ngFileUpload',
       'treeControl'
     ]);
 

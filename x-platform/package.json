@@ -134,7 +134,6 @@
       "angulartics": "github:luisfarzati/angulartics@^0.18.0",
       "asEvented": "github:mkuklis/asEvented@^0.4.5",
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
-      "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@^1.4.5",
       "coffee-script": "github:jashkenas/coffeescript@^1.9.3",
       "favico.js": "github:ejci/favico.js@^0.3.7",
       "font-awesome": "npm:font-awesome@^4.3.0",

@@ -32,7 +32,6 @@ System.config({
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.13.0",
     "angular-contenteditable": "github:akatov/angular-contenteditable@0.3.7",
     "angular-fullscreen": "github:fabiobiondi/angular-fullscreen@1.0.1",
-    "angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.4.5",
     "angular-local-storage": "github:grevory/angular-local-storage@0.2.2",
     "angular-marked": "github:Hypercubed/angular-marked@0.0.16",
     "angular-moment": "github:urish/angular-moment@0.10.1",
@@ -47,7 +46,6 @@ System.config({
     "babel": "npm:babel-core@5.4.7",
     "babel-runtime": "npm:babel-runtime@5.4.7",
     "bootstrap": "github:twbs/bootstrap@3.3.5",
-    "chieffancypants/angular-hotkeys": "github:chieffancypants/angular-hotkeys@1.4.5",
     "coffee-script": "github:jashkenas/coffeescript@1.9.3",
     "core-js": "npm:core-js@0.9.13",
     "favico.js": "github:ejci/favico.js@0.3.7",
@@ -81,9 +79,6 @@ System.config({
       "angular": "github:angular/bower-angular@1.4.5"
     },
     "github:angular/bower-angular-touch@1.4.0": {
-      "angular": "github:angular/bower-angular@1.4.5"
-    },
-    "github:chieffancypants/angular-hotkeys@1.4.5": {
       "angular": "github:angular/bower-angular@1.4.5"
     },
     "github:fabiobiondi/angular-fullscreen@1.0.1": {

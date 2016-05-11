@@ -2,7 +2,6 @@
 define(['angular',
   'angular-ui-router',
   'angular-moment',
-  'angular-hotkeys',
   'angular-bootstrap',
   'angular-marked',
   'angular-animate',
@@ -28,7 +27,7 @@ define(['angular',
   return angular.module('xplatform', [
     'slider', 'slider.plugins',
     'ui.router', 'ui.bootstrap',
-    'angularMoment', 'cfp.hotkeys', 'hc.marked', 'FBAngular', 'ngAnimate', 'ngScrollbar',
+    'angularMoment', 'hc.marked', 'FBAngular', 'ngAnimate', 'ngScrollbar',
     'dm-xplayer', 'dm-user', 'dm-mongotime', 'dm-gravatar',
     'dm-wavesurfer', 'dm-browsertab', 'dm-recorder', 'dm-history', 'dm-online', 'dm-intro', 'dm-sref-show',
     'dm-local-data'

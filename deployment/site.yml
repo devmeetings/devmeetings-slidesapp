@@ -126,6 +126,22 @@
     - xplatform-tunnels
     - exec-node
 
+- hosts: exec-fs
+  become: yes
+  become_user: root
+  vars:
+    exec_fs_version: 'lastSuccessfulBuild'
+    exec_fs_cluster: 1
+    #exec_node_server_url: 
+    exec_fs_redis_host: 'localhost:6379'
+  tags:
+    - exec-fs
+  roles:
+    - common
+    - nodejs
+    - xplatform-tunnels
+    - exec-fs
+
 - hosts: exec-burger
   become: yes
   become_user: root
