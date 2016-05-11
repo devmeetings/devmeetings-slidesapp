@@ -113,7 +113,7 @@ function onFinish(dir) {
   // TODO hacky solution for now!
   return Q.ninvoke(fs, 'readdir', '.')
     .then(function (files) {
-      var pattern = /\.(js|html)$/i;
+      var pattern = /\.(js|html|map)$/i;
       var newFiles = files.filter(function (f) {
         return f.match(pattern);
       });
@@ -141,6 +141,10 @@ function onFinish(dir) {
 function getMimeType(type) {
   if (type === 'html') {
     return 'text/html';
+  }
+
+  if (type === 'map') {
+    return 'application/json';
   }
 
   return 'application/javascript';
