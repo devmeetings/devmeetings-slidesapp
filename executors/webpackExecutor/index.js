@@ -6,7 +6,7 @@ exec('exec_webpack', [
   ['cp', '-r', __dirname + '/common/node_modules', '.'],
   ['cp', __dirname + '/common/cpfiles.sh', '.'],
   ['echo', 'Installing dependencies...'],
-  ['npm', 'i', '--no-progress', '--loglevel', 'verbose'],
+  ['npm', 'i', '--no-progress', '--loglevel', 'info'],
   ['echo', 'Building Webpack...'],
   ['./node_modules/.bin/webpack'],
   ['./cpfiles.sh']
