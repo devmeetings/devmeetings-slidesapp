@@ -113,7 +113,7 @@ function onFinish(dir) {
   // TODO hacky solution for now!
   return Q.ninvoke(fs, 'readdir', '.')
     .then(function (files) {
-      var pattern = /\.(js|html|map)$/i;
+      var pattern = /\.(js|html|map|css)$/i;
       var newFiles = files.filter(function (f) {
         return f.match(pattern);
       });
@@ -139,15 +139,15 @@ function onFinish(dir) {
 }
 
 function getMimeType(type) {
-  if (type === 'html') {
-    return 'text/html';
-  }
+  var map = {
+    'html': 'text/html',
+    'css': 'text/css',
+    'map': 'application/json',
+    'json': 'application/json',
+    'js': 'application/javascript',
+  };
 
-  if (type === 'map') {
-    return 'application/json';
-  }
-
-  return 'application/javascript';
+  return map[type] || 'application/octetstream';
 };
 
 function series(arr, f, onFinish) {
