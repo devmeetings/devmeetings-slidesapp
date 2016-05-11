@@ -4,7 +4,7 @@ var exec = require('../fsExecutor/executor.js');
 exec('exec_webpack', [
   ['cp', '-r', __dirname + '/common/node_modules', '.'],
   ['cp', __dirname + '/common/cpfiles.sh', '.'],
-  ['npm', 'i'],
+  ['npm', 'i', '--no-progress'],
   ['./node_modules/.bin/webpack'],
   ['./cpfiles.sh']
 ], {
