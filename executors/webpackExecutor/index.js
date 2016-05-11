@@ -9,6 +9,7 @@ exec('exec_webpack', [
   ['npm', 'i', '--no-progress'],
   ['echo', 'Building Webpack...'],
   ['./node_modules/.bin/webpack'],
+  ['rm', '-rf', 'node_modules'],
   ['./cpfiles.sh']
 ], {
   PATH: `${process.env.PATH};${process.env.NVM_DIR}`
