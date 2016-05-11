@@ -8,6 +8,6 @@ exec('exec_webpack', [
   ['./node_modules/.bin/webpack'],
   ['./cpfiles.sh']
 ], {
-  PATH: process.env.PATH + ';' + process.env.NVM_DIR
+  PATH: `${process.env.PATH};${process.env.NVM_DIR}`
 });
 
