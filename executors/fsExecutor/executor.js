@@ -2,7 +2,7 @@ var cluster = require('cluster');
 var redis = require('redis');
 var _ = require('lodash');
 
-var TIMEOUT = 5000;
+var TIMEOUT = 7000;
 
 module.exports = function runExecutor(Queue, commands, baseEnv) {
   var address = process.env.REDIS_HOST || 'localhost:6379';

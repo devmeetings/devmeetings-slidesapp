@@ -18,6 +18,7 @@ var output = [];
 var errors = [];
 
 function sendError(e) {
+  console.error(e, e.stack.split("\n"));
   errors.push(e.toString());
 
   process.send({
@@ -28,7 +29,7 @@ function sendError(e) {
   });
 }
 
-function sendOutput(o) {
+function sendOutput(o, files) {
   if (!o) {
     return;
   }
@@ -37,7 +38,8 @@ function sendOutput(o) {
   process.send({
     success: true,
     result: output,
-    errors: errors
+    errors: errors,
+    newFiles: files
   });
 }
 
@@ -75,7 +77,7 @@ process.once('message', function(msg) {
     process.chdir(dir);
 
     // run commands
-    series(commands, function(cmd, next){
+    series(commands, function(cmd, next) {
       var o = child_process.spawn(cmd[0], cmd.slice(1), {
         cwd: dir,
         env: env,
@@ -95,18 +97,60 @@ process.once('message', function(msg) {
         }
         sendError(JSON.stringify(cmd) + ' exited with ' + code);
       });
+    }, function () {
+      onFinish(dir)
     });
   }).done(null, function (err) {
     sendError(err);
   });
-
 });
 
-function series(arr, f) {
+function onFinish(dir) {
+  // we need to find created files
+  // TODO hacky solution for now!
+  return Q.ninvoke(fs, 'readdir', '.')
+    .then(function (files) {
+      var pattern = /\.(js|html)$/i;
+      var newFiles = files.filter(function (f) {
+        return f.match(pattern);
+      });
+      // Read all files
+      return Q.all(newFiles.map(function (f) {
+        return Q.ninvoke(fs, 'readFile', f, 'utf8').then(function (content) {
+          var type = f.match(pattern)[1];
+          return {
+            name: f,
+            content: content,
+            mimetype: getMimeType(type.toLowerCase())
+          };
+        });
+      }));
+    })
+    .then(function (newFiles) {
+      var names = newFiles.map(function (f) {
+        return f.name;
+      });
+      sendOutput('New files: ' + names.join(','), newFiles);
+    })
+    .then(null, sendError);
+}
+
+function getMimeType(type) {
+  if (type === 'html') {
+    return 'text/html';
+  }
+
+  return 'application/javascript';
+};
+
+function series(arr, f, onFinish) {
   function next() {
     var current = arr.shift();
     if (!current) {
       sendOutput(" ");
+      if (onFinish) {
+        onFinish();
+      }
       return;
     }
     f(current, next);
