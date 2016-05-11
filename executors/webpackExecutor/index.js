@@ -2,6 +2,7 @@
 
 var exec = require('../fsExecutor/executor.js');
 exec('exec_webpack', [
+  ['cp', '-r', __dirname + '/common/node_modules', '.'],
   ['npm', 'i'],
   ['./node_modules/.bin/webpack']
 ], {

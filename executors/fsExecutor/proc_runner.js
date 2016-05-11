@@ -18,14 +18,17 @@ var output = [];
 var errors = [];
 
 function sendError(e) {
-  console.error(e, e.stack.split("\n"));
-  errors.push(e.toString());
+  var error = e.toString();
+  var stack = (e.stack || "build error").split("\n");
 
+  console.error(e, stack);
+
+  errors.push(error);
   process.send({
     success: false,
-    result: output.concat([e.toString()]),
+    result: output.concat([error]),
     errors: errors,
-    stacktrace: (e.stack || "build error").split("\n")
+    stacktrace: stack
   });
 }
 
