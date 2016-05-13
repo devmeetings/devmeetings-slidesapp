@@ -7,11 +7,11 @@ var CACHE_NAME = 'xpla-cache';
 var CACHE = CACHE_NAME + '-v' + CACHE_VERSION;
 
 var LOCAL_DOMAIN = 'local.xplatform.org';
-var LOCAL_CHECK = 'https://' + LOCAL_DOMAIN + '/isLocal';
-var LOCAL_CHECK_INTERVAL = 60000;
+// var LOCAL_CHECK = 'https://' + LOCAL_DOMAIN + '/isLocal';
+// var LOCAL_CHECK_INTERVAL = 60000;
 
 var isLocalActive = false;
-var isLocalLastTry = null;
+// var isLocalLastTry = null;
 
 var isCdn = /\/cdn\//;
 var isStatic = /\/static\//;
