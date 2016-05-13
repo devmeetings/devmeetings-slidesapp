@@ -72,18 +72,18 @@ self.addEventListener('fetch', function (event) {
   var url = event.request.url;
 
   if (!isLocalActive) {
-    if (
-      !isCdn.test(url) &&
-      !isStatic.test(url) &&
-      !isApi.test(url)
-    ) {
-      // This is just a page refresh - check if local is active
-      return event.respondWith(
-        detectLocalXplatform(url).then(function () {
-          return cachedResponseIfNeeded(event.request);
-        })
-      );
-    }
+    // if (
+    //   !isCdn.test(url) &&
+    //   !isStatic.test(url) &&
+    //   !isApi.test(url)
+    // ) {
+    //   // This is just a page refresh - check if local is active
+    //   return event.respondWith(
+    //     // detectLocalXplatform(url).then(function () {
+    //       // return cachedResponseIfNeeded(event.request);
+    //     // })
+    //   );
+    // }
 
     return event.respondWith(
       cachedResponseIfNeeded(event.request)
