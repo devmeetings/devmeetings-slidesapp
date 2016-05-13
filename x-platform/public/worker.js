@@ -7,16 +7,16 @@ var CACHE_NAME = 'xpla-cache';
 var CACHE = CACHE_NAME + '-v' + CACHE_VERSION;
 
 var LOCAL_DOMAIN = 'local.xplatform.org';
-var LOCAL_CHECK = 'https://' + LOCAL_DOMAIN + '/isLocal';
-var LOCAL_CHECK_INTERVAL = 60000;
+// var LOCAL_CHECK = 'https://' + LOCAL_DOMAIN + '/isLocal';
+// var LOCAL_CHECK_INTERVAL = 60000;
 
 var isLocalActive = false;
-var isLocalLastTry = null;
+// var isLocalLastTry = null;
 
 var isCdn = /\/cdn\//;
 var isStatic = /\/static\//;
 var isRecording = /\/api\/recordings\//;
-var isApi = /\/api\//;
+// var isApi = /\/api\//;
 var isDevCode = /(\/static\/dm)|(\/api\/recordings)|(\/static\/bin)/;
 
 var INITIAL_CACHE = [
@@ -107,23 +107,23 @@ self.addEventListener('fetch', function (event) {
   );
 });
 
-function detectLocalXplatform (url) {
-  // If we recently checked for local - do nothing
-  var now = Date.now();
-  if (isLocalLastTry && now - isLocalLastTry < LOCAL_CHECK_INTERVAL) {
-    return Promise.resolve();
-  }
-
-  console.log('Detecting local.xplatform when accessing', url);
-  // Try to check for local
-  isLocalLastTry = now;
-  return fetch(LOCAL_CHECK).then(function () {
-    console.log('Detected local.xplatform');
-    isLocalActive = true;
-  }).catch(function (err) {
-    console.warn('Unable to detect local.xplatform.', err);
-  });
-}
+// function detectLocalXplatform (url) {
+//   // If we recently checked for local - do nothing
+//   var now = Date.now();
+//   if (isLocalLastTry && now - isLocalLastTry < LOCAL_CHECK_INTERVAL) {
+//     return Promise.resolve();
+//   }
+//
+//   console.log('Detecting local.xplatform when accessing', url);
+//   // Try to check for local
+//   isLocalLastTry = now;
+//   return fetch(LOCAL_CHECK).then(function () {
+//     console.log('Detected local.xplatform');
+//     isLocalActive = true;
+//   }).catch(function (err) {
+//     console.warn('Unable to detect local.xplatform.', err);
+//   });
+// }
 
 function redirectToLocalAndCache (request) {
   var url = new URL(request.url);
