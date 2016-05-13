@@ -70,7 +70,6 @@
     - xplatform-main
     - xplatform-main-local
     - xplatform-deploy
-    - xdashboard
 
 - hosts: xplatform-nuc
   become: yes
@@ -108,7 +107,6 @@
     server_cluster: 4
   roles:
     - xplatform-deploy
-    - xdashboard
 
 - hosts: exec-node
   become: yes
