@@ -4,7 +4,8 @@ var store = require('./store');
 
 exports.getParticipants = function (io, roomId) {
   var clients = _.values(io.sockets.connected).filter(function (socket) {
-    return socket.rooms.indexOf(roomId) !== -1;
+    var rooms = socket.rooms || [];
+    return rooms.indexOf(roomId) !== -1;
   }).map(function (socket) {
     return socket.clientData;
   });
