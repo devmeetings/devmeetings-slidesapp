@@ -4,7 +4,7 @@ var _ = require('lodash');
 
 var TIMEOUT = 20000;
 
-module.exports = function runExecutor(Queue, commands, baseEnv) {
+module.exports = function runExecutor(Queue, commands, baseEnv, onErrorCommands) {
   var address = process.env.REDIS_HOST || 'localhost:6379';
 
   console.log("Connecting to Redis", address);
@@ -83,6 +83,7 @@ module.exports = function runExecutor(Queue, commands, baseEnv) {
 
     worker.send({
       commands: commands,
+      onErrorCommands: onErrorCommands,
       msg: msgContent,
       env: env
     }); //Send the code to run for the worker

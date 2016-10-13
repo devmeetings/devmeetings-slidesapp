@@ -1,5 +1,5 @@
-// Any process cannot run longer then 120 seconds
-var PROCESSTIMEOUT = 120000;
+// Any process cannot run longer then 240 seconds
+var PROCESSTIMEOUT = 240000;
 
 var temp = require('temp');
 var Q = require('q');
@@ -56,6 +56,7 @@ process.once('message', function(msg) {
   var obj = msg.msg;
   var env = msg.env;
   var commands = msg.commands;
+  var onErrorCommands = msg.onErrorCommands;
 
   // Create file structure on disk
   var files = obj.files; 
@@ -99,6 +100,25 @@ process.once('message', function(msg) {
           return;
         }
         sendError(JSON.stringify(cmd) + ' exited with ' + code);
+
+        // cleanup
+        if (onErrorCommands) {
+          series(onErrorCommands, function (cmd, next) {
+            var o = child_process.spawn(cmd[0], cmd.slice(1), {
+              cwd: dir,
+              env: env,
+              stdio: 'pipe',
+              timeout: PROCESSTIMEOUT,
+              killSignal: 'SIGKILL',
+            });
+            o.on('error', function() {
+              next();
+            });
+            o.on('exit', function() {
+              next();
+            });
+          }, function () {});
+        }
       });
     }, function () {
       onFinish(dir)
