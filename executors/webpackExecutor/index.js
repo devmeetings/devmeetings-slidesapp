@@ -8,7 +8,7 @@ exec('exec_webpack', [
   ['cp', '-r', __dirname + '/common/node_modules', '.'],
   ['cp', __dirname + '/common/cpfiles.sh', '.'],
   ['echo', 'Installing dependencies...'],
-  ['yarn install --prefer-offline'],
+  ['yarn'],
   ['echo', 'Building Webpack...'],
   ['./node_modules/.bin/webpack'],
   ['rm', '-rf', 'node_modules'],
