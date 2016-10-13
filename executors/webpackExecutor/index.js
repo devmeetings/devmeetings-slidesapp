@@ -2,7 +2,7 @@
 
 var exec = require('../fsExecutor/executor.js');
 exec('exec_webpack', [
-  ['cp', '-r', __dirname + '/common/fixjson.sh', '.'],
+  ['cp', __dirname + '/common/fixjson.sh', '.'],
   ['./fixjson.sh'],
   ['echo', 'Restoring cached modules...'],
   ['cp', '-r', __dirname + '/common/node_modules', '.'],

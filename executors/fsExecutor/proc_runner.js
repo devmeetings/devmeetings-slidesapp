@@ -82,7 +82,7 @@ process.once('message', function(msg) {
 
     // run commands
     series(commands, function(cmd, next) {
-      var o = child_process.spawn(cmd[0], cmd.slice(1), {
+      var o = child_process.exec(cmd.map(function(v) { return '"' + v + '"'; }).join(' '), {
         cwd: dir,
         env: env,
         stdio: 'pipe',
@@ -104,7 +104,7 @@ process.once('message', function(msg) {
         // cleanup
         if (onErrorCommands) {
           series(onErrorCommands, function (cmd, next) {
-            var o = child_process.spawn(cmd[0], cmd.slice(1), {
+            var o = child_process.exec(cmd.map(function(v) { return '"' + v + '"'; }).join(' '), {
               cwd: dir,
               env: env,
               stdio: 'pipe',
