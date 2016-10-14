@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "glob": "^7.1.1",
     "lodash": "^4.6.1",
     "mkdirp": "^0.5.1",
     "q": "^1.4.1",

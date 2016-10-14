@@ -7,6 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var mkdirp = Q.denodeify(require('mkdirp'));
 var child_process = require('child_process');
+var glob = require('glob');
 
 temp.track();
 
@@ -39,7 +40,7 @@ function sendOutput(o, files) {
   output.push(o.toString());
 
   process.send({
-    success: true,
+    success: errors.length === 0,
     result: output,
     errors: errors,
     newFiles: files
@@ -55,8 +56,10 @@ process.on("uncaughtException", function(e) {
 process.once('message', function(msg) {
   var obj = msg.msg;
   var env = msg.env;
-  // Inherit PATH
+  // Inherit PATH & HOME (for caches)
   env.PATH = process.env.PATH;
+  env.HOME = process.env.HOME;
+
   var commands = msg.commands;
   var onErrorCommands = msg.onErrorCommands;
 
@@ -133,31 +136,30 @@ process.once('message', function(msg) {
 function onFinish(dir) {
   // we need to find created files
   // TODO hacky solution for now!
-  return Q.ninvoke(fs, 'readdir', '.')
-    .then(function (files) {
-      var pattern = /\.(js|html|map|css)$/i;
-      var newFiles = files.filter(function (f) {
-        return f.match(pattern);
+  return Q.nfcall(glob, '**/*.@(js|html|map|css|json|dart)', {
+    nosort: true,
+    nodir: true
+  }).then(function (newFiles) {
+    var pattern = /\.(js|html|map|css|json|dart)$/i;
+    // Read all files
+    return Q.all(newFiles.map(function (f) {
+      return Q.ninvoke(fs, 'readFile', f, 'utf8').then(function (content) {
+        var type = f.match(pattern)[1];
+        return {
+          name: f,
+          content: content,
+          mimetype: getMimeType(type.toLowerCase())
+        };
       });
-      // Read all files
-      return Q.all(newFiles.map(function (f) {
-        return Q.ninvoke(fs, 'readFile', f, 'utf8').then(function (content) {
-          var type = f.match(pattern)[1];
-          return {
-            name: f,
-            content: content,
-            mimetype: getMimeType(type.toLowerCase())
-          };
-        });
-      }));
-    })
-    .then(function (newFiles) {
-      var names = newFiles.map(function (f) {
-        return f.name;
-      });
-      sendOutput('New files: ' + names.join(','), newFiles);
-    })
-    .then(null, sendError);
+    }));
+  })
+  .then(function (newFiles) {
+    var names = newFiles.map(function (f) {
+      return f.name;
+    });
+    sendOutput('New files: ' + names.join(','), newFiles);
+  })
+  .then(null, sendError);
 }
 
 function getMimeType(type) {
