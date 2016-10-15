@@ -49,6 +49,10 @@ location /ext/soundcloud/tracks.json {
 location /ext/lorempixel/ {
   proxy_cache {{server_short}}one;
   proxy_cache_valid 200 60m;
+  proxy_ignore_headers X-Accel-Expires;
+  proxy_ignore_headers Expires;
+  proxy_ignore_headers Cache-Control;
+  proxy_hide_header Cache-Control;
   add_header X-Cache-Status $upstream_cache_status;
 
   proxy_pass http://lorempixel.com/;
