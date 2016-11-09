@@ -40,6 +40,10 @@
   npm:
     path: "/srv/executors/fs/dartExecutor"
 
+- name: Installing Modules for elm
+  npm:
+    path: "/srv/executors/fs/elmExecutor"
+
 - name: Adding Dart repo Pubkey
   shell: curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 
@@ -111,7 +115,13 @@
   sudo: yes
   sudo_user: exec-fs
 
-- name: start pm2 process
+- name: delete existing pm2 processes if running
+  command: "pm2 delete exec_elm"
+  ignore_errors: True
+  sudo: yes
+  sudo_user: exec-fs
+
+- name: start pm2 process (go)
   command: 'pm2 start -x -i {{exec_fs_cluster}} --name "exec_go" index.js'
   args:
     chdir: "/srv/executors/fs/goExecutor"
@@ -121,7 +131,7 @@
     SERVER_URL: '{{exec_fs_server_url}}'
     REDIS_HOST: '{{exec_fs_redis_host}}'
 
-- name: start pm2 process
+- name: start pm2 process (webpack)
   command: 'pm2 start -x -i {{exec_fs_cluster}} --name "exec_webpack" index.js'
   args:
     chdir: "/srv/executors/fs/webpackExecutor"
@@ -131,10 +141,20 @@
     SERVER_URL: '{{exec_fs_server_url}}'
     REDIS_HOST: '{{exec_fs_redis_host}}'
 
-- name: start pm2 process
+- name: start pm2 process (dart)
   command: 'pm2 start -x -i {{exec_fs_cluster}} --name "exec_dart" index.js'
   args:
     chdir: "/srv/executors/fs/dartExecutor"
+  sudo: yes
+  sudo_user: exec-fs
+  environment:
+    SERVER_URL: '{{exec_fs_server_url}}'
+    REDIS_HOST: '{{exec_fs_redis_host}}'
+
+- name: start pm2 process (elm)
+  command: 'pm2 start -x -i {{exec_fs_cluster}} --name "exec_elm" index.js'
+  args:
+    chdir: "/srv/executors/fs/elmExecutor"
   sudo: yes
   sudo_user: exec-fs
   environment:
