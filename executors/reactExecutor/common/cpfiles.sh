@@ -8,3 +8,8 @@ if [ -d dist ];
 then
   cp -r dist/* .
 fi
+
+if [ -d build ];
+then
+  cp -r build/* .
+fi

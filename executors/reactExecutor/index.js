@@ -10,7 +10,7 @@ exec('exec_react', [
   ['echo', 'Installing dependencies...'],
   ['yarn'],
   ['echo', 'Building...'],
-  ['npm run build'],
+  ['npm', 'run', 'build'],
   ['rm', '-rf', 'node_modules'],
   ['./cpfiles.sh']
 ], {
