@@ -36,6 +36,10 @@
   npm:
     path: "/srv/executors/fs/webpackExecutor"
 
+- name: Installing Modules for react
+  npm:
+    path: "/srv/executors/fs/reactExecutor"
+
 - name: Installing Modules for dart
   npm:
     path: "/srv/executors/fs/dartExecutor"
@@ -110,6 +114,12 @@
   sudo_user: exec-fs
 
 - name: delete existing pm2 processes if running
+  command: "pm2 delete exec_react"
+  ignore_errors: True
+  sudo: yes
+  sudo_user: exec-fs
+
+- name: delete existing pm2 processes if running
   command: "pm2 delete exec_dart"
   ignore_errors: True
   sudo: yes
@@ -135,6 +145,16 @@
   command: 'pm2 start -x -i {{exec_fs_cluster}} --name "exec_webpack" index.js'
   args:
     chdir: "/srv/executors/fs/webpackExecutor"
+  sudo: yes
+  sudo_user: exec-fs
+  environment:
+    SERVER_URL: '{{exec_fs_server_url}}'
+    REDIS_HOST: '{{exec_fs_redis_host}}'
+
+- name: start pm2 process (react)
+  command: 'pm2 start -x -i {{exec_fs_cluster}} --name "exec_react" index.js'
+  args:
+    chdir: "/srv/executors/fs/reactExecutor"
   sudo: yes
   sudo_user: exec-fs
   environment:
