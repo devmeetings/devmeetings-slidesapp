@@ -18,7 +18,7 @@
   when: exec_fs_version == 'lastSuccessfulBuild'
 
 - name: Fetching build
-  command: "wget http://applejack.todr.me:8080/job/Executor.FS/{{exec_fs_version}}/artifact/executors/fsExecutors.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_fs_{{exec_fs_version}}.tar.gz"
+  command: "wget https://applejack.todr.me/job/Executor.FS/{{exec_fs_version}}/artifact/executors/fsExecutors.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_fs_{{exec_fs_version}}.tar.gz"
   args:
     creates: /srv/_packages/exec_fs_{{exec_fs_version}}.tar.gz
 

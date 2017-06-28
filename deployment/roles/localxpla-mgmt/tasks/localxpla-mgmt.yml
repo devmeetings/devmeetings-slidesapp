@@ -39,7 +39,7 @@
   when: localxpla_version == 'lastSuccessfulBuild'
 
 - name: Fetching LocalXplaMgmt build
-  command: "wget http://applejack.todr.me:8080/job/{{localxpla_job}}/{{localxpla_version}}/artifact/localxpla-manager.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz"
+  command: "wget https://applejack.todr.me/job/{{localxpla_job}}/{{localxpla_version}}/artifact/localxpla-manager.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz"
   args:
     creates: /srv/_local_packages/local.{{server_domain}}_{{localxpla_version}}.tar.gz
 

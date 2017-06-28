@@ -16,13 +16,13 @@
   when: xpla_version == 'lastSuccessfulBuild'
 
 - name: Fetching XPlatform build
-  command: "wget http://applejack.todr.me:8080/job/{{xpla_job}}/{{xpla_version}}/artifact/xplatform.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}_{{xpla_version}}.tar.gz"
+  command: "wget https://applejack.todr.me/job/{{xpla_job}}/{{xpla_version}}/artifact/xplatform.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/{{server_domain}}_{{xpla_version}}.tar.gz"
   args:
     creates: /srv/_packages/{{server_domain}}_{{xpla_version}}.tar.gz
 
   # There is some problem with authorization
   # get_url:
-  #   url: http://applejack.todr.me:8080/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.gz
+  #   url: https://applejack.todr.me/job/XPlatform/lastSuccessfulBuild/artifact/xplatform.tar.gz
   #   dest: "/tmp/{{server_domain}}.tar.gz"
   #   url_username: builder
   #   url_password: 123Builder

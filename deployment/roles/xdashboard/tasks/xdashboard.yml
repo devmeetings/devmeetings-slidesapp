@@ -6,7 +6,7 @@
   when: live_version == 'lastSuccessfulBuild'
 
 - name: XDashboard | Fetching Build
-  command: "wget http://applejack.todr.me:8080/job/XDashboard/{{live_version}}/artifact/x-dashboard.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz"
+  command: "wget https://applejack.todr.me/job/XDashboard/{{live_version}}/artifact/x-dashboard.tar.gz --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz"
   args:
     creates: /srv/_packages/live_{{server_domain}}_{{live_version}}.tar.gz
 

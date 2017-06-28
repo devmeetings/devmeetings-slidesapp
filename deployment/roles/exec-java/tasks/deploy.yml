@@ -18,7 +18,7 @@
   when: exec_java_version == 'lastSuccessfulBuild'
 
 - name: JavaExec | Fetching build
-  command: "wget http://applejack.todr.me:8080/job/Executor.Java/{{exec_java_version}}/artifact/executors/javaExecutor/build/distributions/javaExecutor-1.0.zip --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_java_{{exec_java_version}}.tar.gz"
+  command: "wget https://applejack.todr.me/job/Executor.Java/{{exec_java_version}}/artifact/executors/javaExecutor/build/distributions/javaExecutor-1.0.zip --user builder --password 123Builder --auth-no-challenge -O /srv/_packages/exec_java_{{exec_java_version}}.tar.gz"
   args:
     creates: /srv/_packages/exec_java_{{exec_java_version}}.tar.gz
 
