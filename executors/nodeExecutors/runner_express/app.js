@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var Queue = 'exec_expressjs';
+var Queue = 'exec_express';
 var address = process.env.REDIS_HOST || 'localhost:6379';
 var serverUrl = process.env.SERVER_URL || null;
 
@@ -86,6 +86,7 @@ client.on('message', function(channel, msgString) {
 
 });
 
+console.log("[*] Waiting for messages.");
 client.subscribe(Queue);
 
 
@@ -93,7 +94,7 @@ function isPortTaken(port, fn) {
   var net = require('net');
 
   var tester = net.createServer().once('error', function(err) {
-    if (err.code != 'EADDRINUSE') {
+    if (err.code !== 'EADDRINUSE') {
       return fn(err);
     }
 

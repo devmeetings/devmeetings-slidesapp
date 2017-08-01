@@ -22,7 +22,7 @@ temp.track();
 function run(obj, env, consoleMock, cb) {
 
   var files = obj.files; 
-  var indexFile = '/index.js';
+  var indexFile = 'index.js';
 
   if (!files[indexFile]) {
     throw new Error('Missing ' + indexFile);
