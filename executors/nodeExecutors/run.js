@@ -66,8 +66,11 @@ function run(obj, env, consoleMock, cb) {
         var requireInPath = requireLike(path.join(fileDir, fileName));
         var newFile = requireInPath.resolve(mod);
         var file = newFile.replace(dir, '');
+        if (file[0] === '/') {
+          file = file.substr(1);
+        }
 
-        var isSafeModule = !!safeRequires[mod] || mod.startsWith('./') || mod.startsWith('../');
+        var isSafeModule = !!safeRequires[mod];
         var isFile = !!files[file];
 
         if (!isSafeModule && !isFile) {
@@ -93,6 +96,7 @@ function run(obj, env, consoleMock, cb) {
       globals.process = {
         on: process.on.bind(process),
         exit: process.exit.bind(process),
+        hrtime: process.hrtime.bind(process),
         env: env
       };
       globals.__filename = fileName.replace('/', '');
