@@ -67,7 +67,7 @@ function run(obj, env, consoleMock, cb) {
         var newFile = requireInPath.resolve(mod);
         var file = newFile.replace(dir, '');
 
-        var isSafeModule = !!safeRequires[mod];
+        var isSafeModule = !!safeRequires[mod] || mod.startsWith('./') || mod.startsWith('../');
         var isFile = !!files[file];
 
         if (!isSafeModule && !isFile) {
