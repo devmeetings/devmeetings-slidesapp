@@ -129,7 +129,7 @@
   vars:
     exec_fs_version: 'lastSuccessfulBuild'
     exec_fs_cluster: 1
-    #exec_node_server_url: 
+    #exec_fs_server_url: 
     exec_fs_redis_host: 'localhost:6379'
   tags:
     - exec-fs

@@ -21,7 +21,7 @@ xpla.org ansible_user=root hostname=xpla.org exec_node_server_url=runner.xpla.or
 #ubuntu@asia.xplatform.org hostname=asia.xplatform.org exec_node_server_url=asia.xplatform.org
 
 [exec-fs]
-xpla.org ansible_user=root hostname=xpla.org
+xpla.org ansible_user=root hostname=xpla.org exec_fs_server_url=runner.xpla.org
 
 [exec-burger]
 xpla.org ansible_user=root hostname=xpla.org
