@@ -4,6 +4,6 @@
 # root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2 server_port=3000 livereload_port=30000
 # root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1 server_port=3000 livereload_port=30000
 # root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=30000 live_port=3500 live_version=lastSuccessfulBuild
-root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000
+# root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000
 # Disabling ASIA due to very slow build times
 # ubuntu@asia.xplatform.org server_domain=asia.xplatform.org server_short=xpla_asia server_port=3000 livereload_port=30000

@@ -4,7 +4,7 @@
 
 [xplatform-local]
 #root@localhost:9022 server_domain=xplatform.org server_short=xpla_local server_port=3000 livereload_port=35729 live_port=3500 server_hostname=local.xplatform.org
-ubuntu@192.168.88.246 server_domain=xplatform.org server_short=xpla_local server_port=3000 livereload_port=35729 live_port=3500 server_hostname=local.xplatform.org
+#ubuntu@192.168.88.246 server_domain=xplatform.org server_short=xpla_local server_port=3000 livereload_port=35729 live_port=3500 server_hostname=local.xplatform.org
 
 [xplatform-node]
 #ubuntu@us-west.xplatform.org server_domain=us-west.xplatform.org server_short=xpla_us server_port=3000 livereload_port=30000
@@ -12,30 +12,30 @@ ubuntu@192.168.88.246 server_domain=xplatform.org server_short=xpla_local server
 #root@pl-2.xplatform.org server_domain=pl-2.xplatform.org server_short=xpla_pl2 server_port=3000 livereload_port=30000
 #root@pl-1.xplatform.org:2255 server_domain=pl-1.xplatform.org server_short=xpla_pl1 server_port=3000 livereload_port=30000
 #ubuntu@asia.xplatform.org server_domain=asia.xplatform.org server_short=xpla_asia server_port=3000 livereload_port=30000
-root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
+#root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
 #platforma@192.168.66.1 server_domain=local.xplatform.org server_short=xpla_local server_port=3000 server_hostname=local.xplatform.org livereload_port=50000
 
 
 [exec-node]
-root@pl-2.xplatform.org hostname=pl-2.xplatform.org exec_node_server_url=pl-2.xplatform.org
+root@xpla.org hostname=xpla.org exec_node_server_url=runner.xpla.org
 #ubuntu@asia.xplatform.org hostname=asia.xplatform.org exec_node_server_url=asia.xplatform.org
 
 [exec-fs]
-root@pl-2.xplatform.org hostname=pl-2.xplatform.org
+root@xpla.org hostname=xpla.org
 
 [exec-burger]
-root@pl-2.xplatform.org hostname=pl-2.xplatform.org
+root@xpla.org hostname=xpla.org
 
 [exec-java]
-root@pl-2.xplatform.org hostname=pl-2.xplatform.org
+root@xpla.org hostname=xpla.org
 
 [xplatform-main]
-root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
+#root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
 #root@new.xplatform.org server_domain=new.xplatform.org server_short=xpla_new server_port=4000 livereload_port=40000 server_hostname=xplatform.org
 
 [xplatform-main-local]
 #root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
 
 [xplatform-nuc]
-192.168.0.53 ansible_ssh_user=platforma server_domain=local.xplatform.org server_short=xpla_local server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
+#192.168.0.53 ansible_ssh_user=platforma server_domain=local.xplatform.org server_short=xpla_local server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
 
