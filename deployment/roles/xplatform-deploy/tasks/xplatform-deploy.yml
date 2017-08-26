@@ -78,15 +78,15 @@
 - name: delete existing pm2 processes if running
   command: "pm2 delete {{server_short}}"
   ignore_errors: True
-  sudo: yes
-  sudo_user: xplatform
+  become: yes
+  become_user: xplatform
 
 - name: start pm2 process
   command: 'pm2 start -x -i {{server_cluster}} --name "{{server_short}}" app.js'
   args:
     chdir: "/srv/{{server_domain}}/x-platform/"
-  sudo: yes
-  sudo_user: xplatform
+  become: yes
+  become_user: xplatform
   environment:
     ANDROID_HOME: "/opt/android-sdk/sdk"
     NODE_ENV: "{{server_env}}"
@@ -96,7 +96,7 @@
 
 - name: Register keymetrics
   command: 'pm2 interact rnbxk59f9vp81f0 i0dwof7kf92s032'
-  sudo: yes
-  sudo_user: xplatform
+  become: yes
+  become_user: xplatform
   ignore_errors: true
 

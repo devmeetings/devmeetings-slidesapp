@@ -36,15 +36,15 @@
 - name: XDashboard | delete existing pm2 processes if running
   command: "pm2 delete live_{{server_short}}"
   ignore_errors: True
-  sudo: yes
-  sudo_user: xplatform
+  become: yes
+  become_user: xplatform
 
 - name: XDashboard | start pm2 process
   command: 'pm2 start -x --name "live_{{server_short}}" main.js'
   args:
     chdir: "/srv/{{server_domain}}/x-dashboard/"
-  sudo: yes
-  sudo_user: xplatform
+  become: yes
+  become_user: xplatform
   environment:
     ROOT_URL: "https://{{server_domain}}/live/"
     PORT: "{{live_port}}"

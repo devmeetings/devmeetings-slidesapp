@@ -7,7 +7,6 @@
 
 - name: Nginx | Checking if there is domain specific key
   local_action: "stat path={{role_path}}/files/local.{{server_domain}}.crt"
-  sudo: no
   become: no
   register: result
 
