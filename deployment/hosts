@@ -17,17 +17,17 @@
 
 
 [exec-node]
-xpla.org ansible_user=root hostname=xpla.org exec_node_server_url=runner.xpla.org
+xpla.org ansible_ssh_user=root ansible_user=root hostname=xpla.org exec_node_server_url=runner.xpla.org
 #ubuntu@asia.xplatform.org hostname=asia.xplatform.org exec_node_server_url=asia.xplatform.org
 
 [exec-fs]
-xpla.org ansible_user=root hostname=xpla.org exec_fs_server_url=runner.xpla.org
+xpla.org ansible_ssh_user=root ansible_user=root hostname=xpla.org exec_fs_server_url=runner.xpla.org
 
 [exec-burger]
-xpla.org ansible_user=root hostname=xpla.org
+xpla.org ansible_ssh_user=root ansible_user=root hostname=xpla.org
 
 [exec-java]
-xpla.org ansible_user=root hostname=xpla.org
+xpla.org ansible_ssh_user=root ansible_user=root hostname=xpla.org
 
 [xplatform-main]
 #root@xplatform.org server_domain=xplatform.org server_short=xpla_main server_port=3000 livereload_port=35729 live_port=3500 server_hostname=xplatform.org
