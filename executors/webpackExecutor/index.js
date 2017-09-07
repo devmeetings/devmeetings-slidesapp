@@ -3,15 +3,18 @@
 var exec = require('../fsExecutor/executor.js');
 exec('exec_webpack', [
   ['cp', __dirname + '/common/fixjson.sh', '.'],
+  ['cp', __dirname + '/common/cpfiles.sh', '.'],
+  ['cp', __dirname + '/common/install_deps.sh', '.'],
+  ['cp', __dirname + '/common/restore_deps.sh', '.'],
+  ['cp', __dirname + '/common/backup_deps.sh', '.'],
   ['./fixjson.sh'],
   ['echo', 'Restoring cached modules...'],
-  ['cp', '-r', __dirname + '/common/node_modules', '.'],
-  ['cp', __dirname + '/common/cpfiles.sh', '.'],
+  ['./restore_deps.sh', 'webpack'],
   ['echo', 'Installing dependencies...'],
-  ['yarn'],
+  ['./install_deps.sh'],
   ['echo', 'Building Webpack...'],
   ['./node_modules/.bin/webpack'],
-  ['rm', '-rf', 'node_modules'],
+  ['./backup_deps.sh', 'webpack'],
   ['./cpfiles.sh']
 ], {
   PATH: `${process.env.PATH};${process.env.NVM_DIR}`
