@@ -77,7 +77,7 @@ function run(obj, env, consoleMock, cb) {
           throw Error('Unknown / Not allowed module: ' + mod);
         }
 
-        if (isFile) {
+        if (isFile && !file.endsWith('.json')) {
           var globals = prepareGlobals('/' + path.basename(newFile), path.dirname(newFile));
           return vm.runInNewContext(files[file].content, globals);
         }
