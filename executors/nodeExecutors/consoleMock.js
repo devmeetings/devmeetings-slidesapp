@@ -12,6 +12,30 @@ module.exports = function() {
       self.onMessage();
     },
 
+    error: function() {
+      var args = [].slice.call(arguments);
+      output.push(args);
+      console.error.apply(console, args);
+      // TODO EventEmitter?
+      self.onMessage();
+    },
+
+    warn: function() {
+      var args = [].slice.call(arguments);
+      output.push(args);
+      console.warn.apply(console, args);
+      // TODO EventEmitter?
+      self.onMessage();
+    },
+
+    info: function() {
+      var args = [].slice.call(arguments);
+      output.push(args);
+      console.info.apply(console, args);
+      // TODO EventEmitter?
+      self.onMessage();
+    }
+
   };
 
   var self = {
