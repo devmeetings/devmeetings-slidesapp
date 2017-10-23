@@ -48,20 +48,24 @@
     path: /etc/init.d/pm2-exec-node.sh
 
 - name: NodeExec | Run On Startup
-  command: pm2 startup -u exec-node
+  command: pm2 startup -u exec-node --hp /srv/executors/node
   args:
     chdir: "/srv/executors/node"
 
+- stat: path=/etc/init.d/pm2-init.sh
+  register: pm2_init
+
 - name: NodeExec | Rename Startup Script
   command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-node.sh
+  when: pm2_init.stat.exists == True
 
-- name: NodeExec | Removing wrong names
-  command: bash -c "find . | grep pm2-init | xargs rm"
-  args:
-    chdir: "/etc"
+# - name: NodeExec | Removing wrong names
+#   command: bash -c "find . | grep pm2-init | xargs rm {}"
+#   args:
+#     chdir: "/etc"
 
-- name: NodeExec | Run on startup
-  command: update-rc.d pm2-exec-node.sh defaults
+# - name: NodeExec | Run on startup
+#   command: update-rc.d pm2-exec-node.sh defaults
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete exec_express"

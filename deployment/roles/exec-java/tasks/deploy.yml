@@ -39,20 +39,23 @@
     path: /etc/init.d/pm2-exec-java.sh
 
 - name: JavaExec | Run On Startup
-  command: pm2 startup -u exec-java
+  command: pm2 startup -u exec-java --hp /srv/executors/java
   args:
     chdir: "/srv/executors/java"
 
 - name: JavaExec | Rename Startup Script
   command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-java.sh
+  ignore_errors: True
 
 - name: JavaExec | Removing wrong names
   command: bash -c "find . | grep pm2-init | xargs rm"
+  ignore_errors: True
   args:
     chdir: "/etc"
 
 - name: JavaExec | Run on startup
   command: update-rc.d pm2-exec-java.sh defaults
+  ignore_errors: True
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete exec_java"

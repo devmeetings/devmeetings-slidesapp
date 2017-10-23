@@ -84,22 +84,25 @@
     path: /etc/init.d/pm2-exec-fs.sh
 
 - name: FsExec | Run On Startup
-  command: pm2 startup -u exec-fs
+  command: pm2 startup -u exec-fs --hp /srv/executors/fs
   args:
     chdir: "/srv/executors/fs"
 
 - name: FsExec | Rename Startup Script
   command: mv /etc/init.d/pm2-init.sh /etc/init.d/pm2-exec-fs.sh
+  ignore_errors: True
   args:
     chdir: "/srv/executors/fs"
 
 - name: FsExec | Removing wrong names
   command: bash -c "find . | grep pm2-init | xargs rm"
+  ignore_errors: True
   args:
     chdir: "/etc"
 
 - name: FsExec | Run on startup
   command: update-rc.d pm2-exec-fs.sh defaults
+  ignore_errors: True
 
 - name: delete existing pm2 processes if running
   command: "pm2 delete exec_go"
