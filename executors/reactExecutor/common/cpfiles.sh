@@ -13,3 +13,8 @@ if [ -d build ];
 then
   cp -r build/* .
 fi
+
+if [ -d reactive-angular-slides ];
+then
+  cp -r reactive-angular-slides/* .
+fi
